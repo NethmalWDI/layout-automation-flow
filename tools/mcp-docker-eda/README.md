@@ -41,7 +41,12 @@ These limits are enforced in `server.mjs`:
    }
    ```
 
-4. **Restart Claude Desktop.** Make sure **Docker Desktop is running**. Then quit Claude Desktop completely (tray icon → Quit) and reopen it.
+4. **Restart Claude Desktop.** First make sure **Docker Desktop is running**. Then fully quit Claude Desktop and reopen it. Closing the window with **X** is not enough: Claude keeps running in the background, so it never re-reads the config. To quit fully, use one of these:
+   - **Tray icon:** click the **^** arrow at the bottom-right of the taskbar (next to the clock), right-click the **Claude** icon, and choose **Quit**.
+   - **App menu:** in the Claude window, click the **☰** menu (top-left), then **File → Exit**.
+   - **Task Manager:** press **Ctrl+Shift+Esc**, select every **Claude** process, and click **End task**.
+
+   After that, start Claude Desktop again from the Start menu.
 
 5. **Check the server is running.** Under **Settings → Developer**, `docker-eda` should show as running.
 
