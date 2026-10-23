@@ -1,0 +1,8 @@
+.subckt 5t_ota VDD VSS Vinp Vinn Voutp Iref
+XM1 net0 net0 VDD VDD sky130_fd_pr__pfet_01v8 l=0.15 w=1 nf=1 m=1
+XM2 Voutp net0 VDD VDD sky130_fd_pr__pfet_01v8 l=0.15 w=1 nf=1 m=1
+XM3 net0 Vinp net1 VSS sky130_fd_pr__nfet_01v8 l=0.15 w=1 nf=1 m=1
+XM4 Voutp Vinn net1 VSS sky130_fd_pr__nfet_01v8 l=0.15 w=1 nf=1 m=1
+XM5 net1 Iref VSS VSS sky130_fd_pr__nfet_01v8 l=0.15 w=1 nf=1 m=1
+XM6 Iref Iref VSS VSS sky130_fd_pr__nfet_01v8 l=0.15 w=1 nf=1 m=1
+.ends 5t_ota

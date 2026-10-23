@@ -1,0 +1,64 @@
+# EXAMPLE topology configuration.
+#
+# One of these sits beside every circuit in topologies/<name>/. It says what the
+# block is, how its ports line up with the standard testbenches, the conditions
+# to simulate it under, and the specifications it has to meet.
+
+name: example_ota_5t
+description: >
+  5-transistor OTA: NMOS differential pair, PMOS current-mirror load, NMOS tail
+  source. The single worked example shipped with this repository.
+
+interface:
+  # These two pick the testbenches: single_ended -> "si"/"so",
+  # differential -> "di"/"do", giving the file-name prefix (here "diso").
+  input: differential
+  output: single_ended
+  kind: amp
+
+  # The generic placeholder symbol those testbenches instantiate.
+  dut_symbol: dut_amp
+
+  # Standard testbench port -> the port name on this topology's own symbol.
+  # This is the whole connection between the two drawings; nothing else in
+  # either file has to agree.
+  # Mark as 'NC' for unconnected ports. The testbench will not drive or measure those ports.
+  ports:
+    INP: INP
+    INN: INN
+    OUTP: OUTP
+    OUTN: NC
+    VDD: VDD
+    VSS: VSS
+
+# Which analyses to run. Each maps to testbenches/<prefix>_<kind>_<analysis>.sch,
+# so these become diso_amp_AC, diso_amp_OP and diso_amp_NOISE.
+analyses:
+  - AC
+  - OP
+  - NOISE
+
+# Operating conditions. Emitted as a .param line, so a testbench refers to them
+# as 'VDD_V', 'CL_F' and so on. (Avoid bare single/double letter names such as
+# LN -- they collide with sky130 model card parameters.)
+conditions:
+  VDD_V: 1.8      # supply voltage
+  VCM_V: 0.9      # input common-mode level
+  CL_F: 1p        # load capacitance
+  temp: 27        # simulation temperature, degrees C
+  corner: tt      # sky130 model corner
+
+# Design targets, checked against the MEAS values the testbenches report.
+# Every value is in the project's default unit for that quantity, which the key
+# name states outright -- see src/analog_sizing/units.py.
+specs:
+  gain_db:              # open-loop gain, dB
+    min: 30
+  gbw_mhz:              # gain-bandwidth product, MHz
+    min: 20
+  pm_deg:               # phase margin, degrees
+    min: 60
+  power_uw:             # supply power, microwatts
+    max: 1000
+  vnoise_nv_rthz:       # input-referred noise density at 1 kHz, nV/sqrt(Hz)
+    max: 400

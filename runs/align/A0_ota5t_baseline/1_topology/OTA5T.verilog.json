@@ -1,0 +1,137 @@
+{
+  "modules": [
+    {
+      "name": "OTA5T",
+      "parameters": [
+        "VDD",
+        "OUTP",
+        "INP",
+        "INN",
+        "VSS",
+        "VBIAS"
+      ],
+      "constraints": [
+        {
+          "constraint": "PowerPorts",
+          "ports": [
+            "VDD"
+          ],
+          "propagate": true
+        },
+        {
+          "constraint": "GroundPorts",
+          "ports": [
+            "VSS"
+          ],
+          "propagate": true
+        },
+        {
+          "constraint": "SymmetricBlocks",
+          "pairs": [
+            [
+              "X_M1_M2"
+            ],
+            [
+              "X_M3_M4"
+            ]
+          ],
+          "direction": "V"
+        },
+        {
+          "constraint": "SymmetricNets",
+          "net1": "INN",
+          "net2": "INP",
+          "pins1": [
+            "X_M1_M2/GB",
+            "INN"
+          ],
+          "pins2": [
+            "X_M1_M2/GA",
+            "INP"
+          ],
+          "direction": "V"
+        }
+      ],
+      "instances": [
+        {
+          "abstract_template_name": "SCM_PMOS_42512307",
+          "instance_name": "X_M3_M4",
+          "fa_map": [
+            {
+              "formal": "DA",
+              "actual": "NET3"
+            },
+            {
+              "formal": "DB",
+              "actual": "OUTP"
+            },
+            {
+              "formal": "S",
+              "actual": "VDD"
+            }
+          ]
+        },
+        {
+          "abstract_template_name": "DP_NMOS_B_42587218",
+          "instance_name": "X_M1_M2",
+          "fa_map": [
+            {
+              "formal": "B",
+              "actual": "VSS"
+            },
+            {
+              "formal": "DA",
+              "actual": "NET3"
+            },
+            {
+              "formal": "DB",
+              "actual": "OUTP"
+            },
+            {
+              "formal": "GA",
+              "actual": "INP"
+            },
+            {
+              "formal": "GB",
+              "actual": "INN"
+            },
+            {
+              "formal": "S",
+              "actual": "NET1"
+            }
+          ]
+        },
+        {
+          "abstract_template_name": "NMOS_S_83430483",
+          "instance_name": "X_M5",
+          "fa_map": [
+            {
+              "formal": "D",
+              "actual": "NET1"
+            },
+            {
+              "formal": "G",
+              "actual": "VBIAS"
+            },
+            {
+              "formal": "S",
+              "actual": "VSS"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "global_signals": [
+    {
+      "prefix": "global_power",
+      "formal": "supply0",
+      "actual": "VSS"
+    },
+    {
+      "prefix": "global_power",
+      "formal": "supply1",
+      "actual": "VDD"
+    }
+  ]
+}

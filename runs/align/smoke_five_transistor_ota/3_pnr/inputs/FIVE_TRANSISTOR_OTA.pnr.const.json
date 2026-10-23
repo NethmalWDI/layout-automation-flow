@@ -1,0 +1,66 @@
+{
+  "constraints": [
+    {
+      "ports": [
+        "VDD"
+      ],
+      "propagate": true,
+      "const_name": "PowerPorts"
+    },
+    {
+      "ports": [
+        "VSS"
+      ],
+      "propagate": true,
+      "const_name": "GroundPorts"
+    },
+    {
+      "pairs": [
+        {
+          "type": "selfsym",
+          "block": "X_M0_M3"
+        },
+        {
+          "type": "selfsym",
+          "block": "X_M4_M5"
+        }
+      ],
+      "const_name": "SymmBlock",
+      "axis_dir": "V"
+    },
+    {
+      "net1": {
+        "name": "VINN",
+        "blocks": [
+          {
+            "type": "pin",
+            "name": "X_M0_M3",
+            "pin": "GB"
+          },
+          {
+            "type": "terminal",
+            "name": "VINN",
+            "pin": null
+          }
+        ]
+      },
+      "net2": {
+        "name": "VINP",
+        "blocks": [
+          {
+            "type": "pin",
+            "name": "X_M0_M3",
+            "pin": "GA"
+          },
+          {
+            "type": "terminal",
+            "name": "VINP",
+            "pin": null
+          }
+        ]
+      },
+      "const_name": "SymmNet",
+      "axis_dir": "V"
+    }
+  ]
+}

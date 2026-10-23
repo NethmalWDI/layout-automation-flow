@@ -1,0 +1,31 @@
+* .subckt 5t_ota of topologies/5t-ota/circuit.spice, rebuilt from the primitives
+* it is built from: one subcircuit per instance, holding the circuit's own
+* transistors, and .subckt 5t-ota calling them on the circuit's original nodes.
+* Written by extract-primitives.py; regenerate it, do not edit it.
+
+* pmos_current_mirror_load: primitives/load-structure/pmos-current-mirror-load, with XM1 as M1, XM2 as M2
+.subckt pmos_current_mirror_load VDD Iref Iout
+XM1 Iref Iref VDD VDD sky130_fd_pr__pfet_01v8 l=0.15 w=1 nf=1 m=1
+XM2 Iout Iref VDD VDD sky130_fd_pr__pfet_01v8 l=0.15 w=1 nf=1 m=1
+.ends pmos_current_mirror_load
+
+* nmos_differential_pair: primitives/gm-structure/nmos-differential-pair, with XM3 as M1, XM4 as M2
+.subckt nmos_differential_pair VSS Vinp Vinn Ibias Ioutn Ioutp
+XM3 Ioutn Vinp Ibias VSS sky130_fd_pr__nfet_01v8 l=0.15 w=1 nf=1 m=1
+XM4 Ioutp Vinn Ibias VSS sky130_fd_pr__nfet_01v8 l=0.15 w=1 nf=1 m=1
+.ends nmos_differential_pair
+
+* nmos_current_mirror_bias: primitives/bias-structure/nmos-current-mirror-bias, with XM6 as M1, XM5 as M2
+.subckt nmos_current_mirror_bias VSS Iref Iout
+XM6 Iref Iref VSS VSS sky130_fd_pr__nfet_01v8 l=0.15 w=1 nf=1 m=1
+XM5 Iout Iref VSS VSS sky130_fd_pr__nfet_01v8 l=0.15 w=1 nf=1 m=1
+.ends nmos_current_mirror_bias
+
+.subckt 5t-ota VDD VSS Vinp Vinn Voutp Iref
+* X1 = pmos_current_mirror_load: VDD = VDD, Iref = net0, Iout = Voutp
+X1 VDD net0 Voutp pmos_current_mirror_load
+* X2 = nmos_differential_pair: VSS = VSS, Vinp = Vinp, Vinn = Vinn, Ibias = net1, Ioutn = net0, Ioutp = Voutp
+X2 VSS Vinp Vinn net1 net0 Voutp nmos_differential_pair
+* X3 = nmos_current_mirror_bias: VSS = VSS, Iref = Iref, Iout = net1
+X3 VSS Iref net1 nmos_current_mirror_bias
+.ends 5t-ota

@@ -1,0 +1,62 @@
++ ALIGN_VERSION=0.9.8
++ PDK_REPO=https://github.com/ALIGN-analoglayout/ALIGN-pdk-sky130.git
++ PDK_COMMIT=main
++ VENV=/opt/venv-align
++ export DEBIAN_FRONTEND=noninteractive
++ DEBIAN_FRONTEND=noninteractive
++ apt-get update -qq
+W: http://ppa.launchpad.net/mozillateam/ppa/ubuntu/dists/noble/InRelease: Signature by key 0AB215679C571D1C8325275B9BDB3D89CE49EC21 uses weak algorithm (rsa1024)
++ apt-get install -y -qq coinor-libcgl1 coinor-libcbc3.1 coinor-libosi1v5 python3-dev
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package libexpat1-dev:amd64.
+(Reading database… (Reading database… 5%(Reading database… 10%(Reading database… 15%(Reading database… 20%(Reading database… 25%(Reading database… 30%(Reading database… 35%(Reading database… 40%(Reading database… 45%(Reading database… 50%(Reading database… 55%(Reading database… 60%(Reading database… 65%(Reading database… 70%(Reading database… 75%(Reading database… 80%(Reading database… 85%(Reading database… 90%(Reading database… 95%(Reading database… 100%(Reading database… 107058 files and directories currently installed.)
+Preparing to unpack …/0-libexpat1-dev_2.6.1-2ubuntu0.6_amd64.deb…
+Unpacking libexpat1-dev:amd64 (2.6.1-2ubuntu0.6)…
+Selecting previously unselected package libjs-underscore.
+Preparing to unpack …/1-libjs-underscore_1.13.4~dfsg+~1.11.4-3_all.deb…
+Unpacking libjs-underscore (1.13.4~dfsg+~1.11.4-3)…
+Selecting previously unselected package libjs-sphinxdoc.
+Preparing to unpack …/2-libjs-sphinxdoc_7.2.6-6_all.deb…
+Unpacking libjs-sphinxdoc (7.2.6-6)…
+Selecting previously unselected package libpython3.12-dev:amd64.
+Preparing to unpack …/3-libpython3.12-dev_3.12.3-1ubuntu0.17_amd64.deb…
+Unpacking libpython3.12-dev:amd64 (3.12.3-1ubuntu0.17)…
+Selecting previously unselected package libpython3-dev:amd64.
+Preparing to unpack …/4-libpython3-dev_3.12.3-0ubuntu2.1_amd64.deb…
+Unpacking libpython3-dev:amd64 (3.12.3-0ubuntu2.1)…
+Selecting previously unselected package python3.12-dev.
+Preparing to unpack …/5-python3.12-dev_3.12.3-1ubuntu0.17_amd64.deb…
+Unpacking python3.12-dev (3.12.3-1ubuntu0.17)…
+Selecting previously unselected package python3-dev.
+Preparing to unpack …/6-python3-dev_3.12.3-0ubuntu2.1_amd64.deb…
+Unpacking python3-dev (3.12.3-0ubuntu2.1)…
+Setting up libexpat1-dev:amd64 (2.6.1-2ubuntu0.6)…
+Setting up libjs-underscore (1.13.4~dfsg+~1.11.4-3)…
+Setting up libpython3.12-dev:amd64 (3.12.3-1ubuntu0.17)…
+Setting up python3.12-dev (3.12.3-1ubuntu0.17)…
+Setting up libjs-sphinxdoc (7.2.6-6)…
+Setting up libpython3-dev:amd64 (3.12.3-0ubuntu2.1)…
+Setting up python3-dev (3.12.3-0ubuntu2.1)…
+Processing triggers for man-db (2.12.0-4build2)…
++ '[' -x /opt/venv-align/bin/python ']'
++ /opt/venv-align/bin/pip install -q --upgrade pip
++ /opt/venv-align/bin/pip install -q align-analoglayout==0.9.8
++ chown -R 1000:1000 /opt/venv-align
++ mkdir -p /foss/designs/external
++ '[' '!' -d /foss/designs/external/ALIGN-pdk-sky130 ']'
++ git clone -q https://github.com/ALIGN-analoglayout/ALIGN-pdk-sky130.git /foss/designs/external/ALIGN-pdk-sky130
++ git config --global --add safe.directory /foss/designs/external/ALIGN-pdk-sky130
++ cd /foss/designs/external/ALIGN-pdk-sky130
++ git checkout -q main
++ git rev-parse HEAD
++ chown -R 1000:1000 /foss/designs/external/ALIGN-pdk-sky130
++ /opt/venv-align/bin/pip freeze
++ head -5
++ /opt/venv-align/bin/schematic2layout.py -h
+usage: schematic2layout.py [-h] -p PDK_DIR [-w WORKING_DIR] [-f NETLIST_FILE]
+                           [-s SUBCKT] [-flat FLATTEN] [-n NVARIANTS]
+                           [-e EFFORT] [-x]
+                           [-l {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
+                           [-v {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [-r] [-u]
++ echo SETUP_ALIGN_DONE
+SETUP_ALIGN_DONE

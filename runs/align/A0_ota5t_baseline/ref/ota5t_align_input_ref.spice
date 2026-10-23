@@ -1,0 +1,7 @@
+.subckt ota5t vdd outp inp inn vss vbias
+XM3 net3 net3 vdd vdd sky130_fd_pr__pfet_01v8 L=1 W=2.1 nf=4
+XM4 outp net3 vdd vdd sky130_fd_pr__pfet_01v8 L=1 W=2.1 nf=4
+XM1 net3 inp net1 vss sky130_fd_pr__nfet_01v8 L=0.5 W=0.63 nf=38
+XM2 outp inn net1 vss sky130_fd_pr__nfet_01v8 L=0.5 W=0.63 nf=38
+XM5 net1 vbias vss vss sky130_fd_pr__nfet_01v8 L=1 W=0.63 nf=38
+.ends ota5t

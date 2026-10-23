@@ -1,0 +1,129 @@
+{
+  "source": "circuits/example_ota_5t/source/example_ota_5t_sized.spice",
+  "subckt": "ota5t",
+  "assumptions": [
+    "ASSUMPTION (ALIGN-only): widths legalised to even NF x (k x 210 nm); see devices[].align",
+    "LIMITATION: ALIGN-pdk-sky130 draws a fixed 0.15 um gate (layers.json Poly Width=150 nm); devices with other L are NOT represented correctly; LVS against the reference will flag it"
+  ],
+  "devices": [
+    {
+      "ref_name": "XM3",
+      "d": "net3",
+      "g": "net3",
+      "s": "VDD",
+      "b": "VDD",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "W_um": 8.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 1,
+      "align_name": "M3",
+      "w_total_ref_um": 8.0,
+      "align": {
+        "nf": 4,
+        "fins_per_finger": 10,
+        "w_finger_um": 2.1,
+        "w_total_um": 8.4,
+        "rel_error": 0.05
+      },
+      "L_represented_by_align": false
+    },
+    {
+      "ref_name": "XM4",
+      "d": "OUTP",
+      "g": "net3",
+      "s": "VDD",
+      "b": "VDD",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "W_um": 8.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 1,
+      "align_name": "M4",
+      "w_total_ref_um": 8.0,
+      "align": {
+        "nf": 4,
+        "fins_per_finger": 10,
+        "w_finger_um": 2.1,
+        "w_total_um": 8.4,
+        "rel_error": 0.05
+      },
+      "L_represented_by_align": false
+    },
+    {
+      "ref_name": "XM1",
+      "d": "net3",
+      "g": "INP",
+      "s": "net1",
+      "b": "VSS",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "W_um": 24.0,
+      "L_um": 0.5,
+      "nf": 1,
+      "m": 1,
+      "align_name": "M1",
+      "w_total_ref_um": 24.0,
+      "align": {
+        "nf": 38,
+        "fins_per_finger": 3,
+        "w_finger_um": 0.63,
+        "w_total_um": 23.94,
+        "rel_error": -0.0025
+      },
+      "L_represented_by_align": false
+    },
+    {
+      "ref_name": "XM2",
+      "d": "OUTP",
+      "g": "INN",
+      "s": "net1",
+      "b": "VSS",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "W_um": 24.0,
+      "L_um": 0.5,
+      "nf": 1,
+      "m": 1,
+      "align_name": "M2",
+      "w_total_ref_um": 24.0,
+      "align": {
+        "nf": 38,
+        "fins_per_finger": 3,
+        "w_finger_um": 0.63,
+        "w_total_um": 23.94,
+        "rel_error": -0.0025
+      },
+      "L_represented_by_align": false
+    },
+    {
+      "ref_name": "XM5",
+      "d": "net1",
+      "g": "net2",
+      "s": "VSS",
+      "b": "VSS",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "W_um": 24.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 1,
+      "align_name": "M5",
+      "w_total_ref_um": 24.0,
+      "align": {
+        "nf": 38,
+        "fins_per_finger": 3,
+        "w_finger_um": 0.63,
+        "w_total_um": 23.94,
+        "rel_error": -0.0025
+      },
+      "L_represented_by_align": false
+    }
+  ],
+  "removed_sources": [
+    {
+      "name": "V1",
+      "p": "net2",
+      "n": "VSS",
+      "value": "0.75",
+      "exposed_as_port": "VBIAS"
+    }
+  ]
+}

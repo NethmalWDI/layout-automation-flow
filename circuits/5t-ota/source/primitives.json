@@ -1,0 +1,77 @@
+{
+  "design": "5t-ota",
+  "circuit": "topologies/5t-ota/circuit.spice",
+  "netlist": "5t-ota_primitives.spice",
+  "subckt": "5t-ota",
+  "ports": [
+    "VDD",
+    "VSS",
+    "Vinp",
+    "Vinn",
+    "Voutp",
+    "Iref"
+  ],
+  "rails": [
+    "avdd",
+    "avss",
+    "dvdd",
+    "dvss",
+    "vcc",
+    "vdd",
+    "vee",
+    "vss"
+  ],
+  "instances": [
+    {
+      "instance": "X1",
+      "subckt": "pmos_current_mirror_load",
+      "primitive": "pmos-current-mirror-load",
+      "category": "load-structure",
+      "library": "primitives/load-structure/pmos-current-mirror-load",
+      "transistors": {
+        "M1": "XM1",
+        "M2": "XM2"
+      },
+      "ports": {
+        "VDD": "VDD",
+        "Iref": "net0",
+        "Iout": "Voutp"
+      }
+    },
+    {
+      "instance": "X2",
+      "subckt": "nmos_differential_pair",
+      "primitive": "nmos-differential-pair",
+      "category": "gm-structure",
+      "library": "primitives/gm-structure/nmos-differential-pair",
+      "transistors": {
+        "M1": "XM3",
+        "M2": "XM4"
+      },
+      "ports": {
+        "VSS": "VSS",
+        "Vinp": "Vinp",
+        "Vinn": "Vinn",
+        "Ibias": "net1",
+        "Ioutn": "net0",
+        "Ioutp": "Voutp"
+      }
+    },
+    {
+      "instance": "X3",
+      "subckt": "nmos_current_mirror_bias",
+      "primitive": "nmos-current-mirror-bias",
+      "category": "bias-structure",
+      "library": "primitives/bias-structure/nmos-current-mirror-bias",
+      "transistors": {
+        "M1": "XM6",
+        "M2": "XM5"
+      },
+      "ports": {
+        "VSS": "VSS",
+        "Iref": "Iref",
+        "Iout": "net1"
+      }
+    }
+  ]
+}

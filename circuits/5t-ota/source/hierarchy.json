@@ -1,0 +1,261 @@
+{
+  "design": "5t-ota",
+  "circuit": "topologies/5t-ota/circuit.spice",
+  "netlist": "5t-ota_primitives.spice",
+  "subckt": "5t-ota",
+  "root": {
+    "level": 2,
+    "instance": "X1",
+    "subckt": "diso_amplifier",
+    "kind": "differential-input-single-output-amplifier",
+    "ports": [
+      "VDD",
+      "VSS",
+      "Vinp",
+      "Vinn",
+      "Voutp",
+      "Iref"
+    ]
+  },
+  "levels": [
+    {
+      "level": 1,
+      "top": [
+        {
+          "instance": "X1",
+          "kind": "load-structure",
+          "subckt": "pmos_current_mirror_load",
+          "nodes": [
+            "VDD",
+            "net0",
+            "Voutp"
+          ]
+        },
+        {
+          "instance": "X2",
+          "kind": "gm-structure",
+          "subckt": "nmos_differential_pair",
+          "nodes": [
+            "VSS",
+            "Vinp",
+            "Vinn",
+            "net1",
+            "net0",
+            "Voutp"
+          ],
+          "inputs": [
+            "Vinp",
+            "Vinn"
+          ],
+          "outputs": [
+            "net0",
+            "Voutp"
+          ]
+        },
+        {
+          "instance": "X3",
+          "kind": "bias-structure",
+          "subckt": "nmos_current_mirror_bias",
+          "nodes": [
+            "VSS",
+            "Iref",
+            "net1"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "top": [
+        {
+          "instance": "X1",
+          "kind": "differential-input-single-output-amplifier",
+          "subckt": "diso_amplifier",
+          "nodes": [
+            "VDD",
+            "VSS",
+            "Vinp",
+            "Vinn",
+            "Voutp",
+            "Iref"
+          ],
+          "members": {
+            "X1": "load-structure",
+            "X2": "gm-structure",
+            "X3": "bias-structure"
+          },
+          "inputs": [
+            "Vinp",
+            "Vinn"
+          ],
+          "outputs": [
+            "Voutp"
+          ]
+        }
+      ]
+    }
+  ],
+  "differential": {
+    "assumes": "inputs purely differential: Vinn = -Vinp",
+    "subckt": "5t-ota_differential",
+    "ports": [
+      "GND",
+      "Vinp",
+      "Vinn",
+      "Voutp",
+      "Iref"
+    ],
+    "primitives": "5t-ota_differential_primitives.spice",
+    "netlist": "5t-ota_differential.spice",
+    "top_level": 2,
+    "blocks": {
+      "diso_amplifier": {
+        "level": 2,
+        "path": [
+          "X1"
+        ],
+        "parent": "5t-ota_differential",
+        "netlist": "5t-ota_differential.spice",
+        "made_of_netlist": "5t-ota_differential.spice",
+        "made_of": [
+          {
+            "instance": "X1",
+            "subckt": "pmos_current_mirror_load",
+            "nodes": [
+              "GND",
+              "net0",
+              "Voutp"
+            ]
+          },
+          {
+            "instance": "X2",
+            "subckt": "nmos_differential_pair",
+            "nodes": [
+              "GND",
+              "Vinp",
+              "Vinn",
+              "Voutp",
+              "net0"
+            ]
+          },
+          {
+            "instance": "X3",
+            "subckt": "nmos_current_mirror_bias",
+            "nodes": [
+              "GND",
+              "Iref",
+              "GND"
+            ]
+          }
+        ],
+        "ports": {
+          "GND": "GND",
+          "Vinp": "Vinp",
+          "Vinn": "Vinn",
+          "Ioutp": "Voutp"
+        },
+        "open": {
+          "Ioutn": "net0"
+        },
+        "differential_inputs": [
+          "Vinp",
+          "Vinn"
+        ]
+      },
+      "pmos_current_mirror_load": {
+        "level": 1,
+        "path": [
+          "X1",
+          "X1"
+        ],
+        "parent": "diso_amplifier",
+        "netlist": "5t-ota_differential.spice",
+        "made_of_netlist": "5t-ota_differential_primitives.spice",
+        "made_of": [
+          {
+            "instance": "X1",
+            "subckt": "pmos_current_mirror_load",
+            "nodes": [
+              "GND",
+              "Iref",
+              "Iout"
+            ]
+          }
+        ],
+        "ports": {
+          "GND": "GND",
+          "Iref": "Iref",
+          "Iout": "Iout"
+        },
+        "transistors": [
+          "XM1",
+          "XM2"
+        ]
+      },
+      "nmos_differential_pair": {
+        "level": 1,
+        "path": [
+          "X1",
+          "X2"
+        ],
+        "parent": "diso_amplifier",
+        "netlist": "5t-ota_differential.spice",
+        "made_of_netlist": "5t-ota_differential_primitives.spice",
+        "made_of": [
+          {
+            "instance": "X2",
+            "subckt": "nmos_differential_pair",
+            "nodes": [
+              "GND",
+              "Vinp",
+              "Vinn",
+              "Ioutn",
+              "Ioutp"
+            ]
+          }
+        ],
+        "ports": {
+          "GND": "GND",
+          "Vinp": "Vinp",
+          "Vinn": "Vinn",
+          "Ioutp": "Ioutp",
+          "Ioutn": "Ioutn"
+        },
+        "transistors": [
+          "XM3",
+          "XM4"
+        ]
+      },
+      "nmos_current_mirror_bias": {
+        "level": 1,
+        "path": [
+          "X1",
+          "X3"
+        ],
+        "parent": "diso_amplifier",
+        "netlist": "5t-ota_differential.spice",
+        "made_of_netlist": "5t-ota_differential_primitives.spice",
+        "made_of": [
+          {
+            "instance": "X3",
+            "subckt": "nmos_current_mirror_bias",
+            "nodes": [
+              "GND",
+              "Iref",
+              "Iout"
+            ]
+          }
+        ],
+        "ports": {
+          "GND": "GND",
+          "Iref": "Iref",
+          "Iout": "Iout"
+        },
+        "transistors": [
+          "XM6",
+          "XM5"
+        ]
+      }
+    }
+  }
+}
