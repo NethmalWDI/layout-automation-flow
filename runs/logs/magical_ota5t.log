@@ -1,0 +1,348 @@
++ rm -rf /opt/MAGICAL/examples/ota5t
++ cp -r /work/runs/magical/inputs/ota5t /opt/MAGICAL/examples/ota5t
++ cd /opt/MAGICAL/examples/ota5t
++ mkdir -p gds
+++ date +%s
++ start=1792778243
++ python3 ../../flow/python/Magical.py ota5t.json
+BEGIN GROUP
+ota5t_M1 ota5t_M2
+ota5t_M3 ota5t_M4
+ota5t_M5
+END GROUP
+BEGIN NET
+net1
+INP INN
+VBIAS
+END NET
+Dumping symmetry constraints...
+Done...
+Dumping symmetry nets...
+Done...
+[WRN 2026-10-23 17:57:25     1 sec]  Ideaplace: Using file parser readSymFile. This is designed for internal debugging only and may not be kept maintained 
+[DBG 2026-10-23 17:57:25     1 sec]  mark net VSS as vss 
+[WRN 2026-10-23 17:57:25     1 sec]  Ideaplace: Using file parser readSymNetFile. This is designed for internal debugging only and may not be kept maintained 
+[INF 2026-10-23 17:57:25     1 sec]  Symnet parser: reading ./ota5t.symnet...
+[INF 2026-10-23 17:57:25     1 sec]  ParserSymNet:: left net INP 2
+, right net INN 3
+[INF 2026-10-23 17:57:25     0 sec]  Ideaplace: Entering global placement...
+[INF 2026-10-23 17:57:25     0 sec]  NlpWnconj::initBoundaryParams: automatical set boundary to be Box:x = [-7.98436,7.98436];y = [-9.39336,9.39336]: 
+[DBG 2026-10-23 17:57:25     0 sec]  SigPathMgr: add cell 0 ota5t_M3  pin 0 0-> cell 2 ota5t_M1 pin 8 0 -> cell 2 ota5t_M1 pin 10 2 -> cell 4 ota5t_M5 -> pin 14  0
+[DBG 2026-10-23 17:57:25     0 sec]  SigPathMgr: add cell 1 ota5t_M4  pin 4 0-> cell 3 ota5t_M2 pin 11 0 -> cell 3 ota5t_M2 pin 13 2 -> cell 4 ota5t_M5 -> pin 14  0
+[INF 2026-10-23 17:57:25     0 sec]  Ideaplace global placement:: number of operators 23, hpwl 6 ovl 10 oob 0 asym 1 sigFlow 0 power 2 crf 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 0 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 1 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 2 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 3 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 4 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 5 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 6 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 7 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 8 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 9 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 10 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 11 
+[INF 2026-10-23 17:57:25     0 sec]  First order NLP: iter 12 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 13 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 14 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 15 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 16 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 17 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 18 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 19 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 20 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 21 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 22 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 23 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 24 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 25 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 26 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 27 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 28 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 29 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 30 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 31 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 32 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 33 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 34 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 35 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 36 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 37 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 38 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 39 
+[INF 2026-10-23 17:57:26     1 sec]  First order NLP: iter 40 
+[INF 2026-10-23 17:57:26     1 sec]  Ideaplace: Entering legalization and detailed placement...
+[INF 2026-10-23 17:57:26     1 sec]  CG legalizer: legalize horizontal LP...
+[INF 2026-10-23 17:57:26     1 sec]  LP legalization solver: LP optimal 
+[INF 2026-10-23 17:57:26     1 sec]  CG legalizer: legalize vertical LP...
+[INF 2026-10-23 17:57:26     1 sec]  LP legalization solver: LP optimal 
+[INF 2026-10-23 17:57:26     1 sec]  CG legalizer: detailed placement horizontal LP...
+[INF 2026-10-23 17:57:26     1 sec]  LP legalization solver: LP optimal 
+[INF 2026-10-23 17:57:26     1 sec]  CG legalizer: detailed placement vertical LP...
+[INF 2026-10-23 17:57:26     1 sec]  LP legalization solver: LP optimal 
+[INF 2026-10-23 17:57:26     1 sec]  CG legalizer: detailed placement horizontal LP...
+[INF 2026-10-23 17:57:26     1 sec]  LP legalization solver: LP optimal 
+[INF 2026-10-23 17:57:26     1 sec]  CG legalizer: detailed placement vertical LP...
+[INF 2026-10-23 17:57:26     1 sec]  LP legalization solver: LP optimal 
+[INF 2026-10-23 17:57:26     1 sec]  Ideaplace: Assigning IO pin...
+[INF 2026-10-23 17:57:26     1 sec]  IdeaPlaceEx:: HPWL 28800 
+[INF 2026-10-23 17:57:26     1 sec]  IdeaPlaceEx:: HPWL with virtual pin: 28800 
+[INF 2026-10-23 17:57:26     1 sec]  
+
+
+OVERFLOW: crf 0 
+ HPWL: path 0 
+ 
+
+[INF 2026-10-23 17:57:26     1 sec]  Ideaplace: Aligning the placement to grid...
+[INF 2026-10-23 17:57:26     1 sec]  Align to grid 200 
+[INF 2026-10-23 17:57:26     1 sec]  Alignment symaxis 15500 
+[INF 2026-10-23 17:57:26     1 sec]  Ideaplace: finished alignment
+[INF 2026-10-23 17:57:26     1 sec]  IDEAPLACE::align cell 0 ota5t_M3 center 18100 22100
+ [INF 2026-10-23 17:57:26     1 sec]  IDEAPLACE::align cell 1 ota5t_M4 center 12900 22100
+ [INF 2026-10-23 17:57:26     1 sec]  IDEAPLACE::align cell 2 ota5t_M1 center 20500 22100
+ [INF 2026-10-23 17:57:26     1 sec]  IDEAPLACE::align cell 3 ota5t_M2 center 10500 22100
+ [INF 2026-10-23 17:57:26     1 sec]  IDEAPLACE::align cell 4 ota5t_M5 center 15500 22100
+ [INF 2026-10-23 17:57:26     3 sec]  Flow::GdsWriter:: Write circuit ota5t layout to ./ota5t.place.gds 
+[INF 2026-10-23 17:57:26     3 sec]  Flow::GdsWriter:: Write circuit ota5t layout to ./ota5t.place.gds 
+
+
+
+
+
+DrMgr::solve Start Detailed Routing
+DrSymmetry::solve Start max symmetric detection
+DrSymmetry::solve Self-sym: VDD
+DrSymmetry::solve Self-sym: OUTP
+DrSymmetry::solve Sym:      INP INN
+DrSymmetry::solve Self-sym: VSS
+DrSymmetry::solve Self-sym: VBIAS
+DrSymmetry::solve Self-sym: net3
+DrSymmetry::solve Self-sym: net1
+
+DrGridRoute::runNRR	Iteration 0 Unrouted nets 2,Parsing LEF file ../mockPDK/mock.lef
+Parsing Tech file ../mockPDK/mock.techfile
+Parsing placement GDS layout file ./ota5t.place.gds
+AcsMgr::computeAcs Start Access Points Generation
+AcsMgr::computeAcs Start Access Points Generation
+ VSS VDD
+DrGridAstar::run	Route net VDD, Sym: 0, SelfSym: 1, StrictDRC: 1 
+DrGridAstar::run	Route net VSS, Sym: 0, SelfSym: 0, StrictDRC: 1 
+DrGridAstar::run	Route net VSS, Sym: 0, SelfSym: 0, StrictDRC: 1 
+DrGridRoute::solveDR Solved!!!!
+
+DrGridRoute::runNRR	Iteration 0 Unrouted nets 3, net1 net3 OUTP
+DrGridAstar::run	Route net OUTP, Sym: 0, SelfSym: 1, StrictDRC: 1 
+DrGridAstar::run	Route net OUTP, Sym: 0, SelfSym: 0, StrictDRC: 1 
+DrGridAstar::run	Route net net3, Sym: 0, SelfSym: 1, StrictDRC: 1 
+DrGridAstar::run	Route net net3, Sym: 0, SelfSym: 0, StrictDRC: 1 
+DrGridAstar::run	Route net net1, Sym: 0, SelfSym: 1, StrictDRC: 1 
+DrGridAstar::run	Route net net1, Sym: 0, SelfSym: 0, StrictDRC: 1 
+DrGridRoute::solveDR Solved!!!!
+Net VDD, wl: 71200, #via: 0, area: 73200000.00, degSym: 1.00
+Net OUTP, wl: 4400, #via: 2, area: 1632000.00, degSym: 0.00
+Net INP 1-pin ignored
+Net INN 1-pin ignored
+Net VSS, wl: 6800, #via: 0, area: 8800000.00, degSym: 0.00
+Net VBIAS 1-pin ignored
+Net net3, wl: 56400, #via: 4, area: 13064000.00, degSym: 0.92
+Net net1, wl: 19600, #via: 0, area: 4200000.00, degSym: 0.98
+---------- Anaroute             total  time usage -----------
+Real: 0.152541s; User: 0.143831s; System: 0.013418s
+
+Total wl: 158400, Total #via: 6, Total Sym wl: 142400, Total degSym: 0.8990, Avg degSym: 0.5804
+
+========================================================
+    MAGICAL: Machine Generated Analog IC Layout            
+        https://github.com/magical-eda/MAGICAL
+========================================================
+[I] parameters = {'spectre_netlist': 'ota5t.sp', 'hspice_netlist': None, 'simple_tech_file': '../mockPDK/techfile.simple', 'resultDir': './'}
+ckt name ota5t
+node name ota5t_M3
+node name ota5t_M4
+node name ota5t_M1
+node name ota5t_M2
+node name ota5t_M5
+PnR: working on  ota5t
+add pin 0 to cell ota5t_M3
+add pin 1 to cell ota5t_M3
+add pin 2 to cell ota5t_M3
+add pin 3 to cell ota5t_M3
+add pin 0 to cell ota5t_M4
+add pin 1 to cell ota5t_M4
+add pin 2 to cell ota5t_M4
+add pin 3 to cell ota5t_M4
+add pin 0 to cell ota5t_M1
+add pin 1 to cell ota5t_M1
+add pin 2 to cell ota5t_M1
+add pin 0 to cell ota5t_M2
+add pin 1 to cell ota5t_M2
+add pin 2 to cell ota5t_M2
+add pin 0 to cell ota5t_M5
+add pin 1 to cell ota5t_M5
+add pin 2 to cell ota5t_M5
+computeAndAddPowerCurrentFlow
+allocate signal path 0
+add pin to signal path 0 ota5t_M3 2
+add pin to signal path 0 ota5t_M3 0
+add pin to signal path 0 ota5t_M1 0
+add pin to signal path 0 ota5t_M1 2
+add pin to signal path 0 ota5t_M5 0
+add pin to signal path 0 ota5t_M5 2
+allocate signal path 1
+add pin to signal path 1 ota5t_M4 2
+add pin to signal path 1 ota5t_M4 0
+add pin to signal path 1 ota5t_M2 0
+add pin to signal path 1 ota5t_M2 2
+add pin to signal path 1 ota5t_M5 0
+add pin to signal path 1 ota5t_M5 2
+placement finished:  ota5t runtime 0.8762903213500977
+origin,  10100 10000
+node  ota5t_M3 7400 8000
+ota5t_M3 ota5t_M3 7400 8000 PLACEMENT
+node  ota5t_M4 2200 8000
+ota5t_M4 ota5t_M4 2200 8000 PLACEMENT
+node  ota5t_M1 10000 0
+ota5t_M1 ota5t_M1 10000 0 PLACEMENT
+node  ota5t_M2 0 0
+ota5t_M2 ota5t_M2 0 0 PLACEMENT
+node  ota5t_M5 4800 0
+ota5t_M5 ota5t_M5 4800 0 PLACEMENT
+Adding GuardRing to Cell
+origin 10100 10000
+addPowerStripe length  11150 12250
+width 12650
+width 13000
+fWidth 13.0
+width,  13.399999999999997 height 1.8 vdd offset -1.2999999999999983 25.375
+width,  13.399999999999997 height 1.8 vss offset -1.2999999999999983 -3.7
+generated vdd
+generated vss
+
+
+
+
+ add vdd 
+metal  -1300 25375 12100 27175 36
+pin shape -1300 25375 12100 27175
+layer  6
+adjust bbox  1300 -25375 12100 27175
+
+
+
+
+ add vss 
+metal  -1300 -3700 12100 -1900 36
+pin shape -1300 -3700 12100 -1900
+layer  6
+adjust bbox  1300 3700 12100 -1900
+PnR: placement finished  ota5t
+runtime  2.0571954250335693
+runtime,  0.8762903213500977
+addPin 0 True 0
+addShape2Pin 0 5 13900 15100 18100 15300
+addPin 1 True 0
+addShape2Pin 1 5 3500 15100 7700 15300
+addPin 2 True 1
+addShape2Pin 2 5 -2600 50750 24200 54350
+addPin 3 False 0
+addShape2Pin 3 0 4300 15900 4500 32100
+addPin 4 False 0
+addShape2Pin 4 0 -100 -100 100 48100
+addPin 5 False 0
+addShape2Pin 5 0 19900 48300 21700 48500
+addPin 6 False 0
+addShape2Pin 6 0 -100 48300 1700 48500
+addPin 7 True 0
+addShape2Pin 7 5 9500 -100 9700 48100
+addPin 8 True 1
+addShape2Pin 8 5 -2600 -7400 24200 -3800
+addPin sub 9 True False
+addShape2Pin psub shape 5 -1300 -1300 22900 -1100
+addPin 10 False 0
+addShape2Pin 10 0 9500 48300 12100 48500
+addPin 11 False 0
+addShape2Pin 11 0 14700 32300 17300 32500
+addPin 12 False 0
+addShape2Pin 12 0 4300 32300 6900 32500
+addPin 13 False 0
+addShape2Pin 13 0 21500 -100 21700 48100
+addPin 14 False 0
+addShape2Pin 14 0 19900 -100 20100 48100
+addPin 15 False 0
+addShape2Pin 15 0 1500 -100 1700 48100
+addPin 16 False 0
+addShape2Pin 16 0 11900 -100 12100 48100
+setwidth ota5t VDD 0.5
+setvia 4 2 2
+addNet netname VDD width 1000 cuts 4 isPower True rows 2 cols 2
+addPin2Net  0 0
+addPin2Net  1 0
+addPin2Net  2 0
+setwidth ota5t OUTP 0.1
+setvia 2 1 2
+addNet netname OUTP width 200 cuts 2 isPower False rows 1 cols 2
+addPin2Net  3 1
+addPin2Net  4 1
+setwidth ota5t INP 0.1
+setvia 2 1 2
+addNet netname INP width 200 cuts 2 isPower False rows 1 cols 2
+addPin2Net  5 2
+setwidth ota5t INN 0.1
+setvia 2 1 2
+addNet netname INN width 200 cuts 2 isPower False rows 1 cols 2
+addPin2Net  6 3
+setwidth ota5t VSS 0.5
+setvia 4 2 2
+addNet netname VSS width 1000 cuts 4 isPower True rows 2 cols 2
+addPin2Net  7 4
+addPin2Net  8 4
+addPin2Net pubs ver 9 4
+setwidth ota5t VBIAS 0.1
+setvia 2 1 2
+addNet netname VBIAS width 200 cuts 2 isPower False rows 1 cols 2
+addPin2Net  10 5
+setwidth ota5t net3 0.1
+setvia 2 1 2
+addNet netname net3 width 200 cuts 2 isPower False rows 1 cols 2
+addPin2Net  11 6
+addPin2Net  12 6
+addPin2Net  13 6
+setwidth ota5t net1 0.1
+setvia 2 1 2
+addNet netname net1 width 200 cuts 2 isPower False rows 1 cols 2
+addPin2Net  14 7
+addPin2Net  15 7
+addPin2Net  16 7
+routing grid off set -1200 -5600
+PnR: routing finished  ota5t
+Writing Routing GDS Layout ./ota5t.route.gds
+Writing Dumb File ./ota5t.ioPin
++ rc=0
+++ date +%s
++ echo 'MAGICAL_EXIT=0 runtime_s=4'
+MAGICAL_EXIT=0 runtime_s=4
++ ls -la
+total 1584
+drwxr-xr-x  3 root root    4096 Oct 23 17:57 .
+drwxr-xr-x 10 root root    4096 Oct 23 17:57 ..
+drwxr-xr-x  2 root root    4096 Oct 23 17:57 gds
+-rw-r--r--  1 root root     105 Oct 23 17:57 ota5t.bound
+-rw-r--r--  1 root root      71 Oct 23 17:57 ota5t.con
+-rw-r--r--  1 root root   13764 Oct 23 17:57 ota5t.floorplan.gds
+-rw-r--r--  1 root root     622 Oct 23 17:57 ota5t.gr
+-rw-r--r--  1 root root     145 Oct 23 17:57 ota5t.gr.spec
+-rw-r--r--  1 root root     254 Oct 23 17:57 ota5t.ioPin
+-rw-r--r--  1 root root      27 Oct 23 17:57 ota5t.iopin
+-rwxr-xr-x  1 root root     193 Oct 23 17:57 ota5t.json
+-rw-r--r--  1 root root     382 Oct 23 17:57 ota5t.pin
+-rw-r--r--  1 root root  207400 Oct 23 17:57 ota5t.place.gds
+-rw-r--r--  1 root root  210862 Oct 23 17:57 ota5t.route.gds
+-rwxr-xr-x  1 root root     478 Oct 23 17:57 ota5t.sp
+-rw-r--r--  1 root root      46 Oct 23 17:57 ota5t.sym
+-rw-r--r--  1 root root      19 Oct 23 17:57 ota5t.symnet
+-rw-r--r--  1 root root 1119478 Oct 23 17:57 ota5t_init.gds
+-rwxr-xr-x  1 root root      60 Oct 23 17:57 run.sh
++ mkdir -p /work/runs/magical/A0_ota5t_mock
++ cp -r ./gds ./ota5t.bound ./ota5t.con ./ota5t.floorplan.gds ./ota5t.gr ./ota5t.gr.spec ./ota5t.ioPin ./ota5t.iopin ./ota5t.json ./ota5t.pin ./ota5t.place.gds ./ota5t.route.gds ./ota5t.sp ./ota5t.sym ./ota5t.symnet ./ota5t_init.gds ./run.sh /work/runs/magical/A0_ota5t_mock/
++ exit 0
