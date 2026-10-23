@@ -312,3 +312,104 @@ My shell on your PC is an isolated Linux VM. It sees the connected folders but *
 - **[PA1]** https://github.com/PKU-IDEA/PANDA
 - **[X1]** http://opencircuitdesign.com/magic/commandref/ext2spice.html ; http://opencircuitdesign.com/magic/commandref/extract.html
 - **[X2]** https://github.com/d-m-bailey/sconnect_for_sky130_magic
+
+---
+
+## Addendum A (2026-10-23): Switching to the sized OTA, Docker access, ALIGN-first, and ALIGN+LLM prior art
+
+### A1. Can we use the sized `example_ota_5t` with the `5t-ota` hierarchy?
+
+The two circuits are **not identical**. Here is how they line up.
+
+**Device mapping**
+
+| Role | `5t-ota` (dummy) | `example_ota_5t` (sized) |
+|---|---|---|
+| Diff pair | XM3/XM4: 1/0.15 | M1/M2: 24/0.5 |
+| PMOS mirror load | XM1/XM2: 1/0.15 | M3/M4: 8/1 |
+| Tail | XM5, mirrored from diode XM6 with port Iref | M5: 24/1, gate held by internal source V1 = 0.75 V |
+| Bias reference | XM6 | **none** |
+
+**Net mapping**
+
+| `5t-ota` | `example_ota_5t` |
+|---|---|
+| Vinp / Vinn / Voutp | INP / INN / OUTP |
+| net0 | net3 |
+| net1 | net1 |
+
+**What carries over**
+
+- The **differential-mode equations carry over exactly.**
+  - In DM the bias block X3 sits entirely on GND. Its Iout is the tail, and the tail is a virtual ground.
+  - So A0, GBW, PM and the net→symbol map do not depend on how the tail is biased.
+- The **structural hierarchy carries over** for the pair and the load mirror.
+- The **bias block does not carry over.** It becomes a single-device "tail source" block with an external bias.
+
+**What does not work directly**
+
+Running stage 1 itself on `example_ota_5t` would fail as it stands, for two reasons:
+- `extract-primitives.py` rejects a voltage source.
+- It has no single-transistor bias primitive to match M5.
+
+**REC: use the sized netlist, with its specs, as the S0–S3 design.**
+
+- Reuse `hierarchy.json` and `equations.json` through an explicit, checked **name map**. Mark the bias block as `manual-mapping (ASSUMPTION)`.
+- This gives us real specs: gain ≥ 30 dB, GBW ≥ 20 MHz, PM ≥ 60°, CL = 1 pF.
+- It also gives real measured pre-layout values: 31.7 dB, 104 MHz, 81°.
+- A `.op` run with sky130 models gives the real gm, gds and capacitances. That replaces the dummy values.
+
+### A2. Why I cannot reach Docker, and what would fix it
+
+My shell on your PC is an isolated Linux VM. It can see only the connected folders, and it has no path to the Docker Desktop daemon (a Windows named pipe) or to WSL.
+
+| Option | What you do | Notes |
+|---|---|---|
+| **1. Local shell MCP server in Claude Desktop** | Add a local MCP server that can run commands on Windows (for example, a "desktop commander"-type server), restricted to `docker` if the server supports an allow-list | Claude Desktop proxies local MCP servers into this session. I could then run `docker exec layout-s0s3 ...` myself. Security: this grants command execution on your PC, so restrict it. |
+| **2. Docker MCP Toolkit** | Docker Desktop → MCP Toolkit → Clients → Connect Claude Desktop | Officially supports Claude Desktop. I found **no catalog server that runs `docker exec` on your own containers** (UNVERIFIED). |
+| **3. You run, I read** | Run one PowerShell line per step that I give you | Always works. Outputs land in the repo, where I verify them. |
+
+**Cloud mirror.** I would *not* pull the 17 GB image. I would install only ALIGN (pip), magic, netgen, ngspice and `sky130A` via ciel, which is a few GB. It is still a version-drift risk and setup time, so it becomes **unnecessary if option 1 works**.
+
+### A3. Is there prior work that wraps ALIGN with an LLM, the way ICPI wraps MAGICAL?
+
+Searched 2026-10-23. **None found** in which LLM agents tune ALIGN's constraints or placer knobs from post-layout feedback.
+
+**Closest work that uses ALIGN**
+
+- **AutoSizer** (arXiv 2602.02849, BNL; https://github.com/yuxi120407/AutoSizer).
+  - Its LLM loop tunes *sizing*.
+  - Its optional full-flow mode runs ALIGN `schematic2layout.py` with ALIGN-pdk-sky130, then Magic PEX and ngspice.
+  - Its README notes that ALIGN works for "a subset of circuits (simple OTAs and amplifiers)".
+
+**LLM layout-refinement works that use MAGICAL as the engine, not ALIGN**
+
+- ICPI (2608.13767)
+- LLANA (2406.05250; LLM-enhanced BO over net weights)
+- LayoutCopilot (2406.18873)
+- Post-layout-simulation-driven sizing (2310.14049)
+
+**ML on ALIGN without an LLM**
+
+- GNN hierarchical annotation (Kunal et al., TCAD 2023)
+- The UMN parasitics-aware OTA sizing and layout work (ISQED 2026). That it uses ALIGN is UNVERIFIED.
+
+**ICPI's own related work** groups ALIGN with MAGICAL as wirelength-centric generators and does not use it.
+
+**Opportunity:** an ICPI-style act–observe–reflect loop over ALIGN's `.const.json` and placer options, on SKY130 with open Magic/Netgen/ngspice verification, appears **unclaimed**. This fits S4+ naturally.
+
+### A4. Revised first step, as you asked
+
+Before S0–S3 code, run **the complete ALIGN flow** and confirm it works.
+
+1. Create container `layout-s0s3` from `hpretl/iic-osic-tools:2026.10`, with this repo mounted at `/foss/designs`.
+2. Inside it, set up venv `.venv-align` with `align-analoglayout==0.9.8` (pinned) and clone ALIGN-pdk-sky130 at a pinned commit.
+3. **Smoke test:** run ALIGN's own `five_transistor_ota`, all the way to a GDS.
+4. **Our circuit:** convert the sized `example_ota_5t` to ALIGN SPICE.
+   - W must be a multiple of 0.21 µm: 24 → 24.15 and 8 → 8.19 (**ASSUMPTION**, logged).
+   - Add the PowerPorts/GroundPorts constraints.
+   - Run the full flow to a GDS.
+5. **View the result:** a KLayout PNG rendered in the container, plus the GDS opened in KLayout on Windows.
+6. **Define "working":**
+   - ALIGN exits with code 0, and the GDS is non-empty with the expected devices.
+   - Then report Magic `sky130A` DRC and Netgen LVS **as status**. Failures are recorded, not hidden.
