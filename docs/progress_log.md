@@ -68,3 +68,18 @@
 **Open issue**
 
 - **MAGICAL image pull:** `jayl940712/magical:latest` did not complete through MCP. The `docker run` call blocks for longer than the 60 s bridge timeout.
+
+**MAGICAL (in parallel)**
+
+- **Source:** cloned into `external/MAGICAL` (git-ignored) at commit `199ab0719f85f74c79bf85a556118b132988a5fe`. Submodules:
+
+  | Submodule | Commit |
+  |---|---|
+  | ConstGen | 6e1532d |
+  | IdeaPlaceEx | a727c34 |
+  | anaroute | 9ef33c2 |
+  | device_generation | 4b4bd1f |
+
+- **Image:** `jayl940712/magical:latest` is **not pulled yet**. The MCP `container_create` call blocks during the pull and times out at the bridge's 60 s limit.
+- **Action needed from you:** run `docker pull jayl940712/magical:latest` once in PowerShell.
+- **Next steps once the image is there:** create `magical-s0s3` → run `build.sh` (pip-builds the C++ components) → `examples/ota1/run.sh` on the mock PDK.
