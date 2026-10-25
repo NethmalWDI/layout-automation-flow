@@ -1,0 +1,26 @@
+2026-10-23 22:48:04 align.main INFO : Reading netlist: /foss/designs/external/ALIGN-pdk-sky130/examples/umich_test_case/umich_test_case.sp subckt=UMICH_TEST_CASE, flat=0
+2026-10-23 22:48:04 align.compiler.compiler INFO : Starting topology identification...
+2026-10-23 22:48:04 align.compiler.preprocess INFO : Flattening dummy hierarchy DCDC_CAP_UNIT
+2026-10-23 22:48:04 align.cmdline ERROR : Fatal Error. Cannot proceed
+Traceback (most recent call last):
+  File "/opt/venv-align/lib/python3.12/site-packages/align/cmdline.py", line 197, in parse_args
+    return schematic2layout(**vars(arguments))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv-align/lib/python3.12/site-packages/align/main.py", line 167, in schematic2layout
+    primitive_lib = generate_hierarchy(netlist, subckt, topology_dir, flatten, pdk_dir)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv-align/lib/python3.12/site-packages/align/compiler/compiler.py", line 27, in generate_hierarchy
+    ckt_data, primitive_library = compiler_input(
+                                  ^^^^^^^^^^^^^^^
+  File "/opt/venv-align/lib/python3.12/site-packages/align/compiler/compiler.py", line 87, in compiler_input
+    preprocess_stack_parallel(ckt_data, design_name.upper())
+  File "/opt/venv-align/lib/python3.12/site-packages/align/compiler/preprocess.py", line 74, in preprocess_stack_parallel
+    remove_dummies(ckt_data, dummy_hiers, top.name)
+  File "/opt/venv-align/lib/python3.12/site-packages/align/compiler/preprocess.py", line 109, in remove_dummies
+    Instance(
+  File "/opt/venv-align/lib/python3.12/site-packages/align/schema/types.py", line 75, in __init__
+    super().__init__(*args, **kwargs)
+  File "pydantic/main.py", line 364, in pydantic.main.BaseModel.__init__
+pydantic.error_wrappers.ValidationError: 1 validation error for Instance
+name
+  X2 does not start with C (type=assertion_error)

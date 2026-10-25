@@ -1,0 +1,29 @@
+WARNING: The directory '/headless/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+ALIGN Version: 0.9.8  pdk 3da43f0c22a4d6e2314a6bd4682ff938bb01a0ea
+input: /foss/designs/external/ALIGN-pdk-sky130/examples/umich_test_case  work: /foss/designs/runs/align/examples/umich_test_case  args: -n 1
+[32malign.main INFO : Reading netlist: /foss/designs/external/ALIGN-pdk-sky130/examples/umich_test_case/umich_test_case.sp subckt=UMICH_TEST_CASE, flat=0[0m
+[32malign.compiler.compiler INFO : Starting topology identification...[0m
+[32malign.compiler.preprocess INFO : Flattening dummy hierarchy DCDC_CAP_UNIT[0m
+[31malign.cmdline ERROR : Fatal Error. Cannot proceed[0m
+Traceback (most recent call last):
+  File "/opt/venv-align/lib/python3.12/site-packages/align/cmdline.py", line 197, in parse_args
+    return schematic2layout(**vars(arguments))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv-align/lib/python3.12/site-packages/align/main.py", line 167, in schematic2layout
+    primitive_lib = generate_hierarchy(netlist, subckt, topology_dir, flatten, pdk_dir)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv-align/lib/python3.12/site-packages/align/compiler/compiler.py", line 27, in generate_hierarchy
+    ckt_data, primitive_library = compiler_input(
+                                  ^^^^^^^^^^^^^^^
+  File "/opt/venv-align/lib/python3.12/site-packages/align/compiler/compiler.py", line 87, in compiler_input
+    preprocess_stack_parallel(ckt_data, design_name.upper())
+  File "/opt/venv-align/lib/python3.12/site-packages/align/compiler/preprocess.py", line 74, in preprocess_stack_parallel
+    remove_dummies(ckt_data, dummy_hiers, top.name)
+  File "/opt/venv-align/lib/python3.12/site-packages/align/compiler/preprocess.py", line 109, in remove_dummies
+    Instance(
+  File "/opt/venv-align/lib/python3.12/site-packages/align/schema/types.py", line 75, in __init__
+    super().__init__(*args, **kwargs)
+  File "pydantic/main.py", line 364, in pydantic.main.BaseModel.__init__
+pydantic.error_wrappers.ValidationError: 1 validation error for Instance
+name
+  X2 does not start with C (type=assertion_error)

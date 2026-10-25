@@ -1,0 +1,715 @@
+[
+  "TELESCOPIC_OTA",
+  {
+    "CMC_PMOS_58951767": {
+      "CMC_PMOS_58951767_X1_Y1": [
+        {
+          "width": 3.44,
+          "height": 7.56
+        },
+        [
+          [
+            [
+              0,
+              0,
+              3.44,
+              7.56
+            ],
+            "CMC_PMOS_58951767_X1_Y1<br>0 0 3.44 7.56",
+            true,
+            0,
+            false
+          ]
+        ],
+        null
+      ]
+    },
+    "CMC_S_NMOS_B_53754070": {
+      "CMC_S_NMOS_B_53754070_X1_Y1": [
+        {
+          "width": 6.02,
+          "height": 7.56
+        },
+        [
+          [
+            [
+              0,
+              0,
+              6.02,
+              7.56
+            ],
+            "CMC_S_NMOS_B_53754070_X1_Y1<br>0 0 6.02 7.56",
+            true,
+            0,
+            false
+          ]
+        ],
+        null
+      ]
+    },
+    "CMC_S_PMOS_B_35717683": {
+      "CMC_S_PMOS_B_35717683_X1_Y1": [
+        {
+          "width": 6.02,
+          "height": 7.56
+        },
+        [
+          [
+            [
+              0,
+              0,
+              6.02,
+              7.56
+            ],
+            "CMC_S_PMOS_B_35717683_X1_Y1<br>0 0 6.02 7.56",
+            true,
+            0,
+            false
+          ]
+        ],
+        null
+      ]
+    },
+    "DP_NMOS_B_70259934": {
+      "DP_NMOS_B_70259934_X1_Y2": [
+        {
+          "width": 3.44,
+          "height": 13.44
+        },
+        [
+          [
+            [
+              0,
+              0,
+              3.44,
+              13.44
+            ],
+            "DP_NMOS_B_70259934_X1_Y2<br>0 0 3.44 13.44",
+            true,
+            0,
+            false
+          ]
+        ],
+        null
+      ],
+      "DP_NMOS_B_70259934_X2_Y1": [
+        {
+          "width": 5.16,
+          "height": 7.56
+        },
+        [
+          [
+            [
+              0,
+              0,
+              5.16,
+              7.56
+            ],
+            "DP_NMOS_B_70259934_X2_Y1<br>0 0 5.16 7.56",
+            true,
+            0,
+            false
+          ]
+        ],
+        null
+      ]
+    },
+    "SCM_NMOS_462578": {
+      "SCM_NMOS_462578_X1_Y1": [
+        {
+          "width": 3.44,
+          "height": 7.56
+        },
+        [
+          [
+            [
+              0,
+              0,
+              3.44,
+              7.56
+            ],
+            "SCM_NMOS_462578_X1_Y1<br>0 0 3.44 7.56",
+            true,
+            0,
+            false
+          ]
+        ],
+        null
+      ]
+    }
+  },
+  [
+    [
+      "TELESCOPIC_OTA_0",
+      {
+        "modules": [
+          {
+            "parameters": [
+              "VBIASN",
+              "VBIASP1",
+              "VBIASP2",
+              "VINN",
+              "VINP",
+              "VOUTN",
+              "VOUTP",
+              "VDD",
+              "0"
+            ],
+            "constraints": [
+              {
+                "constraint": "SymmetricBlocks",
+                "pairs": [
+                  [
+                    "X_M10_M9"
+                  ],
+                  [
+                    "X_M3_M4"
+                  ],
+                  [
+                    "X_M5_M6"
+                  ],
+                  [
+                    "X_M7_M8"
+                  ]
+                ],
+                "direction": "V"
+              },
+              {
+                "constraint": "SymmetricNets",
+                "net1": "NET012",
+                "net2": "NET06",
+                "pins1": [
+                  "X_M10_M9/DA",
+                  "X_M7_M8/SB"
+                ],
+                "pins2": [
+                  "X_M10_M9/DB",
+                  "X_M7_M8/SA"
+                ],
+                "direction": "V"
+              },
+              {
+                "constraint": "SymmetricNets",
+                "net1": "NET014",
+                "net2": "NET8",
+                "pins1": [
+                  "X_M5_M6/SB",
+                  "X_M3_M4/DB"
+                ],
+                "pins2": [
+                  "X_M5_M6/SA",
+                  "X_M3_M4/DA"
+                ],
+                "direction": "V"
+              },
+              {
+                "constraint": "SymmetricNets",
+                "net1": "VINN",
+                "net2": "VINP",
+                "pins1": [
+                  "X_M3_M4/GB",
+                  "VINN"
+                ],
+                "pins2": [
+                  "X_M3_M4/GA",
+                  "VINP"
+                ],
+                "direction": "V"
+              },
+              {
+                "constraint": "SymmetricNets",
+                "net1": "VOUTN",
+                "net2": "VOUTP",
+                "pins1": [
+                  "X_M5_M6/DA",
+                  "X_M7_M8/DA",
+                  "VOUTN"
+                ],
+                "pins2": [
+                  "X_M5_M6/DB",
+                  "X_M7_M8/DB",
+                  "VOUTP"
+                ],
+                "direction": "V"
+              }
+            ],
+            "instances": [
+              {
+                "instance_name": "X_M1_M2",
+                "fa_map": [
+                  {
+                    "formal": "DA",
+                    "actual": "ID"
+                  },
+                  {
+                    "formal": "DB",
+                    "actual": "NET10"
+                  },
+                  {
+                    "formal": "S",
+                    "actual": "0"
+                  }
+                ],
+                "abstract_template_name": "SCM_NMOS_462578",
+                "concrete_template_name": "SCM_NMOS_462578_X1_Y1",
+                "transformation": {
+                  "oX": 0,
+                  "oY": 7560,
+                  "sX": 1,
+                  "sY": -1
+                }
+              },
+              {
+                "instance_name": "X_M10_M9",
+                "fa_map": [
+                  {
+                    "formal": "DA",
+                    "actual": "NET012"
+                  },
+                  {
+                    "formal": "DB",
+                    "actual": "NET06"
+                  },
+                  {
+                    "formal": "G",
+                    "actual": "VBIASP2"
+                  },
+                  {
+                    "formal": "S",
+                    "actual": "VDD"
+                  }
+                ],
+                "abstract_template_name": "CMC_PMOS_58951767",
+                "concrete_template_name": "CMC_PMOS_58951767_X1_Y1",
+                "transformation": {
+                  "oX": 4730,
+                  "oY": 30240,
+                  "sX": -1,
+                  "sY": 1
+                }
+              },
+              {
+                "instance_name": "X_M5_M6",
+                "fa_map": [
+                  {
+                    "formal": "B",
+                    "actual": "0"
+                  },
+                  {
+                    "formal": "DA",
+                    "actual": "VOUTN"
+                  },
+                  {
+                    "formal": "DB",
+                    "actual": "VOUTP"
+                  },
+                  {
+                    "formal": "G",
+                    "actual": "VBIASN"
+                  },
+                  {
+                    "formal": "SA",
+                    "actual": "NET8"
+                  },
+                  {
+                    "formal": "SB",
+                    "actual": "NET014"
+                  }
+                ],
+                "abstract_template_name": "CMC_S_NMOS_B_53754070",
+                "concrete_template_name": "CMC_S_NMOS_B_53754070_X1_Y1",
+                "transformation": {
+                  "oX": 0,
+                  "oY": 22680,
+                  "sX": 1,
+                  "sY": -1
+                }
+              },
+              {
+                "instance_name": "X_M7_M8",
+                "fa_map": [
+                  {
+                    "formal": "B",
+                    "actual": "VDD"
+                  },
+                  {
+                    "formal": "DA",
+                    "actual": "VOUTN"
+                  },
+                  {
+                    "formal": "DB",
+                    "actual": "VOUTP"
+                  },
+                  {
+                    "formal": "G",
+                    "actual": "VBIASP1"
+                  },
+                  {
+                    "formal": "SA",
+                    "actual": "NET06"
+                  },
+                  {
+                    "formal": "SB",
+                    "actual": "NET012"
+                  }
+                ],
+                "abstract_template_name": "CMC_S_PMOS_B_35717683",
+                "concrete_template_name": "CMC_S_PMOS_B_35717683_X1_Y1",
+                "transformation": {
+                  "oX": 0,
+                  "oY": 22680,
+                  "sX": 1,
+                  "sY": 1
+                }
+              },
+              {
+                "instance_name": "X_M3_M4",
+                "fa_map": [
+                  {
+                    "formal": "B",
+                    "actual": "0"
+                  },
+                  {
+                    "formal": "DA",
+                    "actual": "NET8"
+                  },
+                  {
+                    "formal": "DB",
+                    "actual": "NET014"
+                  },
+                  {
+                    "formal": "GA",
+                    "actual": "VINP"
+                  },
+                  {
+                    "formal": "GB",
+                    "actual": "VINN"
+                  },
+                  {
+                    "formal": "S",
+                    "actual": "NET10"
+                  }
+                ],
+                "abstract_template_name": "DP_NMOS_B_70259934",
+                "concrete_template_name": "DP_NMOS_B_70259934_X2_Y1",
+                "transformation": {
+                  "oX": 430,
+                  "oY": 15120,
+                  "sX": 1,
+                  "sY": -1
+                }
+              }
+            ],
+            "abstract_name": "TELESCOPIC_OTA",
+            "concrete_name": "TELESCOPIC_OTA_0",
+            "bbox": [
+              0,
+              0,
+              6020,
+              37800
+            ]
+          }
+        ],
+        "leaves": [
+          {
+            "abstract_name": "SCM_NMOS_462578",
+            "concrete_name": "SCM_NMOS_462578_X1_Y1",
+            "bbox": [
+              0,
+              0,
+              3440,
+              7560
+            ],
+            "terminals": [
+              {
+                "name": "DA",
+                "rect": [
+                  1150,
+                  260,
+                  1430,
+                  4780
+                ]
+              },
+              {
+                "name": "DB",
+                "rect": [
+                  1120,
+                  700,
+                  2320,
+                  980
+                ]
+              },
+              {
+                "name": "S",
+                "rect": [
+                  2010,
+                  1100,
+                  2290,
+                  6880
+                ]
+              }
+            ]
+          },
+          {
+            "abstract_name": "CMC_PMOS_58951767",
+            "concrete_name": "CMC_PMOS_58951767_X1_Y1",
+            "bbox": [
+              0,
+              0,
+              3440,
+              7560
+            ],
+            "terminals": [
+              {
+                "name": "DA",
+                "rect": [
+                  260,
+                  280,
+                  1460,
+                  560
+                ]
+              },
+              {
+                "name": "DB",
+                "rect": [
+                  1120,
+                  700,
+                  2320,
+                  980
+                ]
+              },
+              {
+                "name": "G",
+                "rect": [
+                  1120,
+                  4480,
+                  2320,
+                  4760
+                ]
+              },
+              {
+                "name": "S",
+                "rect": [
+                  2440,
+                  1100,
+                  2720,
+                  6880
+                ]
+              }
+            ]
+          },
+          {
+            "abstract_name": "CMC_S_NMOS_B_53754070",
+            "concrete_name": "CMC_S_NMOS_B_53754070_X1_Y1",
+            "bbox": [
+              0,
+              0,
+              6020,
+              7560
+            ],
+            "terminals": [
+              {
+                "name": "B",
+                "rect": [
+                  1120,
+                  6580,
+                  4900,
+                  6860
+                ]
+              },
+              {
+                "name": "DA",
+                "rect": [
+                  1120,
+                  280,
+                  2320,
+                  560
+                ]
+              },
+              {
+                "name": "DB",
+                "rect": [
+                  3700,
+                  700,
+                  4900,
+                  980
+                ]
+              },
+              {
+                "name": "G",
+                "rect": [
+                  1120,
+                  4480,
+                  4900,
+                  4760
+                ]
+              },
+              {
+                "name": "SA",
+                "rect": [
+                  690,
+                  1120,
+                  1890,
+                  1400
+                ]
+              },
+              {
+                "name": "SB",
+                "rect": [
+                  4130,
+                  1540,
+                  5330,
+                  1820
+                ]
+              }
+            ]
+          },
+          {
+            "abstract_name": "CMC_S_PMOS_B_35717683",
+            "concrete_name": "CMC_S_PMOS_B_35717683_X1_Y1",
+            "bbox": [
+              0,
+              0,
+              6020,
+              7560
+            ],
+            "terminals": [
+              {
+                "name": "B",
+                "rect": [
+                  1120,
+                  6580,
+                  4900,
+                  6860
+                ]
+              },
+              {
+                "name": "DA",
+                "rect": [
+                  1120,
+                  280,
+                  2320,
+                  560
+                ]
+              },
+              {
+                "name": "DB",
+                "rect": [
+                  3700,
+                  700,
+                  4900,
+                  980
+                ]
+              },
+              {
+                "name": "G",
+                "rect": [
+                  1120,
+                  4480,
+                  4900,
+                  4760
+                ]
+              },
+              {
+                "name": "SA",
+                "rect": [
+                  690,
+                  1120,
+                  1890,
+                  1400
+                ]
+              },
+              {
+                "name": "SB",
+                "rect": [
+                  4130,
+                  1540,
+                  5330,
+                  1820
+                ]
+              }
+            ]
+          },
+          {
+            "abstract_name": "DP_NMOS_B_70259934",
+            "concrete_name": "DP_NMOS_B_70259934_X2_Y1",
+            "bbox": [
+              0,
+              0,
+              5160,
+              7560
+            ],
+            "terminals": [
+              {
+                "name": "B",
+                "rect": [
+                  1120,
+                  6580,
+                  4040,
+                  6860
+                ]
+              },
+              {
+                "name": "DA",
+                "rect": [
+                  1120,
+                  280,
+                  4040,
+                  560
+                ]
+              },
+              {
+                "name": "DB",
+                "rect": [
+                  1980,
+                  700,
+                  3180,
+                  980
+                ]
+              },
+              {
+                "name": "GA",
+                "rect": [
+                  1120,
+                  4480,
+                  4040,
+                  4760
+                ]
+              },
+              {
+                "name": "GB",
+                "rect": [
+                  1980,
+                  4900,
+                  3180,
+                  5180
+                ]
+              },
+              {
+                "name": "S",
+                "rect": [
+                  690,
+                  1120,
+                  4470,
+                  1400
+                ]
+              }
+            ]
+          }
+        ],
+        "global_signals": []
+      }
+    ]
+  ],
+  {
+    "TELESCOPIC_OTA_0": {
+      "hpwl": 106.28,
+      "cost": 32.89618086146413,
+      "constraint_penalty": 0.0,
+      "area_norm": 0.12022900763358779,
+      "hpwl_norm": 0.10456513183785911,
+      "abstract_name": "TELESCOPIC_OTA",
+      "concrete_name": "TELESCOPIC_OTA_0"
+    }
+  }
+]

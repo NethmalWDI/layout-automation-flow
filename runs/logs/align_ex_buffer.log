@@ -1,0 +1,22 @@
+WARNING: The directory '/headless/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+ALIGN Version: 0.9.8  pdk 3da43f0c22a4d6e2314a6bd4682ff938bb01a0ea
+input: /foss/designs/external/ALIGN-pdk-sky130/examples/buffer  work: /foss/designs/runs/align/examples/buffer  args: -n 1
+[32malign.main INFO : Reading netlist: /foss/designs/external/ALIGN-pdk-sky130/examples/buffer/buffer.sp subckt=BUFFER, flat=0[0m
+[32malign.compiler.compiler INFO : Starting topology identification...[0m
+[32malign.compiler.compiler INFO : Power and ground nets not found. Power grid will not be constructed.[0m
+[32malign.compiler.compiler INFO : Completed topology identification.[0m
+[32malign.pnr.main INFO : Running Place & Route for BUFFER[0m
+[32malign.pnr.build_pnr_model INFO : Reading contraint json file BUFFER.pnr.const.json[0m
+[32malign.pnr.build_pnr_model INFO : Reading contraint json file STAGE2_INV_37963716.pnr.const.json[0m
+[32malign.pnr.build_pnr_model INFO : Reading contraint json file BUFFER.pnr.const.json[0m
+[32malign.pnr.build_pnr_model INFO : Reading contraint json file STAGE2_INV_37963716.pnr.const.json[0m
+[32malign.pnr.placer INFO : Starting bottom-up placement on STAGE2_INV_37963716 1[0m
+[32mPnR.placer.SeqPair.SeqPair INFO : Enumerated search[0m
+[32mPnR.placer.Placer.PlacementCoreAspectRatio_ILP INFO : Exhausted all permutations of seq pairs and found 1 placement solution(s)[0m
+[32malign.pnr.placer INFO : Starting bottom-up placement on BUFFER 0[0m
+[32mPnR.placer.SeqPair.SeqPair INFO : Enumerated search[0m
+[32mPnR.placer.Placer.PlacementCoreAspectRatio_ILP INFO : Exhausted all permutations of seq pairs and found 1 placement solution(s)[0m
+[32malign.pnr.build_pnr_model INFO : Reading contraint json file BUFFER.pnr.const.json[0m
+[32malign.pnr.build_pnr_model INFO : Reading contraint json file STAGE2_INV_37963716.pnr.const.json[0m
+[32mPnR.placer.SeqPair.SeqPair INFO : Enumerated search[0m
+scripts/run_align.sh: line 12:  1690 Killed                  /opt/venv-align/bin/schematic2layout.py "$IN" -p /foss/designs/external/ALIGN-pdk-sky130/SKY130_PDK -w "$WD" "$@"

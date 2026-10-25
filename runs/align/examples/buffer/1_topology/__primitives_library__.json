@@ -1,0 +1,132 @@
+[
+  {
+    "name": "NMOS_RVT",
+    "base": "NMOS",
+    "pins": [
+      "D",
+      "G",
+      "S",
+      "B"
+    ],
+    "parameters": {
+      "W": "1",
+      "L": "1",
+      "NFIN": "1",
+      "NF": "1",
+      "M": "1",
+      "PARALLEL": "1",
+      "STACK": "1",
+      "MULT": "1"
+    },
+    "prefix": ""
+  },
+  {
+    "name": "NMOS_S_80205402",
+    "base": null,
+    "pins": [
+      "D",
+      "G",
+      "S"
+    ],
+    "parameters": {},
+    "prefix": "",
+    "elements": [
+      {
+        "model": "NMOS_RVT",
+        "name": "M1",
+        "pins": {
+          "D": "D",
+          "G": "G",
+          "S": "S",
+          "B": "S"
+        },
+        "parameters": {
+          "W": "1.05E-06",
+          "L": "1.5E-07",
+          "NFIN": "1",
+          "NF": "10",
+          "M": "1",
+          "PARALLEL": "1",
+          "STACK": "1",
+          "MULT": "1"
+        },
+        "abstract_name": null
+      }
+    ],
+    "generator": {
+      "name": "MOS"
+    },
+    "constraints": [
+      {
+        "constraint": "Generator",
+        "name": "MOS",
+        "parameters": null
+      }
+    ]
+  },
+  {
+    "name": "PMOS_RVT",
+    "base": "PMOS",
+    "pins": [
+      "D",
+      "G",
+      "S",
+      "B"
+    ],
+    "parameters": {
+      "W": "1",
+      "L": "1",
+      "NFIN": "1",
+      "NF": "1",
+      "M": "1",
+      "PARALLEL": "1",
+      "STACK": "1",
+      "MULT": "1"
+    },
+    "prefix": ""
+  },
+  {
+    "name": "PMOS_S_15704299",
+    "base": null,
+    "pins": [
+      "D",
+      "G",
+      "S"
+    ],
+    "parameters": {},
+    "prefix": "",
+    "elements": [
+      {
+        "model": "PMOS_RVT",
+        "name": "M1",
+        "pins": {
+          "D": "D",
+          "G": "G",
+          "S": "S",
+          "B": "S"
+        },
+        "parameters": {
+          "W": "2.1E-06",
+          "L": "1.5E-07",
+          "NFIN": "1",
+          "NF": "10",
+          "M": "1",
+          "PARALLEL": "1",
+          "STACK": "1",
+          "MULT": "1"
+        },
+        "abstract_name": null
+      }
+    ],
+    "generator": {
+      "name": "MOS"
+    },
+    "constraints": [
+      {
+        "constraint": "Generator",
+        "name": "MOS",
+        "parameters": null
+      }
+    ]
+  }
+]

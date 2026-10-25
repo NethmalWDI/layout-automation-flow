@@ -1,0 +1,84 @@
+[
+  {
+    "constraint": "PowerPorts",
+    "ports": [
+      "VDD"
+    ],
+    "propagate": true
+  },
+  {
+    "constraint": "GroundPorts",
+    "ports": [
+      "VSS"
+    ],
+    "propagate": true
+  },
+  {
+    "constraint": "GroupBlocks",
+    "instance_name": "X_M4_M5",
+    "instances": [
+      "M4",
+      "M5"
+    ],
+    "template_name": "SCM_NMOS",
+    "generator": {
+      "name": "MOS",
+      "parameters": null
+    },
+    "constraints": null
+  },
+  {
+    "constraint": "GroupBlocks",
+    "instance_name": "X_M1_M2",
+    "instances": [
+      "M1",
+      "M2"
+    ],
+    "template_name": "SCM_PMOS",
+    "generator": {
+      "name": "MOS",
+      "parameters": null
+    },
+    "constraints": null
+  },
+  {
+    "constraint": "GroupBlocks",
+    "instance_name": "X_M0_M3",
+    "instances": [
+      "M0",
+      "M3"
+    ],
+    "template_name": "DP_NMOS_B",
+    "generator": {
+      "name": "MOS",
+      "parameters": null
+    },
+    "constraints": null
+  },
+  {
+    "constraint": "SymmetricBlocks",
+    "pairs": [
+      [
+        "X_M0_M3"
+      ],
+      [
+        "X_M4_M5"
+      ]
+    ],
+    "direction": "V"
+  },
+  {
+    "constraint": "SymmetricNets",
+    "net1": "VINN",
+    "net2": "VINP",
+    "pins1": [
+      "X_M0_M3/GB",
+      "VINN"
+    ],
+    "pins2": [
+      "X_M0_M3/GA",
+      "VINP"
+    ],
+    "direction": "V"
+  }
+]

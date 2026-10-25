@@ -1,0 +1,167 @@
+{
+  "global_signals": [],
+  "leaves": [
+    {
+      "abstract_name": "NMOS_S_8018826",
+      "bbox": [
+        0,
+        0,
+        14620,
+        13440
+      ],
+      "concrete_name": "NMOS_S_8018826_X5_Y2",
+      "terminals": [
+        {
+          "name": "D",
+          "rect": [
+            6740,
+            260,
+            7020,
+            6460
+          ]
+        },
+        {
+          "name": "G",
+          "rect": [
+            7170,
+            4460,
+            7450,
+            10660
+          ]
+        },
+        {
+          "name": "S",
+          "rect": [
+            7600,
+            680,
+            7880,
+            12760
+          ]
+        }
+      ]
+    },
+    {
+      "abstract_name": "PMOS_S_63055196",
+      "bbox": [
+        0,
+        0,
+        14620,
+        13440
+      ],
+      "concrete_name": "PMOS_S_63055196_X5_Y2",
+      "terminals": [
+        {
+          "name": "D",
+          "rect": [
+            6740,
+            260,
+            7020,
+            6460
+          ]
+        },
+        {
+          "name": "G",
+          "rect": [
+            7170,
+            4460,
+            7450,
+            10660
+          ]
+        },
+        {
+          "name": "S",
+          "rect": [
+            7600,
+            680,
+            7880,
+            12760
+          ]
+        }
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "abstract_name": "INV_85427451",
+      "bbox": [
+        0,
+        0,
+        14620,
+        26880
+      ],
+      "concrete_name": "INV_85427451_0",
+      "constraints": [
+        {
+          "constraint": "SymmetricBlocks",
+          "direction": "V",
+          "pairs": [
+            [
+              "X_M0"
+            ],
+            [
+              "X_M1"
+            ]
+          ]
+        }
+      ],
+      "instances": [
+        {
+          "abstract_template_name": "NMOS_S_8018826",
+          "concrete_template_name": "NMOS_S_8018826_X5_Y2",
+          "fa_map": [
+            {
+              "actual": "ZN",
+              "formal": "D"
+            },
+            {
+              "actual": "I",
+              "formal": "G"
+            },
+            {
+              "actual": "SN",
+              "formal": "S"
+            }
+          ],
+          "instance_name": "X_M0",
+          "transformation": {
+            "oX": 0,
+            "oY": 13440,
+            "sX": 1,
+            "sY": -1
+          }
+        },
+        {
+          "abstract_template_name": "PMOS_S_63055196",
+          "concrete_template_name": "PMOS_S_63055196_X5_Y2",
+          "fa_map": [
+            {
+              "actual": "ZN",
+              "formal": "D"
+            },
+            {
+              "actual": "I",
+              "formal": "G"
+            },
+            {
+              "actual": "SP",
+              "formal": "S"
+            }
+          ],
+          "instance_name": "X_M1",
+          "transformation": {
+            "oX": 0,
+            "oY": 13440,
+            "sX": 1,
+            "sY": 1
+          }
+        }
+      ],
+      "parameters": [
+        "I",
+        "ZN",
+        "SN",
+        "SP"
+      ]
+    }
+  ]
+}

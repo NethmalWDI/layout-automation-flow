@@ -1,0 +1,47 @@
+
+Magic 8.3 revision 685 - Compiled on Thu Oct 15 02:29:39 PM CEST 2026.
+Starting magic under Tcl interpreter
+Using the terminal as the console.
+WARNING: RLIMIT_NOFILE is above 1024 and Tcl_Version<9 this may cause runtime issues [rlim_cur=1048576]
+Using NULL graphics device.
+Processing system .magicrc file
+Switching to WIRING tool.
+Switching to NETLIST tool.
+Switching to PICK tool.
+Switching to BOX tool.
+Sourcing design .magicrc for technology sky130A ...
+2 Magic internal units = 1 Lambda
+Input style sky130(): scaleFactor=2, multiplier=2
+The following types are not handled by extraction and will be treated as non-electrical types:
+    ubm 
+Scaled tech values by 2 / 1 to match internal grid scaling
+Loading sky130A Device Generator Menu ...
+Loading "/foss/designs/runs/align/examples/current_mirror_ota/drc/drc.tcl" from command line.
+Warning: Calma reading is not undoable!  I hope that's OK.
+Library written using GDS-II Release 6.0
+Library name: test
+Reading "DP_NMOS_B_35307796_X2_Y2_1792787856".
+Error while reading cell "DP_NMOS_B_35307796_X2_Y2_1792787856" (byte position 14354): Unknown layer/datatype in boundary, layer=100 type=5
+Reading "SCM_NMOS_65859185_X2_Y1_1792787857".
+Error while reading cell "SCM_NMOS_65859185_X2_Y1_1792787857" (byte position 21912): Unknown layer/datatype in boundary, layer=100 type=5
+Reading "SCM_NMOS_B_68452298_X4_Y2_1792787858".
+Error while reading cell "SCM_NMOS_B_68452298_X4_Y2_1792787858" (byte position 47904): Unknown layer/datatype in boundary, layer=100 type=5
+Reading "SCM_PMOS_21041144_X3_Y3_1792787859".
+Error while reading cell "SCM_PMOS_21041144_X3_Y3_1792787859" (byte position 77158): Unknown layer/datatype in boundary, layer=100 type=5
+Reading "CURRENT_MIRROR_OTA_0".
+CIF file read warning: CIF style sky130(): units rescaled by factor of 5 / 1
+Error while reading cell "CURRENT_MIRROR_OTA_0" (byte position 97436): Unknown layer/datatype in boundary, layer=235 type=5
+Error while reading cell "CURRENT_MIRROR_OTA_0" (byte position 97524): Unknown layer/datatype in boundary, layer=104 type=0
+CELL_BBOX_LAMBDA -80 -118 9712 4170
+SUBCELLS 4
+FLAT_BBOX_LAMBDA -80 -118 9712 4170
+DRC style is now "drc(full)"
+Loading DRC CIF style.
+DRC_TOTAL 50
+Root cell box:
+           width x height  (   llx,  lly  ), (   urx,  ury  )  area (units^2)
+
+microns:   0.050 x 1.000   ( 0.000,  0.000), ( 0.050,  1.000)  0.050     
+lambda:     5.00 x 100.00  (  0.00,  0.00 ), (  5.00,  100.00)  500.00    
+internal:     10 x 200     (     0,  0    ), (    10,  200  )  2000      
+NEG_CONTROL_TOTAL 51

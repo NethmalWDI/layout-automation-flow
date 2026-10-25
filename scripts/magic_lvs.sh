@@ -7,6 +7,8 @@ GDS=$(realpath "$1"); TOP=$2; REF=$(realpath "$3"); REFSUB=$4; OUT=$5; mkdir -p 
 cat > "$OUT/ext.tcl" <<TCL
 gds read $GDS
 load $TOP
+$( [ "${FLATTEN:-0}" = 1 ] && echo "flatten ${TOP}_flat
+load ${TOP}_flat" )
 select top cell
 port makeall
 extract path $OUT
@@ -18,7 +20,8 @@ TCL
 cd "$OUT"
 magic -dnull -noconsole -rcfile $PDK_ROOT/sky130A/libs.tech/magic/sky130A.magicrc "$OUT/ext.tcl" > "$OUT/ext_magic.log" 2>&1
 [ -s "$OUT/${TOP}_extracted.spice" ] || { echo "EXTRACT_FAILED"; tail -20 "$OUT/ext_magic.log"; exit 2; }
-netgen -batch lvs "$OUT/${TOP}_extracted.spice $TOP" "$REF $REFSUB" \
+XTOP=$TOP; [ "${FLATTEN:-0}" = 1 ] && XTOP=${TOP}_flat
+netgen -batch lvs "$OUT/${TOP}_extracted.spice $XTOP" "$REF $REFSUB" \
   $PDK_ROOT/sky130A/libs.tech/netgen/sky130A_setup.tcl "$OUT/lvs_report.txt" -json > "$OUT/netgen.log" 2>&1
 if grep -q "Circuits match uniquely" "$OUT/lvs_report.txt" && ! grep -q -i "property errors\|mismatch" "$OUT/lvs_report.txt"; then
   echo "LVS_RESULT MATCH"

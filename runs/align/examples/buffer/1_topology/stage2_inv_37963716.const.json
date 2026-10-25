@@ -1,0 +1,78 @@
+[
+  {
+    "constraint": "SymmetricBlocks",
+    "pairs": [
+      [
+        "X_M0"
+      ],
+      [
+        "X_M1"
+      ]
+    ],
+    "direction": "V"
+  },
+  {
+    "constraint": "SymmetricBlocks",
+    "pairs": [
+      [
+        "X_M2"
+      ],
+      [
+        "X_M3"
+      ]
+    ],
+    "direction": "V"
+  },
+  {
+    "constraint": "GroupBlocks",
+    "instance_name": "X_M0",
+    "instances": [
+      "M0"
+    ],
+    "template_name": "NMOS_S",
+    "generator": {
+      "name": "MOS",
+      "parameters": null
+    },
+    "constraints": null
+  },
+  {
+    "constraint": "GroupBlocks",
+    "instance_name": "X_M2",
+    "instances": [
+      "M2"
+    ],
+    "template_name": "NMOS_S",
+    "generator": {
+      "name": "MOS",
+      "parameters": null
+    },
+    "constraints": null
+  },
+  {
+    "constraint": "GroupBlocks",
+    "instance_name": "X_M1",
+    "instances": [
+      "M1"
+    ],
+    "template_name": "PMOS_S",
+    "generator": {
+      "name": "MOS",
+      "parameters": null
+    },
+    "constraints": null
+  },
+  {
+    "constraint": "GroupBlocks",
+    "instance_name": "X_M3",
+    "instances": [
+      "M3"
+    ],
+    "template_name": "PMOS_S",
+    "generator": {
+      "name": "MOS",
+      "parameters": null
+    },
+    "constraints": null
+  }
+]

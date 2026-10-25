@@ -1,0 +1,100 @@
+{
+  "modules": [
+    {
+      "name": "INVERTER",
+      "parameters": [
+        "VSS",
+        "VDD",
+        "IN",
+        "OUT"
+      ],
+      "constraints": [],
+      "instances": [
+        {
+          "abstract_template_name": "INV_85427451",
+          "instance_name": "X_MN0_MP0",
+          "fa_map": [
+            {
+              "formal": "I",
+              "actual": "IN"
+            },
+            {
+              "formal": "SN",
+              "actual": "VSS"
+            },
+            {
+              "formal": "SP",
+              "actual": "VDD"
+            },
+            {
+              "formal": "ZN",
+              "actual": "OUT"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "INV_85427451",
+      "parameters": [
+        "I",
+        "ZN",
+        "SN",
+        "SP"
+      ],
+      "constraints": [
+        {
+          "constraint": "SymmetricBlocks",
+          "pairs": [
+            [
+              "X_M0"
+            ],
+            [
+              "X_M1"
+            ]
+          ],
+          "direction": "V"
+        }
+      ],
+      "instances": [
+        {
+          "abstract_template_name": "NMOS_S_8018826",
+          "instance_name": "X_M0",
+          "fa_map": [
+            {
+              "formal": "D",
+              "actual": "ZN"
+            },
+            {
+              "formal": "G",
+              "actual": "I"
+            },
+            {
+              "formal": "S",
+              "actual": "SN"
+            }
+          ]
+        },
+        {
+          "abstract_template_name": "PMOS_S_63055196",
+          "instance_name": "X_M1",
+          "fa_map": [
+            {
+              "formal": "D",
+              "actual": "ZN"
+            },
+            {
+              "formal": "G",
+              "actual": "I"
+            },
+            {
+              "formal": "S",
+              "actual": "SP"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "global_signals": []
+}
