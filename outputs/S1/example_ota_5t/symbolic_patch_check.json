@@ -1,0 +1,143 @@
+{
+  "design": "example_ota_5t",
+  "spice": {
+    "gain_db": 31.697,
+    "gbw_mhz": 104.455,
+    "pm_deg": 80.9348
+  },
+  "CL_F": 1e-12,
+  "models": {
+    "original": {
+      "file": "circuits/5t-ota/source/5t-ota_differential_equations.json",
+      "predicted": {
+        "gain_db": 31.364418560825417,
+        "gbw_mhz": 108.43283383349196,
+        "pm_deg": 91.34420874538944
+      },
+      "error_vs_spice": {
+        "gain_db": -0.33258143917458227,
+        "gbw_mhz": 3.9778338334919567,
+        "pm_deg": 10.409408745389442
+      },
+      "per_fF": {
+        "OUTP": {
+          "gain_db": 0.0,
+          "gbw_mhz": -0.10576889658269414,
+          "pm_deg": 0.00019943109870616414
+        },
+        "net3": {
+          "gain_db": 0.0,
+          "gbw_mhz": 0.0,
+          "pm_deg": 0.0
+        }
+      },
+      "unresolved_symbols": []
+    },
+    "P1": {
+      "file": "inputs/example_ota_5t/upstream_patched/5t-ota_differential_equations.P1.json",
+      "predicted": {
+        "gain_db": 31.364418560825417,
+        "gbw_mhz": 104.41362275150617,
+        "pm_deg": 82.83992542895098
+      },
+      "error_vs_spice": {
+        "gain_db": -0.33258143917458227,
+        "gbw_mhz": -0.04137724849383062,
+        "pm_deg": 1.9051254289509814
+      },
+      "per_fF": {
+        "OUTP": {
+          "gain_db": 0.0,
+          "gbw_mhz": -0.09512974688259876,
+          "pm_deg": 0.006927173800700774
+        },
+        "net3": {
+          "gain_db": 0.0,
+          "gbw_mhz": -0.059121334925606096,
+          "pm_deg": -0.059266106506763054
+        }
+      },
+      "unresolved_symbols": []
+    },
+    "P2": {
+      "file": "inputs/example_ota_5t/upstream_patched/5t-ota_differential_equations.P2.json",
+      "predicted": {
+        "gain_db": 31.364418560825417,
+        "gbw_mhz": 104.04194182471421,
+        "pm_deg": 80.22588792681447
+      },
+      "error_vs_spice": {
+        "gain_db": -0.33258143917458227,
+        "gbw_mhz": -0.4130581752857836,
+        "pm_deg": -0.7089120731855303
+      },
+      "per_fF": {
+        "OUTP": {
+          "gain_db": 0.0,
+          "gbw_mhz": -0.09417858936165749,
+          "pm_deg": 0.009186438701679445
+        },
+        "net3": {
+          "gain_db": 0.0,
+          "gbw_mhz": -0.06159313507275085,
+          "pm_deg": -0.0566933185728181
+        }
+      },
+      "unresolved_symbols": []
+    }
+  },
+  "exact_checks": {
+    "P1_exact_rational": {
+      "gbw_mhz": 104.4627582364543,
+      "pm_deg": 82.83034744438473,
+      "mirror_pole_mhz": 313.3572892549048
+    },
+    "P2_exact_rational": {
+      "gbw_mhz": 104.1042250299836,
+      "pm_deg": 80.21451362725702,
+      "mirror_pole_mhz": 313.3572892549048
+    },
+    "P2_exact_rational_Cm_from_OP": {
+      "gbw_mhz": 104.13788697913407,
+      "pm_deg": 80.62506605776203,
+      "mirror_pole_mhz": 313.3572892549048
+    }
+  },
+  "Cm_F": {
+    "two_fifths_Cgs": {
+      "in": 2.3299408e-14,
+      "p": 1.74655072e-14
+    },
+    "from_op_cdg_minus_cgd": {
+      "in": 1.862247e-14,
+      "p": 1.5377567549999998e-14
+    }
+  },
+  "level2_values": {
+    "R1_X1": 4359.510218792222,
+    "R2_X1": 52956.09949942718,
+    "C2_X1": 1.0918583113000001e-13,
+    "C4_X1": 1.7880806920538822e-14,
+    "C5_X1": 7.31865e-15,
+    "C6_X1": 7.31865e-15,
+    "G2_X1": 0.0013974456759835534,
+    "G1_X1_X2": 0.000728718,
+    "G2_X1_X2": 0.000728718,
+    "G12_X1_X1": 0.0002105,
+    "C2_XM3": 5.824851999999999e-14,
+    "C2_XM2": 4.3663768000000003e-14
+  },
+  "spice_fd_per_fF": {
+    "OUTP": {
+      "gain_db": 0.0,
+      "gbw_mhz": -0.09439999999999885,
+      "pm_deg": 0.00882000000000005
+    },
+    "net3": {
+      "gain_db": 0.0,
+      "gbw_mhz": -0.059199999999998455,
+      "pm_deg": -0.06347999999999843
+    }
+  },
+  "reading": "'original' = upstream template; P1 adds the mirror pole-zero doublet; P2 also adds the transcapacitance. error_vs_spice = prediction - transistor-level SPICE. exact_checks: the patched model solved without the closed-form approximations."
+}

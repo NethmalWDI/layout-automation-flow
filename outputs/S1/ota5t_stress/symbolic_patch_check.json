@@ -1,0 +1,143 @@
+{
+  "design": "ota5t_stress",
+  "spice": {
+    "gain_db": 31.697,
+    "gbw_mhz": 373.654,
+    "pm_deg": 65.0814
+  },
+  "CL_F": 2e-13,
+  "models": {
+    "original": {
+      "file": "circuits/5t-ota/source/5t-ota_differential_equations.json",
+      "predicted": {
+        "gain_db": 31.364418560825417,
+        "gbw_mhz": 493.6923671998469,
+        "pm_deg": 90.61773521085213
+      },
+      "error_vs_spice": {
+        "gain_db": -0.33258143917458227,
+        "gbw_mhz": 120.0383671998469,
+        "pm_deg": 25.53633521085213
+      },
+      "per_fF": {
+        "OUTP": {
+          "gain_db": 0.0,
+          "gbw_mhz": -2.1928239178789926,
+          "pm_deg": 0.004135027299464026
+        },
+        "net3": {
+          "gain_db": 0.0,
+          "gbw_mhz": 0.0,
+          "pm_deg": 0.0
+        }
+      },
+      "unresolved_symbols": []
+    },
+    "P1": {
+      "file": "inputs/example_ota_5t/upstream_patched/5t-ota_differential_equations.P1.json",
+      "predicted": {
+        "gain_db": 31.364418560825417,
+        "gbw_mhz": 373.5840139252247,
+        "pm_deg": 73.1998278126573
+      },
+      "error_vs_spice": {
+        "gain_db": -0.33258143917458227,
+        "gbw_mhz": -0.0699860747752723,
+        "pm_deg": 8.118427812657302
+      },
+      "per_fF": {
+        "OUTP": {
+          "gain_db": 0.0,
+          "gbw_mhz": -1.2683696866845455,
+          "pm_deg": 0.008810125626139252
+        },
+        "net3": {
+          "gain_db": 0.0,
+          "gbw_mhz": -0.7555354730173789,
+          "pm_deg": -0.010975810196916671
+        }
+      },
+      "unresolved_symbols": []
+    },
+    "P2": {
+      "file": "inputs/example_ota_5t/upstream_patched/5t-ota_differential_equations.P2.json",
+      "predicted": {
+        "gain_db": 31.364418560825417,
+        "gbw_mhz": 363.7069405914812,
+        "pm_deg": 65.210410687185
+      },
+      "error_vs_spice": {
+        "gain_db": -0.33258143917458227,
+        "gbw_mhz": -9.947059408518783,
+        "pm_deg": 0.12901068718500142
+      },
+      "per_fF": {
+        "OUTP": {
+          "gain_db": 0.0,
+          "gbw_mhz": -1.1904272959791926,
+          "pm_deg": 0.029865121228206077
+        },
+        "net3": {
+          "gain_db": 0.0,
+          "gbw_mhz": -0.7533070498519528,
+          "pm_deg": 0.016960660205138985
+        }
+      },
+      "unresolved_symbols": []
+    }
+  },
+  "exact_checks": {
+    "P1_exact_rational": {
+      "gbw_mhz": 374.9546505462758,
+      "pm_deg": 73.00338651280865,
+      "mirror_pole_mhz": 313.3572892549048
+    },
+    "P2_exact_rational": {
+      "gbw_mhz": 365.2963991164143,
+      "pm_deg": 65.01252515568193,
+      "mirror_pole_mhz": 313.3572892549048
+    },
+    "P2_exact_rational_Cm_from_OP": {
+      "gbw_mhz": 366.15186351099703,
+      "pm_deg": 66.3105189041822,
+      "mirror_pole_mhz": 313.3572892549048
+    }
+  },
+  "Cm_F": {
+    "two_fifths_Cgs": {
+      "in": 2.3299408e-14,
+      "p": 1.74655072e-14
+    },
+    "from_op_cdg_minus_cgd": {
+      "in": 1.862247e-14,
+      "p": 1.5377567549999998e-14
+    }
+  },
+  "level2_values": {
+    "R1_X1": 4359.510218792222,
+    "R2_X1": 52956.09949942718,
+    "C2_X1": 1.0918583113000001e-13,
+    "C4_X1": 1.7880806920538822e-14,
+    "C5_X1": 7.31865e-15,
+    "C6_X1": 7.31865e-15,
+    "G2_X1": 0.0013974456759835534,
+    "G1_X1_X2": 0.000728718,
+    "G2_X1_X2": 0.000728718,
+    "G12_X1_X1": 0.0002105,
+    "C2_XM3": 5.824851999999999e-14,
+    "C2_XM2": 4.3663768000000003e-14
+  },
+  "spice_fd_per_fF": {
+    "OUTP": {
+      "gain_db": 0.0,
+      "gbw_mhz": -1.199400000000003,
+      "pm_deg": 0.03653999999999939
+    },
+    "net3": {
+      "gain_db": 0.0,
+      "gbw_mhz": -0.844399999999996,
+      "pm_deg": 0.006399999999999295
+    }
+  },
+  "reading": "'original' = upstream template; P1 adds the mirror pole-zero doublet; P2 also adds the transcapacitance. error_vs_spice = prediction - transistor-level SPICE. exact_checks: the patched model solved without the closed-form approximations."
+}

@@ -119,3 +119,37 @@ def test_numerical_trouble_is_detected_in_logs():
     assert numerical_warnings("Warning: singular matrix:  check node x1.xm4.vsubs\nok") != []
     assert numerical_warnings("Note: Starting dynamic gmin stepping\nDoing analysis") == []
     assert numerical_warnings("Warning: Dynamic gmin stepping failed") != []
+
+
+def test_symbolic_patch_copy_only_and_known_symbols():
+    """The pole drop-out patch is written to a copy; P1 uses only symbols the upstream file defines."""
+    import copy, json, re
+    from src.common.tools import REPO
+    from src.s1 import symbolic, symbolic_patch as spt
+    rel = "circuits/5t-ota/source/5t-ota_differential_equations.json"
+    orig = json.loads((REPO / rel).read_text())
+    before = copy.deepcopy(orig)
+    p1 = spt.build_patched(orig, "P1", rel)
+    assert orig == before                                   # original object untouched
+    assert p1["performance_original"] == orig["performance"]
+    assert p1["patch"]["based_on"]["sha256"]
+    defs = {}
+    symbolic.collect_values(orig, defs)
+    known = set(defs) | set(p1["performance"]["terms"]) | {"CL", "pi", "sqrt", "atan", "log", "Abs"}
+    for k, e in list(p1["performance"]["terms"].items()) + [("pm_deg", p1["performance"]["pm_deg"])]:
+        used = set(re.findall(r"[A-Za-z_][A-Za-z0-9_]*", e))
+        assert used <= known, (k, used - known)
+
+
+def test_symbolic_patch_exact_reduces_to_single_pole():
+    """With no mirror-node capacitance the patched H(s) is the original one-pole template."""
+    import math
+    from src.s1.symbolic_patch import exact
+    v = {"R1_X1": 4e3, "C2_X1": 0.0, "C5_X1": 0.0, "G2_X1_X2": 7e-4, "G1_X1_X2": 7e-4, "G12_X1_X1": 2e-4,
+         "R2_X1": 5e4, "C4_X1": 0.0, "C6_X1": 0.0}
+    v["G2_X1"] = v["G12_X1_X1"] * v["G1_X1_X2"] * v["R1_X1"] + v["G2_X1_X2"]
+    r = exact(v, 1e-12, 0.0, 0.0)
+    A0 = v["G2_X1"] * v["R2_X1"] / 2
+    wu = v["G2_X1"] / (2 * 1e-12) * math.sqrt(1 - 1 / A0 ** 2)
+    assert abs(r["gbw_mhz"] - wu / 2e6 / math.pi) / r["gbw_mhz"] < 1e-3
+    assert abs(r["pm_deg"] - (180 - math.degrees(math.atan(wu * v["R2_X1"] * 1e-12)))) < 0.05

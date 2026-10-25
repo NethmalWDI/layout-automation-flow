@@ -312,3 +312,41 @@ Layout parasitics will now consume a visible share of the margin, which is the p
   - a "strap does not fit" check (4 PMOS nf = 8, 50 % cells; LVS had caught the S–D short);
   - the relaxation case keeps the default PCell.
 - **Tests:** 37 pass (S0 14, S1 11, S2 8, S3 4).
+
+## 2026-10-25 (night): stress at η = 0.9, pole drop-out study, decisions
+
+**Your decisions:**
+
+- the stress variant gives layout 90 % of each margin (η = 0.9);
+- EM is ignored for now;
+- S3 is on hold;
+- S4 starts on Monday, 2026-10-26.
+
+**η as a package input.** `inputs/ota5t_stress/package.yaml` now has `eta: 0.9`. `src/s2/run.py` takes η from `--eta`, else from the package, else 0.5, and records the value and its source in `budgets.json`. A unit test was added.
+
+**Stress rerun at η = 0.9:**
+
+- **S2: PASS.**
+  - Budgets ≈ 0.95 × need (0.998 after phase 1).
+  - SPICE verification: GBW 0.84 and PM 0.74 of the margin, both within η.
+  - Rules: OUTP met1 ≤ 9.1 µm; net3 proximity 9.3 µm; OUTP~net3 parallel run 12.2 µm.
+- **S3: G3.3 PASS, G3.5 FAIL** (PMOS mirror and tail keep the default cell).
+  - Input pair: nf4 (61.1 → 36.3 µm²).
+  - In the circuit: GBW 369.2 MHz, PM 63.65°, gain 32.22 dB; all specs met, within the allowances.
+  - Cause of the FAIL:
+    - S2's phase-2 trim (R19);
+    - the tail's lower-R options would re-size it.
+
+**Pole drop-out study** (`src/s1/symbolic_patch.py`). Patched copies of the upstream equations are written to `inputs/example_ota_5t/upstream_patched/`; the original is unchanged.
+
+| Variant | Stress PM / GBW | Example PM / GBW |
+|---|---|---|
+| SPICE | 65.1° / 373.7 MHz | 80.9° / 104.5 MHz |
+| Upstream original | 90.6° / 493.7 MHz | 91.3° / 108.4 MHz |
+| P1 (mirror doublet) | 73.2° / 373.6 MHz | 82.8° / 104.4 MHz |
+| P2 (+ transcapacitance) | 65.2° / 363.7 MHz | 80.2° / 104.0 MHz |
+
+- The mirror pole is ≈ 313 MHz. The earlier figure of 614 MHz was wrong (R20).
+- Tests: 40 pass.
+
+**Supervisor review 3** (R19–R24) is in the flow record.

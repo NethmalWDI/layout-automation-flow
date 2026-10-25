@@ -11,7 +11,13 @@ evidence with pictures, and the problems met on the way and how they were fixed.
 - How to run each stage: [`../README.md`](../README.md). Chronological notes: [`progress_log.md`](progress_log.md).
 - To get a self-contained HTML copy (pictures embedded), run from `docs/`: `pandoc flow_record.md --standalone --embed-resources -c flow_record/record.css -o ../runs/tmp/flow_record.html`.
 
-**Last updated:** 2026-10-25 (evening). Covers S0, S1 with the resistance extension, the first supervisor review, S2 and S3 on both designs.
+**Last updated:** 2026-10-25 (night). Covers S0, S1 with the resistance extension, the pole drop-out study (3.9), supervisor reviews 1–3, S2 and S3 on both designs, and the stress variant rerun at η = 0.9.
+
+> **Decisions of 2026-10-25 (night), from you:**
+> - The stress variant gives layout **90 % of each margin** (η = 0.9, package key `eta`). The example design keeps η = 0.5.
+> - **Electromigration (EM) is ignored for now** for SKY130: the EM rules stay `not_evaluated`; no further search.
+> - **S3 is on hold** as it stands. Open S3 items are listed in Supervisor review 3, not worked on.
+> - **S4 starts on Monday, 2026-10-26.**
 
 ### Where everything is on your PC
 
@@ -40,9 +46,11 @@ In VS Code, open `docs\flow_record.md` and press Ctrl+Shift+V to see it with the
 | Step 0 | Baselines: ALIGN (SKY130), MAGICAL (mock PDK) | done | n/a | ALIGN 0 errors | ALIGN: topology match, **L/W property errors** (not equivalent) |
 | **S0** | Frozen circuit IR, device map, reproduced testbenches | **PASS** (G0.1–G0.7) | **PASS** (G0.1–G0.7) | **0 errors** on all 5 PCell devices | **match, no property errors**, 5/5 |
 | **S1** | Operating point, exact linear model, C and R sensitivities, intent | **PASS** (G1.1–G1.6) | **PASS** (G1.1–G1.6) | n/a | n/a |
-| **S2** | Measured PDK parasitics, joint budgets, rule IR, SPICE-verified | **PASS** (G2.1–G2.6) | **PASS** (G2.1–G2.6); G2.0: a compact layout would use 90 % of the GBW margin | n/a | n/a |
-| **S3** | Option library (84 cells), decision per device type, sign-off | **PASS** (G3.1–G3.6) | **FAIL, flagged** (G3.3/G3.5): no option fits η = 0.5; specs still met with the default cells | **0 errors**, chosen cells and 80/84 library cells | **match (W, L, nf)**, chosen cells and 80/84 library cells |
-| S4–S6 | Placement, routing, full OTA layout | pending | pending | full layout | full layout vs. sized netlist |
+| S1 add-on | Pole drop-out study: patched copy of the upstream equations (3.9) | PM error 10.4° → 0.7° | PM error 25.5° → 0.1° | n/a | n/a |
+| **S2** | Measured PDK parasitics, joint budgets, rule IR, SPICE-verified | **PASS** (G2.1–G2.6), η = 0.5 | **PASS** (G2.1–G2.6), **η = 0.9**; G2.0: a compact layout would use 90 % of the GBW margin | n/a | n/a |
+| **S3** (on hold) | Option library (84 cells), decision per device type, sign-off | **PASS** (G3.1–G3.6) | η = 0.9: **G3.3 PASS**, **G3.5 FAIL** for 2 of 3 types (on the feasibility boundary; see 5.5 and R19); input pair 61.1 → 36.3 µm²; specs met | **0 errors**, chosen cells and 80/84 library cells | **match (W, L, nf)**, chosen cells and 80/84 library cells |
+| S4 | Sub-block layout variants (diff pair, mirror, tail) | starts Mon 2026-10-26 | starts Mon 2026-10-26 | per variant | per variant |
+| S5–S9 | Placement, routing, verification, evaluation, repair, selection | pending | pending | full layout | full layout vs. sized netlist |
 
 > **What "passes DRC and LVS" covers right now.** Up to S3 the layout objects are the individual
 > transistors, each drawn by the SKY130 PCell at its exact sized W/L (S3 adds the finger straps for nf > 1). Each one is checked by
@@ -51,6 +59,21 @@ In VS Code, open `docs\flow_record.md` and press Ctrl+Shift+V to see it with the
 > The same gate then applies to the whole design: **0 DRC errors**, and **"Circuits match uniquely"
 > with no property errors** against the sized netlist. This record will show that evidence when it
 > exists.
+
+### What each stage does (S0–S9), in one table
+
+| Stage | Question it answers | Input → output | How it is checked |
+|---|---|---|---|
+| **S0 Ingest and bind** | "What exactly are we laying out?" | Sized netlist, specs, testbenches, upstream hierarchy → frozen `circuit_ir.json`, the exact PCell call per transistor, the LVS reference | Re-simulated specs equal upstream; each PCell device DRC 0 and LVS match (negative controls) |
+| **S1 Electrical intent** | "Where does extra C or R hurt, and by how much?" | Circuit IR + operating point → sensitivity of every spec to fF at each net/pair and Ω at each terminal; matching groups; currents | Exact linear model vs SPICE; every slope vs a SPICE finite difference |
+| **S2 Requirement compiler** | "How much may each net/terminal receive?" | Sensitivities + margins + PDK per-µm values → budgets (fF, Ω), rules (max length, parallel run, proximity, symmetry) | All budgets inserted at once in SPICE, per spec, must stay within η × margin |
+| **S3 Device design** | "Which PCell options for each transistor?" | Budgets + 84 signed-off option cells → one cell per device type | Each chosen cell DRC 0 + LVS (W, L, nf); all cells + access R in the circuit within the allowance |
+| **S4 Sub-block variants** | "How can each block (pair, mirror, tail) be drawn?" | S3 cells + matching/budget rules → several DRC/LVS-clean layouts per block (ABAB, ABBA, common centroid, dummies) with their extracted parasitics | Variant DRC/LVS; predicted vs simulated effect on specs |
+| **S5 Placement and routing** | "Which variant where, and how to wire it?" | Block variants + rules → full OTA placement and routes | Every routing rule checked by script |
+| **S6 Verify** | "Is the full layout legal and the same circuit?" | Full GDS → DRC, LVS, extraction with coupling | Magic DRC 0; Netgen "Circuits match uniquely" vs the sized netlist |
+| **S7 Evaluate** | "Does it still meet the specs?" | Extracted netlist + the same testbenches → specs, used budget per net | Specs met; each net within its budget |
+| **S8 Repair** | "If not, what to change?" | S7 failures + S1 sensitivities → ranked suspects, local fix | Counterfactual simulation confirms the cause; back to S6 |
+| **S9 Select** | "Which layout to keep?" | All passing layouts → the smallest one | — |
 
 ---
 
@@ -368,7 +391,7 @@ Nets, capacitance to ground:
 | Rank | Net | Role (`node_classes.json`) | ota5t_stress | example_ota_5t |
 |---|---|---|---|---|
 | 1 | OUTP | output, dominant pole (CL = 200 fF already on it) | 30 fF (GBW) | 892 fF (GBW) |
-| 2 | net3 | mirror node, non-dominant pole (≈ 614 MHz) | 43 fF (GBW) | **329 fF (PM)** |
+| 2 | net3 | mirror node, non-dominant pole (≈ 313 MHz; corrected from 614 MHz, see 3.9) | 43 fF (GBW) | **329 fF (PM)** |
 | 3 | net1 | tail (source-coupled); virtual ground for differential signals | 12 pF | 331 pF |
 
 Coupling pairs (ranked for the stress design; the example column gives the same pair's value):
@@ -408,7 +431,7 @@ The level-2 expressions of the upstream model have no element for the mirror nod
 - its prediction of PM is optimistic by 10° (example) and **25° (stress)**;
 - its sensitivity to net3 is zero.
 
-In SPICE, net3 is the second most critical net, and part of the tightest coupling pair. This is the measured cost of the missing Ioutn→Ioutp term. That term is already an open request to the upstream stage, and novelty point N2 (symbolic recomposition) depends on it.
+In SPICE, net3 is the second most critical net, and part of the tightest coupling pair. This is the measured cost of the missing Ioutn→Ioutp term. That term is already an open request to the upstream stage, and novelty point N2 (symbolic recomposition) depends on it. **Section 3.9 explains the problem and shows a fix on a patched copy of the equations.**
 
 ### 3.6 Problems met in S1, and fixes
 
@@ -502,6 +525,94 @@ From this follow two rules:
 
 There is no offset spec in the design package, so S2 records these as "Ω per mV" rules with status `not_evaluated`. **Request:** an offset spec.
 
+### 3.9 The pole drop-out problem, and an input-side fix (added 2026-10-25 night)
+
+**What the problem is.** In the 5T OTA the input signal reaches the output by two paths:
+
+- **direct:** the input transistor on the output side (XM2) pushes its signal current straight into OUTP;
+- **mirrored:** the other input transistor (XM1) pushes its current into the diode-connected PMOS XM3 at net3, and XM4 copies it into OUTP.
+
+The mirrored half must first charge the capacitance at net3 (the two PMOS gates and the drains there, 116.5 fF) through the diode's resistance (1/gm₃ ∥ ro ≈ 4.36 kΩ). That is a pole at f_m = 1/(2π · 4.36 kΩ · 116.5 fF) ≈ **313 MHz**. Because only half of the signal goes through it, a zero comes with it at about twice that frequency: a **pole–zero doublet**. Above f_m the mirrored half fades: the gain falls faster and the phase lags more.
+
+The upstream level-2 template keeps the mirrored path's **DC value** (it is folded into G2_X1) but drops its **dynamics**: the coupling Ioutn → Ioutp (G12_X1_X1) is listed under `"missing"` in the file itself. So the mirror pole "drops out" of the closed-form gain, GBW and PM. The measured cost (G1.5):
+
+| | example_ota_5t | ota5t_stress |
+|---|---|---|
+| PM error (symbolic − SPICE) | +10.4° | **+25.5°** |
+| GBW error | +3.8 % | **+32 %** |
+| d(GBW)/dCL, symbolic vs SPICE | −0.106 vs −0.094 MHz/fF | −2.19 vs −1.20 MHz/fF |
+| Sensitivity to net3 | 0 (by construction) | 0 (by construction) |
+
+The stress design suffers most because its crossover (374 MHz) lies above f_m; in the example it lies at 104 MHz, three times below.
+
+**Can it be fixed from the input side, by adding a known equation to the file?** Yes. The file already builds the mirror node's elements at level 2, it only never uses them in its performance block:
+
+| Level-2 symbol (already in the file) | Meaning |
+|---|---|
+| `R1_X1` = R1_X1_X1 ∥ R1_X1_X2 | resistance at Ioutn (= net3): diode 1/gm ∥ ro |
+| `C2_X1` = C12_X1_X1 + C1_X1_X1 + C2_X1_X2 | capacitance at Ioutn to ground |
+| `C5_X1` | capacitance from Ioutn to Vinn (input Cgd) |
+| `G2_X1` = G12·G1·R1 + G2_X1_X2 | total DC transconductance: mirrored + direct |
+
+Two textbook corrections were written into **copies** of the file (`inputs/example_ota_5t/upstream_patched/`); the original is unchanged (md5 `7560056733d7be440f1112f46bb3a45f`, no git change):
+
+- **P1, mirror doublet** (only symbols the file already defines):
+  `Gm(s) = G2_X1_X2 + (G2_X1 − G2_X1_X2) / (1 + s·τm)`, with `τm = R1_X1·(C2_X1 + C5_X1)`.
+  The direct half is instant; the mirrored half passes the mirror pole. PM gains the terms `− atan(ωu·τm) + atan(ωu·τz)`, τz = τm/(1 + G12·R1) (zero at ≈ 2 f_m). ωu is solved exactly for this magnitude model (a quadratic in ω²).
+- **P2, + transcapacitance.** BSIM4 charges are not reciprocal: in saturation the drain charge follows the gate (C_dg = −20.0 fF for the input device, while C_gd = −1.4 fF). The level-0 primitive (C1–C5, G1, G2, R1) has no element for this. The quasi-static textbook result is `gm(s) = gm − s·Cm`, with `Cm = Cdg − Cgd ≈ (2/5)·Cgs` in saturation. It is written with C2 (gate-source), a level-0 symbol the file already has. It adds `− atan(ωu·Cm/gm)` to PM and shifts the doublet zero.
+
+**Excerpt: patched copy P2** (`5t-ota_differential_equations.P2.json`, `performance.terms` and `pm_deg`; the original block is kept as `performance_original`, and a `patch` block records the reason, the changes, the assumptions and the references):
+
+```json
+"tau_m": "R1_X1*(C2_X1 + C5_X1)",
+"Cm_in": "2*C2_XM3/5",  "Cm_p": "2*C2_XM2/5",
+"tau_z": "(tau_m - Cm_p*R1_X1)/(1 + G12_X1_X1*R1_X1)",
+"wu_d":  "sqrt((-(1 - wu0**2*tau_z**2) + sqrt((1 - wu0**2*tau_z**2)**2 + 4*tau_m**2*wu0**2))/(2*tau_m**2))",
+"wu":    "wu_d*sqrt(1 + (wu_d*Cm_in/G1_X1_X2)**2)",
+"pm_deg": "180 - 180*(atan(C6_X1*wu/G2_X1) + atan(R2_X1*wu*(C4_X1 + C6_X1 + CL)) + atan(wu*tau_m) - atan(wu*tau_z) + atan(wu*Cm_in/G1_X1_X2))/pi"
+```
+
+**Results** (`outputs/S1/<design>/symbolic_patch_check.json`; the same evaluator as G1.5 reads every copy):
+
+| Design | Quantity | Upstream original | P1 + doublet | P2 + transcap. | SPICE |
+|---|---|---|---|---|---|
+| example_ota_5t | PM (°) | 91.34 | 82.84 | **80.23** | 80.93 |
+| | GBW (MHz) | 108.43 | **104.41** | 104.04 | 104.46 |
+| | d(GBW)/dCL (MHz/fF) | −0.106 | −0.095 | −0.094 | −0.094 |
+| | d(GBW)/dC_net3 (MHz/fF) | 0 | −0.059 | −0.062 | −0.059 |
+| | d(PM)/dC_net3 (°/fF) | 0 | −0.059 | −0.057 | −0.063 |
+| ota5t_stress | PM (°) | 90.62 | 73.20 | **65.21** | 65.08 |
+| | GBW (MHz) | 493.69 | **373.58** | 363.71 | 373.65 |
+| | d(GBW)/dCL (MHz/fF) | −2.19 | −1.27 | **−1.19** | −1.20 |
+| | d(GBW)/dC_net3 (MHz/fF) | 0 | −0.76 | −0.75 | −0.84 |
+
+SPICE slopes are the S1 finite differences at +5 fF. Gain is unchanged by both patches (−0.33 dB vs SPICE in all three); that offset is a separate DC effect, not diagnosed yet.
+
+![Symbolic patch, stress](flow_record/img/ota5t_stress_s1_symbolic_patch.png)
+
+The same plot for example_ota_5t: [link](flow_record/img/example_ota_5t_s1_symbolic_patch.png).
+
+**How much of the agreement is real** (checks in the same file):
+
+- **Closed form vs exact.** The same patched H(s) solved exactly (rational function, |H| = 1 found numerically) gives stress P1 375.0 MHz / 73.0°, P2 365.3 MHz / 65.0°. The closed-form ωu and PM are therefore within 0.4 % and 0.2° of their own model.
+- **The (2/5)·Cgs shortcut.** From the OP, Cm = |cdg| − |cgd| = 18.6 fF (input) and 15.4 fF (PMOS), against (2/5)·Cgs = 23.3 and 17.5 fF. With the OP values, P2 gives 66.3° (stress) and 80.6° (example). The fair accuracy claim for P2 is therefore **about ±1.5° in PM and −2 to −3 % in GBW**; the 0.1° agreement on the stress design is partly luck.
+- **Cross-check with the exact nodal model of S1.** With reciprocal capacitances (the symbolic convention) instead of the BSIM4 charge matrix, the exact model gives 72.0° (stress) and 82.2° (example). P1 reproduces these within 1.2°, so P1 captures the topology. The remaining ~7° (stress) are the transcapacitance, which P2 adds.
+
+**Correction of an earlier statement.** Sections 3.5 and the previous status note gave the mirror pole as ≈ 614 MHz. That figure used the DC driving-point resistance at net3 in the full model (2.58 kΩ). That value includes a loop through the output (output → gds of the input device → tail → the other input device → net3), which the output capacitance shorts out at high frequency. It also used the diagonal of the BSIM4 charge matrix (100.6 fF), which already contains the transcapacitance. The pole that predicts the response is **≈ 313 MHz**: adding it reproduces SPICE's GBW to 0.01 % (example) and 0.35 % (stress).
+
+**What this means for the flow:**
+
+1. The upstream equations can be repaired **on the input side**: P1 uses no new symbols, P2 uses one textbook relation on an existing symbol. The original file stays read-only.
+2. The exact fix remains the upstream request: model the Ioutn → Ioutp coupling in the level-2 template, and give the level-0 primitive a transcapacitance element (Cm). P1/P2 are what that fix should reproduce.
+3. The S1 gates still use the original file (G1.5 reports it), and the budgets come from the exact linear model. The patched copies are reported next to them, so nothing downstream changed.
+4. For N2 (symbolic recomposition), P2 is the first version that gives the right sign and size of the mirror-node sensitivity. This is needed before symbolic budgets can replace the linear model.
+
+Command (inside `layout-s0s3`):
+
+```bash
+python3 -m src.s1.symbolic_patch inputs/example_ota_5t/package.yaml inputs/ota5t_stress/package.yaml
+```
+
 ---
 
 ## Supervisor review 1 (after S1, before S2/S3)
@@ -557,9 +668,11 @@ Every budget is checked in SPICE before it is handed on.
 
 ```bash
 python3 -m src.s2.pdk_parasitics                         # once per PDK (Magic test wires)
-python3 -m src.s2.run inputs/ota5t_stress/package.yaml   # about 1 min (16 ngspice runs)
-python3 -m src.s2.run inputs/example_ota_5t/package.yaml
+python3 -m src.s2.run inputs/ota5t_stress/package.yaml   # about 1 min (16 ngspice runs); eta 0.9 from the package
+python3 -m src.s2.run inputs/example_ota_5t/package.yaml # eta 0.5 (default)
 ```
+
+η is taken from `--eta` if given, else from the package key `eta`, else 0.5. The value used and where it came from are written to `budgets.json` (`eta`, `eta_source`).
 
 ### 4.3 Interconnect parasitics measured on the PDK (`outputs/S2/pdk/parasitics.json`)
 
@@ -600,7 +713,7 @@ Poly sheet resistance: 48.2 Ω/□. Length rules use the larger of the two capac
    - **the default device cells themselves**, measured: the capacitances Magic extracts inside each default cell (nf = 1, both gate contacts, full contacts) are mapped onto the circuit's nets, and the cell's access resistance comes from the S3 option library.
 
    The second part was added after supervisor finding R16 (below). That is why the S3 option library (design independent) is now built **before** S2.
-3. **Constraints.** Gain, GBW, PM, input noise, and the DC headroom of each of the 5 transistors. Each gets Σ (harmful rate × budget) ≤ η × margin, with η = 0.5 (ASSUMPTION, accepted).
+3. **Constraints.** Gain, GBW, PM, input noise, and the DC headroom of each of the 5 transistors. Each gets Σ (harmful rate × budget) ≤ η × margin. η = 0.5 by default (ASSUMPTION, accepted); **the stress variant uses η = 0.9** (your decision, 2026-10-25; key `eta: 0.9` in `inputs/ota5t_stress/package.yaml`).
 4. **Allocation.**
    - **Phase 1:** max-min fair progressive filling in units of expected need, cross-checked by an LP (HiGHS) for the first round.
    - **Phase 2:** keep ≥ 95 % of every phase-1 budget and maximise Σ log(budget/need), so cheap elements get more.
@@ -634,11 +747,18 @@ Poly sheet resistance: 48.2 Ω/□. Length rules use the larger of the two capac
 | Noise | 0.02 | 0.02 |
 | XM5 headroom | 0.13 | 0.13 |
 
-For the stress design, a compact layout is expected to use 90 % of the GBW margin and 66 % of the PM margin. With η = 0.5 the budgets therefore come out at about **0.53 × the expected need**. S2 says this before any layout is drawn, and S3 confirms it (section 5).
+For the stress design, a compact layout is expected to use 90 % of the GBW margin and 66 % of the PM margin. G2.0 does not depend on η. What η changes is how the budgets compare with this need:
+
+| Stress run | Budgets ÷ expected need (binding elements) | Outcome in S3 |
+|---|---|---|
+| η = 0.5 (previous run, commit 4cf69ba) | 0.53 | no option of any device type fits |
+| **η = 0.9 (current)** | **0.948** (phase 1 gives 0.998; phase 2 trims to 95 %, see R19) | input pair optimised; PMOS mirror and tail miss by 5.5 % |
+
+S2 says this before any layout is drawn, and S3 confirms it (section 5).
 
 | Gate | example_ota_5t | ota5t_stress |
 |---|---|---|
-| G2.0 expected layout use | INFO | INFO (GBW 0.90 > η) |
+| G2.0 expected layout use | INFO | INFO (GBW 0.90 ≈ η = 0.9) |
 | G2.1 every target resolves | PASS | PASS |
 | G2.2 units and provenance on every rule | PASS | PASS |
 | G2.3 allocation feasible, LP cross-check equal, reproducible, phase 2 converged | PASS | PASS |
@@ -648,13 +768,15 @@ For the stress design, a compact layout is expected to use 90 % of the GBW margi
 
 **SPICE verification** (`verification.json`; each check with its harmful budgets inserted at once):
 
-| Check | Stress: allowed | Stress: predicted | Stress: SPICE | Stress: fraction of margin | Example: SPICE fraction of margin |
-|---|---|---|---|---|---|
-| GBW | 18.68 MHz | 18.68 | 18.06 | 0.48 | 0.34 |
-| PM | 2.50° | 2.32 | 2.27 | 0.45 | 0.40 |
-| Gain | 0.25 dB | 0.107 | 0.107 | 0.21 | **0.54** (predicted 0.50; inside the 10 % tolerance) |
-| Noise | 30.5 nV/√Hz | 0.49 | 0.49 | 0.01 | 0.09 |
-| XM5 headroom | 9.8 mV | 1.35 | 1.35 | 0.07 | 0.49 |
+| Check | Stress η = 0.9: allowed | predicted | SPICE | fraction of margin | Stress η = 0.5 (previous): fraction | Example η = 0.5: fraction |
+|---|---|---|---|---|---|---|
+| GBW | 33.63 MHz | 33.63 | 31.46 | **0.84** | 0.48 | 0.34 |
+| PM | 4.50° | 3.84 | 3.68 | **0.74** | 0.45 | 0.40 |
+| Gain | 0.45 dB | 0.192 | 0.195 | 0.39 | 0.21 | **0.54** (predicted 0.50; inside the 10 % tolerance) |
+| Noise | 54.8 nV/√Hz | 0.89 | 0.87 | 0.01 | 0.01 | 0.09 |
+| XM5 headroom | 17.6 mV | 2.57 | 2.56 | 0.13 | 0.07 | 0.49 |
+
+At η = 0.9 every check still passes in SPICE without a closure iteration, and the first-order prediction stays conservative (GBW: 33.6 predicted, 31.5 simulated).
 
 ![S2 budgets, stress](flow_record/img/ota5t_stress_s2_budgets.png)
 
@@ -662,25 +784,29 @@ For the stress design, a compact layout is expected to use 90 % of the GBW margi
 
 **Budgets** (`budgets.json`; ×need = budget ÷ expected need; "cell" = the part of the need inside the default device cells):
 
-| Element | Expected need (cell + wiring) | Stress budget | Stress ×need | Example budget |
-|---|---|---|---|---|
-| OUTP to ground | 2.80 + 1.76 fF | 2.40 fF | 0.53 | 45.6 fF |
-| net3 to ground | 4.89 + 2.87 fF | 4.09 fF | 0.53 | 45.2 fF |
-| OUTP~net3 coupling | 0.44 + 0.29 fF | 0.38 fF | 0.53 | 5.5 fF |
-| XM1+XM2 gate R | 273 + 13 Ω | 151 Ω | 0.53 | 1665 Ω |
-| XM1+XM2 source R | 7.1 + 12.7 Ω | 10.4 Ω | 0.53 | 84.7 Ω |
-| XM5 source R | 7.1 + 12.9 Ω | 10.5 Ω | 0.53 | 200 Ω |
-| XM3+XM4 source R (pdiff contacts: 585 Ω each) | 27.3 + 5.9 Ω | 17.5 Ω | 0.53 | 146 Ω |
+| Element | Expected need (cell + wiring) | Stress η = 0.9 budget | ×need | Stress η = 0.5 budget (previous) | Example budget |
+|---|---|---|---|---|---|
+| OUTP to ground | 2.80 + 1.76 fF | 4.32 fF | 0.95 | 2.40 fF | 45.6 fF |
+| net3 to ground | 4.89 + 2.87 fF | 7.36 fF | 0.95 | 4.09 fF | 45.2 fF |
+| OUTP~net3 coupling | 0.44 + 0.29 fF | 0.69 fF | 0.95 | 0.38 fF | 5.5 fF |
+| XM1+XM2 gate R | 273 + 13 Ω | 271 Ω | 0.95 | 151 Ω | 1665 Ω |
+| XM1+XM2 source R | 7.1 + 12.7 Ω | 18.8 Ω | 0.95 | 10.4 Ω | 84.7 Ω |
+| XM5 source R | 7.1 + 12.9 Ω | 19.0 Ω | 0.95 | 10.5 Ω | 200 Ω |
+| XM3+XM4 source R (pdiff contacts: 585 Ω each) | 27.3 + 5.9 Ω | 31.4 Ω | 0.95 | 17.5 Ω | 146 Ω |
+| XM3+XM4 drain R (low GBW rate) | 27.3 + 5.9 Ω | 332 Ω | **10.0** (cap κ) | — | — |
+| net1 to ground (low rate) | 7.5 + 3.6 fF | 111 fF | **10.0** (cap κ) | — | — |
 
-Derived rules for the stress design:
+Derived rules for the stress design (η = 0.9; in brackets η = 0.5):
 
-- OUTP may have at most **5.1 µm** of met1 in the worst-case environment.
-- The devices on net3 (XM1, XM3, XM4) must be within **5.2 µm** (`place.proximity.net3`, hard).
-- OUTP and net3 may run in parallel at minimum spacing for at most **6.8 µm**.
+- OUTP may have at most **9.1 µm** (5.1) of met1 in the worst-case environment.
+- The devices on net3 (XM1, XM3, XM4) must be within **9.3 µm** (5.2) (`place.proximity.net3`, hard).
+- OUTP and net3 may run in parallel at minimum spacing for at most **12.2 µm** (6.8).
 
 For the example design the same rules allow 96 µm, 57 µm and 98 µm.
 
-**Excerpt: `constraints.json`** (stress design; copied from the file; `inputs` lists shortened to "..."):
+**Finding R19 (supervisor, on this run): phase 2 takes from the binding elements.** Phase 1 gives every binding element 0.998 × its need. Phase 2 (maximise Σ log(budget/need), keep ≥ 95 % of phase 1) then trims every GBW-bound element to 0.948 × need and gives the freed GBW margin to elements with a tiny GBW rate, which grow to the 10 × cap (net1, net1~INN, XM3+XM4.d, XM5.g). The log utility rewards a 10 × growth of an element that does not need it more than it costs to take 5 % from the elements that do. At η = 0.5 this was invisible (everything was far below need); at η = 0.9 it alone decides S3 (section 5.5). **Proposed fix (not applied; S3 is on hold):** (a) in phase 2, never trim an element below min(phase-1 budget, expected need); (b) give S2 the option library's lowest achievable cell value per element (e.g. 27.3 Ω for the PMOS source) as a lower bound, so the budgets are never below what any cell can do. (a) alone still leaves the PMOS default 0.2 % short at η = 0.9; (b) removes it by construction. To be decided before S4 uses the budgets.
+
+**Excerpt: `constraints.json`** (stress design, η = 0.5 run of commit 4cf69ba; copied from the file; `inputs` lists shortened to "..."):
 
 ```json
 {"id": "budget.OUTP~net3", "class": "budget", "type": "coupling", "targets": ["OUTP", "net3"], "value": 0.3830761847612343, "units": "fF",
@@ -776,7 +902,7 @@ On the left of each pair is the default PCell; on the right, the chosen cell (fi
 
 ![S3 evidence, example](flow_record/img/example_ota_5t_s3_evidence.png)
 
-For the stress design the defaults were kept (see 5.5): [cells](flow_record/img/ota5t_stress_s3_cells.png), [evidence](flow_record/img/ota5t_stress_s3_evidence.png).
+For the stress design at η = 0.9 the input pair uses nf = 4 and the other two types keep the default PCell (see 5.5): [cells](flow_record/img/ota5t_stress_s3_cells.png), [evidence](flow_record/img/ota5t_stress_s3_evidence.png).
 
 **Option library** (`outputs/S3/_cells/`):
 
@@ -786,14 +912,14 @@ For the stress design the defaults were kept (see 5.5): [cells](flow_record/img/
 
 ### 5.5 Results
 
-| Gate | example_ota_5t | ota5t_stress |
-|---|---|---|
-| G3.1 DRC of the chosen cells (0 errors, negative control) | PASS | PASS |
-| G3.2 LVS of the chosen cells (W, L, nf; negative control) | PASS | PASS |
-| G3.3 all chosen cells + access R in the circuit: specs met and within the allowance | **PASS** | **FAIL** (specs met, allowance exceeded) |
-| G3.4 option table complete | PASS | PASS |
-| G3.5 no relaxation | PASS | **FAIL** (all 3 types) |
-| G3.6 the model cards add no gate resistance (rgatemod = 0) | PASS | PASS |
+| Gate | example_ota_5t (η = 0.5) | ota5t_stress, η = 0.9 (current) | ota5t_stress, η = 0.5 (previous) |
+|---|---|---|---|
+| G3.1 DRC of the chosen cells (0 errors, negative control) | PASS | PASS | PASS |
+| G3.2 LVS of the chosen cells (W, L, nf; negative control) | PASS | PASS | PASS |
+| G3.3 all chosen cells + access R in the circuit: specs met and within the allowance | **PASS** | **PASS** | FAIL (specs met, allowance exceeded) |
+| G3.4 option table complete | PASS | PASS | PASS |
+| G3.5 no relaxation | PASS | **FAIL** (PMOS mirror, tail) | FAIL (all 3 types) |
+| G3.6 the model cards add no gate resistance (rgatemod = 0) | PASS | PASS | PASS |
 
 **example_ota_5t: decisions** (`device_decisions.json`):
 
@@ -818,7 +944,35 @@ All stay within the allowances, and the device area drops by 27 % (256.6 → 187
 
 **Supervisor note on the example decisions.** The tail cell (nf = 4) moves XM5 into another W bin, and its current drops by 3.0 %. The allowance permits this, because the example design has plenty of unallocated margin. Still, it is a change to the sized device, not a layout parasitic. It is reported in `device_model_change`, and the sizing stage should be told. One option for the future is to require device-model changes to stay below a set fraction, so that S3 never re-sizes silently.
 
-**ota5t_stress: decisions and diagnosis.** No option of any type fits the allowance, so the default PCells are kept and flagged. With them:
+**ota5t_stress at η = 0.9 (current run): decisions** (`device_decisions.json`):
+
+| Devices | Chosen | Area (µm²), default → chosen | R access d / g / s (Ω) | Allowed d / g / s (Ω) | Why |
+|---|---|---|---|---|---|
+| XM3, XM4 (PMOS mirror) | default (nf1, both gates, full) | 30.2 → 30.2 | 27.3 / 72.5 / **27.3** | 273 / 520 / **25.9** | no option fits: no cell has a lower source R; the budget was trimmed (R19) |
+| XM1, XM2 (input pair) | **nf4, gate top, full, outer = S** | 61.1 → **36.3** | 8.5 / 88.5 / 5.6 | 14.2 / 259 / 6.8 | smallest of 3 feasible options |
+| XM5 (tail) | default (nf1, both gates, full) | 74.1 → 74.1 | 7.1 / 136.7 / **7.1** | 7.8 / 1367 / **6.8** | no option fits: the default's source R misses by 5.5 % (R19); the nf = 4 options would re-size the tail |
+
+All chosen cells with their access R in the circuit at once (G3.3, PASS):
+
+| Spec | Value | Limit | Margin used by the cells (allowed) |
+|---|---|---|---|
+| Gain | 32.22 dB | ≥ 31.20 | −0.52 dB (improves) |
+| GBW | 369.2 MHz | ≥ 336.3 | 4.43 MHz (19.6) |
+| PM | 63.65° | ≥ 60.08 | 1.44° (4.10) |
+| Noise | 342.0 nV/√Hz | ≤ 400 | 2.96 (54.3) |
+
+Device area: 256.6 → 206.9 µm² (−19 %). The input pair's nf = 4 cell puts each 6 µm finger in another W bin: Id −0.14 %, gm −0.76 %, ΔVth +2.3 mV (`device_model_change`); its higher output resistance is why the gain goes up.
+
+**Diagnosis.** In the circuit the cells use well under their allowance (GBW 4.4 of 19.6 MHz). What fails is the per-type check:
+
+- **PMOS mirror.** The default cell's source R is 27.3 Ω; the cells may have 25.9 Ω. No option has a lower source R (the default already has full contact coverage, and each p-diffusion contact is 585 Ω). The 25.9 Ω is 0.948 × the default's value: S2's phase 2 trimmed the budget to 94.8 % of the need (finding R19). Without that trim it would be 0.998 × (G2.0 for GBW is 0.902, just above η = 0.9), so the default would still miss, by 0.2 %.
+- **Tail.** Its source R misses by the same 5.5 %. The options with a lower source R (nf = 4, 5.6 Ω) move each finger into another W bin. That changes the tail current by about 3 % and costs 6.7 MHz of GBW, against the 0.12 MHz the tail cell is allowed. S3 correctly refuses this, because it would be re-sizing (review 2, point 2).
+
+So at η = 0.9 the stress variant sits on the feasibility boundary that G2.0 predicted (0.902 of the GBW margin for a compact layout). The in-circuit check passes comfortably, because the wiring part of the need is not spent yet. The flagged types are the allocation artefact R19 (PMOS) plus a real limit (tail). They are left as they are, because S3 is on hold.
+
+![S3 option space, stress](flow_record/img/ota5t_stress_s3_option_space.png)
+
+**ota5t_stress at η = 0.5 (previous run, commit 4cf69ba): decisions and diagnosis.** No option of any type fits the allowance, so the default PCells are kept and flagged. With them:
 
 - **Specs:** still met. GBW 356.3 MHz against a limit of 336.3; PM 62.4° against 60.08.
 - **Margin used by the cells alone, before any wiring:**
@@ -830,7 +984,7 @@ All stay within the allowances, and the device area drops by 27 % (256.6 → 187
 
 - **Resistance:** the input-pair gate needs 273 Ω (allowed 144). The PMOS source needs 27 Ω (allowed 14.4; each p-diffusion contact is 585 Ω). The Ω left for routing is negative.
 
-This is the outcome S2 predicted with G2.0: a compact default layout would use 90 % of the GBW margin. **Conclusion:** the stress variant cannot be laid out within η = 0.5 of its margin. Either:
+This is the outcome S2 predicted with G2.0: a compact default layout would use 90 % of the GBW margin. **Conclusion at that point:** the stress variant cannot be laid out within η = 0.5 of its margin. Either (you chose the first, η = 0.9, above):
 
 - give layout more of the margin (η ≈ 0.9), or
 - relax the stress specs, or
@@ -887,7 +1041,7 @@ The 4 PMOS cells that do not fit are recorded in `outputs/S3/_cells/<cell>/recor
 2. **Multi-finger options change the SKY130 device model** (W bins): the tail current moves 3 % with nf = 4. That is re-sizing. It is reported, but not limited. Proposal: limit the device-model change to a fraction of the margin, or hand it back to the sizer.
 3. **The access-resistance model** is geometric and analytic (BSIM4 gate formula, contact counts). Magic's extresist gave no cross-check at this tolerance. A finer extraction is needed to validate the source/drain values, which matter in the stress design.
 4. **Still `not_evaluated`, waiting on data from you:**
-   - EM widths (no SKY130 EM data found);
+   - EM widths (no SKY130 EM data found; **ignored for now by your decision of 2026-10-25**);
    - the offset budget (no offset spec);
    - the bias-net impedance;
    - variation ranges.
@@ -901,9 +1055,50 @@ The 4 PMOS cells that do not fit are recorded in `outputs/S3/_cells/<cell>/recor
 - **An η sweep for the stress variant.**
 - **A limit on device-model changes in S3.**
 
-## 6. S4 onwards — full layout (pending)
+## Supervisor review 3 (after the η = 0.9 rerun and the pole drop-out study)
 
-The full-layout DRC/LVS evidence (Magic DRC 0, Netgen "Circuits match uniquely" against the sized netlist, negative controls) will be recorded here.
+**Good:**
+
+- **η is now a recorded input, not a hidden flag.** It comes from the package (`eta: 0.9` for the stress variant), and `budgets.json` records the value and its source. A unit test covers the order of precedence (command line > package > default).
+- **The η = 0.9 rerun behaved as G2.0 predicted.** The budgets landed at the expected need (0.998 before phase 2), and SPICE verification stayed conservative (GBW: 33.6 MHz predicted, 31.5 simulated).
+- **The pole drop-out has a measured cause and an input-side fix** that never touches the original file (3.9). PM error drops from 25.5° to 0.1° (stress) and from 10.4° to 0.7° (example). The CL and net3 sensitivities now match SPICE in sign and size.
+- **The study corrected one of my own earlier numbers** (R20 below), because the patched model was cross-checked against two independent references: the exact rational H(s) and the exact nodal model.
+
+**Weak, or found in this round:**
+
+| # | Finding | Status |
+|---|---|---|
+| R19 | S2 phase 2 trims every binding element to 95 % of phase 1 to inflate elements that do not need it (up to κ = 10). At η = 0.9 this alone makes the PMOS default fail in S3 (section 4.5) | Fix proposed (phase-2 floor + cell lower bounds from the option library); **not applied: S3 on hold**. Decide before S4 consumes budgets |
+| R20 | I gave the mirror pole as ≈ 614 MHz. That used the DC driving-point resistance (2.58 kΩ, which includes a loop through the output) and the BSIM4 charge-matrix diagonal. The pole that predicts the response is ≈ 313 MHz | **Corrected** in 3.5 and 3.9. Lesson: quote poles from the response, not from R_dc·C |
+| R21 | S3 checks resistance per element, but the circuit has room as a whole (GBW: the cells use 4.4 of 19.6 MHz). A per-element check can fail while the circuit passes | Open. For S4: judge block variants against the block-port budgets (N1) *and* the in-circuit total, and report both |
+| R22 | The symbolic gain is 0.33 dB low in all versions (original, P1, P2) | Open, not diagnosed. Candidate: the output → tail → mirror feedback through the input devices' gds, which the template omits |
+| R23 | P2 uses Cm ≈ (2/5)·Cgs, a long-channel value; from the OP it is 20 % smaller for the input device | Reported. The fair accuracy claim for P2 is about ±1.5° in PM |
+| R24 | The background script ran S2 → S3 → figures with `set -e`. S3 exits 1 when it flags a type, so the figures were skipped | Figures re-run separately. Scripts that chain stages now must not stop on a legitimate FAIL exit |
+
+**Decisions recorded (from you, 2026-10-25):** stress η = 0.9; EM ignored for now; S3 on hold; S4 from Monday.
+
+## 6. S4 — sub-block variants (starts Monday, 2026-10-26)
+
+**Purpose.** For each block, several DRC/LVS-clean layouts that the placer (S5) can choose from, each with its measured parasitics and its effect on the specs.
+
+**Blocks of the 5T OTA, from the S0 hierarchy and the S1 matching groups:**
+
+| Block | Devices | Cell from S3 (example / stress) | Arrangements to generate |
+|---|---|---|---|
+| Differential pair | XM1, XM2 | nf2 / nf4 (input pair) | side by side, interdigitated ABAB, ABBA, 2-D common centroid; with and without dummies |
+| PMOS mirror load | XM3, XM4 | nf2 / default nf1 | side by side, interdigitated, common centroid |
+| Tail | XM5 | nf4 / default nf1 | single, with dummies |
+
+**Method (planned):**
+
+1. One template generator per block type, placing the S3 cells (already DRC/LVS clean, with finger straps) on a fixed track grid. The internal wiring is drawn by the template, so it is correct by construction.
+2. For every variant: Magic DRC (0 errors, negative control), Netgen LVS against the block's own sub-netlist (W, L, nf), and extraction with coupling capacitance.
+3. The extracted block replaces its devices in the full testbench (the S3 mechanism), so each variant gets its effect on gain, GBW, PM and noise. The block-port budgets from `hierarchy.json` (N1) and the in-circuit total are both reported (R21).
+4. Output: `variants.json`, a Pareto set per block (area, aspect ratio, pin positions, symmetry error, budget slack, predicted specs).
+
+**Check:** every variant DRC 0 and LVS match; on a sample, the predicted effect is confirmed by full simulation (hypothesis H2).
+
+The full-layout DRC/LVS evidence (Magic DRC 0, Netgen "Circuits match uniquely" against the sized netlist, negative controls) will be recorded in S6.
 
 ---
 
@@ -928,8 +1123,12 @@ The full-layout DRC/LVS evidence (Magic DRC 0, Netgen "Circuits match uniquely" 
 | 23–35 | Review | Supervisor review 1, R1–R18 (incl. the floating-substrate bug and the S2/S3 allocation inconsistency) | See the review table |
 | 36–38 | S2 | See section 4.6 | |
 | 39–46 | S3 | See section 5.6 | |
+| 47 | S1 add-on | The mirror pole was quoted as ≈ 614 MHz (R20) | Corrected to ≈ 313 MHz (3.9) |
+| 48 | S2 | Phase 2 takes budget from binding elements (R19) | Fix proposed, not applied (S3 on hold) |
+| 49 | Infra | A chained run script with `set -e` skipped the figures after a legitimate S3 FAIL (R24) | Figures re-run separately |
 
 ## Changelog of this document
 
 - 2026-10-25: created. Covers Step 0, S0 (G0.1–G0.7 on both designs) and S1 (G1.1–G1.5 on both designs).
 - 2026-10-25 (evening): added where-to-find, S1 resistance extension (G1.6), supervisor review 1 (R1–R18), S2 and S3 with results on both designs.
+- 2026-10-25 (night): your decisions (stress η = 0.9, EM ignored, S3 on hold, S4 from Monday); the stage table S0–S9; S2/S3 stress results at η = 0.9 (η = 0.5 kept as the previous run); section 3.9, the pole drop-out problem and its input-side fix on patched copies; supervisor review 3 (R19–R24); the 614 MHz correction; the S4 plan.

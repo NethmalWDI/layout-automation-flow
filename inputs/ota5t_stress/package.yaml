@@ -7,6 +7,9 @@ design: ota5t_stress
 description: >
   STRESS VARIANT of example_ota_5t: CL = 200 fF. Specs = own achieved values tightened
   (gain -0.5 dB, GBW x0.9, PM -5 deg). For method evaluation only.
+# eta = fraction of each margin given to layout (S2 budgets). The stress margins are small, so the
+# user relaxed this variant from the default 0.5 to 0.9 (decision 2026-10-25, recorded in the flow record).
+eta: 0.9
 conditions_override:
   CL_F: 200f
 specs_from_achieved:

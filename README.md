@@ -118,15 +118,30 @@ python3 scripts/make_record_figures.py example_ota_5t ota5t_stress  # refresh th
 - the mechanism, with gate G1.6: small-signal, or a bias shift confirmed by re-solving the linear model at the shifted operating point;
 - the systematic offset of a one-sided resistor, measured in a unity-gain follower.
 
+## S1 add-on: pole drop-out study (patched copies of the upstream equations)
+
+```bash
+python3 -m src.s1.symbolic_patch inputs/example_ota_5t/package.yaml inputs/ota5t_stress/package.yaml
+```
+
+- Writes two patched **copies** of `circuits/5t-ota/source/5t-ota_differential_equations.json` to `inputs/example_ota_5t/upstream_patched/` (the original is never modified):
+  - `P1`: the mirror pole-zero doublet, using only symbols the file already defines;
+  - `P2`: P1 plus the transcapacitance gm(s) = gm - s*Cm, Cm ~= (2/5)*Cgs.
+- Evaluates the original, P1 and P2 with the S1 evaluator against SPICE: `outputs/S1/<design>/symbolic_patch_check.json` and `plots/symbolic_patch.png`.
+- Explained in `docs/flow_record.md`, section 3.9.
+
 ## S2: requirement compiler (budgets, rules, verification)
 
 Run inside `layout-s0s3`, from `/foss/designs`, after S1:
 
 ```bash
 python3 -m src.s2.pdk_parasitics                         # once: per-um R/C of li1..met4 measured with Magic
-python3 -m src.s2.run inputs/ota5t_stress/package.yaml   # outputs/S2/ota5t_stress/
-python3 -m src.s2.run inputs/example_ota_5t/package.yaml
+python3 -m src.s2.run inputs/ota5t_stress/package.yaml   # outputs/S2/ota5t_stress/  (eta 0.9 from the package)
+python3 -m src.s2.run inputs/example_ota_5t/package.yaml # eta 0.5 (default)
+python3 -m src.s2.run inputs/<design>/package.yaml --eta 0.7   # override for one run
 ```
+
+**eta** (the fraction of each margin given to layout) comes from `--eta` if given, else the package key `eta`, else 0.5. `budgets.json` records the value used (`eta`) and where it came from (`eta_source`). The stress variant sets `eta: 0.9` (decision of 2026-10-25).
 
 **Gates:**
 

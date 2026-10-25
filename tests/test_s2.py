@@ -93,3 +93,13 @@ def test_refine_gives_cheap_elements_more_without_breaking_constraints():
     assert r["x"]["tiny"] == pytest.approx(10.0, rel=1e-3)              # freed margin buys the cap
     assert r["x"]["big"] >= 0.95 * mm["big"] - 1e-9
     assert all(c["ok"] for c in B.check(r["x"], cons))
+
+
+def test_resolve_eta_precedence():
+    from src.s2.run import resolve_eta, ETA_DEFAULT
+    assert resolve_eta(None, {}) == (ETA_DEFAULT, "ETA_DEFAULT")
+    assert resolve_eta(None, {"eta": 0.9}) == (0.9, "package key 'eta'")
+    assert resolve_eta(0.7, {"eta": 0.9}) == (0.7, "command line")
+    import pytest
+    with pytest.raises(ValueError):
+        resolve_eta(None, {"eta": 1.5})

@@ -12,13 +12,13 @@
       ]
     },
     "G3.3_all_chosen_devices_in_circuit": {
-      "pass": false,
+      "pass": true,
       "specs": {
-        "gain_db": 31.7523,
-        "gbw_mhz": 356.341,
-        "pm_deg": 62.4117,
-        "power_uw": 151.787,
-        "vnoise_nv_rthz": 339.276
+        "gain_db": 32.2219,
+        "gbw_mhz": 369.226,
+        "pm_deg": 63.6451,
+        "power_uw": 151.567,
+        "vnoise_nv_rthz": 342.024
       },
       "meets": {
         "gain_db": true,
@@ -28,39 +28,39 @@
         "vnoise_nv_rthz": true
       },
       "saturated": {
-        "XM3": 1.048808,
-        "XM4": 1.048808,
-        "XM1": 0.1309372,
-        "XM2": 0.1309372,
-        "XM5": 0.019254999999999994
+        "XM3": 1.048758,
+        "XM4": 1.048758,
+        "XM1": 0.1321735,
+        "XM2": 0.1321735,
+        "XM5": 0.01788400000000001
       },
       "margin_use_signed": {
-        "gain_db": -0.05530000000000257,
-        "gbw_mhz": 17.312999999999988,
-        "pm_deg": 2.669699999999999,
-        "power_uw": -0.8119999999999834,
-        "vnoise_nv_rthz": 0.21199999999998909,
-        "sat_XM3": 0.00012499999999993072,
-        "sat_XM4": 0.00012499999999993072,
-        "sat_XM1": -0.0008776000000000062,
-        "sat_XM2": -0.0008776000000000062,
-        "sat_XM5": 0.0003130000000000077
+        "gain_db": -0.5248999999999988,
+        "gbw_mhz": 4.427999999999997,
+        "pm_deg": 1.4363000000000028,
+        "power_uw": -1.0319999999999823,
+        "vnoise_nv_rthz": 2.9599999999999795,
+        "sat_XM3": 0.0001749999999998142,
+        "sat_XM4": 0.0001749999999998142,
+        "sat_XM1": -0.002113900000000002,
+        "sat_XM2": -0.002113900000000002,
+        "sat_XM5": 0.001683999999999991
       },
       "allowance_total": {
-        "gbw_mhz": 10.93556448895793,
-        "pm_deg": 2.2452409767482293,
-        "gain_db": 0.20900758519874582,
-        "vnoise_nv_rthz": 30.157449674916798,
-        "sat_XM3": 0.5217170191460804,
-        "sat_XM4": 0.5217170191460804,
-        "sat_XM1": 0.06431487776814082,
-        "sat_XM2": 0.06431487776814082,
-        "sat_XM5": 0.008925809220120397
+        "gbw_mhz": 19.604235938843463,
+        "pm_deg": 4.104107648195122,
+        "gain_db": 0.372685178815342,
+        "vnoise_nv_rthz": 54.28007893310133,
+        "sat_XM3": 0.9410646248879053,
+        "sat_XM4": 0.9410646248879053,
+        "sat_XM1": 0.11569323480270335,
+        "sat_XM2": 0.11569323480270335,
+        "sat_XM5": 0.015975959322841463
       },
       "within_allowance_harmful": {
         "gain_db": true,
-        "gbw_mhz": false,
-        "pm_deg": false,
+        "gbw_mhz": true,
+        "pm_deg": true,
         "power_uw": true,
         "vnoise_nv_rthz": true,
         "sat_XM3": true,
@@ -84,7 +84,7 @@
           "errors": 0,
           "neg_control_flagged": true,
           "pass": true,
-          "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/drc/drc_report.txt"
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf4_gtop_sdfull_outS/drc/drc_report.txt"
         },
         "nfet_01v8_W24_L1_m1": {
           "errors": 0,
@@ -109,9 +109,9 @@
           "match": true,
           "neg_control_rejected": true,
           "pass": true,
-          "pcell_instance": "nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull",
-          "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/lvs/lvs/lvs_report.txt",
-          "extracted": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/lvs/lvs/extracted.spice"
+          "pcell_instance": "nfet_01v8_W24_L0p5_m1__nf4_gtop_sdfull_outS",
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf4_gtop_sdfull_outS/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf4_gtop_sdfull_outS/lvs/lvs/extracted.spice"
         },
         "nfet_01v8_W24_L1_m1": {
           "match": true,
@@ -127,7 +127,6 @@
       "pass": false,
       "relaxed": [
         "pfet_01v8_W8_L1_m1",
-        "nfet_01v8_W24_L0p5_m1",
         "nfet_01v8_W24_L1_m1"
       ]
     },
@@ -151,8 +150,8 @@
   },
   "all_pass": false,
   "provenance": {
-    "created": "2026-10-25T10:24:58+00:00",
-    "git_commit": "75059082c9fbb0c5c4c70931342c8a75984e7f8d",
+    "created": "2026-10-25T11:22:20+00:00",
+    "git_commit": "6aca6a3184dea42d4fe775e74188d97a03a9e159",
     "inputs": [
       {
         "path": "outputs/S0/ota5t_stress/circuit_ir.json",
@@ -160,7 +159,7 @@
       },
       {
         "path": "outputs/S2/ota5t_stress/budgets.json",
-        "sha256": "93d4a4de95cd3d6dc61ad113eeed4546929b8cdeeb8bc9198c301cf5069b4c2c"
+        "sha256": "73464e89450fea80bf6c33c56e3c3af37e9b5c13fdbb0ee11550e9e683049cfa"
       },
       {
         "path": "outputs/S2/pdk/parasitics.json",
@@ -168,7 +167,7 @@
       },
       {
         "path": "inputs/ota5t_stress/package.yaml",
-        "sha256": "63f55d51366da24dd6cd87c2ee8a3171d02d61c82b05ba49202135815194bf90"
+        "sha256": "7f9c2cff4f490d0cd65275dd22c005f80cdd0a12d68fc590897a21b2120c7f98"
       }
     ]
   }

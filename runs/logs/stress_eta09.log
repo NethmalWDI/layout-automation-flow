@@ -1,0 +1,18 @@
+G2.0_expected_layout_use (info)        INFO
+G2.1_names_resolve                     PASS
+G2.2_units_and_provenance              PASS
+G2.3_allocation                        PASS
+G2.4_linear_all_budgets_at_once        INFO
+G2.5_spice_budget_verification         PASS
+G2.6_hierarchy_sums                    PASS
+S2 PASS -> outputs/S2/ota5t_stress
+G3.1_chosen_DRC                          PASS
+G3.2_chosen_LVS_W_L_nf                   PASS
+G3.3_all_chosen_devices_in_circuit       PASS
+G3.4_option_table_complete               PASS
+G3.5_no_relaxation                       FAIL
+G3.6_model_has_no_gate_resistance        PASS
+  pfet_01v8_W8_L1_m1           -> nf1_gboth_sdfull         area 30.2 um2  R(d,g,s)=27.3, 72.5, 27.3 ohm
+  nfet_01v8_W24_L0p5_m1        -> nf4_gtop_sdfull_outS     area 36.2 um2  R(d,g,s)=8.5, 88.5, 5.6 ohm
+  nfet_01v8_W24_L1_m1          -> nf1_gboth_sdfull         area 74.1 um2  R(d,g,s)=7.1, 136.7, 7.1 ohm
+S3 FAIL -> outputs/S3/ota5t_stress

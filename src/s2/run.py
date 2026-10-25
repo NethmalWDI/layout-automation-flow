@@ -2,6 +2,7 @@
 """S2 — requirement compiler: joint budgets, hierarchical port budgets, typed rules, verification.
 
 usage (inside layout-s0s3):  python3 -m src.s2.run inputs/<design>/package.yaml [--eta 0.5] [--no-spice]
+       eta: --eta on the command line, else the package key 'eta', else ETA_DEFAULT = 0.5
 
 Inputs : outputs/S0/<design>/{circuit_ir.json, pcell_binding.json, tb/}, outputs/S1/<design>/{sensitivity.json,
          sensitivity_r.json, intent.json, currents.json, operating_point.json}, outputs/S2/pdk/parasitics.json
@@ -262,14 +263,29 @@ def run_scenarios(s0, ir, scen: dict, work: Path, workers: int = 4) -> dict:
         return dict(ex.map(one, jobs))
 
 
+def resolve_eta(cli_eta, pkg: dict) -> tuple[float, str]:
+    """eta: command line > package key 'eta' > ETA_DEFAULT; the source is recorded in the outputs."""
+    if cli_eta is not None:
+        eta, src = float(cli_eta), "command line"
+    elif "eta" in pkg:
+        eta, src = float(pkg["eta"]), "package key 'eta'"
+    else:
+        eta, src = ETA_DEFAULT, "ETA_DEFAULT"
+    if not 0.0 < eta <= 1.0:
+        raise ValueError(f"eta must be in (0, 1], got {eta} ({src})")
+    return eta, src
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("package")
-    ap.add_argument("--eta", type=float, default=ETA_DEFAULT)
+    ap.add_argument("--eta", type=float, default=None,
+                    help="fraction of each margin given to layout; default: package key 'eta', else ETA_DEFAULT")
     ap.add_argument("--no-spice", action="store_true")
     a = ap.parse_args(argv)
     pkg = load_package(REPO / a.package)
     design = pkg["design"]
+    eta, eta_source = resolve_eta(a.eta, pkg)
     s0, s1 = REPO / "outputs" / "S0" / design, REPO / "outputs" / "S1" / design
     out = REPO / "outputs" / "S2" / design
     (out / "plots").mkdir(parents=True, exist_ok=True)
@@ -282,7 +298,7 @@ def main(argv=None) -> int:
     sizes = device_sizes(s0)
     gates = {}
 
-    elements, constraints, geo = build_problem(ir, s1, pdk, sizes, a.eta)
+    elements, constraints, geo = build_problem(ir, s1, pdk, sizes, eta)
     # D6 metric, before any layout: the fraction of each margin a compact default layout would use
     expected_use = {c["id"]: {"use_at_expected_need": sum(c["a"].get(e["id"], 0.0) * e["w"] for e in elements),
                               "margin": c["margin"],
@@ -321,7 +337,7 @@ def main(argv=None) -> int:
         else:
             rec.update({"budget": None, "status": "unconstrained by the specs (consumes no margin in any check)"})
         bud.append(rec)
-    budgets_doc = {"design": design, "eta": a.eta, "eta_note": "ASSUMPTION (accepted): fraction of each margin given to layout",
+    budgets_doc = {"design": design, "eta": eta, "eta_source": eta_source, "eta_note": "ASSUMPTION (accepted): fraction of each margin given to layout",
                    "expected_layout_use": expected_use, "default_cells_used": geo["default_cells_used"],
                    "elements": bud, "constraints": [{k: c[k] for k in ("id", "b", "margin", "units")} for c in constraints],
                    "method": "max-min fair progressive filling (budgets.allocate), then proportional-fairness refinement "
@@ -490,7 +506,7 @@ def main(argv=None) -> int:
                    label="predicted (first order)")
             ax.bar([i + 0.2 for i in xs], [r["spice_use_frac_of_margin"] for r in rows], 0.4,
                    label="SPICE, harmful budgets inserted")
-            ax.axhline(a.eta, color="grey", ls="--", lw=1, label=f"eta = {a.eta}")
+            ax.axhline(eta, color="grey", ls="--", lw=1, label=f"eta = {eta}")
             ax.axhline(1.0, color="#E45756", lw=1, label="whole margin")
             ax.set_xticks(list(xs)); ax.set_xticklabels([r["check"] for r in rows], rotation=20, ha="right")
             ax.set_ylabel("fraction of margin used"); ax.set_title(f"{design}: budget verification"); ax.legend(fontsize=8)
@@ -500,7 +516,7 @@ def main(argv=None) -> int:
 
     prov = provenance([s0 / "circuit_ir.json", s1 / "sensitivity.json", s1 / "sensitivity_r.json", s1 / "intent.json",
                        pdk_f, REPO / a.package])
-    report = {"design": design, "eta": a.eta, "gates": gates,
+    report = {"design": design, "eta": eta, "gates": gates,
               "all_pass": all(g.get("pass") in (True, None) for g in gates.values()), "provenance": prov}
     write_json(out / "s2_report.json", report)
     for k in sorted(gates):

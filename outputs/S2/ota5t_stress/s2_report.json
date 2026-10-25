@@ -1,6 +1,6 @@
 {
   "design": "ota5t_stress",
-  "eta": 0.5,
+  "eta": 0.9,
   "gates": {
     "G2.0_expected_layout_use (info)": {
       "pass": null,
@@ -60,15 +60,15 @@
     },
     "G2.3_allocation": {
       "pass": true,
-      "t_round1": 0.5543032092021221,
+      "t_round1": 0.9977457765638198,
       "lp_round1": {
         "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
         "success": true,
-        "t": 0.5543032092021221
+        "t": 0.9977457765638198
       },
       "rounds": [
         {
-          "t": 0.5543032092021221,
+          "t": 0.9977457765638198,
           "binding": [
             "gbw_mhz"
           ],
@@ -108,56 +108,56 @@
       "constraint_use": [
         {
           "constraint": "gain_db",
-          "allowed": 0.25,
-          "used": 0.07942577087523661,
+          "allowed": 0.45,
+          "used": 0.1429663875754259,
           "ok": true
         },
         {
           "constraint": "gbw_mhz",
-          "allowed": 18.68270000000001,
-          "used": 18.682700000000015,
+          "allowed": 33.628860000000024,
+          "used": 33.628860000000024,
           "ok": true
         },
         {
           "constraint": "pm_deg",
-          "allowed": 2.5,
-          "used": 2.2080643545072354,
+          "allowed": 4.5,
+          "used": 3.6560690767777895,
           "ok": true
         },
         {
           "constraint": "vnoise_nv_rthz",
-          "allowed": 30.46799999999999,
-          "used": 0.5146052841227864,
+          "allowed": 54.842399999999984,
+          "used": 0.9262895114210155,
           "ok": true
         },
         {
           "constraint": "sat_XM3",
-          "allowed": 0.5244665,
-          "used": 0.001227113505530523,
+          "allowed": 0.9440396999999999,
+          "used": 0.0022088043099549415,
           "ok": true
         },
         {
           "constraint": "sat_XM4",
-          "allowed": 0.5244665,
-          "used": 0.001227113505530523,
+          "allowed": 0.9440396999999999,
+          "used": 0.0022088043099549415,
           "ok": true
         },
         {
           "constraint": "sat_XM1",
-          "allowed": 0.0650298,
-          "used": 0.0014324617854842888,
+          "allowed": 0.11705364,
+          "used": 0.0025784312138717198,
           "ok": true
         },
         {
           "constraint": "sat_XM2",
-          "allowed": 0.0650298,
-          "used": 0.0014324617854842888,
+          "allowed": 0.11705364,
+          "used": 0.0025784312138717198,
           "ok": true
         },
         {
           "constraint": "sat_XM5",
-          "allowed": 0.009784000000000001,
-          "used": 0.001358351509589353,
+          "allowed": 0.017611200000000004,
+          "used": 0.002445032717260835,
           "ok": true
         }
       ],
@@ -169,56 +169,56 @@
         "constraint_use": [
           {
             "constraint": "gain_db",
-            "allowed": 0.25,
-            "used": 0.10652433246969888,
+            "allowed": 0.45,
+            "used": 0.19241368439582474,
             "ok": true
           },
           {
             "constraint": "gbw_mhz",
-            "allowed": 18.68270000000001,
-            "used": 18.682700000000008,
+            "allowed": 33.628860000000024,
+            "used": 33.62886000000249,
             "ok": true
           },
           {
             "constraint": "pm_deg",
-            "allowed": 2.5,
-            "used": 2.3170639210794164,
+            "allowed": 4.5,
+            "used": 3.841863497791327,
             "ok": true
           },
           {
             "constraint": "vnoise_nv_rthz",
-            "allowed": 30.46799999999999,
-            "used": 0.49077124495580066,
+            "allowed": 54.842399999999984,
+            "used": 0.8885635100918641,
             "ok": true
           },
           {
             "constraint": "sat_XM3",
-            "allowed": 0.5244665,
-            "used": 0.014399715438709803,
+            "allowed": 0.9440396999999999,
+            "used": 0.01475034793235188,
             "ok": true
           },
           {
             "constraint": "sat_XM4",
-            "allowed": 0.5244665,
-            "used": 0.014399715438709803,
+            "allowed": 0.9440396999999999,
+            "used": 0.01475034793235188,
             "ok": true
           },
           {
             "constraint": "sat_XM1",
-            "allowed": 0.0650298,
-            "used": 0.0018331369167556822,
+            "allowed": 0.11705364,
+            "used": 0.0033753875917339714,
             "ok": true
           },
           {
             "constraint": "sat_XM2",
-            "allowed": 0.0650298,
-            "used": 0.0018331369167556822,
+            "allowed": 0.11705364,
+            "used": 0.0033753875917339714,
             "ok": true
           },
           {
             "constraint": "sat_XM5",
-            "allowed": 0.009784000000000001,
-            "used": 0.0013488056446712767,
+            "allowed": 0.017611200000000004,
+            "used": 0.0025684902109524253,
             "ok": true
           }
         ]
@@ -231,11 +231,11 @@
         {
           "check": "gain_db",
           "margin": 0.5,
-          "allowed_eta_margin": 0.25,
-          "first_order_predicted_use": 0.10652433246969888,
-          "spice_use": 0.10699999999999932,
-          "value_now": 31.59,
-          "spice_use_frac_of_margin": 0.21399999999999864,
+          "allowed_eta_margin": 0.45,
+          "first_order_predicted_use": 0.19241368439582474,
+          "spice_use": 0.19529999999999959,
+          "value_now": 31.5017,
+          "spice_use_frac_of_margin": 0.39059999999999917,
           "meets_spec": true,
           "ok": true,
           "n_elements": 6
@@ -243,11 +243,11 @@
         {
           "check": "gbw_mhz",
           "margin": 37.36540000000002,
-          "allowed_eta_margin": 18.68270000000001,
-          "first_order_predicted_use": 18.682700000000008,
-          "spice_use": 18.062000000000012,
-          "value_now": 355.592,
-          "spice_use_frac_of_margin": 0.4833883753418939,
+          "allowed_eta_margin": 33.628860000000024,
+          "first_order_predicted_use": 33.62886000000249,
+          "spice_use": 31.464,
+          "value_now": 342.19,
+          "spice_use_frac_of_margin": 0.8420624427946705,
           "meets_spec": true,
           "ok": true,
           "n_elements": 26
@@ -255,11 +255,11 @@
         {
           "check": "pm_deg",
           "margin": 5.0,
-          "allowed_eta_margin": 2.5,
-          "first_order_predicted_use": 2.3170639210794164,
-          "spice_use": 2.2679000000000045,
-          "value_now": 62.8135,
-          "spice_use_frac_of_margin": 0.45358000000000087,
+          "allowed_eta_margin": 4.5,
+          "first_order_predicted_use": 3.841863497791327,
+          "spice_use": 3.6824000000000012,
+          "value_now": 61.399,
+          "spice_use_frac_of_margin": 0.7364800000000002,
           "meets_spec": true,
           "ok": true,
           "n_elements": 17
@@ -267,11 +267,11 @@
         {
           "check": "vnoise_nv_rthz",
           "margin": 60.93599999999998,
-          "allowed_eta_margin": 30.46799999999999,
-          "first_order_predicted_use": 0.49077124495580066,
-          "spice_use": 0.48599999999999,
-          "value_now": 339.55,
-          "spice_use_frac_of_margin": 0.007975580937376759,
+          "allowed_eta_margin": 54.842399999999984,
+          "first_order_predicted_use": 0.8885635100918641,
+          "spice_use": 0.8709999999999809,
+          "value_now": 339.935,
+          "spice_use_frac_of_margin": 0.01429368517789125,
           "meets_spec": true,
           "ok": true,
           "n_elements": 6
@@ -279,11 +279,11 @@
         {
           "check": "sat_XM3",
           "margin": 1.048933,
-          "allowed_eta_margin": 0.5244665,
-          "first_order_predicted_use": 0.014399715438709803,
-          "spice_use": 0.014293999999999807,
-          "value_now": 1.034639,
-          "spice_use_frac_of_margin": 0.013627181145030053,
+          "allowed_eta_margin": 0.9440396999999999,
+          "first_order_predicted_use": 0.01475034793235188,
+          "spice_use": 0.01449199999999995,
+          "value_now": 1.034441,
+          "spice_use_frac_of_margin": 0.013815944393016475,
           "meets_spec": true,
           "ok": true,
           "n_elements": 6
@@ -291,11 +291,11 @@
         {
           "check": "sat_XM4",
           "margin": 1.048933,
-          "allowed_eta_margin": 0.5244665,
-          "first_order_predicted_use": 0.014399715438709803,
-          "spice_use": 0.014293999999999807,
-          "value_now": 1.034639,
-          "spice_use_frac_of_margin": 0.013627181145030053,
+          "allowed_eta_margin": 0.9440396999999999,
+          "first_order_predicted_use": 0.01475034793235188,
+          "spice_use": 0.01449199999999995,
+          "value_now": 1.034441,
+          "spice_use_frac_of_margin": 0.013815944393016475,
           "meets_spec": true,
           "ok": true,
           "n_elements": 6
@@ -303,11 +303,11 @@
         {
           "check": "sat_XM1",
           "margin": 0.1300596,
-          "allowed_eta_margin": 0.0650298,
-          "first_order_predicted_use": 0.0018331369167556822,
-          "spice_use": 0.0018260999999999972,
-          "value_now": 0.1282335,
-          "spice_use_frac_of_margin": 0.01404048605408595,
+          "allowed_eta_margin": 0.11705364,
+          "first_order_predicted_use": 0.0033753875917339714,
+          "spice_use": 0.003368099999999985,
+          "value_now": 0.1266915,
+          "spice_use_frac_of_margin": 0.02589658894845121,
           "meets_spec": true,
           "ok": true,
           "n_elements": 6
@@ -315,11 +315,11 @@
         {
           "check": "sat_XM2",
           "margin": 0.1300596,
-          "allowed_eta_margin": 0.0650298,
-          "first_order_predicted_use": 0.0018331369167556822,
-          "spice_use": 0.0018260999999999972,
-          "value_now": 0.1282335,
-          "spice_use_frac_of_margin": 0.01404048605408595,
+          "allowed_eta_margin": 0.11705364,
+          "first_order_predicted_use": 0.0033753875917339714,
+          "spice_use": 0.003368099999999985,
+          "value_now": 0.1266915,
+          "spice_use_frac_of_margin": 0.02589658894845121,
           "meets_spec": true,
           "ok": true,
           "n_elements": 6
@@ -327,11 +327,11 @@
         {
           "check": "sat_XM5",
           "margin": 0.019568000000000002,
-          "allowed_eta_margin": 0.009784000000000001,
-          "first_order_predicted_use": 0.0013488056446712767,
-          "spice_use": 0.0013470000000000149,
-          "value_now": 0.018220999999999987,
-          "spice_use_frac_of_margin": 0.06883687653311604,
+          "allowed_eta_margin": 0.017611200000000004,
+          "first_order_predicted_use": 0.0025684902109524253,
+          "spice_use": 0.0025610000000000077,
+          "value_now": 0.017006999999999994,
+          "spice_use_frac_of_margin": 0.13087694194603472,
           "meets_spec": true,
           "ok": true,
           "n_elements": 7
@@ -344,16 +344,16 @@
       "note": "reported: first-order sum vs exact linear model with every budget inserted",
       "compare": {
         "gain_db": {
-          "first_order_use": 0.10652433246969888,
-          "linear_model_use": 0.0018524024772830217
+          "first_order_use": 0.19241368439582474,
+          "linear_model_use": 0.0034451571907894163
         },
         "gbw_mhz": {
-          "first_order_use": 18.682700000000008,
-          "linear_model_use": 13.293542519602
+          "first_order_use": 33.62886000000249,
+          "linear_model_use": 24.874402246538352
         },
         "pm_deg": {
-          "first_order_use": 2.3170639210794164,
-          "linear_model_use": 1.9435850487917747
+          "first_order_use": 3.841863497791327,
+          "linear_model_use": 3.123792272621017
         }
       }
     },
@@ -386,8 +386,8 @@
   },
   "all_pass": true,
   "provenance": {
-    "created": "2026-10-25T10:24:48+00:00",
-    "git_commit": "75059082c9fbb0c5c4c70931342c8a75984e7f8d",
+    "created": "2026-10-25T11:21:56+00:00",
+    "git_commit": "6aca6a3184dea42d4fe775e74188d97a03a9e159",
     "inputs": [
       {
         "path": "outputs/S0/ota5t_stress/circuit_ir.json",
@@ -411,7 +411,7 @@
       },
       {
         "path": "inputs/ota5t_stress/package.yaml",
-        "sha256": "63f55d51366da24dd6cd87c2ee8a3171d02d61c82b05ba49202135815194bf90"
+        "sha256": "7f9c2cff4f490d0cd65275dd22c005f80cdd0a12d68fc590897a21b2120c7f98"
       }
     ]
   }

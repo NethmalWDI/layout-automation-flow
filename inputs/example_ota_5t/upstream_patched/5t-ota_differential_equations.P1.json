@@ -1,0 +1,306 @@
+{
+ "design": "5t-ota",
+ "mode": "differential",
+ "assumes": "inputs purely differential: Vinn = -Vinp",
+ "naming": "Each block's values are expressions in the symbols of what it is made of. A symbol is <element>_<path>, the path being the instances from the top level down to the block holding the element, as the tree nests them: C1_X1 is C1 of X1, C1_X1_X2 is C1 of X2 within X1. At level 0 each element keeps the name netlist-gen.py gave it after its transistor: C2_XM3. A value of null is an element with nothing to do in the block, shorted or controlled by nothing; one listed as free is fixed by no condition, and taken as absent: 0, or oo for a resistor.",
+ "performance_note": "performance: each amplifier's, and the circuit's. transfer_function: H(s) from the drive to each output's voltage, every output loaded by a capacitor to GND (CL_<path> for an amplifier, CL for the circuit) and otherwise open, in the symbols of the amplifiers' own elements, which their values map to the level below; the circuit's connects its amplifiers' models as its top level does, so they load one another. numerator and denominator are the coefficients n0, n1, ... and d0, d1, ... of s^0, s^1, ..., exact, d0 = 1. poles_rad_s and zeros_rad_s are the roots of each factor in s, each -c[k-1]/c[k] of its coefficients c: exact for a factor of degree 1, else the estimate for real roots far apart; a positive one is in the right half-plane. With two outputs, the output is their difference. terms, each in those before it: A0 = n0, the DC gain; wgbw = |n0/d1|, the gain-bandwidth product in rad/s; kft = n1/d1, the feedthrough; wu, the unity-gain frequency in rad/s of n0 + n1 s over 1 + d1 s: exact for one pole and one zero, an estimate past that, imaginary where the gain stays below 1. With two outputs, n0, n0/d1 and n1/d1 are the differences of the outputs'. gain_db is exact; gbw_mhz is the unity-gain frequency, as the AC testbenches measure it; pm_deg is 180 less how far the phase at wu lags the phase at DC, from the poles and zeros, and with two outputs the outputs' lags averaged, weighted by |n0/d1|.",
+ "performance": {
+  "circuit": "5t-ota_differential",
+  "from_level": 2,
+  "input": "vd, purely differential: Vinp = vd/2, Vinn = -vd/2",
+  "output": "v(Voutp)",
+  "load": {
+   "CL": "from Voutp to GND"
+  },
+  "transfer_function": {
+   "v(Voutp) per vd": {
+    "form": "H(s) = (R2_X1/2)*(Gm(s) - s*C6_X1)/(1 + s*R2_X1*(C4_X1 + C6_X1 + CL)), Gm(s) = (G2_X1_X2 - s*Cm_in) + (G1_X1_X2 - s*Cm_in)*(G12_X1_X1 - s*Cm_p)*R1_X1/(1 + s*tau_m)",
+    "poles_rad_s": [
+     "-1/(R2_X1*(C4_X1 + C6_X1 + CL))",
+     "-1/tau_m"
+    ],
+    "zeros_rad_s_estimate": [
+     "-1/tau_z",
+     "G2_X1/C6_X1"
+    ],
+    "note": "poles exact (the denominator factors); zeros are the usual far-apart estimates"
+   }
+  },
+  "terms": {
+   "A0": "G2_X1*R2_X1/2",
+   "wgbw": "G2_X1/(2*(C4_X1 + C6_X1 + CL))",
+   "kft": "-C6_X1/(2*(C4_X1 + C6_X1 + CL))",
+   "wu0": "wgbw*sqrt((1 - 1/A0**2)/(1 - kft**2))",
+   "tau_m": "R1_X1*(C2_X1 + C5_X1)",
+   "Cm_in": "0",
+   "Cm_p": "0",
+   "tau_z": "(tau_m - Cm_p*R1_X1)/(1 + G12_X1_X1*R1_X1)",
+   "wu_d": "sqrt((-(1 - wu0**2*tau_z**2) + sqrt((1 - wu0**2*tau_z**2)**2 + 4*tau_m**2*wu0**2))/(2*tau_m**2))",
+   "wu": "wu_d"
+  },
+  "gain_db": "20*log(Abs(A0))/log(10)",
+  "gbw_mhz": "wu/(2000000*pi)",
+  "pm_deg": "180 - 180*(atan(C6_X1*wu/G2_X1) + atan(R2_X1*wu*(C4_X1 + C6_X1 + CL)) + atan(wu*tau_m) - atan(wu*tau_z))/pi"
+ },
+ "5t-ota_differential": {
+  "X1": {
+   "block": "diso_amplifier",
+   "level": 2,
+   "netlist": "5t-ota_differential.spice",
+   "made_of_netlist": "5t-ota_differential.spice",
+   "ports": {
+    "GND": "GND",
+    "Vinp": "Vinp",
+    "Vinn": "Vinn",
+    "Ioutp": "Voutp"
+   },
+   "drive": "Vinp = vd/2, Vinn = -vd/2",
+   "values": {
+    "C1_X1": "C1_X1_X2",
+    "C2_X1": "C12_X1_X1 + C1_X1_X1 + C2_X1_X2",
+    "C3_X1": "C3_X1_X2",
+    "C4_X1": "C12_X1_X1*G12_X1_X1*R1_X1_X1*R1_X1_X2/(R1_X1_X1 + R1_X1_X2) + C12_X1_X1 + C2_X1_X1 + C4_X1_X2",
+    "C5_X1": "C5_X1_X2",
+    "C6_X1": "C6_X1_X2",
+    "G1_X1": "G1_X1_X2",
+    "G2_X1": "G12_X1_X1*G1_X1_X2*R1_X1_X1*R1_X1_X2/(R1_X1_X1 + R1_X1_X2) + G2_X1_X2",
+    "R1_X1": "R1_X1_X1*R1_X1_X2/(R1_X1_X1 + R1_X1_X2)",
+    "R2_X1": "R2_X1_X1*R2_X1_X2/(R2_X1_X1 + R2_X1_X2)"
+   },
+   "free": [],
+   "unmatched": [
+    "i(Ioutp) per vd, slope at s = 0: model - level 1 = -R1_X1_X1*R1_X1_X2*(C12_X1_X1*G12_X1_X1*G1_X1_X2*R1_X1_X1*R1_X1_X2 + C12_X1_X1*G1_X1_X2*R1_X1_X1 + C12_X1_X1*G1_X1_X2*R1_X1_X2 + C1_X1_X1*G12_X1_X1*G1_X1_X2*R1_X1_X1*R1_X1_X2 + C2_X1_X2*G12_X1_X1*G1_X1_X2*R1_X1_X1*R1_X1_X2 + C5_X1_X2*G12_X1_X1*G1_X1_X2*R1_X1_X1*R1_X1_X2 + C5_X1_X2*G12_X1_X1*R1_X1_X1 + C5_X1_X2*G12_X1_X1*R1_X1_X2)/(2*(R1_X1_X1 + R1_X1_X2)**2)"
+   ],
+   "missing": [
+    "Ioutn as net0: i(Ioutp) per v(Ioutn), value at s = 0: G12_X1_X1",
+    "Ioutn as net0: i(Ioutn) per v(Ioutp), slope at s = 0: -C12_X1_X1",
+    "Ioutn as net0: i(Ioutp) per v(Ioutn), slope at s = 0: -C12_X1_X1"
+   ],
+   "exact": false,
+   "performance": {
+    "input": "vd, purely differential: Vinp = vd/2, Vinn = -vd/2",
+    "output": "v(Ioutp)",
+    "load": {
+     "CL_X1": "from Ioutp to GND"
+    },
+    "transfer_function": {
+     "v(Ioutp) per vd": {
+      "numerator": [
+       "G2_X1*R2_X1/2",
+       "-C6_X1*R2_X1/2"
+      ],
+      "denominator": [
+       "1",
+       "R2_X1*(C4_X1 + C6_X1 + CL_X1)"
+      ],
+      "poles_rad_s": [
+       "-1/(R2_X1*(C4_X1 + C6_X1 + CL_X1))"
+      ],
+      "zeros_rad_s": [
+       "G2_X1/C6_X1"
+      ]
+     }
+    },
+    "terms": {
+     "A0": "G2_X1*R2_X1/2",
+     "wgbw": "G2_X1/(2*(C4_X1 + C6_X1 + CL_X1))",
+     "kft": "-C6_X1/(2*(C4_X1 + C6_X1 + CL_X1))",
+     "wu": "wgbw*sqrt((1 - 1/A0**2)/(1 - kft**2))"
+    },
+    "gain_db": "20*log(Abs(A0))/log(10)",
+    "gbw_mhz": "wu/(2000000*pi)",
+    "pm_deg": "180 - 180*(atan(C6_X1*wu/G2_X1) + atan(R2_X1*wu*(C4_X1 + C6_X1 + CL_X1)))/pi"
+   },
+   "made_of": {
+    "X1": {
+     "block": "pmos_current_mirror_load",
+     "level": 1,
+     "netlist": "5t-ota_differential.spice",
+     "made_of_netlist": "5t-ota_differential_primitives.spice",
+     "ports": {
+      "GND": "GND",
+      "Iref": "Iref",
+      "Iout": "Iout"
+     },
+     "drive": null,
+     "values": {
+      "C1_X1_X1": "C1_XM1 + C1_XM2 + C2_XM1 + C2_XM2 + C4_XM1",
+      "C2_X1_X1": "C4_XM2",
+      "C12_X1_X1": "C3_XM2",
+      "G12_X1_X1": "G1_XM2",
+      "R1_X1_X1": "R1_XM1/(G1_XM1*R1_XM1 + 1)",
+      "R2_X1_X1": "R1_XM2"
+     },
+     "free": [],
+     "unmatched": [],
+     "missing": [],
+     "exact": true,
+     "made_of": {
+      "XM1": {
+       "C1_XM1": "C1_XM1",
+       "C2_XM1": "C2_XM1",
+       "C4_XM1": "C4_XM1",
+       "G1_XM1": "G1_XM1",
+       "R1_XM1": "R1_XM1"
+      },
+      "XM2": {
+       "C1_XM2": "C1_XM2",
+       "C2_XM2": "C2_XM2",
+       "C3_XM2": "C3_XM2",
+       "C4_XM2": "C4_XM2",
+       "G1_XM2": "G1_XM2",
+       "R1_XM2": "R1_XM2"
+      }
+     }
+    },
+    "X2": {
+     "block": "nmos_differential_pair",
+     "level": 1,
+     "netlist": "5t-ota_differential.spice",
+     "made_of_netlist": "5t-ota_differential_primitives.spice",
+     "ports": {
+      "GND": "GND",
+      "Vinp": "Vinp",
+      "Vinn": "Vinn",
+      "Ioutp": "Ioutp",
+      "Ioutn": "Ioutn"
+     },
+     "drive": null,
+     "values": {
+      "C1_X1_X2": "C1_XM3 + C2_XM3",
+      "C2_X1_X2": "C4_XM3",
+      "C3_X1_X2": "C1_XM3 + C2_XM3",
+      "C4_X1_X2": "C4_XM3",
+      "C5_X1_X2": "C3_XM3",
+      "C6_X1_X2": "C3_XM3",
+      "G1_X1_X2": "G1_XM3",
+      "G2_X1_X2": "G1_XM3",
+      "R1_X1_X2": "R1_XM3",
+      "R2_X1_X2": "R1_XM3"
+     },
+     "free": [],
+     "unmatched": [],
+     "missing": [],
+     "exact": true,
+     "made_of": {
+      "XM3": {
+       "C1_XM3": "C1_XM3",
+       "C2_XM3": "C2_XM3",
+       "C3_XM3": "C3_XM3",
+       "C4_XM3": "C4_XM3",
+       "G1_XM3": "G1_XM3",
+       "R1_XM3": "R1_XM3"
+      },
+      "XM4": {
+       "C1_XM4": "C1_XM3",
+       "C2_XM4": "C2_XM3",
+       "C3_XM4": "C3_XM3",
+       "C4_XM4": "C4_XM3",
+       "G1_XM4": "G1_XM3",
+       "R1_XM4": "R1_XM3"
+      }
+     }
+    },
+    "X3": {
+     "block": "nmos_current_mirror_bias",
+     "level": 1,
+     "netlist": "5t-ota_differential.spice",
+     "made_of_netlist": "5t-ota_differential_primitives.spice",
+     "ports": {
+      "GND": "GND",
+      "Iref": "Iref",
+      "Iout": "Iout"
+     },
+     "drive": null,
+     "values": {
+      "C1_X1_X3": "C1_XM5 + C1_XM6 + C2_XM5 + C2_XM6 + C4_XM6",
+      "C2_X1_X3": "C4_XM5",
+      "C12_X1_X3": "C3_XM5",
+      "G12_X1_X3": "G1_XM5",
+      "R1_X1_X3": "R1_XM6/(G1_XM6*R1_XM6 + 1)",
+      "R2_X1_X3": "R1_XM5"
+     },
+     "free": [],
+     "unmatched": [],
+     "missing": [],
+     "exact": true,
+     "made_of": {
+      "XM6": {
+       "C1_XM6": "C1_XM6",
+       "C2_XM6": "C2_XM6",
+       "C4_XM6": "C4_XM6",
+       "G1_XM6": "G1_XM6",
+       "R1_XM6": "R1_XM6"
+      },
+      "XM5": {
+       "C1_XM5": "C1_XM5",
+       "C2_XM5": "C2_XM5",
+       "C3_XM5": "C3_XM5",
+       "C4_XM5": "C4_XM5",
+       "G1_XM5": "G1_XM5",
+       "R1_XM5": "R1_XM5"
+      }
+     }
+    }
+   }
+  }
+ },
+ "performance_original": {
+  "circuit": "5t-ota_differential",
+  "from_level": 2,
+  "input": "vd, purely differential: Vinp = vd/2, Vinn = -vd/2",
+  "output": "v(Voutp)",
+  "load": {
+   "CL": "from Voutp to GND"
+  },
+  "transfer_function": {
+   "v(Voutp) per vd": {
+    "numerator": [
+     "G2_X1*R2_X1/2",
+     "-C6_X1*R2_X1/2"
+    ],
+    "denominator": [
+     "1",
+     "R2_X1*(C4_X1 + C6_X1 + CL)"
+    ],
+    "poles_rad_s": [
+     "-1/(R2_X1*(C4_X1 + C6_X1 + CL))"
+    ],
+    "zeros_rad_s": [
+     "G2_X1/C6_X1"
+    ]
+   }
+  },
+  "terms": {
+   "A0": "G2_X1*R2_X1/2",
+   "wgbw": "G2_X1/(2*(C4_X1 + C6_X1 + CL))",
+   "kft": "-C6_X1/(2*(C4_X1 + C6_X1 + CL))",
+   "wu": "wgbw*sqrt((1 - 1/A0**2)/(1 - kft**2))"
+  },
+  "gain_db": "20*log(Abs(A0))/log(10)",
+  "gbw_mhz": "wu/(2000000*pi)",
+  "pm_deg": "180 - 180*(atan(C6_X1*wu/G2_X1) + atan(R2_X1*wu*(C4_X1 + C6_X1 + CL)))/pi"
+ },
+ "patch": {
+  "variant": "P1",
+  "status": "ASSUMPTION / derived input: textbook equations added by this repository, not by upstream",
+  "based_on": {
+   "file": "circuits/5t-ota/source/5t-ota_differential_equations.json",
+   "sha256": "31ad9ff615026ec1b52a87a74bc8c7d55e1358f3e9311e9b23ea5df7ae6105d6"
+  },
+  "reason": "upstream 'missing': the Ioutn -> Ioutp coupling (G12_X1_X1) of the mirror is not in the level-2 template, only its DC value inside G2_X1; the mirror node then has no pole.",
+  "changes": [
+   "Gm(s): the mirrored half of G2_X1 passes through the mirror node: pole 1/tau_m, tau_m = R1_X1*(C2_X1 + C5_X1) (elements the file already builds for Ioutn); zero at 1/tau_z",
+   "wu: magnitude condition with the doublet solved exactly (quadratic in w^2) starting from the original estimate wu0",
+   "pm_deg: adds atan(wu*tau_m) - atan(wu*tau_z) to the original phase lag"
+  ],
+  "assumptions": [
+   "matched pair: G1_X1_X2 = G2_X1_X2 (true for this template: both are G1_XM3)",
+   "nodes far apart: Vinn/Vinp are ideal sources, the tail is an AC ground (upstream assumption)"
+  ],
+  "references": [
+   "B. Razavi, Design of Analog CMOS Integrated Circuits, 2nd ed., ch. 5/10: five-transistor OTA, mirror pole gm3/C_mirror with a zero at twice its frequency",
+   "W. Sansen, Analog Design Essentials, ch. 5 (OTA with current-mirror load: pole-zero doublet)"
+  ]
+ }
+}

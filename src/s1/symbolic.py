@@ -46,7 +46,9 @@ def collect_values(node: dict, acc: dict) -> None:
             collect_values(v, acc)
 
 
-def evaluate(eq_path: Path, name_map_path: Path, op: dict, CL: float) -> dict:
+def evaluate(eq_path: Path, name_map_path: Path, op: dict, CL: float, extra_sens: dict | None = None) -> dict:
+    """extra_sens: {label: level-0 symbol} -> d(spec)/d(symbol) per fF is reported as well (e.g. a
+    grounded capacitance that sits only on one node, to read that node's sensitivity)."""
     eq = json.loads(Path(eq_path).read_text())
     nm = yaml.safe_load(Path(name_map_path).read_text())
     defs: dict = {}
@@ -65,23 +67,33 @@ def evaluate(eq_path: Path, name_map_path: Path, op: dict, CL: float) -> dict:
             e = e2
         return e
 
-    terms = {k: sp.sympify(v, locals=loc) for k, v in perf["terms"].items()}
-    A0 = down(terms["A0"])
-    wgbw = down(terms["wgbw"])
-    kft = down(terms["kft"])
-    wu = wgbw * sp.sqrt((1 - 1 / A0 ** 2) / (1 - kft ** 2))
-    gain_db = 20 * sp.log(sp.Abs(A0)) / sp.log(10)
-    gbw_mhz = wu / (2e6 * sp.pi)
-    pm = down(sp.sympify(perf["pm_deg"], locals={**loc, "wu": sp.Symbol("wu")}))
-    pm = pm.xreplace({sp.Symbol("wu"): wu})
+    # terms are defined "each in those before it" (file's performance_note): resolve them in order,
+    # then gain_db / gbw_mhz / pm_deg exactly as the file writes them
+    tsym = {k: sp.Symbol(k) for k in perf["terms"]}
+    tloc = {**loc, **tsym}
+    resolved: dict = {}
+    for k, v in perf["terms"].items():
+        e = down(sp.sympify(v, locals=tloc))
+        resolved[k] = e.xreplace({tsym[j]: resolved[j] for j in resolved})
+    def spec(key):
+        e = sp.sympify(perf[key], locals=tloc)
+        e = e.xreplace({tsym[j]: resolved[j] for j in resolved if j in tsym})
+        return down(e)
+    gain_db, gbw_mhz, pm = spec("gain_db"), spec("gbw_mhz"), spec("pm_deg")
     num = {sy[k]: v for k, v in level0_values(op, nm).items() if k in sy}
     num[sy["CL"]] = CL
     res, sens = {}, {}
     for name, e in (("gain_db", gain_db), ("gbw_mhz", gbw_mhz), ("pm_deg", pm)):
         res[name] = float(sp.N(e.xreplace(num)))
         sens[name] = float(sp.N(sp.diff(e, sy["CL"]).xreplace(num))) * 1e-15  # per fF
+    extra = {}
+    for label, symname in (extra_sens or {}).items():
+        x = sy[symname]
+        extra[label] = {"symbol": symname, "per_fF": {
+            name: float(sp.N(sp.diff(e, x).xreplace(num))) * 1e-15
+            for name, e in (("gain_db", gain_db), ("gbw_mhz", gbw_mhz), ("pm_deg", pm))}}
     missing = sorted(str(s) for e in (gain_db, gbw_mhz, pm) for s in e.free_symbols if s not in num)
-    return {"predicted": res, "d_dCL_per_fF": sens, "unresolved_symbols": sorted(set(missing)),
+    return {"predicted": res, "d_dCL_per_fF": sens, "d_dsymbol_per_fF": extra, "unresolved_symbols": sorted(set(missing)),
             "level0_values": {k: v for k, v in level0_values(op, nm).items()},
             "expressions_level2": {k: str(v) for k, v in perf["terms"].items()},
             "note": ("Output-node capacitance enters as CL. The mirror node (net0 upstream = net3 here) has no "
