@@ -1,0 +1,6 @@
+* .spiceinit for use with Skywater PDK and ngspice sparse
+set ngbehavior=hsa 	; set compatibility for reading PDK libs
+set skywaterpdk 	; omit some time consuming checks during lib loading
+set ng_nomodcheck 	; don?t check the model parameters
+option sparse 		; select sparse as matrix solver
+;set num_threads=8

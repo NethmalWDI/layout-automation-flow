@@ -1,0 +1,24 @@
+pdk: sky130A
+pdk_root: /foss/pdks
+tool_versions:
+  captured: '2026-10-23T18:44:47+02:00'
+  image: hpretl/iic-osic-tools:2026.10 (306585de35d1)
+  python3: Python 3.12.3
+  magic: 8.3.685
+  netgen: Netgen 1.5.324 compiled on Thu Oct 15 02:24:51 PM CEST 2026
+  klayout: KLayout 0.30.12
+  ngspice: ngspice-47
+  sky130A: open_pdks 1689ac3f2dc763876eaf967227c7dfe831b031ae
+  pip klayout: 'Version: 0.30.12'
+  pip gdsfactory: 'Version: 9.51.0'
+decks:
+  magicrc: /foss/pdks/sky130A/libs.tech/magic/sky130A.magicrc
+  netgen_setup: /foss/pdks/sky130A/libs.tech/netgen/sky130A_setup.tcl
+  klayout_lyp: /foss/pdks/sky130A/libs.tech/klayout/tech/sky130A.lyp
+  spice_lib: /foss/pdks/sky130A/libs.tech/combined/sky130.lib.spice
+conventions:
+  length_unit: um (combined lib sets .option scale=1e-6)
+  W: total width per instance; PCell w is per finger
+  corner: tt
+  temp_C: 27
+device_generator: Magic open_pdks sky130 PCells (canonical); see docs/04_device_generation.md

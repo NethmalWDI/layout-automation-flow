@@ -1,0 +1,9 @@
+G0.1_inventory                 PASS
+G0.2_validation                PASS
+G0.3_hash_freeze               PASS
+G0.4_name_map                  PASS
+G0.5_round_trip_lvs            PASS
+G0.6_testbench_reproduction    PASS
+S0 PASS -> outputs/S0/ota5t_stress
+--- negative control: corrupted netlist must FAIL round-trip LVS
+NEG_CONTROL_LVS {'match_uniquely': False, 'property_errors': False, 'pin_mismatch': False, 'pass': False, 'report': 'runs/S0_negctl/neg_lvs.txt'}

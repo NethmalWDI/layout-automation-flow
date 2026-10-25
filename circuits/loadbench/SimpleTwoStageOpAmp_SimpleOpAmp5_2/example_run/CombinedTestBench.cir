@@ -1,0 +1,220 @@
+** combined opamp testbenches
+.include ./params.cir
+.param vdd=1.8
+.param Cload=1e-12
+.param ibias=10u
+
+.lib ../../reduced_sky130_combined/sky130.lib.spice tt
+
+.subckt SimpleTwoStageOpAmp_SimpleOpAmp5_2 ibias in1 in2 out sourceNmos sourcePmos
+XDiodeTransistorNmos1 inputVoltageBiasXXnXX1 inputVoltageBiasXXnXX1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt w={param_wDiodeTransistorNmos1} l={param_lDiodeTransistorNmos1} m={param_mDiodeTransistorNmos1} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+XDiodeTransistorPmos2 ibias ibias sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt w={param_wDiodeTransistorPmos2} l={param_lDiodeTransistorPmos2} m={param_mDiodeTransistorPmos2} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+XNormalTransistorNmos3 out inputVoltageBiasXXnXX1 SecondStageYinnerTransconductance SecondStageYinnerTransconductance sky130_fd_pr__nfet_01v8_lvt w={param_wNormalTransistorNmos3} l={param_lNormalTransistorNmos3} m={param_mNormalTransistorNmos3} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+XNormalTransistorNmos4 outFirstStage inputVoltageBiasXXnXX1 FirstStageYinnerTransistorStack2Load1 FirstStageYinnerTransistorStack2Load1 sky130_fd_pr__nfet_01v8_lvt w={param_wNormalTransistorNmos4} l={param_lNormalTransistorNmos4} m={param_mNormalTransistorNmos4} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+XNormalTransistorNmos5 FirstStageYinnerTransistorStack2Load1 FirstStageYinnerSourceLoad1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt w={param_wNormalTransistorNmos5} l={param_lNormalTransistorNmos5} m={param_mNormalTransistorNmos5} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+XNormalTransistorNmos6 FirstStageYinnerTransistorStack1Load1 FirstStageYinnerSourceLoad1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt w={param_wNormalTransistorNmos6} l={param_lNormalTransistorNmos6} m={param_mNormalTransistorNmos6} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+XNormalTransistorNmos7 FirstStageYinnerSourceLoad1 inputVoltageBiasXXnXX1 FirstStageYinnerTransistorStack1Load1 FirstStageYinnerTransistorStack1Load1 sky130_fd_pr__nfet_01v8_lvt w={param_wNormalTransistorNmos7} l={param_lNormalTransistorNmos7} m={param_mNormalTransistorNmos7} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+XNormalTransistorNmos8 SecondStageYinnerTransconductance outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt w={param_wNormalTransistorNmos8} l={param_lNormalTransistorNmos8} m={param_mNormalTransistorNmos8} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+XNormalTransistorPmos9 inputVoltageBiasXXnXX1 ibias sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt w={param_wNormalTransistorPmos9} l={param_lNormalTransistorPmos9} m={param_mNormalTransistorPmos9} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+XNormalTransistorPmos10 out ibias sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt w={param_wNormalTransistorPmos10} l={param_lNormalTransistorPmos10} m={param_mNormalTransistorPmos10} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+XNormalTransistorPmos11 outFirstStage in2 FirstStageYsourceTransconductance FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt w={param_wNormalTransistorPmos11} l={param_lNormalTransistorPmos11} m={param_mNormalTransistorPmos11} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+XNormalTransistorPmos12 FirstStageYinnerSourceLoad1 in1 FirstStageYsourceTransconductance FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt w={param_wNormalTransistorPmos12} l={param_lNormalTransistorPmos12} m={param_mNormalTransistorPmos12} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+XNormalTransistorPmos13 FirstStageYsourceTransconductance ibias sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt w={param_wNormalTransistorPmos13} l={param_lNormalTransistorPmos13} m={param_mNormalTransistorPmos13} nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29' pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1
+    Capacitor2 outFirstStage out {param_cCapacitor2}
+.ends SimpleTwoStageOpAmp_SimpleOpAmp5_2
+
+
+*** Testbench 1 unity feedback for transient, op, icmr ***
+.subckt tb_tran net_vtran_vdc
+XOpAmp net_ibias inn inp out 0 vdd! SimpleTwoStageOpAmp_SimpleOpAmp5_2
+	* Voltage sources *
+	vdd vdd! 0 DC {vdd}
+	vtran inp net_vtran_vdc PULSE({-vdd/2} {vdd/2} .01u 1n 1n .5u 1u) DC 0
+
+	vconnect inn out DC 0
+
+	* Capacitor *
+	Cload out 0 {Cload}
+
+	* Current source *
+	*Ibias net_ibias 0 DC {ibias}
+	Ibias net_ibias 0 DC {ibias}
+.ends
+xtb_tran vdcin_xtb_vtran tb_tran
+vdc_xtb_tran vdcin_xtb_vtran 0 DC {vdd/2}
+*** end Testbench 1 ***
+
+*** Testbench 2 open loop for gain, ft, phase, psrr, cmrr ***
+.subckt tb_ac_vtran vdd! offset_point
+	* OPAMP *
+	XOpAmp net_ibias inn inp out 0 vdd! SimpleTwoStageOpAmp_SimpleOpAmp5_2
+
+	****Config AC****
+	* Voltage sources *
+	Voffset offset_point inn DC 0
+	Vtran inp offset_point AC 1 DC 0
+	* Capacitor *
+	Cload out 0 {Cload}
+	* Current source *
+	*Ibias net_ibias 0 DC {ibias}
+	Ibias net_ibias 0 DC {ibias}
+	*Rbias vdd! net_ibias 250M
+.ends
+
+Vdd_source_tb_ac_vtran vdd_tb_ac_tran 0 DC {vdd} AC 0
+Vdc_source_tb_ac_vtran offset_point_tb_ac_tran 0 DC {vdd/2} AC 0
+xtb_ac_vtran vdd_tb_ac_tran offset_point_tb_ac_tran tb_ac_vtran
+*** end Testbench 2 ***
+
+*** Testbench 3 for vout min/max ***
+vdc_sweep_tb_dc_vo vsweepin 0 DC {vdd/2}
+.subckt tb_dc_vo vsweepin
+	XOpAmp net_ibias inn inp out 0 vdd! SimpleTwoStageOpAmp_SimpleOpAmp5_2
+
+	* Voltage sources *
+	vdc_inp inp 0 DC {vdd/2}
+	vdd vdd! 0 DC {vdd}
+
+
+	* Capacitor *
+	Cload out 0 {Cload}
+
+	* Current source *
+	*Ibias net_ibias 0 DC {ibias}
+	Ibias net_ibias 0 DC {ibias}
+
+	* Resistors for inverting amplifier
+	R1 vsweepin inn 1G
+	R2 inn out 10G
+.ends
+xtb_dc_vo vsweepin tb_dc_vo
+*** end Testbench 3 ***
+
+* SimulationInterface Setup *
+.control
+    echo "remove old result_op.raw file if it exists"
+	shell 'rm result_op.raw'
+    echo "remove old result_dc.raw file if it exists"
+	shell 'rm result_dc.raw'
+    echo "remove old result_ac_vtran.raw file if it exists"
+	shell 'rm result_ac_vtran.raw'
+    echo "remove old result_ac_vdd.raw file if it exists"
+	shell 'rm result_ac_vdd.raw'
+    echo "remove old result_ac_vdc.raw file if it exists"
+	shell 'rm result_ac_vdc.raw'
+    echo "remove old result_dc_vout.raw file if it exists"
+	shell 'rm result_dc_vout.raw'
+    echo "remove old result_tran.raw file if it exists"
+	shell 'rm result_tran.raw'
+
+
+	*set alternative display mode,so that (device) names do not get truncated like in tabular mode*
+	set altshow
+	option reltol=1e-3 vntol=1e-6 abstol=1e-12 temp=27 tnom=27 scale=1.0 gmin=1e-12 rforce=1 maxnotes=5 maxwarns=5 digits=5 cols=80 pivrel=1e-3
+	option maxextiter=5
+
+***Operating Point Calculation***
+    echo "***\n\nCalculate Operating Point***"
+	op
+	write result_op.raw v(xtb_tran.out) i(v.xtb_tran.vdd) v(xtb_tran.inn) xtb_tran.vdd!   @m.xtb_tran.xopamp.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[id] @m.xtb_tran.xopamp.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[id] @m.xtb_tran.xopamp.xnormaltransistornmos3.msky130_fd_pr__nfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xnormaltransistornmos3.msky130_fd_pr__nfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xnormaltransistornmos3.msky130_fd_pr__nfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xnormaltransistornmos3.msky130_fd_pr__nfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xnormaltransistornmos3.msky130_fd_pr__nfet_01v8_lvt[id] @m.xtb_tran.xopamp.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[id] @m.xtb_tran.xopamp.xnormaltransistornmos5.msky130_fd_pr__nfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xnormaltransistornmos5.msky130_fd_pr__nfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xnormaltransistornmos5.msky130_fd_pr__nfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xnormaltransistornmos5.msky130_fd_pr__nfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xnormaltransistornmos5.msky130_fd_pr__nfet_01v8_lvt[id] @m.xtb_tran.xopamp.xnormaltransistornmos6.msky130_fd_pr__nfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xnormaltransistornmos6.msky130_fd_pr__nfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xnormaltransistornmos6.msky130_fd_pr__nfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xnormaltransistornmos6.msky130_fd_pr__nfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xnormaltransistornmos6.msky130_fd_pr__nfet_01v8_lvt[id] @m.xtb_tran.xopamp.xnormaltransistornmos7.msky130_fd_pr__nfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xnormaltransistornmos7.msky130_fd_pr__nfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xnormaltransistornmos7.msky130_fd_pr__nfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xnormaltransistornmos7.msky130_fd_pr__nfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xnormaltransistornmos7.msky130_fd_pr__nfet_01v8_lvt[id] @m.xtb_tran.xopamp.xnormaltransistornmos8.msky130_fd_pr__nfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xnormaltransistornmos8.msky130_fd_pr__nfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xnormaltransistornmos8.msky130_fd_pr__nfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xnormaltransistornmos8.msky130_fd_pr__nfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xnormaltransistornmos8.msky130_fd_pr__nfet_01v8_lvt[id] @m.xtb_tran.xopamp.xnormaltransistorpmos9.msky130_fd_pr__pfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xnormaltransistorpmos9.msky130_fd_pr__pfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xnormaltransistorpmos9.msky130_fd_pr__pfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xnormaltransistorpmos9.msky130_fd_pr__pfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xnormaltransistorpmos9.msky130_fd_pr__pfet_01v8_lvt[id] @m.xtb_tran.xopamp.xnormaltransistorpmos10.msky130_fd_pr__pfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xnormaltransistorpmos10.msky130_fd_pr__pfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xnormaltransistorpmos10.msky130_fd_pr__pfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xnormaltransistorpmos10.msky130_fd_pr__pfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xnormaltransistorpmos10.msky130_fd_pr__pfet_01v8_lvt[id] @m.xtb_tran.xopamp.xnormaltransistorpmos11.msky130_fd_pr__pfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xnormaltransistorpmos11.msky130_fd_pr__pfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xnormaltransistorpmos11.msky130_fd_pr__pfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xnormaltransistorpmos11.msky130_fd_pr__pfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xnormaltransistorpmos11.msky130_fd_pr__pfet_01v8_lvt[id] @m.xtb_tran.xopamp.xnormaltransistorpmos12.msky130_fd_pr__pfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xnormaltransistorpmos12.msky130_fd_pr__pfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xnormaltransistorpmos12.msky130_fd_pr__pfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xnormaltransistorpmos12.msky130_fd_pr__pfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xnormaltransistorpmos12.msky130_fd_pr__pfet_01v8_lvt[id] @m.xtb_tran.xopamp.xnormaltransistorpmos13.msky130_fd_pr__pfet_01v8_lvt[vth] @m.xtb_tran.xopamp.xnormaltransistorpmos13.msky130_fd_pr__pfet_01v8_lvt[vgs] @m.xtb_tran.xopamp.xnormaltransistorpmos13.msky130_fd_pr__pfet_01v8_lvt[vds] @m.xtb_tran.xopamp.xnormaltransistorpmos13.msky130_fd_pr__pfet_01v8_lvt[vdsat] @m.xtb_tran.xopamp.xnormaltransistorpmos13.msky130_fd_pr__pfet_01v8_lvt[id]
+
+***Offset***
+    echo "***\n\nCalculate Offset***"
+    let offset=-(v(xtb_tran.inn)-v(xtb_tran.inp))
+	print $&offset
+
+	* use offset voltage to net have trouble with some offset going into rail
+	* configuration for sources inside of subcircuit can be found with the command "listing e"
+	alter v.xtb_ac_vtran.Voffset DC = $&offset
+	op
+
+***ICMR***
+    echo "***\n\nCalculate ICMR***"
+	dc vdc_xtb_tran 0 1.8 0.01
+	let vdiff=abs(xtb_tran.out-vdcin_xtb_vtran)
+	meas DC icmr_min FIND xtb_tran.out WHEN vdiff=0.01 FALL=1
+	meas DC icmr_max FIND xtb_tran.out WHEN vdiff=0.01 RISE=1
+	write result_dc.raw xtb_tran.out icmr_min icmr_max
+
+***Gain, FT, Phase***
+    echo "***\n\nCalculate Gain, Ft, Phase***"
+	ac dec 20 1 1G
+	*print vdb(out) ph(out)
+	* print mag(ac.out)
+
+	write result_ac_vtran.raw vdb(xtb_ac_vtran.out) ph(xtb_ac_vtran.out)
+	
+	let dc_gain=xtb_ac_vtran.out[0]
+	let dc_gain_db=db(dc_gain)
+	echo "dc_gain: $&dc_gain"
+	echo "dc_gain_db: $&dc_gain_db"
+	* calculate the theoretical dc-sweep-voltage derivative for the tb configuration of output voltage range sim with a 5% accuracy range
+	let threshold_outputrange_vec=1/(1/dc_gain + 1/10 + 1/dc_gain/10) * 0.95
+	* switch to variable, so we don't have to bother with plots
+	set threshold_outputrange=$&threshold_outputrange_vec
+	set dc_gain_var=$&dc_gain_db
+
+***PSRR***
+    echo "***\n\nCalculate PSRR***"
+	tf v(xtb_ac_vtran.out, 0) Vdd_source_tb_ac_vtran
+	let gain_vdd=db(mag(Transfer_function))
+	echo "gain_vdd: $&gain_vdd"
+	let psrr=$dc_gain_var - gain_vdd
+	echo "psrr: $&psrr"
+	write result_ac_vdd.raw gain_vdd psrr
+
+***CMRR***
+    echo "***\n\nCalculate CMRR***"
+	tf v(xtb_ac_vtran.out, 0) Vdc_source_tb_ac_vtran
+	let gain_commonmode=db(mag(Transfer_function))
+	echo "gain_commonmode: $&gain_commonmode"
+	let cmrr=$dc_gain_var - gain_commonmode
+	echo "cmrr: $&cmrr"
+	write result_ac_vdc.raw gain_commonmode cmrr
+	
+
+	*reset *->this resets also alter commands!
+***vout_min/vout_max***
+    echo "***\n\nCalculate vout***"
+    option reltol=1e-3 vntol=1e-6 abstol=1e-12 temp=27 tnom=27 scale=1.0 gmin=1e-12 rforce=1 maxnotes=5 maxwarns=5 digits=5 cols=80 pivrel=1e-3 maxextiter=5
+	dc vdc_sweep_tb_dc_vo 0 1.8 0.005
+	let deriv_out=deriv(v(xtb_dc_vo.out))
+	meas DC vout_max FIND v(xtb_dc_vo.out) WHEN deriv_out=-$threshold_outputrange FALL=1
+	meas DC vout_min FIND v(xtb_dc_vo.out) WHEN deriv_out=-$threshold_outputrange RISE=1
+	*print out
+
+	* set for slewrate calc
+	set v_high=$&vout_max
+	set v_low_rise = $&vout_min
+	set v_low_fall = $&vout_min
+
+	write result_dc_vout.raw xtb_dc_vo.out, vout_min, vout_max
+
+
+***Slew Rate***
+    echo "***\n\nCalculate Slew Rate***"
+	tran 1n 1u
+	let v_diff_rise=$v_high - $v_low_rise
+	let v_diff_fall=$v_high - $v_low_fall
+	let v_intercept_10_percent_rise = $v_low_rise + 0.1*v_diff_rise
+	let v_intercept_90_percent_rise = $v_low_rise + 0.9*v_diff_rise
+	let v_intercept_10_percent_fall = $v_low_fall + 0.1*v_diff_fall
+	let v_intercept_90_percent_fall = $v_low_fall + 0.9*v_diff_fall
+	meas TRAN tdiff_rise TRIG xtb_tran.out VAL=v_intercept_10_percent_rise RISE=1 TARG xtb_tran.out VAL=v_intercept_90_percent_rise RISE=1
+	meas TRAN tdiff_fall TRIG xtb_tran.out VAL=v_intercept_10_percent_fall FALL=1 TARG xtb_tran.out VAL=v_intercept_90_percent_fall FALL=1
+	let slew_pos=v_diff_rise/tdiff_rise
+	let slew_neg=v_diff_fall/tdiff_fall
+	echo slew_pos: $&slew_pos
+	echo slew_neg: $&slew_neg
+
+	write result_tran.raw v(xtb_tran.out) v(xtb_tran.inp) xtb_tran.vdd! slew_pos slew_neg
+
+.endc
+
+
+
+.control
+	quit
+.endc
+
+.end

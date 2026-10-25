@@ -1,0 +1,7 @@
+.subckt ota5t_stress VDD OUTP INP INN VSS VBIAS
+XM3 net3 net3 VDD VDD sky130_fd_pr__pfet_01v8 L=1 W=8 nf=1
+XM4 OUTP net3 VDD VDD sky130_fd_pr__pfet_01v8 L=1 W=8 nf=1
+XM1 net3 INP net1 VSS sky130_fd_pr__nfet_01v8 L=0.5 W=24 nf=1
+XM2 OUTP INN net1 VSS sky130_fd_pr__nfet_01v8 L=0.5 W=24 nf=1
+XM5 net1 VBIAS VSS VSS sky130_fd_pr__nfet_01v8 L=1 W=24 nf=1
+.ends ota5t_stress

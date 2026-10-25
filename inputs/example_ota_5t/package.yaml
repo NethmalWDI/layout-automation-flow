@@ -1,0 +1,34 @@
+# Design package for S0: the sized 5T OTA from llm-analog-sizing (hierarchical-optimization branch).
+# Every path is relative to the repository root. Items marked null are not available yet
+# and are reported as pending by S0, never invented.
+design: example_ota_5t
+description: >
+  Sized 5T OTA (NMOS pair 24/0.5, PMOS mirror 8/1, NMOS tail 24/1 with internal 0.75 V gate bias).
+  Specs and schematic-simulated results from the upstream repository.
+
+netlist: circuits/example_ota_5t/source/example_ota_5t_sized.spice
+config: circuits/example_ota_5t/source/config.yaml          # specs + conditions + interface
+achieved: circuits/example_ota_5t/source/measurements.json  # schematic-simulated specs
+testbenches:
+  - circuits/example_ota_5t/testbenches/diso_amp_AC.spice
+  - circuits/example_ota_5t/testbenches/diso_amp_OP.spice
+  - circuits/example_ota_5t/testbenches/diso_amp_NOISE.spice
+dut_subckt_in_testbench: example_ota_5t_sized
+
+# Upstream stage-1 hierarchy and symbolic analysis (made for the 6-transistor '5t-ota'),
+# reused through an explicit name map (docs/02_analysis.md, Addendum A1).
+upstream:
+  netlist: circuits/5t-ota/source/circuit.spice
+  hierarchy: circuits/5t-ota/source/hierarchy.json
+  primitives: circuits/5t-ota/source/primitives.json
+  equations: circuits/5t-ota/source/5t-ota_differential_equations.json
+  name_map: inputs/example_ota_5t/name_map.yaml
+
+# Ideal bias sources inside the DUT: kept for simulation, removed in the layout view,
+# their positive node exposed as this port.
+bias_sources:
+  V1: VBIAS
+
+operating_point: null    # S1 generates it (ngspice .op)
+variation_ranges: null   # awaiting the PSO range format
+conditions_override: {}

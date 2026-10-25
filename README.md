@@ -40,4 +40,32 @@ bash scripts/magic_drc.sh runs/align/A0_ota5t_baseline/OTA5T_0.gds OTA5T_0 runs/
 bash scripts/magic_lvs.sh runs/align/A0_ota5t_baseline/OTA5T_0.gds OTA5T_0 runs/align/A0_ota5t_baseline/ref/ota5t_design_ref.spice ota5t runs/align/A0_ota5t_baseline/lvs_vs_design
 ```
 
-Stages S0–S3 will be added here as they are implemented.
+## S0 — ingest and freeze a design package
+
+Run inside `layout-s0s3`, from `/foss/designs`:
+
+```bash
+python3 -m pytest -q tests/test_s0.py tests/test_s0_integration.py   # unit + LVS negative-control tests
+python3 -m src.s0.ingest inputs/example_ota_5t/package.yaml        # outputs/S0/example_ota_5t/
+python3 -m src.s0.ingest inputs/ota5t_stress/package.yaml          # stress variant (CL = 200 fF)
+```
+
+**Outputs:**
+
+| File | Contents |
+|---|---|
+| `circuit_ir.json` | Devices, nets, port roles, hierarchy blocks, specs, achieved values, margins, pending inputs |
+| `device_map.json` | Exact Magic PCell call per device |
+| `pdk_config.yaml` | PDK and tool configuration |
+| `ref/*_full.spice` | Simulation view |
+| `ref/*_layout.spice` | LVS reference |
+| `s0_report.json` | Every gate, with its evidence |
+
+## LOADBench subset (no full download)
+
+```bash
+/opt/venv-tools/bin/python scripts/loadbench_fetch.py index TwoStageOpAmps.zip
+/opt/venv-tools/bin/python scripts/loadbench_fetch.py fetch TwoStageOpAmps.zip SimpleTwoStageOpAmp_SimpleOpAmp1_1/
+```
+
+S1–S3 will be added here as they are implemented.

@@ -1,0 +1,193 @@
+{
+  "design": "example_ota_5t",
+  "package": "inputs/example_ota_5t/package.yaml",
+  "gates": {
+    "G0.1_inventory": {
+      "pass": true,
+      "mosfets": 5,
+      "sources": 1,
+      "passives": 0
+    },
+    "G0.2_validation": {
+      "pass": true,
+      "errors": []
+    },
+    "G0.3_hash_freeze": {
+      "pass": true,
+      "files": [
+        {
+          "file": "circuits/example_ota_5t/source/example_ota_5t_sized.spice",
+          "recorded": "39802d1314806938ea81857dd768e31c84129519bbd0e96a0d142d709599dbb1",
+          "now": "39802d1314806938ea81857dd768e31c84129519bbd0e96a0d142d709599dbb1",
+          "match": true
+        },
+        {
+          "file": "circuits/example_ota_5t/source/config.yaml",
+          "recorded": "ca49ca700f84bf2859f32cb35c69c98af5705dc5a66daa071c6d061ad8222a5e",
+          "now": "ca49ca700f84bf2859f32cb35c69c98af5705dc5a66daa071c6d061ad8222a5e",
+          "match": true
+        },
+        {
+          "file": "circuits/example_ota_5t/source/measurements.json",
+          "recorded": "e5e642623b2dc9f9c2986259e3bfec7e0044580b0dae38ae3105a0f39b2f3b70",
+          "now": "e5e642623b2dc9f9c2986259e3bfec7e0044580b0dae38ae3105a0f39b2f3b70",
+          "match": true
+        }
+      ]
+    },
+    "G0.4_name_map": {
+      "pass": true,
+      "findings": [
+        {
+          "level": "manual",
+          "msg": "upstream XM6 (nmos_current_mirror_bias) has no target device"
+        },
+        {
+          "level": "manual",
+          "msg": "XM5.g on upstream net Iref (unmapped); target XM5.g on net2"
+        },
+        {
+          "level": "assumption",
+          "msg": "ASSUMPTION: bias block. Upstream nmos_current_mirror_bias {XM6, XM5} has no full counterpart; the target tail XM5 is a single device whose gate is driven by internal source V1 (net2 = VBIAS). It is mapped by hand as a one-device tail current source. In differential mode the tail is a virtual ground, so the upstream DM equations are unaffected.\n"
+        }
+      ]
+    },
+    "G0.5_round_trip_lvs": {
+      "match_uniquely": true,
+      "property_errors": false,
+      "pin_mismatch": false,
+      "pass": true,
+      "report": "outputs/S0/example_ota_5t/ref/round_trip_lvs.txt"
+    },
+    "G0.6_testbench_reproduction": {
+      "pass": true,
+      "tolerance_rel": 0.001,
+      "compare": {
+        "gain_db": {
+          "upstream": 31.697,
+          "rerun": 31.697,
+          "ok": true
+        },
+        "gbw_mhz": {
+          "upstream": 104.455,
+          "rerun": 104.455,
+          "ok": true
+        },
+        "pm_deg": {
+          "upstream": 80.9348,
+          "rerun": 80.9348,
+          "ok": true
+        },
+        "isup_ua": {
+          "upstream": 84.7774,
+          "rerun": 84.7774,
+          "ok": true
+        },
+        "power_uw": {
+          "upstream": 152.599,
+          "rerun": 152.599,
+          "ok": true
+        },
+        "vout_v": {
+          "upstream": 0.400774,
+          "rerun": 0.400774,
+          "ok": true
+        },
+        "vnoise_nv_rthz": {
+          "upstream": 339.064,
+          "rerun": 339.064,
+          "ok": true
+        },
+        "vnoise_rms_uv_rms": {
+          "upstream": 398.929,
+          "rerun": 398.929,
+          "ok": true
+        }
+      }
+    }
+  },
+  "notes": [],
+  "testbenches": {
+    "diso_amp_AC": {
+      "rc": 0,
+      "meas": {
+        "gain_db": 31.697,
+        "gbw_mhz": 104.455,
+        "pm_deg": 80.9348
+      },
+      "log": "outputs/S0/example_ota_5t/tb/diso_amp_AC.log"
+    },
+    "diso_amp_OP": {
+      "rc": 0,
+      "meas": {
+        "isup_ua": 84.7774,
+        "power_uw": 152.599,
+        "vout_v": 0.400774
+      },
+      "log": "outputs/S0/example_ota_5t/tb/diso_amp_OP.log"
+    },
+    "diso_amp_NOISE": {
+      "rc": 0,
+      "meas": {
+        "vnoise_nv_rthz": 339.064,
+        "vnoise_rms_uv_rms": 398.929
+      },
+      "log": "outputs/S0/example_ota_5t/tb/diso_amp_NOISE.log"
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-10-25T05:16:12+00:00",
+    "git_commit": "72a04727bb81e826603f995b8d1d262fbf8bfbbb",
+    "inputs": [
+      {
+        "path": "circuits/example_ota_5t/source/example_ota_5t_sized.spice",
+        "sha256": "39802d1314806938ea81857dd768e31c84129519bbd0e96a0d142d709599dbb1"
+      },
+      {
+        "path": "circuits/example_ota_5t/source/config.yaml",
+        "sha256": "ca49ca700f84bf2859f32cb35c69c98af5705dc5a66daa071c6d061ad8222a5e"
+      },
+      {
+        "path": "circuits/example_ota_5t/source/measurements.json",
+        "sha256": "e5e642623b2dc9f9c2986259e3bfec7e0044580b0dae38ae3105a0f39b2f3b70"
+      },
+      {
+        "path": "inputs/example_ota_5t/package.yaml",
+        "sha256": "326540db2ba54b054af7bb4a5768a2851981006e4cf92481611bb92f4efbec10"
+      },
+      {
+        "path": "circuits/5t-ota/source/circuit.spice",
+        "sha256": "f04da8a25bdd5f9b239f1870dd0a8abf46350c602184810743aa66a104cb00fd"
+      },
+      {
+        "path": "circuits/5t-ota/source/hierarchy.json",
+        "sha256": "2449e2835eb22952d7a9b95486bd69de88ec3c34e13945a84a8fa27860aa78ef"
+      },
+      {
+        "path": "circuits/5t-ota/source/primitives.json",
+        "sha256": "286f6c5fee07ae85a51666df811984ce7e104ba18990adc4f3bef1b13824b823"
+      },
+      {
+        "path": "circuits/5t-ota/source/5t-ota_differential_equations.json",
+        "sha256": "31ad9ff615026ec1b52a87a74bc8c7d55e1358f3e9311e9b23ea5df7ae6105d6"
+      },
+      {
+        "path": "inputs/example_ota_5t/name_map.yaml",
+        "sha256": "6f89e8bbeef26e3ff4616f95640411016307656d3331c7c788340a58b36a0402"
+      },
+      {
+        "path": "circuits/example_ota_5t/testbenches/diso_amp_AC.spice",
+        "sha256": "873c953408e3f95a7a45189f02d466d76f4d7185e92fcf5369dbf20bb11793d4"
+      },
+      {
+        "path": "circuits/example_ota_5t/testbenches/diso_amp_OP.spice",
+        "sha256": "1d82119e9e93edc4bacf749caaa8873a0736fd5784d2182ecf9434ad66d04a0b"
+      },
+      {
+        "path": "circuits/example_ota_5t/testbenches/diso_amp_NOISE.spice",
+        "sha256": "14f2993186f9710cd3812a1d0ef26a78211c5b1caec7fc256ea328eb6f15477b"
+      }
+    ]
+  }
+}

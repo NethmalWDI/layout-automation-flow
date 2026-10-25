@@ -1,0 +1,15 @@
+# STRESS TEST VARIANT — not a design target.
+# Same sized 5T OTA, smaller load (200 fF instead of 1 pF) so that layout parasitics
+# consume a measurable share of the margins (docs/06_final_plan_critical_review.md, D6).
+# Specs are derived from this variant's own simulated results (ASSUMPTION, labelled in the IR).
+inherit: inputs/example_ota_5t/package.yaml
+design: ota5t_stress
+description: >
+  STRESS VARIANT of example_ota_5t: CL = 200 fF. Specs = own achieved values tightened
+  (gain -0.5 dB, GBW x0.9, PM -5 deg). For method evaluation only.
+conditions_override:
+  CL_F: 200f
+specs_from_achieved:
+  gain_db: {min_delta: -0.5}
+  gbw_mhz: {min_factor: 0.9}
+  pm_deg: {min_delta: -5.0}

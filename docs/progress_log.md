@@ -115,3 +115,70 @@
 - **Caveat:** mock-PDK geometry. It is **not** SKY130, and no DRC or LVS is possible on it.
 
 **Plan:** `docs/03_plan_S0-S3.md` is written and awaiting approval.
+
+## 2026-10-25 — S0 implemented and passing (example_ota_5t + stress variant)
+
+**Folder move.** The source folder moved to `Desktop\01_Research_Projects\Layout_Automation_LLM`. Access was granted again. The SHA-256 hashes of the sources match the copies in `circuits/`.
+
+**ALIGN example batch (from 23 Oct, now committed):**
+
+| Example | Result |
+|---|---|
+| five_transistor_ota | DRC 0 |
+| current_mirror_ota | **DRC 50** |
+| telescopic_ota | **DRC 8** |
+| buffer, inverter | killed by out-of-memory (exit 137) |
+| umich_test_case | failed |
+
+This is more evidence against ALIGN as our SKY130 engine.
+
+**Code**
+
+| Path | What it does |
+|---|---|
+| `src/common/spice.py` | Strict parser/writer. Supported elements: X-MOSFET (sky130 models), V, R, C. Anything else raises an error. |
+| `src/common/tools.py` | ngspice/netgen runners and provenance |
+| `src/s0/ingest.py` | The S0 stage |
+| `inputs/<design>/package.yaml` | Design-package contract |
+| `inputs/example_ota_5t/name_map.yaml` | Name map onto the 5t-ota hierarchy |
+
+**Tests**
+
+- `tests/test_s0.py`: 11 unit tests, including negative ones. Rejected inputs: unknown model, missing W, dangling net, duplicate name, unsupported element, wrong name map.
+- `tests/test_s0_integration.py`: LVS round-trip, which must also *detect* a rewiring and a W change.
+
+**Results** (`outputs/S0/<design>/s0_report.json`)
+
+| Gate | example_ota_5t | ota5t_stress |
+|---|---|---|
+| G0.1 inventory (5 FETs + V1) | PASS | PASS |
+| G0.2 validation | PASS | PASS |
+| G0.3 hash freeze | PASS | PASS |
+| G0.4 name map (3 blocks; bias block flagged as manual ASSUMPTION) | PASS | PASS |
+| G0.5 round-trip LVS (IR-written netlist vs original, 6 devices / 8 nets, "match uniquely") | PASS | PASS |
+| G0.6 testbench reproduction (IR netlist in the upstream AC/OP/NOISE decks) | PASS, exact to all digits: 31.697 dB, 104.455 MHz, 80.9348°, 84.7774 µA, 339.064 nV/√Hz | PASS (generated) |
+
+**Negative control.** Rewiring XM4's gate to INP makes the round-trip LVS FAIL (`runs/S0_negctl`), so the checker is live.
+
+**Stress variant** (CL = 200 fF, ASSUMPTION-labelled specs):
+
+| Spec | Achieved | Margin |
+|---|---|---|
+| Gain | 31.697 dB | 0.5 dB |
+| GBW | 373.65 MHz | 37.4 MHz (spec ≥ 336.3) |
+| PM | 65.08° | 5.0° (spec ≥ 60.08) |
+
+Layout parasitics will now consume a visible share of the margin, which is the purpose of this variant.
+
+**LOADBench, fetched without the 15 GB download**
+
+- `scripts/loadbench_fetch.py` uses `remotezip` 0.12.3 in `/opt/venv-tools` (container only) with HTTP range requests.
+- **Index:** `TwoStageOpAmps.zip` has 554 entries and is 14.97 GB, of which about 350 MB per topology is `all_sims.zip`.
+- **Fetched:** only the small files for 4 two-stage topologies (1_1, 5_2, 33_7, 72_1), **3.8 MB in total**, into `circuits/loadbench/`:
+  - parameterised netlist + testbench (`example_run/CombinedTestBench.cir`, `params.cir`);
+  - 1024 Pareto sizings (`FinalPOFfull.csv`);
+  - hierarchy: `struct_recognition.xml` (diff pairs, mirrors, arrays) and `partitioning.xml` (stages, load, bias).
+- **Notes:**
+  - The devices use `*_lvt` models and `m=` multipliers.
+  - Some Pareto widths reach hundreds of µm.
+  - Turning these into design packages (parameter substitution plus hierarchy from the XML) is the next S0 extension.
