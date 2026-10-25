@@ -3,6 +3,7 @@
   "gates": {
     "G1.1_operating_point": {
       "pass": true,
+      "numerical_warnings": [],
       "saturation": {
         "XM3": {
           "vds": 1.39451,
@@ -305,12 +306,431 @@
         "gbw_mhz": 120.0383671998469,
         "pm_deg": 25.53633521085213
       }
+    },
+    "G1.6_resistance_sensitivity_vs_spice": {
+      "pass": true,
+      "checks": [
+        {
+          "case": "XM3+XM4.d",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -0.00039999999999878354,
+          "linear": -0.00024495681341818454
+        },
+        {
+          "case": "XM3+XM4.d",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.00015000000000000568,
+          "spice_100ohm": -0.0001480000000000814,
+          "spice_extrapolated_0": -0.00015049999999998674,
+          "step_consistency": 0.013333333332828096,
+          "pred_err_at_100ohm_frac_of_margin": 4.9999999998107114e-05,
+          "linear": -0.00015688306167191968,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.014871073370329668,
+            "spice_change": -0.01480000000000814,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM3+XM4.d",
+          "spec": "gain_db",
+          "spice_20ohm": -2.4999999999941735e-05,
+          "spice_100ohm": -2.3999999999979594e-05,
+          "spice_extrapolated_0": -2.5249999999932272e-05,
+          "step_consistency": 0.03999999999857889,
+          "pred_err_at_100ohm_frac_of_margin": 0.00024999999999053557,
+          "linear": 3.822177966128493e-07,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.0023808889139402822,
+            "spice_change": -0.0023999999999979593,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM3+XM4.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -0.0007025000000005833,
+          "linear": -0.0006815662971405345
+        },
+        {
+          "case": "XM3+XM4.g",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.000560000000000116,
+          "spice_100ohm": -0.0005580000000000496,
+          "spice_extrapolated_0": -0.0005605000000001325,
+          "step_consistency": 0.0035714285715464063,
+          "pred_err_at_100ohm_frac_of_margin": 5.000000000165896e-05,
+          "linear": -0.0005613885223652914,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.056145025609325216,
+            "spice_change": -0.05580000000000496,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM3+XM4.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": -3.552713678800501e-15
+        },
+        {
+          "case": "XM3+XM4.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.019950000000000044,
+          "spice_100ohm": -0.02021000000000015,
+          "spice_extrapolated_0": -0.019885000000000017,
+          "step_consistency": 0.012864918357254103,
+          "pred_err_at_100ohm_frac_of_margin": 0.0008697886279823955,
+          "linear": -0.012185874452160305,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -2.0236839625570155,
+            "spice_change": -2.021000000000015,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM3+XM4.s",
+          "spec": "pm_deg",
+          "spice_20ohm": 0.0007399999999996964,
+          "spice_100ohm": 0.0008010000000000161,
+          "spice_extrapolated_0": 0.0007247499999996165,
+          "step_consistency": 0.07615480649228273,
+          "pred_err_at_100ohm_frac_of_margin": 0.0015250000000079913,
+          "linear": -0.00023690111501082357,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.07853488340298043,
+            "spice_change": 0.08010000000000161,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM3+XM4.s",
+          "spec": "gain_db",
+          "spice_20ohm": -0.002895000000000003,
+          "spice_100ohm": -0.0029639999999999844,
+          "spice_extrapolated_0": -0.002877750000000008,
+          "step_consistency": 0.023279352226714494,
+          "pred_err_at_100ohm_frac_of_margin": 0.017249999999995307,
+          "linear": 0.00010924841056159096,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.296026371010754,
+            "spice_change": -0.29639999999999844,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM1+XM2.d",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.01009999999999991,
+          "spice_100ohm": -0.010369999999999777,
+          "spice_extrapolated_0": -0.010032499999999943,
+          "step_consistency": 0.026036644165850855,
+          "pred_err_at_100ohm_frac_of_margin": 0.0009032420367501332,
+          "linear": -0.0037239380838457238,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -1.0352282400254467,
+            "spice_change": -1.0369999999999777,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM1+XM2.d",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.0014150000000000772,
+          "spice_100ohm": -0.0013930000000000576,
+          "spice_extrapolated_0": -0.001420500000000082,
+          "step_consistency": 0.015547703180225029,
+          "pred_err_at_100ohm_frac_of_margin": 0.0005500000000004893,
+          "linear": -0.002188219663810287,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.14062156650931001,
+            "spice_change": -0.13930000000000575,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM1+XM2.d",
+          "spec": "gain_db",
+          "spice_20ohm": -0.0023849999999999484,
+          "spice_100ohm": -0.0024269999999999925,
+          "spice_extrapolated_0": -0.0023744999999999374,
+          "step_consistency": 0.017305315203973753,
+          "pred_err_at_100ohm_frac_of_margin": 0.010500000000011021,
+          "linear": -7.670431542905476e-06,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.24258581300271942,
+            "spice_change": -0.24269999999999925,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM1+XM2.g",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.008750000000000568,
+          "spice_100ohm": -0.009049999999999727,
+          "spice_extrapolated_0": -0.00867500000000078,
+          "step_consistency": 0.033149171270626256,
+          "pred_err_at_100ohm_frac_of_margin": 0.0010036022630533787,
+          "linear": -0.008663402870161008,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.9050629606560392,
+            "spice_change": -0.9049999999999727,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM1+XM2.g",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.009570000000000078,
+          "spice_100ohm": -0.009517000000000024,
+          "spice_extrapolated_0": -0.009583250000000092,
+          "step_consistency": 0.005538140020904316,
+          "pred_err_at_100ohm_frac_of_margin": 0.0013250000000013598,
+          "linear": -0.009655973038400134,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.9587583786376115,
+            "spice_change": -0.9517000000000024,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM1+XM2.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "XM1+XM2.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.24464999999999862,
+          "spice_100ohm": -0.23427999999999996,
+          "spice_extrapolated_0": -0.24724249999999828,
+          "step_consistency": 0.04238708358879508,
+          "pred_err_at_100ohm_frac_of_margin": 0.03469118489297134,
+          "linear": -0.24460060903076625,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -23.66256944507427,
+            "spice_change": -23.427999999999997,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM1+XM2.s",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.000455000000000183,
+          "spice_100ohm": 0.00019499999999993633,
+          "spice_extrapolated_0": -0.0006175000000002128,
+          "step_consistency": 1.4285714285711162,
+          "pred_err_at_100ohm_frac_of_margin": 0.016250000000002984,
+          "linear": -0.0008154414350840967,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.014033156368085997,
+            "spice_change": 0.019499999999993634,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM1+XM2.s",
+          "spec": "gain_db",
+          "spice_20ohm": 0.00011000000000009891,
+          "spice_100ohm": 0.00012399999999999523,
+          "spice_extrapolated_0": 0.00010650000000012483,
+          "step_consistency": 0.11290322580561986,
+          "pred_err_at_100ohm_frac_of_margin": 0.0034999999999740803,
+          "linear": -0.0003804348935588564,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.011848523015778767,
+            "spice_change": 0.012399999999999523,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM5.d",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.01839999999999975,
+          "spice_100ohm": -0.019540000000000078,
+          "spice_extrapolated_0": -0.018114999999999666,
+          "step_consistency": 0.058341862845461806,
+          "pred_err_at_100ohm_frac_of_margin": 0.0038136885996146465,
+          "linear": 3.109826694185358e-05,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -1.969049948316922,
+            "spice_change": -1.9540000000000077,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM5.d",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.00016499999999979308,
+          "spice_100ohm": -0.00017300000000005866,
+          "spice_extrapolated_0": -0.00016299999999972668,
+          "step_consistency": 0.04624277456799345,
+          "pred_err_at_100ohm_frac_of_margin": 0.00020000000000663966,
+          "linear": -7.144183459217856e-06,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.016817014356519167,
+            "spice_change": -0.017300000000005866,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM5.d",
+          "spec": "gain_db",
+          "spice_20ohm": 0.0009800000000000253,
+          "spice_100ohm": 0.0010300000000000153,
+          "spice_extrapolated_0": 0.0009675000000000278,
+          "step_consistency": 0.048543689320377864,
+          "pred_err_at_100ohm_frac_of_margin": 0.012499999999997496,
+          "linear": 1.4715903958517628e-06,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.10303872400091763,
+            "spice_change": 0.10300000000000153,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM5.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -4.999999999853344e-05,
+          "linear": -5.85915673582349e-05
+        },
+        {
+          "case": "XM5.g",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 2.4500000000138303e-05,
+          "linear": 2.629941657374957e-05
+        },
+        {
+          "case": "XM5.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "XM5.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.2405000000000001,
+          "spice_100ohm": -0.22855999999999996,
+          "spice_extrapolated_0": -0.24348500000000015,
+          "step_consistency": 0.04964656964657023,
+          "pred_err_at_100ohm_frac_of_margin": 0.039943370069637094,
+          "linear": -0.00022420103329068297,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -23.11700183509646,
+            "spice_change": -22.855999999999995,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM5.s",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.0027100000000004343,
+          "spice_100ohm": -0.0021070000000000277,
+          "spice_extrapolated_0": -0.002860750000000536,
+          "step_consistency": 0.2225092250923653,
+          "pred_err_at_100ohm_frac_of_margin": 0.015075000000010167,
+          "linear": -7.116629920744799e-06,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.20949643499608328,
+            "spice_change": -0.21070000000000277,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM5.s",
+          "spec": "gain_db",
+          "spice_20ohm": 0.012664999999999971,
+          "spice_100ohm": 0.010877999999999978,
+          "spice_extrapolated_0": 0.01311174999999997,
+          "step_consistency": 0.1410975128306354,
+          "pred_err_at_100ohm_frac_of_margin": 0.44674999999999854,
+          "linear": 1.9492520976882588e-05,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 1.0874663222669199,
+            "spice_change": 1.0877999999999979,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        }
+      ],
+      "values_ohm": [
+        20.0,
+        100.0
+      ],
+      "note": "matched terminals varied symmetrically. Pass = SPICE slopes consistent between 20 and 100 ohm (or first-order prediction within 5 % of the margin at 100 ohm) AND the linear model explains the change: either directly (small-signal) or when re-solved at the operating point SPICE finds with the resistor inserted (bias shift)."
     }
   },
   "all_pass": true,
   "provenance": {
-    "created": "2026-10-25T06:01:24+00:00",
-    "git_commit": "2eb089aa429e2fe49c06b7bee3b022566cec3acf",
+    "created": "2026-10-25T07:34:33+00:00",
+    "git_commit": "75059082c9fbb0c5c4c70931342c8a75984e7f8d",
     "inputs": [
       {
         "path": "outputs/S0/ota5t_stress/circuit_ir.json",

@@ -116,6 +116,60 @@ def evidence(design: str, pb: dict) -> Path:
     return out
 
 
+def s3_montage(design: str) -> list:
+    """Chosen device cells (and the default PCell for comparison) with their sign-off verdicts."""
+    f = REPO / "outputs" / "S3" / design / "device_decisions.json"
+    if not f.exists():
+        return []
+    dec = json.loads(f.read_text())["decisions"]
+    panels = []
+    for tid, d in dec.items():
+        dv = d.get("vs_default") or {}
+        if dv.get("default_cell") and dv["default_cell"] != d["cell"]:
+            panels.append(("default", tid, dv["default_cell"], None))
+        panels.append(("chosen", tid, d["cell"], d))
+    fig, axs = plt.subplots(1, len(panels), figsize=(2.7 * len(panels), 6.4))
+    axs = axs if len(panels) > 1 else [axs]
+    for ax, (kind, tid, cell, d) in zip(axs, panels):
+        png = REPO / "outputs" / "S3" / "_cells" / cell / f"{cell}.png"
+        if png.exists():
+            ax.imshow(crop(mpimg.imread(png)))
+        ax.set_xticks([]); ax.set_yticks([])
+        rec = json.loads((REPO / "outputs" / "S3" / "_cells" / cell / "record.json").read_text())
+        opt = rec["option"]["id"]
+        devs = ", ".join(dec[tid]["devices"])
+        ax.set_title(f"{kind.upper()}  {devs}\n{opt}\narea {rec['geometry']['area_um2']:.1f} um2", fontsize=8,
+                     color="#1a7f37" if kind == "chosen" else "#57606a")
+        ax.set_xlabel(f"DRC {rec['drc']['errors']} (neg ctl {rec['drc']['neg_control_flagged']})\n"
+                      f"LVS {'match' if rec['lvs']['match'] else 'MISMATCH'} (neg ctl {rec['lvs']['neg_control_rejected']})",
+                      fontsize=7.5, color="#1a7f37" if rec.get("ok") else "#cf222e")
+    fig.suptitle(f"{design}: S3 device cells (SKY130 Magic PCell + finger straps), default vs chosen", fontsize=10)
+    fig.tight_layout()
+    out = IMG / f"{design}_s3_cells.png"
+    fig.savefig(out, dpi=110)
+    plt.close(fig)
+    lines = []
+    for tid, d in dec.items():
+        c = REPO / "outputs" / "S3" / "_cells" / d["cell"]
+        lines.append(f"== {d['cell']}  ({', '.join(d['devices'])})")
+        for ln in grep(c / "drc" / "drc_magic.log", [r"^DRC_TOTAL", r"^NEG_CONTROL_TOTAL"]):
+            lines.append(f"  drc/drc_magic.log            : {ln}")
+        for ln in grep(c / "lvs" / "lvs" / "lvs_report.txt", [r"^Final result", r"Property errors", r"Netlists"]):
+            lines.append(f"  lvs/lvs/lvs_report.txt       : {ln}")
+        lines.append(f"  lvs/lvs/lvs_report.json      : property differences: {prop_errors(c / 'lvs' / 'lvs' / 'lvs_report.json')}")
+        for ln in grep(c / "lvs" / "lvs_negctl" / "lvs_report.txt", [r"^Final result", r"Property errors"]):
+            lines.append(f"  lvs/lvs_negctl (L+0.1um)     : {ln}")
+    h = 0.165 * len(lines) + 0.7
+    fig = plt.figure(figsize=(12.5, h))
+    fig.text(0.01, 1 - 0.12 / h, f"{design}: chosen S3 cells, verbatim tool output (outputs/S3/_cells/<cell>/)",
+             va="top", fontsize=10, weight="bold")
+    fig.text(0.01, 1 - 0.45 / h, "\n".join(lines), va="top", family="monospace", fontsize=8.2, linespacing=1.25)
+    out2 = IMG / f"{design}_s3_evidence.png"
+    fig.savefig(out2, dpi=110)
+    plt.close(fig)
+    return [out, out2]
+
+
 def main(argv: list[str]) -> int:
     IMG.mkdir(parents=True, exist_ok=True)
     for design in argv:
@@ -124,11 +178,14 @@ def main(argv: list[str]) -> int:
             pb = json.loads(pbf.read_text())
             print(montage(design, pb).relative_to(REPO))
             print(evidence(design, pb).relative_to(REPO))
-        plots = REPO / "outputs" / "S1" / design / "plots"
-        for p in sorted(plots.glob("*.png")) if plots.exists() else []:
-            dst = IMG / f"{design}_s1_{p.name}"
-            shutil.copyfile(p, dst)
-            print(dst.relative_to(REPO))
+        for st in ("S1", "S2", "S3"):
+            plots = REPO / "outputs" / st / design / "plots"
+            for p in sorted(plots.glob("*.png")) if plots.exists() else []:
+                dst = IMG / f"{design}_{st.lower()}_{p.name}"
+                shutil.copyfile(p, dst)
+                print(dst.relative_to(REPO))
+        for f in s3_montage(design):
+            print(f.relative_to(REPO))
     return 0
 
 

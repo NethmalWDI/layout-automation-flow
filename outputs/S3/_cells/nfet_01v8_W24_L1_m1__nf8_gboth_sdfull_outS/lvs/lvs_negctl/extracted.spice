@@ -1,0 +1,17 @@
+* NGSPICE file created from nfet_01v8_W24_L1_m1__nf8_gboth_sdfull_outS.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_RPCQES G B a_1003_n300# D6 D4 D2 D0 S7 S5 S3 S1
+X0 D4 G S3 B sky130_fd_pr__nfet_01v8 ad=0.435 pd=3.29 as=0.435 ps=3.29 w=3 l=1
+X1 S5 G D4 B sky130_fd_pr__nfet_01v8 ad=0.435 pd=3.29 as=0.435 ps=3.29 w=3 l=1
+X2 D2 G S1 B sky130_fd_pr__nfet_01v8 ad=0.435 pd=3.29 as=0.435 ps=3.29 w=3 l=1
+X3 S1 G D0 B sky130_fd_pr__nfet_01v8 ad=0.435 pd=3.29 as=0.87 ps=6.58 w=3 l=1
+X4 S3 G D2 B sky130_fd_pr__nfet_01v8 ad=0.435 pd=3.29 as=0.435 ps=3.29 w=3 l=1
+X5 S7 G D6 B sky130_fd_pr__nfet_01v8 ad=0.435 pd=3.29 as=0.435 ps=3.29 w=3 l=1
+X6 a_1003_n300# G S7 B sky130_fd_pr__nfet_01v8 ad=0.87 pd=6.58 as=0.435 ps=3.29 w=3 l=1
+X7 D6 G S5 B sky130_fd_pr__nfet_01v8 ad=0.435 pd=3.29 as=0.435 ps=3.29 w=3 l=1
+.ends
+
+.subckt nfet_01v8_W24_L1_m1__nf8_gboth_sdfull_outS S D G B
+Xnfet_01v8_W24_L1_m1__nf8_gboth_sdfull_outS_pc G B S S S S S D D D D sky130_fd_pr__nfet_01v8_RPCQES
+.ends
+

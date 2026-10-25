@@ -1,0 +1,70 @@
++ for d in ota5t_stress example_ota_5t
++ python3 -m src.s1.run inputs/ota5t_stress/package.yaml
+G1.1_operating_point                          PASS
+G1.2_linear_model_vs_spice                    PASS
+G1.3_sensitivity_vs_spice                     PASS
+G1.4_matching_groups                          PASS
+G1.5_symbolic_vs_spice (reported, not gated)  INFO
+G1.6_resistance_sensitivity_vs_spice          PASS
+S1 PASS -> outputs/S1/ota5t_stress
++ for d in ota5t_stress example_ota_5t
++ python3 -m src.s1.run inputs/example_ota_5t/package.yaml
+G1.1_operating_point                          PASS
+G1.2_linear_model_vs_spice                    PASS
+G1.3_sensitivity_vs_spice                     PASS
+G1.4_matching_groups                          PASS
+G1.5_symbolic_vs_spice (reported, not gated)  INFO
+G1.6_resistance_sensitivity_vs_spice          PASS
+S1 PASS -> outputs/S1/example_ota_5t
++ python3 -m src.s2.pdk_parasitics
+locali  w=0.17 s=0.17  R=75.29 ohm/um  Cg=87.69 aF/um  Cplane=133.37 aF/um  Cc=41.13 aF/um
+metal1  w=0.14 s=0.14  R=0.8929 ohm/um  Cg=84.75 aF/um  Cplane=158.44 aF/um  Cc=56.41 aF/um
+metal2  w=0.14 s=0.14  R=0.8929 ohm/um  Cg=77.97 aF/um  Cplane=183.23 aF/um  Cc=56.82 aF/um
+metal3  w=0.3 s=0.3  R=0.1567 ohm/um  Cg=85.69 aF/um  Cplane=198.45 aF/um  Cc=52.86 aF/um
+metal4  w=0.3 s=0.3  R=0.1567 ohm/um  Cg=75.89 aF/um  Cplane=198.47 aF/um  Cc=54.02 aF/um
+PDK parasitics OK -> outputs/S2/pdk/parasitics.json
++ for d in ota5t_stress example_ota_5t
++ python3 -m src.s2.run inputs/ota5t_stress/package.yaml
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/foss/designs/src/s2/run.py", line 438, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/foss/designs/src/s2/run.py", line 375, in main
+    cons = R.build(ir, intent, budgets_doc, pdk, currents, hier, sizes, offset)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/foss/designs/src/s2/rules.py", line 91, in build
+    "input_offset_uV_per_ohm": o["input_offset_uV_per_ohm"],
+                               ~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'input_offset_uV_per_ohm'
++ for d in ota5t_stress example_ota_5t
++ python3 -m src.s2.run inputs/example_ota_5t/package.yaml
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/foss/designs/src/s2/run.py", line 438, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/foss/designs/src/s2/run.py", line 375, in main
+    cons = R.build(ir, intent, budgets_doc, pdk, currents, hier, sizes, offset)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/foss/designs/src/s2/rules.py", line 91, in build
+    "input_offset_uV_per_ohm": o["input_offset_uV_per_ohm"],
+                               ~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'input_offset_uV_per_ohm'
++ for d in ota5t_stress example_ota_5t
++ python3 -m src.s3.run inputs/ota5t_stress/package.yaml
+G3.1_chosen_DRC                          PASS
+G3.2_chosen_LVS_W_L_nf                   PASS
+G3.3_all_chosen_devices_in_circuit       FAIL
+G3.4_option_table_complete               PASS
+G3.5_no_relaxation                       FAIL
+G3.6_model_has_no_gate_resistance        PASS
+  pfet_01v8_W8_L1_m1           -> nf1_gboth_sdfull         area 30.2 um2  R(d,g,s)=27.3, 72.5, 27.3 ohm
+  nfet_01v8_W24_L0p5_m1        -> nf4_gboth_sdfull_outS    area 37.7 um2  R(d,g,s)=8.5, 32.2, 5.6 ohm
+  nfet_01v8_W24_L1_m1          -> nf4_gboth_sdfull_outS    area 53.7 um2  R(d,g,s)=8.5, 16.1, 5.6 ohm
+S3 FAIL -> outputs/S3/ota5t_stress
++ for d in ota5t_stress example_ota_5t
++ python3 -m src.s3.run inputs/example_ota_5t/package.yaml
+Terminated

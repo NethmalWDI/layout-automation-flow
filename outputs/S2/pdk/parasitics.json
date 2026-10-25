@@ -1,0 +1,318 @@
+{
+  "rules": {
+    "source": "/foss/pdks/sky130A/libs.tech/magic/sky130A.tech",
+    "layers": {
+      "locali": {
+        "min_width_um": 0.17,
+        "width_rule": "li.1",
+        "min_spacing_um": 0.17,
+        "spacing_rule": "li.3",
+        "sheet_res_ohm_sq": 12.8
+      },
+      "metal1": {
+        "min_width_um": 0.14,
+        "width_rule": "met1.1",
+        "min_spacing_um": 0.14,
+        "spacing_rule": "met1.2",
+        "sheet_res_ohm_sq": 0.125
+      },
+      "metal2": {
+        "min_width_um": 0.14,
+        "width_rule": "met2.1",
+        "min_spacing_um": 0.14,
+        "spacing_rule": "met2.2",
+        "sheet_res_ohm_sq": 0.125
+      },
+      "metal3": {
+        "min_width_um": 0.3,
+        "width_rule": "met3.1",
+        "min_spacing_um": 0.3,
+        "spacing_rule": "met3.2",
+        "sheet_res_ohm_sq": 0.047
+      },
+      "metal4": {
+        "min_width_um": 0.3,
+        "width_rule": "met4.1",
+        "min_spacing_um": 0.3,
+        "spacing_rule": "met4.2",
+        "sheet_res_ohm_sq": 0.047
+      }
+    },
+    "contacts": {
+      "licon_ndiff": {
+        "magic_type": "ndc",
+        "ohm_per_contact": 185.0
+      },
+      "licon_pdiff": {
+        "magic_type": "pdc",
+        "ohm_per_contact": 585.0
+      },
+      "licon_poly": {
+        "magic_type": "pc",
+        "ohm_per_contact": 152.0
+      },
+      "mcon": {
+        "magic_type": "mcon",
+        "ohm_per_contact": 9.3
+      },
+      "via1": {
+        "magic_type": "m2c",
+        "ohm_per_contact": 4.5
+      },
+      "via2": {
+        "magic_type": "m3c",
+        "ohm_per_contact": 3.41
+      },
+      "via3": {
+        "magic_type": "via3",
+        "ohm_per_contact": 3.41
+      }
+    },
+    "poly_sheet_res_ohm_sq": 48.2
+  },
+  "layers": {
+    "locali": {
+      "min_width_um": 0.17,
+      "width_rule": "li.1",
+      "min_spacing_um": 0.17,
+      "spacing_rule": "li.3",
+      "sheet_res_ohm_sq": 12.8,
+      "cap_over_lower_plane_F_per_um": 1.3337260000000006e-16,
+      "lower_plane_layer": "poly",
+      "cap_worst_F_per_um": 1.3337260000000006e-16,
+      "res_ohm_per_um_at_min_width": 75.29411764705883,
+      "cap_to_substrate_F_per_um_single": 8.76884e-17,
+      "cap_to_substrate_F_per_um_in_pair": 5.022979999999999e-17,
+      "coupling_F_per_um_at_min_spacing": 4.1129000000000004e-17,
+      "raw": {
+        "50um_single": {
+          "A_to_substrate_F": 4.39825e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_locali_single_50.spice"
+        },
+        "50um_pair": {
+          "A_to_substrate_F": 2.52533e-15,
+          "A_to_B_F": 2.05645e-15,
+          "file": "outputs/S2/pdk/work/w_locali_pair_50.spice"
+        },
+        "50um_plane": {
+          "A_to_substrate_F": 6.68858e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_locali_plane_50.spice"
+        },
+        "100um_single": {
+          "A_to_substrate_F": 8.78267e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_locali_single_100.spice"
+        },
+        "100um_pair": {
+          "A_to_substrate_F": 5.03682e-15,
+          "A_to_B_F": 4.1129e-15,
+          "file": "outputs/S2/pdk/work/w_locali_pair_100.spice"
+        },
+        "100um_plane": {
+          "A_to_substrate_F": 1.3357210000000003e-14,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_locali_plane_100.spice"
+        }
+      }
+    },
+    "metal1": {
+      "min_width_um": 0.14,
+      "width_rule": "met1.1",
+      "min_spacing_um": 0.14,
+      "spacing_rule": "met1.2",
+      "sheet_res_ohm_sq": 0.125,
+      "cap_over_lower_plane_F_per_um": 1.5843660000000001e-16,
+      "lower_plane_layer": "locali",
+      "cap_worst_F_per_um": 1.5843660000000001e-16,
+      "res_ohm_per_um_at_min_width": 0.8928571428571428,
+      "cap_to_substrate_F_per_um_single": 8.474920000000002e-17,
+      "cap_to_substrate_F_per_um_in_pair": 4.6040400000000007e-17,
+      "coupling_F_per_um_at_min_spacing": 5.64104e-17,
+      "raw": {
+        "50um_single": {
+          "A_to_substrate_F": 4.24882e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal1_single_50.spice"
+        },
+        "50um_pair": {
+          "A_to_substrate_F": 2.31337e-15,
+          "A_to_B_F": 2.82051e-15,
+          "file": "outputs/S2/pdk/work/w_metal1_pair_50.spice"
+        },
+        "50um_plane": {
+          "A_to_substrate_F": 7.94173e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal1_plane_50.spice"
+        },
+        "100um_single": {
+          "A_to_substrate_F": 8.486280000000001e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal1_single_100.spice"
+        },
+        "100um_pair": {
+          "A_to_substrate_F": 4.61539e-15,
+          "A_to_B_F": 5.64103e-15,
+          "file": "outputs/S2/pdk/work/w_metal1_pair_100.spice"
+        },
+        "100um_plane": {
+          "A_to_substrate_F": 1.586356e-14,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal1_plane_100.spice"
+        }
+      }
+    },
+    "metal2": {
+      "min_width_um": 0.14,
+      "width_rule": "met2.1",
+      "min_spacing_um": 0.14,
+      "spacing_rule": "met2.2",
+      "sheet_res_ohm_sq": 0.125,
+      "cap_over_lower_plane_F_per_um": 1.8323300000000002e-16,
+      "lower_plane_layer": "metal1",
+      "cap_worst_F_per_um": 1.8323300000000002e-16,
+      "res_ohm_per_um_at_min_width": 0.8928571428571428,
+      "cap_to_substrate_F_per_um_single": 7.797000000000001e-17,
+      "cap_to_substrate_F_per_um_in_pair": 4.1386799999999996e-17,
+      "coupling_F_per_um_at_min_spacing": 5.681820000000001e-17,
+      "raw": {
+        "50um_single": {
+          "A_to_substrate_F": 3.90907e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal2_single_50.spice"
+        },
+        "50um_pair": {
+          "A_to_substrate_F": 2.07992e-15,
+          "A_to_B_F": 2.8409100000000002e-15,
+          "file": "outputs/S2/pdk/work/w_metal2_pair_50.spice"
+        },
+        "50um_plane": {
+          "A_to_substrate_F": 9.184680000000002e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal2_plane_50.spice"
+        },
+        "100um_single": {
+          "A_to_substrate_F": 7.80757e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal2_single_100.spice"
+        },
+        "100um_pair": {
+          "A_to_substrate_F": 4.14926e-15,
+          "A_to_B_F": 5.6818200000000005e-15,
+          "file": "outputs/S2/pdk/work/w_metal2_pair_100.spice"
+        },
+        "100um_plane": {
+          "A_to_substrate_F": 1.8346330000000003e-14,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal2_plane_100.spice"
+        }
+      }
+    },
+    "metal3": {
+      "min_width_um": 0.3,
+      "width_rule": "met3.1",
+      "min_spacing_um": 0.3,
+      "spacing_rule": "met3.2",
+      "sheet_res_ohm_sq": 0.047,
+      "cap_over_lower_plane_F_per_um": 1.9844700000000007e-16,
+      "lower_plane_layer": "metal2",
+      "cap_worst_F_per_um": 1.9844700000000007e-16,
+      "res_ohm_per_um_at_min_width": 0.15666666666666668,
+      "cap_to_substrate_F_per_um_single": 8.569100000000001e-17,
+      "cap_to_substrate_F_per_um_in_pair": 4.66342e-17,
+      "coupling_F_per_um_at_min_spacing": 5.2857e-17,
+      "raw": {
+        "50um_single": {
+          "A_to_substrate_F": 4.3091400000000004e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal3_single_50.spice"
+        },
+        "50um_pair": {
+          "A_to_substrate_F": 2.3563e-15,
+          "A_to_B_F": 2.6428600000000005e-15,
+          "file": "outputs/S2/pdk/work/w_metal3_pair_50.spice"
+        },
+        "50um_plane": {
+          "A_to_substrate_F": 9.974100000000001e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal3_plane_50.spice"
+        },
+        "100um_single": {
+          "A_to_substrate_F": 8.593690000000001e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal3_single_100.spice"
+        },
+        "100um_pair": {
+          "A_to_substrate_F": 4.68801e-15,
+          "A_to_B_F": 5.2857100000000004e-15,
+          "file": "outputs/S2/pdk/work/w_metal3_pair_100.spice"
+        },
+        "100um_plane": {
+          "A_to_substrate_F": 1.9896450000000004e-14,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal3_plane_100.spice"
+        }
+      }
+    },
+    "metal4": {
+      "min_width_um": 0.3,
+      "width_rule": "met4.1",
+      "min_spacing_um": 0.3,
+      "spacing_rule": "met4.2",
+      "sheet_res_ohm_sq": 0.047,
+      "cap_over_lower_plane_F_per_um": 1.984688e-16,
+      "lower_plane_layer": "metal3",
+      "cap_worst_F_per_um": 1.984688e-16,
+      "res_ohm_per_um_at_min_width": 0.15666666666666668,
+      "cap_to_substrate_F_per_um_single": 7.5886e-17,
+      "cap_to_substrate_F_per_um_in_pair": 4.03846e-17,
+      "coupling_F_per_um_at_min_spacing": 5.402300000000001e-17,
+      "raw": {
+        "50um_single": {
+          "A_to_substrate_F": 3.816310000000001e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal4_single_50.spice"
+        },
+        "50um_pair": {
+          "A_to_substrate_F": 2.0412400000000004e-15,
+          "A_to_B_F": 2.7011500000000005e-15,
+          "file": "outputs/S2/pdk/work/w_metal4_pair_50.spice"
+        },
+        "50um_plane": {
+          "A_to_substrate_F": 9.975450000000001e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal4_plane_50.spice"
+        },
+        "100um_single": {
+          "A_to_substrate_F": 7.610610000000001e-15,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal4_single_100.spice"
+        },
+        "100um_pair": {
+          "A_to_substrate_F": 4.06047e-15,
+          "A_to_B_F": 5.402300000000001e-15,
+          "file": "outputs/S2/pdk/work/w_metal4_pair_100.spice"
+        },
+        "100um_plane": {
+          "A_to_substrate_F": 1.989889e-14,
+          "A_to_B_F": 0.0,
+          "file": "outputs/S2/pdk/work/w_metal4_plane_100.spice"
+        }
+      }
+    }
+  },
+  "magic_log": "outputs/S2/pdk/work/wires_magic.log",
+  "method": "Magic extraction (sky130A.tech nominal style) of straight min-width wires over field; per-um values from the 100 um - 50 um difference",
+  "caveat": "two environments measured: over field and over a plate of the layer below; the larger (cap_worst_F_per_um) is used for length rules. Metal above a route adds more; S6 checks.",
+  "provenance": {
+    "created": "2026-10-25T07:35:01+00:00",
+    "git_commit": "75059082c9fbb0c5c4c70931342c8a75984e7f8d",
+    "inputs": [
+      {
+        "path": "/foss/pdks/sky130A/libs.tech/magic/sky130A.tech",
+        "sha256": "55fdebfa329544c1cb1e22a3817461603f1dea9a41638b26af8c7751b3e0cc6a"
+      }
+    ]
+  }
+}

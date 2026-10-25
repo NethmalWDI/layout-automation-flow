@@ -1,0 +1,13 @@
+* NGSPICE file created from nfet_01v8_W24_L1_m1__nf4_gtop_sdhalf_outS.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_6FVBXA G a_487_n631# B D2 D0 S3 S1
+X0 a_487_n631# G S3 B sky130_fd_pr__nfet_01v8 ad=1.74 pd=12.58 as=0.87 ps=6.29 w=6 l=1
+X1 S3 G D2 B sky130_fd_pr__nfet_01v8 ad=0.87 pd=6.29 as=0.87 ps=6.29 w=6 l=1
+X2 D2 G S1 B sky130_fd_pr__nfet_01v8 ad=0.87 pd=6.29 as=0.87 ps=6.29 w=6 l=1
+X3 S1 G D0 B sky130_fd_pr__nfet_01v8 ad=0.87 pd=6.29 as=1.74 ps=12.58 w=6 l=1
+.ends
+
+.subckt nfet_01v8_W24_L1_m1__nf4_gtop_sdhalf_outS S D G B
+Xnfet_01v8_W24_L1_m1__nf4_gtop_sdhalf_outS_pc G S B S S D D sky130_fd_pr__nfet_01v8_6FVBXA
+.ends
+

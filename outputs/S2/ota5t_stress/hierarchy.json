@@ -1,0 +1,167 @@
+{
+  "nets": {
+    "OUTP": {
+      "budget_fF": 2.398672886856389,
+      "devices": [
+        "XM2",
+        "XM4"
+      ],
+      "block_port_fF": {
+        "pmos_current_mirror_load": 0.5068297334644736,
+        "nmos_differential_pair": 1.0922855244397855
+      },
+      "top_level_fF": 0.7995576289521297,
+      "route_budget_fF": 0.7995576289521297,
+      "max_route_length_metal1_um": 5.0465462459566135,
+      "note": null
+    },
+    "net1": {
+      "budget_fF": 65.66831229127054,
+      "devices": [
+        "XM1",
+        "XM2",
+        "XM5"
+      ],
+      "block_port_fF": {
+        "nmos_differential_pair": 32.64218844132262,
+        "nmos_current_mirror_bias": 16.60904577713028
+      },
+      "top_level_fF": 16.417078072817635,
+      "route_budget_fF": 16.417078072817635,
+      "max_route_length_metal1_um": 103.61922733016003,
+      "note": null
+    },
+    "net3": {
+      "budget_fF": 4.087204837194436,
+      "devices": [
+        "XM1",
+        "XM3",
+        "XM4"
+      ],
+      "block_port_fF": {
+        "pmos_current_mirror_load": 1.9028202487366337,
+        "nmos_differential_pair": 1.3669436210189152
+      },
+      "top_level_fF": 0.8174409674388873,
+      "route_budget_fF": 0.8174409674388873,
+      "max_route_length_metal1_um": 5.159420029455866,
+      "note": null
+    }
+  },
+  "terminals": {
+    "XM3+XM4.d": {
+      "block": "pmos_current_mirror_load",
+      "members": [
+        "XM3.d",
+        "XM4.d"
+      ],
+      "terminal": "d",
+      "budget_ohm_each": 331.77320958027354
+    },
+    "XM3+XM4.g": {
+      "block": "pmos_current_mirror_load",
+      "members": [
+        "XM3.g",
+        "XM4.g"
+      ],
+      "terminal": "g",
+      "budget_ohm_each": 287.9113651403136
+    },
+    "XM3+XM4.s": {
+      "block": "pmos_current_mirror_load",
+      "members": [
+        "XM3.s",
+        "XM4.s"
+      ],
+      "terminal": "s",
+      "budget_ohm_each": 17.470780705775287
+    },
+    "XM1+XM2.d": {
+      "block": "nmos_differential_pair",
+      "members": [
+        "XM1.d",
+        "XM2.d"
+      ],
+      "terminal": "d",
+      "budget_ohm_each": 20.160252580238254
+    },
+    "XM1+XM2.g": {
+      "block": "nmos_differential_pair",
+      "members": [
+        "XM1.g",
+        "XM2.g"
+      ],
+      "terminal": "g",
+      "budget_ohm_each": 150.65778108089214
+    },
+    "XM1+XM2.s": {
+      "block": "nmos_differential_pair",
+      "members": [
+        "XM1.s",
+        "XM2.s"
+      ],
+      "terminal": "s",
+      "budget_ohm_each": 10.41769043698077
+    },
+    "XM5.d": {
+      "block": "nmos_current_mirror_bias",
+      "members": [
+        "XM5.d"
+      ],
+      "terminal": "d",
+      "budget_ohm_each": 11.165207508211
+    },
+    "XM5.g": {
+      "block": "nmos_current_mirror_bias",
+      "members": [
+        "XM5.g"
+      ],
+      "terminal": "g",
+      "budget_ohm_each": 1495.99999999999
+    },
+    "XM5.s": {
+      "block": "nmos_current_mirror_bias",
+      "members": [
+        "XM5.s"
+      ],
+      "terminal": "s",
+      "budget_ohm_each": 10.535232412146394
+    }
+  },
+  "blocks": {
+    "pmos_current_mirror_load": {
+      "ports_fF": {
+        "OUTP": 0.5068297334644736,
+        "net3": 1.9028202487366337
+      },
+      "terminals_ohm": {
+        "XM3+XM4.d": 331.77320958027354,
+        "XM3+XM4.g": 287.9113651403136,
+        "XM3+XM4.s": 17.470780705775287
+      }
+    },
+    "nmos_differential_pair": {
+      "ports_fF": {
+        "OUTP": 1.0922855244397855,
+        "net1": 32.64218844132262,
+        "net3": 1.3669436210189152
+      },
+      "terminals_ohm": {
+        "XM1+XM2.d": 20.160252580238254,
+        "XM1+XM2.g": 150.65778108089214,
+        "XM1+XM2.s": 10.41769043698077
+      }
+    },
+    "nmos_current_mirror_bias": {
+      "ports_fF": {
+        "net1": 16.60904577713028
+      },
+      "terminals_ohm": {
+        "XM5.d": 11.165207508211,
+        "XM5.g": 1495.99999999999,
+        "XM5.s": 10.535232412146394
+      }
+    }
+  },
+  "check_sum_equals_budget": true
+}

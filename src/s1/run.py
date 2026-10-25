@@ -31,7 +31,7 @@ import numpy as np
 
 from src.common.tools import REPO, provenance, rel, run_ngspice, write_json
 from src.s0.ingest import load_package
-from src.s1 import linear, op as opmod, spice_fd, symbolic
+from src.s1 import linear, op as opmod, resistance, spice_fd, symbolic
 
 TOL = {"gain_db": 0.2, "gbw_rel": 0.03, "pm_deg": 2.0}      # linear model vs SPICE (G1.2)
 SENS_TOL_REL = 0.20                                         # linear vs SPICE slope (G1.3 a)
@@ -50,6 +50,19 @@ def spice_bode(s0: Path, work: Path) -> tuple:
     run_ngspice(deck, work)
     d = np.loadtxt(work / "bode_spice.txt")
     return d[:, 0], d[:, 1] + 1j * d[:, 2]
+
+
+def ac_drive(s0: Path, ir: dict) -> dict:
+    """AC stimulus of each DUT input, read from the AC testbench (V<name> <node> 0 ... ac <value>)."""
+    txt = (s0 / "tb" / "diso_amp_AC.spice").read_text()
+    tb = {}
+    for m in re.finditer(r"^V\S*\s+(\S+)\s+(0|gnd)\s+.*?\bac\s+([-+0-9.eE]+)", txt, re.M | re.I):
+        tb[m.group(1)] = float(m.group(3))
+    drive = {p["name"]: tb[p["testbench_port"]] for p in ir["ports"]
+             if p["role"] == "input" and p.get("testbench_port") in tb}
+    if len(drive) != len([p for p in ir["ports"] if p["role"] == "input"]):
+        raise RuntimeError(f"could not read the AC drive of every input from the AC deck: {drive}")
+    return drive
 
 
 def classify_nodes(ir: dict, lm: linear.LinearModel) -> dict:
@@ -74,7 +87,7 @@ def classify_nodes(ir: dict, lm: linear.LinearModel) -> dict:
         if roles.get(name) == "output":
             tags.append("signal_output")
         if any(s["p"] == name for s in ir.get("internal_sources", [])):
-            tags.append("bias")
+            tags.append("bias (ideal source in the testbench: AC ground, ASSUMPTION)")
         if name in diode:
             tags.append("mirror_node (diode-connected)")
         if name in tails and len(tails[name]) >= 2 and roles.get(name) is None:
@@ -117,7 +130,8 @@ def main(argv=None) -> int:
     conv = {} if opr["missing"] else {d: opmod.cap_convention(v) for d, v in opr["devices"].items()}
     conv_ok = bool(conv) and all(c["derivative_convention"] for c in conv.values())
     gates["G1.1_operating_point"] = {"pass": opr["rc"] == 0 and not opr["missing"] and all(s["saturated"] for s in sat.values())
-                                     and isup_ok and conv_ok,
+                                     and isup_ok and conv_ok and not opr["numerical_warnings"],
+                                     "numerical_warnings": opr["numerical_warnings"],
                                      "saturation": sat, "isup_uA": opr["isup_A"] * 1e6, "isup_achieved_uA": isup_ach,
                                      "missing_params": opr["missing"], "missing_optional_params": opr["missing_optional"],
                                      "charge_conservation_worst_rel": max((c["worst_rel_to_cgg"] for c in conv.values()), default=None)}
@@ -128,8 +142,9 @@ def main(argv=None) -> int:
                                                             "capbd/capbs are separate, positive"})
     op = opr["devices"]
 
-    # 2. linear model vs SPICE
-    lm = linear.LinearModel(ir, op)
+    # 2. linear model vs SPICE (stimulus read from the AC testbench itself)
+    drive = ac_drive(s0, ir)
+    lm = linear.LinearModel(ir, op, drive=drive)
     H = lm.response(linear.FREQ)
     m_lin = linear.metrics(H)
     ach = ir["achieved"]
@@ -161,7 +176,7 @@ def main(argv=None) -> int:
     solved = lm.unknown
     signal = [n for n in solved] + list(lm.drive)
     pairs = [(x, y) for x, y in itertools.combinations(signal, 2) if x in solved or y in solved]
-    sl = linear.sensitivities(ir, op, solved, pairs)
+    sl = linear.sensitivities(ir, op, solved, pairs, drive=drive)
     # 4. symbolic (upstream) check
     up = pkg.get("upstream") or {}
     sym = None
@@ -182,7 +197,8 @@ def main(argv=None) -> int:
             return min(v) if v else math.inf
         top_pairs = sorted(pairs, key=consume)[:3]
         cases += [(f"{x}~{y}", x, y) for x, y in top_pairs]
-        fd = spice_fd.run_fd(s0, ir["subckt"], cases, [5.0, 20.0], work / "fd")
+        fd = spice_fd.run_fd(s0, ir["subckt"], cases, [5.0, 20.0], work / "fd",
+                             gnd=next(p_["name"] for p_ in ir["ports"] if p_["role"] == "ground"))
     # assemble sensitivity table
     margins = ir["margins"]
     table = {}
@@ -274,9 +290,14 @@ def main(argv=None) -> int:
     for d in ir["devices"]:
         for t in ("d", "s"):
             currents["nets"].setdefault(d["terminals"][t], []).append({"device": d["name"], "terminal": t, "abs_id_A": abs(op[d["name"]]["id"])})
+    roles_ = {p_["name"]: p_["role"] for p_ in ir["ports"]}
     for n, lst in currents["nets"].items():
+        tot = sum(x["abs_id_A"] for x in lst)
+        # a supply/ground net feeds every connected branch from outside; an internal net carries half the
+        # sum of its branch currents (what enters leaves, KCL)
+        trunk = tot if roles_.get(n) in ("supply", "ground") else tot / 2
         currents["nets"][n] = {"connections": lst, "max_branch_A": max(x["abs_id_A"] for x in lst),
-                               "sum_A": sum(x["abs_id_A"] for x in lst) / 2}
+                               "trunk_A": trunk, "trunk_rule": "sum (supply/ground)" if trunk == tot else "sum/2 (internal)"}
     write_json(out / "currents.json", currents)
     devs = {d["name"]: d for d in ir["devices"]}
     matching = []
@@ -309,11 +330,144 @@ def main(argv=None) -> int:
     intent = {"design": design, "matching": matching, "critical_nets": crit, "coupling_pairs_ranked": pairs_r,
               "ranking": "ascending capacitance (fF, to ground for nets, between the two nets for pairs) that would "
                          "alone consume the margin of the most limiting spec, first-order (linear model)"}
-    gates["G1.4_matching_groups"] = {"pass": any(m["kind"] == "diff_pair" and m["equal_size"] for m in matching) and
-                                     any(m["kind"] == "mirror" and m["equal_size"] for m in matching),
+    gates["G1.4_matching_groups"] = {"pass": bool(matching) and all(m["equal_size"] for m in matching),
                                      "groups": [{k: m[k] for k in ("devices", "kind", "equal_size")} for m in matching]}
     gates["G1.5_symbolic_vs_spice (reported, not gated)"] = {"pass": None, **({"predicted": sym["predicted"], "spice": sym["spice"],
                                                               "delta": sym["delta"]} if sym else {"note": "no upstream equations"})}
+    # 7. series resistance at device terminals (wiring + PCell access).
+    # Matched devices (diff pair, mirror) are wired symmetrically (S2 hard rule), so the resistance of a
+    # matched terminal is a pair variable: the same R on both members ('XM1+XM2.s'). Its asymmetric part
+    # is a different mechanism (systematic offset); it is measured separately below with one-sided
+    # resistors and reported as offset per ohm, not mixed into the AC budgets.
+    groups = []
+    in_match = {}
+    for m in matching:
+        if m["equal_size"] and len(m["devices"]) == 2:
+            for d_ in m["devices"]:
+                in_match[d_] = m["devices"]
+    seen = set()
+    for d in ir["devices"]:
+        if d["name"] in seen:
+            continue
+        mem = in_match.get(d["name"], [d["name"]])
+        seen.update(mem)
+        for t in ("d", "g", "s"):
+            groups.append(("+".join(mem) + f".{t}", [(x, t) for x in mem]))
+    slr = linear.sensitivities_r(ir, op, groups, drive=drive)
+    kinds = {k: v.get("kind") for k, v in margins.items()}
+
+    def rate(spec, slope):  # margin consumed per unit of the parasitic (only the harmful direction counts)
+        if slope is None:
+            return 0.0
+        return max(0.0, -slope) if kinds.get(spec, "min") == "min" else max(0.0, slope)
+
+    R_VALUES = [20.0, 100.0]
+    fdr = slr_spice = fd1 = None
+    single = [(f"{d['name']}.{t}", [(d["name"], t)]) for d in ir["devices"] for t in ("d", "g", "s")
+              if d["name"] in in_match]
+    if not a.no_fd:
+        fdr = resistance.dc_and_ac(s0, ir, groups, groups, R_VALUES, work / "fd_r")
+        slr_spice = resistance.slopes(fdr, R_VALUES)
+        fd1 = resistance.offset_follower(s0, ir, single, [5.0, 20.0], work / "fd_offset")
+    base_sat = fdr["base"]["op"]["vds_minus_vdsat_V"] if fdr else {d: sat[d]["vds_minus_vdsat_V"] for d in sat}
+    a_dc = 10 ** (ach["gain_db"] / 20)
+    rtable, rchecks = {}, []
+    for gid, members in groups:
+        row = {"members": [f"{d}.{t}" for d, t in members], "linear_per_ohm": slr["per_ohm"][gid]}
+        sp = (slr_spice or {}).get(gid, {})
+        for kind, name in (("ac", "spice_ac"), ("noise", "spice_noise"), ("op", "spice_dc")):
+            if kind in sp:
+                row[name] = sp[kind]
+        # Rates used downstream: transistor-level SPICE (it contains the bias shift I*R moves the operating
+        # point by, which a small-signal model at a fixed operating point cannot see); the linear model is
+        # kept to tell the two mechanisms apart. Without SPICE (--no-fd) the linear model is used.
+        ac0 = (sp.get("ac") or {}).get("extrapolated_0") or {}
+        per = {k: (ac0.get(k) if ac0.get(k) is not None else v) for k, v in slr["per_ohm"][gid].items()}
+        nz = (sp.get("noise") or {}).get("extrapolated_0") or {}
+        if nz.get("vnoise_nv_rthz") is not None:
+            per["vnoise_nv_rthz"] = nz["vnoise_nv_rthz"]
+        row["per_ohm_used"] = per
+        row["rate_source"] = "spice (extrapolated to 0 from 20 and 100 ohm)" if ac0 else "linear model"
+        cons = {k: margins[k]["margin"] / rate(k, v) for k, v in per.items() if k in margins and rate(k, v) > 0}
+        dc = {}
+        for dd, m0 in base_sat.items():
+            s_ = ((sp.get("op") or {}).get("extrapolated_0") or {}).get(f"sat_{dd}")
+            if s_ is not None and s_ < 0:
+                dc[f"sat_{dd}"] = {"slope_V_per_ohm": s_, "margin_V": m0, "ohm_to_consume": m0 / -s_}
+                cons[f"sat_{dd}"] = m0 / -s_
+        row["dc_saturation"] = dc
+        row["ohm_to_consume_margin"] = min(cons.values()) if cons else None
+        row["most_limiting"] = min(cons, key=cons.get) if cons else None
+        rtable[gid] = row
+        if "ac" in sp:  # G1.6: SPICE slopes consistent over 20..100 ohm; linear model agreement classifies
+            for k in ("gbw_mhz", "pm_deg", "gain_db"):
+                lin_s = slr["per_ohm"][gid][k]
+                x0 = (sp["ac"]["extrapolated_0"] or {}).get(k)
+                s20 = sp["ac"]["per_ohm"]["20ohm"].get(k)
+                s100 = sp["ac"]["per_ohm"]["100ohm"].get(k)
+                floor = {"gain_db": 1e-5, "gbw_mhz": 1e-5 * ach["gbw_mhz"], "pm_deg": 1e-4}[k]
+                if x0 is None or abs(x0) < floor:
+                    rchecks.append({"case": gid, "spec": k, "status": "below_resolution", "spice_extrapolated_0": x0,
+                                    "linear": lin_s})
+                    continue
+                mg = margins.get(k, {}).get("margin")
+                pred = abs(x0 - s100) * 100 / mg if mg else None          # first-order prediction at 100 ohm
+                step = abs(s100 - s20) / max(abs(s20), abs(s100))
+                lin_agree = (lin_s * x0 > 0) and abs(lin_s - x0) / abs(x0) <= SENS_TOL_REL
+                # independent test of the model and of the mechanism: re-solve the linear model at the
+                # operating point SPICE finds WITH the resistor (100 ohm) and compare the change
+                c100 = fdr["cases"][gid]["100ohm"]
+                opR = (c100.get("op") or {}).get("params") or {}
+                sh = None
+                if all(dd in opR and all(p_ in opR[dd] and opR[dd][p_] is not None for p_ in opmod.ESSENTIAL)
+                       for dd in op):
+                    mR = linear.evaluate(ir, opR, extra_r=[(d_, t_, 100.0) for d_, t_ in members], drive=drive)
+                    d_lin = (mR[k] - m_lin[k]) if mR[k] is not None else None
+                    d_sp = (c100["ac"][k] - fdr["base"]["ac"][k]) if c100.get("ac", {}).get(k) is not None else None
+                    ok_sh = d_lin is not None and d_sp is not None and (
+                        abs(d_lin - d_sp) <= SENS_TOL_REL * abs(d_sp) or
+                        (mg and abs(d_lin - d_sp) <= PRED_TOL_MARGIN * mg))
+                    sh = {"linear_at_shifted_op_change": d_lin, "spice_change": d_sp, "agree": bool(ok_sh)}
+                rchecks.append({"case": gid, "spec": k, "spice_20ohm": s20, "spice_100ohm": s100,
+                                "spice_extrapolated_0": x0, "step_consistency": step,
+                                "pred_err_at_100ohm_frac_of_margin": pred, "linear": lin_s,
+                                "linear_agrees": lin_agree, "shifted_op_check": sh,
+                                "mechanism": ("small-signal" if lin_agree else
+                                              ("bias shift (DC operating point), confirmed" if sh and sh["agree"]
+                                               else "unexplained")),
+                                "pass": bool((step <= SENS_TOL_REL or (pred is not None and pred <= PRED_TOL_MARGIN))
+                                             and (lin_agree or (sh is not None and sh["agree"])))})
+    offset = {}
+    for tid_, sl_ in ((fd1 or {}).get("terminals") or {}).items():
+        s5, s20_ = sl_.get("5ohm"), sl_.get("20ohm")
+        if s5 is None:
+            continue
+        # follower: the output tracks the input, so dV(OUT)/dR is the input-referred offset per ohm
+        offset[tid_] = {"offset_uV_per_ohm_5ohm": s5 * 1e6, "offset_uV_per_ohm_20ohm": None if s20_ is None else s20_ * 1e6,
+                        "ohm_per_mV_offset": (1e-3 / abs(s5)) if s5 else None}
+    judged_r = [c for c in rchecks if "pass" in c]
+    gates["G1.6_resistance_sensitivity_vs_spice"] = {
+        "pass": (all(c["pass"] for c in judged_r) and bool(judged_r)) if fdr else None,
+        "checks": rchecks, "values_ohm": R_VALUES,
+        "note": "matched terminals varied symmetrically. Pass = SPICE slopes consistent between 20 and 100 ohm "
+                "(or first-order prediction within 5 % of the margin at 100 ohm) AND the linear model explains "
+                "the change: either directly (small-signal) or when re-solved at the operating point SPICE finds "
+                "with the resistor inserted (bias shift)."}
+    write_json(out / "sensitivity_r.json", {
+        "units": "spec units per ohm of series resistance between device terminal(s) and the net",
+        "groups": rtable, "base_spice": fdr["base"] if fdr else None, "margins": margins,
+        "dc_saturation_margin_V": base_sat,
+        "mismatch_offset": {"terminals": offset, "follower_base_vout_V": (fd1 or {}).get("base_vout_V"),
+                            "method": "one-sided resistor (5 and 20 ohm) on one member of a matched pair, OTA in "
+                                      "unity-gain feedback (Vinn tied to OUT): dV(OUT)/dR = systematic input offset",
+                            "note": "no offset spec in the design package: reported per ohm, budget not evaluated"}})
+    crit_t = sorted([{"group": k, "ohm_to_consume_margin": v["ohm_to_consume_margin"], "most_limiting": v["most_limiting"]}
+                     for k, v in rtable.items()], key=lambda r: r["ohm_to_consume_margin"] or math.inf)
+    for i, c in enumerate(crit_t):
+        c["rank"] = i + 1
+    intent["critical_terminals"] = crit_t
+    intent["ranking_terminals"] = ("ascending series resistance (ohm, applied to every member of the group) that "
+                                   "would alone consume the margin of the most limiting spec, incl. DC headroom")
     write_json(out / "intent.json", intent)
 
     prov = provenance([s0 / "circuit_ir.json", REPO / a.package] + ([REPO / up["equations"], REPO / up["name_map"]] if sym else []))

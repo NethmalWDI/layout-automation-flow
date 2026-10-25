@@ -1,0 +1,175 @@
+{
+  "design": "ota5t_stress",
+  "gates": {
+    "G3.4_option_table_complete": {
+      "pass": true,
+      "options": 84,
+      "not_signed_off": [
+        "pfet_01v8_W8_L1_m1__nf8_gboth_sdhalf_outS",
+        "pfet_01v8_W8_L1_m1__nf8_gboth_sdhalf_outD",
+        "pfet_01v8_W8_L1_m1__nf8_gtop_sdhalf_outS",
+        "pfet_01v8_W8_L1_m1__nf8_gtop_sdhalf_outD"
+      ]
+    },
+    "G3.3_all_chosen_devices_in_circuit": {
+      "pass": false,
+      "specs": {
+        "gain_db": 31.7523,
+        "gbw_mhz": 356.341,
+        "pm_deg": 62.4117,
+        "power_uw": 151.787,
+        "vnoise_nv_rthz": 339.276
+      },
+      "meets": {
+        "gain_db": true,
+        "gbw_mhz": true,
+        "pm_deg": true,
+        "power_uw": true,
+        "vnoise_nv_rthz": true
+      },
+      "saturated": {
+        "XM3": 1.048808,
+        "XM4": 1.048808,
+        "XM1": 0.1309372,
+        "XM2": 0.1309372,
+        "XM5": 0.019254999999999994
+      },
+      "margin_use_signed": {
+        "gain_db": -0.05530000000000257,
+        "gbw_mhz": 17.312999999999988,
+        "pm_deg": 2.669699999999999,
+        "power_uw": -0.8119999999999834,
+        "vnoise_nv_rthz": 0.21199999999998909,
+        "sat_XM3": 0.00012499999999993072,
+        "sat_XM4": 0.00012499999999993072,
+        "sat_XM1": -0.0008776000000000062,
+        "sat_XM2": -0.0008776000000000062,
+        "sat_XM5": 0.0003130000000000077
+      },
+      "allowance_total": {
+        "gbw_mhz": 10.93556448895793,
+        "pm_deg": 2.2452409767482293,
+        "gain_db": 0.20900758519874582,
+        "vnoise_nv_rthz": 30.157449674916798,
+        "sat_XM3": 0.5217170191460804,
+        "sat_XM4": 0.5217170191460804,
+        "sat_XM1": 0.06431487776814082,
+        "sat_XM2": 0.06431487776814082,
+        "sat_XM5": 0.008925809220120397
+      },
+      "within_allowance_harmful": {
+        "gain_db": true,
+        "gbw_mhz": false,
+        "pm_deg": false,
+        "power_uw": true,
+        "vnoise_nv_rthz": true,
+        "sat_XM3": true,
+        "sat_XM4": true,
+        "sat_XM1": true,
+        "sat_XM2": true,
+        "sat_XM5": true
+      },
+      "failed_runs": null
+    },
+    "G3.1_chosen_DRC": {
+      "pass": true,
+      "detail": {
+        "pfet_01v8_W8_L1_m1": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull/drc/drc_report.txt"
+        },
+        "nfet_01v8_W24_L0p5_m1": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/drc/drc_report.txt"
+        },
+        "nfet_01v8_W24_L1_m1": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf1_gboth_sdfull/drc/drc_report.txt"
+        }
+      }
+    },
+    "G3.2_chosen_LVS_W_L_nf": {
+      "pass": true,
+      "detail": {
+        "pfet_01v8_W8_L1_m1": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "pcell_instance": "pfet_01v8_W8_L1_m1__nf1_gboth_sdfull",
+          "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull/lvs/lvs/extracted.spice"
+        },
+        "nfet_01v8_W24_L0p5_m1": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "pcell_instance": "nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull",
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/lvs/lvs/extracted.spice"
+        },
+        "nfet_01v8_W24_L1_m1": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "pcell_instance": "nfet_01v8_W24_L1_m1__nf1_gboth_sdfull",
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf1_gboth_sdfull/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf1_gboth_sdfull/lvs/lvs/extracted.spice"
+        }
+      }
+    },
+    "G3.5_no_relaxation": {
+      "pass": false,
+      "relaxed": [
+        "pfet_01v8_W8_L1_m1",
+        "nfet_01v8_W24_L0p5_m1",
+        "nfet_01v8_W24_L1_m1"
+      ]
+    },
+    "G3.6_model_has_no_gate_resistance": {
+      "pass": true,
+      "detail": {
+        "sky130_fd_pr__pfet_01v8": {
+          "file": "/foss/pdks/sky130A/libs.ref/sky130_fd_pr/spice/sky130_fd_pr__pfet_01v8__tt.pm3.spice",
+          "rgatemod_values": [
+            "0.0"
+          ]
+        },
+        "sky130_fd_pr__nfet_01v8": {
+          "file": "/foss/pdks/sky130A/libs.ref/sky130_fd_pr/spice/sky130_fd_pr__nfet_01v8__tt.pm3.spice",
+          "rgatemod_values": [
+            "0.0"
+          ]
+        }
+      }
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-10-25T10:24:58+00:00",
+    "git_commit": "75059082c9fbb0c5c4c70931342c8a75984e7f8d",
+    "inputs": [
+      {
+        "path": "outputs/S0/ota5t_stress/circuit_ir.json",
+        "sha256": "3f979115f9443e64e73399bb9516b2b862086e46420f8dbf771f46a1a47abb61"
+      },
+      {
+        "path": "outputs/S2/ota5t_stress/budgets.json",
+        "sha256": "93d4a4de95cd3d6dc61ad113eeed4546929b8cdeeb8bc9198c301cf5069b4c2c"
+      },
+      {
+        "path": "outputs/S2/pdk/parasitics.json",
+        "sha256": "2166464e52376c741755c5342120953cbe428c8a0d3099715616ed0cb9c169c1"
+      },
+      {
+        "path": "inputs/ota5t_stress/package.yaml",
+        "sha256": "63f55d51366da24dd6cd87c2ee8a3171d02d61c82b05ba49202135815194bf90"
+      }
+    ]
+  }
+}

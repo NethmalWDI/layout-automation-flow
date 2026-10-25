@@ -21,9 +21,16 @@ CMAT = {("d", "d"): "cdd", ("d", "g"): "cdg", ("d", "s"): "cds", ("d", "b"): "cd
 
 
 def parse_si(v) -> float:
+    """'1p', '1pF', '200f', '200fF', '1e-12' -> farads etc. A trailing unit letter after a prefix is dropped."""
     if isinstance(v, (int, float)):
         return float(v)
     s = str(v).strip().lower()
+    import re as _re
+    m = _re.fullmatch(r"([-+0-9.e]+)(meg|[fpnumkg])?[a-z]*", s)
+    if m and m.group(2):
+        s = m.group(1) + m.group(2)
+    elif m:
+        s = m.group(1)
     mult = {"f": 1e-15, "p": 1e-12, "n": 1e-9, "u": 1e-6, "m": 1e-3, "k": 1e3, "meg": 1e6, "g": 1e9}
     for suf in ("meg", "f", "p", "n", "u", "m", "k", "g"):
         if s.endswith(suf):
@@ -32,28 +39,49 @@ def parse_si(v) -> float:
 
 
 class LinearModel:
-    def __init__(self, ir: dict, op: dict, drive: dict | None = None, extra_c: list | None = None):
+    def __init__(self, ir: dict, op: dict, drive: dict | None = None, extra_c: list | None = None,
+                 extra_r: list | None = None):
         """ir: circuit_ir; op: per-device OP dict; drive: known AC node voltages;
-        extra_c: [(netA, netB_or_None, farads)] added capacitors (None = to ground)."""
+        extra_c: [(netA, netB_or_None, farads)] added capacitors (None = to ground);
+        extra_r: [(device, terminal, ohms)] series resistance between a device terminal and its net.
+        A series resistor splits the terminal off its net onto a new internal node '<dev>.<t>'."""
+        if ir.get("passives"):
+            raise NotImplementedError("the linear model does not stamp R/C passives yet; this design has some")
         roles = {p["name"]: p["role"] for p in ir["ports"]}
         ground = {n for n, r in roles.items() if r in ("ground", "supply")}
+        # ASSUMPTION (testbench): nodes held by ideal internal sources (bias) are AC ground; a real bias
+        # generator has finite impedance, so couplings onto VBIAS are not budgeted from this model.
         for s in ir.get("internal_sources", []):
             ground.add(s["p"])
             ground.add(s["n"])
+        known_nets = {n["name"] for n in ir["nets"]}
+        for a_, b_, _ in (extra_c or []):
+            for n_ in (a_, b_):
+                if n_ is not None and n_ not in known_nets:
+                    raise KeyError(f"extra_c on unknown net {n_}")
+        devnames = {d["name"] for d in ir["devices"]}
+        for d_, t_, _ in (extra_r or []):
+            if d_ not in devnames or t_ not in TERMS:
+                raise KeyError(f"extra_r on unknown terminal {d_}.{t_}")
         self.drive = drive or {n: (0.5 if i == 0 else -0.5)
                                for i, n in enumerate([p["name"] for p in ir["ports"] if p["role"] == "input"])}
         nets = [n["name"] for n in ir["nets"]]
-        self.unknown = [n for n in nets if n not in ground and n not in self.drive]
+        split = {(d, t): r for d, t, r in (extra_r or [])}
+        self.unknown = [n for n in nets if n not in ground and n not in self.drive] + [f"{d}.{t}" for d, t in split]
         self.known = list(self.drive)
         self.idx = {n: i for i, n in enumerate(self.unknown + self.known)}
         self.ground = ground
         n = len(self.idx)
         self.G = np.zeros((n, n))
         self.C = np.zeros((n, n))
+        for (d, t), r in split.items():  # series resistor: internal node <-> original net
+            net = next(x for x in ir["devices"] if x["name"] == d)["terminals"][t]
+            self._cond(self.idx[f"{d}.{t}"], self.idx.get(net), 1.0 / r)
         for d in ir["devices"]:
             o = op[d["name"]]
             t = d["terminals"]
-            ix = {k: self.idx.get(t[k]) for k in TERMS}  # None = AC ground
+            ix = {k: (self.idx[f"{d['name']}.{k}"] if (d["name"], k) in split else self.idx.get(t[k]))
+                  for k in TERMS}  # None = AC ground
             self._vccs(ix["d"], ix["s"], ix["g"], ix["s"], o["gm"])
             self._vccs(ix["d"], ix["s"], ix["b"], ix["s"], o["gmbs"])
             self._vccs(ix["d"], ix["s"], ix["d"], ix["s"], o["gds"])
@@ -78,6 +106,11 @@ class LinearModel:
                 self.G[row, cp] += sr * g
             if cn is not None:
                 self.G[row, cn] -= sr * g
+
+    def _cond(self, a, b, g):
+        for i, j, sg in ((a, a, 1), (b, b, 1), (a, b, -1), (b, a, -1)):
+            if i is not None and j is not None:
+                self.G[i, j] += sg * g
 
     def _cap(self, a, b, c):
         for i, j, s in ((a, a, 1), (b, b, 1), (a, b, -1), (b, a, -1)):
@@ -122,13 +155,32 @@ def metrics(H: np.ndarray, f: np.ndarray = FREQ) -> dict:
     return {"gain_db": gain, "gbw_mhz": float(fu / 1e6), "pm_deg": float(180 + (ph_u - ph[0]))}
 
 
-def sensitivities(ir, op, nets_gnd: list, pairs: list, delta: float = 1e-15) -> dict:
+def sensitivities(ir, op, nets_gnd: list, pairs: list, delta: float = 1e-15, drive: dict | None = None) -> dict:
     """Central differences on the linear model: dM/dC per fF for caps to ground and couplings."""
-    base = metrics(LinearModel(ir, op).response(FREQ))
+    base = metrics(LinearModel(ir, op, drive=drive).response(FREQ))
     out = {}
     for label, a, b in [(n, n, None) for n in nets_gnd] + [(f"{a}~{b}", a, b) for a, b in pairs]:
-        mp = metrics(LinearModel(ir, op, extra_c=[(a, b, delta)]).response(FREQ))
-        mm = metrics(LinearModel(ir, op, extra_c=[(a, b, -delta)]).response(FREQ))
-        out[label] = {k: (None if mp[k] is None or mm[k] is None else (mp[k] - mm[k]) / 2)
-                      for k in base}  # per fF (delta = 1 fF)
+        mp = metrics(LinearModel(ir, op, drive=drive, extra_c=[(a, b, delta)]).response(FREQ))
+        mm = metrics(LinearModel(ir, op, drive=drive, extra_c=[(a, b, -delta)]).response(FREQ))
+        out[label] = {k: (None if mp[k] is None or mm[k] is None else (mp[k] - mm[k]) / (2 * delta / 1e-15))
+                      for k in base}  # per fF
     return {"base": base, "per_fF": out}
+
+
+def sensitivities_r(ir, op, groups: list, delta: float = 5.0, drive: dict | None = None) -> dict:
+    """Central differences on the linear model: dM/dR per ohm of series resistance at device
+    terminals. groups: [(id, [(device, terminal), ...])]; every member of a group gets the same
+    resistor (matched devices are wired symmetrically, so their parasitics are varied together).
+    The response is analytic in the conductance, so -delta (a negative resistor) is a valid step."""
+    base = metrics(LinearModel(ir, op, drive=drive).response(FREQ))
+    out = {}
+    for gid, members in groups:
+        mp = metrics(LinearModel(ir, op, drive=drive, extra_r=[(d, t, delta) for d, t in members]).response(FREQ))
+        mm = metrics(LinearModel(ir, op, drive=drive, extra_r=[(d, t, -delta) for d, t in members]).response(FREQ))
+        out[gid] = {k: (None if mp[k] is None or mm[k] is None else (mp[k] - mm[k]) / (2 * delta)) for k in base}
+    return {"base": base, "per_ohm": out}
+
+
+def evaluate(ir, op, extra_c=None, extra_r=None, drive=None) -> dict:
+    """Metrics with a set of parasitics inserted at once (used by S2 to check a whole budget)."""
+    return metrics(LinearModel(ir, op, drive=drive, extra_c=extra_c, extra_r=extra_r).response(FREQ))

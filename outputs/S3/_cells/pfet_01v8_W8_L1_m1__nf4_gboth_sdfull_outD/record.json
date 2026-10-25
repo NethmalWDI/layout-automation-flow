@@ -1,0 +1,184 @@
+{
+  "type": "pfet_01v8_W8_L1_m1",
+  "option": {
+    "id": "nf4_gboth_sdfull_outD",
+    "nf": 4,
+    "gate_contacts": "both",
+    "sd_cov": "full",
+    "outer": "D",
+    "magic": {
+      "topc": 1,
+      "botc": 1,
+      "diffcov": 100,
+      "viasrc": 100,
+      "viadrn": 100,
+      "guard": 1,
+      "conn_gates": 1
+    }
+  },
+  "cell": "pfet_01v8_W8_L1_m1__nf4_gboth_sdfull_outD",
+  "gds": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf4_gboth_sdfull_outD/pfet_01v8_W8_L1_m1__nf4_gboth_sdfull_outD.gds",
+  "gen_rc": 0,
+  "strap": {
+    "rc": 0,
+    "strapped": true,
+    "roles": [
+      "D",
+      "S",
+      "D",
+      "S",
+      "D"
+    ]
+  },
+  "drc": {
+    "errors": 0,
+    "neg_control_flagged": true,
+    "pass": true,
+    "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf4_gboth_sdfull_outD/drc/drc_report.txt"
+  },
+  "lvs": {
+    "match": true,
+    "neg_control_rejected": true,
+    "pass": true,
+    "pcell_instance": "pfet_01v8_W8_L1_m1__nf4_gboth_sdfull_outD",
+    "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf4_gboth_sdfull_outD/lvs/lvs/lvs_report.txt",
+    "extracted": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf4_gboth_sdfull_outD/lvs/lvs/extracted.spice"
+  },
+  "geometry": {
+    "bbox_um": [
+      6.83,
+      4.19
+    ],
+    "area_um2": 28.618,
+    "n_licon_poly": 16,
+    "n_licon_diff": 30,
+    "n_mcon_diff": 25,
+    "n_mcon_gate": 16,
+    "strips": [
+      {
+        "x0": 0.455,
+        "x1": 0.685,
+        "y0": 0.8300000000000001,
+        "y1": 2.83,
+        "role": "D",
+        "n_licon": 6,
+        "n_mcon": 5,
+        "width_um": 0.23000000000000004,
+        "length_um": 2.0
+      },
+      {
+        "x0": 1.745,
+        "x1": 1.975,
+        "y0": 0.8300000000000001,
+        "y1": 2.83,
+        "role": "S",
+        "n_licon": 6,
+        "n_mcon": 5,
+        "width_um": 0.22999999999999998,
+        "length_um": 2.0
+      },
+      {
+        "x0": 3.035,
+        "x1": 3.265,
+        "y0": 0.8300000000000001,
+        "y1": 2.83,
+        "role": "D",
+        "n_licon": 6,
+        "n_mcon": 5,
+        "width_um": 0.22999999999999998,
+        "length_um": 2.0
+      },
+      {
+        "x0": 4.325,
+        "x1": 4.555,
+        "y0": 0.8300000000000001,
+        "y1": 2.83,
+        "role": "S",
+        "n_licon": 6,
+        "n_mcon": 5,
+        "width_um": 0.22999999999999954,
+        "length_um": 2.0
+      },
+      {
+        "x0": 5.615,
+        "x1": 5.845,
+        "y0": 0.8300000000000001,
+        "y1": 2.83,
+        "role": "D",
+        "n_licon": 6,
+        "n_mcon": 5,
+        "width_um": 0.22999999999999954,
+        "length_um": 2.0
+      }
+    ]
+  },
+  "pex": {
+    "file": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf4_gboth_sdfull_outD/pex/pex.spice",
+    "subckt": "pfet_01v8_W8_L1_m1__nf4_gboth_sdfull_outD",
+    "ports": [
+      "S",
+      "D",
+      "G",
+      "B"
+    ],
+    "n_devices": 4,
+    "fingers": [
+      {
+        "ad": "0.29",
+        "pd": "2.29",
+        "as": "0.29",
+        "ps": "2.29",
+        "w": "2",
+        "l": "1"
+      },
+      {
+        "ad": "0.29",
+        "pd": "2.29",
+        "as": "0.29",
+        "ps": "2.29",
+        "w": "2",
+        "l": "1"
+      },
+      {
+        "ad": "0.29",
+        "pd": "2.29",
+        "as": "0.58",
+        "ps": "4.58",
+        "w": "2",
+        "l": "1"
+      },
+      {
+        "ad": "0.58",
+        "pd": "4.58",
+        "as": "0.29",
+        "ps": "2.29",
+        "w": "2",
+        "l": "1"
+      }
+    ],
+    "n_caps": 10,
+    "sum_caps_F": 9.43626e-15
+  },
+  "access_resistance_ohm": {
+    "g": 12.089583333333334,
+    "g_parts": {
+      "poly_distributed": 2.0083333333333333,
+      "ngcon": 2,
+      "poly_contacts": 16,
+      "gate_mcons": 16
+    },
+    "d": 34.740772946859906,
+    "d_strips_ohm": [
+      104.2223,
+      104.2223,
+      104.2223
+    ],
+    "s": 52.11115942028985,
+    "s_strips_ohm": [
+      104.2223,
+      104.2223
+    ]
+  },
+  "png": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf4_gboth_sdfull_outD/pfet_01v8_W8_L1_m1__nf4_gboth_sdfull_outD.png",
+  "ok": true
+}

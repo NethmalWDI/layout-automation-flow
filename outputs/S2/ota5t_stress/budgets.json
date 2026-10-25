@@ -1,0 +1,896 @@
+{
+  "design": "ota5t_stress",
+  "eta": 0.5,
+  "eta_note": "ASSUMPTION (accepted): fraction of each margin given to layout",
+  "expected_layout_use": {
+    "gain_db": {
+      "use_at_expected_need": 0.14328939388527814,
+      "margin": 0.5,
+      "fraction_of_margin": 0.2865787877705563
+    },
+    "gbw_mhz": {
+      "use_at_expected_need": 33.70483823626488,
+      "margin": 37.36540000000002,
+      "fraction_of_margin": 0.9020333847962247
+    },
+    "pm_deg": {
+      "use_at_expected_need": 3.3051773472434665,
+      "margin": 5.0,
+      "fraction_of_margin": 0.6610354694486933
+    },
+    "vnoise_nv_rthz": {
+      "use_at_expected_need": 0.9283822925425997,
+      "margin": 60.93599999999998,
+      "fraction_of_margin": 0.015235366491771696
+    },
+    "sat_XM3": {
+      "use_at_expected_need": 0.002213794697845717,
+      "margin": 1.048933,
+      "fraction_of_margin": 0.0021105205936372646
+    },
+    "sat_XM4": {
+      "use_at_expected_need": 0.002213794697845717,
+      "margin": 1.048933,
+      "fraction_of_margin": 0.0021105205936372646
+    },
+    "sat_XM1": {
+      "use_at_expected_need": 0.002584256705903273,
+      "margin": 0.1300596,
+      "fraction_of_margin": 0.01986978820404855
+    },
+    "sat_XM2": {
+      "use_at_expected_need": 0.002584256705903273,
+      "margin": 0.1300596,
+      "fraction_of_margin": 0.01986978820404855
+    },
+    "sat_XM5": {
+      "use_at_expected_need": 0.002450556819875891,
+      "margin": 0.019568000000000002,
+      "fraction_of_margin": 0.12523287100755778
+    }
+  },
+  "default_cells_used": [
+    "nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull",
+    "nfet_01v8_W24_L1_m1__nf1_gboth_sdfull",
+    "pfet_01v8_W8_L1_m1__nf1_gboth_sdfull"
+  ],
+  "elements": [
+    {
+      "id": "OUTP",
+      "kind": "net_capacitance",
+      "targets": [
+        "OUTP"
+      ],
+      "units": "fF",
+      "w": 4.555122154000001,
+      "w_basis": "route estimate 20.7 um of met1 + 2.8 fF inside the default device cells",
+      "w_parts": {
+        "wiring": 1.7581221540000007,
+        "device_cells": 2.797,
+        "device_cells_by_device": {
+          "XM4": 0.9568,
+          "XM2": 1.8402
+        }
+      },
+      "budget": 2.398672886856389,
+      "budget_maxmin": 2.5249188282698833,
+      "multiple_of_expected": 0.5265880487420159,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 2.9785833970999582
+      }
+    },
+    {
+      "id": "net1",
+      "kind": "net_capacitance",
+      "targets": [
+        "net1"
+      ],
+      "units": "fF",
+      "w": 11.142705792000001,
+      "w_basis": "route estimate 42.8 um of met1 + 7.52 fF inside the default device cells",
+      "w_parts": {
+        "wiring": 3.623875792000001,
+        "device_cells": 7.5188299999999995,
+        "device_cells_by_device": {
+          "XM1": 1.8402,
+          "XM2": 1.8402,
+          "XM5": 3.83843
+        }
+      },
+      "budget": 65.66831229127054,
+      "budget_maxmin": 6.176437579700674,
+      "multiple_of_expected": 5.893390125979782,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.20225773401123875
+      }
+    },
+    {
+      "id": "net3",
+      "kind": "net_capacitance",
+      "targets": [
+        "net3"
+      ],
+      "units": "fF",
+      "w": 7.761674134000001,
+      "w_basis": "route estimate 33.9 um of met1 + 4.89 fF inside the default device cells",
+      "w_parts": {
+        "wiring": 2.8725741340000006,
+        "device_cells": 4.8891,
+        "device_cells_by_device": {
+          "XM3": 2.00285,
+          "XM4": 1.04605,
+          "XM1": 1.8402
+        }
+      },
+      "budget": 4.087204837194436,
+      "budget_maxmin": 4.302320881257302,
+      "multiple_of_expected": 0.5265880487420159,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 3.57491774121515
+      }
+    },
+    {
+      "id": "OUTP~net1",
+      "kind": "coupling",
+      "targets": [
+        "OUTP",
+        "net1"
+      ],
+      "units": "fF",
+      "w": 1.4590584370000002,
+      "w_basis": "coupling estimate 5.2 um of met1 + 1.17 fF inside the default device cells",
+      "w_parts": {
+        "wiring": 0.2925584370000001,
+        "device_cells": 1.1665,
+        "device_cells_by_device": {
+          "XM2": 1.1665
+        }
+      },
+      "budget": 0.7683227353404056,
+      "budget_maxmin": 0.8087607740425323,
+      "multiple_of_expected": 0.5265880487420159,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.6132529178051433
+      }
+    },
+    {
+      "id": "OUTP~net3",
+      "kind": "coupling",
+      "targets": [
+        "OUTP",
+        "net3"
+      ],
+      "units": "fF",
+      "w": 0.7274684370000002,
+      "w_basis": "coupling estimate 5.2 um of met1 + 0.435 fF inside the default device cells",
+      "w_parts": {
+        "wiring": 0.2925584370000001,
+        "device_cells": 0.43491,
+        "device_cells_by_device": {
+          "XM4": 0.43491
+        }
+      },
+      "budget": 0.3830761847612343,
+      "budget_maxmin": 0.4032380892223519,
+      "multiple_of_expected": 0.526588048742016,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 1.2074296916998477,
+        "pm_deg": 0.02135680648596534
+      }
+    },
+    {
+      "id": "OUTP~INP",
+      "kind": "coupling",
+      "targets": [
+        "OUTP",
+        "INP"
+      ],
+      "units": "fF",
+      "w": 0.19983384200000004,
+      "w_basis": "coupling estimate 3.5 um of met1",
+      "w_parts": {
+        "wiring": 0.19983384200000004,
+        "device_cells": 0,
+        "device_cells_by_device": {}
+      },
+      "budget": 0.13324740073602503,
+      "budget_maxmin": 0.11076853992778983,
+      "multiple_of_expected": 0.6667909669475554,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.20225773401123895
+      }
+    },
+    {
+      "id": "OUTP~INN",
+      "kind": "coupling",
+      "targets": [
+        "OUTP",
+        "INN"
+      ],
+      "units": "fF",
+      "w": 1.052383842,
+      "w_basis": "coupling estimate 3.5 um of met1 + 0.853 fF inside the default device cells",
+      "w_parts": {
+        "wiring": 0.19983384200000004,
+        "device_cells": 0.85255,
+        "device_cells_by_device": {
+          "XM2": 0.85255
+        }
+      },
+      "budget": 0.554172753886406,
+      "budget_maxmin": 0.583339740933059,
+      "multiple_of_expected": 0.5265880487420159,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.5351597749545316,
+        "pm_deg": 0.048970243956474535
+      }
+    },
+    {
+      "id": "net1~net3",
+      "kind": "coupling",
+      "targets": [
+        "net1",
+        "net3"
+      ],
+      "units": "fF",
+      "w": 1.6445076270000003,
+      "w_basis": "coupling estimate 8.5 um of met1 + 1.17 fF inside the default device cells",
+      "w_parts": {
+        "wiring": 0.4780076270000001,
+        "device_cells": 1.1665,
+        "device_cells_by_device": {
+          "XM1": 1.1665
+        }
+      },
+      "budget": 0.8659780624432931,
+      "budget_maxmin": 0.9115558552034665,
+      "multiple_of_expected": 0.5265880487420159,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.7588127012072567,
+        "pm_deg": 0.09410394706993236
+      }
+    },
+    {
+      "id": "net1~INP",
+      "kind": "coupling",
+      "targets": [
+        "net1",
+        "INP"
+      ],
+      "units": "fF",
+      "w": 1.052383842,
+      "w_basis": "coupling estimate 3.5 um of met1 + 0.853 fF inside the default device cells",
+      "w_parts": {
+        "wiring": 0.19983384200000004,
+        "device_cells": 0.85255,
+        "device_cells_by_device": {
+          "XM1": 0.85255
+        }
+      },
+      "budget": 1.0654559107888668,
+      "budget_maxmin": 0.583339740933059,
+      "multiple_of_expected": 1.012421388724502,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.20225773401123906
+      }
+    },
+    {
+      "id": "net1~INN",
+      "kind": "coupling",
+      "targets": [
+        "net1",
+        "INN"
+      ],
+      "units": "fF",
+      "w": 1.052383842,
+      "w_basis": "coupling estimate 3.5 um of met1 + 0.853 fF inside the default device cells",
+      "w_parts": {
+        "wiring": 0.19983384200000004,
+        "device_cells": 0.85255,
+        "device_cells_by_device": {
+          "XM2": 0.85255
+        }
+      },
+      "budget": 10.523838419999956,
+      "budget_maxmin": 10.52383842,
+      "multiple_of_expected": 9.999999999999957,
+      "binding": [
+        "cap_kappa"
+      ],
+      "margin_used": {
+        "pm_deg": 0.39805845166904136
+      }
+    },
+    {
+      "id": "net3~INP",
+      "kind": "coupling",
+      "targets": [
+        "net3",
+        "INP"
+      ],
+      "units": "fF",
+      "w": 1.052383842,
+      "w_basis": "coupling estimate 3.5 um of met1 + 0.853 fF inside the default device cells",
+      "w_parts": {
+        "wiring": 0.19983384200000004,
+        "device_cells": 0.85255,
+        "device_cells_by_device": {
+          "XM1": 0.85255
+        }
+      },
+      "budget": 0.554172753886406,
+      "budget_maxmin": 0.583339740933059,
+      "multiple_of_expected": 0.5265880487420159,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.5960007371620722,
+        "pm_deg": 0.03244794556956193
+      }
+    },
+    {
+      "id": "net3~INN",
+      "kind": "coupling",
+      "targets": [
+        "net3",
+        "INN"
+      ],
+      "units": "fF",
+      "w": 0.19983384200000004,
+      "w_basis": "coupling estimate 3.5 um of met1",
+      "w_parts": {
+        "wiring": 0.19983384200000004,
+        "device_cells": 0,
+        "device_cells_by_device": {}
+      },
+      "budget": 0.3001410147635442,
+      "budget_maxmin": 0.11076853992778983,
+      "multiple_of_expected": 1.501952881251936,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.20225773401123856
+      }
+    },
+    {
+      "id": "XM3+XM4.d",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XM3.d",
+        "XM4.d"
+      ],
+      "units": "ohm",
+      "w": 33.17732095802748,
+      "w_basis": "per member: measured default-cell access 27.3 ohm + 6.6 um met1",
+      "w_parts": {
+        "device_cells": 27.306785243741768,
+        "wiring": 5.870535714285714
+      },
+      "budget": 331.77320958027354,
+      "budget_maxmin": 18.390295479763456,
+      "multiple_of_expected": 9.999999999999963,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gain_db": 0.008377273541879436,
+        "gbw_mhz": 0.13270928383170583,
+        "pm_deg": 0.04993186804182677,
+        "sat_XM3": 0.013967652123328015,
+        "sat_XM4": 0.013967652123328015,
+        "sat_XM1": 6.784762135925222e-05,
+        "sat_XM2": 6.784762135925222e-05
+      }
+    },
+    {
+      "id": "XM3+XM4.g",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XM3.g",
+        "XM4.g"
+      ],
+      "units": "ohm",
+      "w": 78.32886904761904,
+      "w_basis": "per member: measured default-cell access 72.5 ohm + 6.6 um met1",
+      "w_parts": {
+        "device_cells": 72.45833333333333,
+        "wiring": 5.870535714285714
+      },
+      "budget": 287.9113651403136,
+      "budget_maxmin": 43.417943486268,
+      "multiple_of_expected": 3.6756737157188053,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.20225773401123823,
+        "pm_deg": 0.16137432016118392
+      }
+    },
+    {
+      "id": "XM3+XM4.s",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XM3.s",
+        "XM4.s"
+      ],
+      "units": "ohm",
+      "w": 33.17732095802748,
+      "w_basis": "per member: measured default-cell access 27.3 ohm + 6.6 um met1",
+      "w_parts": {
+        "device_cells": 27.306785243741768,
+        "wiring": 5.870535714285714
+      },
+      "budget": 17.470780705775287,
+      "budget_maxmin": 18.390295479763456,
+      "multiple_of_expected": 0.5265880487420161,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gain_db": 0.05027653917604497,
+        "gbw_mhz": 0.34740647433434185,
+        "sat_XM1": 0.0009209678372097704,
+        "sat_XM2": 0.0009209678372097704,
+        "sat_XM5": 1.7296072898738466e-05
+      }
+    },
+    {
+      "id": "XM1+XM2.d",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XM1.d",
+        "XM2.d"
+      ],
+      "units": "ohm",
+      "w": 19.783378035008468,
+      "w_basis": "per member: measured default-cell access 7.13 ohm + 14.2 um met1",
+      "w_parts": {
+        "device_cells": 7.1315923207227545,
+        "wiring": 12.651785714285715
+      },
+      "budget": 20.160252580238254,
+      "budget_maxmin": 10.965989933663966,
+      "multiple_of_expected": 1.019050060336656,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gain_db": 0.04787051975177447,
+        "gbw_mhz": 0.20225773401123912,
+        "pm_deg": 0.028637638790230093,
+        "sat_XM1": 0.0008443214581866596,
+        "sat_XM2": 0.0008443214581866596,
+        "sat_XM5": 1.602740080130824e-05
+      }
+    },
+    {
+      "id": "XM1+XM2.g",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XM1.g",
+        "XM2.g"
+      ],
+      "units": "ohm",
+      "w": 286.10178571428577,
+      "w_basis": "per member: measured default-cell access 273 ohm + 14.2 um met1",
+      "w_parts": {
+        "device_cells": 273.45000000000005,
+        "wiring": 12.651785714285715
+      },
+      "budget": 150.65778108089214,
+      "budget_maxmin": 158.58713797988645,
+      "multiple_of_expected": 0.526588048742016,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 1.3069562508768566,
+        "pm_deg": 1.4437911805434733,
+        "vnoise_nv_rthz": 0.007532889053823658
+      }
+    },
+    {
+      "id": "XM1+XM2.s",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XM1.s",
+        "XM2.s"
+      ],
+      "units": "ohm",
+      "w": 19.78337803500847,
+      "w_basis": "per member: measured default-cell access 7.13 ohm + 14.2 um met1",
+      "w_parts": {
+        "device_cells": 7.131592320722755,
+        "wiring": 12.651785714285715
+      },
+      "budget": 10.41769043698077,
+      "budget_maxmin": 10.965989933663968,
+      "multiple_of_expected": 0.526588048742016,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 2.5756958278652,
+        "pm_deg": 0.006432923844837843,
+        "vnoise_nv_rthz": 0.19020098315317338,
+        "sat_XM3": 1.5860933690293786e-05,
+        "sat_XM4": 1.5860933690293786e-05,
+        "sat_XM5": 0.00041821818259260866
+      }
+    },
+    {
+      "id": "XM5.d",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XM5.d"
+      ],
+      "units": "ohm",
+      "w": 20.006592320722753,
+      "w_basis": "per member: measured default-cell access 7.13 ohm + 14.4 um met1",
+      "w_parts": {
+        "device_cells": 7.1315923207227545,
+        "wiring": 12.875
+      },
+      "budget": 11.165207508211,
+      "budget_maxmin": 11.089718328575152,
+      "multiple_of_expected": 0.5580764244716537,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.20225773401123853,
+        "pm_deg": 0.0018199288238353413,
+        "vnoise_nv_rthz": 0.033607274599701045,
+        "sat_XM3": 3.2351188755125634e-05,
+        "sat_XM4": 3.2351188755125634e-05,
+        "sat_XM5": 0.0008972639883786214
+      }
+    },
+    {
+      "id": "XM5.g",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XM5.g"
+      ],
+      "units": "ohm",
+      "w": 149.60000000000002,
+      "w_basis": "per member: measured default-cell access 137 ohm + 14.4 um met1",
+      "w_parts": {
+        "device_cells": 136.72500000000002,
+        "wiring": 12.875
+      },
+      "budget": 1495.99999999999,
+      "budget_maxmin": 82.92376009663747,
+      "multiple_of_expected": 9.99999999999993,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.07479999999780552
+      }
+    },
+    {
+      "id": "XM5.s",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XM5.s"
+      ],
+      "units": "ohm",
+      "w": 20.006592320722756,
+      "w_basis": "per member: measured default-cell access 7.13 ohm + 14.4 um met1",
+      "w_parts": {
+        "device_cells": 7.131592320722755,
+        "wiring": 12.875
+      },
+      "budget": 10.535232412146394,
+      "budget_maxmin": 11.089718328575154,
+      "multiple_of_expected": 0.5265880487420158,
+      "binding": [
+        "gbw_mhz"
+      ],
+      "margin_used": {
+        "gbw_mhz": 2.565171063871466,
+        "pm_deg": 0.030138666123053444,
+        "vnoise_nv_rthz": 0.25943009814910256,
+        "sat_XM3": 0.00038385119293636897,
+        "sat_XM4": 0.00038385119293636897
+      }
+    }
+  ],
+  "constraints": [
+    {
+      "id": "gain_db",
+      "b": 0.25,
+      "margin": 0.5,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz",
+      "b": 18.68270000000001,
+      "margin": 37.36540000000002,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg",
+      "b": 2.5,
+      "margin": 5.0,
+      "units": "deg"
+    },
+    {
+      "id": "vnoise_nv_rthz",
+      "b": 30.46799999999999,
+      "margin": 60.93599999999998,
+      "units": "nV/sqrt(Hz)"
+    },
+    {
+      "id": "sat_XM3",
+      "b": 0.5244665,
+      "margin": 1.048933,
+      "units": "V"
+    },
+    {
+      "id": "sat_XM4",
+      "b": 0.5244665,
+      "margin": 1.048933,
+      "units": "V"
+    },
+    {
+      "id": "sat_XM1",
+      "b": 0.0650298,
+      "margin": 0.1300596,
+      "units": "V"
+    },
+    {
+      "id": "sat_XM2",
+      "b": 0.0650298,
+      "margin": 0.1300596,
+      "units": "V"
+    },
+    {
+      "id": "sat_XM5",
+      "b": 0.009784000000000001,
+      "margin": 0.019568000000000002,
+      "units": "V"
+    }
+  ],
+  "method": "max-min fair progressive filling (budgets.allocate), then proportional-fairness refinement keeping >= 95 % of every max-min budget (budgets.refine)",
+  "rates": {
+    "gain_db": {
+      "OUTP": 0.0,
+      "net1": 0.0,
+      "net3": 0.0,
+      "OUTP~net1": 0.0,
+      "OUTP~net3": 0.0,
+      "OUTP~INP": 0.0,
+      "OUTP~INN": 0.0,
+      "net1~net3": 0.0,
+      "net1~INP": 0.0,
+      "net1~INN": 0.0,
+      "net3~INP": 0.0,
+      "net3~INN": 0.0,
+      "XM3+XM4.d": 2.5249999999932272e-05,
+      "XM3+XM4.g": 0.0,
+      "XM3+XM4.s": 0.002877750000000008,
+      "XM1+XM2.d": 0.0023744999999999374,
+      "XM1+XM2.g": 0.0,
+      "XM1+XM2.s": 0.0,
+      "XM5.d": 0.0,
+      "XM5.g": 0.0,
+      "XM5.s": 0.0
+    },
+    "gbw_mhz": {
+      "OUTP": 1.2417630654939273,
+      "net1": 0.003079989830013119,
+      "net3": 0.8746607727321702,
+      "OUTP~net1": 0.7981709893479092,
+      "OUTP~net3": 3.1519309728231235,
+      "OUTP~INP": 1.5179112905318846,
+      "OUTP~INN": 0.9656912419484058,
+      "net1~net3": 0.8762493348461078,
+      "net1~INP": 0.18983210094680203,
+      "net1~INN": 0.0,
+      "net3~INP": 1.0754782384776718,
+      "net3~INN": 0.6738756919662592,
+      "XM3+XM4.d": 0.00039999999999878354,
+      "XM3+XM4.g": 0.0007025000000005833,
+      "XM3+XM4.s": 0.019885000000000017,
+      "XM1+XM2.d": 0.010032499999999943,
+      "XM1+XM2.g": 0.00867500000000078,
+      "XM1+XM2.s": 0.24724249999999828,
+      "XM5.d": 0.018114999999999666,
+      "XM5.g": 4.999999999853344e-05,
+      "XM5.s": 0.24348500000000015
+    },
+    "pm_deg": {
+      "OUTP": 0.0,
+      "net1": 0.0,
+      "net3": 0.0,
+      "OUTP~net1": 0.0,
+      "OUTP~net3": 0.055750807112367795,
+      "OUTP~INP": 0.0,
+      "OUTP~INN": 0.08836638685869502,
+      "net1~net3": 0.10866781867940745,
+      "net1~INP": 0.0,
+      "net1~INN": 0.03782445489780173,
+      "net3~INP": 0.058552040572195097,
+      "net3~INN": 0.0,
+      "XM3+XM4.d": 0.00015049999999998674,
+      "XM3+XM4.g": 0.0005605000000001325,
+      "XM3+XM4.s": 0.0,
+      "XM1+XM2.d": 0.001420500000000082,
+      "XM1+XM2.g": 0.009583250000000092,
+      "XM1+XM2.s": 0.0006175000000002128,
+      "XM5.d": 0.00016299999999972668,
+      "XM5.g": 0.0,
+      "XM5.s": 0.002860750000000536
+    },
+    "vnoise_nv_rthz": {
+      "OUTP": 0.0,
+      "net1": 0.0,
+      "net3": 0.0,
+      "OUTP~net1": 0.0,
+      "OUTP~net3": 0.0,
+      "OUTP~INP": 0.0,
+      "OUTP~INN": 0.0,
+      "net1~net3": 0.0,
+      "net1~INP": 0.0,
+      "net1~INN": 0.0,
+      "net3~INP": 0.0,
+      "net3~INN": 0.0,
+      "XM3+XM4.d": 0.0,
+      "XM3+XM4.g": 0.0,
+      "XM3+XM4.s": 0.0,
+      "XM1+XM2.d": 0.0,
+      "XM1+XM2.g": 4.999999999853344e-05,
+      "XM1+XM2.s": 0.018257499999999708,
+      "XM5.d": 0.0030099999999987402,
+      "XM5.g": 0.0,
+      "XM5.s": 0.024624999999999772
+    },
+    "sat_XM3": {
+      "OUTP": 0.0,
+      "net1": 0.0,
+      "net3": 0.0,
+      "OUTP~net1": 0.0,
+      "OUTP~net3": 0.0,
+      "OUTP~INP": 0.0,
+      "OUTP~INN": 0.0,
+      "net1~net3": 0.0,
+      "net1~INP": 0.0,
+      "net1~INN": 0.0,
+      "net3~INP": 0.0,
+      "net3~INN": 0.0,
+      "XM3+XM4.d": 4.2099999999995474e-05,
+      "XM3+XM4.g": 0.0,
+      "XM3+XM4.s": 0.0,
+      "XM1+XM2.d": 0.0,
+      "XM1+XM2.g": 0.0,
+      "XM1+XM2.s": 1.5224999999990941e-06,
+      "XM5.d": 2.897500000007547e-06,
+      "XM5.g": 0.0,
+      "XM5.s": 3.643499999998245e-05
+    },
+    "sat_XM4": {
+      "OUTP": 0.0,
+      "net1": 0.0,
+      "net3": 0.0,
+      "OUTP~net1": 0.0,
+      "OUTP~net3": 0.0,
+      "OUTP~INP": 0.0,
+      "OUTP~INN": 0.0,
+      "net1~net3": 0.0,
+      "net1~INP": 0.0,
+      "net1~INN": 0.0,
+      "net3~INP": 0.0,
+      "net3~INN": 0.0,
+      "XM3+XM4.d": 4.2099999999995474e-05,
+      "XM3+XM4.g": 0.0,
+      "XM3+XM4.s": 0.0,
+      "XM1+XM2.d": 0.0,
+      "XM1+XM2.g": 0.0,
+      "XM1+XM2.s": 1.5224999999990941e-06,
+      "XM5.d": 2.897500000007547e-06,
+      "XM5.g": 0.0,
+      "XM5.s": 3.643499999998245e-05
+    },
+    "sat_XM1": {
+      "OUTP": 0.0,
+      "net1": 0.0,
+      "net3": 0.0,
+      "OUTP~net1": 0.0,
+      "OUTP~net3": 0.0,
+      "OUTP~INP": 0.0,
+      "OUTP~INN": 0.0,
+      "net1~net3": 0.0,
+      "net1~INP": 0.0,
+      "net1~INN": 0.0,
+      "net3~INP": 0.0,
+      "net3~INN": 0.0,
+      "XM3+XM4.d": 2.0450000000026005e-07,
+      "XM3+XM4.g": 0.0,
+      "XM3+XM4.s": 5.271475000000015e-05,
+      "XM1+XM2.d": 4.188049999999957e-05,
+      "XM1+XM2.g": 0.0,
+      "XM1+XM2.s": 0.0,
+      "XM5.d": 0.0,
+      "XM5.g": 0.0,
+      "XM5.s": 0.0
+    },
+    "sat_XM2": {
+      "OUTP": 0.0,
+      "net1": 0.0,
+      "net3": 0.0,
+      "OUTP~net1": 0.0,
+      "OUTP~net3": 0.0,
+      "OUTP~INP": 0.0,
+      "OUTP~INN": 0.0,
+      "net1~net3": 0.0,
+      "net1~INP": 0.0,
+      "net1~INN": 0.0,
+      "net3~INP": 0.0,
+      "net3~INN": 0.0,
+      "XM3+XM4.d": 2.0450000000026005e-07,
+      "XM3+XM4.g": 0.0,
+      "XM3+XM4.s": 5.271475000000015e-05,
+      "XM1+XM2.d": 4.188049999999957e-05,
+      "XM1+XM2.g": 0.0,
+      "XM1+XM2.s": 0.0,
+      "XM5.d": 0.0,
+      "XM5.g": 0.0,
+      "XM5.s": 0.0
+    },
+    "sat_XM5": {
+      "OUTP": 0.0,
+      "net1": 0.0,
+      "net3": 0.0,
+      "OUTP~net1": 0.0,
+      "OUTP~net3": 0.0,
+      "OUTP~INP": 0.0,
+      "OUTP~INN": 0.0,
+      "net1~net3": 0.0,
+      "net1~INP": 0.0,
+      "net1~INN": 0.0,
+      "net3~INP": 0.0,
+      "net3~INN": 0.0,
+      "XM3+XM4.d": 0.0,
+      "XM3+XM4.g": 0.0,
+      "XM3+XM4.s": 9.900000000011982e-07,
+      "XM1+XM2.d": 7.950000000009339e-07,
+      "XM1+XM2.g": 0.0,
+      "XM1+XM2.s": 4.01450000000015e-05,
+      "XM5.d": 8.036250000000134e-05,
+      "XM5.g": 0.0,
+      "XM5.s": 0.0
+    }
+  }
+}

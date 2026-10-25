@@ -1,0 +1,110 @@
+* example_ota_5t on diso_amp_NOISE
+.lib $PDK_ROOT/sky130A/libs.tech/combined/sky130.lib.spice tt
+.param VDD_V=1.8 VCM_V=0.9 CL_F=200f
+.temp 27
+
+** sch_path: /foss/designs/PROJECTS/llm-analog-sizing/testbenches/diso_amp_NOISE.sch
+**.subckt diso_amp_NOISE
+x1 INP INN net1 VDD 0 OUT dut_amp
+Vsup VDD 0 'VDD_V'
+Vinp INP 0 dc 'VCM_V' ac 1
+Vinn INN 0 'VCM_V'
+Cload OUT 0 'CL_F'
+* noconn #net1
+**** begin user architecture code
+
+.control
+  save all
+
+  * sweep settings -- fspot must lie on the grid, which it does by construction
+  let npd    = 20
+  let fstart = 1
+  let fstop  = 1e9
+  let fspot  = 1e3
+
+  noise v(OUT) Vinp dec 20 1 1e9
+
+  * input-referred voltage noise density [nV/sqrt(Hz)] at fspot.
+  * meas does not work on noise plots, so index the vector directly:
+  * index = points-per-decade * log10(fspot / fstart).
+  setplot noise1
+  let idx = npd * log10(fspot/fstart)
+  let vnoise_nv_rthz = inoise_spectrum[$&idx] * 1e9
+  echo MEAS vnoise_nv_rthz $&vnoise_nv_rthz
+  write
+  set appendwrite
+
+  * total input-referred noise integrated over the sweep [uVrms]
+  setplot noise2
+  let vnoise_rms_uv_rms = inoise_total * 1e6
+  echo MEAS vnoise_rms_uv_rms $&vnoise_rms_uv_rms
+  write
+
+  quit 0
+.endc
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  dut_amp.sym # of pins=6
+** sym_path: /foss/designs/PROJECTS/llm-analog-sizing/testbenches/dut_amp.sym
+** sch_path: /foss/designs/PROJECTS/llm-analog-sizing/testbenches/dut_amp.sch
+.subckt dut_amp INP INN OUTN VDD VSS OUTP
+XDUT VDD OUTP INP INN VSS example_ota_5t_sized
+.ends
+
+.subckt example_ota_5t_sized VDD OUTP INP INN VSS
+XM3 s3_XM3_d s3_XM3_s s3_XM3_g VDD VSS s3c_pfet_01v8_w8_l1_m1__nf1_gboth_sdfull
+Rs3_XM3_d s3_XM3_d net3 27.3068
+Rs3_XM3_g s3_XM3_g net3 72.4583
+Rs3_XM3_s s3_XM3_s VDD 27.3068
+XM4 s3_XM4_d s3_XM4_s s3_XM4_g VDD VSS s3c_pfet_01v8_w8_l1_m1__nf1_gboth_sdfull
+Rs3_XM4_d s3_XM4_d OUTP 27.3068
+Rs3_XM4_g s3_XM4_g net3 72.4583
+Rs3_XM4_s s3_XM4_s VDD 27.3068
+XM1 s3_XM1_d s3_XM1_s s3_XM1_g VSS s3c_nfet_01v8_w24_l0p5_m1__nf1_gboth_sdfull
+Rs3_XM1_d s3_XM1_d net3 7.13159
+Rs3_XM1_g s3_XM1_g INP 273.45
+Rs3_XM1_s s3_XM1_s net1 7.13159
+XM2 s3_XM2_d s3_XM2_s s3_XM2_g VSS s3c_nfet_01v8_w24_l0p5_m1__nf1_gboth_sdfull
+Rs3_XM2_d s3_XM2_d OUTP 7.13159
+Rs3_XM2_g s3_XM2_g INN 273.45
+Rs3_XM2_s s3_XM2_s net1 7.13159
+XM5 s3_XM5_d s3_XM5_s s3_XM5_g VSS s3c_nfet_01v8_w24_l1_m1__nf1_gboth_sdfull
+Rs3_XM5_d s3_XM5_d net1 7.13159
+Rs3_XM5_g s3_XM5_g net2 136.725
+Rs3_XM5_s s3_XM5_s VSS 7.13159
+V1 net2 VSS 0.75
+.ends example_ota_5t_sized
+.subckt s3c_pfet_01v8_w8_l1_m1__nf1_gboth_sdfull D S G B SUB
+X0 S G D B sky130_fd_pr__pfet_01v8 ad=2.32 pd=16.58 as=2.32 ps=16.58 w=8 l=1
+C0 S G 0.43491f
+C1 D G 0.43491f
+C2 B S 0.49734f
+C3 B D 0.49734f
+C4 D S 0.23712f
+C5 B G 0.4291f
+C6 S SUB 0.22234f
+C7 D SUB 0.22234f
+C8 G SUB 0.18204f
+C9 B SUB 4.50925f
+.ends
+.subckt s3c_nfet_01v8_w24_l0p5_m1__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=6.96 pd=48.58 as=6.96 ps=48.58 w=24 l=0.5
+C0 S G 0.85255f
+C1 D G 0.85255f
+C2 D S 1.1665f
+C3 S B 1.8402f
+C4 D B 1.8402f
+C5 G B 0.36111f
+.ends
+.subckt s3c_nfet_01v8_w24_l1_m1__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=6.96 pd=48.58 as=6.96 ps=48.58 w=24 l=1
+C0 S G 1.30173f
+C1 D G 1.30173f
+C2 D S 0.71055f
+C3 S B 1.82615f
+C4 D B 1.82615f
+C5 G B 0.5633f
+.ends
+.end

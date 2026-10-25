@@ -83,3 +83,39 @@ def test_level0_symbols_follow_name_map():
     assert vals["G1_XM1"] == 1e-3 and vals["R1_XM1"] == pytest.approx(1e5)
     assert vals["C3_XM1"] == pytest.approx(3e-18 + 3e-16)
     assert not any(k.endswith("_XM6") for k in vals)
+
+
+def test_series_resistor_tends_to_no_resistor():
+    ir, op = cs_amp()
+    base = linear.LinearModel(ir, op, drive={"IN": 1.0}).response(np.array([1e6]))
+    tiny = linear.LinearModel(ir, op, drive={"IN": 1.0}, extra_r=[("M1", "g", 1e-6)]).response(np.array([1e6]))
+    assert abs(tiny[0] - base[0]) / abs(base[0]) < 1e-6
+
+
+def test_gate_resistor_and_gate_capacitance_form_a_pole():
+    # gm = gds = 1 mS, CL = 1 pF: output pole at 1/(2*pi*1k*1p); a 1 kOhm gate resistor into a 1 pF
+    # gate-source capacitance gives a second pole at the same frequency -> |H| halves there.
+    ir, op = cs_amp(gm=1e-3, gds=1e-3, cl="1p")
+    o = op["M1"]
+    o.update({"cgg": 1e-12, "cgs": -1e-12, "css": 1e-12, "csg": -1e-12})
+    fp = 1 / (2 * math.pi * 1e3 * 1e-12)
+    lm = linear.LinearModel(ir, op, drive={"IN": 1.0}, extra_r=[("M1", "g", 1e3)])
+    H = lm.response(np.array([1.0, fp]))
+    assert abs(H[1]) / abs(H[0]) == pytest.approx(0.5, rel=1e-3)
+
+
+def test_deck_with_res_rewires_only_the_dut_terminal():
+    from src.s1 import resistance
+    deck = "x1 a b dut\n.subckt dut D G S\nXM1 D G S S sky130_fd_pr__nfet_01v8 L=1 W=2\n.ends\nXM1 q r s t other\n"
+    out = resistance.deck_with_res(deck, "dut", "XM1", "s", 50)
+    assert "XM1 D G s1r_XM1_s S sky130_fd_pr__nfet_01v8 L=1 W=2\nRpar_s1_XM1_s s1r_XM1_s S 50\n" in out
+    assert out.rstrip().endswith("XM1 q r s t other")  # outside the DUT: untouched
+    with pytest.raises(RuntimeError):
+        resistance.deck_with_res(deck, "dut", "XM9", "s", 50)
+
+
+def test_numerical_trouble_is_detected_in_logs():
+    from src.common.tools import numerical_warnings
+    assert numerical_warnings("Warning: singular matrix:  check node x1.xm4.vsubs\nok") != []
+    assert numerical_warnings("Note: Starting dynamic gmin stepping\nDoing analysis") == []
+    assert numerical_warnings("Warning: Dynamic gmin stepping failed") != []

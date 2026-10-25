@@ -1,0 +1,17 @@
+* NGSPICE file created from pfet_01v8_W8_L1_m1__nf8_gtop_sdfull_outD.ext - technology: sky130A
+
+.subckt sky130_fd_pr__pfet_01v8_LUY32Y G B D6 D4 D2 D0 S7 a_1003_n136# S5 S3 S1
+X0 D2 G S1 B sky130_fd_pr__pfet_01v8 ad=0.145 pd=1.29 as=0.145 ps=1.29 w=1 l=1
+X1 S1 G D0 B sky130_fd_pr__pfet_01v8 ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X2 S3 G D2 B sky130_fd_pr__pfet_01v8 ad=0.145 pd=1.29 as=0.145 ps=1.29 w=1 l=1
+X3 S7 G D6 B sky130_fd_pr__pfet_01v8 ad=0.145 pd=1.29 as=0.145 ps=1.29 w=1 l=1
+X4 a_1003_n136# G S7 B sky130_fd_pr__pfet_01v8 ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X5 D6 G S5 B sky130_fd_pr__pfet_01v8 ad=0.145 pd=1.29 as=0.145 ps=1.29 w=1 l=1
+X6 D4 G S3 B sky130_fd_pr__pfet_01v8 ad=0.145 pd=1.29 as=0.145 ps=1.29 w=1 l=1
+X7 S5 G D4 B sky130_fd_pr__pfet_01v8 ad=0.145 pd=1.29 as=0.145 ps=1.29 w=1 l=1
+.ends
+
+.subckt pfet_01v8_W8_L1_m1__nf8_gtop_sdfull_outD S D G B
+Xpfet_01v8_W8_L1_m1__nf8_gtop_sdfull_outD_pc G B D D D D S D S S S sky130_fd_pr__pfet_01v8_LUY32Y
+.ends
+

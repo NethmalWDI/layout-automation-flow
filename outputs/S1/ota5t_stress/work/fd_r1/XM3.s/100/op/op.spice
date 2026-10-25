@@ -1,0 +1,365 @@
+* example_ota_5t on diso_amp_OP
+.lib $PDK_ROOT/sky130A/libs.tech/combined/sky130.lib.spice tt
+.param VDD_V=1.8 VCM_V=0.9 CL_F=200f
+.temp 27
+
+** sch_path: /foss/designs/PROJECTS/llm-analog-sizing/testbenches/diso_amp_OP.sch
+**.subckt diso_amp_OP
+x1 INP INN net1 VDD 0 OUT dut_amp
+Vinp INP 0 'VCM_V'
+Vinn INN 0 'VCM_V'
+Cload OUT 0 'CL_F'
+* noconn #net1
+Vsup VDD 0 'VDD_V'
+**** begin user architecture code
+
+.control
+set numdgt=12
+op
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[id]
+echo OPV XM3 id $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[vgs]
+echo OPV XM3 vgs $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[vds]
+echo OPV XM3 vds $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[vbs]
+echo OPV XM3 vbs $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[vth]
+echo OPV XM3 vth $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[vdsat]
+echo OPV XM3 vdsat $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[gm]
+echo OPV XM3 gm $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[gds]
+echo OPV XM3 gds $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[gmbs]
+echo OPV XM3 gmbs $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cgg]
+echo OPV XM3 cgg $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cgd]
+echo OPV XM3 cgd $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cgs]
+echo OPV XM3 cgs $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cgb]
+echo OPV XM3 cgb $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cdg]
+echo OPV XM3 cdg $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cdd]
+echo OPV XM3 cdd $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cds]
+echo OPV XM3 cds $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cdb]
+echo OPV XM3 cdb $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[csg]
+echo OPV XM3 csg $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[csd]
+echo OPV XM3 csd $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[css]
+echo OPV XM3 css $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[csb]
+echo OPV XM3 csb $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cbg]
+echo OPV XM3 cbg $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cbd]
+echo OPV XM3 cbd $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cbs]
+echo OPV XM3 cbs $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cbb]
+echo OPV XM3 cbb $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[capbd]
+echo OPV XM3 capbd $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[capbs]
+echo OPV XM3 capbs $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cgso]
+echo OPV XM3 cgso $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cgdo]
+echo OPV XM3 cgdo $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[cgbo]
+echo OPV XM3 cgbo $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[weff]
+echo OPV XM3 weff $&s1v
+let s1v = @m.x1.xdut.xm3.msky130_fd_pr__pfet_01v8[leff]
+echo OPV XM3 leff $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[id]
+echo OPV XM4 id $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[vgs]
+echo OPV XM4 vgs $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[vds]
+echo OPV XM4 vds $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[vbs]
+echo OPV XM4 vbs $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[vth]
+echo OPV XM4 vth $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[vdsat]
+echo OPV XM4 vdsat $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[gm]
+echo OPV XM4 gm $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[gds]
+echo OPV XM4 gds $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[gmbs]
+echo OPV XM4 gmbs $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cgg]
+echo OPV XM4 cgg $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cgd]
+echo OPV XM4 cgd $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cgs]
+echo OPV XM4 cgs $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cgb]
+echo OPV XM4 cgb $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cdg]
+echo OPV XM4 cdg $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cdd]
+echo OPV XM4 cdd $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cds]
+echo OPV XM4 cds $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cdb]
+echo OPV XM4 cdb $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[csg]
+echo OPV XM4 csg $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[csd]
+echo OPV XM4 csd $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[css]
+echo OPV XM4 css $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[csb]
+echo OPV XM4 csb $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cbg]
+echo OPV XM4 cbg $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cbd]
+echo OPV XM4 cbd $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cbs]
+echo OPV XM4 cbs $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cbb]
+echo OPV XM4 cbb $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[capbd]
+echo OPV XM4 capbd $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[capbs]
+echo OPV XM4 capbs $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cgso]
+echo OPV XM4 cgso $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cgdo]
+echo OPV XM4 cgdo $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[cgbo]
+echo OPV XM4 cgbo $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[weff]
+echo OPV XM4 weff $&s1v
+let s1v = @m.x1.xdut.xm4.msky130_fd_pr__pfet_01v8[leff]
+echo OPV XM4 leff $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[id]
+echo OPV XM1 id $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[vgs]
+echo OPV XM1 vgs $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[vds]
+echo OPV XM1 vds $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[vbs]
+echo OPV XM1 vbs $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[vth]
+echo OPV XM1 vth $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[vdsat]
+echo OPV XM1 vdsat $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[gm]
+echo OPV XM1 gm $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[gds]
+echo OPV XM1 gds $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[gmbs]
+echo OPV XM1 gmbs $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cgg]
+echo OPV XM1 cgg $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cgd]
+echo OPV XM1 cgd $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cgs]
+echo OPV XM1 cgs $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cgb]
+echo OPV XM1 cgb $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cdg]
+echo OPV XM1 cdg $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cdd]
+echo OPV XM1 cdd $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cds]
+echo OPV XM1 cds $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cdb]
+echo OPV XM1 cdb $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[csg]
+echo OPV XM1 csg $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[csd]
+echo OPV XM1 csd $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[css]
+echo OPV XM1 css $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[csb]
+echo OPV XM1 csb $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cbg]
+echo OPV XM1 cbg $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cbd]
+echo OPV XM1 cbd $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cbs]
+echo OPV XM1 cbs $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cbb]
+echo OPV XM1 cbb $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[capbd]
+echo OPV XM1 capbd $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[capbs]
+echo OPV XM1 capbs $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cgso]
+echo OPV XM1 cgso $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cgdo]
+echo OPV XM1 cgdo $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[cgbo]
+echo OPV XM1 cgbo $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[weff]
+echo OPV XM1 weff $&s1v
+let s1v = @m.x1.xdut.xm1.msky130_fd_pr__nfet_01v8[leff]
+echo OPV XM1 leff $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[id]
+echo OPV XM2 id $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[vgs]
+echo OPV XM2 vgs $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[vds]
+echo OPV XM2 vds $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[vbs]
+echo OPV XM2 vbs $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[vth]
+echo OPV XM2 vth $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[vdsat]
+echo OPV XM2 vdsat $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[gm]
+echo OPV XM2 gm $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[gds]
+echo OPV XM2 gds $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[gmbs]
+echo OPV XM2 gmbs $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cgg]
+echo OPV XM2 cgg $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cgd]
+echo OPV XM2 cgd $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cgs]
+echo OPV XM2 cgs $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cgb]
+echo OPV XM2 cgb $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cdg]
+echo OPV XM2 cdg $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cdd]
+echo OPV XM2 cdd $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cds]
+echo OPV XM2 cds $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cdb]
+echo OPV XM2 cdb $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[csg]
+echo OPV XM2 csg $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[csd]
+echo OPV XM2 csd $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[css]
+echo OPV XM2 css $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[csb]
+echo OPV XM2 csb $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cbg]
+echo OPV XM2 cbg $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cbd]
+echo OPV XM2 cbd $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cbs]
+echo OPV XM2 cbs $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cbb]
+echo OPV XM2 cbb $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[capbd]
+echo OPV XM2 capbd $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[capbs]
+echo OPV XM2 capbs $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cgso]
+echo OPV XM2 cgso $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cgdo]
+echo OPV XM2 cgdo $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[cgbo]
+echo OPV XM2 cgbo $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[weff]
+echo OPV XM2 weff $&s1v
+let s1v = @m.x1.xdut.xm2.msky130_fd_pr__nfet_01v8[leff]
+echo OPV XM2 leff $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[id]
+echo OPV XM5 id $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[vgs]
+echo OPV XM5 vgs $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[vds]
+echo OPV XM5 vds $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[vbs]
+echo OPV XM5 vbs $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[vth]
+echo OPV XM5 vth $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[vdsat]
+echo OPV XM5 vdsat $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[gm]
+echo OPV XM5 gm $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[gds]
+echo OPV XM5 gds $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[gmbs]
+echo OPV XM5 gmbs $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cgg]
+echo OPV XM5 cgg $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cgd]
+echo OPV XM5 cgd $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cgs]
+echo OPV XM5 cgs $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cgb]
+echo OPV XM5 cgb $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cdg]
+echo OPV XM5 cdg $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cdd]
+echo OPV XM5 cdd $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cds]
+echo OPV XM5 cds $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cdb]
+echo OPV XM5 cdb $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[csg]
+echo OPV XM5 csg $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[csd]
+echo OPV XM5 csd $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[css]
+echo OPV XM5 css $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[csb]
+echo OPV XM5 csb $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cbg]
+echo OPV XM5 cbg $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cbd]
+echo OPV XM5 cbd $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cbs]
+echo OPV XM5 cbs $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cbb]
+echo OPV XM5 cbb $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[capbd]
+echo OPV XM5 capbd $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[capbs]
+echo OPV XM5 capbs $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cgso]
+echo OPV XM5 cgso $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cgdo]
+echo OPV XM5 cgdo $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[cgbo]
+echo OPV XM5 cgbo $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[weff]
+echo OPV XM5 weff $&s1v
+let s1v = @m.x1.xdut.xm5.msky130_fd_pr__nfet_01v8[leff]
+echo OPV XM5 leff $&s1v
+let s1i = i(vsup)
+echo OPI isup $&s1i
+let s1o = v(OUT)
+echo OPI vout $&s1o
+quit 0
+.endc
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  dut_amp.sym # of pins=6
+** sym_path: /foss/designs/PROJECTS/llm-analog-sizing/testbenches/dut_amp.sym
+** sch_path: /foss/designs/PROJECTS/llm-analog-sizing/testbenches/dut_amp.sch
+.subckt dut_amp INP INN OUTN VDD VSS OUTP
+XDUT VDD OUTP INP INN VSS example_ota_5t_sized
+.ends
+
+.subckt example_ota_5t_sized VDD OUTP INP INN VSS
+XM3 net3 net3 s1r_XM3_s VDD sky130_fd_pr__pfet_01v8 L=1 W=8 NF=1 AD=2.32 AS=2.32 PD=16.58 PS=16.58 NRD=0.03625 NRS=0.03625 SA=0 SB=0 SD=0 MULT=1
+Rpar_s1_XM3_s s1r_XM3_s VDD 100
+XM4 OUTP net3 VDD VDD sky130_fd_pr__pfet_01v8 L=1 W=8 NF=1 AD=2.32 AS=2.32 PD=16.58 PS=16.58 NRD=0.03625 NRS=0.03625 SA=0 SB=0 SD=0 MULT=1
+XM1 net3 INP net1 VSS sky130_fd_pr__nfet_01v8 L=0.5 W=24 NF=1 AD=6.96 AS=6.96 PD=48.58 PS=48.58 NRD=0.0120833333333333 NRS=0.0120833333333333 SA=0 SB=0 SD=0 MULT=1
+XM2 OUTP INN net1 VSS sky130_fd_pr__nfet_01v8 L=0.5 W=24 NF=1 AD=6.96 AS=6.96 PD=48.58 PS=48.58 NRD=0.0120833333333333 NRS=0.0120833333333333 SA=0 SB=0 SD=0 MULT=1
+XM5 net1 net2 VSS VSS sky130_fd_pr__nfet_01v8 L=1 W=24 NF=1 AD=6.96 AS=6.96 PD=48.58 PS=48.58 NRD=0.0120833333333333 NRS=0.0120833333333333 SA=0 SB=0 SD=0 MULT=1
+V1 net2 VSS 0.75
+.ends example_ota_5t_sized
+.end

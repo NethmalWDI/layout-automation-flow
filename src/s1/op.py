@@ -13,8 +13,8 @@ from src.common.tools import run_ngspice
 
 ESSENTIAL = ["id", "vgs", "vds", "vbs", "vth", "vdsat", "gm", "gds", "gmbs",
              "cgg", "cgd", "cgs", "cgb", "cdg", "cdd", "cds", "cdb", "csg", "csd", "css", "csb",
-             "cbg", "cbd", "cbs", "cbb", "capbd", "capbs"]
-OPTIONAL = ["cgso", "cgdo", "cgbo", "weff", "leff"]   # reported if the model exposes them
+             "cbg", "cbd", "cbs", "cbb", "capbd", "capbs", "cgso", "cgdo", "cgbo"]
+OPTIONAL = ["weff", "leff"]   # reported if the model exposes them
 PARAMS = ESSENTIAL + OPTIONAL
 
 
@@ -22,16 +22,21 @@ def inst_path(dev: str, model: str, top: str = "x1.xdut") -> str:
     return f"m.{top}.{dev.lower()}.m{model.lower()}"
 
 
-def op_deck(s0_op_deck: Path, devices: list) -> str:
+def op_deck(s0_op_deck: Path, devices: list, paths: dict | None = None) -> str:
+    """paths: optional {device: instance path} for devices that are not plain PDK instances (S3 puts an
+    extracted device cell in their place; one finger is then probed)."""
     txt = s0_op_deck.read_text()
     lines = ["set numdgt=12", "op"]
     for d in devices:
-        ip = inst_path(d["name"], d["model"])
-        for p in PARAMS:
-            lines.append(f"let s1v = @{ip}[{p}]")
-            lines.append(f"echo OPV {d['name']} {p} $&s1v")
-    lines.append("let s1i = i(vsup)")
+        ip = (paths or {}).get(d["name"]) or inst_path(d["name"], d["model"])
+        for p in PARAMS:  # one vector per value: a failed read cannot leave a previous value behind
+            v = f"s1_{d['name'].lower()}_{p}"
+            lines.append(f"let {v} = @{ip}[{p}]")
+            lines.append(f"echo OPV {d['name']} {p} $&{v}")
+    lines.append("let s1i = i(vsup)")     # supply source and output node names of the diso testbenches
     lines.append("echo OPI isup $&s1i")
+    lines.append("let s1o = v(OUT)")
+    lines.append("echo OPI vout $&s1o")
     lines.append("quit 0")
     ctrl = ".control\n" + "\n".join(lines) + "\n.endc"
     out, n = re.subn(r"\.control.*?\.endc", lambda _: ctrl, txt, count=1, flags=re.S)
@@ -53,12 +58,14 @@ def run(s0_dir: Path, ir: dict, work: Path) -> dict:
         except ValueError:
             vals.setdefault(m.group(1), {})[m.group(2)] = None
     isup = re.search(r"^OPI isup (\S+)", log, re.M)
+    errors = [ln for ln in log.splitlines() if re.search(r"error|no such vector|not found", ln, re.I)]
     names = [d["name"] for d in ir["devices"]]
     missing = [(d, p) for d in names for p in ESSENTIAL if vals.get(d, {}).get(p) is None]
     missing_opt = [(d, p) for d in names for p in OPTIONAL if vals.get(d, {}).get(p) is None]
     return {"rc": r["rc"], "log": r["log"], "devices": vals,
             "isup_A": abs(float(isup.group(1))) if isup else None,
-            "missing": missing, "missing_optional": missing_opt}
+            "missing": missing, "missing_optional": missing_opt, "log_errors": errors[:20],
+            "numerical_warnings": r.get("numerical_warnings", [])}
 
 
 def cap_convention(dev: dict) -> dict:

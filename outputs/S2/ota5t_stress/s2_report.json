@@ -1,0 +1,418 @@
+{
+  "design": "ota5t_stress",
+  "eta": 0.5,
+  "gates": {
+    "G2.0_expected_layout_use (info)": {
+      "pass": null,
+      "checks": {
+        "gain_db": {
+          "use_at_expected_need": 0.14328939388527814,
+          "margin": 0.5,
+          "fraction_of_margin": 0.2865787877705563
+        },
+        "gbw_mhz": {
+          "use_at_expected_need": 33.70483823626488,
+          "margin": 37.36540000000002,
+          "fraction_of_margin": 0.9020333847962247
+        },
+        "pm_deg": {
+          "use_at_expected_need": 3.3051773472434665,
+          "margin": 5.0,
+          "fraction_of_margin": 0.6610354694486933
+        },
+        "vnoise_nv_rthz": {
+          "use_at_expected_need": 0.9283822925425997,
+          "margin": 60.93599999999998,
+          "fraction_of_margin": 0.015235366491771696
+        },
+        "sat_XM3": {
+          "use_at_expected_need": 0.002213794697845717,
+          "margin": 1.048933,
+          "fraction_of_margin": 0.0021105205936372646
+        },
+        "sat_XM4": {
+          "use_at_expected_need": 0.002213794697845717,
+          "margin": 1.048933,
+          "fraction_of_margin": 0.0021105205936372646
+        },
+        "sat_XM1": {
+          "use_at_expected_need": 0.002584256705903273,
+          "margin": 0.1300596,
+          "fraction_of_margin": 0.01986978820404855
+        },
+        "sat_XM2": {
+          "use_at_expected_need": 0.002584256705903273,
+          "margin": 0.1300596,
+          "fraction_of_margin": 0.01986978820404855
+        },
+        "sat_XM5": {
+          "use_at_expected_need": 0.002450556819875891,
+          "margin": 0.019568000000000002,
+          "fraction_of_margin": 0.12523287100755778
+        }
+      },
+      "default_cells_used": [
+        "nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull",
+        "nfet_01v8_W24_L1_m1__nf1_gboth_sdfull",
+        "pfet_01v8_W8_L1_m1__nf1_gboth_sdfull"
+      ],
+      "note": "fraction of each margin that a compact layout with the default device cells would use (sum of rate x expected need); above eta the budgets fall below the expected need"
+    },
+    "G2.3_allocation": {
+      "pass": true,
+      "t_round1": 0.5543032092021221,
+      "lp_round1": {
+        "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "success": true,
+        "t": 0.5543032092021221
+      },
+      "rounds": [
+        {
+          "t": 0.5543032092021221,
+          "binding": [
+            "gbw_mhz"
+          ],
+          "frozen": [
+            "OUTP",
+            "net1",
+            "net3",
+            "OUTP~net1",
+            "OUTP~net3",
+            "OUTP~INP",
+            "OUTP~INN",
+            "net1~net3",
+            "net1~INP",
+            "net3~INP",
+            "net3~INN",
+            "XM3+XM4.d",
+            "XM3+XM4.g",
+            "XM3+XM4.s",
+            "XM1+XM2.d",
+            "XM1+XM2.g",
+            "XM1+XM2.s",
+            "XM5.d",
+            "XM5.g",
+            "XM5.s"
+          ]
+        },
+        {
+          "t": 10.0,
+          "binding": [
+            "cap_kappa"
+          ],
+          "frozen": [
+            "net1~INN"
+          ]
+        }
+      ],
+      "constraint_use": [
+        {
+          "constraint": "gain_db",
+          "allowed": 0.25,
+          "used": 0.07942577087523661,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz",
+          "allowed": 18.68270000000001,
+          "used": 18.682700000000015,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg",
+          "allowed": 2.5,
+          "used": 2.2080643545072354,
+          "ok": true
+        },
+        {
+          "constraint": "vnoise_nv_rthz",
+          "allowed": 30.46799999999999,
+          "used": 0.5146052841227864,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XM3",
+          "allowed": 0.5244665,
+          "used": 0.001227113505530523,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XM4",
+          "allowed": 0.5244665,
+          "used": 0.001227113505530523,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XM1",
+          "allowed": 0.0650298,
+          "used": 0.0014324617854842888,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XM2",
+          "allowed": 0.0650298,
+          "used": 0.0014324617854842888,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XM5",
+          "allowed": 0.009784000000000001,
+          "used": 0.001358351509589353,
+          "ok": true
+        }
+      ],
+      "reproducible": true,
+      "phase2_refine": {
+        "success": true,
+        "message": "Optimization terminated successfully",
+        "delta": 0.05,
+        "constraint_use": [
+          {
+            "constraint": "gain_db",
+            "allowed": 0.25,
+            "used": 0.10652433246969888,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz",
+            "allowed": 18.68270000000001,
+            "used": 18.682700000000008,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg",
+            "allowed": 2.5,
+            "used": 2.3170639210794164,
+            "ok": true
+          },
+          {
+            "constraint": "vnoise_nv_rthz",
+            "allowed": 30.46799999999999,
+            "used": 0.49077124495580066,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XM3",
+            "allowed": 0.5244665,
+            "used": 0.014399715438709803,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XM4",
+            "allowed": 0.5244665,
+            "used": 0.014399715438709803,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XM1",
+            "allowed": 0.0650298,
+            "used": 0.0018331369167556822,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XM2",
+            "allowed": 0.0650298,
+            "used": 0.0018331369167556822,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XM5",
+            "allowed": 0.009784000000000001,
+            "used": 0.0013488056446712767,
+            "ok": true
+          }
+        ]
+      }
+    },
+    "G2.5_spice_budget_verification": {
+      "pass": true,
+      "iterations": 1,
+      "rows": [
+        {
+          "check": "gain_db",
+          "margin": 0.5,
+          "allowed_eta_margin": 0.25,
+          "first_order_predicted_use": 0.10652433246969888,
+          "spice_use": 0.10699999999999932,
+          "value_now": 31.59,
+          "spice_use_frac_of_margin": 0.21399999999999864,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 6
+        },
+        {
+          "check": "gbw_mhz",
+          "margin": 37.36540000000002,
+          "allowed_eta_margin": 18.68270000000001,
+          "first_order_predicted_use": 18.682700000000008,
+          "spice_use": 18.062000000000012,
+          "value_now": 355.592,
+          "spice_use_frac_of_margin": 0.4833883753418939,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 26
+        },
+        {
+          "check": "pm_deg",
+          "margin": 5.0,
+          "allowed_eta_margin": 2.5,
+          "first_order_predicted_use": 2.3170639210794164,
+          "spice_use": 2.2679000000000045,
+          "value_now": 62.8135,
+          "spice_use_frac_of_margin": 0.45358000000000087,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 17
+        },
+        {
+          "check": "vnoise_nv_rthz",
+          "margin": 60.93599999999998,
+          "allowed_eta_margin": 30.46799999999999,
+          "first_order_predicted_use": 0.49077124495580066,
+          "spice_use": 0.48599999999999,
+          "value_now": 339.55,
+          "spice_use_frac_of_margin": 0.007975580937376759,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 6
+        },
+        {
+          "check": "sat_XM3",
+          "margin": 1.048933,
+          "allowed_eta_margin": 0.5244665,
+          "first_order_predicted_use": 0.014399715438709803,
+          "spice_use": 0.014293999999999807,
+          "value_now": 1.034639,
+          "spice_use_frac_of_margin": 0.013627181145030053,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 6
+        },
+        {
+          "check": "sat_XM4",
+          "margin": 1.048933,
+          "allowed_eta_margin": 0.5244665,
+          "first_order_predicted_use": 0.014399715438709803,
+          "spice_use": 0.014293999999999807,
+          "value_now": 1.034639,
+          "spice_use_frac_of_margin": 0.013627181145030053,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 6
+        },
+        {
+          "check": "sat_XM1",
+          "margin": 0.1300596,
+          "allowed_eta_margin": 0.0650298,
+          "first_order_predicted_use": 0.0018331369167556822,
+          "spice_use": 0.0018260999999999972,
+          "value_now": 0.1282335,
+          "spice_use_frac_of_margin": 0.01404048605408595,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 6
+        },
+        {
+          "check": "sat_XM2",
+          "margin": 0.1300596,
+          "allowed_eta_margin": 0.0650298,
+          "first_order_predicted_use": 0.0018331369167556822,
+          "spice_use": 0.0018260999999999972,
+          "value_now": 0.1282335,
+          "spice_use_frac_of_margin": 0.01404048605408595,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 6
+        },
+        {
+          "check": "sat_XM5",
+          "margin": 0.019568000000000002,
+          "allowed_eta_margin": 0.009784000000000001,
+          "first_order_predicted_use": 0.0013488056446712767,
+          "spice_use": 0.0013470000000000149,
+          "value_now": 0.018220999999999987,
+          "spice_use_frac_of_margin": 0.06883687653311604,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 7
+        }
+      ],
+      "closure_scaled_elements": []
+    },
+    "G2.4_linear_all_budgets_at_once": {
+      "pass": null,
+      "note": "reported: first-order sum vs exact linear model with every budget inserted",
+      "compare": {
+        "gain_db": {
+          "first_order_use": 0.10652433246969888,
+          "linear_model_use": 0.0018524024772830217
+        },
+        "gbw_mhz": {
+          "first_order_use": 18.682700000000008,
+          "linear_model_use": 13.293542519602
+        },
+        "pm_deg": {
+          "first_order_use": 2.3170639210794164,
+          "linear_model_use": 1.9435850487917747
+        }
+      }
+    },
+    "G2.6_hierarchy_sums": {
+      "pass": true
+    },
+    "G2.1_names_resolve": {
+      "pass": true,
+      "unresolved": []
+    },
+    "G2.2_units_and_provenance": {
+      "pass": true,
+      "missing_units": [],
+      "missing_derived_from": [],
+      "not_evaluated": [
+        "match.max_R_difference.XM1.d",
+        "match.max_R_difference.XM1.s",
+        "match.max_R_difference.XM2.d",
+        "match.max_R_difference.XM2.s",
+        "match.max_R_difference.XM3.s",
+        "match.max_R_difference.XM4.s",
+        "route.em_width.net3",
+        "route.em_width.VDD",
+        "route.em_width.OUTP",
+        "route.em_width.net1",
+        "route.em_width.VSS",
+        "route.bias_net.VBIAS"
+      ]
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-10-25T10:24:48+00:00",
+    "git_commit": "75059082c9fbb0c5c4c70931342c8a75984e7f8d",
+    "inputs": [
+      {
+        "path": "outputs/S0/ota5t_stress/circuit_ir.json",
+        "sha256": "3f979115f9443e64e73399bb9516b2b862086e46420f8dbf771f46a1a47abb61"
+      },
+      {
+        "path": "outputs/S1/ota5t_stress/sensitivity.json",
+        "sha256": "cde3c06cb4cd111455e3207ea1d25db4b0bdc32e6016bb948c70fbf15258fee7"
+      },
+      {
+        "path": "outputs/S1/ota5t_stress/sensitivity_r.json",
+        "sha256": "82d21e8d4f6a376a739b4841fa20a4906d85c12467691d6422d337481db7466f"
+      },
+      {
+        "path": "outputs/S1/ota5t_stress/intent.json",
+        "sha256": "4f911240cad88d6b5915f319611c2cfbb99cef91542b7d82687c1f62dc0966bd"
+      },
+      {
+        "path": "outputs/S2/pdk/parasitics.json",
+        "sha256": "2166464e52376c741755c5342120953cbe428c8a0d3099715616ed0cb9c169c1"
+      },
+      {
+        "path": "inputs/ota5t_stress/package.yaml",
+        "sha256": "63f55d51366da24dd6cd87c2ee8a3171d02d61c82b05ba49202135815194bf90"
+      }
+    ]
+  }
+}

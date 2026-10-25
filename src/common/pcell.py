@@ -55,20 +55,23 @@ def drc(gds: Path, cell: str, out: Path) -> dict:
             "pass": total == 0 and bool(neg_n and neg_n > 0), "report": rel(out / "drc_report.txt")}
 
 
-def lvs_device(gds: Path, cell: str, model: str, W: float, L: float, nf: int, m: int, out: Path) -> dict:
-    """Device-level LVS of the PCell inside its wrapper cell, against the netlist values (um)."""
+def lvs_device(gds: Path, cell: str, model: str, W: float, L: float, nf: int, m: int, out: Path,
+               mode: str = "subcell") -> dict:
+    """Device-level LVS against the netlist values (um). mode 'subcell' compares the PCell inside its
+    wrapper (S0); mode 'top' compares the wrapper, whose own labels D/G/S/B are the ports (S3 device
+    cells with finger straps)."""
     out.mkdir(parents=True, exist_ok=True)
     mpart = f" m={m}" if m != 1 else ""
     ref = out / "ref.spice"
     ref.write_text(f".subckt {cell} D G S B\nX{cell} D G S B {model} L={L:g} W={W:g} nf={nf}{mpart}\n.ends\n")
     txt = _run(["bash", str(SCRIPTS / "magic_lvs.sh"), str(gds), cell, str(ref), cell, str(out / "lvs")],
-               {"LVS_MODE": "subcell"})
+               {"LVS_MODE": mode})
     ok = "LVS_RESULT MATCH" in txt
     # negative control: same layout, reference with L + 0.1 um must not match
     bad = out / "ref_wrongL.spice"
     bad.write_text(ref.read_text().replace(f"L={L:g}", f"L={L + 0.1:g}"))
     txt2 = _run(["bash", str(SCRIPTS / "magic_lvs.sh"), str(gds), cell, str(bad), cell, str(out / "lvs_negctl")],
-                {"LVS_MODE": "subcell"})
+                {"LVS_MODE": mode})
     neg_ok = "LVS_RESULT FAIL" in txt2
     m_cell = re.search(r"cell=(\S+)", txt)
     return {"match": ok, "neg_control_rejected": neg_ok, "pass": ok and neg_ok,

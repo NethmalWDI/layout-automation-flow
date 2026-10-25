@@ -177,5 +177,62 @@
       "rank": 9
     }
   ],
-  "ranking": "ascending capacitance (fF, to ground for nets, between the two nets for pairs) that would alone consume the margin of the most limiting spec, first-order (linear model)"
+  "ranking": "ascending capacitance (fF, to ground for nets, between the two nets for pairs) that would alone consume the margin of the most limiting spec, first-order (linear model)",
+  "critical_terminals": [
+    {
+      "group": "XM1+XM2.s",
+      "ohm_to_consume_margin": 151.1285478831523,
+      "most_limiting": "gbw_mhz",
+      "rank": 1
+    },
+    {
+      "group": "XM5.s",
+      "ohm_to_consume_margin": 153.46078813889972,
+      "most_limiting": "gbw_mhz",
+      "rank": 2
+    },
+    {
+      "group": "XM3+XM4.s",
+      "ohm_to_consume_margin": 173.74685083832807,
+      "most_limiting": "gain_db",
+      "rank": 3
+    },
+    {
+      "group": "XM1+XM2.d",
+      "ohm_to_consume_margin": 210.57064645189016,
+      "most_limiting": "gain_db",
+      "rank": 4
+    },
+    {
+      "group": "XM5.d",
+      "ohm_to_consume_margin": 243.49665577849964,
+      "most_limiting": "sat_XM5",
+      "rank": 5
+    },
+    {
+      "group": "XM1+XM2.g",
+      "ohm_to_consume_margin": 521.7436673362328,
+      "most_limiting": "pm_deg",
+      "rank": 6
+    },
+    {
+      "group": "XM3+XM4.g",
+      "ohm_to_consume_margin": 8920.606601246776,
+      "most_limiting": "pm_deg",
+      "rank": 7
+    },
+    {
+      "group": "XM3+XM4.d",
+      "ohm_to_consume_margin": 19801.980198072917,
+      "most_limiting": "gain_db",
+      "rank": 8
+    },
+    {
+      "group": "XM5.g",
+      "ohm_to_consume_margin": 747308.0000219198,
+      "most_limiting": "gbw_mhz",
+      "rank": 9
+    }
+  ],
+  "ranking_terminals": "ascending series resistance (ohm, applied to every member of the group) that would alone consume the margin of the most limiting spec, incl. DC headroom"
 }

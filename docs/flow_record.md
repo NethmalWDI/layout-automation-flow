@@ -11,7 +11,25 @@ evidence with pictures, and the problems met on the way and how they were fixed.
 - How to run each stage: [`../README.md`](../README.md). Chronological notes: [`progress_log.md`](progress_log.md).
 - To get a self-contained HTML copy (pictures embedded), run from `docs/`: `pandoc flow_record.md --standalone --embed-resources -c flow_record/record.css -o ../runs/tmp/flow_record.html`.
 
-**Last updated:** 2026-10-25, after S0 (with G0.7) and S1 on both designs.
+**Last updated:** 2026-10-25 (evening). Covers S0, S1 with the resistance extension, the first supervisor review, S2 and S3 on both designs.
+
+### Where everything is on your PC
+
+The repository is `C:\Users\suind\Documents\GitHub\layout-automation-s0-s3`.
+
+- If the File Explorer "Documents" shortcut opens `C:\Users\suind\OneDrive\Documents`, that is a different folder. Paste the path above into the address bar instead.
+- The `Desktop\Layout_automation` folder has two shortcuts, `Open_layout-automation-s0-s3_repo.url` and `Open_flow_record.url`.
+
+| What | Where in the repo |
+|---|---|
+| Code, per stage | `src\s0`, `src\s1`, `src\s2`, `src\s3`, `src\common` |
+| Tests | `tests\` |
+| Results, per stage and design | `outputs\S0\<design>`, `outputs\S1\<design>`, `outputs\S2\<design>`, `outputs\S3\<design>` |
+| PCell option cells (shared by the designs) | `outputs\S3\_cells\<type>__<option>\` (GDS, PNG, DRC, LVS, PEX) |
+| This record and its pictures | `docs\flow_record.md`, `docs\flow_record\img\` |
+| Logs of every run | `runs\logs\` |
+
+In VS Code, open `docs\flow_record.md` and press Ctrl+Shift+V to see it with the pictures.
 
 ---
 
@@ -20,14 +38,14 @@ evidence with pictures, and the problems met on the way and how they were fixed.
 | Stage | What it produces | example_ota_5t | ota5t_stress | DRC | LVS |
 |---|---|---|---|---|---|
 | Step 0 | Baselines: ALIGN (SKY130), MAGICAL (mock PDK) | done | n/a | ALIGN 0 errors | ALIGN: topology match, **L/W property errors** (not equivalent) |
-| **S0** | Frozen circuit IR, device map, reproduced testbenches | **PASS** (G0.1–G0.7) | **PASS** (G0.1–G0.7) | **0 errors** on all 5 PCell devices | **match, no property errors**, 5/5 devices |
-| **S1** | Operating point, exact linear model, sensitivities, intent | **PASS** (G1.1–G1.4) | **PASS** (G1.1–G1.4) | n/a | n/a |
-| S2 | Budgets and layout rules | pending | pending | | |
-| S3 | PCell option table and per-device decisions | pending | pending | per device | per device |
+| **S0** | Frozen circuit IR, device map, reproduced testbenches | **PASS** (G0.1–G0.7) | **PASS** (G0.1–G0.7) | **0 errors** on all 5 PCell devices | **match, no property errors**, 5/5 |
+| **S1** | Operating point, exact linear model, C and R sensitivities, intent | **PASS** (G1.1–G1.6) | **PASS** (G1.1–G1.6) | n/a | n/a |
+| **S2** | Measured PDK parasitics, joint budgets, rule IR, SPICE-verified | **PASS** (G2.1–G2.6) | **PASS** (G2.1–G2.6); G2.0: a compact layout would use 90 % of the GBW margin | n/a | n/a |
+| **S3** | Option library (84 cells), decision per device type, sign-off | **PASS** (G3.1–G3.6) | **FAIL, flagged** (G3.3/G3.5): no option fits η = 0.5; specs still met with the default cells | **0 errors**, chosen cells and 80/84 library cells | **match (W, L, nf)**, chosen cells and 80/84 library cells |
 | S4–S6 | Placement, routing, full OTA layout | pending | pending | full layout | full layout vs. sized netlist |
 
 > **What "passes DRC and LVS" covers right now.** Up to S3 the layout objects are the individual
-> transistors, each drawn by the SKY130 PCell at its exact sized W/L/nf. Each one is checked by
+> transistors, each drawn by the SKY130 PCell at its exact sized W/L (S3 adds the finger straps for nf > 1). Each one is checked by
 > Magic DRC and by Netgen LVS against its own line of the sized netlist, and both checks are run
 > against a negative control to prove they can fail. The full OTA layout first exists at S4–S6.
 > The same gate then applies to the whole design: **0 DRC errors**, and **"Circuits match uniquely"
@@ -244,7 +262,7 @@ The extracted AD/PD/AS/PS also equal the values in the sized netlist (6.96 / 48.
 ### 3.2 Command
 
 ```bash
-python3 -m src.s1.run inputs/example_ota_5t/package.yaml     # about 2 min (15 ngspice runs, one at a time)
+python3 -m src.s1.run inputs/example_ota_5t/package.yaml     # ~4 min first time (about 90 ngspice runs, 4 in parallel); reruns reuse identical runs
 python3 -m src.s1.run inputs/ota5t_stress/package.yaml
 python3 -m pytest -q tests/                                    # 21 tests: S0 (14) + S1 (7)
 ```
@@ -426,13 +444,462 @@ In SPICE, net3 is the second most critical net, and part of the tightest couplin
 
 ---
 
-## 4. S2 — budgets and rules (pending)
+### 3.8 S1 extension: series resistance at device terminals (added 2026-10-25 evening)
 
-To be filled when S2 runs. Inputs: `intent.json`, `sensitivity.json`, `currents.json`, `margins`.
+**Why it was added.** In my own review of S1, two things were missing:
 
-## 5. S3 — PCell option table and per-device decisions (pending)
+- **Resistance was not covered at all.** Wiring and PCell access resistance sit in series with every transistor terminal. S3's PCell options (fingers, gate contacts, contact coverage) change exactly these resistances.
+- **Noise and DC headroom were not covered.** The tail transistor XM5 has only 19.6 mV of headroom.
 
-Each device will be drawn again with the options chosen in S3, with the same DRC/LVS evidence as section 2.5.
+**Method** (`src/s1/resistance.py`, `linear.py`, `run.py`):
+
+1. **Pair variables for matched devices.** Matched devices are wired symmetrically (an S2 hard rule). So the resistance at a matched terminal is varied on both devices together, e.g. `XM1+XM2.s`. That gives 9 terminal groups.
+2. **Linear model.** The device terminal is split onto a new node, with the resistor between it and the net.
+3. **Transistor-level SPICE** at 20 Ω and 100 Ω:
+   - AC (gain, GBW, PM);
+   - NOISE (thermal noise of the resistor included);
+   - DC operating point (Vds − Vdsat of every device, supply current).
+
+   The slope is extrapolated to zero, as for capacitance.
+4. **Offset from a one-sided resistor** on one device of a pair, measured in a **unity-gain follower** (Vinn tied to OUT). This gives the systematic input offset per Ω.
+
+**Finding: half of the resistance effects are bias shifts, not small-signal effects.** For several terminals the linear model at the original operating point disagrees with SPICE, e.g. tail source XM5.s on GBW: −0.0002 against −0.24 MHz/Ω. The reason: I·R moves the DC operating point, which changes gm and gds.
+
+This was proved, not assumed. The linear model was re-solved at the operating point that SPICE finds with the resistor inserted. It then reproduces the SPICE change for every case, e.g. XM5.s at 100 Ω: GBW −23.1 MHz (model) against −22.9 MHz (SPICE).
+
+From this follow two rules:
+
+- S2 takes resistance rates from SPICE.
+- The linear model explains them.
+
+| G1.6 (resistance) | example_ota_5t | ota5t_stress |
+|---|---|---|
+| Measurable checks | 16 | 20 |
+| Passed | 16 | 20 |
+| Small-signal (linear model agrees directly) | 4 | 5 |
+| Bias shift, confirmed by re-solving at the shifted operating point | 12 | 15 |
+| Unexplained | 0 | 0 |
+
+**Critical terminals in the stress design** (`intent.json`), by the resistance that alone uses up a margin. Resistances are per device; both devices of a pair get it.
+
+| Rank | Terminal group | Ω | Limiting check |
+|---|---|---|---|
+| 1 | XM1+XM2.s (pair sources) | 151 | GBW |
+| 2 | XM5.s (tail source) | 154 | GBW (tail current drops) |
+| 3 | XM3+XM4.s (mirror sources) | 174 | gain |
+| 4 | XM1+XM2.d | 211 | gain |
+| 5 | XM5.d | 244 | DC headroom of XM5 |
+| 6 | XM1+XM2.g (input gates) | 522 | PM (gate RC pole) |
+
+**Systematic offset of a one-sided resistor** (follower bench; `sensitivity_r.json` → `mismatch_offset`):
+
+| Terminal | Offset | Ω per mV of offset |
+|---|---|---|
+| XM1.s / XM2.s | −50.6 / +50.2 µV/Ω | ≈ 20 |
+| XM3.s / XM4.s | +14.2 / −15.4 µV/Ω | ≈ 65–70 |
+| Drains | ≤ 1 µV/Ω | |
+| Gates | 0 | |
+
+There is no offset spec in the design package, so S2 records these as "Ω per mV" rules with status `not_evaluated`. **Request:** an offset spec.
+
+---
+
+## Supervisor review 1 (after S1, before S2/S3)
+
+I reviewed the work myself, then asked an independent reviewer (a separate agent that saw only the code and the stage goals, not my conclusions) to find faults. All findings and what was done about them:
+
+| # | Finding | Severity | Action |
+|---|---|---|---|
+| R1 | No resistance, noise or DC-headroom sensitivities in S1 | high | Added (section 3.8) |
+| R2 | A one-sided resistor on a matched pair looked like a large gain change. It is an offset, which the open-loop bench turns into an output shift | high | Pair variables for the budgets; offset measured separately in a follower bench |
+| R3 | Gates could pass when a simulation failed (empty lists, `all([]) == True`) | high | Missing measurements or a non-zero exit code now FAIL. S3 asserts that every device was really replaced in the deck |
+| R4 | The S2 budget check tested only "spec still met" (100 % of the margin) with all parasitics inserted, so helpful ones offset harmful ones | high | Per check, only the parasitics harmful for it are inserted. Use must be ≤ η·margin (+10 % model tolerance). A closure iteration rescales if not |
+| R5 | The S3 allowance was not in S2's terms; a smaller junction capacitance could earn credit | high | Resistance checked in Ω against the S2 budget. Cell capacitance charged harmful-only against the net-capacitance margins. The unused Ω are handed to S5 |
+| R6 | "Bias shift" label assigned by elimination | medium | Proved by re-solving the linear model at the shifted operating point (section 3.8) |
+| R7 | Budgets could grow without limit; elements that are free in every check got no rule | medium | Cap at κ = 10 × expected need (ASSUMPTION), plus default rules |
+| R8 | Max-route-length rules used over-field C, which is the minimum, so they are not conservative | medium | Also measured over a plate of the layer below (≈ 2× larger); rules use the larger value |
+| R9 | Silent zeros: unknown net names grounded; a failed ngspice `let` kept the previous value; missing Miller overlap capacitances defaulted to 0; ground hard-coded as "VSS" | medium | Names asserted; one vector per value; `cgso/cgdo/cgbo` made essential; ground taken from the port role |
+| R10 | The bias node is ideal AC ground in the testbench | medium | Labelled ASSUMPTION; `route.bias_net` rule `not_evaluated` |
+| R11 | Access-R model missed li spreading for reduced contact coverage; `rgatemod = 0` stated, not checked | medium | li term added; gate G3.6 now reads `rgatemod` from the model cards |
+| R12 | Supply-net currents were halved (sum/2 used for VDD/VSS) | low | `trunk_A` = sum for supply/ground nets, sum/2 for internal nets |
+| R13 | Single-block nets double-counted in the hierarchy split | low (latent) | Top-level share 0; the sum check is exact |
+| R14 | Robustness: the diso bench names (`Vinn`, `OUT`, `vsup`, `x1.xdut`) are hard-coded | low | Kept; documented as a limit for new benches |
+| R16 | (found while checking the first S3 results) S2's expected need held only wiring, yet the device cells themselves put about 1 fF of gate-drain coupling on the pair, more than the stress coupling budgets. S3's fixed 50 % share of every budget did not match S2's split either | high | The S3 option library is built before S2. S2's expected need = wiring + the measured default cells. S3's share of each budget = the cells' share of that need. Margin S2 leaves unallocated is shared by the device types. G2.0 reports the margin a compact default layout would use |
+| R17 | (found by checking a suspicious number: a PMOS cell raised the supply current by 10 µA) Magic's substrate node VSUBS floated inside the cell subcircuit, ngspice's gmin stepping then converged to a wrong operating point | high | VSUBS becomes a port tied to ground. Any run whose log reports numerical trouble (singular matrix, failed gmin/source stepping, no convergence) counts as failed in S1–S3. Unit tests cover both |
+| R18 | (S3) In the relaxation case the "largest slack" option could be one that changes the device model a lot, e.g. XM5 with nf = 8 moves GBW by 22 MHz | medium | When nothing fits, the default PCell (the device exactly as sized) is kept, and the type is flagged |
+
+**Self-review of the allocation policy** (after the first S2 run, R15):
+
+- **What I saw.** Max-min fairness froze elements whose rate in the binding check was negligible. Example: the PMOS drain resistance costs 1.5e-4 °/Ω of PM, yet it was held to the same 0.86 × need as the critical elements. In S3 this would have forced an impossible requirement on the PMOS (585 Ω per pdiff contact).
+- **Fix.** A phase 2 keeps at least 95 % of every max-min budget and maximises Σ log(x/w) (proportional fairness) over what is left (`budgets.refine`; δ = 5 % is an ASSUMPTION).
+
+## 4. S2 — requirement compiler: budgets and rules
+
+**Purpose.** Turn S1's sensitivities into numbers a layout tool must obey and a checker can verify:
+
+- how many fF each net and each net pair may receive;
+- how many Ω each device terminal may have in series;
+- the rules derived from these.
+
+Every budget is checked in SPICE before it is handed on.
+
+### 4.1 Inputs
+
+| Input | File |
+|---|---|
+| Sensitivities | S1 `sensitivity.json` (capacitance, linear model) and `sensitivity_r.json` (resistance: SPICE, incl. noise and DC headroom) |
+| Margins | S0 `circuit_ir.json` |
+| Matching groups, currents | S1 `intent.json`, `currents.json` |
+| Device cell sizes (for the expected-need estimate) | S0 PCell GDS |
+| Per-µm interconnect parasitics | `outputs/S2/pdk/parasitics.json` (below) |
+
+### 4.2 Commands
+
+```bash
+python3 -m src.s2.pdk_parasitics                         # once per PDK (Magic test wires)
+python3 -m src.s2.run inputs/ota5t_stress/package.yaml   # about 1 min (16 ngspice runs)
+python3 -m src.s2.run inputs/example_ota_5t/package.yaml
+```
+
+### 4.3 Interconnect parasitics measured on the PDK (`outputs/S2/pdk/parasitics.json`)
+
+- **Widths and spacings** are read from the Magic DRC rules (rule ids in the file).
+- **Sheet and contact resistance** are read from the extract section of `sky130A.tech`.
+- **Capacitance** is measured by extracting 50 µm and 100 µm wires with Magic. The per-µm value is the difference divided by 50, which removes the end effects. Each wire is measured in two environments:
+  - over field;
+  - over a plate of the layer below.
+
+| Layer | Min W / S (µm) | R (Ω/µm at min W) | C over field (aF/µm) | C over the layer below (aF/µm) | Coupling at min S (aF/µm) |
+|---|---|---|---|---|---|
+| li1 | 0.17 / 0.17 | 75.3 | 87.7 | 133.4 (poly) | 41.1 |
+| met1 | 0.14 / 0.14 | 0.893 | 84.8 | 158.4 (li1) | 56.4 |
+| met2 | 0.14 / 0.14 | 0.893 | 78.0 | 183.2 (met1) | 56.8 |
+| met3 | 0.30 / 0.30 | 0.157 | 85.7 | 198.5 (met2) | 52.9 |
+| met4 | 0.30 / 0.30 | 0.157 | 75.9 | 198.5 (met3) | 54.0 |
+
+Contact resistances from the tech file:
+
+| Contact | Ω per contact |
+|---|---|
+| licon on n-diffusion | 185 |
+| licon on p-diffusion | **585** |
+| licon on poly | 152 |
+| mcon | 9.3 |
+| via1 | 4.5 |
+
+Poly sheet resistance: 48.2 Ω/□. Length rules use the larger of the two capacitance environments.
+
+### 4.4 Method
+
+1. **Elements.** There are 21 per design:
+   - 3 nets to ground;
+   - 9 coupling pairs;
+   - 9 terminal-resistance groups (matched pairs varied together).
+2. **Expected need of every element.** This is what a compact layout would put there. It has two parts:
+   - **wiring**, estimated from the PCell sizes and the measured per-µm values;
+   - **the default device cells themselves**, measured: the capacitances Magic extracts inside each default cell (nf = 1, both gate contacts, full contacts) are mapped onto the circuit's nets, and the cell's access resistance comes from the S3 option library.
+
+   The second part was added after supervisor finding R16 (below). That is why the S3 option library (design independent) is now built **before** S2.
+3. **Constraints.** Gain, GBW, PM, input noise, and the DC headroom of each of the 5 transistors. Each gets Σ (harmful rate × budget) ≤ η × margin, with η = 0.5 (ASSUMPTION, accepted).
+4. **Allocation.**
+   - **Phase 1:** max-min fair progressive filling in units of expected need, cross-checked by an LP (HiGHS) for the first round.
+   - **Phase 2:** keep ≥ 95 % of every phase-1 budget and maximise Σ log(budget/need), so cheap elements get more.
+   - **Cap:** 10 × need (κ, ASSUMPTION).
+5. **Hierarchical split (N1).** Each net budget is shared between the blocks that touch the net (their port share) and the top-level route (`hierarchy.json`).
+6. **Rule IR** (`constraints.json`):
+
+   | Class | Count |
+   |---|---|
+   | budgets | 21 |
+   | derived routing rules (max route length per layer, max parallel run at min spacing, max series R) | 57 |
+   | hard and soft rules | 23 |
+
+   It also contains:
+   - matching rules;
+   - offset rules (`not_evaluated`: no offset spec);
+   - EM width rules (`not_evaluated`: no SKY130 EM data; currents recorded);
+   - the latch-up rule (ASSUMPTION);
+   - the bias-net rule (`not_evaluated`).
+7. **Verification in SPICE (H1).** For every check, all the parasitics harmful to it are inserted at their full budget at once. The margin used must be ≤ η·margin (+10 % for first-order model error), and the spec must still be met. If not, a closure iteration scales the check's elements down.
+
+### 4.5 Results
+
+**G2.0, before any layout: the fraction of each margin a compact layout with the default device cells would use** (Σ rate × expected need). This is the D6 "layout sensitivity" metric, obtained analytically:
+
+| Check | example_ota_5t | ota5t_stress |
+|---|---|---|
+| GBW | 0.06 | **0.90** |
+| PM | 0.08 | **0.66** |
+| Gain | 0.08 | 0.29 |
+| Noise | 0.02 | 0.02 |
+| XM5 headroom | 0.13 | 0.13 |
+
+For the stress design, a compact layout is expected to use 90 % of the GBW margin and 66 % of the PM margin. With η = 0.5 the budgets therefore come out at about **0.53 × the expected need**. S2 says this before any layout is drawn, and S3 confirms it (section 5).
+
+| Gate | example_ota_5t | ota5t_stress |
+|---|---|---|
+| G2.0 expected layout use | INFO | INFO (GBW 0.90 > η) |
+| G2.1 every target resolves | PASS | PASS |
+| G2.2 units and provenance on every rule | PASS | PASS |
+| G2.3 allocation feasible, LP cross-check equal, reproducible, phase 2 converged | PASS | PASS |
+| G2.4 first-order vs exact linear model | INFO | INFO |
+| **G2.5 SPICE verification, every check** | **PASS** (no closure) | **PASS** (no closure) |
+| G2.6 hierarchy shares sum exactly | PASS | PASS |
+
+**SPICE verification** (`verification.json`; each check with its harmful budgets inserted at once):
+
+| Check | Stress: allowed | Stress: predicted | Stress: SPICE | Stress: fraction of margin | Example: SPICE fraction of margin |
+|---|---|---|---|---|---|
+| GBW | 18.68 MHz | 18.68 | 18.06 | 0.48 | 0.34 |
+| PM | 2.50° | 2.32 | 2.27 | 0.45 | 0.40 |
+| Gain | 0.25 dB | 0.107 | 0.107 | 0.21 | **0.54** (predicted 0.50; inside the 10 % tolerance) |
+| Noise | 30.5 nV/√Hz | 0.49 | 0.49 | 0.01 | 0.09 |
+| XM5 headroom | 9.8 mV | 1.35 | 1.35 | 0.07 | 0.49 |
+
+![S2 budgets, stress](flow_record/img/ota5t_stress_s2_budgets.png)
+
+![S2 verification, stress](flow_record/img/ota5t_stress_s2_budget_verification.png)
+
+**Budgets** (`budgets.json`; ×need = budget ÷ expected need; "cell" = the part of the need inside the default device cells):
+
+| Element | Expected need (cell + wiring) | Stress budget | Stress ×need | Example budget |
+|---|---|---|---|---|
+| OUTP to ground | 2.80 + 1.76 fF | 2.40 fF | 0.53 | 45.6 fF |
+| net3 to ground | 4.89 + 2.87 fF | 4.09 fF | 0.53 | 45.2 fF |
+| OUTP~net3 coupling | 0.44 + 0.29 fF | 0.38 fF | 0.53 | 5.5 fF |
+| XM1+XM2 gate R | 273 + 13 Ω | 151 Ω | 0.53 | 1665 Ω |
+| XM1+XM2 source R | 7.1 + 12.7 Ω | 10.4 Ω | 0.53 | 84.7 Ω |
+| XM5 source R | 7.1 + 12.9 Ω | 10.5 Ω | 0.53 | 200 Ω |
+| XM3+XM4 source R (pdiff contacts: 585 Ω each) | 27.3 + 5.9 Ω | 17.5 Ω | 0.53 | 146 Ω |
+
+Derived rules for the stress design:
+
+- OUTP may have at most **5.1 µm** of met1 in the worst-case environment.
+- The devices on net3 (XM1, XM3, XM4) must be within **5.2 µm** (`place.proximity.net3`, hard).
+- OUTP and net3 may run in parallel at minimum spacing for at most **6.8 µm**.
+
+For the example design the same rules allow 96 µm, 57 µm and 98 µm.
+
+**Excerpt: `constraints.json`** (stress design; copied from the file; `inputs` lists shortened to "..."):
+
+```json
+{"id": "budget.OUTP~net3", "class": "budget", "type": "coupling", "targets": ["OUTP", "net3"], "value": 0.3830761847612343, "units": "fF",
+ "derived_from": {"equation": "progressive-filling max-min allocation of eta*margin (budgets.py)", "binding": ["gbw_mhz"], "inputs": "..."}, "status": "evaluated"}
+{"id": "route.max_parallel.OUTP~net3.metal1", "class": "budget_derived", "type": "max_parallel_run_at_min_spacing", "targets": ["OUTP", "net3"],
+ "value": 6.79, "units": "um", "derived_from": {"equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+ "C_budget_fF": 0.3830761847612343, "Cc_per_um_fF": 0.056410400000000006, "inputs": "..."}, "status": "evaluated"}
+{"id": "place.proximity.net3", "class": "hard", "type": "max_pin_distance", "targets": ["XM1", "XM3", "XM4"], "value": 5.16, "units": "um",
+ "derived_from": {"equation": "the route of the net must fit its met1 length budget", "net": "net3", "hard_if_below_um": 50},
+ "status": "evaluated", "note": "ASSUMPTION: hard below 50 um (a few device pitches), soft above"}
+{"id": "match.max_R_difference.XM1.s", "class": "hard", "type": "max_resistance_mismatch_in_pair", "targets": ["XM1.s"], "value": 19.76,
+ "units": "ohm per mV of allowed systematic offset", "derived_from": {"equation": "systematic input offset per ohm, measured in a unity-gain
+ follower (S1)", "offset_uV_per_ohm": -50.60000000001175, "inputs": "..."}, "status": "not_evaluated",
+ "note": "absolute limit needs an offset spec (not in the design package): requested"}
+{"id": "route.em_width.net1", "class": "hard", "type": "min_width_from_current", "targets": ["net1"], "value": null, "units": "um",
+ "derived_from": {"trunk_current_A": 8.47774e-05, "max_branch_A": 8.47774e-05, "equation": "W >= I / J_max(layer, T)"},
+ "status": "not_evaluated", "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. ..."}
+```
+
+### 4.6 Problems met in S2, and fixes
+
+| # | Problem | Fix |
+|---|---|---|
+| S2-1 | Rule lines in `sky130A.tech` continue over two lines (li.3 spacing), so the regex missed them | Backslash continuations are joined before parsing |
+| S2-2 | A key renamed in S1 (`input_offset_uV_per_ohm`) crashed the rule builder | Fixed; plus a unit test that builds the rule IR from synthetic stage outputs, so key mismatches are caught by the tests |
+| S2-3 | Review findings R4, R7, R8, R13, R15, R16 | See Supervisor review 1 |
+
+
+## 5. S3 — device design: PCell options, decisions, DRC/LVS sign-off
+
+**Purpose.** For each transistor, choose the SKY130 PCell options:
+
+- number of fingers;
+- gate contacts on one or both ends;
+- contact coverage;
+- which strips are the source.
+
+The choice is made against the S2 budgets, at the smallest area. Every candidate is signed off with DRC and LVS before it can be chosen.
+
+### 5.1 Inputs
+
+| Input | File |
+|---|---|
+| Devices and types | S0 `circuit_ir.json` |
+| Budgets with their need split (device cells / wiring) and the margin each uses | S2 `budgets.json` |
+| Contact and sheet resistances | `outputs/S2/pdk/parasitics.json` |
+| Testbenches | S0 `tb/` |
+
+### 5.2 Commands
+
+```bash
+python3 -m src.s3.run inputs/ota5t_stress/package.yaml --cells-only   # option library, design independent (before S2)
+python3 -m src.s3.run inputs/ota5t_stress/package.yaml                # decisions (after S2)
+python3 -m src.s3.run inputs/example_ota_5t/package.yaml
+```
+
+### 5.3 Method
+
+1. **Option grid** (`options.py`). For each of the 3 device types, every combination of the options below, as long as each finger stays ≥ 0.42 µm wide:
+
+   | Option | Values |
+   |---|---|
+   | nf | 1, 2, 4, 8 |
+   | Gate contacts | both ends / top only |
+   | S/D contact and via coverage | 100 % / 50 % |
+   | Which strips are the source (even nf) | outer / inner |
+
+   That gives 84 cells (24 PMOS + 2 × 28 NMOS).
+2. **Device cell** (`strap.py`). The Magic PCell draws the fingers but does not connect their sources and drains. The cell generator adds:
+   - one via1 per strip and a met2 bar per terminal;
+   - the labels D, G, S, B in the wrapper cell.
+
+   Which strips are the source is a legal relabelling, because the MOSFET is symmetric. With the outer strips as source, the drain gets the smaller (shared) diffusion.
+3. **Sign-off of every cell:**
+   - Magic DRC (0 errors; the met1-sliver negative control must be flagged);
+   - Netgen LVS of the whole cell against the sized netlist line, comparing W, L and nf (an L + 0.1 µm reference must be rejected);
+   - Magic extraction of the cell (`cthresh 0`): finger devices with ad/as/pd/ps, and the capacitances inside the cell.
+4. **Access resistance per terminal**, from measured geometry plus PDK resistances:
+   - **Gate:** BSIM4 distributed gate resistance Rsh·W_f/(3·ngcon²·L·nf), plus the poly contacts and mcons counted on the GDS. The model cards set `rgatemod = 0` (checked by gate G3.6), so this is not counted twice.
+   - **Source/drain:** per strip, the licon and mcon contacts in parallel, plus the met1 strip (1/3 rule), the li1 beyond the met1, and the strap via; the strips of a terminal are in parallel.
+5. **Allowance, in S2's own terms.** S2 split every element's expected need into the default cells' part and the wiring part. The cells get the same fraction of each budget.
+   - **Resistance:** R_access ≤ (cell fraction) × S2 Ω budget. The remainder is handed to S5.
+   - **Cell effect** (cell extraction in the circuit, without access R): this may use the cells' fraction of the margin given to the capacitance budgets, plus the cell's share of the margin S2 left unallocated. Only harmful changes count.
+   - **Device model change.** A multi-finger option puts each finger into another SKY130 W bin, which changes Vth, gm and noise. This is part of the in-circuit effect, and `device_model_change` reports it separately.
+6. **Choice.** The smallest area within the allowance (near-ties within 2 % go to the larger slack). If nothing fits, the default PCell is kept (the device exactly as sized) and the type is flagged.
+7. **Verification (G3.3).** All chosen cells with their access resistances in the circuit at once: the specs must be met and the margin used must be within the summed allowances.
+
+### 5.4 DRC/LVS evidence for the chosen cells
+
+On the left of each pair is the default PCell; on the right, the chosen cell (finger straps on met2, light blue):
+
+![S3 cells, example](flow_record/img/example_ota_5t_s3_cells.png)
+
+![S3 evidence, example](flow_record/img/example_ota_5t_s3_evidence.png)
+
+For the stress design the defaults were kept (see 5.5): [cells](flow_record/img/ota5t_stress_s3_cells.png), [evidence](flow_record/img/ota5t_stress_s3_evidence.png).
+
+**Option library** (`outputs/S3/_cells/`):
+
+- 80 of 84 cells pass DRC 0 + LVS (W/L/nf) + both negative controls.
+- The 4 that do not are PMOS nf = 8 with 50 % coverage. The 1 µm fingers are too short for separate source and drain bars, and LVS showed the resulting S–D short ("Netlists do not match", 3 nets instead of 4).
+- The generator now detects this before drawing and records "strap does not fit" (problem S3-4).
+
+### 5.5 Results
+
+| Gate | example_ota_5t | ota5t_stress |
+|---|---|---|
+| G3.1 DRC of the chosen cells (0 errors, negative control) | PASS | PASS |
+| G3.2 LVS of the chosen cells (W, L, nf; negative control) | PASS | PASS |
+| G3.3 all chosen cells + access R in the circuit: specs met and within the allowance | **PASS** | **FAIL** (specs met, allowance exceeded) |
+| G3.4 option table complete | PASS | PASS |
+| G3.5 no relaxation | PASS | **FAIL** (all 3 types) |
+| G3.6 the model cards add no gate resistance (rgatemod = 0) | PASS | PASS |
+
+**example_ota_5t: decisions** (`device_decisions.json`):
+
+| Devices | Chosen | Area (µm²), default → chosen | R access d / g / s (Ω) | Allowed d / g / s (Ω) | Device-model change (cell only) |
+|---|---|---|---|---|---|
+| XM3, XM4 (PMOS mirror) | nf2, gate top, full, outer = S | 30.2 → **24.8** | 59.2 / 72.5 / 29.6 | 273 / 725 / 120 | Id +0.03 %, ΔVth −16 mV |
+| XM1, XM2 (input pair) | nf2, gate top, full, outer = S | 61.1 → **43.0** | 12.0 / 273.5 / 6.0 | 64 / 1591 / 30.5 | Id −0.02 % |
+| XM5 (tail) | nf4, gate top, 50 %, outer = S | 74.1 → **51.6** | 13.5 / 44.3 / 9.0 | 27 / 1367 / 71 | **Id −3.0 %**, gm −2.2 % |
+
+With all chosen cells and access R in the circuit:
+
+| Spec | Value | Change |
+|---|---|---|
+| Gain | 32.88 dB | +1.19 dB |
+| GBW | 101.9 MHz | −2.6 MHz |
+| PM | 79.84° | −1.09° |
+| Noise | 340.7 nV/√Hz | +1.6 |
+
+All stay within the allowances, and the device area drops by 27 % (256.6 → 187.2 µm² for the five transistors).
+
+![S3 option space, example](flow_record/img/example_ota_5t_s3_option_space.png)
+
+**Supervisor note on the example decisions.** The tail cell (nf = 4) moves XM5 into another W bin, and its current drops by 3.0 %. The allowance permits this, because the example design has plenty of unallocated margin. Still, it is a change to the sized device, not a layout parasitic. It is reported in `device_model_change`, and the sizing stage should be told. One option for the future is to require device-model changes to stay below a set fraction, so that S3 never re-sizes silently.
+
+**ota5t_stress: decisions and diagnosis.** No option of any type fits the allowance, so the default PCells are kept and flagged. With them:
+
+- **Specs:** still met. GBW 356.3 MHz against a limit of 336.3; PM 62.4° against 60.08.
+- **Margin used by the cells alone, before any wiring:**
+
+  | Check | Used | Allowed | Share of margin |
+  |---|---|---|---|
+  | GBW | 17.3 MHz | 10.9 | 46 % |
+  | PM | 2.67° | 2.25 | 53 % |
+
+- **Resistance:** the input-pair gate needs 273 Ω (allowed 144). The PMOS source needs 27 Ω (allowed 14.4; each p-diffusion contact is 585 Ω). The Ω left for routing is negative.
+
+This is the outcome S2 predicted with G2.0: a compact default layout would use 90 % of the GBW margin. **Conclusion:** the stress variant cannot be laid out within η = 0.5 of its margin. Either:
+
+- give layout more of the margin (η ≈ 0.9), or
+- relax the stress specs, or
+- re-size with layout in the loop. This is the O3 → O2 loop: the measured option table and these budgets are the inputs a layout-aware sizer needs.
+
+**Excerpt: `device_decisions.json`** (example design, input pair). The fields are copied from the file and regrouped; nothing else is changed:
+
+```json
+{"devices": ["XM1", "XM2"],
+ "chosen": {"id": "nf2_gtop_sdfull_outS", "nf": 2, "gate_contacts": "top", "sd_cov": "full", "outer": "S",
+            "magic": {"topc": 1, "botc": 0, "diffcov": 100, "viasrc": 100, "viadrn": 100, "guard": 1, "conn_gates": 1}},
+ "area_um2": 42.955, "access_resistance_ohm": {"d": 11.990609390609391, "g": 273.45000000000005, "s": 5.995304695304695},
+ "budget_check_resistance_g": {"group": "XM1+XM2.g", "R_access_ohm": 273.45000000000005, "allowed_ohm": 1590.9098499935599,
+                               "ok": true, "remaining_for_routing_ohm": 1391.0669098321591, "slack_frac": 0.8281172248690855},
+ "device_model_change_XM1": {"id_rel": -0.0001816521856061737, "gm_rel": -0.000507740991714356, "vth_shift_V": 0.00020699999999995722},
+ "drc": {"errors": 0, "neg_control_flagged": true, "pass": true},
+ "lvs": {"match": true, "neg_control_rejected": true, "pass": true}}
+```
+
+The 4 PMOS cells that do not fit are recorded in `outputs/S3/_cells/<cell>/record.json`, e.g.
+`"ok": false, "error": "strap does not fit: strips too short for two met2 bars: 1.100..1.560 um"`.
+
+### 5.6 Problems met in S3, and fixes
+
+| # | Problem | Fix |
+|---|---|---|
+| S3-1 | The Magic PCell leaves nf > 1 fingers unconnected; LVS against the sized device failed | Finger-strap generator (`strap.py`); LVS now in top mode, on the wrapper's own D/G/S/B labels |
+| S3-2 | First straps: 40 DRC errors (via1 enclosure in one direction, via.5a / met2.5) | via contacts 0.26 × 0.32 µm (0.085 µm enclosure in one direction), bars 0.32 µm tall |
+| S3-3 | Labels placed over a child cell's metal were moved to "space" by Magic, so they connected to nothing | A small patch of the same layer under each label |
+| S3-4 | PMOS nf = 8 with 50 % coverage: strips too short, so the S and D bars shorted (caught by LVS) | The generator checks the bar spacing first and records "strap does not fit" |
+| S3-5 | Floating VSUBS → wrong operating point (R17) | VSUBS tied to ground; numerical warnings fail a run |
+| S3-6 | The cell PEX first had no `.subckt` ports (`ext2spice hierarchy off`) | `ext2spice subcircuit top on` |
+| S3-7 | Magic's lumped extresist cross-check gives no value at tolerance 1: these nets are not split | Recorded as a limitation; the access R comes from the geometry model above. A finer field-solver cross-check is future work |
+| S3-8 | Allocation inconsistency between S2 and S3 (R16) and the relaxation choice (R18) | See Supervisor review 1 |
+
+## Supervisor review 2 (after S3): what is good, what is weak, what comes next
+
+**Good:**
+
+- **Every number is measured or derived, and every check can fail.**
+  - DRC and LVS use negative controls.
+  - Simulator runs with numerical trouble count as failures.
+  - Missing measurements fail a gate.
+  - Budgets are verified in SPICE per check, harmful parasitics only.
+- **The linear model is exact where it should be, and explains where it is not.**
+  - Capacitance: within 2.4 % of SPICE.
+  - Resistance: bias-shift effects are confirmed by re-solving at the shifted operating point.
+- **The flow says, before any layout, whether a design is layout-feasible** (G2.0). It said so correctly for both designs, and S3 confirmed it with real cells.
+- **N3 is shown on the example design.** Requirement-driven PCell options give −27 % device area while staying inside the budgets, and every chosen cell is DRC/LVS clean.
+
+**Weak, or not done yet:**
+
+1. **η = 0.5 and κ = 10 are policy choices** (ASSUMPTIONS). The stress variant shows that η decides feasibility. A sweep of η, or a per-spec η, should be reported.
+2. **Multi-finger options change the SKY130 device model** (W bins): the tail current moves 3 % with nf = 4. That is re-sizing. It is reported, but not limited. Proposal: limit the device-model change to a fraction of the margin, or hand it back to the sizer.
+3. **The access-resistance model** is geometric and analytic (BSIM4 gate formula, contact counts). Magic's extresist gave no cross-check at this tolerance. A finer extraction is needed to validate the source/drain values, which matter in the stress design.
+4. **Still `not_evaluated`, waiting on data from you:**
+   - EM widths (no SKY130 EM data found);
+   - the offset budget (no offset spec);
+   - the bias-net impedance;
+   - variation ranges.
+5. **Expected need** still uses a rough wiring estimate (one device-crossing stub per pin). S4 templates will give real geometry; S2 should be re-run with it.
+6. **Only two circuits, both the same 5T OTA.** The LOADBench two-stage designs are fetched but not yet packaged (S0 extension).
+
+**Next steps proposed:**
+
+- **S4 templates** for the diff pair and the mirror, built from the chosen S3 cells. The straps already exist.
+- **LOADBench packages:** 2 two-stage designs.
+- **An η sweep for the stress variant.**
+- **A limit on device-model changes in S3.**
 
 ## 6. S4 onwards — full layout (pending)
 
@@ -458,7 +925,11 @@ The full-layout DRC/LVS evidence (Magic DRC 0, Netgen "Circuits match uniquely" 
 | 12 | Infra | A heredoc inside a background container command breaks the wrapper | Scripts go in files |
 | 13–16 | S0 | See section 2.6 | |
 | 17–22 | S1 | See section 3.6 | |
+| 23–35 | Review | Supervisor review 1, R1–R18 (incl. the floating-substrate bug and the S2/S3 allocation inconsistency) | See the review table |
+| 36–38 | S2 | See section 4.6 | |
+| 39–46 | S3 | See section 5.6 | |
 
 ## Changelog of this document
 
 - 2026-10-25: created. Covers Step 0, S0 (G0.1–G0.7 on both designs) and S1 (G1.1–G1.5 on both designs).
+- 2026-10-25 (evening): added where-to-find, S1 resistance extension (G1.6), supervisor review 1 (R1–R18), S2 and S3 with results on both designs.

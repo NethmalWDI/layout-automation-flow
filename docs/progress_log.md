@@ -240,3 +240,75 @@ Layout parasitics will now consume a visible share of the margin, which is the p
 
 - `docs/flow_record.md` is the living record: inputs/outputs per stage, JSON excerpts, DRC/LVS pictures, problems.
 - Pictures are in `docs/flow_record/img/`, made by `scripts/make_record_figures.py`.
+
+## 2026-10-25 (evening) — S1 resistance extension, supervisor review 1, S2 and S3 implemented
+
+**Where the repo is.** `C:\Users\suind\Documents\GitHub\layout-automation-s0-s3`. The Explorer "Documents" shortcut may open OneDrive\Documents instead. Shortcuts are in `Desktop\Layout_automation`.
+
+**S1 extension: series resistance at device terminals**
+
+- Terminal groups are matched-pair variables, e.g. `XM1+XM2.s`.
+- Linear model with node splitting, and SPICE at 20 and 100 Ω for AC, NOISE and DC headroom.
+- G1.6 passes on both designs (16/16 and 20/20 checks):
+  - 4–5 effects are small-signal;
+  - 12–15 are bias shifts, each confirmed by re-solving the linear model at the operating point SPICE finds with the resistor in place.
+- Offset of a one-sided resistor, measured in a follower bench: about 50 µV/Ω at the pair sources, about 15 µV/Ω at the mirror sources.
+
+**Supervisor review 1.** I reviewed my own work, then had an independent agent review the code; the full table is in `docs/flow_record.md`. Main fixes:
+
+- Gates that could pass when a simulation failed.
+- S2 verification now uses harmful parasitics only, per check, against η·margin, with a closure iteration.
+- The S3 allowance is now expressed in S2's own terms.
+- The offset/gain artefact of the open-loop bench.
+- Silent zeros.
+- Supply trunk currents.
+- Conservative per-µm capacitance.
+- κ cap on budgets.
+- A phase-2 proportional-fairness refinement of the budgets.
+
+**S2** (`src/s2/`):
+
+- **PDK parasitics measured with Magic test wires.** For met1: 0.893 Ω/µm; 84.8 aF/µm over field, 158 aF/µm over li1; 56 aF/µm coupling at min spacing.
+- **Allocation.** 21 elements, constraints on gain, GBW, PM, noise and DC headroom, η = 0.5.
+- **SPICE verification.** Every check was within η·margin (+10 %) on both designs, with no closure needed. Stress design: GBW used 0.49 of its margin, PM 0.48.
+- **Stress budgets are about 1× expected need.** For example OUTP~net3 coupling 0.24 fF, about 4 µm of parallel met1.
+
+**S3** (`src/s3/`):
+
+- 84 option cells: 3 device types × nf, gate contacts, contact coverage and source side.
+- Each option cell is a Magic PCell plus met2 finger straps (`strap.py`).
+- 80 cells signed off with DRC 0 and LVS match on W/L/nf, each with negative controls. 4 PMOS nf=8 cells with half contact coverage do not pass and are recorded.
+- In-circuit evaluation with the cell's own extraction and access R.
+
+**Bug found by checking a suspicious number.** A PMOS cell raised the supply current by 10 µA. The cause: Magic's substrate node VSUBS floats inside the subcircuit, ngspice's gmin stepping then converged to a wrong operating point. Fixed: VSUBS is tied to ground, and every run whose log reports numerical trouble now counts as failed in S1–S3.
+- **S2 ↔ S3 consistency (finding R16).** The S3 option library is now built before S2. S2's expected need includes the measured default cells. S3's share of every budget follows that split.
+- **G2.0** reports, before any layout, how much of each margin a compact default layout would use:
+
+  | Check | example_ota_5t | ota5t_stress |
+  |---|---|---|
+  | GBW | 0.06 | **0.90** |
+  | PM | 0.08 | **0.66** |
+
+**S3 results**
+
+- **example_ota_5t: PASS.** All gates, all chosen cells DRC/LVS clean with negative controls.
+
+  | Devices | Chosen option | Area (µm²) |
+  |---|---|---|
+  | PMOS mirror | nf2, gate top | 30.2 → 24.8 |
+  | Input pair | nf2, gate top | 61.1 → 43.0 |
+  | Tail | nf4, gate top, 50 % coverage | 74.1 → 51.6 |
+
+  - In the circuit with access R: gain 32.88 dB, GBW 101.9 MHz, PM 79.84°, all within the allowances.
+  - Device area −27 %.
+  - The tail cell changes XM5's current by −3 % (another SKY130 W bin). This is reported in `device_model_change`.
+- **ota5t_stress: FAIL, flagged (as S2's G2.0 predicted).**
+  - No option fits η = 0.5. The default cells are kept, and the specs are still met: GBW 356.3 MHz (limit 336.3), PM 62.4° (limit 60.08).
+  - The cells alone use 46 % of the GBW margin and 53 % of the PM margin, before any wiring.
+  - Decision needed: η about 0.9, relaxed stress specs, or layout-aware re-sizing.
+- **Other S3 fixes:**
+  - via1 enclosure in the straps;
+  - label patches;
+  - a "strap does not fit" check (4 PMOS nf = 8, 50 % cells; LVS had caught the S–D short);
+  - the relaxation case keeps the default PCell.
+- **Tests:** 37 pass (S0 14, S1 11, S2 8, S3 4).

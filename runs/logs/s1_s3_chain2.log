@@ -1,0 +1,57 @@
++ for d in ota5t_stress example_ota_5t
++ python3 -m src.s1.run inputs/ota5t_stress/package.yaml
+G1.1_operating_point                          PASS
+G1.2_linear_model_vs_spice                    PASS
+G1.3_sensitivity_vs_spice                     PASS
+G1.4_matching_groups                          PASS
+G1.5_symbolic_vs_spice (reported, not gated)  INFO
+G1.6_resistance_sensitivity_vs_spice          PASS
+S1 PASS -> outputs/S1/ota5t_stress
++ for d in ota5t_stress example_ota_5t
++ python3 -m src.s1.run inputs/example_ota_5t/package.yaml
+G1.1_operating_point                          PASS
+G1.2_linear_model_vs_spice                    PASS
+G1.3_sensitivity_vs_spice                     PASS
+G1.4_matching_groups                          PASS
+G1.5_symbolic_vs_spice (reported, not gated)  INFO
+G1.6_resistance_sensitivity_vs_spice          PASS
+S1 PASS -> outputs/S1/example_ota_5t
++ python3 -m src.s2.pdk_parasitics
+locali  w=0.17 s=0.17  R=75.29 ohm/um  Cg=87.69 aF/um  Cplane=133.37 aF/um  Cc=41.13 aF/um
+metal1  w=0.14 s=0.14  R=0.8929 ohm/um  Cg=84.75 aF/um  Cplane=158.44 aF/um  Cc=56.41 aF/um
+metal2  w=0.14 s=0.14  R=0.8929 ohm/um  Cg=77.97 aF/um  Cplane=183.23 aF/um  Cc=56.82 aF/um
+metal3  w=0.3 s=0.3  R=0.1567 ohm/um  Cg=85.69 aF/um  Cplane=198.45 aF/um  Cc=52.86 aF/um
+metal4  w=0.3 s=0.3  R=0.1567 ohm/um  Cg=75.89 aF/um  Cplane=198.47 aF/um  Cc=54.02 aF/um
+PDK parasitics OK -> outputs/S2/pdk/parasitics.json
++ for d in ota5t_stress example_ota_5t
++ python3 -m src.s2.run inputs/ota5t_stress/package.yaml
+G2.1_names_resolve                     PASS
+G2.2_units_and_provenance              PASS
+G2.3_allocation                        PASS
+G2.4_linear_all_budgets_at_once        INFO
+G2.5_spice_budget_verification         PASS
+G2.6_hierarchy_sums                    PASS
+S2 PASS -> outputs/S2/ota5t_stress
++ for d in ota5t_stress example_ota_5t
++ python3 -m src.s2.run inputs/example_ota_5t/package.yaml
+G2.1_names_resolve                     PASS
+G2.2_units_and_provenance              PASS
+G2.3_allocation                        PASS
+G2.4_linear_all_budgets_at_once        INFO
+G2.5_spice_budget_verification         PASS
+G2.6_hierarchy_sums                    PASS
+S2 PASS -> outputs/S2/example_ota_5t
++ for d in ota5t_stress example_ota_5t
++ python3 -m src.s3.run inputs/ota5t_stress/package.yaml
+G3.1_chosen_DRC                          PASS
+G3.2_chosen_LVS_W_L_nf                   PASS
+G3.3_all_chosen_devices_in_circuit       FAIL
+G3.4_option_table_complete               PASS
+G3.5_no_relaxation                       FAIL
+G3.6_model_has_no_gate_resistance        PASS
+  pfet_01v8_W8_L1_m1           -> nf2_gboth_sdfull_outS    area 26.3 um2  R(d,g,s)=59.2, 28.2, 29.6 ohm
+  nfet_01v8_W24_L0p5_m1        -> nf4_gtop_sdfull_outS     area 36.2 um2  R(d,g,s)=8.5, 88.5, 5.6 ohm
+  nfet_01v8_W24_L1_m1          -> nf1_gboth_sdfull         area 74.1 um2  R(d,g,s)=7.1, 136.7, 7.1 ohm
+S3 FAIL -> outputs/S3/ota5t_stress
++ for d in ota5t_stress example_ota_5t
++ python3 -m src.s3.run inputs/example_ota_5t/package.yaml

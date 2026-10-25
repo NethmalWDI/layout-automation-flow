@@ -52,20 +52,50 @@ def write_json(path: Path, obj) -> None:
     path.write_text(json.dumps(obj, indent=2) + "\n")
 
 
-def run_ngspice(deck: Path, workdir: Path, timeout: int = 600) -> dict:
-    """Run ngspice in batch mode; return {'rc', 'meas': {key: float}, 'log'}."""
-    workdir.mkdir(parents=True, exist_ok=True)
-    r = subprocess.run(["ngspice", "-b", str(deck)], cwd=workdir, env=TOOL_ENV,
-                       capture_output=True, text=True, timeout=timeout)
-    log = r.stdout + r.stderr
-    (workdir / (deck.stem + ".log")).write_text(log)
+def parse_meas(log: str) -> dict:
     meas = {}
     for m in re.finditer(r"^MEAS\s+(\w+)\s+(\S+)", log, re.M):
         try:
             meas[m.group(1)] = float(m.group(2))
         except ValueError:
             meas[m.group(1)] = None
-    return {"rc": r.returncode, "meas": meas, "log": rel(workdir / (deck.stem + ".log"))}
+    return meas
+
+
+NUMERIC_TROUBLE = ("singular matrix", "gmin stepping failed", "source stepping failed", "timestep too small",
+                   "no convergence")
+
+
+def numerical_warnings(log: str) -> list:
+    """Lines that mean the operating point may not be trustworthy (floating nodes, failed homotopy)."""
+    return [ln.strip() for ln in log.splitlines() if any(t in ln.lower() for t in NUMERIC_TROUBLE)][:10]
+
+
+def run_ngspice(deck: Path, workdir: Path, timeout: int = 600) -> dict:
+    """Run ngspice in batch mode; return {'rc', 'meas': {key: float}, 'log', 'numerical_warnings'}."""
+    workdir.mkdir(parents=True, exist_ok=True)
+    r = subprocess.run(["ngspice", "-b", str(deck)], cwd=workdir, env=TOOL_ENV,
+                       capture_output=True, text=True, timeout=timeout)
+    log = r.stdout + r.stderr
+    (workdir / (deck.stem + ".log")).write_text(log)
+    (workdir / (deck.stem + ".rc")).write_text(str(r.returncode))
+    return {"rc": r.returncode, "meas": parse_meas(log), "log": rel(workdir / (deck.stem + ".log")),
+            "numerical_warnings": numerical_warnings(log)}
+
+
+def run_ngspice_text(txt: str, workdir: Path, name: str, cache: bool = True, timeout: int = 600) -> dict:
+    """Write <name>.spice and run it, unless the identical deck already ran successfully in this folder
+    (same text, log present, exit code 0): then its log is re-read. Re-runs of a stage only simulate
+    what changed."""
+    workdir.mkdir(parents=True, exist_ok=True)
+    deck, log, rc = workdir / f"{name}.spice", workdir / f"{name}.log", workdir / f"{name}.rc"
+    if cache and deck.exists() and log.exists() and rc.exists() and rc.read_text().strip() == "0" \
+            and deck.read_text() == txt:
+        txt_log = log.read_text()
+        return {"rc": 0, "meas": parse_meas(txt_log), "log": rel(log), "cached": True,
+                "numerical_warnings": numerical_warnings(txt_log)}
+    deck.write_text(txt)
+    return run_ngspice(deck, workdir, timeout)
 
 
 def run_netgen_compare(a: Path, a_cell: str, b: Path, b_cell: str, report: Path, timeout: int = 300) -> dict:

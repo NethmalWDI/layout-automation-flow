@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/foss/designs/src/s1/run.py", line 431, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/foss/designs/src/s1/run.py", line 386, in main
+    s100 = sp["ac"]["per_ohm"]["100ohm"].get(k)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+KeyError: '100ohm'
+	User time (seconds): 404.00
+	System time (seconds): 73.01
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 5:10.44
+	Maximum resident set size (kbytes): 187272

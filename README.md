@@ -110,4 +110,81 @@ python3 scripts/make_record_figures.py example_ota_5t ota5t_stress  # refresh th
 /opt/venv-tools/bin/python scripts/loadbench_fetch.py fetch TwoStageOpAmps.zip SimpleTwoStageOpAmp_SimpleOpAmp1_1/
 ```
 
-S2 and S3 will be added here as they are implemented.
+## S1 extension: series resistance at device terminals
+
+`python3 -m src.s1.run ...` (same command as above) also writes `sensitivity_r.json`:
+
+- per terminal group (matched pairs varied together): dSpec/dR from transistor-level SPICE (AC, NOISE, DC headroom) and from the linear model;
+- the mechanism, with gate G1.6: small-signal, or a bias shift confirmed by re-solving the linear model at the shifted operating point;
+- the systematic offset of a one-sided resistor, measured in a unity-gain follower.
+
+## S2: requirement compiler (budgets, rules, verification)
+
+Run inside `layout-s0s3`, from `/foss/designs`, after S1:
+
+```bash
+python3 -m src.s2.pdk_parasitics                         # once: per-um R/C of li1..met4 measured with Magic
+python3 -m src.s2.run inputs/ota5t_stress/package.yaml   # outputs/S2/ota5t_stress/
+python3 -m src.s2.run inputs/example_ota_5t/package.yaml
+```
+
+**Gates:**
+
+| Gate | Check |
+|---|---|
+| G2.1 | Every target resolves |
+| G2.2 | Units and provenance on every rule |
+| G2.3 | Allocation: max-min plus refinement; LP cross-check; reproducible |
+| G2.4 | Linear model at the budget point (info) |
+| G2.5 | SPICE verification: per check, its harmful budgets inserted at once; use <= eta x margin (+10 %); spec met |
+| G2.6 | Hierarchy shares sum to the budgets |
+
+**Outputs:**
+
+| File | Contents |
+|---|---|
+| `budgets.json` | Every budget, with its expected need, binding check and margin used |
+| `hierarchy.json` | Block-port and top-level shares of every net budget |
+| `constraints.json` | Typed rule IR |
+| `verification.json` | SPICE results of the budget verification |
+| `plots/` | Budget and verification plots |
+| `s2_report.json` | All gates, with their evidence |
+
+## S3: device design (PCell options, decisions, sign-off)
+
+Run after S2:
+
+```bash
+python3 -m src.s3.run inputs/ota5t_stress/package.yaml --workers 4   # builds/uses outputs/S3/_cells (cached)
+python3 -m src.s3.run inputs/example_ota_5t/package.yaml
+python3 -m src.s3.run inputs/ota5t_stress/package.yaml --cells-only   # only build/measure the option cells
+```
+
+Each option cell is a SKY130 Magic PCell (exact W/L), plus met2 finger straps and D/G/S/B labels. Each cell gets:
+
+- DRC (with a negative control);
+- LVS against the sized netlist line, checking W, L and nf (with a negative control);
+- a Magic cell extraction;
+- access resistances.
+
+**Gates:**
+
+| Gate | Check |
+|---|---|
+| G3.1 | DRC of the chosen cells |
+| G3.2 | LVS of the chosen cells |
+| G3.3 | All chosen cells and their access R in the circuit: specs met, margin use within the allowance |
+| G3.4 | Option table complete |
+| G3.5 | No relaxation |
+| G3.6 | The model cards add no gate resistance of their own (rgatemod = 0) |
+
+**Outputs:**
+
+| File | Contents |
+|---|---|
+| `option_table.json` | Every option |
+| `device_decisions.json` | The chosen option per device type and why |
+| `plots/option_space.png` | Area against slack for every option |
+| `s3_report.json` | All gates, with their evidence |
+
+S4 onward will be added here as it is implemented.
