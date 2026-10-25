@@ -1,0 +1,333 @@
+{
+  "design": "example_ota_5t",
+  "gates": {
+    "G1.1_operating_point": {
+      "pass": true,
+      "saturation": {
+        "XM3": {
+          "vds": 1.39451,
+          "vdsat": 0.345577,
+          "vds_minus_vdsat_V": 1.048933,
+          "saturated": true
+        },
+        "XM4": {
+          "vds": 1.39451,
+          "vdsat": 0.345577,
+          "vds_minus_vdsat_V": 1.048933,
+          "saturated": true
+        },
+        "XM1": {
+          "vds": 0.219435,
+          "vdsat": 0.0893754,
+          "vds_minus_vdsat_V": 0.1300596,
+          "saturated": true
+        },
+        "XM2": {
+          "vds": 0.219435,
+          "vdsat": 0.0893754,
+          "vds_minus_vdsat_V": 0.1300596,
+          "saturated": true
+        },
+        "XM5": {
+          "vds": 0.179965,
+          "vdsat": 0.160397,
+          "vds_minus_vdsat_V": 0.019568000000000002,
+          "saturated": true
+        }
+      },
+      "isup_uA": 84.7774,
+      "isup_achieved_uA": 84.7774,
+      "missing_params": [],
+      "missing_optional_params": [],
+      "charge_conservation_worst_rel": 2.804813059213521e-06
+    },
+    "G1.2_linear_model_vs_spice": {
+      "pass": true,
+      "linear": {
+        "gain_db": 31.692934888970203,
+        "gbw_mhz": 105.0066901372423,
+        "pm_deg": 80.9457458550894
+      },
+      "spice": {
+        "gain_db": 31.697,
+        "gbw_mhz": 104.455,
+        "pm_deg": 80.9348
+      },
+      "delta": {
+        "gain_db": -0.004065111029795787,
+        "gbw_rel": 0.005281605832581526,
+        "pm_deg": 0.010945855089403267
+      },
+      "tolerance": {
+        "gain_db": 0.2,
+        "gbw_rel": 0.03,
+        "pm_deg": 2.0
+      }
+    },
+    "G1.3_sensitivity_vs_spice": {
+      "pass": true,
+      "tolerance_rel": 0.2,
+      "tolerance_pred_frac_margin": 0.05,
+      "checks": [
+        {
+          "case": "OUTP",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "OUTP",
+          "spec": "gbw_mhz",
+          "linear": -0.09472744985392723,
+          "spice_5fF": -0.09439999999999885,
+          "spice_20fF": -0.09375,
+          "spice_extrapolated_0": -0.09461666666666513,
+          "rel_err_vs_extrapolated": 0.0011708633496082406,
+          "rel_err_vs_20fF": 0.010426131775223743,
+          "step_consistency": 0.006933333333321023,
+          "pred_err_at_20fF_frac_of_margin": 0.0002314723471498966,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP",
+          "spec": "pm_deg",
+          "linear": 0.008813838873749091,
+          "spice_5fF": 0.00882000000000005,
+          "spice_20fF": 0.008745000000000402,
+          "spice_extrapolated_0": 0.008844999999999933,
+          "rel_err_vs_extrapolated": 0.003523021622480684,
+          "rel_err_vs_20fF": 0.007871798027294047,
+          "step_consistency": 0.008576329331005697,
+          "pred_err_at_20fF_frac_of_margin": 6.576501686062405e-05,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net1",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "net1",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_20fF": -0.00024999999999977265,
+          "linear": -0.00025527241121636735
+        },
+        {
+          "case": "net1",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_20fF": 6.0000000000570705e-05,
+          "linear": 5.738652816944523e-05
+        },
+        {
+          "case": "net3",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "net3",
+          "spec": "gbw_mhz",
+          "linear": -0.05791153332542365,
+          "spice_5fF": -0.059199999999998455,
+          "spice_20fF": -0.061350000000000196,
+          "spice_extrapolated_0": -0.0584833333333312,
+          "rel_err_vs_extrapolated": 0.009777144620819174,
+          "rel_err_vs_20fF": 0.05604672656196475,
+          "step_consistency": 0.035044824775904385,
+          "pred_err_at_20fF_frac_of_margin": 0.0008142719020961574,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net3",
+          "spec": "pm_deg",
+          "linear": -0.06372081060890622,
+          "spice_5fF": -0.06347999999999843,
+          "spice_20fF": -0.06114499999999978,
+          "spice_extrapolated_0": -0.06425833333333131,
+          "rel_err_vs_extrapolated": 0.00836502748424492,
+          "rel_err_vs_20fF": 0.04212626721574039,
+          "step_consistency": 0.03818791397495547,
+          "pred_err_at_20fF_frac_of_margin": 0.002460793137652557,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP~net3",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "OUTP~net3",
+          "spec": "gbw_mhz",
+          "linear": -0.24829761853933974,
+          "spice_5fF": -0.24679999999999894,
+          "spice_20fF": -0.24086,
+          "spice_extrapolated_0": -0.24877999999999859,
+          "rel_err_vs_extrapolated": 0.001938988104585783,
+          "rel_err_vs_20fF": 0.030879425970853386,
+          "step_consistency": 0.02466162916216452,
+          "pred_err_at_20fF_frac_of_margin": 0.0017613210678680353,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP~net3",
+          "spec": "pm_deg",
+          "linear": -0.11762430661184453,
+          "spice_5fF": -0.11591999999999984,
+          "spice_20fF": -0.10752999999999986,
+          "spice_extrapolated_0": -0.11871666666666651,
+          "rel_err_vs_extrapolated": 0.009201404364638345,
+          "rel_err_vs_20fF": 0.09387432913461065,
+          "step_consistency": 0.07802473728261873,
+          "pred_err_at_20fF_frac_of_margin": 0.009643566321956428,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net3~INP",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "net3~INP",
+          "spec": "gbw_mhz",
+          "linear": -0.06451305084206638,
+          "spice_5fF": -0.06599999999999966,
+          "spice_20fF": -0.06865000000000024,
+          "spice_extrapolated_0": -0.06511666666666613,
+          "rel_err_vs_extrapolated": 0.00926975927207202,
+          "rel_err_vs_20fF": 0.06026145896480476,
+          "step_consistency": 0.038601602330671135,
+          "pred_err_at_20fF_frac_of_margin": 0.0009796812877707326,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net3~INP",
+          "spec": "pm_deg",
+          "linear": -0.0872692241944506,
+          "spice_5fF": -0.08685999999999865,
+          "spice_20fF": -0.08402999999999991,
+          "spice_extrapolated_0": -0.08780333333333157,
+          "rel_err_vs_extrapolated": 0.006083016653289296,
+          "rel_err_vs_20fF": 0.0385484254962596,
+          "step_consistency": 0.03367844817325645,
+          "pred_err_at_20fF_frac_of_margin": 0.0030945833678379456,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net1~net3",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "net1~net3",
+          "spec": "gbw_mhz",
+          "linear": -0.03981873429489724,
+          "spice_5fF": -0.040600000000000594,
+          "spice_20fF": -0.042300000000000185,
+          "spice_extrapolated_0": -0.040033333333334066,
+          "rel_err_vs_extrapolated": 0.005360508870195389,
+          "rel_err_vs_20fF": 0.05865876371401735,
+          "step_consistency": 0.040189125295498423,
+          "pred_err_at_20fF_frac_of_margin": 0.000587594743970859,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net1~net3",
+          "spec": "pm_deg",
+          "linear": -0.07439058513561037,
+          "spice_5fF": -0.0746799999999979,
+          "spice_20fF": -0.07350999999999956,
+          "spice_extrapolated_0": -0.07506999999999735,
+          "rel_err_vs_extrapolated": 0.009050417801878326,
+          "rel_err_vs_20fF": 0.011979120332074667,
+          "step_consistency": 0.015916201877273106,
+          "pred_err_at_20fF_frac_of_margin": 0.000841264435877872,
+          "criterion": "a_derivative",
+          "pass": true
+        }
+      ]
+    },
+    "G1.4_matching_groups": {
+      "pass": true,
+      "groups": [
+        {
+          "devices": [
+            "XM3",
+            "XM4"
+          ],
+          "kind": "mirror",
+          "equal_size": true
+        },
+        {
+          "devices": [
+            "XM1",
+            "XM2"
+          ],
+          "kind": "diff_pair",
+          "equal_size": true
+        }
+      ]
+    },
+    "G1.5_symbolic_vs_spice (reported, not gated)": {
+      "pass": null,
+      "predicted": {
+        "gain_db": 31.364418560825417,
+        "gbw_mhz": 108.43283383349196,
+        "pm_deg": 91.34420874538944
+      },
+      "spice": {
+        "gain_db": 31.697,
+        "gbw_mhz": 104.455,
+        "pm_deg": 80.9348
+      },
+      "delta": {
+        "gain_db": -0.33258143917458227,
+        "gbw_mhz": 3.9778338334919567,
+        "pm_deg": 10.409408745389442
+      }
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-10-25T05:59:30+00:00",
+    "git_commit": "2eb089aa429e2fe49c06b7bee3b022566cec3acf",
+    "inputs": [
+      {
+        "path": "outputs/S0/example_ota_5t/circuit_ir.json",
+        "sha256": "0c2755764bf08a47191e224a7a86ad9878ee30b7586e24d46b74f19de14c06ef"
+      },
+      {
+        "path": "inputs/example_ota_5t/package.yaml",
+        "sha256": "326540db2ba54b054af7bb4a5768a2851981006e4cf92481611bb92f4efbec10"
+      },
+      {
+        "path": "circuits/5t-ota/source/5t-ota_differential_equations.json",
+        "sha256": "31ad9ff615026ec1b52a87a74bc8c7d55e1358f3e9311e9b23ea5df7ae6105d6"
+      },
+      {
+        "path": "inputs/example_ota_5t/name_map.yaml",
+        "sha256": "6f89e8bbeef26e3ff4616f95640411016307656d3331c7c788340a58b36a0402"
+      }
+    ]
+  }
+}

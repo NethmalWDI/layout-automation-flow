@@ -1,0 +1,106 @@
+{
+  "devices": {
+    "XM3": {
+      "id_A": 4.23887e-05,
+      "type": "pmos"
+    },
+    "XM4": {
+      "id_A": 4.23887e-05,
+      "type": "pmos"
+    },
+    "XM1": {
+      "id_A": 4.23887e-05,
+      "type": "nmos"
+    },
+    "XM2": {
+      "id_A": 4.23887e-05,
+      "type": "nmos"
+    },
+    "XM5": {
+      "id_A": 8.47774e-05,
+      "type": "nmos"
+    }
+  },
+  "nets": {
+    "net3": {
+      "connections": [
+        {
+          "device": "XM3",
+          "terminal": "d",
+          "abs_id_A": 4.23887e-05
+        },
+        {
+          "device": "XM1",
+          "terminal": "d",
+          "abs_id_A": 4.23887e-05
+        }
+      ],
+      "max_branch_A": 4.23887e-05,
+      "sum_A": 4.23887e-05
+    },
+    "VDD": {
+      "connections": [
+        {
+          "device": "XM3",
+          "terminal": "s",
+          "abs_id_A": 4.23887e-05
+        },
+        {
+          "device": "XM4",
+          "terminal": "s",
+          "abs_id_A": 4.23887e-05
+        }
+      ],
+      "max_branch_A": 4.23887e-05,
+      "sum_A": 4.23887e-05
+    },
+    "OUTP": {
+      "connections": [
+        {
+          "device": "XM4",
+          "terminal": "d",
+          "abs_id_A": 4.23887e-05
+        },
+        {
+          "device": "XM2",
+          "terminal": "d",
+          "abs_id_A": 4.23887e-05
+        }
+      ],
+      "max_branch_A": 4.23887e-05,
+      "sum_A": 4.23887e-05
+    },
+    "net1": {
+      "connections": [
+        {
+          "device": "XM1",
+          "terminal": "s",
+          "abs_id_A": 4.23887e-05
+        },
+        {
+          "device": "XM2",
+          "terminal": "s",
+          "abs_id_A": 4.23887e-05
+        },
+        {
+          "device": "XM5",
+          "terminal": "d",
+          "abs_id_A": 8.47774e-05
+        }
+      ],
+      "max_branch_A": 8.47774e-05,
+      "sum_A": 8.47774e-05
+    },
+    "VSS": {
+      "connections": [
+        {
+          "device": "XM5",
+          "terminal": "s",
+          "abs_id_A": 8.47774e-05
+        }
+      ],
+      "max_branch_A": 8.47774e-05,
+      "sum_A": 4.23887e-05
+    }
+  }
+}

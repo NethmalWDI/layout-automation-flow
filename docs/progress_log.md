@@ -182,3 +182,61 @@ Layout parasitics will now consume a visible share of the margin, which is the p
   - The devices use `*_lvt` models and `m=` multipliers.
   - Some Pareto widths reach hundreds of µm.
   - Turning these into design packages (parameter substitution plus hierarchy from the XML) is the next S0 extension.
+
+## 2026-10-25 (afternoon) — G0.7 PCell binding, S1 implemented and passing, living flow record
+
+**G0.7: every device drawn by its SKY130 PCell (both designs)**
+
+- `src/s0/pcell_binding.py` and `src/common/pcell.py` draw each device with `magic::gencell sky130::sky130_fd_pr__{n,p}fet_01v8` at its exact W/L/nf/m (default options).
+- Each device is then checked:
+  - Magic DRC: 0 errors on XM1–XM5. The met1-sliver negative control is flagged each time.
+  - Netgen LVS against the device's own netlist line: "Circuits match uniquely", no property errors. A reference with L + 0.1 µm is rejected each time.
+- The extracted AD/PD/AS/PS equal the values in the sized netlist.
+- Fix: device-level LVS uses `LVS_MODE=subcell` in `scripts/magic_lvs.sh`. In top-cell mode Magic prefixes the pins (`M1_pc.D`), which gave a false failure.
+
+**S1 (`src/s1/`): operating point, exact linear model, sensitivities, intent**
+
+| Gate | example_ota_5t | ota5t_stress |
+|---|---|---|
+| G1.1 operating point: all saturated, Isup 84.777 µA; charge matrix conserves charge within 3e-6 | PASS | PASS |
+| G1.2 linear model vs SPICE: gain −0.004 dB, GBW +0.5 %, PM +0.01° / +0.02° | PASS | PASS |
+| G1.3 sensitivities vs SPICE finite differences, 10 measurable checks per design, worst 1.0 % / 2.4 % (one near-zero slope 17.6 %) | PASS | PASS |
+| G1.4 matching groups {XM1, XM2} and {XM3, XM4}, equal size | PASS | PASS |
+| G1.5 upstream symbolic vs SPICE (info): PM optimistic by +10.4° / **+25.5°**; mirror node missing | INFO | INFO |
+
+**Findings for S2**
+
+- **Stress-design budgets, first-order fF that use up a margin:**
+
+  | Element | fF |
+  |---|---|
+  | OUTP~net3 | **12** |
+  | OUTP~INP | 25 |
+  | OUTP to ground | 30 |
+  | net3~INP | 35 |
+  | net3 to ground | 43 |
+
+  All of these draw on the GBW margin, so they must be shared out jointly.
+- **Tail headroom:** XM5 is only 19.6 mV inside saturation at 84.8 µA, so an IR-drop budget is needed for net1 and for XM5's VSS connection.
+- **Non-linearity:** the first-order prediction is conservative for the tightest pair (−3.15 against −2.59 MHz/fF at +20 fF). S2 will verify the joint budget with SPICE.
+
+**Gate criterion change (G1.3), recorded openly**
+
+- **Before:** the linear slope had to be within 20 % of the SPICE secant slope at +20 fF.
+- **What failed:** one case in the stress design, net3 → PM. Linear 0.0040 °/fF; SPICE 0.0112 °/fF (+20 fF) and 0.0064 °/fF (+5 fF). The near-zero slope is dominated by curvature.
+- **Now:**
+  - the linear slope is compared with the SPICE slope extrapolated to zero step, s0 = (4·s5 − s20)/3;
+  - a margin-relative criterion is reported alongside: the first-order prediction error at +20 fF must be within 5 % of the margin.
+
+**Other fixes**
+
+- BSIM4 values are read via `let` + `echo`.
+- PMOS values come in the device frame; magnitudes are used for saturation.
+- A missing work folder for the Bode plot was fixed.
+- Coupling pairs for the SPICE cross-check are now picked by the fF that would use up a margin. The earlier choice by |dPM/dC| missed OUTP~net3.
+- A file sent to the PC under a reused name arrived as the old version. Uploads now use new names and are md5-checked.
+
+**Documentation**
+
+- `docs/flow_record.md` is the living record: inputs/outputs per stage, JSON excerpts, DRC/LVS pictures, problems.
+- Pictures are in `docs/flow_record/img/`, made by `scripts/make_record_figures.py`.

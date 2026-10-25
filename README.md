@@ -4,9 +4,10 @@ An electrically informed analog layout flow for SKY130, covering stages S0–S3.
 
 ## Documents
 
-- `docs/01_inventory.md`
-- `docs/02_analysis.md`
-- `docs/progress_log.md`
+- **`docs/flow_record.md`**: the living record of the flow. For each stage it gives the inputs and outputs, JSON excerpts, DRC/LVS pictures and the problems met. It is updated at every stage.
+- `docs/progress_log.md`: chronological log.
+- `docs/01_inventory.md`, `docs/02_analysis.md`, `docs/03_plan_S0-S3.md`: inventory, analysis and plan.
+- `docs/04_device_generation.md` … `docs/07_stage_guide_and_sunday_baseline.md`: device generation, literature, final plan and stage guide.
 - `docs/context/project_context_S0-S9.md`
 
 ## Environment
@@ -48,7 +49,11 @@ Run inside `layout-s0s3`, from `/foss/designs`:
 python3 -m pytest -q tests/test_s0.py tests/test_s0_integration.py   # unit + LVS negative-control tests
 python3 -m src.s0.ingest inputs/example_ota_5t/package.yaml        # outputs/S0/example_ota_5t/
 python3 -m src.s0.ingest inputs/ota5t_stress/package.yaml          # stress variant (CL = 200 fF)
+python3 -m src.s0.pcell_binding outputs/S0/example_ota_5t          # G0.7: each device drawn by its SKY130 PCell, DRC + LVS
+python3 -m src.s0.pcell_binding outputs/S0/ota5t_stress
 ```
+
+G0.7 draws every device with `magic::gencell sky130::sky130_fd_pr__{n,p}fet_01v8` at its exact W/L/nf/m. It then runs Magic DRC (0 errors required; a met1 sliver must be flagged) and Netgen LVS against the device's own netlist line (match with no property errors required; a reference with L + 0.1 µm must be rejected).
 
 **Outputs:**
 
@@ -59,7 +64,44 @@ python3 -m src.s0.ingest inputs/ota5t_stress/package.yaml          # stress vari
 | `pdk_config.yaml` | PDK and tool configuration |
 | `ref/*_full.spice` | Simulation view |
 | `ref/*_layout.spice` | LVS reference |
+| `pcell/XM*.gds`, `pcell/XM*.png`, `pcell/drc_*`, `pcell/lvs_*` | PCell devices, renders, and DRC/LVS runs (including the negative controls) |
+| `pcell_binding.json` | G0.7 per-device verdicts |
 | `s0_report.json` | Every gate, with its evidence |
+
+## S1 — electrical intent (operating point, exact linear model, sensitivities)
+
+Run inside `layout-s0s3`, from `/foss/designs`, after S0:
+
+```bash
+python3 -m src.s1.run inputs/example_ota_5t/package.yaml   # outputs/S1/example_ota_5t/ (about 2 min, 15 ngspice runs, sequential)
+python3 -m src.s1.run inputs/ota5t_stress/package.yaml
+python3 -m src.s1.run inputs/ota5t_stress/package.yaml --no-fd   # skip the transistor-level cross-check (seconds)
+python3 scripts/make_record_figures.py example_ota_5t ota5t_stress  # refresh the pictures in docs/flow_record/img/
+```
+
+**Gates:**
+
+| Gate | Check |
+|---|---|
+| G1.1 | Operating point: all devices saturated, supply current within 1 %, charge-matrix conservation |
+| G1.2 | Linear model vs SPICE: within 0.2 dB / 3 % / 2° |
+| G1.3 | Linear-model sensitivities vs SPICE finite differences (5 and 20 fF): derivative within 20 %, or first-order prediction at +20 fF within 5 % of the margin |
+| G1.4 | Matching groups (diff pair, mirror) present and equal-sized |
+| G1.5 | Upstream symbolic model vs SPICE; reported, not gated |
+
+**Outputs:**
+
+| File | Contents |
+|---|---|
+| `operating_point.json` | Per-device operating-point values |
+| `linear_model.json` | Linear model vs SPICE |
+| `sensitivity.json` | Per net and pair: linear, SPICE and symbolic slopes, and the fF that would use up the margin |
+| `node_classes.json` | Dominant and non-dominant pole nodes, mirror node, tail, bias, supplies |
+| `currents.json` | Branch currents per net |
+| `intent.json` | Matching groups; nets and coupling pairs ranked by criticality |
+| `symbolic_check.json` | Upstream equations evaluated at this operating point |
+| `plots/` | Bode and sensitivity plots |
+| `s1_report.json` | All gates, with their evidence |
 
 ## LOADBench subset (no full download)
 
@@ -68,4 +110,4 @@ python3 -m src.s0.ingest inputs/ota5t_stress/package.yaml          # stress vari
 /opt/venv-tools/bin/python scripts/loadbench_fetch.py fetch TwoStageOpAmps.zip SimpleTwoStageOpAmp_SimpleOpAmp1_1/
 ```
 
-S1–S3 will be added here as they are implemented.
+S2 and S3 will be added here as they are implemented.

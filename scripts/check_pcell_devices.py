@@ -12,7 +12,7 @@ for m in man:
     ref.write_text(f".subckt {c} D G S B\nX{c} D G S B {n['model']} L={n['L_um']:g} W={n['W_um']:g} nf={n['nf']}\n.ends\n")
     drc = subprocess.run(["bash", f"{S}/magic_drc.sh", str(d / m["gds"]), c, str(d / f"drc_{c}")], capture_output=True, text=True).stdout
     lvs = subprocess.run(["bash", f"{S}/magic_lvs.sh", str(d / m["gds"]), c, str(ref), c, str(d / f"lvs_{c}")],
-                         capture_output=True, text=True, env={**os.environ, "FLATTEN": "1"}).stdout
+                         capture_output=True, text=True, env={**os.environ, "LVS_MODE": "subcell"}).stdout
     subprocess.run(["klayout", "-zz", "-rd", f"gds={d / m['gds']}", "-rd", f"png={d / (c + '.png')}", "-r", f"{S}/gds_to_png.py"], capture_output=True)
     tot = [l.split()[-1] for l in drc.splitlines() if l.startswith("DRC_TOTAL")]
     neg = [l.split()[-1] for l in drc.splitlines() if l.startswith("NEG_CONTROL")]

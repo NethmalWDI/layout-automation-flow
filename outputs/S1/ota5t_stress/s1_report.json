@@ -1,0 +1,333 @@
+{
+  "design": "ota5t_stress",
+  "gates": {
+    "G1.1_operating_point": {
+      "pass": true,
+      "saturation": {
+        "XM3": {
+          "vds": 1.39451,
+          "vdsat": 0.345577,
+          "vds_minus_vdsat_V": 1.048933,
+          "saturated": true
+        },
+        "XM4": {
+          "vds": 1.39451,
+          "vdsat": 0.345577,
+          "vds_minus_vdsat_V": 1.048933,
+          "saturated": true
+        },
+        "XM1": {
+          "vds": 0.219435,
+          "vdsat": 0.0893754,
+          "vds_minus_vdsat_V": 0.1300596,
+          "saturated": true
+        },
+        "XM2": {
+          "vds": 0.219435,
+          "vdsat": 0.0893754,
+          "vds_minus_vdsat_V": 0.1300596,
+          "saturated": true
+        },
+        "XM5": {
+          "vds": 0.179965,
+          "vdsat": 0.160397,
+          "vds_minus_vdsat_V": 0.019568000000000002,
+          "saturated": true
+        }
+      },
+      "isup_uA": 84.7774,
+      "isup_achieved_uA": 84.7774,
+      "missing_params": [],
+      "missing_optional_params": [],
+      "charge_conservation_worst_rel": 2.804813059213521e-06
+    },
+    "G1.2_linear_model_vs_spice": {
+      "pass": true,
+      "linear": {
+        "gain_db": 31.69293488897072,
+        "gbw_mhz": 375.6980748583807,
+        "pm_deg": 65.10108449633456
+      },
+      "spice": {
+        "gain_db": 31.697,
+        "gbw_mhz": 373.654,
+        "pm_deg": 65.0814
+      },
+      "delta": {
+        "gain_db": -0.004065111029280644,
+        "gbw_rel": 0.005470501743272349,
+        "pm_deg": 0.019684496334562596
+      },
+      "tolerance": {
+        "gain_db": 0.2,
+        "gbw_rel": 0.03,
+        "pm_deg": 2.0
+      }
+    },
+    "G1.3_sensitivity_vs_spice": {
+      "pass": true,
+      "tolerance_rel": 0.2,
+      "tolerance_pred_frac_margin": 0.05,
+      "checks": [
+        {
+          "case": "OUTP",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "OUTP",
+          "spec": "gbw_mhz",
+          "linear": -1.2417630654939273,
+          "spice_5fF": -1.199400000000003,
+          "spice_20fF": -1.1514499999999999,
+          "spice_extrapolated_0": -1.2153833333333373,
+          "rel_err_vs_extrapolated": 0.02170486581236921,
+          "rel_err_vs_20fF": 0.07843420512738503,
+          "step_consistency": 0.041643145599029964,
+          "pred_err_at_20fF_frac_of_margin": 0.04834047835373229,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP",
+          "spec": "pm_deg",
+          "linear": 0.03596467635684775,
+          "spice_5fF": 0.03653999999999939,
+          "spice_20fF": 0.03573499999999967,
+          "spice_extrapolated_0": 0.03680833333333263,
+          "rel_err_vs_extrapolated": 0.02292027103875663,
+          "rel_err_vs_20fF": 0.006427210209824516,
+          "step_consistency": 0.02252693437805317,
+          "pred_err_at_20fF_frac_of_margin": 0.0009187054273923079,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net1",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "net1",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_20fF": -0.0030000000000001137,
+          "linear": -0.003079989830013119
+        },
+        {
+          "case": "net1",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_20fF": 0.000994999999999635,
+          "linear": 0.0009800363671885748
+        },
+        {
+          "case": "net3",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "net3",
+          "spec": "gbw_mhz",
+          "linear": -0.8746607727321702,
+          "spice_5fF": -0.844399999999996,
+          "spice_20fF": -0.7948499999999996,
+          "spice_extrapolated_0": -0.8609166666666616,
+          "rel_err_vs_extrapolated": 0.015964502254003022,
+          "rel_err_vs_20fF": 0.10040985435260825,
+          "step_consistency": 0.062338806064032776,
+          "pred_err_at_20fF_frac_of_margin": 0.04271907846947742,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net3",
+          "spec": "pm_deg",
+          "linear": 0.003969063665181238,
+          "spice_5fF": 0.006399999999999295,
+          "spice_20fF": 0.011155000000000114,
+          "spice_extrapolated_0": 0.004814999999999022,
+          "rel_err_vs_extrapolated": 0.1756877123194093,
+          "rel_err_vs_20fF": 0.6441897207367819,
+          "step_consistency": 0.42626624831920845,
+          "pred_err_at_20fF_frac_of_margin": 0.028743745339275505,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP~net3",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "OUTP~net3",
+          "spec": "gbw_mhz",
+          "linear": -3.1519309728231235,
+          "spice_5fF": -2.974199999999996,
+          "spice_20fF": -2.5886500000000012,
+          "spice_extrapolated_0": -3.102716666666661,
+          "rel_err_vs_extrapolated": 0.015861682339604298,
+          "rel_err_vs_20fF": 0.21759642007344446,
+          "step_consistency": 0.14893863596855303,
+          "pred_err_at_20fF_frac_of_margin": 0.3014986981662832,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP~net3",
+          "spec": "pm_deg",
+          "linear": -0.055750807112367795,
+          "spice_5fF": -0.051820000000000734,
+          "spice_20fF": -0.035960000000000034,
+          "spice_extrapolated_0": -0.05710666666666764,
+          "rel_err_vs_extrapolated": 0.02374257916705265,
+          "rel_err_vs_20fF": 0.550356148842262,
+          "step_consistency": 0.44104560622916256,
+          "pred_err_at_20fF_frac_of_margin": 0.07916322844947105,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP~INP",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "OUTP~INP",
+          "spec": "gbw_mhz",
+          "linear": -1.5179112905318846,
+          "spice_5fF": -1.4576000000000022,
+          "spice_20fF": -1.3691000000000002,
+          "spice_extrapolated_0": -1.4871000000000028,
+          "rel_err_vs_extrapolated": 0.02071904413414145,
+          "rel_err_vs_20fF": 0.10869278396894627,
+          "step_consistency": 0.06464100503980864,
+          "pred_err_at_20fF_frac_of_margin": 0.07965191890459317,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP~INP",
+          "spec": "pm_deg",
+          "linear": 0.1603020501479122,
+          "spice_5fF": 0.15848000000000012,
+          "spice_20fF": 0.15078999999999992,
+          "spice_extrapolated_0": 0.1610433333333335,
+          "rel_err_vs_extrapolated": 0.004603004483811591,
+          "rel_err_vs_20fF": 0.06308143874204053,
+          "step_consistency": 0.0509980767955448,
+          "pred_err_at_20fF_frac_of_margin": 0.03804820059164915,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net3~INP",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "net3~INP",
+          "spec": "gbw_mhz",
+          "linear": -1.0754782384776718,
+          "spice_5fF": -1.0389999999999986,
+          "spice_20fF": -0.9846000000000004,
+          "spice_extrapolated_0": -1.0571333333333313,
+          "rel_err_vs_extrapolated": 0.017353444987394093,
+          "rel_err_vs_20fF": 0.09229965313596523,
+          "step_consistency": 0.05525086329473716,
+          "pred_err_at_20fF_frac_of_margin": 0.048642989759334225,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net3~INP",
+          "spec": "pm_deg",
+          "linear": -0.058552040572195097,
+          "spice_5fF": -0.054400000000001114,
+          "spice_20fF": -0.04566500000000033,
+          "spice_extrapolated_0": -0.05731166666666804,
+          "rel_err_vs_extrapolated": 0.021642607477134312,
+          "rel_err_vs_20fF": 0.2822082683060259,
+          "step_consistency": 0.1912843534435721,
+          "pred_err_at_20fF_frac_of_margin": 0.051548162288779065,
+          "criterion": "a_derivative",
+          "pass": true
+        }
+      ]
+    },
+    "G1.4_matching_groups": {
+      "pass": true,
+      "groups": [
+        {
+          "devices": [
+            "XM3",
+            "XM4"
+          ],
+          "kind": "mirror",
+          "equal_size": true
+        },
+        {
+          "devices": [
+            "XM1",
+            "XM2"
+          ],
+          "kind": "diff_pair",
+          "equal_size": true
+        }
+      ]
+    },
+    "G1.5_symbolic_vs_spice (reported, not gated)": {
+      "pass": null,
+      "predicted": {
+        "gain_db": 31.364418560825417,
+        "gbw_mhz": 493.6923671998469,
+        "pm_deg": 90.61773521085213
+      },
+      "spice": {
+        "gain_db": 31.697,
+        "gbw_mhz": 373.654,
+        "pm_deg": 65.0814
+      },
+      "delta": {
+        "gain_db": -0.33258143917458227,
+        "gbw_mhz": 120.0383671998469,
+        "pm_deg": 25.53633521085213
+      }
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-10-25T06:01:24+00:00",
+    "git_commit": "2eb089aa429e2fe49c06b7bee3b022566cec3acf",
+    "inputs": [
+      {
+        "path": "outputs/S0/ota5t_stress/circuit_ir.json",
+        "sha256": "3f979115f9443e64e73399bb9516b2b862086e46420f8dbf771f46a1a47abb61"
+      },
+      {
+        "path": "inputs/ota5t_stress/package.yaml",
+        "sha256": "63f55d51366da24dd6cd87c2ee8a3171d02d61c82b05ba49202135815194bf90"
+      },
+      {
+        "path": "circuits/5t-ota/source/5t-ota_differential_equations.json",
+        "sha256": "31ad9ff615026ec1b52a87a74bc8c7d55e1358f3e9311e9b23ea5df7ae6105d6"
+      },
+      {
+        "path": "inputs/example_ota_5t/name_map.yaml",
+        "sha256": "6f89e8bbeef26e3ff4616f95640411016307656d3331c7c788340a58b36a0402"
+      }
+    ]
+  }
+}

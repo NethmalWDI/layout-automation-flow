@@ -1,0 +1,181 @@
+{
+  "design": "example_ota_5t",
+  "matching": [
+    {
+      "devices": [
+        "XM3",
+        "XM4"
+      ],
+      "kind": "mirror",
+      "equal_size": true,
+      "purpose": "current-copy accuracy (systematic offset, gain)",
+      "evidence": [
+        "hierarchy block pmos_current_mirror_load (name_map)",
+        "sizes [(8.0, 1.0, 1, 1)]",
+        "gm spread 0.00%"
+      ]
+    },
+    {
+      "devices": [
+        "XM1",
+        "XM2"
+      ],
+      "kind": "diff_pair",
+      "equal_size": true,
+      "purpose": "input offset, CMRR, symmetric loading of net3/OUTP",
+      "evidence": [
+        "hierarchy block nmos_differential_pair (name_map)",
+        "sizes [(24.0, 0.5, 1, 1)]",
+        "gm spread 0.00%"
+      ]
+    }
+  ],
+  "critical_nets": [
+    {
+      "net": "net3",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 328.5394488856981,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.05791153332542365,
+        "pm_deg": -0.06372081060890622
+      },
+      "classes": [
+        "mirror_node (diode-connected)",
+        "non_dominant_pole"
+      ],
+      "rank": 1
+    },
+    {
+      "net": "OUTP",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 891.5578338721492,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.09472744985392723,
+        "pm_deg": 0.008813838873749091
+      },
+      "classes": [
+        "signal_output",
+        "dominant_pole"
+      ],
+      "rank": 2
+    },
+    {
+      "net": "net1",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 330842.6460876591,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.00025527241121636735,
+        "pm_deg": 5.738652816944523e-05
+      },
+      "classes": [
+        "source_coupled (tail)"
+      ],
+      "rank": 3
+    }
+  ],
+  "coupling_pairs_ranked": [
+    {
+      "pair": "OUTP~net3",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 177.98022027100225,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.24829761853933974,
+        "pm_deg": -0.11762430661184453
+      },
+      "rank": 1
+    },
+    {
+      "pair": "net3~INP",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 239.8875456180717,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.06451305084206638,
+        "pm_deg": -0.0872692241944506
+      },
+      "rank": 2
+    },
+    {
+      "pair": "net1~net3",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 281.41733207013885,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.03981873429489724,
+        "pm_deg": -0.07439058513561037
+      },
+      "rank": 3
+    },
+    {
+      "pair": "net3~INN",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 521.1238441029939,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.05131005038947478,
+        "pm_deg": -0.04017240860670057
+      },
+      "rank": 4
+    },
+    {
+      "pair": "OUTP~INP",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 816.8827799233491,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.10338692658930171,
+        "pm_deg": 0.03733470025119345
+      },
+      "rank": 5
+    },
+    {
+      "pair": "OUTP~INN",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 981.2588185481567,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.08606801631088246,
+        "pm_deg": -0.019707022113088613
+      },
+      "rank": 6
+    },
+    {
+      "pair": "OUTP~net1",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 983.7312150244775,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.08585170289416766,
+        "pm_deg": 0.014663981817570004
+      },
+      "rank": 7
+    },
+    {
+      "pair": "net1~INN",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 8092.805664330614,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": 0.006794496188597066,
+        "pm_deg": -0.002586840814956304
+      },
+      "rank": 8
+    },
+    {
+      "pair": "net1~INP",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 11561.193719827294,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.007305041507535748,
+        "pm_deg": 0.0027016136188962037
+      },
+      "rank": 9
+    }
+  ],
+  "ranking": "ascending capacitance (fF, to ground for nets, between the two nets for pairs) that would alone consume the margin of the most limiting spec, first-order (linear model)"
+}
