@@ -1,0 +1,11 @@
+.subckt loadbench_miller in1 in2 out sourceNmos sourcePmos IBIAS
+XDiodeTransistorNmos1 FirstStageYout1 FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt L=2.03 W=66.13 nf=1
+XDiodeTransistorPmos2 IBIAS IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=37.3 nf=1
+XNormalTransistorNmos3 out outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt L=0.24 W=484.2 nf=1
+XNormalTransistorNmos4 outFirstStage FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt L=2.03 W=66.13 nf=1
+XNormalTransistorPmos5 out IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=887.03 nf=1
+XNormalTransistorPmos6 outFirstStage in2 FirstStageYsourceTransconductance FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt L=0.89 W=14.21 nf=1
+XNormalTransistorPmos7 FirstStageYout1 in1 FirstStageYsourceTransconductance FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt L=0.89 W=14.21 nf=1
+XNormalTransistorPmos8 FirstStageYsourceTransconductance IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=90.63 nf=1
+XCapacitor2 outFirstStage out sky130_fd_pr__cap_mim_m3_1 W=15.66 L=15.66
+.ends loadbench_miller

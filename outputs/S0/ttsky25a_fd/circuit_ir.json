@@ -1,0 +1,4880 @@
+{
+  "schema": "circuit_ir/v1",
+  "design": "ttsky25a_fd",
+  "description": "Two-stage fully differential op-amp, TTSKY25a tile tt_um_diff (NethmalWDI/Fully_differential_opamp): folded-cascode first stage, common-source second stage, a CMFB loop per stage, Miller MIM capacitors, beta-multiplier bias with start-up. Specs are an ASSUMPTION (config.yaml spec_notes).\n",
+  "subckt": "ttsky25a_fd",
+  "ports": [
+    {
+      "name": "Vop",
+      "role": "output",
+      "direction": "output",
+      "testbench_port": "OUTP"
+    },
+    {
+      "name": "Vm",
+      "role": "input",
+      "direction": "input",
+      "testbench_port": "INN"
+    },
+    {
+      "name": "Vdd",
+      "role": "supply",
+      "direction": "input",
+      "testbench_port": "VDD"
+    },
+    {
+      "name": "Vss",
+      "role": "ground",
+      "direction": "input",
+      "testbench_port": "VSS"
+    },
+    {
+      "name": "Vom",
+      "role": "output",
+      "direction": "output",
+      "testbench_port": "OUTN"
+    },
+    {
+      "name": "Vp",
+      "role": "input",
+      "direction": "input",
+      "testbench_port": "INP"
+    },
+    {
+      "name": "RGM",
+      "role": "bias",
+      "direction": "input",
+      "testbench_port": null,
+      "note": "node of internal source Rgm_ext, exposed for layout"
+    },
+    {
+      "name": "VREF",
+      "role": "bias",
+      "direction": "input",
+      "testbench_port": null,
+      "note": "node of internal source Vref_ext, exposed for layout"
+    }
+  ],
+  "nets": [
+    {
+      "name": "NBias",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM32",
+          "terminal": "d"
+        },
+        {
+          "element": "XM33",
+          "terminal": "d"
+        },
+        {
+          "element": "XM33",
+          "terminal": "g"
+        },
+        {
+          "element": "XM37",
+          "terminal": "g"
+        },
+        {
+          "element": "XM40",
+          "terminal": "s"
+        },
+        {
+          "element": "XM41",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "PBias",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM32",
+          "terminal": "g"
+        },
+        {
+          "element": "XM34",
+          "terminal": "g"
+        },
+        {
+          "element": "XM37",
+          "terminal": "d"
+        },
+        {
+          "element": "XM38",
+          "terminal": "d"
+        },
+        {
+          "element": "XM40",
+          "terminal": "d"
+        },
+        {
+          "element": "XM43",
+          "terminal": "g"
+        },
+        {
+          "element": "XM44",
+          "terminal": "g"
+        },
+        {
+          "element": "XM45",
+          "terminal": "g"
+        },
+        {
+          "element": "XM54",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "Rgm",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM35",
+          "terminal": "s"
+        },
+        {
+          "element": "Rgm_ext",
+          "terminal": "a"
+        }
+      ]
+    },
+    {
+      "name": "Vdd",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XM32",
+          "terminal": "s"
+        },
+        {
+          "element": "XM32",
+          "terminal": "b"
+        },
+        {
+          "element": "XM34",
+          "terminal": "s"
+        },
+        {
+          "element": "XM34",
+          "terminal": "b"
+        },
+        {
+          "element": "XM38",
+          "terminal": "s"
+        },
+        {
+          "element": "XM38",
+          "terminal": "b"
+        },
+        {
+          "element": "XM39",
+          "terminal": "s"
+        },
+        {
+          "element": "XM39",
+          "terminal": "b"
+        },
+        {
+          "element": "XM42",
+          "terminal": "s"
+        },
+        {
+          "element": "XM42",
+          "terminal": "b"
+        },
+        {
+          "element": "XM43",
+          "terminal": "s"
+        },
+        {
+          "element": "XM43",
+          "terminal": "b"
+        },
+        {
+          "element": "XM44",
+          "terminal": "s"
+        },
+        {
+          "element": "XM44",
+          "terminal": "b"
+        },
+        {
+          "element": "XM45",
+          "terminal": "s"
+        },
+        {
+          "element": "XM45",
+          "terminal": "b"
+        },
+        {
+          "element": "XM54",
+          "terminal": "s"
+        },
+        {
+          "element": "XM54",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M11",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M12",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M13",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M13",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M14",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M14",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M20",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M20",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M21",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M21",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M25",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M25",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_M9",
+          "terminal": "s"
+        },
+        {
+          "element": "XX2_M9",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_M4",
+          "terminal": "s"
+        },
+        {
+          "element": "XX2_M4",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_M3",
+          "terminal": "s"
+        },
+        {
+          "element": "XX2_M3",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_M7",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_M8",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_M12",
+          "terminal": "s"
+        },
+        {
+          "element": "XX2_M12",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "Vm",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XX1_M5",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "Vom",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XX2_M4",
+          "terminal": "d"
+        },
+        {
+          "element": "XX2_M1",
+          "terminal": "d"
+        },
+        {
+          "element": "XC1",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_X2_R16",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "Vom1",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M12",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M8",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M18",
+          "terminal": "g"
+        },
+        {
+          "element": "XX2_M9",
+          "terminal": "g"
+        },
+        {
+          "element": "XC2",
+          "terminal": "a"
+        }
+      ]
+    },
+    {
+      "name": "Vop",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XX2_M9",
+          "terminal": "d"
+        },
+        {
+          "element": "XX2_M2",
+          "terminal": "d"
+        },
+        {
+          "element": "XC2",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_X1_R1",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "Vop1",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M11",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M4",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M17",
+          "terminal": "g"
+        },
+        {
+          "element": "XX2_M4",
+          "terminal": "g"
+        },
+        {
+          "element": "XC1",
+          "terminal": "a"
+        }
+      ]
+    },
+    {
+      "name": "Vp",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XX1_M6",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "Vref",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M10",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M16",
+          "terminal": "g"
+        },
+        {
+          "element": "XX2_M8",
+          "terminal": "g"
+        },
+        {
+          "element": "Vref_ext",
+          "terminal": "p"
+        }
+      ]
+    },
+    {
+      "name": "Vss",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XM33",
+          "terminal": "s"
+        },
+        {
+          "element": "XM33",
+          "terminal": "b"
+        },
+        {
+          "element": "XM35",
+          "terminal": "b"
+        },
+        {
+          "element": "XM36",
+          "terminal": "s"
+        },
+        {
+          "element": "XM36",
+          "terminal": "b"
+        },
+        {
+          "element": "XM37",
+          "terminal": "s"
+        },
+        {
+          "element": "XM37",
+          "terminal": "b"
+        },
+        {
+          "element": "XM40",
+          "terminal": "b"
+        },
+        {
+          "element": "XM41",
+          "terminal": "s"
+        },
+        {
+          "element": "XM41",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M5",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M6",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M19",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M1",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M1",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M2",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M2",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M3",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M4",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M7",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M7",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M8",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M9",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M9",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M10",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M17",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M18",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M22",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M22",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M15",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M15",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M16",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M46",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M46",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M47",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M47",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M23",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M23",
+          "terminal": "b"
+        },
+        {
+          "element": "XX1_M24",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M24",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_M2",
+          "terminal": "s"
+        },
+        {
+          "element": "XX2_M2",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_M1",
+          "terminal": "s"
+        },
+        {
+          "element": "XX2_M1",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_M5",
+          "terminal": "s"
+        },
+        {
+          "element": "XX2_M5",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_M6",
+          "terminal": "s"
+        },
+        {
+          "element": "XX2_M6",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_M10",
+          "terminal": "s"
+        },
+        {
+          "element": "XX2_M10",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_M11",
+          "terminal": "s"
+        },
+        {
+          "element": "XX2_M11",
+          "terminal": "b"
+        },
+        {
+          "element": "Vref_ext",
+          "terminal": "n"
+        },
+        {
+          "element": "Rgm_ext",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "net1",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM34",
+          "terminal": "d"
+        },
+        {
+          "element": "XM35",
+          "terminal": "d"
+        },
+        {
+          "element": "XM35",
+          "terminal": "g"
+        },
+        {
+          "element": "XM36",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "net2",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM36",
+          "terminal": "d"
+        },
+        {
+          "element": "XM38",
+          "terminal": "g"
+        },
+        {
+          "element": "XM39",
+          "terminal": "d"
+        },
+        {
+          "element": "XM39",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "net3",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM40",
+          "terminal": "g"
+        },
+        {
+          "element": "XM41",
+          "terminal": "d"
+        },
+        {
+          "element": "XM42",
+          "terminal": "d"
+        },
+        {
+          "element": "XM42",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "net4",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM43",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M1",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M2",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M7",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M9",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M22",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M15",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M46",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M46",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "net5",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM44",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M19",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M3",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M4",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M8",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M47",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M47",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "net6",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM45",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M23",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M23",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M24",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "net7",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM54",
+          "terminal": "d"
+        },
+        {
+          "element": "XX2_M10",
+          "terminal": "d"
+        },
+        {
+          "element": "XX2_M10",
+          "terminal": "g"
+        },
+        {
+          "element": "XX2_M11",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "x1_Vbias",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M11",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M12",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M24",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M25",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M25",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "x1_Vout",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M13",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M14",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M10",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M21",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M16",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "x1_Vtest2",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M5",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M11",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M13",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "x1_net1",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M6",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M12",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M14",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "x1_net2",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M5",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M6",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M19",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M3",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "x1_net3",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M19",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M1",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "x1_net4",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M2",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M3",
+          "terminal": "s"
+        }
+      ]
+    },
+    {
+      "name": "x1_net5",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M4",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M7",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "x1_net6",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M8",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M9",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "x1_net7",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M18",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M22",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M16",
+          "terminal": "s"
+        }
+      ]
+    },
+    {
+      "name": "x1_net8",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M10",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M17",
+          "terminal": "s"
+        },
+        {
+          "element": "XX1_M15",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "x1_net9",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX1_M17",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M18",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M20",
+          "terminal": "d"
+        },
+        {
+          "element": "XX1_M20",
+          "terminal": "g"
+        },
+        {
+          "element": "XX1_M21",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "x2_Vbiasp",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_M3",
+          "terminal": "g"
+        },
+        {
+          "element": "XX2_M11",
+          "terminal": "d"
+        },
+        {
+          "element": "XX2_M12",
+          "terminal": "d"
+        },
+        {
+          "element": "XX2_M12",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "x2_Vcm",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_M7",
+          "terminal": "g"
+        },
+        {
+          "element": "XX2_X1_R16",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_X2_R1",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_Vout",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_M2",
+          "terminal": "g"
+        },
+        {
+          "element": "XX2_M1",
+          "terminal": "g"
+        },
+        {
+          "element": "XX2_M8",
+          "terminal": "d"
+        },
+        {
+          "element": "XX2_M6",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "x2_Vtest",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_M7",
+          "terminal": "d"
+        },
+        {
+          "element": "XX2_M5",
+          "terminal": "d"
+        },
+        {
+          "element": "XX2_M5",
+          "terminal": "g"
+        },
+        {
+          "element": "XX2_M6",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "x2_net1",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_M3",
+          "terminal": "d"
+        },
+        {
+          "element": "XX2_M7",
+          "terminal": "s"
+        },
+        {
+          "element": "XX2_M8",
+          "terminal": "s"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net1",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R5",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R10",
+          "terminal": "a"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net10",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R8",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R9",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net11",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R9",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R10",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net12",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R11",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R12",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net13",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R12",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R13",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net14",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R13",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R14",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net15",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R14",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R15",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net16",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R16",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R17",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net17",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R17",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R18",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net18",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R18",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R19",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net19",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R19",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R20",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net2",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R6",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_X1_R11",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net3",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R20",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R15",
+          "terminal": "a"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net4",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R1",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R2",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net5",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R2",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R3",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net6",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R3",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R4",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net7",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R4",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R5",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net8",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R6",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R7",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x1_net9",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X1_R7",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X1_R8",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net1",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R5",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R10",
+          "terminal": "a"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net10",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R8",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R9",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net11",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R9",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R10",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net12",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R11",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R12",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net13",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R12",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R13",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net14",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R13",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R14",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net15",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R14",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R15",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net16",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R16",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R17",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net17",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R17",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R18",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net18",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R18",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R19",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net19",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R19",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R20",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net2",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R6",
+          "terminal": "b"
+        },
+        {
+          "element": "XX2_X2_R11",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net3",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R20",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R15",
+          "terminal": "a"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net4",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R1",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R2",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net5",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R2",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R3",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net6",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R3",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R4",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net7",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R4",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R5",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net8",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R6",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R7",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "x2_x2_net9",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XX2_X2_R7",
+          "terminal": "a"
+        },
+        {
+          "element": "XX2_X2_R8",
+          "terminal": "b"
+        }
+      ]
+    }
+  ],
+  "devices": [
+    {
+      "name": "XM32",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "NBias",
+        "g": "PBias",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 5.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 9
+    },
+    {
+      "name": "XM33",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "NBias",
+        "g": "NBias",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 5.0,
+      "L_um": 2.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 10
+    },
+    {
+      "name": "XM34",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "net1",
+        "g": "PBias",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 5.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 11
+    },
+    {
+      "name": "XM35",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "net1",
+        "g": "net1",
+        "s": "Rgm",
+        "b": "Vss"
+      },
+      "W_um": 10.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "2.9",
+        "AS": "2.9",
+        "PD": "20.58",
+        "PS": "20.58",
+        "NRD": "0.029",
+        "NRS": "0.029",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 12
+    },
+    {
+      "name": "XM36",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "net2",
+        "g": "net1",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 5.0,
+      "L_um": 2.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 13
+    },
+    {
+      "name": "XM37",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "PBias",
+        "g": "NBias",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 5.0,
+      "L_um": 2.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 14
+    },
+    {
+      "name": "XM38",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "PBias",
+        "g": "net2",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 5.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 15
+    },
+    {
+      "name": "XM39",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "net2",
+        "g": "net2",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 5.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 16
+    },
+    {
+      "name": "XM40",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "PBias",
+        "g": "net3",
+        "s": "NBias",
+        "b": "Vss"
+      },
+      "W_um": 2.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "0.58",
+        "AS": "0.58",
+        "PD": "4.58",
+        "PS": "4.58",
+        "NRD": "0.145",
+        "NRS": "0.145",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 17
+    },
+    {
+      "name": "XM41",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "net3",
+        "g": "NBias",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 5.0,
+      "L_um": 2.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 18
+    },
+    {
+      "name": "XM42",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "net3",
+        "g": "net3",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 1.0,
+      "L_um": 20.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 19
+    },
+    {
+      "name": "XM43",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "net4",
+        "g": "PBias",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 5.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 20
+    },
+    {
+      "name": "XM44",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "net5",
+        "g": "PBias",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 5.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 21
+    },
+    {
+      "name": "XM45",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "net6",
+        "g": "PBias",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 5.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 22
+    },
+    {
+      "name": "XM54",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "net7",
+        "g": "PBias",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 5.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 23
+    },
+    {
+      "name": "XX1_M5",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_Vtest2",
+        "g": "Vm",
+        "s": "x1_net2",
+        "b": "Vss"
+      },
+      "W_um": 4.0,
+      "L_um": 4.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.16",
+        "AS": "1.16",
+        "PD": "8.58",
+        "PS": "8.58",
+        "NRD": "0.0725",
+        "NRS": "0.0725",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 26
+    },
+    {
+      "name": "XX1_M6",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net1",
+        "g": "Vp",
+        "s": "x1_net2",
+        "b": "Vss"
+      },
+      "W_um": 4.0,
+      "L_um": 4.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.16",
+        "AS": "1.16",
+        "PD": "8.58",
+        "PS": "8.58",
+        "NRD": "0.0725",
+        "NRS": "0.0725",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 27
+    },
+    {
+      "name": "XX1_M11",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "Vop1",
+        "g": "x1_Vbias",
+        "s": "x1_Vtest2",
+        "b": "Vdd"
+      },
+      "W_um": 2.0,
+      "L_um": 5.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.58",
+        "AS": "0.58",
+        "PD": "4.58",
+        "PS": "4.58",
+        "NRD": "0.145",
+        "NRS": "0.145",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 28
+    },
+    {
+      "name": "XX1_M12",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "Vom1",
+        "g": "x1_Vbias",
+        "s": "x1_net1",
+        "b": "Vdd"
+      },
+      "W_um": 2.0,
+      "L_um": 5.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.58",
+        "AS": "0.58",
+        "PD": "4.58",
+        "PS": "4.58",
+        "NRD": "0.145",
+        "NRS": "0.145",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 29
+    },
+    {
+      "name": "XX1_M13",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_Vtest2",
+        "g": "x1_Vout",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 2.0,
+      "L_um": 5.0,
+      "nf": 1,
+      "m": 4,
+      "extra_params": {
+        "AD": "0.58",
+        "AS": "0.58",
+        "PD": "4.58",
+        "PS": "4.58",
+        "NRD": "0.145",
+        "NRS": "0.145",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 30
+    },
+    {
+      "name": "XX1_M14",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net1",
+        "g": "x1_Vout",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 2.0,
+      "L_um": 5.0,
+      "nf": 1,
+      "m": 4,
+      "extra_params": {
+        "AD": "0.58",
+        "AS": "0.58",
+        "PD": "4.58",
+        "PS": "4.58",
+        "NRD": "0.145",
+        "NRS": "0.145",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 31
+    },
+    {
+      "name": "XX1_M19",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net2",
+        "g": "net5",
+        "s": "x1_net3",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 32
+    },
+    {
+      "name": "XX1_M1",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net3",
+        "g": "net4",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 10.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 33
+    },
+    {
+      "name": "XX1_M2",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net4",
+        "g": "net4",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 10.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 34
+    },
+    {
+      "name": "XX1_M3",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net2",
+        "g": "net5",
+        "s": "x1_net4",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 35
+    },
+    {
+      "name": "XX1_M4",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "Vop1",
+        "g": "net5",
+        "s": "x1_net5",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 36
+    },
+    {
+      "name": "XX1_M7",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net5",
+        "g": "net4",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 10.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 37
+    },
+    {
+      "name": "XX1_M8",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "Vom1",
+        "g": "net5",
+        "s": "x1_net6",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 38
+    },
+    {
+      "name": "XX1_M9",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net6",
+        "g": "net4",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 10.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 39
+    },
+    {
+      "name": "XX1_M10",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_Vout",
+        "g": "Vref",
+        "s": "x1_net8",
+        "b": "Vss"
+      },
+      "W_um": 5.0,
+      "L_um": 20.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 40
+    },
+    {
+      "name": "XX1_M17",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net9",
+        "g": "Vop1",
+        "s": "x1_net8",
+        "b": "Vss"
+      },
+      "W_um": 5.0,
+      "L_um": 20.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 41
+    },
+    {
+      "name": "XX1_M18",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net9",
+        "g": "Vom1",
+        "s": "x1_net7",
+        "b": "Vss"
+      },
+      "W_um": 5.0,
+      "L_um": 20.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 42
+    },
+    {
+      "name": "XX1_M22",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net7",
+        "g": "net4",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 20.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 43
+    },
+    {
+      "name": "XX1_M20",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net9",
+        "g": "x1_net9",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 1.0,
+      "L_um": 10.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 44
+    },
+    {
+      "name": "XX1_M21",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_Vout",
+        "g": "x1_net9",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 1.0,
+      "L_um": 10.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 45
+    },
+    {
+      "name": "XX1_M15",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_net8",
+        "g": "net4",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 20.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 46
+    },
+    {
+      "name": "XX1_M16",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_Vout",
+        "g": "Vref",
+        "s": "x1_net7",
+        "b": "Vss"
+      },
+      "W_um": 5.0,
+      "L_um": 20.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.45",
+        "AS": "1.45",
+        "PD": "10.58",
+        "PS": "10.58",
+        "NRD": "0.058",
+        "NRS": "0.058",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 47
+    },
+    {
+      "name": "XX1_M46",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "net4",
+        "g": "net4",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 2.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 48
+    },
+    {
+      "name": "XX1_M47",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "net5",
+        "g": "net5",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 0.6,
+      "L_um": 5.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.174",
+        "AS": "0.174",
+        "PD": "1.78",
+        "PS": "1.78",
+        "NRD": "0.483333",
+        "NRS": "0.483333",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 49
+    },
+    {
+      "name": "XX1_M23",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "net6",
+        "g": "net6",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 0.6,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.174",
+        "AS": "0.174",
+        "PD": "1.78",
+        "PS": "1.78",
+        "NRD": "0.483333",
+        "NRS": "0.483333",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 50
+    },
+    {
+      "name": "XX1_M24",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_Vbias",
+        "g": "net6",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 0.6,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.174",
+        "AS": "0.174",
+        "PD": "1.78",
+        "PS": "1.78",
+        "NRD": "0.483333",
+        "NRS": "0.483333",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 51
+    },
+    {
+      "name": "XX1_M25",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "x1_Vbias",
+        "g": "x1_Vbias",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 1.5,
+      "L_um": 10.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.435",
+        "AS": "0.435",
+        "PD": "3.58",
+        "PS": "3.58",
+        "NRD": "0.193333",
+        "NRS": "0.193333",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 52
+    },
+    {
+      "name": "XX2_M9",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "Vop",
+        "g": "Vom1",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 2.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 9,
+      "extra_params": {
+        "AD": "0.58",
+        "AS": "0.58",
+        "PD": "4.58",
+        "PS": "4.58",
+        "NRD": "0.145",
+        "NRS": "0.145",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 53
+    },
+    {
+      "name": "XX2_M4",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "Vom",
+        "g": "Vop1",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 2.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 9,
+      "extra_params": {
+        "AD": "0.58",
+        "AS": "0.58",
+        "PD": "4.58",
+        "PS": "4.58",
+        "NRD": "0.145",
+        "NRS": "0.145",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 54
+    },
+    {
+      "name": "XX2_M2",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "Vop",
+        "g": "x2_Vout",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 9,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 55
+    },
+    {
+      "name": "XX2_M1",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "Vom",
+        "g": "x2_Vout",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 1.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 9,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 56
+    },
+    {
+      "name": "XX2_M3",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "x2_net1",
+        "g": "x2_Vbiasp",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 1.0,
+      "L_um": 5.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 57
+    },
+    {
+      "name": "XX2_M7",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "x2_Vtest",
+        "g": "x2_Vcm",
+        "s": "x2_net1",
+        "b": "Vdd"
+      },
+      "W_um": 1.0,
+      "L_um": 10.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 58
+    },
+    {
+      "name": "XX2_M8",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "x2_Vout",
+        "g": "Vref",
+        "s": "x2_net1",
+        "b": "Vdd"
+      },
+      "W_um": 1.0,
+      "L_um": 10.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.29",
+        "AS": "0.29",
+        "PD": "2.58",
+        "PS": "2.58",
+        "NRD": "0.29",
+        "NRS": "0.29",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 59
+    },
+    {
+      "name": "XX2_M5",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x2_Vtest",
+        "g": "x2_Vtest",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 0.5,
+      "L_um": 20.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.145",
+        "AS": "0.145",
+        "PD": "1.58",
+        "PS": "1.58",
+        "NRD": "0.58",
+        "NRS": "0.58",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 60
+    },
+    {
+      "name": "XX2_M6",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x2_Vout",
+        "g": "x2_Vtest",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 0.5,
+      "L_um": 20.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.145",
+        "AS": "0.145",
+        "PD": "1.58",
+        "PS": "1.58",
+        "NRD": "0.58",
+        "NRS": "0.58",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 61
+    },
+    {
+      "name": "XX2_M10",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "net7",
+        "g": "net7",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 0.6,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.174",
+        "AS": "0.174",
+        "PD": "1.78",
+        "PS": "1.78",
+        "NRD": "0.483333",
+        "NRS": "0.483333",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 102
+    },
+    {
+      "name": "XX2_M11",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "x2_Vbiasp",
+        "g": "net7",
+        "s": "Vss",
+        "b": "Vss"
+      },
+      "W_um": 0.6,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "0.174",
+        "AS": "0.174",
+        "PD": "1.78",
+        "PS": "1.78",
+        "NRD": "0.483333",
+        "NRS": "0.483333",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 103
+    },
+    {
+      "name": "XX2_M12",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "x2_Vbiasp",
+        "g": "x2_Vbiasp",
+        "s": "Vdd",
+        "b": "Vdd"
+      },
+      "W_um": 6.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 2,
+      "extra_params": {
+        "AD": "1.74",
+        "AS": "1.74",
+        "PD": "12.58",
+        "PS": "12.58",
+        "NRD": "0.0483333",
+        "NRS": "0.0483333",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 104
+    }
+  ],
+  "internal_sources": [
+    {
+      "name": "Vref_ext",
+      "kind": "V",
+      "p": "Vref",
+      "n": "Vss",
+      "value": "0.9",
+      "dc": 0.9,
+      "layout_handling": "removed in layout view; node exposed as port VREF"
+    }
+  ],
+  "passives": [
+    {
+      "name": "XC1",
+      "kind": "C",
+      "model": "sky130_fd_pr__cap_mim_m3_1",
+      "a": "Vop1",
+      "b": "Vom",
+      "body": null,
+      "value": 1.030225e-12,
+      "value_unit": "F",
+      "params": {
+        "W": "10",
+        "L": "10",
+        "MF": "5",
+        "M": "5"
+      },
+      "source_line": 24,
+      "layout_binding": {
+        "model": "sky130_fd_pr__cap_mim_m3_1",
+        "params": {
+          "W": "10",
+          "L": "10",
+          "MF": "5",
+          "M": "5"
+        },
+        "value_F": 1.030225e-12,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 10.0,
+          "l": 10.0,
+          "nx": 5,
+          "ny": 1
+        }
+      }
+    },
+    {
+      "name": "XC2",
+      "kind": "C",
+      "model": "sky130_fd_pr__cap_mim_m3_1",
+      "a": "Vom1",
+      "b": "Vop",
+      "body": null,
+      "value": 1.030225e-12,
+      "value_unit": "F",
+      "params": {
+        "W": "10",
+        "L": "10",
+        "MF": "5",
+        "M": "5"
+      },
+      "source_line": 25,
+      "layout_binding": {
+        "model": "sky130_fd_pr__cap_mim_m3_1",
+        "params": {
+          "W": "10",
+          "L": "10",
+          "MF": "5",
+          "M": "5"
+        },
+        "value_F": 1.030225e-12,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 10.0,
+          "l": 10.0,
+          "nx": 5,
+          "ny": 1
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R1",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net4",
+      "b": "Vop",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 62,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R2",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net5",
+      "b": "x2_x1_net4",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 63,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R3",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net6",
+      "b": "x2_x1_net5",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 64,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R4",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net7",
+      "b": "x2_x1_net6",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 65,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R5",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net1",
+      "b": "x2_x1_net7",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 66,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R6",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net8",
+      "b": "x2_x1_net2",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 67,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R7",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net9",
+      "b": "x2_x1_net8",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 68,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R8",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net10",
+      "b": "x2_x1_net9",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 69,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R9",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net11",
+      "b": "x2_x1_net10",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 70,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R10",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net1",
+      "b": "x2_x1_net11",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 71,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R11",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net12",
+      "b": "x2_x1_net2",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 72,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R12",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net13",
+      "b": "x2_x1_net12",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 73,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R13",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net14",
+      "b": "x2_x1_net13",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 74,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R14",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net15",
+      "b": "x2_x1_net14",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 75,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R16",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net16",
+      "b": "x2_Vcm",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 76,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R17",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net17",
+      "b": "x2_x1_net16",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 77,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R18",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net18",
+      "b": "x2_x1_net17",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 78,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R19",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net19",
+      "b": "x2_x1_net18",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 79,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R20",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net3",
+      "b": "x2_x1_net19",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 80,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X1_R15",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x1_net3",
+      "b": "x2_x1_net15",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 81,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R1",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net4",
+      "b": "x2_Vcm",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 82,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R2",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net5",
+      "b": "x2_x2_net4",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 83,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R3",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net6",
+      "b": "x2_x2_net5",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 84,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R4",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net7",
+      "b": "x2_x2_net6",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 85,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R5",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net1",
+      "b": "x2_x2_net7",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 86,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R6",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net8",
+      "b": "x2_x2_net2",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 87,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R7",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net9",
+      "b": "x2_x2_net8",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 88,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R8",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net10",
+      "b": "x2_x2_net9",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 89,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R9",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net11",
+      "b": "x2_x2_net10",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 90,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R10",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net1",
+      "b": "x2_x2_net11",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 91,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R11",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net12",
+      "b": "x2_x2_net2",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 92,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R12",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net13",
+      "b": "x2_x2_net12",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 93,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R13",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net14",
+      "b": "x2_x2_net13",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 94,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R14",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net15",
+      "b": "x2_x2_net14",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 95,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R16",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net16",
+      "b": "Vom",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 96,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R17",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net17",
+      "b": "x2_x2_net16",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 97,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R18",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net18",
+      "b": "x2_x2_net17",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 98,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R19",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net19",
+      "b": "x2_x2_net18",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 99,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R20",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net3",
+      "b": "x2_x2_net19",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 100,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "XX2_X2_R15",
+      "kind": "R",
+      "model": "sky130_fd_pr__res_generic_po",
+      "a": "x2_x2_net3",
+      "b": "x2_x2_net15",
+      "body": null,
+      "value": null,
+      "value_unit": "ohm",
+      "params": {
+        "W": "0.5",
+        "L": "40"
+      },
+      "source_line": 101,
+      "layout_binding": {
+        "model": "sky130_fd_pr__res_generic_po",
+        "params": {
+          "W": "0.5",
+          "L": "40"
+        },
+        "value_ohm": null,
+        "status": "PDK device in the netlist",
+        "pcell_params": {
+          "w": 0.5,
+          "l": 40.0
+        }
+      }
+    },
+    {
+      "name": "Rgm_ext",
+      "kind": "R",
+      "model": "ideal",
+      "a": "Rgm",
+      "b": "Vss",
+      "body": null,
+      "value": 12000.0,
+      "value_unit": "ohm",
+      "params": {},
+      "source_line": 106,
+      "layout_binding": {
+        "status": "OFF-CHIP test element (bias_sources): removed in the layout view, node Rgm exposed as port RGM"
+      }
+    }
+  ],
+  "hierarchy": {
+    "blocks": [
+      {
+        "name": "nmos_differential_pair",
+        "category": "gm-structure",
+        "primitive": "nmos-differential-pair",
+        "devices": [
+          "XX1_M5",
+          "XX1_M6"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X1"
+      },
+      {
+        "name": "nmos_differential_pair",
+        "category": "gm-structure",
+        "primitive": "nmos-differential-pair",
+        "devices": [
+          "XX1_M18",
+          "XX1_M16"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X2"
+      },
+      {
+        "name": "nmos_differential_pair",
+        "category": "gm-structure",
+        "primitive": "nmos-differential-pair",
+        "devices": [
+          "XX1_M10",
+          "XX1_M17"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X3"
+      },
+      {
+        "name": "pmos_differential_pair",
+        "category": "gm-structure",
+        "primitive": "pmos-differential-pair",
+        "devices": [
+          "XX2_M7",
+          "XX2_M8"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X4"
+      },
+      {
+        "name": "nmos_current_mirror",
+        "category": "bias-structure",
+        "primitive": "nmos-current-mirror",
+        "devices": [
+          "XM33",
+          "XM37",
+          "XM41"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X5"
+      },
+      {
+        "name": "nmos_current_mirror",
+        "category": "bias-structure",
+        "primitive": "nmos-current-mirror",
+        "devices": [
+          "XX1_M46",
+          "XX1_M1",
+          "XX1_M2",
+          "XX1_M7",
+          "XX1_M9",
+          "XX1_M22",
+          "XX1_M15"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X6"
+      },
+      {
+        "name": "nmos_current_mirror",
+        "category": "bias-structure",
+        "primitive": "nmos-current-mirror",
+        "devices": [
+          "XX1_M23",
+          "XX1_M24"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X7"
+      },
+      {
+        "name": "nmos_current_mirror",
+        "category": "bias-structure",
+        "primitive": "nmos-current-mirror",
+        "devices": [
+          "XX2_M10",
+          "XX2_M11"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X8"
+      },
+      {
+        "name": "nmos_current_mirror_load",
+        "category": "load-structure",
+        "primitive": "nmos-current-mirror-load",
+        "devices": [
+          "XX2_M5",
+          "XX2_M6"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X9"
+      },
+      {
+        "name": "pmos_current_mirror",
+        "category": "bias-structure",
+        "primitive": "pmos-current-mirror",
+        "devices": [
+          "XM39",
+          "XM38"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X10"
+      },
+      {
+        "name": "pmos_current_mirror_load",
+        "category": "load-structure",
+        "primitive": "pmos-current-mirror-load",
+        "devices": [
+          "XX1_M20",
+          "XX1_M21"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X11"
+      },
+      {
+        "name": "pmos_current_mirror",
+        "category": "bias-structure",
+        "primitive": "pmos-current-mirror",
+        "devices": [
+          "XX2_M12",
+          "XX2_M3"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X12"
+      },
+      {
+        "name": "nmos_matched_cascode_pair",
+        "category": "gm-structure",
+        "primitive": "nmos-matched-cascode-pair",
+        "devices": [
+          "XX1_M19",
+          "XX1_M4"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X13"
+      },
+      {
+        "name": "nmos_matched_cascode_pair",
+        "category": "gm-structure",
+        "primitive": "nmos-matched-cascode-pair",
+        "devices": [
+          "XX1_M3",
+          "XX1_M8"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X14"
+      },
+      {
+        "name": "nmos_matched_current_source_pair",
+        "category": "load-structure",
+        "primitive": "nmos-matched-current-source-pair",
+        "devices": [
+          "XX2_M2",
+          "XX2_M1"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X15"
+      },
+      {
+        "name": "pmos_matched_current_source_pair",
+        "category": "load-structure",
+        "primitive": "pmos-matched-current-source-pair",
+        "devices": [
+          "XM32",
+          "XM34"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X16"
+      },
+      {
+        "name": "pmos_matched_current_source_pair",
+        "category": "load-structure",
+        "primitive": "pmos-matched-current-source-pair",
+        "devices": [
+          "XM43",
+          "XM44"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X17"
+      },
+      {
+        "name": "pmos_matched_current_source_pair",
+        "category": "load-structure",
+        "primitive": "pmos-matched-current-source-pair",
+        "devices": [
+          "XM45",
+          "XM54"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X18"
+      },
+      {
+        "name": "pmos_matched_cascode_pair",
+        "category": "gm-structure",
+        "primitive": "pmos-matched-cascode-pair",
+        "devices": [
+          "XX1_M11",
+          "XX1_M12"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X19"
+      },
+      {
+        "name": "pmos_matched_current_source_pair",
+        "category": "load-structure",
+        "primitive": "pmos-matched-current-source-pair",
+        "devices": [
+          "XX1_M13",
+          "XX1_M14"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X20"
+      },
+      {
+        "name": "nmos_diode",
+        "category": "bias-structure",
+        "primitive": "nmos-diode",
+        "devices": [
+          "XM35"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X21"
+      },
+      {
+        "name": "nmos_single",
+        "category": "other",
+        "primitive": "nmos-single",
+        "devices": [
+          "XM36"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X22"
+      },
+      {
+        "name": "nmos_single",
+        "category": "other",
+        "primitive": "nmos-single",
+        "devices": [
+          "XM40"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X23"
+      },
+      {
+        "name": "pmos_diode",
+        "category": "bias-structure",
+        "primitive": "pmos-diode",
+        "devices": [
+          "XM42"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X24"
+      },
+      {
+        "name": "pmos_diode",
+        "category": "bias-structure",
+        "primitive": "pmos-diode",
+        "devices": [
+          "XX1_M25"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X25"
+      },
+      {
+        "name": "nmos_diode",
+        "category": "bias-structure",
+        "primitive": "nmos-diode",
+        "devices": [
+          "XX1_M47"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X26"
+      },
+      {
+        "name": "pmos_single",
+        "category": "other",
+        "primitive": "pmos-single",
+        "devices": [
+          "XX2_M4"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X27"
+      },
+      {
+        "name": "pmos_single",
+        "category": "other",
+        "primitive": "pmos-single",
+        "devices": [
+          "XX2_M9"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X28"
+      },
+      {
+        "name": "capacitor",
+        "category": "passive",
+        "primitive": "capacitor",
+        "devices": [],
+        "source": "name_map",
+        "upstream_instance": "X29"
+      },
+      {
+        "name": "capacitor",
+        "category": "passive",
+        "primitive": "capacitor",
+        "devices": [],
+        "source": "name_map",
+        "upstream_instance": "X30"
+      },
+      {
+        "name": "resistor_string",
+        "category": "passive",
+        "primitive": "resistor-string",
+        "devices": [],
+        "source": "name_map",
+        "upstream_instance": "X31"
+      },
+      {
+        "name": "resistor_string",
+        "category": "passive",
+        "primitive": "resistor-string",
+        "devices": [],
+        "source": "name_map",
+        "upstream_instance": "X32"
+      },
+      {
+        "name": "resistor_string",
+        "category": "passive",
+        "primitive": "resistor-string",
+        "devices": [],
+        "source": "name_map",
+        "upstream_instance": "X33"
+      }
+    ],
+    "source": "upstream 5t-ota primitives through name map",
+    "findings": [
+      {
+        "level": "assumption",
+        "msg": "Identity map: the predicted primitives were recognised on this same flat netlist."
+      }
+    ]
+  },
+  "conditions": {
+    "VDD_V": 1.8,
+    "VCM_V": 0.9,
+    "CL_F": "529f",
+    "temp": 27,
+    "corner": "tt"
+  },
+  "specs": {
+    "pm_deg": {
+      "min": 50
+    },
+    "power_uw": {
+      "max": 550
+    },
+    "gain_db": {
+      "min": 97.401
+    },
+    "gbw_mhz": {
+      "min": 1.8465
+    }
+  },
+  "achieved": {
+    "gain_db": 98.401,
+    "gbw_mhz": 2.05171,
+    "pm_deg": 78.2341,
+    "isup_ua": 251.102,
+    "power_uw": 451.984,
+    "vout_v": 8.88178e-15,
+    "voutcm_v": 0.902366,
+    "vnoise_nv_rthz": 139.742,
+    "vnoise_rms_uv_rms": 7551.06
+  },
+  "achieved_source": "generated by this S0 run (conditions_override)",
+  "units": {},
+  "margins": {
+    "pm_deg": {
+      "kind": "min",
+      "limit": 50,
+      "achieved": 78.2341,
+      "margin": 28.234099999999998,
+      "units": null,
+      "meets": true
+    },
+    "power_uw": {
+      "kind": "max",
+      "limit": 550,
+      "achieved": 451.984,
+      "margin": 98.01600000000002,
+      "units": null,
+      "meets": true
+    },
+    "gain_db": {
+      "kind": "min",
+      "limit": 97.401,
+      "achieved": 98.401,
+      "margin": 1.0,
+      "units": null,
+      "meets": true
+    },
+    "gbw_mhz": {
+      "kind": "min",
+      "limit": 1.8465,
+      "achieved": 2.05171,
+      "margin": 0.2052099999999999,
+      "units": null,
+      "meets": true
+    }
+  },
+  "pending_inputs": {
+    "operating_point": "not provided (S1 generates it with ngspice .op)",
+    "variation_ranges": "not provided (awaiting PSO range format)",
+    "nodal_analysis": "circuits/ttsky25a_fd/upstream/equations.predicted.json",
+    "net_symbol_map": "not provided by upstream (requested); S1 derives it from the level-0 netlist"
+  },
+  "notes": [
+    "ASSUMPTION: specs derived from this design's own simulated values by the package rule {'gain_db': {'min_delta': -1.0}, 'gbw_mhz': {'min_factor': 0.9}} (no upstream specs, or a stress variant)"
+  ],
+  "provenance": {
+    "created": "2026-10-26T05:12:53+00:00",
+    "git_commit": "43f7d57f1a558f0d6ffe5585f29f43e27f23ef04",
+    "inputs": [
+      {
+        "path": "circuits/ttsky25a_fd/source/ttsky25a_fd.spice",
+        "sha256": "44705145dd55f5fde73f4974a20dbb23a5f324f757a94b211abd542485bf7861"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/source/config.yaml",
+        "sha256": "bfa0bb31240cd2a3511edc7d97fa5d17fdfc870504e03b3bd430be9033febdae"
+      },
+      {
+        "path": "inputs/ttsky25a_fd/package.yaml",
+        "sha256": "6f5024f160469fb4e04f69f4cef20eae16cb7d809aa942b050a12b8570a89708"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/source/ttsky25a_fd.spice",
+        "sha256": "44705145dd55f5fde73f4974a20dbb23a5f324f757a94b211abd542485bf7861"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/upstream/hierarchy.json",
+        "sha256": "fa46a3cac8ba99928c711026f48b18245684c509dfb5aca2d9e7eb8d96fd51f9"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/upstream/primitives.json",
+        "sha256": "51baeeb46675510f15e37c9f140bea246fb736ba44f1d6be3abfff7fea6fd0ea"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/upstream/equations.predicted.json",
+        "sha256": "2f292e73288dfa6ea0ec94134a1f4216b4ea495d4a1c781799d3a820bc0a8375"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/upstream/name_map.yaml",
+        "sha256": "b3ae223d6492603fbb863a568a40da9cfdc0f2ba7b419a16f1ab7778ab0ed29d"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/testbenches/dido_amp_AC.spice",
+        "sha256": "47421055baad1d2aab7a9a639e51204e27512a050430618e78269c141ecab4fd"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/testbenches/dido_amp_OP.spice",
+        "sha256": "9d67f1a670565cb9a9095af7d7d1c692c37ddacc6e07168e2f1d6bbef0ac564e"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/testbenches/dido_amp_NOISE.spice",
+        "sha256": "2c51c94fd06091a0840c1752c0945225132e5045372f082a96fe900cd8134b08"
+      }
+    ]
+  }
+}

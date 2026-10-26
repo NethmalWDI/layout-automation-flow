@@ -1,0 +1,18 @@
+* NGSPICE file created from pfet_01v8_lvt_W887p03_L0p74_m1__nf8_gtop_sdfull_outD.ext - technology: sky130A
+
+.subckt sky130_fd_pr__pfet_01v8_lvt_D7GU4R G B D6 D4 D2 D0 S7 S5 S3 a_795_n11124#
++ S1
+X0 D2 G S1 B sky130_fd_pr__pfet_01v8_lvt ad=16.0776 pd=111.17 as=16.0776 ps=111.17 w=110.88 l=0.74
+X1 D6 G S5 B sky130_fd_pr__pfet_01v8_lvt ad=16.0776 pd=111.17 as=16.0776 ps=111.17 w=110.88 l=0.74
+X2 S5 G D4 B sky130_fd_pr__pfet_01v8_lvt ad=16.0776 pd=111.17 as=16.0776 ps=111.17 w=110.88 l=0.74
+X3 a_795_n11124# G S7 B sky130_fd_pr__pfet_01v8_lvt ad=32.1552 pd=222.34 as=16.0776 ps=111.17 w=110.88 l=0.74
+X4 S3 G D2 B sky130_fd_pr__pfet_01v8_lvt ad=16.0776 pd=111.17 as=16.0776 ps=111.17 w=110.88 l=0.74
+X5 D4 G S3 B sky130_fd_pr__pfet_01v8_lvt ad=16.0776 pd=111.17 as=16.0776 ps=111.17 w=110.88 l=0.74
+X6 S1 G D0 B sky130_fd_pr__pfet_01v8_lvt ad=16.0776 pd=111.17 as=32.1552 ps=222.34 w=110.88 l=0.74
+X7 S7 G D6 B sky130_fd_pr__pfet_01v8_lvt ad=16.0776 pd=111.17 as=16.0776 ps=111.17 w=110.88 l=0.74
+.ends
+
+.subckt pfet_01v8_lvt_W887p03_L0p74_m1__nf8_gtop_sdfull_outD S D G B
+Xpfet_01v8_lvt_W887p03_L0p74_m1__nf8_gtop_sdfull_outD_pc G B D D D D S S S D S sky130_fd_pr__pfet_01v8_lvt_D7GU4R
+.ends
+

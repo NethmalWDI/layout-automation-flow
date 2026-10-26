@@ -1,0 +1,281 @@
+{
+  "nets": {
+    "FirstStageYout1": {
+      "budget_fF": 2.133398462945953,
+      "devices": [
+        "XDiodeTransistorNmos1",
+        "XNormalTransistorNmos4",
+        "XNormalTransistorPmos7"
+      ],
+      "block_port_fF": {
+        "n_current_mirror_load": 1.5670616552478664,
+        "p_differential_pair": 0.13965711510889559
+      },
+      "top_level_fF": 0.42667969258919053,
+      "route_budget_fF": 0.42667969258919053,
+      "max_route_length_metal1_um": 2.6930626672700027,
+      "note": null
+    },
+    "FirstStageYsourceTransconductance": {
+      "budget_fF": 46.33450146192586,
+      "devices": [
+        "XNormalTransistorPmos6",
+        "XNormalTransistorPmos7",
+        "XNormalTransistorPmos8"
+      ],
+      "block_port_fF": {
+        "p_differential_pair": 9.982903519721752,
+        "p_current_mirror": 24.767972576722645
+      },
+      "top_level_fF": 11.583625365481463,
+      "route_budget_fF": 11.583625365481463,
+      "max_route_length_metal1_um": 73.11205469873414,
+      "note": null
+    },
+    "ibias": {
+      "budget_fF": 653.9763111801968,
+      "devices": [
+        "XDiodeTransistorPmos2",
+        "XNormalTransistorPmos5",
+        "XNormalTransistorPmos8"
+      ],
+      "block_port_fF": {
+        "p_current_mirror": 653.9763111801968
+      },
+      "top_level_fF": 0.0,
+      "route_budget_fF": 653.9763111801968,
+      "max_route_length_metal1_um": 4127.6845828564665,
+      "note": "single block: the whole budget is internal to it"
+    },
+    "out": {
+      "budget_fF": 12.026552073642074,
+      "devices": [
+        "XNormalTransistorNmos3",
+        "XNormalTransistorPmos5"
+      ],
+      "block_port_fF": {
+        "undefined_common_source_stage": 2.836460825251389,
+        "p_current_mirror": 5.18124055717666
+      },
+      "top_level_fF": 4.0088506912140245,
+      "route_budget_fF": 4.0088506912140245,
+      "max_route_length_metal1_um": 25.302554404815705,
+      "note": null
+    },
+    "outFirstStage": {
+      "budget_fF": 2.7847991081802617,
+      "devices": [
+        "XNormalTransistorNmos3",
+        "XNormalTransistorNmos4",
+        "XNormalTransistorPmos6"
+      ],
+      "block_port_fF": {
+        "undefined_common_source_stage": 1.4077908393445635,
+        "n_current_mirror_load": 0.20758773743099976,
+        "p_differential_pair": 0.055500888132593705
+      },
+      "top_level_fF": 1.1139196432721048,
+      "route_budget_fF": 1.1139196432721048,
+      "max_route_length_metal1_um": 7.030696463267356,
+      "note": null
+    }
+  },
+  "terminals": {
+    "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": {
+      "block": "n_current_mirror_load",
+      "members": [
+        "XDiodeTransistorNmos1.d",
+        "XNormalTransistorNmos4.d"
+      ],
+      "terminal": "d",
+      "budget_ohm_each": 79.34857166708116
+    },
+    "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": {
+      "block": "n_current_mirror_load",
+      "members": [
+        "XDiodeTransistorNmos1.g",
+        "XNormalTransistorNmos4.g"
+      ],
+      "terminal": "g",
+      "budget_ohm_each": 125.11023002826435
+    },
+    "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": {
+      "block": "n_current_mirror_load",
+      "members": [
+        "XDiodeTransistorNmos1.s",
+        "XNormalTransistorNmos4.s"
+      ],
+      "terminal": "s",
+      "budget_ohm_each": 11.330652089273451
+    },
+    "XDiodeTransistorPmos2.d": {
+      "block": "p_current_mirror",
+      "members": [
+        "XDiodeTransistorPmos2.d"
+      ],
+      "terminal": "d",
+      "budget_ohm_each": 310.4933154458084
+    },
+    "XDiodeTransistorPmos2.s": {
+      "block": "p_current_mirror",
+      "members": [
+        "XDiodeTransistorPmos2.s"
+      ],
+      "terminal": "s",
+      "budget_ohm_each": 310.4933154458084
+    },
+    "XNormalTransistorNmos3.d": {
+      "block": "undefined_common_source_stage",
+      "members": [
+        "XNormalTransistorNmos3.d"
+      ],
+      "terminal": "d",
+      "budget_ohm_each": 15.761687376122406
+    },
+    "XNormalTransistorNmos3.g": {
+      "block": "undefined_common_source_stage",
+      "members": [
+        "XNormalTransistorNmos3.g"
+      ],
+      "terminal": "g",
+      "budget_ohm_each": 646.0488730164793
+    },
+    "XNormalTransistorNmos3.s": {
+      "block": "undefined_common_source_stage",
+      "members": [
+        "XNormalTransistorNmos3.s"
+      ],
+      "terminal": "s",
+      "budget_ohm_each": 15.761687376122302
+    },
+    "XNormalTransistorPmos5.d": {
+      "block": "p_current_mirror",
+      "members": [
+        "XNormalTransistorPmos5.d"
+      ],
+      "terminal": "d",
+      "budget_ohm_each": 48.47085571018138
+    },
+    "XNormalTransistorPmos5.g": {
+      "block": "p_current_mirror",
+      "members": [
+        "XNormalTransistorPmos5.g"
+      ],
+      "terminal": "g",
+      "budget_ohm_each": 7750.84546807147
+    },
+    "XNormalTransistorPmos5.s": {
+      "block": "p_current_mirror",
+      "members": [
+        "XNormalTransistorPmos5.s"
+      ],
+      "terminal": "s",
+      "budget_ohm_each": 43.01298974430651
+    },
+    "XNormalTransistorPmos7+XNormalTransistorPmos6.d": {
+      "block": "p_differential_pair",
+      "members": [
+        "XNormalTransistorPmos7.d",
+        "XNormalTransistorPmos6.d"
+      ],
+      "terminal": "d",
+      "budget_ohm_each": 191.29387554891184
+    },
+    "XNormalTransistorPmos7+XNormalTransistorPmos6.g": {
+      "block": "p_differential_pair",
+      "members": [
+        "XNormalTransistorPmos7.g",
+        "XNormalTransistorPmos6.g"
+      ],
+      "terminal": "g",
+      "budget_ohm_each": 37.89782676249363
+    },
+    "XNormalTransistorPmos7+XNormalTransistorPmos6.s": {
+      "block": "p_differential_pair",
+      "members": [
+        "XNormalTransistorPmos7.s",
+        "XNormalTransistorPmos6.s"
+      ],
+      "terminal": "s",
+      "budget_ohm_each": 3.298141376301079
+    },
+    "XNormalTransistorPmos8.d": {
+      "block": "p_current_mirror",
+      "members": [
+        "XNormalTransistorPmos8.d"
+      ],
+      "terminal": "d",
+      "budget_ohm_each": 90.4410680358266
+    },
+    "XNormalTransistorPmos8.g": {
+      "block": "p_current_mirror",
+      "members": [
+        "XNormalTransistorPmos8.g"
+      ],
+      "terminal": "g",
+      "budget_ohm_each": 3105.627181992073
+    },
+    "XNormalTransistorPmos8.s": {
+      "block": "p_current_mirror",
+      "members": [
+        "XNormalTransistorPmos8.s"
+      ],
+      "terminal": "s",
+      "budget_ohm_each": 90.44106803582667
+    }
+  },
+  "blocks": {
+    "n_current_mirror_load": {
+      "ports_fF": {
+        "FirstStageYout1": 1.5670616552478664,
+        "outFirstStage": 0.20758773743099976
+      },
+      "terminals_ohm": {
+        "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": 79.34857166708116,
+        "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": 125.11023002826435,
+        "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": 11.330652089273451
+      }
+    },
+    "p_differential_pair": {
+      "ports_fF": {
+        "FirstStageYout1": 0.13965711510889559,
+        "FirstStageYsourceTransconductance": 9.982903519721752,
+        "outFirstStage": 0.055500888132593705
+      },
+      "terminals_ohm": {
+        "XNormalTransistorPmos7+XNormalTransistorPmos6.d": 191.29387554891184,
+        "XNormalTransistorPmos7+XNormalTransistorPmos6.g": 37.89782676249363,
+        "XNormalTransistorPmos7+XNormalTransistorPmos6.s": 3.298141376301079
+      }
+    },
+    "p_current_mirror": {
+      "ports_fF": {
+        "FirstStageYsourceTransconductance": 24.767972576722645,
+        "ibias": 653.9763111801968,
+        "out": 5.18124055717666
+      },
+      "terminals_ohm": {
+        "XDiodeTransistorPmos2.d": 310.4933154458084,
+        "XDiodeTransistorPmos2.s": 310.4933154458084,
+        "XNormalTransistorPmos5.d": 48.47085571018138,
+        "XNormalTransistorPmos5.g": 7750.84546807147,
+        "XNormalTransistorPmos5.s": 43.01298974430651,
+        "XNormalTransistorPmos8.d": 90.4410680358266,
+        "XNormalTransistorPmos8.g": 3105.627181992073,
+        "XNormalTransistorPmos8.s": 90.44106803582667
+      }
+    },
+    "undefined_common_source_stage": {
+      "ports_fF": {
+        "out": 2.836460825251389,
+        "outFirstStage": 1.4077908393445635
+      },
+      "terminals_ohm": {
+        "XNormalTransistorNmos3.d": 15.761687376122406,
+        "XNormalTransistorNmos3.g": 646.0488730164793,
+        "XNormalTransistorNmos3.s": 15.761687376122302
+      }
+    }
+  },
+  "check_sum_equals_budget": true
+}

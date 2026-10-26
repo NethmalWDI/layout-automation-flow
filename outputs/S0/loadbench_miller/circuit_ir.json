@@ -1,0 +1,698 @@
+{
+  "schema": "circuit_ir/v1",
+  "design": "loadbench_miller",
+  "description": "Two-stage Miller op-amp, LOADBench SimpleTwoStageOpAmp_SimpleOpAmp1_1, Pareto row chosen by a fixed rule (circuits/loadbench_miller/SOURCE.md). PMOS input pair, NMOS mirror, NMOS common-source second stage, ideal Miller capacitor, ideal 10 uA bias sink. Specs are an ASSUMPTION (config.yaml spec_notes).\n",
+  "subckt": "loadbench_miller",
+  "ports": [
+    {
+      "name": "in1",
+      "role": "input",
+      "direction": "input",
+      "testbench_port": "INN"
+    },
+    {
+      "name": "in2",
+      "role": "input",
+      "direction": "input",
+      "testbench_port": "INP"
+    },
+    {
+      "name": "out",
+      "role": "output",
+      "direction": "output",
+      "testbench_port": "OUTP"
+    },
+    {
+      "name": "sourceNmos",
+      "role": "ground",
+      "direction": "inout",
+      "testbench_port": "VSS"
+    },
+    {
+      "name": "sourcePmos",
+      "role": "supply",
+      "direction": "inout",
+      "testbench_port": "VDD"
+    },
+    {
+      "name": "IBIAS",
+      "role": "bias",
+      "direction": "input",
+      "testbench_port": null,
+      "note": "node of internal source Ibias, exposed for layout"
+    }
+  ],
+  "nets": [
+    {
+      "name": "FirstStageYout1",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XDiodeTransistorNmos1",
+          "terminal": "d"
+        },
+        {
+          "element": "XDiodeTransistorNmos1",
+          "terminal": "g"
+        },
+        {
+          "element": "XNormalTransistorNmos4",
+          "terminal": "g"
+        },
+        {
+          "element": "XNormalTransistorPmos7",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "FirstStageYsourceTransconductance",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XNormalTransistorPmos6",
+          "terminal": "s"
+        },
+        {
+          "element": "XNormalTransistorPmos6",
+          "terminal": "b"
+        },
+        {
+          "element": "XNormalTransistorPmos7",
+          "terminal": "s"
+        },
+        {
+          "element": "XNormalTransistorPmos7",
+          "terminal": "b"
+        },
+        {
+          "element": "XNormalTransistorPmos8",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "ibias",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XDiodeTransistorPmos2",
+          "terminal": "d"
+        },
+        {
+          "element": "XDiodeTransistorPmos2",
+          "terminal": "g"
+        },
+        {
+          "element": "XNormalTransistorPmos5",
+          "terminal": "g"
+        },
+        {
+          "element": "XNormalTransistorPmos8",
+          "terminal": "g"
+        },
+        {
+          "element": "Ibias",
+          "terminal": "p"
+        }
+      ]
+    },
+    {
+      "name": "in1",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XNormalTransistorPmos7",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "in2",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XNormalTransistorPmos6",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "out",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XNormalTransistorNmos3",
+          "terminal": "d"
+        },
+        {
+          "element": "XNormalTransistorPmos5",
+          "terminal": "d"
+        },
+        {
+          "element": "Capacitor2",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "outFirstStage",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XNormalTransistorNmos3",
+          "terminal": "g"
+        },
+        {
+          "element": "XNormalTransistorNmos4",
+          "terminal": "d"
+        },
+        {
+          "element": "XNormalTransistorPmos6",
+          "terminal": "d"
+        },
+        {
+          "element": "Capacitor2",
+          "terminal": "a"
+        }
+      ]
+    },
+    {
+      "name": "sourceNmos",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XDiodeTransistorNmos1",
+          "terminal": "s"
+        },
+        {
+          "element": "XDiodeTransistorNmos1",
+          "terminal": "b"
+        },
+        {
+          "element": "XNormalTransistorNmos3",
+          "terminal": "s"
+        },
+        {
+          "element": "XNormalTransistorNmos3",
+          "terminal": "b"
+        },
+        {
+          "element": "XNormalTransistorNmos4",
+          "terminal": "s"
+        },
+        {
+          "element": "XNormalTransistorNmos4",
+          "terminal": "b"
+        },
+        {
+          "element": "Ibias",
+          "terminal": "n"
+        }
+      ]
+    },
+    {
+      "name": "sourcePmos",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XDiodeTransistorPmos2",
+          "terminal": "s"
+        },
+        {
+          "element": "XDiodeTransistorPmos2",
+          "terminal": "b"
+        },
+        {
+          "element": "XNormalTransistorPmos5",
+          "terminal": "s"
+        },
+        {
+          "element": "XNormalTransistorPmos5",
+          "terminal": "b"
+        },
+        {
+          "element": "XNormalTransistorPmos8",
+          "terminal": "s"
+        },
+        {
+          "element": "XNormalTransistorPmos8",
+          "terminal": "b"
+        }
+      ]
+    }
+  ],
+  "devices": [
+    {
+      "name": "XDiodeTransistorNmos1",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "FirstStageYout1",
+        "g": "FirstStageYout1",
+        "s": "sourceNmos",
+        "b": "sourceNmos"
+      },
+      "W_um": 66.13,
+      "L_um": 2.03,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "19.1777",
+        "AS": "19.1777",
+        "PD": "132.84",
+        "PS": "132.84",
+        "NRD": "0.0043853",
+        "NRS": "0.0043853",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 8
+    },
+    {
+      "name": "XDiodeTransistorPmos2",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "ibias",
+        "g": "ibias",
+        "s": "sourcePmos",
+        "b": "sourcePmos"
+      },
+      "W_um": 37.3,
+      "L_um": 0.74,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "10.817",
+        "AS": "10.817",
+        "PD": "75.18",
+        "PS": "75.18",
+        "NRD": "0.0077748",
+        "NRS": "0.0077748",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 9
+    },
+    {
+      "name": "XNormalTransistorNmos3",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "out",
+        "g": "outFirstStage",
+        "s": "sourceNmos",
+        "b": "sourceNmos"
+      },
+      "W_um": 484.2,
+      "L_um": 0.24,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "140.418",
+        "AS": "140.418",
+        "PD": "968.98",
+        "PS": "968.98",
+        "NRD": "0.000598926",
+        "NRS": "0.000598926",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 10
+    },
+    {
+      "name": "XNormalTransistorNmos4",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8_lvt",
+      "terminals": {
+        "d": "outFirstStage",
+        "g": "FirstStageYout1",
+        "s": "sourceNmos",
+        "b": "sourceNmos"
+      },
+      "W_um": 66.13,
+      "L_um": 2.03,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "19.1777",
+        "AS": "19.1777",
+        "PD": "132.84",
+        "PS": "132.84",
+        "NRD": "0.0043853",
+        "NRS": "0.0043853",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 11
+    },
+    {
+      "name": "XNormalTransistorPmos5",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "out",
+        "g": "ibias",
+        "s": "sourcePmos",
+        "b": "sourcePmos"
+      },
+      "W_um": 887.03,
+      "L_um": 0.74,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "257.239",
+        "AS": "257.239",
+        "PD": "1774.64",
+        "PS": "1774.64",
+        "NRD": "0.000326934",
+        "NRS": "0.000326934",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 12
+    },
+    {
+      "name": "XNormalTransistorPmos6",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "outFirstStage",
+        "g": "in2",
+        "s": "FirstStageYsourceTransconductance",
+        "b": "FirstStageYsourceTransconductance"
+      },
+      "W_um": 14.21,
+      "L_um": 0.89,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "4.1209",
+        "AS": "4.1209",
+        "PD": "29",
+        "PS": "29",
+        "NRD": "0.0204082",
+        "NRS": "0.0204082",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 13
+    },
+    {
+      "name": "XNormalTransistorPmos7",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "FirstStageYout1",
+        "g": "in1",
+        "s": "FirstStageYsourceTransconductance",
+        "b": "FirstStageYsourceTransconductance"
+      },
+      "W_um": 14.21,
+      "L_um": 0.89,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "4.1209",
+        "AS": "4.1209",
+        "PD": "29",
+        "PS": "29",
+        "NRD": "0.0204082",
+        "NRS": "0.0204082",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 14
+    },
+    {
+      "name": "XNormalTransistorPmos8",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8_lvt",
+      "terminals": {
+        "d": "FirstStageYsourceTransconductance",
+        "g": "ibias",
+        "s": "sourcePmos",
+        "b": "sourcePmos"
+      },
+      "W_um": 90.63,
+      "L_um": 0.74,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "26.2827",
+        "AS": "26.2827",
+        "PD": "181.84",
+        "PS": "181.84",
+        "NRD": "0.00319982",
+        "NRS": "0.00319982",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 15
+    }
+  ],
+  "internal_sources": [
+    {
+      "name": "Ibias",
+      "kind": "I",
+      "p": "ibias",
+      "n": "sourceNmos",
+      "value": "1e-05",
+      "dc": 1e-05,
+      "layout_handling": "removed in layout view; node exposed as port IBIAS"
+    }
+  ],
+  "passives": [
+    {
+      "name": "Capacitor2",
+      "kind": "C",
+      "model": "ideal",
+      "a": "outFirstStage",
+      "b": "out",
+      "body": null,
+      "value": 5e-13,
+      "value_unit": "F",
+      "params": {},
+      "source_line": 16,
+      "layout_binding": {
+        "model": "sky130_fd_pr__cap_mim_m3_1",
+        "params": {
+          "W": 15.66,
+          "L": 15.66
+        },
+        "value_F": 4.999122000000001e-13,
+        "rel_error": -0.00017559999999983145,
+        "status": "PREDICTED binding (ASSUMPTION)",
+        "pcell_params": {
+          "w": 15.66,
+          "l": 15.66,
+          "nx": 1,
+          "ny": 1
+        },
+        "note": "the netlist capacitor is ideal; the layout view uses this PDK device. MIM bottom plate (metal3) parasitic to substrate is not in the SPICE model: S2 must place the bottom plate on the lower-impedance node."
+      }
+    }
+  ],
+  "hierarchy": {
+    "blocks": [
+      {
+        "name": "undefined_common_source_stage",
+        "category": "gm-structure",
+        "primitive": "common-source-stage",
+        "devices": [
+          "XNormalTransistorPmos5",
+          "XNormalTransistorNmos3"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X1"
+      },
+      {
+        "name": "p_differential_pair",
+        "category": "gm-structure",
+        "primitive": "pmos-differential-pair",
+        "devices": [
+          "XNormalTransistorPmos7",
+          "XNormalTransistorPmos6"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X2"
+      },
+      {
+        "name": "n_current_mirror_load",
+        "category": "load-structure",
+        "primitive": "nmos-current-mirror-load",
+        "devices": [
+          "XDiodeTransistorNmos1",
+          "XNormalTransistorNmos4"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X3"
+      },
+      {
+        "name": "p_current_mirror",
+        "category": "bias-structure",
+        "primitive": "pmos-current-mirror",
+        "devices": [
+          "XDiodeTransistorPmos2",
+          "XNormalTransistorPmos8"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X4"
+      },
+      {
+        "name": "p_current_mirror",
+        "category": "bias-structure",
+        "primitive": "pmos-current-mirror",
+        "devices": [
+          "XDiodeTransistorPmos2",
+          "XNormalTransistorPmos5"
+        ],
+        "source": "name_map",
+        "upstream_instance": "X5"
+      }
+    ],
+    "source": "upstream 5t-ota primitives through name map",
+    "findings": [
+      {
+        "level": "assumption",
+        "msg": "Identity map: the LOADBench structure recognition was made on this same netlist."
+      }
+    ]
+  },
+  "conditions": {
+    "VDD_V": 1.8,
+    "VCM_V": 0.9,
+    "CL_F": "1p",
+    "temp": 27,
+    "corner": "tt"
+  },
+  "specs": {
+    "pm_deg": {
+      "min": 60
+    },
+    "power_uw": {
+      "max": 614.2
+    },
+    "gain_db": {
+      "min": 56.9997
+    },
+    "gbw_mhz": {
+      "min": 21.0484
+    }
+  },
+  "achieved": {
+    "gain_db": 57.9997,
+    "gbw_mhz": 23.3871,
+    "pm_deg": 65.3233,
+    "isup_ua": 310.248,
+    "power_uw": 558.446,
+    "vout_v": 0.902074,
+    "vnoise_nv_rthz": 149.126,
+    "vnoise_rms_uv_rms": 3771.24
+  },
+  "achieved_source": "generated by this S0 run (conditions_override)",
+  "units": {},
+  "margins": {
+    "pm_deg": {
+      "kind": "min",
+      "limit": 60,
+      "achieved": 65.3233,
+      "margin": 5.323300000000003,
+      "units": null,
+      "meets": true
+    },
+    "power_uw": {
+      "kind": "max",
+      "limit": 614.2,
+      "achieved": 558.446,
+      "margin": 55.75400000000002,
+      "units": null,
+      "meets": true
+    },
+    "gain_db": {
+      "kind": "min",
+      "limit": 56.9997,
+      "achieved": 57.9997,
+      "margin": 1.0,
+      "units": null,
+      "meets": true
+    },
+    "gbw_mhz": {
+      "kind": "min",
+      "limit": 21.0484,
+      "achieved": 23.3871,
+      "margin": 2.3386999999999993,
+      "units": null,
+      "meets": true
+    }
+  },
+  "pending_inputs": {
+    "operating_point": "not provided (S1 generates it with ngspice .op)",
+    "variation_ranges": "not provided (awaiting PSO range format)",
+    "nodal_analysis": "circuits/loadbench_miller/upstream/equations.predicted.json",
+    "net_symbol_map": "not provided by upstream (requested); S1 derives it from the level-0 netlist"
+  },
+  "notes": [
+    "ASSUMPTION: ideal Capacitor2 bound to sky130_fd_pr__cap_mim_m3_1 {'W': 15.66, 'L': 15.66} for the layout view (-0.018% value error); predicted, not from upstream",
+    "ASSUMPTION: stress-variant specs derived from its own achieved values by {'gain_db': {'min_delta': -1.0}, 'gbw_mhz': {'min_factor': 0.9}}; this is a test case, not a design target"
+  ],
+  "provenance": {
+    "created": "2026-10-26T04:55:58+00:00",
+    "git_commit": "43f7d57f1a558f0d6ffe5585f29f43e27f23ef04",
+    "inputs": [
+      {
+        "path": "circuits/loadbench_miller/source/loadbench_miller.spice",
+        "sha256": "1d922ee7ffb75c2ab58d9830217d12d68c487a99aad68fa28d40e5b510211454"
+      },
+      {
+        "path": "circuits/loadbench_miller/source/config.yaml",
+        "sha256": "7ee1641cdb1abbb9aac6e17431884223218b5e4f1b6ec12f68a3c5276f346a3c"
+      },
+      {
+        "path": "inputs/loadbench_miller/package.yaml",
+        "sha256": "f45a4fbefc8eb61cb1afe9a7149b553d3bbc9d16428dcc4a78e177f28026a701"
+      },
+      {
+        "path": "circuits/loadbench_miller/source/loadbench_miller.spice",
+        "sha256": "1d922ee7ffb75c2ab58d9830217d12d68c487a99aad68fa28d40e5b510211454"
+      },
+      {
+        "path": "circuits/loadbench_miller/upstream/hierarchy.json",
+        "sha256": "27bf2eaa9b7eca3b5911b065bfce30686a69b359fe15a4b0f74f9c868eb88113"
+      },
+      {
+        "path": "circuits/loadbench_miller/upstream/primitives.json",
+        "sha256": "17988465b425f3a2bfd14222c590bc08a6a2af3c6cc804375b59b7dcebfa31b9"
+      },
+      {
+        "path": "circuits/loadbench_miller/upstream/equations.predicted.json",
+        "sha256": "c2278f7982eaddc51fc96103e7f5d5beabce6cbdf02bdc99f315826021724d0e"
+      },
+      {
+        "path": "circuits/loadbench_miller/upstream/name_map.yaml",
+        "sha256": "0488fae444826e261943838a04fdb5c07b3afcf7d31cff2531a6f91fc09e8b34"
+      },
+      {
+        "path": "circuits/loadbench_miller/testbenches/diso_amp_AC.spice",
+        "sha256": "3da98cbb5d6cab1e8590c5d9e2d7d30f3e3a724b1777757fd5c5b5c3d1818e80"
+      },
+      {
+        "path": "circuits/loadbench_miller/testbenches/diso_amp_OP.spice",
+        "sha256": "ff145d31deb6186210efaca554c550ee6367cd1263a5152da980b689ce9c692a"
+      },
+      {
+        "path": "circuits/loadbench_miller/testbenches/diso_amp_NOISE.spice",
+        "sha256": "e88215883b38775583dd304e9ec5015e245fd0d71bde659a5a0038099c7051d7"
+      }
+    ]
+  }
+}

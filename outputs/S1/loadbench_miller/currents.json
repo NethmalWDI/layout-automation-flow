@@ -1,0 +1,167 @@
+{
+  "devices": {
+    "XDiodeTransistorNmos1": {
+      "id_A": 1.09847e-05,
+      "type": "nmos"
+    },
+    "XDiodeTransistorPmos2": {
+      "id_A": 1e-05,
+      "type": "pmos"
+    },
+    "XNormalTransistorNmos3": {
+      "id_A": 0.000278152,
+      "type": "nmos"
+    },
+    "XNormalTransistorNmos4": {
+      "id_A": 1.11112e-05,
+      "type": "nmos"
+    },
+    "XNormalTransistorPmos5": {
+      "id_A": 0.000278152,
+      "type": "pmos"
+    },
+    "XNormalTransistorPmos6": {
+      "id_A": 1.11112e-05,
+      "type": "pmos"
+    },
+    "XNormalTransistorPmos7": {
+      "id_A": 1.09847e-05,
+      "type": "pmos"
+    },
+    "XNormalTransistorPmos8": {
+      "id_A": 2.20959e-05,
+      "type": "pmos"
+    }
+  },
+  "nets": {
+    "FirstStageYout1": {
+      "connections": [
+        {
+          "device": "XDiodeTransistorNmos1",
+          "terminal": "d",
+          "abs_id_A": 1.09847e-05
+        },
+        {
+          "device": "XNormalTransistorPmos7",
+          "terminal": "d",
+          "abs_id_A": 1.09847e-05
+        }
+      ],
+      "max_branch_A": 1.09847e-05,
+      "trunk_A": 1.09847e-05,
+      "trunk_rule": "sum/2 (internal)"
+    },
+    "sourceNmos": {
+      "connections": [
+        {
+          "device": "XDiodeTransistorNmos1",
+          "terminal": "s",
+          "abs_id_A": 1.09847e-05
+        },
+        {
+          "device": "XNormalTransistorNmos3",
+          "terminal": "s",
+          "abs_id_A": 0.000278152
+        },
+        {
+          "device": "XNormalTransistorNmos4",
+          "terminal": "s",
+          "abs_id_A": 1.11112e-05
+        }
+      ],
+      "max_branch_A": 0.000278152,
+      "trunk_A": 0.0003002479,
+      "trunk_rule": "sum (supply/ground)"
+    },
+    "ibias": {
+      "connections": [
+        {
+          "device": "XDiodeTransistorPmos2",
+          "terminal": "d",
+          "abs_id_A": 1e-05
+        }
+      ],
+      "max_branch_A": 1e-05,
+      "trunk_A": 5e-06,
+      "trunk_rule": "sum/2 (internal)"
+    },
+    "sourcePmos": {
+      "connections": [
+        {
+          "device": "XDiodeTransistorPmos2",
+          "terminal": "s",
+          "abs_id_A": 1e-05
+        },
+        {
+          "device": "XNormalTransistorPmos5",
+          "terminal": "s",
+          "abs_id_A": 0.000278152
+        },
+        {
+          "device": "XNormalTransistorPmos8",
+          "terminal": "s",
+          "abs_id_A": 2.20959e-05
+        }
+      ],
+      "max_branch_A": 0.000278152,
+      "trunk_A": 0.00031024789999999997,
+      "trunk_rule": "sum (supply/ground)"
+    },
+    "out": {
+      "connections": [
+        {
+          "device": "XNormalTransistorNmos3",
+          "terminal": "d",
+          "abs_id_A": 0.000278152
+        },
+        {
+          "device": "XNormalTransistorPmos5",
+          "terminal": "d",
+          "abs_id_A": 0.000278152
+        }
+      ],
+      "max_branch_A": 0.000278152,
+      "trunk_A": 0.000278152,
+      "trunk_rule": "sum/2 (internal)"
+    },
+    "outFirstStage": {
+      "connections": [
+        {
+          "device": "XNormalTransistorNmos4",
+          "terminal": "d",
+          "abs_id_A": 1.11112e-05
+        },
+        {
+          "device": "XNormalTransistorPmos6",
+          "terminal": "d",
+          "abs_id_A": 1.11112e-05
+        }
+      ],
+      "max_branch_A": 1.11112e-05,
+      "trunk_A": 1.11112e-05,
+      "trunk_rule": "sum/2 (internal)"
+    },
+    "FirstStageYsourceTransconductance": {
+      "connections": [
+        {
+          "device": "XNormalTransistorPmos6",
+          "terminal": "s",
+          "abs_id_A": 1.11112e-05
+        },
+        {
+          "device": "XNormalTransistorPmos7",
+          "terminal": "s",
+          "abs_id_A": 1.09847e-05
+        },
+        {
+          "device": "XNormalTransistorPmos8",
+          "terminal": "d",
+          "abs_id_A": 2.20959e-05
+        }
+      ],
+      "max_branch_A": 2.20959e-05,
+      "trunk_A": 2.20959e-05,
+      "trunk_rule": "sum/2 (internal)"
+    }
+  }
+}

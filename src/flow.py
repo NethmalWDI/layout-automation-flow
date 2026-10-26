@@ -57,13 +57,23 @@ def pkg_yaml(design: str) -> dict:
     return yaml.safe_load(package(design).read_text())
 
 
+VARIANT_ARGS = {   # v1: the flow before the plan-v2 updates (ablation / "before"); v2: current
+    "v1": {"S0": ["--no-pvt"], "S2": ["--alloc", "v1", "--no-pvt", "--no-baselines"], "S3": ["--rules", "v1", "--mode", "A-free"]},
+    "v2": {"S0": [], "S2": [], "S3": []},
+}
+
+
 def steps(stage: str, design: str, a) -> list[tuple[str, list[str]]]:
     """The commands that make up one stage, in order: (label, argv)."""
     pkg = str(package(design).relative_to(REPO))
     w = ["--workers", str(a.workers)]
+    var = VARIANT_ARGS[getattr(a, "variant", "v2") or "v2"]
     if stage == "S0":
-        return [("ingest", [PY, "-m", "src.s0.ingest", pkg]),
-                ("pcell_binding", [PY, "-m", "src.s0.pcell_binding", f"outputs/S0/{design}"])]
+        s = [("ingest", [PY, "-m", "src.s0.ingest", pkg]),
+             ("pcell_binding", [PY, "-m", "src.s0.pcell_binding", f"outputs/S0/{design}", "--workers", str(a.workers)])]
+        if not getattr(a, "no_pvt", False) and "--no-pvt" not in var["S0"]:
+            s.append(("pvt", [PY, "-m", "src.s0.pvt", pkg] + w))
+        return s
     if stage == "S1":
         s = [("run", [PY, "-m", "src.s1.run", pkg] + (["--no-fd"] if a.skip_fd else []))]
         if "symbolic_patch" in (pkg_yaml(design).get("s1_extras") or []):
@@ -75,10 +85,10 @@ def steps(stage: str, design: str, a) -> list[tuple[str, list[str]]]:
             s.append(("pdk_parasitics", [PY, "-m", "src.s2.pdk_parasitics"]))
         # S2's expected need uses the default device cells of the S3 library (built before S2)
         s.append(("cells", [PY, "-m", "src.s3.run", pkg, "--cells-only"] + w))
-        s.append(("run", [PY, "-m", "src.s2.run", pkg]))
+        s.append(("run", [PY, "-m", "src.s2.run", pkg] + w + var["S2"]))
         return s
     if stage == "S3":
-        return [("run", [PY, "-m", "src.s3.run", pkg] + w)]
+        return [("run", [PY, "-m", "src.s3.run", pkg] + w + var["S3"])]
     raise ValueError(stage)
 
 
@@ -220,6 +230,9 @@ def main(argv=None) -> int:
     r.add_argument("--workers", type=int, default=4)
     r.add_argument("--skip-fd", action="store_true", help="S1 without the transistor-level cross-check")
     r.add_argument("--strict", action="store_true", help="stop at the first stage with a failed gate")
+    r.add_argument("--no-pvt", action="store_true", help="S0 without the PVT corners and Monte Carlo step")
+    r.add_argument("--variant", choices=["v2", "v1"], default="v2",
+                   help="v1 reproduces the flow before the plan-v2 updates (ablation, 'before')")
     s = sub.add_parser("status")
     s.add_argument("design", nargs="?", default="all")
     sub.add_parser("list")
@@ -230,6 +243,8 @@ def main(argv=None) -> int:
     t.add_argument("--golden-only", action="store_true")
     t.add_argument("--workers", type=int, default=4)
     t.add_argument("--skip-fd", action="store_true")
+    t.add_argument("--no-pvt", action="store_true")
+    t.add_argument("--variant", choices=["v2", "v1"], default="v2")
     n = sub.add_parser("snapshot")
     n.add_argument("design")
     n.add_argument("--stage", choices=STAGES + ["all"])

@@ -1,0 +1,11 @@
+* NGSPICE file created from pfet_01v8_lvt_W37p3_L0p74_m1__nf2_gboth_sdhalf_outD.ext - technology: sky130A
+
+.subckt sky130_fd_pr__pfet_01v8_lvt_QFL8P6 a_177_n1865# G B D0 S1
+X0 a_177_n1865# G S1 B sky130_fd_pr__pfet_01v8_lvt ad=5.4085 pd=37.88 as=2.70425 ps=18.94 w=18.65 l=0.74
+X1 S1 G D0 B sky130_fd_pr__pfet_01v8_lvt ad=2.70425 pd=18.94 as=5.4085 ps=37.88 w=18.65 l=0.74
+.ends
+
+.subckt pfet_01v8_lvt_W37p3_L0p74_m1__nf2_gboth_sdhalf_outD S D G B
+Xpfet_01v8_lvt_W37p3_L0p74_m1__nf2_gboth_sdhalf_outD_pc D G B D S sky130_fd_pr__pfet_01v8_lvt_QFL8P6
+.ends
+

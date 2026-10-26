@@ -1,0 +1,38 @@
+# Design package: two-stage Miller op-amp from LOADBench (MLCAD'26), one Pareto point.
+# Generated inputs: circuits/loadbench_miller/ (scripts/make_loadbench_package.py, see its SOURCE.md).
+design: loadbench_miller
+description: >
+  Two-stage Miller op-amp, LOADBench SimpleTwoStageOpAmp_SimpleOpAmp1_1, Pareto row chosen by a fixed rule
+  (circuits/loadbench_miller/SOURCE.md). PMOS input pair, NMOS mirror, NMOS common-source second stage,
+  ideal Miller capacitor, ideal 10 uA bias sink. Specs are an ASSUMPTION (config.yaml spec_notes).
+
+netlist: circuits/loadbench_miller/source/loadbench_miller.spice
+config: circuits/loadbench_miller/source/config.yaml
+achieved: null                  # LOADBench's metrics come from another library and testbench: kept as a
+                                # reference (G0.8), and the achieved values are this flow's own S0 simulation
+reference: circuits/loadbench_miller/source/loadbench_reference.json
+testbenches:
+  - circuits/loadbench_miller/testbenches/diso_amp_AC.spice
+  - circuits/loadbench_miller/testbenches/diso_amp_OP.spice
+  - circuits/loadbench_miller/testbenches/diso_amp_NOISE.spice
+dut_subckt_in_testbench: loadbench_miller
+
+upstream:
+  netlist: circuits/loadbench_miller/source/loadbench_miller.spice
+  hierarchy: circuits/loadbench_miller/upstream/hierarchy.json
+  primitives: circuits/loadbench_miller/upstream/primitives.json
+  equations: circuits/loadbench_miller/upstream/equations.predicted.json   # PREDICTED (textbook)
+  name_map: circuits/loadbench_miller/upstream/name_map.yaml
+
+bias_sources:
+  Ibias: IBIAS          # ideal 10 uA sink: kept for simulation, removed in the layout view
+
+# AC drive of each DUT input in the AC testbench (INN is held at AC ground by the DC-feedback network)
+ac_drive: {INP: 1.0, INN: 0.0}
+
+operating_point: null
+variation_ranges: null
+conditions_override: {}
+specs_from_achieved:            # ASSUMPTION (no specs in LOADBench), see config.yaml spec_notes
+  gain_db: {min_delta: -1.0}
+  gbw_mhz: {min_factor: 0.9}

@@ -1,0 +1,37 @@
+# Design package: TTSKY25a two-stage fully differential op-amp (the user's taped-out design).
+# Generated inputs: circuits/ttsky25a_fd/ (scripts/make_ttsky25a_package.py, see its SOURCE.md).
+design: ttsky25a_fd
+description: >
+  Two-stage fully differential op-amp, TTSKY25a tile tt_um_diff (NethmalWDI/Fully_differential_opamp):
+  folded-cascode first stage, common-source second stage, a CMFB loop per stage, Miller MIM capacitors,
+  beta-multiplier bias with start-up. Specs are an ASSUMPTION (config.yaml spec_notes).
+
+netlist: circuits/ttsky25a_fd/source/ttsky25a_fd.spice
+config: circuits/ttsky25a_fd/source/config.yaml
+achieved: null                  # the designers' bench is re-run as a reference (G0.8); achieved = this flow's S0 run
+reference: circuits/ttsky25a_fd/source/reference.json
+testbenches:
+  - circuits/ttsky25a_fd/testbenches/dido_amp_AC.spice
+  - circuits/ttsky25a_fd/testbenches/dido_amp_OP.spice
+  - circuits/ttsky25a_fd/testbenches/dido_amp_NOISE.spice
+dut_subckt_in_testbench: ttsky25a_fd
+
+upstream:
+  netlist: circuits/ttsky25a_fd/source/ttsky25a_fd.spice
+  hierarchy: circuits/ttsky25a_fd/upstream/hierarchy.json
+  primitives: circuits/ttsky25a_fd/upstream/primitives.json          # PREDICTED (rule-based)
+  equations: circuits/ttsky25a_fd/upstream/equations.predicted.json  # PREDICTED (textbook)
+  name_map: circuits/ttsky25a_fd/upstream/name_map.yaml
+
+bias_sources:                   # off-chip test elements kept for simulation, removed in the layout view
+  Rgm_ext: RGM                  # 12 kohm bias resistor of the beta multiplier (off-chip in the tile)
+  Vref_ext: VREF                # 0.9 V CM reference of both CMFB loops
+
+ac_drive: {INP: 0.5, INN: -0.5}
+
+operating_point: null
+variation_ranges: null
+conditions_override: {}
+specs_from_achieved:            # ASSUMPTION (no specs upstream), see config.yaml spec_notes
+  gain_db: {min_delta: -1.0}
+  gbw_mhz: {min_factor: 0.9}

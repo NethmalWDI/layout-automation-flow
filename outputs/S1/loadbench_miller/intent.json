@@ -1,0 +1,503 @@
+{
+  "design": "loadbench_miller",
+  "matching": [
+    {
+      "devices": [
+        "XNormalTransistorPmos7",
+        "XNormalTransistorPmos6"
+      ],
+      "kind": "diff_pair",
+      "equal_size": true,
+      "same_L_and_model": true,
+      "ratio_Wm": [
+        1.0,
+        1.0
+      ],
+      "consistent": true,
+      "purpose": "input offset, CMRR, symmetric loading of the pair's drains",
+      "evidence": [
+        "hierarchy block p_differential_pair (name_map)",
+        "sizes [(14.21, 0.89, 1, 1)]",
+        "gm spread 0.86%"
+      ]
+    },
+    {
+      "devices": [
+        "XDiodeTransistorNmos1",
+        "XNormalTransistorNmos4"
+      ],
+      "kind": "mirror",
+      "equal_size": true,
+      "same_L_and_model": true,
+      "ratio_Wm": [
+        1.0,
+        1.0
+      ],
+      "consistent": true,
+      "purpose": "current-copy accuracy (systematic offset, gain)",
+      "evidence": [
+        "hierarchy block n_current_mirror_load (name_map)",
+        "sizes [(66.13, 2.03, 1, 1)]",
+        "gm spread 0.88%"
+      ]
+    },
+    {
+      "devices": [
+        "XDiodeTransistorPmos2",
+        "XNormalTransistorPmos8"
+      ],
+      "kind": "mirror",
+      "equal_size": false,
+      "same_L_and_model": true,
+      "ratio_Wm": [
+        1.0,
+        2.4298
+      ],
+      "consistent": true,
+      "purpose": "current-copy accuracy (systematic offset, gain)",
+      "evidence": [
+        "hierarchy block p_current_mirror (name_map)",
+        "sizes [(37.3, 0.74, 1, 1), (90.63, 0.74, 1, 1)]",
+        "gm spread 125.84%"
+      ]
+    },
+    {
+      "devices": [
+        "XDiodeTransistorPmos2",
+        "XNormalTransistorPmos5"
+      ],
+      "kind": "mirror",
+      "equal_size": false,
+      "same_L_and_model": true,
+      "ratio_Wm": [
+        1.0,
+        23.781
+      ],
+      "consistent": true,
+      "purpose": "current-copy accuracy (systematic offset, gain)",
+      "evidence": [
+        "hierarchy block p_current_mirror (name_map)",
+        "sizes [(37.3, 0.74, 1, 1), (887.03, 0.74, 1, 1)]",
+        "gm spread 2565.07%"
+      ]
+    }
+  ],
+  "not_matching_blocks": [
+    {
+      "devices": [
+        "XNormalTransistorPmos5",
+        "XNormalTransistorNmos3"
+      ],
+      "block": "undefined_common_source_stage",
+      "kind": "gm-structure"
+    }
+  ],
+  "critical_nets": [
+    {
+      "net": "FirstStageYsourceTransconductance",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 613.3017957004314,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.003813293905864157,
+        "pm_deg": 0.007928959325425922
+      },
+      "classes": [
+        "source_coupled (tail)"
+      ],
+      "rank": 1
+    },
+    {
+      "net": "FirstStageYout1",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 638.6388680255453,
+      "per_fF": {
+        "gain_db": 7.105427357601002e-15,
+        "gbw_mhz": -0.0036620069918864573,
+        "pm_deg": -0.003768622281235423
+      },
+      "classes": [
+        "mirror_node (diode-connected)"
+      ],
+      "rank": 2
+    },
+    {
+      "net": "outFirstStage",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 1581.536242523216,
+      "per_fF": {
+        "gain_db": -3.765876499528531e-13,
+        "gbw_mhz": -0.001180216787906474,
+        "pm_deg": -0.003365904528060071
+      },
+      "classes": [
+        "dominant_pole"
+      ],
+      "rank": 3
+    },
+    {
+      "net": "out",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 2125.4474389632874,
+      "per_fF": {
+        "gain_db": -7.105427357601002e-15,
+        "gbw_mhz": -9.376529343896323e-05,
+        "pm_deg": -0.0025045549950633017
+      },
+      "classes": [
+        "signal_output"
+      ],
+      "rank": 4
+    },
+    {
+      "net": "ibias",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 169663.2994768831,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -1.3784360007207397e-05,
+        "pm_deg": 0.0001444006797299835
+      },
+      "classes": [
+        "bias current input (ideal current source: open in AC)",
+        "mirror_node (diode-connected)",
+        "non_dominant_pole"
+      ],
+      "rank": 5
+    }
+  ],
+  "coupling_pairs_ranked": [
+    {
+      "pair": "outFirstStage~in2",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 58.707794018461215,
+      "per_fF": {
+        "gain_db": -3.765876499528531e-13,
+        "gbw_mhz": 0.00753779787950748,
+        "pm_deg": -0.09067450223604112
+      },
+      "rank": 1
+    },
+    {
+      "pair": "FirstStageYout1~out",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 76.79967653296501,
+      "per_fF": {
+        "gain_db": 1.0558665053395089e-11,
+        "gbw_mhz": 0.010608173773075436,
+        "pm_deg": -0.06931409402115207
+      },
+      "rank": 2
+    },
+    {
+      "pair": "out~outFirstStage",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 83.02296569291813,
+      "per_fF": {
+        "gain_db": -1.1038281400033156e-11,
+        "gbw_mhz": -0.028169314122676425,
+        "pm_deg": 0.022811529743748338
+      },
+      "rank": 3
+    },
+    {
+      "pair": "FirstStageYsourceTransconductance~outFirstStage",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 154.21334412472933,
+      "per_fF": {
+        "gain_db": -3.694822225952521e-13,
+        "gbw_mhz": -0.0011088539596357805,
+        "pm_deg": -0.03451906208385225
+      },
+      "rank": 4
+    },
+    {
+      "pair": "FirstStageYsourceTransconductance~out",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 217.70527453449313,
+      "per_fF": {
+        "gain_db": -8.881784197001252e-14,
+        "gbw_mhz": -0.010742504999020852,
+        "pm_deg": -0.008813617978056243
+      },
+      "rank": 5
+    },
+    {
+      "pair": "FirstStageYout1~outFirstStage",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 255.6758644404172,
+      "per_fF": {
+        "gain_db": -7.425171588693047e-13,
+        "gbw_mhz": -0.007855432773494542,
+        "pm_deg": -0.020820502598674295
+      },
+      "rank": 6
+    },
+    {
+      "pair": "ibias~out",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 262.33319231310156,
+      "per_fF": {
+        "gain_db": 7.105427357601002e-15,
+        "gbw_mhz": -0.0011419145098408023,
+        "pm_deg": -0.020292132890475045
+      },
+      "rank": 7
+    },
+    {
+      "pair": "FirstStageYsourceTransconductance~in2",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 608.597834029459,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": 0.004357410205223289,
+        "pm_deg": -0.008746827054501694
+      },
+      "rank": 8
+    },
+    {
+      "pair": "FirstStageYsourceTransconductance~in1",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 613.3017957004314,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.003813293905864157,
+        "pm_deg": 0.007928959325425922
+      },
+      "rank": 9
+    },
+    {
+      "pair": "FirstStageYout1~in1",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 638.6388680255453,
+      "per_fF": {
+        "gain_db": 7.105427357601002e-15,
+        "gbw_mhz": -0.0036620069918864573,
+        "pm_deg": -0.003768622281235423
+      },
+      "rank": 10
+    },
+    {
+      "pair": "FirstStageYout1~ibias",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 880.7124730161717,
+      "per_fF": {
+        "gain_db": 7.105427357601002e-15,
+        "gbw_mhz": -0.002456790977662493,
+        "pm_deg": -0.00604431089952584
+      },
+      "rank": 11
+    },
+    {
+      "pair": "FirstStageYout1~FirstStageYsourceTransconductance",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 1039.7405801227785,
+      "per_fF": {
+        "gain_db": -7.105427357601002e-15,
+        "gbw_mhz": -0.002249311073079241,
+        "pm_deg": 0.025386230047459435
+      },
+      "rank": 12
+    },
+    {
+      "pair": "ibias~outFirstStage",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 1407.4649761585322,
+      "per_fF": {
+        "gain_db": -3.730349362740526e-13,
+        "gbw_mhz": -0.0016616399268301052,
+        "pm_deg": -0.0022194292669510673
+      },
+      "rank": 13
+    },
+    {
+      "pair": "outFirstStage~in1",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 1581.536242523216,
+      "per_fF": {
+        "gain_db": -3.765876499528531e-13,
+        "gbw_mhz": -0.001180216787906474,
+        "pm_deg": -0.003365904528060071
+      },
+      "rank": 14
+    },
+    {
+      "pair": "out~in2",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 1947.6940010102428,
+      "per_fF": {
+        "gain_db": -7.105427357601002e-15,
+        "gbw_mhz": -0.0008756726382177504,
+        "pm_deg": -0.002733129535357648
+      },
+      "rank": 15
+    },
+    {
+      "pair": "FirstStageYsourceTransconductance~ibias",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 2112.530840824928,
+      "per_fF": {
+        "gain_db": 7.105427357601002e-15,
+        "gbw_mhz": -0.0011070607608676397,
+        "pm_deg": 0.008051260769150304
+      },
+      "rank": 16
+    },
+    {
+      "pair": "out~in1",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 2125.4474389632874,
+      "per_fF": {
+        "gain_db": -7.105427357601002e-15,
+        "gbw_mhz": -9.376529343896323e-05,
+        "pm_deg": -0.0025045549950633017
+      },
+      "rank": 17
+    },
+    {
+      "pair": "ibias~in1",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 169663.2994768831,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -1.3784360007207397e-05,
+        "pm_deg": 0.0001444006797299835
+      },
+      "rank": 18
+    },
+    {
+      "pair": "FirstStageYout1~in2",
+      "most_limiting_spec": null,
+      "fF_to_consume_margin": null,
+      "per_fF": {
+        "gain_db": 7.105427357601002e-15,
+        "gbw_mhz": 0.005424134233493305,
+        "pm_deg": 0.05300320002073278
+      },
+      "rank": 19
+    },
+    {
+      "pair": "ibias~in2",
+      "most_limiting_spec": null,
+      "fF_to_consume_margin": null,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": 0.005819742281001794,
+        "pm_deg": 0.0006814872959566287
+      },
+      "rank": 20
+    }
+  ],
+  "ranking": "ascending capacitance (fF, to ground for nets, between the two nets for pairs) that would alone consume the margin of the most limiting spec, first-order (linear model)",
+  "critical_terminals": [
+    {
+      "group": "XNormalTransistorNmos3.s",
+      "ohm_to_consume_margin": 34.425185465686894,
+      "most_limiting": "gain_db",
+      "rank": 1
+    },
+    {
+      "group": "XNormalTransistorPmos5.s",
+      "ohm_to_consume_margin": 194.10568920409153,
+      "most_limiting": "pm_deg",
+      "rank": 2
+    },
+    {
+      "group": "XNormalTransistorPmos8.s",
+      "ohm_to_consume_margin": 354.8861911987846,
+      "most_limiting": "gbw_mhz",
+      "rank": 3
+    },
+    {
+      "group": "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+      "ohm_to_consume_margin": 855.648038049927,
+      "most_limiting": "gbw_mhz",
+      "rank": 4
+    },
+    {
+      "group": "XNormalTransistorNmos3.d",
+      "ohm_to_consume_margin": 1060.1643254707924,
+      "most_limiting": "gain_db",
+      "rank": 5
+    },
+    {
+      "group": "XNormalTransistorPmos5.d",
+      "ohm_to_consume_margin": 2889.4944384542737,
+      "most_limiting": "sat_XNormalTransistorPmos5",
+      "rank": 6
+    },
+    {
+      "group": "XNormalTransistorNmos3.g",
+      "ohm_to_consume_margin": 4817.466063346016,
+      "most_limiting": "pm_deg",
+      "rank": 7
+    },
+    {
+      "group": "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+      "ohm_to_consume_margin": 5781.705809642564,
+      "most_limiting": "gbw_mhz",
+      "rank": 8
+    },
+    {
+      "group": "XDiodeTransistorPmos2.s",
+      "ohm_to_consume_margin": 9114.88005704614,
+      "most_limiting": "sat_XNormalTransistorPmos8",
+      "rank": 9
+    },
+    {
+      "group": "XNormalTransistorPmos8.d",
+      "ohm_to_consume_margin": 9730.930545146544,
+      "most_limiting": "sat_XNormalTransistorPmos8",
+      "rank": 10
+    },
+    {
+      "group": "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+      "ohm_to_consume_margin": 13675.786769421264,
+      "most_limiting": "pm_deg",
+      "rank": 11
+    },
+    {
+      "group": "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+      "ohm_to_consume_margin": 36712.41379315306,
+      "most_limiting": "pm_deg",
+      "rank": 12
+    },
+    {
+      "group": "XDiodeTransistorPmos2.d",
+      "ohm_to_consume_margin": 40938.55485901371,
+      "most_limiting": "sat_XDiodeTransistorPmos2",
+      "rank": 13
+    },
+    {
+      "group": "XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
+      "ohm_to_consume_margin": 56034.736841879654,
+      "most_limiting": "pm_deg",
+      "rank": 14
+    },
+    {
+      "group": "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+      "ohm_to_consume_margin": 67300.71942422164,
+      "most_limiting": "gbw_mhz",
+      "rank": 15
+    },
+    {
+      "group": "XNormalTransistorPmos5.g",
+      "ohm_to_consume_margin": 96441.23711369745,
+      "most_limiting": "gbw_mhz",
+      "rank": 16
+    },
+    {
+      "group": "XNormalTransistorPmos8.g",
+      "ohm_to_consume_margin": 1120694.7367965207,
+      "most_limiting": "pm_deg",
+      "rank": 17
+    },
+    {
+      "group": "XDiodeTransistorPmos2.g",
+      "ohm_to_consume_margin": null,
+      "most_limiting": null,
+      "rank": 18
+    }
+  ],
+  "ranking_terminals": "ascending series resistance (ohm, applied to every member of the group) that would alone consume the margin of the most limiting spec, incl. DC headroom"
+}

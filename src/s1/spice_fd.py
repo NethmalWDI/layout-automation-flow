@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from src.common.tools import run_ngspice, run_ngspice_text
+from src.common.tools import bench, run_ngspice, run_ngspice_text
 
 
 def deck_with_cap(s0_ac_deck: Path, dut: str, a: str, b: str | None, c_ff: float, gnd: str = "VSS") -> str:
@@ -26,7 +26,7 @@ def run_fd(s0_dir: Path, dut: str, cases: list, deltas_ff: list, work: Path, wor
     """cases: [(label, a, b_or_None)] using DUT-internal net names. Independent runs, thread pool;
     each run has its own folder (ngspice writes rawspice.raw into its cwd)."""
     from concurrent.futures import ThreadPoolExecutor
-    ac = s0_dir / "tb" / "diso_amp_AC.spice"
+    ac = bench(s0_dir / "tb", "AC")
     jobs = [("base", None, ac.read_text(), work / "base")]
     for label, a, b in cases:
         for dl in deltas_ff:

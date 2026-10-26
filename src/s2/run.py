@@ -23,11 +23,12 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from src.common.tools import REPO, provenance, rel, run_ngspice_text, write_json
+from src.common.tools import REPO, bench, provenance, rel, run_ngspice_text, write_json
 from src.s0.ingest import load_package
 from src.s1 import linear, op as opmod, resistance
 from src.s1.run import ac_drive
-from src.s2 import budgets as B, rules as R
+from src.s2 import baselines as BL, budgets as B, pvt as S2PVT, rules as R
+from src.s0.pvt import with_conditions
 
 ETA_DEFAULT = 0.5          # ASSUMPTION (accepted): half of every margin is reserved for layout
 COUPLE_FRACTION = 0.25     # ASSUMPTION: expected parallel run = 1/4 of the shorter of the two routes
@@ -94,6 +95,79 @@ def default_cells(ir: dict) -> dict:
     return out
 
 
+def _cell_caps(rec: dict) -> list:
+    import re as _re
+    txt = (REPO / rec["pex"]["file"]).read_text()
+    caps = []
+    for m in _re.finditer(r"^C\S*\s+(\S+)\s+(\S+)\s+([0-9.eE+-]+)([afp]?)", txt, _re.M):
+        caps.append((m.group(1), m.group(2), float(m.group(3)) * {"a": 1e-3, "f": 1.0, "p": 1e3, "": 1e15}[m.group(4)]))
+    return caps
+
+
+def _label(a_, b_, acg, sens):
+    if a_ == b_ or (a_ in acg and b_ in acg):
+        return None
+    if a_ in acg or b_ in acg:
+        return b_ if a_ in acg else a_
+    return next((l for l in sens if "~" in l and set(l.split("~")) == {a_, b_}), None)
+
+
+def library_floors(ir: dict, elements: list, sens: dict) -> dict:
+    """v2 (R19 part b): per element, the least that any cell of the S3 unit library puts on it. Device types
+    are independent (S3 picks one option per type), so a net touched by several types gets the sum of the
+    per-type minima. Capacitance: the cells' own extracted capacitance on that net / net pair; resistance:
+    the cells' access resistance of that terminal. Elements no cell touches get no floor."""
+    from src.s3 import options as O
+    gnd = next(p["name"] for p in ir["ports"] if p["role"] == "ground")
+    acg = {p["name"] for p in ir["ports"] if p["role"] in ("supply", "ground", "bias_ac_ground")} | \
+          {x for s_ in ir.get("internal_sources", []) if s_.get("kind", "V") == "V" for x in (s_["p"], s_["n"])}
+    devs = {d["name"]: d for d in ir["devices"]}
+    by_type_c: dict = {}     # element -> type -> [value per option]
+    by_type_r: dict = {}     # (device, terminal) -> [access R per option]
+    src: dict = {}
+    for tid, t in O.device_types(ir).items():
+        recs = []
+        for opt in O.grid(t["W"]):
+            f = REPO / "outputs" / "S3" / "_cells" / f"{tid}__{opt['id']}" / "record.json"
+            if f.exists():
+                r = json.loads(f.read_text())
+                if r.get("ok"):
+                    recs.append(r)
+        if not recs:
+            continue
+        for r in recs:
+            caps = _cell_caps(r)
+            per_el: dict = {}
+            for d in t["devices"]:
+                term = devs[d]["terminals"]
+                net = {"D": term["d"], "G": term["g"], "S": term["s"], "B": term["b"], "VSUBS": gnd}
+                for a_, b_, c in caps:
+                    lab = _label(net.get(a_, a_), net.get(b_, b_), acg, sens)
+                    if lab in sens:
+                        per_el[lab] = per_el.get(lab, 0.0) + c
+                for k in "dgs":
+                    by_type_r.setdefault((d, k), []).append((r["access_resistance_ohm"][k], r["option"]["id"]))
+            for lab, v in per_el.items():
+                by_type_c.setdefault(lab, {}).setdefault(tid, []).append((v, r["option"]["id"]))
+    floors = {}
+    for e in elements:
+        if e["kind"] == "terminal_resistance":
+            vals = [by_type_r.get(tuple(m.split(".")), []) for m in e["targets"]]
+            vals = [min(v) for v in vals if v]
+            if vals:
+                v, opt = max(vals)    # every member must fit: the largest of the members' minima
+                floors[e["id"]] = v
+                src[e["id"]] = {"floor": v, "option": opt, "kind": "access resistance"}
+        else:
+            per_t = by_type_c.get(e["id"], {})
+            if per_t:
+                v = sum(min(x)[0] for x in per_t.values())
+                floors[e["id"]] = v
+                src[e["id"]] = {"floor": v, "per_type_option": {t: min(x)[1] for t, x in per_t.items()},
+                                "kind": "cell capacitance"}
+    return {"floors": floors, "source": src}
+
+
 def build_problem(ir, s1, pdk, sizes, eta):
     margins = ir["margins"]
     kinds = {k: v["kind"] for k, v in margins.items()}
@@ -113,8 +187,8 @@ def build_problem(ir, s1, pdk, sizes, eta):
     # what the default device cells themselves put on each element (measured, S3 library), so that the
     # expected need -- and the share S3 may use -- includes the cells and not only the wiring
     cells = default_cells(ir)
-    acg = {p["name"] for p in ir["ports"] if p["role"] in ("supply", "ground")} | \
-          {x for s_ in ir.get("internal_sources", []) for x in (s_["p"], s_["n"])}
+    acg = {p["name"] for p in ir["ports"] if p["role"] in ("supply", "ground", "bias_ac_ground")} | \
+          {x for s_ in ir.get("internal_sources", []) if s_.get("kind", "V") == "V" for x in (s_["p"], s_["n"])}
     cell_need: dict = {}   # element label -> {device: fF}
     for d, c in cells.items():
         for a_, b_, f in c["caps_fF"]:
@@ -233,16 +307,21 @@ def deck_with_budgets(txt: str, ir: dict, caps: list, res: list) -> str:
     return pat.sub(lambda m: m.group(1) + "".join(lines), txt, count=1)
 
 
-def run_scenarios(s0, ir, scen: dict, work: Path, workers: int = 4) -> dict:
-    """scen: {name: (kind, caps, res)} with kind in ac | noise | op | opmeas. Each scenario is one
-    ngspice run in its own folder. Returns {name: measurements or None if the run failed}."""
+def run_scenarios(s0, ir, scen: dict, work: Path, workers: int = 4, points: dict | None = None) -> dict:
+    """scen: {name: (kind, caps, res)} with kind in ac | noise | op | opmeas, optionally '<kind>@<pvt point>'
+    (the point's corner, VDD and temperature from S0's pvt.json). Each scenario is one ngspice run in its
+    own folder. Returns {name: measurements or None if the run failed}."""
     tb = s0 / "tb"
-    src = {"ac": "diso_amp_AC.spice", "noise": "diso_amp_NOISE.spice", "op": "diso_amp_OP.spice",
-           "opmeas": "diso_amp_OP.spice"}
+    src = {"ac": bench(tb, "AC").name, "noise": bench(tb, "NOISE").name, "op": bench(tb, "OP").name,
+           "opmeas": bench(tb, "OP").name}
     jobs = []
-    for name, (kind, caps, res) in scen.items():
+    for name, (kind_full, caps, res) in scen.items():
+        kind, _, pid = kind_full.partition("@")
         wd = work / name
         txt = deck_with_budgets((tb / src[kind]).read_text(), ir, caps, res)
+        if pid:
+            pt = points[pid]
+            txt = with_conditions(txt, pt["corner"], pt["vdd"], pt["temp"])
         if kind == "op":
             wd.mkdir(parents=True, exist_ok=True)
             (wd / "op_src.spice").write_text(txt)
@@ -282,6 +361,11 @@ def main(argv=None) -> int:
     ap.add_argument("--eta", type=float, default=None,
                     help="fraction of each margin given to layout; default: package key 'eta', else ETA_DEFAULT")
     ap.add_argument("--no-spice", action="store_true")
+    ap.add_argument("--alloc", choices=["v2", "v1"], default="v2",
+                    help="v2: library floors + R19 phase-2 floor (default); v1: the allocation before 2026-10-26")
+    ap.add_argument("--no-baselines", action="store_true", help="skip the per-net / equal / LP baselines")
+    ap.add_argument("--no-pvt", action="store_true", help="nominal constraints only (no PVT points)")
+    ap.add_argument("--workers", type=int, default=4)
     a = ap.parse_args(argv)
     pkg = load_package(REPO / a.package)
     design = pkg["design"]
@@ -294,11 +378,36 @@ def main(argv=None) -> int:
     pdk = json.loads(pdk_f.read_text())
     intent = json.loads((s1 / "intent.json").read_text())
     currents = json.loads((s1 / "currents.json").read_text())
-    op = json.loads((s1 / "operating_point.json").read_text())["devices"]
+    op_json = json.loads((s1 / "operating_point.json").read_text())
+    op = op_json["devices"]
+    opmod.apply_passives(ir, op_json)
     sizes = device_sizes(s0)
     gates = {}
 
     elements, constraints, geo = build_problem(ir, s1, pdk, sizes, eta)
+    sens_tab = json.loads((s1 / "sensitivity.json").read_text())["table"]
+    lib = library_floors(ir, elements, sens_tab) if a.alloc == "v2" else {"floors": {}, "source": {}}
+    if a.alloc == "v2":
+        # v2: the device-cell part of the expected need is the library's best cell for the element, not the
+        # as-sized single-finger cell (a 484 um single finger is not what a compact layout draws)
+        for e in elements:
+            f_ = lib["floors"].get(e["id"])
+            if f_ is not None and "device_cells" in e["w_parts"]:
+                e["w_parts"]["device_cells_default_option"] = e["w_parts"]["device_cells"]
+                e["w_parts"]["device_cells"] = f_
+                e["w"] = e["w_parts"]["wiring"] + f_
+                e["w_basis"] += f" (v2: cells at the library's best, {f_:.3g})"
+    drive = ac_drive(s0, ir, pkg.get("ac_drive"))
+    pvt_info, pvt_points = None, {}
+    if not a.no_pvt and (s0 / "pvt.json").exists():
+        nominal_rates = {e["id"]: {c["id"]: c["a"].get(e["id"], 0.0) for c in constraints} for e in elements}
+        pvt_info = S2PVT.constraints(ir, s0, elements, nominal_rates, eta, drive, out / "work" / "pvt_op", a.workers)
+        pvt_points = json.loads((s0 / "pvt.json").read_text())["points"]
+        constraints = constraints + pvt_info["constraints"]
+        gates["G2.9_pvt_constraints (info)"] = {
+            "pass": None, "points": pvt_info["points"], "constraints_added": len(pvt_info["constraints"]),
+            "skipped_spec_not_met_before_layout": pvt_info["skipped_spec_not_met"],
+            "op_failed": pvt_info["op_failed"]}
     # D6 metric, before any layout: the fraction of each margin a compact default layout would use
     expected_use = {c["id"]: {"use_at_expected_need": sum(c["a"].get(e["id"], 0.0) * e["w"] for e in elements),
                               "margin": c["margin"],
@@ -308,17 +417,28 @@ def main(argv=None) -> int:
         "pass": None, "checks": expected_use, "default_cells_used": geo["default_cells_used"],
         "note": "fraction of each margin that a compact layout with the default device cells would use (sum of "
                 "rate x expected need); above eta the budgets fall below the expected need"}
-    alloc = B.allocate(elements, constraints)
-    lp = B.lp_first_round(elements, constraints)
+    floors = lib["floors"] or None
+    alloc = B.allocate(elements, constraints, floors=floors)
+    if not alloc["floors_feasible"]:
+        floors = None   # reported in G2.7; the allocation above already ran without them
+    lp = B.lp_first_round(elements, constraints, floors=floors)
     t1 = alloc["rounds"][0]["t"] if alloc["rounds"] else None
     used = B.check(alloc["x"], constraints)
-    alloc2 = B.allocate(elements, constraints)  # determinism
+    alloc2 = B.allocate(elements, constraints, floors=floors)  # determinism
+    floor_use = {c["id"]: sum(c["a"].get(k, 0.0) * v for k, v in lib["floors"].items()) / c["b"] if c["b"] else None
+                 for c in constraints}
+    gates["G2.7_library_floors_feasible"] = {
+        "pass": alloc["floors_feasible"] if a.alloc == "v2" else None,
+        "alloc": a.alloc, "n_floors": len(lib["floors"]),
+        "floor_use_of_allowed": floor_use,
+        "note": "the cheapest cell of the S3 unit library for every element, all at once, as a fraction of "
+                "eta*margin; > 1 means no layout built from library cells can meet the budgets at this eta"}
     gates["G2.3_allocation"] = {
         "pass": bool(alloc["rounds"]) and t1 > 0 and all(u["ok"] for u in used) and lp.get("success", False)
                 and abs(lp["t"] - t1) <= 1e-6 * t1 and alloc2["x"] == alloc["x"],
         "t_round1": t1, "lp_round1": lp, "rounds": alloc["rounds"], "constraint_use": used,
         "reproducible": alloc2["x"] == alloc["x"]}
-    ref = B.refine(elements, constraints, alloc["x"])
+    ref = B.refine(elements, constraints, alloc["x"], floors=floors, protect_need=(a.alloc == "v2"))
     gates["G2.3_allocation"]["phase2_refine"] = {"success": ref["success"], "message": ref.get("message"),
                                                   "delta": ref.get("delta"),
                                                   "constraint_use": B.check(ref["x"], constraints)}
@@ -333,16 +453,24 @@ def main(argv=None) -> int:
             rec.update({"budget": x[e["id"]], "budget_maxmin": alloc["x"][e["id"]],
                         "multiple_of_expected": x[e["id"]] / e["w"], "binding": rnd["binding"],
                         "margin_used": {c["id"]: c["a"].get(e["id"], 0.0) * x[e["id"]] for c in constraints
-                                        if c["a"].get(e["id"], 0.0) > 0}})
+                                        if c["a"].get(e["id"], 0.0) > 0 and "@" not in c["id"]}})
         else:
             rec.update({"budget": None, "status": "unconstrained by the specs (consumes no margin in any check)"})
+        if e["id"] in lib["floors"]:
+            rec["floor"] = lib["floors"][e["id"]]
+            rec["floor_source"] = lib["source"].get(e["id"])
         bud.append(rec)
     budgets_doc = {"design": design, "eta": eta, "eta_source": eta_source, "eta_note": "ASSUMPTION (accepted): fraction of each margin given to layout",
                    "expected_layout_use": expected_use, "default_cells_used": geo["default_cells_used"],
                    "elements": bud, "constraints": [{k: c[k] for k in ("id", "b", "margin", "units")} for c in constraints],
-                   "method": "max-min fair progressive filling (budgets.allocate), then proportional-fairness refinement "
+                   "method": ("v2: max-min fair progressive filling of max(t*w, floor) with library floors, then "
+                              "proportional-fairness refinement keeping >= max(95 % of, min(need, )) every max-min budget "
+                              "and the floors (budgets.allocate/refine)") if a.alloc == "v2" else
+                             "v1: max-min fair progressive filling (budgets.allocate), then proportional-fairness refinement "
                              "keeping >= 95 % of every max-min budget (budgets.refine)",
-                   "rates": {c["id"]: c["a"] for c in constraints}}
+                   "alloc": a.alloc,
+                   "rates": {c["id"]: c["a"] for c in constraints if "@" not in c["id"]},
+                   "pvt_binding": sorted({cid for r_ in alloc["rounds"] for cid in r_["binding"] if "@" in cid})}
     write_json(out / "budgets.json", budgets_doc)
 
     # verification (H1): for every check, insert at their full budget all the parasitics that are
@@ -350,7 +478,6 @@ def main(argv=None) -> int:
     # require the margin used to stay within eta*margin (+TOL_VERIFY for first-order model error) and
     # the spec to stay met. If a check exceeds it, the budgets of its elements are scaled down by the
     # measured ratio and the check is repeated (closure iteration, at most CLOSURE_ITERS).
-    drive = ac_drive(s0, ir)
     base_lin = linear.evaluate(ir, op, drive=drive)
     by_kind = {e["id"]: e for e in elements}
 
@@ -367,52 +494,81 @@ def main(argv=None) -> int:
         return caps_, res_
 
     def kind_of(cid):
+        if "@" in cid:
+            return "ac@" + cid.split("@", 1)[1]
         return "noise" if cid == "vnoise_nv_rthz" else ("op" if cid.startswith("sat_") else "ac")
+
+    nom_cons = [c for c in constraints if "@" not in c["id"]]
+
+    def top_corner_checks(sets: list, n: int = 5) -> list:
+        """the corner constraints most used (first order, relative to their allowed use) by any budget set"""
+        cc = [c for c in constraints if "@" in c["id"]]
+        score_ = {c["id"]: max(sum(c["a"].get(k, 0.0) * v for k, v in xx.items()) / c["b"] for xx in sets) for c in cc}
+        return [c for c in cc if c["id"] in sorted(score_, key=score_.get, reverse=True)[:n]]
+
+    def corner_use(c, m):
+        """SPICE margin use of a corner check: its spec at the point, vs the point's own pre-layout value"""
+        spec_, pid = c["spec"], c["point"]
+        b0 = pvt_points[pid]["meas"].get(spec_)
+        now = None if not m else m.get(spec_)
+        kind = ir["margins"][spec_]["kind"]
+        use = None if now is None or b0 is None else ((b0 - now) if kind == "min" else (now - b0))
+        meets = now is not None and ((now >= lim[spec_]) if kind == "min" else (now <= lim[spec_]))
+        return use, meets, now
 
     ach = ir["achieved"]
     lim = {k: v["limit"] for k, v in ir["margins"].items()}
     ver = {"method": "per check: harmful elements only, at full budget; closure iteration if over eta*margin",
            "tolerance": TOL_VERIFY, "iterations": []}
     xv = dict(x)
+    def measure(c, m, base):
+        """(use, meets, value now) of one check from one scenario's measurements"""
+        if "@" in c["id"]:
+            return corner_use(c, m)
+        if c["id"].startswith("sat_"):
+            d_ = c["id"][4:]
+            now = None if not m or not base["base_op"] else m["vds_minus_vdsat_V"].get(d_)
+            b0 = base["base_op"]["vds_minus_vdsat_V"][d_] if base["base_op"] else None
+            return (None if now is None or b0 is None else b0 - now), (now is not None and now > 0), now
+        bk = base["base_noise"] if c["id"] == "vnoise_nv_rthz" else base["base_ac"]
+        now = None if not m else m.get(c["id"])
+        b0 = None if not bk else bk.get(c["id"])
+        kind = ir["margins"][c["id"]]["kind"]
+        use = None if now is None or b0 is None else ((b0 - now) if kind == "min" else (now - b0))
+        meets = now is not None and ((now >= lim[c["id"]]) if kind == "min" else (now <= lim[c["id"]]))
+        return use, meets, now
+
+    def spice_checks(checks, xx, tag):
+        scen = {}
+        for c in checks:
+            ids = [k for k, v in c["a"].items() if v > 0 and k in xx]
+            if ids:
+                caps_, res_ = parts(ids, xx)
+                scen[c["id"]] = (kind_of(c["id"]), caps_, res_)
+        r = run_scenarios(s0, ir, scen, out / "work" / tag, a.workers, pvt_points)
+        rows = []
+        for c in checks:
+            if c["id"] not in scen:
+                continue
+            use, meets, now = measure(c, r.get(c["id"]), base)
+            pred = sum(c["a"].get(k, 0.0) * xx[k] for k in xx if c["a"].get(k, 0.0) > 0)
+            rows.append({"check": c["id"], "margin": c["margin"], "allowed_eta_margin": c["b"],
+                         "first_order_predicted_use": pred, "spice_use": use, "value_now": now,
+                         "spice_use_frac_of_margin": None if use is None else use / c["margin"],
+                         "meets_spec": meets, "ok": use is not None and meets and use <= c["b"] * (1 + TOL_VERIFY),
+                         "n_elements": len(scen[c["id"]][1]) + len(scen[c["id"]][2])})
+        return rows
+
     if not a.no_spice:
         base = run_scenarios(s0, ir, {"base_ac": ("ac", [], []), "base_noise": ("noise", [], []),
-                                      "base_op": ("op", [], [])}, out / "work" / "verify" / "base")
+                                      "base_op": ("op", [], [])}, out / "work" / "verify" / "base", a.workers)
         for it in range(CLOSURE_ITERS + 1):
-            scen = {}
-            for c in constraints:
-                ids = [k for k, v in c["a"].items() if v > 0 and k in xv]
-                if ids:
-                    caps_, res_ = parts(ids, xv)
-                    scen[c["id"]] = (kind_of(c["id"]), caps_, res_)
-            r = run_scenarios(s0, ir, scen, out / "work" / "verify" / f"iter{it}")
-            rows, over = [], {}
-            for c in constraints:
-                if c["id"] not in scen:
-                    continue
-                m = r.get(c["id"])
-                if c["id"].startswith("sat_"):
-                    d_ = c["id"][4:]
-                    now = None if not m or not base["base_op"] else m["vds_minus_vdsat_V"].get(d_)
-                    b0 = base["base_op"]["vds_minus_vdsat_V"][d_] if base["base_op"] else None
-                    use = None if now is None or b0 is None else b0 - now
-                    meets = now is not None and now > 0
-                else:
-                    bk = base["base_noise"] if c["id"] == "vnoise_nv_rthz" else base["base_ac"]
-                    now = None if not m else m.get(c["id"])
-                    b0 = None if not bk else bk.get(c["id"])
-                    kind = ir["margins"][c["id"]]["kind"]
-                    use = None if now is None or b0 is None else ((b0 - now) if kind == "min" else (now - b0))
-                    meets = now is not None and ((now >= lim[c["id"]]) if kind == "min" else (now <= lim[c["id"]]))
-                pred = sum(c["a"].get(k, 0.0) * xv[k] for k in xv if c["a"].get(k, 0.0) > 0)
-                ok = use is not None and meets and use <= c["b"] * (1 + TOL_VERIFY)
-                rows.append({"check": c["id"], "margin": c["margin"], "allowed_eta_margin": c["b"],
-                             "first_order_predicted_use": pred, "spice_use": use, "value_now": now,
-                             "spice_use_frac_of_margin": None if use is None else use / c["margin"],
-                             "meets_spec": meets, "ok": ok, "n_elements": len(scen[c["id"]][1]) + len(scen[c["id"]][2])})
-                if use is not None and use > c["b"] * (1 + TOL_VERIFY) and use > 0:
-                    over[c["id"]] = c["b"] / use
-            ver["iterations"].append({"iteration": it, "rows": rows,
-                                      "scaled": {k: v for k, v in over.items()}})
+            checks = nom_cons + top_corner_checks([xv])
+            rows = spice_checks(checks, xv, f"verify/iter{it}")
+            over = {r_["check"]: r_["allowed_eta_margin"] / r_["spice_use"] for r_ in rows
+                    if r_["spice_use"] is not None and r_["spice_use"] > r_["allowed_eta_margin"] * (1 + TOL_VERIFY)
+                    and r_["spice_use"] > 0}
+            ver["iterations"].append({"iteration": it, "rows": rows, "scaled": dict(over)})
             if not over:
                 break
             for cid, f in over.items():   # closure: shrink every element that is harmful for the failing check
@@ -425,15 +581,48 @@ def main(argv=None) -> int:
             "pass": bool(last) and all(rr["ok"] for rr in last) and all(
                 rr["spice_use"] is not None for rr in last),
             "iterations": len(ver["iterations"]), "rows": last,
+            "pvt_checks": [rr["check"] for rr in last if "@" in rr["check"]],
             "closure_scaled_elements": sorted(k for k in x if abs(xv[k] - x[k]) > 1e-12 * max(1, x[k]))}
         # realistic mix (every budget, helpful ones included): reported, not gated
         caps_all, res_all = parts(list(xv), xv)
         mix = run_scenarios(s0, ir, {"mix_ac": ("ac", caps_all, res_all), "mix_noise": ("noise", caps_all, res_all),
-                                     "mix_op": ("op", caps_all, res_all)}, out / "work" / "verify" / "mix")
+                                     "mix_op": ("op", caps_all, res_all)}, out / "work" / "verify" / "mix", a.workers)
         ver["all_budgets_at_once"] = mix
         ver["base"] = base
     else:
         gates["G2.5_spice_budget_verification"] = {"pass": None, "note": "--no-spice"}
+    # baselines (plan v2, A3): the same sensitivities and eta shared by other rules, scored first order and,
+    # with SPICE, by the same per-check insertion as G2.5 (no closure iteration for any method, ours included)
+    if not a.no_baselines:
+        bl = BL.run_all(elements, constraints, x, lib["floors"])
+        if not a.no_spice:
+            checks_b = nom_cons + top_corner_checks([v_["budgets"] for v_ in bl.values()])
+            for m_, v_ in bl.items():
+                rows_ = spice_checks(checks_b, v_["budgets"], f"baselines/{m_}")
+                v_["spice"] = {r_["check"]: {"spice_use_frac_of_margin": r_["spice_use_frac_of_margin"],
+                                             "spice_use_frac_of_allowed": None if r_["spice_use"] is None
+                                             else r_["spice_use"] / r_["allowed_eta_margin"],
+                                             "meets_spec": r_["meets_spec"], "value_now": r_["value_now"]}
+                               for r_ in rows_}
+                fr = [r_["spice_use_frac_of_allowed"] for r_ in v_["spice"].values() if r_["spice_use_frac_of_allowed"] is not None]
+                v_["score"]["spice_worst_use_of_allowed"] = max(fr) if fr else None
+                v_["score"]["spice_specs_violated"] = sorted(k for k, r_ in v_["spice"].items() if not r_["meets_spec"])
+        write_json(out / "baselines.json", {"design": design, "eta": eta, "alloc": a.alloc,
+                                            "methods": bl, "note": BL.__doc__})
+        gates["G2.8_baselines (info)"] = {"pass": None, "eta": eta,
+                                         "scores": {m_: v_["score"] for m_, v_ in bl.items()}}
+    # eta sweep (first order): eta as a model-error reserve, 0.3 .. 1.0
+    sweep = {}
+    for et in (0.3, 0.5, 0.7, 0.9, 1.0):
+        cs = [{**c, "b": et * c["margin"]} for c in constraints]
+        al_ = B.allocate(elements, cs, floors=lib["floors"] or None)
+        fl_ = (lib["floors"] or None) if al_["floors_feasible"] else None
+        rf_ = B.refine(elements, cs, al_["x"], floors=fl_, protect_need=(a.alloc == "v2"))
+        sweep[f"{et:g}"] = {"floors_feasible": al_["floors_feasible"],
+                            "t_round1": al_["rounds"][0]["t"] if al_["rounds"] else None,
+                            "methods": {m_: v_["score"] for m_, v_ in BL.run_all(elements, cs, rf_["x"], lib["floors"]).items()}}
+    write_json(out / "eta_sweep.json", {"design": design, "alloc": a.alloc, "sweep": sweep,
+                                        "note": "first order; eta = share of each margin given to layout"})
     # write back the verified (possibly scaled) budgets
     for rec in bud:
         if rec.get("budget") is not None and abs(xv[rec["id"]] - rec["budget"]) > 1e-12 * max(1, rec["budget"]):
@@ -441,7 +630,7 @@ def main(argv=None) -> int:
             rec["budget"] = xv[rec["id"]]
             rec["multiple_of_expected"] = xv[rec["id"]] / rec["w"]
             rec["margin_used"] = {c["id"]: c["a"].get(rec["id"], 0.0) * xv[rec["id"]] for c in constraints
-                                  if c["a"].get(rec["id"], 0.0) > 0}
+                                  if c["a"].get(rec["id"], 0.0) > 0 and "@" not in c["id"]}
             rec["closure_note"] = "scaled down in S2 verification (closure iteration)"
     write_json(out / "budgets.json", budgets_doc)
     caps, res = parts(list(xv), xv)
@@ -511,6 +700,32 @@ def main(argv=None) -> int:
             ax.set_xticks(list(xs)); ax.set_xticklabels([r["check"] for r in rows], rotation=20, ha="right")
             ax.set_ylabel("fraction of margin used"); ax.set_title(f"{design}: budget verification"); ax.legend(fontsize=8)
             fig.tight_layout(); fig.savefig(out / "plots" / "budget_verification.png", dpi=110); plt.close(fig)
+        blf = out / "baselines.json"
+        if blf.exists() and not a.no_baselines:
+            blj = json.loads(blf.read_text())["methods"]
+            ms = list(blj)
+            fig, axs = plt.subplots(1, 3, figsize=(14, 4))
+            fo = [blj[m_]["score"]["worst_use_of_allowed"] or 0 for m_ in ms]
+            sp = [blj[m_]["score"].get("spice_worst_use_of_allowed") or 0 for m_ in ms]
+            xs = range(len(ms))
+            axs[0].bar([i - 0.2 for i in xs], fo, 0.4, label="first order", color="#4C78A8")
+            axs[0].bar([i + 0.2 for i in xs], sp, 0.4, label="SPICE (per check)", color="#F58518")
+            axs[0].axhline(1.0, color="#E45756", lw=1)
+            axs[0].set_xticks(list(xs)); axs[0].set_xticklabels(ms); axs[0].set_ylabel("worst use / (eta x margin)")
+            axs[0].set_title("safety (> 1: over-committed)"); axs[0].legend(fontsize=8)
+            n_el = [max(1, blj[m_]["score"]["n_elements"]) for m_ in ms]
+            axs[1].bar(xs, [len(blj[m_]["score"]["starved"]) / n for m_, n in zip(ms, n_el)], color="#54A24B")
+            axs[1].set_xticks(list(xs)); axs[1].set_xticklabels(ms); axs[1].set_ylabel("fraction of elements")
+            axs[1].set_title("starved: budget < expected need")
+            sw = json.loads((out / "eta_sweep.json").read_text())["sweep"]
+            ets = sorted(sw, key=float)
+            for m_, col in zip(ms, ("#E45756", "#72B7B2", "#B279A2", "#4C78A8")):
+                axs[2].plot([float(e_) for e_ in ets], [len(sw[e_]["methods"][m_]["starved"]) / max(1, sw[e_]["methods"][m_]["n_elements"])
+                                                        for e_ in ets], "o-", color=col, label=m_)
+            axs[2].set_xlabel("eta"); axs[2].set_ylabel("fraction starved"); axs[2].set_title("eta sweep (first order)")
+            axs[2].legend(fontsize=8)
+            fig.suptitle(f"{design}: budget rules compared on the same sensitivities (eta = {eta})")
+            fig.tight_layout(); fig.savefig(out / "plots" / "baselines.png", dpi=110); plt.close(fig)
     except Exception as e:  # evidence, not a gate
         gates["G2.3_allocation"]["plot_error"] = str(e)
 

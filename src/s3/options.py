@@ -28,10 +28,12 @@ from pathlib import Path
 
 from src.common import pcell
 from src.common.tools import TOOL_ENV, rel
-from src.s3 import strap
+from src.s3 import strap, wbins
 
 L_DIFF, L_POLY, L_LICON, L_LI, L_MCON, L_M1 = (65, 20), (66, 20), (66, 44), (67, 20), (67, 44), (68, 20)
 NF_GRID = (1, 2, 4, 8)
+NF_GRID_WIDE = (16, 32, 64)   # only for wide devices: used when the finger stays >= WIDE_MIN_WF
+WIDE_MIN_WF = 7.0             # um, the lower W edge of the wide SKY130 model bins
 GATE_GRID = {"both": (1, 1), "top": (1, 0)}
 SD_GRID = {"full": (100, 100), "half": (50, 50)}   # (diffcov %, viasrc/viadrn %)
 MIN_WF = 0.42                                       # sky130 minimum finger width (PCell wmin)
@@ -42,14 +44,15 @@ def device_types(ir: dict) -> dict:
     for d in ir["devices"]:
         key = f"{d['model'].replace('sky130_fd_pr__', '')}_W{d['W_um']:g}_L{d['L_um']:g}_m{d['m']}".replace(".", "p")
         t = types.setdefault(key, {"model": d["model"], "W": d["W_um"], "L": d["L_um"], "m": d["m"],
-                                   "type": d["type"], "devices": []})
+                                   "nf": d.get("nf", 1), "type": d["type"], "devices": []})
         t["devices"].append(d["name"])
     return types
 
 
 def grid(W: float) -> list:
     out = []
-    for nf, (g, gc), (s, sc) in itertools.product(NF_GRID, GATE_GRID.items(), SD_GRID.items()):
+    nfs = NF_GRID + tuple(n for n in NF_GRID_WIDE if W / n >= WIDE_MIN_WF)
+    for nf, (g, gc), (s, sc) in itertools.product(nfs, GATE_GRID.items(), SD_GRID.items()):
         if W / nf < MIN_WF:
             continue
         for outer in (("S", "D") if nf % 2 == 0 else ("D",)):
@@ -58,6 +61,31 @@ def grid(W: float) -> list:
                         "magic": {"topc": gc[0], "botc": gc[1], "diffcov": sc[0], "viasrc": sc[1], "viadrn": sc[1],
                                   "guard": 1, "conn_gates": 1 if nf > 1 else 0}})
     return out
+
+
+# Option modes (plan v2, S3/S4 decision): how far the drawn device may depart from the netlist line
+#   B      nf and m exactly as in the netlist (only contact and coverage options vary)
+#   A-bin  nf free as long as the finger width W/nf stays in the sized device's SKY130 model bin (main mode)
+#   A-free every nf of the grid (ablation; the drawn device may fall into another model bin)
+#   RoT    rule-of-thumb baseline (N3): nf = the grid value nearest W / RULE_OF_THUMB_WF, default contacts
+MODES = ("B", "A-bin", "A-free")
+RULE_OF_THUMB_WF = 4.0   # um, fixed before any run that uses it (PREREG.md)
+
+
+def in_mode(t: dict, opt: dict, mode: str) -> bool:
+    if mode == "A-free":
+        return True
+    if mode == "B":
+        return opt["nf"] == t.get("nf", 1)
+    if mode == "A-bin":
+        return opt["nf"] == t.get("nf", 1) or wbins.same_bin(t["model"], t["W"], t["L"], t["W"] / opt["nf"])
+    raise ValueError(mode)
+
+
+def rule_of_thumb_id(t: dict) -> str:
+    nfs = [n for n in NF_GRID + NF_GRID_WIDE if t["W"] / n >= MIN_WF and (n in NF_GRID or t["W"] / n >= WIDE_MIN_WF)]
+    nf = min(nfs, key=lambda n: (abs(t["W"] / n - RULE_OF_THUMB_WF), n))
+    return f"nf{nf}_gboth_sdfull" + ("_outD" if nf % 2 == 0 else "")
 
 
 def default_option_id() -> str:

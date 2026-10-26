@@ -1,0 +1,11 @@
+* NGSPICE file created from nfet_01v8_lvt_W484p2_L0p24_m1__nf2_gboth_sdhalf_outD.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_lvt_M2DW9K G B D0 a_77_n24210# S1
+X0 S1 G D0 B sky130_fd_pr__nfet_01v8_lvt ad=35.1045 pd=242.39 as=70.209 ps=484.78 w=242.10001 l=0.24
+X1 a_77_n24210# G S1 B sky130_fd_pr__nfet_01v8_lvt ad=70.209 pd=484.78 as=35.1045 ps=242.39 w=242.10001 l=0.24
+.ends
+
+.subckt nfet_01v8_lvt_W484p2_L0p24_m1__nf2_gboth_sdhalf_outD S D G B
+Xnfet_01v8_lvt_W484p2_L0p24_m1__nf2_gboth_sdhalf_outD_pc G B D D S sky130_fd_pr__nfet_01v8_lvt_M2DW9K
+.ends
+

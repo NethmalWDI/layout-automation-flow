@@ -1,0 +1,127 @@
+{
+ "design": "ota5t_stress",
+ "tag": "before",
+ "S0": {
+  "gates": {
+   "G0.1_inventory": true,
+   "G0.2_validation": true,
+   "G0.3_hash_freeze": true,
+   "G0.4_name_map": true,
+   "G0.5_round_trip_lvs": true,
+   "G0.6_testbench_reproduction": true,
+   "G0.7_pcell_binding_drc_lvs": true
+  },
+  "failed": []
+ },
+ "S1": {
+  "gates": {
+   "G1.1_operating_point": true,
+   "G1.2_linear_model_vs_spice": true,
+   "G1.3_sensitivity_vs_spice": true,
+   "G1.4_matching_groups": true,
+   "G1.5_symbolic_vs_spice (reported, not gated)": null,
+   "G1.6_resistance_sensitivity_vs_spice": true
+  },
+  "failed": [],
+  "linear_vs_spice": {
+   "gain_db": -0.004065111029280644,
+   "gbw_rel": 0.005470501743272349,
+   "pm_deg": 0.019684496334562596
+  },
+  "symbolic_vs_spice": {
+   "gain_db": -0.33258143917458227,
+   "gbw_mhz": 120.0383671998469,
+   "pm_deg": 25.53633521085213
+  }
+ },
+ "S2": {
+  "gates": {
+   "G2.0_expected_layout_use (info)": null,
+   "G2.3_allocation": true,
+   "G2.5_spice_budget_verification": true,
+   "G2.4_linear_all_budgets_at_once": null,
+   "G2.6_hierarchy_sums": true,
+   "G2.1_names_resolve": true,
+   "G2.2_units_and_provenance": true
+  },
+  "failed": [],
+  "eta": 0.9,
+  "alloc": "v1",
+  "expected_use_fraction": {
+   "gain_db": 0.2865787877705563,
+   "gbw_mhz": 0.9020333847962247,
+   "pm_deg": 0.6610354694486933,
+   "vnoise_nv_rthz": 0.015235366491771696
+  },
+  "t_round1": 0.9977457765638198,
+  "n_budgeted": 21,
+  "starved": 11,
+  "min_ratio_to_need": 0.9478584877356284,
+  "verify": {
+   "gain_db": 0.39059999999999917,
+   "gbw_mhz": 0.8420624427946705,
+   "pm_deg": 0.7364800000000002,
+   "vnoise_nv_rthz": 0.01429368517789125,
+   "sat_XM3": 0.013815944393016475,
+   "sat_XM4": 0.013815944393016475,
+   "sat_XM1": 0.02589658894845121,
+   "sat_XM2": 0.02589658894845121,
+   "sat_XM5": 0.13087694194603472
+  },
+  "floors": null,
+  "baselines": null,
+  "pvt": {}
+ },
+ "S3": {
+  "gates": {
+   "G3.4_option_table_complete": true,
+   "G3.3_all_chosen_devices_in_circuit": true,
+   "G3.1_chosen_DRC": true,
+   "G3.2_chosen_LVS_W_L_nf": true,
+   "G3.5_no_relaxation": false,
+   "G3.6_model_has_no_gate_resistance": true
+  },
+  "failed": [
+   "G3.5_no_relaxation"
+  ],
+  "mode": "A-free",
+  "rules": "v1",
+  "types": {
+   "pfet_01v8_W8_L1_m1": {
+    "option": "nf1_gboth_sdfull",
+    "area_um2": 30.162,
+    "relaxed": true,
+    "devices": 2
+   },
+   "nfet_01v8_W24_L0p5_m1": {
+    "option": "nf4_gtop_sdfull_outS",
+    "area_um2": 36.25,
+    "relaxed": false,
+    "devices": 2
+   },
+   "nfet_01v8_W24_L1_m1": {
+    "option": "nf1_gboth_sdfull",
+    "area_um2": 74.072,
+    "relaxed": true,
+    "devices": 1
+   }
+  },
+  "total_device_area_um2": 206.89600000000002,
+  "relaxed": [
+   "nfet_01v8_W24_L1_m1",
+   "pfet_01v8_W8_L1_m1"
+  ],
+  "final": {
+   "gain_db": 32.2219,
+   "gbw_mhz": 369.226,
+   "pm_deg": 63.6451,
+   "vnoise_nv_rthz": 342.024,
+   "vnoise_rms_uv_rms": 413.656,
+   "vout_V": 0.402231,
+   "isup_ua": 84.2037,
+   "power_uw": 151.567,
+   "vout_v": 0.402231
+  },
+  "by_mode": {}
+ }
+}

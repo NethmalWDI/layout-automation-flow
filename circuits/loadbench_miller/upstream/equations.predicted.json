@@ -1,0 +1,34 @@
+{
+ "design": "loadbench_miller",
+ "mode": "differential",
+ "provenance": "PREDICTED",
+ "assumes": "inputs purely differential (vd = Vinp - Vinn); tail node a virtual ground; first-stage mirror pole-zero doublet neglected; two poles and one RHP zero (no nulling resistor)",
+ "source": "textbook two-stage Miller model, Allen & Holberg, CMOS Analog Circuit Design, 3rd ed., sec. 6.2; written for this flow as a stand-in for the upstream symbolic stage (not produced upstream)",
+ "naming": "level-0 symbols as in the upstream 5t-ota file: C1_<dev> gate-bulk, C2 gate-source, C3 gate-drain, C4 drain-bulk, C5 source-bulk, G1 gm, R1 1/gds; C_<passive> the value of a netlist capacitor",
+ "performance_note": "terms each in those before it; pm_deg from the dominant pole, the second pole and the RHP zero",
+ "performance": {
+  "circuit": "loadbench_miller",
+  "input": "vd",
+  "output": "v(out)",
+  "load": {
+   "CL": "from out to GND"
+  },
+  "terms": {
+   "gm1": "G1_XNormalTransistorPmos6",
+   "R1o": "R1_XNormalTransistorPmos6*R1_XNormalTransistorNmos4/(R1_XNormalTransistorPmos6 + R1_XNormalTransistorNmos4)",
+   "gm2": "G1_XNormalTransistorNmos3",
+   "R2o": "R1_XNormalTransistorNmos3*R1_XNormalTransistorPmos5/(R1_XNormalTransistorNmos3 + R1_XNormalTransistorPmos5)",
+   "Cc": "C_Capacitor2 + C3_XNormalTransistorNmos3",
+   "C1n": "C2_XNormalTransistorNmos3 + C1_XNormalTransistorNmos3 + C4_XNormalTransistorPmos6 + C4_XNormalTransistorNmos4 + C3_XNormalTransistorNmos4 + C3_XNormalTransistorPmos6",
+   "C2n": "CL + C4_XNormalTransistorNmos3 + C4_XNormalTransistorPmos5 + C3_XNormalTransistorPmos5",
+   "A0": "gm1*R1o*gm2*R2o",
+   "wgbw": "gm1/Cc",
+   "wp2": "gm2*Cc/(C1n*C2n + Cc*(C1n + C2n))",
+   "wz": "gm2/Cc",
+   "wu": "wgbw"
+  },
+  "gain_db": "20*log(Abs(A0))/log(10)",
+  "gbw_mhz": "wu/(2000000*pi)",
+  "pm_deg": "180 - 180*(atan(wu*A0*Cc/gm1) + atan(wu/wp2) + atan(wu/wz))/pi"
+ }
+}

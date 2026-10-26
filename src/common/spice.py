@@ -1,8 +1,9 @@
 """Minimal, strict SPICE reader/writer for sized SKY130 transistor netlists (xschem style).
 
 Supported elements: X<name> MOSFET instances of sky130_fd_pr__{n,p}fet_* models,
-V<name> independent sources, R/C passives. Anything else raises SpiceError,
-because silently skipping an element would change the circuit.
+X<name> PDK passives (sky130_fd_pr__cap_* / sky130_fd_pr__res_*), V<name> and I<name> independent
+sources, R/C ideal passives. Anything else raises SpiceError, because silently skipping an element
+would change the circuit.
 """
 from __future__ import annotations
 
@@ -11,6 +12,19 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 MOS_MODEL_RE = re.compile(r"^sky130_fd_pr__([np])fet_\w+$", re.I)
+PDK_PASSIVE_RE = re.compile(r"^sky130_fd_pr__(cap|res)_\w+$", re.I)
+SI = {"t": 1e12, "g": 1e9, "meg": 1e6, "k": 1e3, "m": 1e-3, "u": 1e-6, "n": 1e-9, "p": 1e-12, "f": 1e-15}
+
+
+def si(text) -> float:
+    """SPICE number with an optional scale suffix ('10u', '1e-05', '0.5p', '2meg', '200fF')."""
+    if isinstance(text, (int, float)):
+        return float(text)
+    s_ = str(text).strip().strip("'").lower()
+    m = re.fullmatch(r"([-+]?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?)(meg|[tgkmunpf])?[a-z]*", s_)
+    if not m:
+        raise SpiceError(f"not a number: {text!r}")
+    return float(f"{float(m.group(1)) * (SI[m.group(2)] if m.group(2) else 1.0):.15g}")
 PARAM_RE = re.compile(r"(\w+)\s*=\s*('[^']*'|\S+)")
 
 
@@ -53,6 +67,23 @@ class Source:
     value: str
     line_no: int
 
+    @property
+    def kind(self) -> str:
+        """'V' (voltage) or 'I' (current; flows from p through the source to n)."""
+        return self.name[0].upper()
+
+    @property
+    def dc(self) -> float | None:
+        """The DC value: 'DC 10u', '0.75', 'dc 0.9 ac 1' -> number; None if there is none."""
+        tok = self.value.replace("=", " ").split()
+        for i, t in enumerate(tok):
+            if t.lower() == "dc" and i + 1 < len(tok):
+                return si(tok[i + 1])
+        try:
+            return si(tok[0]) if tok else None
+        except SpiceError:
+            return None
+
 
 @dataclass
 class Passive:
@@ -61,6 +92,35 @@ class Passive:
     b: str
     value: str
     line_no: int
+    model: str = "ideal"        # 'ideal' (R/C element) or a PDK model (sky130_fd_pr__cap_mim_m3_1, ...)
+    params: dict = field(default_factory=dict)   # PDK device parameters (UPPER-case keys)
+    body: str | None = None     # third terminal of a PDK resistor
+
+    @property
+    def kind(self) -> str:
+        """'C' or 'R'."""
+        if self.model == "ideal":
+            return self.name[0].upper()
+        return "C" if "__cap_" in self.model.lower() else "R"
+
+    @property
+    def nominal(self) -> float | None:
+        """Value in F or ohm. Ideal: the number on the line. PDK MIM capacitor: the tt model's area term
+        (sw_cap_mim_ca = 2 fF/um^2 on (W + 0.15 um)(L + 0.15 um), models_capacitors.spice). Other PDK
+        devices: None (S1 reads the simulator's value)."""
+        if self.model == "ideal":
+            return si(self.value.split()[0])
+        if re.match(r"sky130_fd_pr__cap_mim_m[34]_[12]$", self.model, re.I):
+            w, l_ = float(self.params["W"]), float(self.params["L"])
+            mult = float(self.params.get("MF", self.params.get("MULT", self.params.get("M", 1))))
+            return 2e-15 * (w + 0.15) * (l_ + 0.15) * mult
+        return None
+
+    def line(self) -> str:
+        if self.model == "ideal":
+            return f"{self.name} {self.a} {self.b} {self.value}"
+        nodes = [self.a, self.b] + ([self.body] if self.body else [])
+        return f"{self.name} {' '.join(nodes)} {self.model} " + " ".join(f"{k}={v}" for k, v in self.params.items())
 
 
 @dataclass
@@ -84,6 +144,8 @@ class Netlist:
         for p in self.passives:
             out.setdefault(p.a, []).append((p.name, "a"))
             out.setdefault(p.b, []).append((p.name, "b"))
+            if p.body:
+                out.setdefault(p.body, []).append((p.name, "body"))
         return out
 
 
@@ -132,11 +194,17 @@ def parse(path: Path, subckt: str | None = None) -> Netlist:
         tok = ln.split()
         kind = tok[0][0].upper()
         if kind == "X":
-            if len(tok) < 6 or not MOS_MODEL_RE.match(tok[5]):
+            if len(tok) >= 6 and MOS_MODEL_RE.match(tok[5]):
+                params = {k.upper(): v for k, v in PARAM_RE.findall(" ".join(tok[6:]))}
+                nl.mosfets.append(Mosfet(tok[0], tok[1], tok[2], tok[3], tok[4], tok[5], params, no))
+                continue
+            mi = next((i for i, t in enumerate(tok) if PDK_PASSIVE_RE.match(t)), None)
+            if mi is None or mi not in (3, 4):
                 raise SpiceError(f"line {no}: unsupported subcircuit instance '{ln}'")
-            params = {k.upper(): v for k, v in PARAM_RE.findall(" ".join(tok[6:]))}
-            nl.mosfets.append(Mosfet(tok[0], tok[1], tok[2], tok[3], tok[4], tok[5], params, no))
-        elif kind == "V":
+            params = {k.upper(): v for k, v in PARAM_RE.findall(" ".join(tok[mi + 1:]))}
+            nl.passives.append(Passive(tok[0], tok[1], tok[2], "", no, model=tok[mi], params=params,
+                                       body=tok[3] if mi == 4 else None))
+        elif kind in "VI":
             nl.sources.append(Source(tok[0], tok[1], tok[2], " ".join(tok[3:]), no))
         elif kind in "RC":
             nl.passives.append(Passive(tok[0], tok[1], tok[2], " ".join(tok[3:]), no))

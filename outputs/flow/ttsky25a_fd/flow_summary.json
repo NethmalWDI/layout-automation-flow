@@ -1,0 +1,38 @@
+{
+ "design": "ttsky25a_fd",
+ "stages": {
+  "S0": {
+   "stage": "S0",
+   "steps": [
+    {
+     "step": "ingest",
+     "rc": 0,
+     "seconds": 53.0,
+     "log": "runs/logs/flow/ttsky25a_fd/S0_ingest.log"
+    },
+    {
+     "step": "pcell_binding",
+     "rc": 1,
+     "seconds": 1254.4,
+     "log": "runs/logs/flow/ttsky25a_fd/S0_pcell_binding.log"
+    }
+   ],
+   "started": "2026-10-26T06:12:00",
+   "gates": {
+    "G0.1_inventory": true,
+    "G0.2_validation": true,
+    "G0.3_hash_freeze": true,
+    "G0.4_name_map": true,
+    "G0.5_round_trip_lvs": true,
+    "G0.6_testbench_reproduction": true,
+    "G0.8_external_reference": true,
+    "G0.7_pcell_binding_drc_lvs": false
+   },
+   "status": "FAIL",
+   "failed_gates": [
+    "G0.7_pcell_binding_drc_lvs"
+   ],
+   "seconds": 1307.5
+  }
+ }
+}

@@ -1,0 +1,82 @@
+{
+  "nodes": {
+    "FirstStageYout1": {
+      "tags": [
+        "mirror_node (diode-connected)"
+      ],
+      "R_dc_ohm": 3256.972213158455,
+      "C_node_F": 1.1423336483858002e-12,
+      "tau_s": 3.7205489509484718e-09,
+      "pole_estimate_Hz": 42777274.318974435,
+      "high_impedance": false,
+      "pole_rank": 4
+    },
+    "FirstStageYsourceTransconductance": {
+      "tags": [
+        "source_coupled (tail)"
+      ],
+      "R_dc_ohm": 4009.9447123115206,
+      "C_node_F": 1.2575014380000003e-13,
+      "tau_s": 5.042511242032235e-10,
+      "pole_estimate_Hz": 315626352.53095174,
+      "high_impedance": false,
+      "pole_rank": 5
+    },
+    "ibias": {
+      "tags": [
+        "bias current input (ideal current source: open in AC)",
+        "mirror_node (diode-connected)",
+        "non_dominant_pole"
+      ],
+      "R_dc_ohm": 6817.40401436018,
+      "C_node_F": 2.1283843719999997e-12,
+      "tau_s": 1.4510056161774267e-08,
+      "pole_estimate_Hz": 10968595.93908244,
+      "high_impedance": false,
+      "pole_rank": 2
+    },
+    "in1": {
+      "tags": [
+        "signal_input"
+      ]
+    },
+    "in2": {
+      "tags": [
+        "signal_input"
+      ]
+    },
+    "out": {
+      "tags": [
+        "signal_output"
+      ],
+      "R_dc_ohm": 4543.5834151935605,
+      "C_node_F": 2.1742267707999996e-12,
+      "tau_s": 9.878780696676729e-09,
+      "pole_estimate_Hz": 16110788.160874534,
+      "high_impedance": false,
+      "pole_rank": 3
+    },
+    "outFirstStage": {
+      "tags": [
+        "dominant_pole"
+      ],
+      "R_dc_ohm": 239679.42453373468,
+      "C_node_F": 1.2824360963378599e-12,
+      "tau_s": 3.0737354557154737e-07,
+      "pole_estimate_Hz": 517789.9835067258,
+      "high_impedance": true,
+      "pole_rank": 1
+    },
+    "sourceNmos": {
+      "tags": [
+        "ground"
+      ]
+    },
+    "sourcePmos": {
+      "tags": [
+        "supply"
+      ]
+    }
+  },
+  "method": "open-circuit time constants R_dc*C_node from the linear model; structural tags from topology"
+}

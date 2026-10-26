@@ -1,0 +1,224 @@
+{
+  "design": "loadbench_miller",
+  "gates": {
+    "G3.4_option_table_complete": {
+      "pass": true,
+      "options": 168,
+      "not_signed_off": [
+        "nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gboth_sdfull",
+        "nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gboth_sdhalf",
+        "nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gtop_sdfull",
+        "nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gtop_sdhalf"
+      ]
+    },
+    "G3.3_all_chosen_devices_in_circuit": {
+      "pass": true,
+      "specs": {
+        "pm_deg": 64.9085,
+        "power_uw": 550.732,
+        "gain_db": 57.9909,
+        "gbw_mhz": 22.9642
+      },
+      "meets": {
+        "pm_deg": true,
+        "power_uw": true,
+        "gain_db": true,
+        "gbw_mhz": true
+      },
+      "saturated": {
+        "XDiodeTransistorNmos1": 0.3995663,
+        "XDiodeTransistorPmos2": 0.4031936,
+        "XNormalTransistorNmos3": 0.8494598,
+        "XNormalTransistorNmos4": 0.45789700000000005,
+        "XNormalTransistorPmos5": 0.8017908,
+        "XNormalTransistorPmos6": 0.8301609999999999,
+        "XNormalTransistorPmos7": 0.889933,
+        "XNormalTransistorPmos8": 0.20500900000000002
+      },
+      "margin_use_signed": {
+        "pm_deg": 0.4147999999999996,
+        "power_uw": -7.7140000000000555,
+        "gain_db": 0.008799999999993702,
+        "gbw_mhz": 0.4228999999999985,
+        "sat_XDiodeTransistorNmos1": 0.00032009999999998984,
+        "sat_XDiodeTransistorPmos2": 6.140000000004475e-05,
+        "sat_XNormalTransistorNmos3": 0.0012686000000000641,
+        "sat_XNormalTransistorNmos4": -4.350000000008514e-05,
+        "sat_XNormalTransistorPmos5": 0.001496599999999959,
+        "sat_XNormalTransistorPmos6": 0.00040000000000006697,
+        "sat_XNormalTransistorPmos7": 2.8000000000028002e-05,
+        "sat_XNormalTransistorPmos8": -0.0004916000000000087
+      },
+      "allowance_total": {
+        "gbw_mhz": 0.5622452332442698,
+        "pm_deg": 1.219717498023746,
+        "gain_db": 0.024443612789399022,
+        "sat_XDiodeTransistorNmos1": 0.19855602063903108,
+        "sat_XDiodeTransistorPmos2": 0.19977222300223227,
+        "sat_XNormalTransistorNmos3": 0.4164804152066994,
+        "sat_XNormalTransistorNmos4": 0.2216679985689494,
+        "sat_XNormalTransistorPmos5": 0.38781144432781056,
+        "sat_XNormalTransistorPmos6": 0.4080376105872933,
+        "sat_XNormalTransistorPmos7": 0.4432724684919788,
+        "sat_XNormalTransistorPmos8": 0.09644693152935366
+      },
+      "within_allowance_harmful": {
+        "pm_deg": true,
+        "power_uw": true,
+        "gain_db": true,
+        "gbw_mhz": true,
+        "sat_XDiodeTransistorNmos1": true,
+        "sat_XDiodeTransistorPmos2": true,
+        "sat_XNormalTransistorNmos3": true,
+        "sat_XNormalTransistorNmos4": true,
+        "sat_XNormalTransistorPmos5": true,
+        "sat_XNormalTransistorPmos6": true,
+        "sat_XNormalTransistorPmos7": true,
+        "sat_XNormalTransistorPmos8": true
+      },
+      "failed_runs": null
+    },
+    "G3.1_chosen_DRC": {
+      "pass": true,
+      "detail": {
+        "nfet_01v8_lvt_W66p13_L2p03_m1": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf1_gboth_sdfull/drc/drc_report.txt"
+        },
+        "pfet_01v8_lvt_W37p3_L0p74_m1": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf/drc/drc_report.txt"
+        },
+        "nfet_01v8_lvt_W484p2_L0p24_m1": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf8_gboth_sdhalf_outS/drc/drc_report.txt"
+        },
+        "pfet_01v8_lvt_W887p03_L0p74_m1": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf8_gboth_sdhalf_outS/drc/drc_report.txt"
+        },
+        "pfet_01v8_lvt_W14p21_L0p89_m1": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf1_gboth_sdfull/drc/drc_report.txt"
+        },
+        "pfet_01v8_lvt_W90p63_L0p74_m1": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gtop_sdfull_outS/drc/drc_report.txt"
+        }
+      }
+    },
+    "G3.2_chosen_LVS_W_L_nf": {
+      "pass": true,
+      "detail": {
+        "nfet_01v8_lvt_W66p13_L2p03_m1": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "pcell_instance": "nfet_01v8_lvt_W66p13_L2p03_m1__nf1_gboth_sdfull",
+          "report": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf1_gboth_sdfull/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf1_gboth_sdfull/lvs/lvs/extracted.spice"
+        },
+        "pfet_01v8_lvt_W37p3_L0p74_m1": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "pcell_instance": "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf",
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf/lvs/lvs/extracted.spice"
+        },
+        "nfet_01v8_lvt_W484p2_L0p24_m1": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "pcell_instance": "nfet_01v8_lvt_W484p2_L0p24_m1__nf8_gboth_sdhalf_outS",
+          "report": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf8_gboth_sdhalf_outS/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf8_gboth_sdhalf_outS/lvs/lvs/extracted.spice"
+        },
+        "pfet_01v8_lvt_W887p03_L0p74_m1": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "pcell_instance": "pfet_01v8_lvt_W887p03_L0p74_m1__nf8_gboth_sdhalf_outS",
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf8_gboth_sdhalf_outS/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf8_gboth_sdhalf_outS/lvs/lvs/extracted.spice"
+        },
+        "pfet_01v8_lvt_W14p21_L0p89_m1": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "pcell_instance": "pfet_01v8_lvt_W14p21_L0p89_m1__nf1_gboth_sdfull",
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf1_gboth_sdfull/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf1_gboth_sdfull/lvs/lvs/extracted.spice"
+        },
+        "pfet_01v8_lvt_W90p63_L0p74_m1": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "pcell_instance": "pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gtop_sdfull_outS",
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gtop_sdfull_outS/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gtop_sdfull_outS/lvs/lvs/extracted.spice"
+        }
+      }
+    },
+    "G3.5_no_relaxation": {
+      "pass": false,
+      "relaxed": [
+        "nfet_01v8_lvt_W66p13_L2p03_m1",
+        "nfet_01v8_lvt_W484p2_L0p24_m1",
+        "pfet_01v8_lvt_W14p21_L0p89_m1"
+      ]
+    },
+    "G3.6_model_has_no_gate_resistance": {
+      "pass": true,
+      "detail": {
+        "sky130_fd_pr__nfet_01v8_lvt": {
+          "file": "/foss/pdks/sky130A/libs.ref/sky130_fd_pr/spice/sky130_fd_pr__nfet_01v8_lvt__tt.pm3.spice",
+          "rgatemod_values": [
+            "0.0"
+          ]
+        },
+        "sky130_fd_pr__pfet_01v8_lvt": {
+          "file": "/foss/pdks/sky130A/libs.ref/sky130_fd_pr/spice/sky130_fd_pr__pfet_01v8_lvt__tt.pm3.spice",
+          "rgatemod_values": [
+            "0.0"
+          ]
+        }
+      }
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-10-26T05:52:55+00:00",
+    "git_commit": "43f7d57f1a558f0d6ffe5585f29f43e27f23ef04",
+    "inputs": [
+      {
+        "path": "outputs/S0/loadbench_miller/circuit_ir.json",
+        "sha256": "90713387f941915e6876e7f4f1461950e329b03fd90b2cdfa5a53f5d75857180"
+      },
+      {
+        "path": "outputs/S2/loadbench_miller/budgets.json",
+        "sha256": "8664786931aaf423a90317aef5a50effd3caa85ba021277fae416d85f814dfcb"
+      },
+      {
+        "path": "outputs/S2/pdk/parasitics.json",
+        "sha256": "2166464e52376c741755c5342120953cbe428c8a0d3099715616ed0cb9c169c1"
+      },
+      {
+        "path": "inputs/loadbench_miller/package.yaml",
+        "sha256": "f45a4fbefc8eb61cb1afe9a7149b553d3bbc9d16428dcc4a78e177f28026a701"
+      }
+    ]
+  }
+}

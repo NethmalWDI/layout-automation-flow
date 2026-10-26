@@ -19,8 +19,12 @@ import sympy as sp
 import yaml
 
 
-def level0_values(op: dict, name_map: dict) -> dict:
+def level0_values(op: dict, name_map: dict, passives: list | None = None) -> dict:
+    """Level-0 symbols from the operating point; C_<name> / R_<name> for netlist passives."""
     vals = {}
+    for c in passives or []:
+        if c.get("value") is not None:
+            vals[f"{c['kind']}_{c['name']}"] = c["value"]
     for up, tgt in name_map["devices"].items():
         if tgt is None or tgt not in op:
             continue
@@ -46,7 +50,8 @@ def collect_values(node: dict, acc: dict) -> None:
             collect_values(v, acc)
 
 
-def evaluate(eq_path: Path, name_map_path: Path, op: dict, CL: float, extra_sens: dict | None = None) -> dict:
+def evaluate(eq_path: Path, name_map_path: Path, op: dict, CL: float, extra_sens: dict | None = None,
+             passives: list | None = None) -> dict:
     """extra_sens: {label: level-0 symbol} -> d(spec)/d(symbol) per fF is reported as well (e.g. a
     grounded capacitance that sits only on one node, to read that node's sensitivity)."""
     eq = json.loads(Path(eq_path).read_text())
@@ -54,7 +59,7 @@ def evaluate(eq_path: Path, name_map_path: Path, op: dict, CL: float, extra_sens
     defs: dict = {}
     collect_values(eq, defs)
     perf = eq["performance"]
-    sy = {k: sp.Symbol(k) for k in set(defs) | set(level0_values(op, nm))}
+    sy = {k: sp.Symbol(k) for k in set(defs) | set(level0_values(op, nm, passives))}
     sy["CL"] = sp.Symbol("CL")
     loc = {**sy, "oo": sp.oo, "pi": sp.pi, "Abs": sp.Abs, "log": sp.log, "atan": sp.atan, "sqrt": sp.sqrt}
     exprs = {k: sp.sympify(v, locals=loc) for k, v in defs.items()}
@@ -80,7 +85,7 @@ def evaluate(eq_path: Path, name_map_path: Path, op: dict, CL: float, extra_sens
         e = e.xreplace({tsym[j]: resolved[j] for j in resolved if j in tsym})
         return down(e)
     gain_db, gbw_mhz, pm = spec("gain_db"), spec("gbw_mhz"), spec("pm_deg")
-    num = {sy[k]: v for k, v in level0_values(op, nm).items() if k in sy}
+    num = {sy[k]: v for k, v in level0_values(op, nm, passives).items() if k in sy}
     num[sy["CL"]] = CL
     res, sens = {}, {}
     for name, e in (("gain_db", gain_db), ("gbw_mhz", gbw_mhz), ("pm_deg", pm)):
@@ -94,7 +99,7 @@ def evaluate(eq_path: Path, name_map_path: Path, op: dict, CL: float, extra_sens
             for name, e in (("gain_db", gain_db), ("gbw_mhz", gbw_mhz), ("pm_deg", pm))}}
     missing = sorted(str(s) for e in (gain_db, gbw_mhz, pm) for s in e.free_symbols if s not in num)
     return {"predicted": res, "d_dCL_per_fF": sens, "d_dsymbol_per_fF": extra, "unresolved_symbols": sorted(set(missing)),
-            "level0_values": {k: v for k, v in level0_values(op, nm).items()},
+            "level0_values": {k: v for k, v in level0_values(op, nm, passives).items()},
             "expressions_level2": {k: str(v) for k, v in perf["terms"].items()},
             "note": ("Output-node capacitance enters as CL. The mirror node (net0 upstream = net3 here) has no "
                      "element in the level-2 performance expressions, so its symbolic sensitivity is 0 by "

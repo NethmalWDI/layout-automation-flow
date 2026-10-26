@@ -29,7 +29,7 @@ from pathlib import Path
 
 import numpy as np
 
-from src.common.tools import REPO, provenance, rel, run_ngspice, write_json
+from src.common.tools import REPO, bench, out_expr, provenance, rel, run_ngspice, write_json
 from src.s0.ingest import load_package
 from src.s1 import linear, op as opmod, resistance, spice_fd, symbolic
 
@@ -39,11 +39,11 @@ PRED_TOL_MARGIN = 0.05                                      # prediction error a
 
 
 def spice_bode(s0: Path, work: Path) -> tuple:
-    """Re-run the S0 AC deck with a wrdata of v(OUT) to get the transistor-level Bode curve."""
-    txt = (s0 / "tb" / "diso_amp_AC.spice").read_text()
+    """Re-run the S0 AC deck with a wrdata of the signal output to get the transistor-level Bode curve."""
+    txt = bench(s0 / "tb", "AC").read_text()
     if "  write\n" not in txt:
         raise RuntimeError("AC deck has no '  write' line to anchor wrdata")
-    txt = txt.replace("  write\n", "  wrdata bode_spice.txt v(OUT)\n  write\n", 1)
+    txt = txt.replace("  write\n", f"  wrdata bode_spice.txt {out_expr(s0 / 'tb')}\n  write\n", 1)
     work.mkdir(parents=True, exist_ok=True)
     deck = work / "bode_ac.spice"
     deck.write_text(txt)
@@ -52,9 +52,17 @@ def spice_bode(s0: Path, work: Path) -> tuple:
     return d[:, 0], d[:, 1] + 1j * d[:, 2]
 
 
-def ac_drive(s0: Path, ir: dict) -> dict:
-    """AC stimulus of each DUT input, read from the AC testbench (V<name> <node> 0 ... ac <value>)."""
-    txt = (s0 / "tb" / "diso_amp_AC.spice").read_text()
+def ac_drive(s0: Path, ir: dict, declared: dict | None = None) -> dict:
+    """AC stimulus of each DUT input: from the package's 'ac_drive' (testbench port -> value) when it is
+    declared (benches whose inputs are not driven by plain sources, e.g. a DC-feedback choke holds INN),
+    else read from the AC testbench (V<name> <node> 0 ... ac <value>)."""
+    if declared:
+        drive = {p["name"]: float(declared[p["testbench_port"]]) for p in ir["ports"]
+                 if p["role"] == "input" and p.get("testbench_port") in declared}
+        if len(drive) != len([p for p in ir["ports"] if p["role"] == "input"]):
+            raise RuntimeError(f"package ac_drive {declared} does not cover every input port")
+        return drive
+    txt = bench(s0 / "tb", "AC").read_text()
     tb = {}
     for m in re.finditer(r"^V\S*\s+(\S+)\s+(0|gnd)\s+.*?\bac\s+([-+0-9.eE]+)", txt, re.M | re.I):
         tb[m.group(1)] = float(m.group(3))
@@ -86,8 +94,10 @@ def classify_nodes(ir: dict, lm: linear.LinearModel) -> dict:
             tags.append("signal_input")
         if roles.get(name) == "output":
             tags.append("signal_output")
-        if any(s["p"] == name for s in ir.get("internal_sources", [])):
+        if any(s["p"] == name and s.get("kind", "V") == "V" for s in ir.get("internal_sources", [])):
             tags.append("bias (ideal source in the testbench: AC ground, ASSUMPTION)")
+        if any(s["p"] == name and s.get("kind") == "I" for s in ir.get("internal_sources", [])):
+            tags.append("bias current input (ideal current source: open in AC)")
         if name in diode:
             tags.append("mirror_node (diode-connected)")
         if name in tails and len(tails[name]) >= 2 and roles.get(name) is None:
@@ -135,15 +145,30 @@ def main(argv=None) -> int:
                                      "saturation": sat, "isup_uA": opr["isup_A"] * 1e6, "isup_achieved_uA": isup_ach,
                                      "missing_params": opr["missing"], "missing_optional_params": opr["missing_optional"],
                                      "charge_conservation_worst_rel": max((c["worst_rel_to_cgg"] for c in conv.values()), default=None)}
-    write_json(out / "operating_point.json", {"devices": opr["devices"], "saturation": sat, "isup_A": opr["isup_A"],
+    write_json(out / "operating_point.json", {"devices": opr["devices"], "passives": opr.get("passives", {}),
+                                              "saturation": sat, "isup_A": opr["isup_A"],
                                               "cap_matrix_check": conv, "log": opr["log"], "conditions": ir["conditions"],
                                               "convention": "BSIM4 instance values from ngspice; intrinsic C_ij = dQ_i/dV_j "
                                                             "(rows/cols sum to 0); overlap cgso/cgdo/cgbo and junction "
                                                             "capbd/capbs are separate, positive"})
     op = opr["devices"]
+    # PDK passives: the simulator's value is the reference (nominal formula checked against it)
+    pas_chk = {}
+    for c in ir.get("passives", []):
+        if c.get("model", "ideal") == "ideal":
+            continue
+        v = opr["passives"].get(c["name"])
+        pas_chk[c["name"]] = {"model": c["model"], "nominal": c.get("value"), "spice": v,
+                              "rel_diff": (c["value"] / v - 1) if (v and c.get("value")) else None}
+        if v is not None:
+            c["value"] = v
+    if pas_chk:
+        gates["G1.1_operating_point"]["pdk_passives"] = pas_chk
+        if any(x["spice"] is None or (x["rel_diff"] is not None and abs(x["rel_diff"]) > 0.01) for x in pas_chk.values()):
+            gates["G1.1_operating_point"]["pass"] = False
 
     # 2. linear model vs SPICE (stimulus read from the AC testbench itself)
-    drive = ac_drive(s0, ir)
+    drive = ac_drive(s0, ir, pkg.get("ac_drive"))
     lm = linear.LinearModel(ir, op, drive=drive)
     H = lm.response(linear.FREQ)
     m_lin = linear.metrics(H)
@@ -182,7 +207,7 @@ def main(argv=None) -> int:
     sym = None
     if up.get("equations") and up.get("name_map"):
         CL = linear.parse_si(ir["conditions"]["CL_F"])
-        sym = symbolic.evaluate(REPO / up["equations"], REPO / up["name_map"], op, CL)
+        sym = symbolic.evaluate(REPO / up["equations"], REPO / up["name_map"], op, CL, passives=ir.get("passives"))
         sym["spice"] = {k: ach[k] for k in sym["predicted"]}
         sym["delta"] = {k: sym["predicted"][k] - ach[k] for k in sym["predicted"]}
         write_json(out / "symbolic_check.json", sym)
@@ -207,7 +232,7 @@ def main(argv=None) -> int:
         for k in ("gain_db", "gbw_mhz", "pm_deg"):
             lin_s = s[k]
             r = {"linear_per_fF": lin_s}
-            if sym and label == ir["ports"][[p["role"] for p in ir["ports"]].index("output")]["name"]:
+            if sym and label in [p_["name"] for p_ in ir["ports"] if p_["role"] == "output"]:
                 r["symbolic_per_fF"] = sym["d_dCL_per_fF"][k]
             elif sym and label in solved:
                 r["symbolic_per_fF"] = 0.0
@@ -300,17 +325,28 @@ def main(argv=None) -> int:
                                "trunk_A": trunk, "trunk_rule": "sum (supply/ground)" if trunk == tot else "sum/2 (internal)"}
     write_json(out / "currents.json", currents)
     devs = {d["name"]: d for d in ir["devices"]}
-    matching = []
+    matching, not_matching = [], []
     for b in ir["hierarchy"]["blocks"]:
-        if len(b["devices"]) >= 2:
-            sizes = {(devs[x]["W_um"], devs[x]["L_um"], devs[x]["nf"], devs[x]["m"]) for x in b["devices"]}
-            kind = "diff_pair" if "differential" in b["primitive"] else ("mirror" if "mirror" in b["primitive"] else b["category"])
-            gm = [op[x]["gm"] for x in b["devices"]]
-            matching.append({"devices": b["devices"], "kind": kind, "equal_size": len(sizes) == 1,
-                             "purpose": {"diff_pair": "input offset, CMRR, symmetric loading of net3/OUTP",
-                                         "mirror": "current-copy accuracy (systematic offset, gain)"}.get(kind, ""),
-                             "evidence": [f"hierarchy block {b['name']} ({b['source']})", f"sizes {sorted(sizes)}",
-                                          f"gm spread {max(gm)/min(gm)-1:.2%}"]})
+        if len(b["devices"]) < 2:
+            continue
+        kind = "diff_pair" if "differential" in b["primitive"] else ("mirror" if "mirror" in b["primitive"] else b["category"])
+        if kind not in ("diff_pair", "mirror"):
+            # e.g. a common-source stage (driver + load of opposite polarity): no matching requirement
+            not_matching.append({"devices": b["devices"], "block": b["name"], "kind": kind})
+            continue
+        sizes = {(devs[x]["W_um"], devs[x]["L_um"], devs[x]["nf"], devs[x]["m"]) for x in b["devices"]}
+        gm = [op[x]["gm"] for x in b["devices"]]
+        same_l_model = len({(devs[x]["L_um"], devs[x]["model"]) for x in b["devices"]}) == 1
+        wm = [devs[x]["W_um"] * devs[x]["m"] for x in b["devices"]]
+        # a pair must be identical; a mirror may be ratioed (same L and model, W*m sets the current ratio)
+        ok = (len(sizes) == 1) if kind == "diff_pair" else same_l_model
+        matching.append({"devices": b["devices"], "kind": kind, "equal_size": len(sizes) == 1,
+                         "same_L_and_model": same_l_model, "ratio_Wm": [round(w / wm[0], 4) for w in wm],
+                         "consistent": ok,
+                         "purpose": {"diff_pair": "input offset, CMRR, symmetric loading of the pair's drains",
+                                     "mirror": "current-copy accuracy (systematic offset, gain)"}.get(kind, ""),
+                         "evidence": [f"hierarchy block {b['name']} ({b['source']})", f"sizes {sorted(sizes)}",
+                                      f"gm spread {max(gm)/min(gm)-1:.2%}"]})
     crit, pairs_r = [], []
     for label, row in table.items():
         worst = min((v.get("fF_to_consume_margin", math.inf), k) for k, v in row.items())
@@ -327,11 +363,15 @@ def main(argv=None) -> int:
     for lst in (crit, pairs_r):
         for i, c in enumerate(lst):
             c["rank"] = i + 1
-    intent = {"design": design, "matching": matching, "critical_nets": crit, "coupling_pairs_ranked": pairs_r,
+    intent = {"design": design, "matching": matching, "not_matching_blocks": not_matching,
+              "critical_nets": crit, "coupling_pairs_ranked": pairs_r,
               "ranking": "ascending capacitance (fF, to ground for nets, between the two nets for pairs) that would "
                          "alone consume the margin of the most limiting spec, first-order (linear model)"}
-    gates["G1.4_matching_groups"] = {"pass": bool(matching) and all(m["equal_size"] for m in matching),
-                                     "groups": [{k: m[k] for k in ("devices", "kind", "equal_size")} for m in matching]}
+    gates["G1.4_matching_groups"] = {"pass": bool(matching) and all(m["consistent"] for m in matching),
+                                     "rule": "diff pair: identical W, L, nf, m; mirror: same L and model (ratio allowed)",
+                                     "groups": [{k: m[k] for k in ("devices", "kind", "equal_size", "ratio_Wm", "consistent")}
+                                                for m in matching],
+                                     "not_matching_blocks": not_matching}
     gates["G1.5_symbolic_vs_spice (reported, not gated)"] = {"pass": None, **({"predicted": sym["predicted"], "spice": sym["spice"],
                                                               "delta": sym["delta"]} if sym else {"note": "no upstream equations"})}
     # 7. series resistance at device terminals (wiring + PCell access).

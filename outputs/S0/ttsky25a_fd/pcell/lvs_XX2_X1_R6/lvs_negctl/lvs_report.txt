@@ -1,0 +1,48 @@
+
+Circuit 1 cell sky130_fd_pr__res_generic_po and Circuit 2 cell sky130_fd_pr__res_generic_po are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__res_generic_po is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__res_generic_po is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__res_generic_po    |Circuit 2: sky130_fd_pr__res_generic_po    
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+(no matching pin)                          |3                                          
+(no matching pin)                          |3                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__res_generic_po and sky130_fd_pr__res_generic_po are equivalent.
+
+Cell sky130_fd_pr__res_generic_po_AZWUY8 (0) disconnected node: B
+Subcircuit summary:
+Circuit 1: sky130_fd_pr__res_generic_po_AZ |Circuit 2: XX2_X1_R6                       
+-------------------------------------------|-------------------------------------------
+sky130_fd_pr__res_generic_po (1)           |sky130_fd_pr__res_generic_po (1)           
+Number of devices: 1                       |Number of devices: 1                       
+Number of nets: 3                          |Number of nets: 3                          
+---------------------------------------------------------------------------------------
+Resolving symmetries by property value.
+Resolving symmetries by pin name.
+Netlists match uniquely with port and property errors.
+  Parallelized instances disagree on pin connections.
+    Circuit1 instance sky130_fd_pr__res_generic_po:0 pin dummy_3 connections are no connects (1)
+    Circuit2 instance sky130_fd_pr__res_generic_po:XX2_X1_R6 pin R2 connections are tied together (0)
+sky130_fd_pr__res_generic_po:0 vs. sky130_fd_pr__res_generic_po:XX2_X1_R6:
+ l circuit1: 40   circuit2: 41   (delta=2.47%, cutoff=1%)
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__res_generic_po_AZ |Circuit 2: XX2_X1_R6                       
+-------------------------------------------|-------------------------------------------
+R2                                         |B **Mismatch**                             
+R1                                         |R1                                         
+(no pin, node is dummy_3)                  |R2                                         
+B                                          |(no matching pin)                          
+---------------------------------------------------------------------------------------
+Cell pin lists for sky130_fd_pr__res_generic_po_AZWUY8 and XX2_X1_R6 altered to match.
+Device classes sky130_fd_pr__res_generic_po_AZWUY8 and XX2_X1_R6 are equivalent.
+
+Final result: Top level cell failed pin matching.
+
+The following cells had property errors:
+ sky130_fd_pr__res_generic_po_AZWUY8

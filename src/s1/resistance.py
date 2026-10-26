@@ -17,7 +17,7 @@ import re
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from src.common.tools import run_ngspice_text
+from src.common.tools import bench, run_ngspice_text
 from src.s1 import op as opmod
 
 POS = {"d": 1, "g": 2, "s": 3, "b": 4}  # token index on an X-MOSFET line: Xname d g s b model ...
@@ -84,9 +84,9 @@ def dc_and_ac(s0_dir: Path, ir: dict, groups_dc: list, groups_ac: list, values: 
     """groups_*: [(id, [(dev, term), ...])], every member gets the same resistor; values in ohms."""
     dut = ir["subckt"]
     tb = s0_dir / "tb"
-    ac0 = (tb / "diso_amp_AC.spice").read_text()
-    nz0 = (tb / "diso_amp_NOISE.spice").read_text()
-    op_path = tb / "diso_amp_OP.spice"
+    ac0 = bench(tb, "AC").read_text()
+    nz0 = bench(tb, "NOISE").read_text()
+    op_path = bench(tb, "OP")
     jobs = [("ac", ac0, work / "base", "ac"), ("noise", nz0, work / "base", "noise"),
             ("op", opmod.op_deck(op_path, ir["devices"]), work / "base", "op")]
     keys = [("base", "ac"), ("base", "noise"), ("base", "op")]
@@ -119,9 +119,11 @@ def dc_and_ac(s0_dir: Path, ir: dict, groups_dc: list, groups_ac: list, values: 
 def follower_deck(op_txt: str) -> str:
     """Unity-gain follower from the open-loop OP bench: the inverting input source is replaced by a
     0 V connection to the output, so V(OUT) - VCM is the input-referred offset (diso bench names)."""
+    if re.search(r"^L\S*\s+OUT\S*\s+IN[NP]\s", op_txt, re.M | re.I):
+        return op_txt   # the bench already closes the loop at DC (choke from the output to the input)
     out, n = re.subn(r"^Vinn\s+INN\s+0\s+.*$", "Vinn INN OUT 0", op_txt, count=1, flags=re.M | re.I)
     if n != 1:
-        raise RuntimeError("follower: no 'Vinn INN 0 ...' line in the OP bench")
+        raise RuntimeError("follower: no 'Vinn INN 0 ...' line and no DC-feedback choke in the OP bench")
     return out
 
 
@@ -129,7 +131,7 @@ def offset_follower(s0_dir: Path, ir: dict, singles: list, values: list, work: P
     """Systematic input offset of a one-sided series resistor, measured in a unity-gain follower
     (the output stays at its operating point, unlike in the open-loop bench)."""
     dut = ir["subckt"]
-    base_txt = follower_deck((s0_dir / "tb" / "diso_amp_OP.spice").read_text())
+    base_txt = follower_deck(bench(s0_dir / "tb", "OP").read_text())
     tmp = work / "tmp"
     tmp.mkdir(parents=True, exist_ok=True)
     (tmp / "base.spice").write_text(base_txt)

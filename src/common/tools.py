@@ -19,6 +19,24 @@ TOOL_ENV = {
 }
 
 
+def bench(tb_dir: Path, kind: str) -> Path:
+    """The testbench of one analysis (AC, OP, NOISE) in a folder: '<prefix>_<KIND>.spice', prefix
+    diso_amp (single-ended output) or dido_amp (differential output). Exactly one per kind."""
+    hits = sorted(Path(tb_dir).glob(f"*_{kind.upper()}.spice"))
+    if len(hits) != 1:
+        raise FileNotFoundError(f"expected one *_{kind.upper()}.spice in {tb_dir}, found {[h.name for h in hits]}")
+    return hits[0]
+
+
+def differential_output(tb_dir: Path) -> bool:
+    return bench(tb_dir, "AC").name.startswith("dido")
+
+
+def out_expr(tb_dir: Path) -> str:
+    """The signal output as an ngspice expression in the testbench (node names of the bench)."""
+    return "v(OUTP,OUTN)" if differential_output(tb_dir) else "v(OUT)"
+
+
 def sha256(path: Path) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 

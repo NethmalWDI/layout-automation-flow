@@ -4,9 +4,11 @@ Each MOSFET is stamped with:
   * gm, gmbs, gds (VCCS + conductance, current defined into the drain),
   * the full BSIM4 intrinsic charge matrix C_ij = dQ_i/dV_j (non-reciprocal, quasi-static),
   * overlap caps cgso/cgdo/cgbo and junction caps capbd/capbs (reciprocal).
-Nodes: supplies, ground, and nodes held by ideal bias sources are AC ground; inputs are driven
-(INP = +0.5, INN = -0.5, as in the AC testbench); every other net is solved.
-Metrics replicate the testbench definitions (diso_amp_AC): gain at 1 Hz, UGB where |H| = 1
+Netlist passives are stamped too (ideal R/C, and PDK capacitors/resistors at their nominal value).
+Nodes: supplies, ground, and nodes held by ideal VOLTAGE sources are AC ground; an ideal current
+source is an open circuit in AC (its nodes are solved); inputs are driven as in the AC testbench;
+every other net is solved.
+Metrics replicate the testbench definitions (diso/dido_amp_AC): gain at 1 Hz, UGB where |H| = 1
 (linear interpolation on a 40 points/decade grid), PM = 180 + (phase(UGB) - phase(1 Hz)).
 """
 from __future__ import annotations
@@ -45,15 +47,18 @@ class LinearModel:
         extra_c: [(netA, netB_or_None, farads)] added capacitors (None = to ground);
         extra_r: [(device, terminal, ohms)] series resistance between a device terminal and its net.
         A series resistor splits the terminal off its net onto a new internal node '<dev>.<t>'."""
-        if ir.get("passives"):
-            raise NotImplementedError("the linear model does not stamp R/C passives yet; this design has some")
+        for c in ir.get("passives", []):
+            if c.get("value") is None:
+                raise NotImplementedError(f"passive {c['name']} ({c.get('model')}) has no nominal value for the linear model")
         roles = {p["name"]: p["role"] for p in ir["ports"]}
-        ground = {n for n, r in roles.items() if r in ("ground", "supply")}
-        # ASSUMPTION (testbench): nodes held by ideal internal sources (bias) are AC ground; a real bias
-        # generator has finite impedance, so couplings onto VBIAS are not budgeted from this model.
+        ground = {n for n, r in roles.items() if r in ("ground", "supply", "bias_ac_ground")}
+        # ASSUMPTION (testbench): nodes held by ideal internal VOLTAGE sources (bias) are AC ground; a real
+        # bias generator has finite impedance, so couplings onto VBIAS are not budgeted from this model.
+        # An ideal current source has infinite impedance: it adds nothing to the small-signal circuit.
         for s in ir.get("internal_sources", []):
-            ground.add(s["p"])
-            ground.add(s["n"])
+            if s.get("kind", "V") == "V":
+                ground.add(s["p"])
+                ground.add(s["n"])
         known_nets = {n["name"] for n in ir["nets"]}
         for a_, b_, _ in (extra_c or []):
             for n_ in (a_, b_):
@@ -91,10 +96,19 @@ class LinearModel:
             for a, b, key in (("g", "s", "cgso"), ("g", "d", "cgdo"), ("g", "b", "cgbo"),
                               ("b", "d", "capbd"), ("b", "s", "capbs")):
                 self._cap(ix[a], ix[b], o.get(key) or 0.0)  # missing optional param -> 0, reported by G1.1
+        for c in ir.get("passives", []):
+            a_, b_ = self.idx.get(c["a"]), self.idx.get(c["b"])
+            if c["kind"] == "C":
+                self._cap(a_, b_, c["value"])
+            else:
+                self._cond(a_, b_, 1.0 / c["value"])
         cl = parse_si(ir["conditions"].get("CL_F", 0))
-        out = [p["name"] for p in ir["ports"] if p["role"] == "output"][0]
-        self.out = out
-        self._cap(self.idx.get(out), None, cl)
+        outs = [p for p in ir["ports"] if p["role"] == "output"]
+        # single-ended output: H = v(out); differential output (dido): H = v(OUTP) - v(OUTN), CL on each
+        self.out = outs[0]["name"]
+        self.out_sign = {p["name"]: (-1.0 if p.get("testbench_port") == "OUTN" else 1.0) for p in outs}
+        for o in outs:
+            self._cap(self.idx.get(o["name"]), None, cl)
         for a, b, c in (extra_c or []):
             self._cap(self.idx.get(a), self.idx.get(b) if b else None, c)
 
@@ -120,12 +134,12 @@ class LinearModel:
     def response(self, f: np.ndarray) -> np.ndarray:
         nu = len(self.unknown)
         vk = np.array([self.drive[k] for k in self.known], dtype=complex)
-        out_i = self.idx[self.out]
+        outs = [(self.idx[o], sg) for o, sg in self.out_sign.items()]
         H = np.empty(len(f), dtype=complex)
         for i, fi in enumerate(f):
             Y = self.G + 1j * 2 * np.pi * fi * self.C
             v = np.linalg.solve(Y[:nu, :nu], -Y[:nu, nu:] @ vk)
-            H[i] = v[out_i]
+            H[i] = sum(sg * v[k] for k, sg in outs)
         return H
 
     def dc_node_resistance(self) -> dict:
@@ -184,3 +198,73 @@ def sensitivities_r(ir, op, groups: list, delta: float = 5.0, drive: dict | None
 def evaluate(ir, op, extra_c=None, extra_r=None, drive=None) -> dict:
     """Metrics with a set of parasitics inserted at once (used by S2 to check a whole budget)."""
     return metrics(LinearModel(ir, op, drive=drive, extra_c=extra_c, extra_r=extra_r).response(FREQ))
+
+
+# ---------------------------------------------------------------- fast, exact metric changes (plan v2, PVT)
+def _h(G, C, nu, vk, outs, f):
+    Y = G + 1j * 2 * np.pi * f * C
+    v = np.linalg.solve(Y[:nu, :nu], -Y[:nu, nu:] @ vk)
+    return sum(sg * v[k] for k, sg in outs)
+
+
+class FastModel:
+    """The linear model's matrices kept, so that one capacitor can be added without rebuilding it, and the
+    metrics found by root finding at the unity-gain frequency instead of a 361-point sweep. Used for the
+    many per-corner sensitivities S2 needs; agrees with metrics() to its grid interpolation error."""
+
+    def __init__(self, lm: "LinearModel"):
+        self.lm = lm
+        self.sys = self._sys(lm)
+        self.G, self.C = lm.G, lm.C
+        m = metrics(lm.response(FREQ))
+        self.base = m
+        self.fu = None if m["gbw_mhz"] is None else m["gbw_mhz"] * 1e6
+        self.h1 = _h(self.G, self.C, *self.sys, 1.0)
+        self.hu = None if self.fu is None else self._root(self.G, self.C, self.sys)[1]
+
+    @staticmethod
+    def _sys(lm):
+        return (len(lm.unknown), np.array([lm.drive[k] for k in lm.known], dtype=complex),
+                [(lm.idx[o], sg) for o, sg in lm.out_sign.items()])
+
+    def _root(self, G, C, sys_):
+        from scipy.optimize import brentq
+        g = lambda lf: np.log(abs(_h(G, C, *sys_, 10 ** lf)))  # noqa: E731
+        a, b = np.log10(self.fu) - 0.15, np.log10(self.fu) + 0.15
+        ga, gb = g(a), g(b)
+        k = 0
+        while ga * gb > 0 and k < 8:
+            a, b = a - 0.3, b + 0.3
+            ga, gb = g(a), g(b)
+            k += 1
+        lf = brentq(g, a, b, xtol=1e-10)
+        return 10 ** lf, _h(G, C, *sys_, 10 ** lf)
+
+    def delta(self, G, C, sys_=None) -> dict:
+        """Change of gain_db, gbw_mhz, pm_deg from the base for modified matrices (same nodes unless sys_)."""
+        sys_ = sys_ or self.sys
+        h1 = _h(G, C, *sys_, 1.0)
+        out = {"gain_db": float(20 * np.log10(abs(h1) / abs(self.h1)))}
+        if self.fu is None:
+            return {**out, "gbw_mhz": None, "pm_deg": None}
+        fu, hu = self._root(G, C, sys_)
+        out["gbw_mhz"] = (fu - self.fu) / 1e6
+        out["pm_deg"] = float(np.degrees(np.angle(hu / self.hu)) - np.degrees(np.angle(h1 / self.h1)))
+        return out
+
+    def delta_lm(self, lm2: "LinearModel") -> dict:
+        return self.delta(lm2.G, lm2.C, self._sys(lm2))
+
+    def cap_matrices(self, a, b, c: float):
+        C = self.C.copy()
+        ia = self.lm.idx.get(a) if a else None
+        ib = self.lm.idx.get(b) if b else None
+        for i, j, s_ in ((ia, ia, 1), (ib, ib, 1), (ia, ib, -1), (ib, ia, -1)):
+            if i is not None and j is not None:
+                C[i, j] += s_ * c
+        return self.G, C
+
+    def rates_c(self, a, b, delta=1e-15) -> dict:
+        p = self.delta(*self.cap_matrices(a, b, delta))
+        m = self.delta(*self.cap_matrices(a, b, -delta))
+        return {k: (None if p[k] is None or m[k] is None else (p[k] - m[k]) / (2 * delta / 1e-15)) for k in p}

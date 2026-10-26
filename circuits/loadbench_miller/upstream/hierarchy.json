@@ -1,0 +1,70 @@
+{
+ "design": "loadbench_miller",
+ "provenance": "LOADBench struct_recognition.xml / partitioning.xml (real)",
+ "root": {
+  "level": 2,
+  "kind": "differential-input-single-output-amplifier",
+  "subckt": "loadbench_miller"
+ },
+ "levels": [
+  {
+   "level": 1,
+   "top": [
+    {
+     "instance": "X1",
+     "kind": "gm-structure",
+     "subckt": "undefined_common_source_stage",
+     "nodes": [
+      "ibias",
+      "out",
+      "outFirstStage",
+      "sourceNmos",
+      "sourcePmos"
+     ]
+    },
+    {
+     "instance": "X2",
+     "kind": "gm-structure",
+     "subckt": "p_differential_pair",
+     "nodes": [
+      "FirstStageYout1",
+      "FirstStageYsourceTransconductance",
+      "in1",
+      "in2",
+      "outFirstStage"
+     ]
+    },
+    {
+     "instance": "X3",
+     "kind": "load-structure",
+     "subckt": "n_current_mirror_load",
+     "nodes": [
+      "FirstStageYout1",
+      "outFirstStage",
+      "sourceNmos"
+     ]
+    },
+    {
+     "instance": "X4",
+     "kind": "bias-structure",
+     "subckt": "p_current_mirror",
+     "nodes": [
+      "FirstStageYsourceTransconductance",
+      "ibias",
+      "sourcePmos"
+     ]
+    },
+    {
+     "instance": "X5",
+     "kind": "bias-structure",
+     "subckt": "p_current_mirror",
+     "nodes": [
+      "ibias",
+      "out",
+      "sourcePmos"
+     ]
+    }
+   ]
+  }
+ ]
+}

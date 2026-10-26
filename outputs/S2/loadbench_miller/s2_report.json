@@ -1,0 +1,517 @@
+{
+  "design": "loadbench_miller",
+  "eta": 0.5,
+  "gates": {
+    "G2.0_expected_layout_use (info)": {
+      "pass": null,
+      "checks": {
+        "gain_db": {
+          "use_at_expected_need": 6.573105109672744,
+          "margin": 1.0,
+          "fraction_of_margin": 6.573105109672744
+        },
+        "gbw_mhz": {
+          "use_at_expected_need": 2.2633309229851815,
+          "margin": 2.3386999999999993,
+          "fraction_of_margin": 0.9677730888892043
+        },
+        "pm_deg": {
+          "use_at_expected_need": 33.315554150317844,
+          "margin": 5.323300000000003,
+          "fraction_of_margin": 6.258440093610697
+        },
+        "sat_XDiodeTransistorNmos1": {
+          "use_at_expected_need": 0.0014741408800509391,
+          "margin": 0.3998864,
+          "fraction_of_margin": 0.003686399137482393
+        },
+        "sat_XDiodeTransistorPmos2": {
+          "use_at_expected_need": 0.0003058436780470305,
+          "margin": 0.40325500000000003,
+          "fraction_of_margin": 0.0007584374106881017
+        },
+        "sat_XNormalTransistorNmos3": {
+          "use_at_expected_need": 0.11941554945164169,
+          "margin": 0.8507284,
+          "fraction_of_margin": 0.1403685940796636
+        },
+        "sat_XNormalTransistorNmos4": {
+          "use_at_expected_need": 0.12004993291852423,
+          "margin": 0.45785349999999997,
+          "fraction_of_margin": 0.2622016276353118
+        },
+        "sat_XNormalTransistorPmos5": {
+          "use_at_expected_need": 0.20870145447309602,
+          "margin": 0.8032874,
+          "fraction_of_margin": 0.25980919714798967
+        },
+        "sat_XNormalTransistorPmos6": {
+          "use_at_expected_need": 0.07415436961279302,
+          "margin": 0.830561,
+          "fraction_of_margin": 0.08928226778381482
+        },
+        "sat_XNormalTransistorPmos7": {
+          "use_at_expected_need": 0.005509863603527936,
+          "margin": 0.889961,
+          "fraction_of_margin": 0.0061911292781682975
+        },
+        "sat_XNormalTransistorPmos8": {
+          "use_at_expected_need": 0.004165144937080187,
+          "margin": 0.20451740000000002,
+          "fraction_of_margin": 0.02036572407570303
+        }
+      },
+      "default_cells_used": [
+        "nfet_01v8_lvt_W66p13_L2p03_m1__nf1_gboth_sdfull",
+        "pfet_01v8_lvt_W14p21_L0p89_m1__nf1_gboth_sdfull",
+        "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdfull",
+        "pfet_01v8_lvt_W887p03_L0p74_m1__nf1_gboth_sdfull",
+        "pfet_01v8_lvt_W90p63_L0p74_m1__nf1_gboth_sdfull"
+      ],
+      "note": "fraction of each margin that a compact layout with the default device cells would use (sum of rate x expected need); above eta the budgets fall below the expected need"
+    },
+    "G2.3_allocation": {
+      "pass": true,
+      "t_round1": 0.07606754975882221,
+      "lp_round1": {
+        "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+        "success": true,
+        "t": 0.07606754975958037
+      },
+      "rounds": [
+        {
+          "t": 0.07606754975882221,
+          "binding": [
+            "gain_db"
+          ],
+          "frozen": [
+            "out",
+            "outFirstStage",
+            "FirstStageYout1~FirstStageYsourceTransconductance",
+            "FirstStageYout1~outFirstStage",
+            "FirstStageYsourceTransconductance~out",
+            "FirstStageYsourceTransconductance~outFirstStage",
+            "ibias~outFirstStage",
+            "out~outFirstStage",
+            "out~in1",
+            "out~in2",
+            "outFirstStage~in1",
+            "outFirstStage~in2",
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+            "XNormalTransistorNmos3.d",
+            "XNormalTransistorNmos3.s",
+            "XNormalTransistorPmos5.d",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.s"
+          ]
+        },
+        {
+          "t": 0.08098157412125867,
+          "binding": [
+            "pm_deg"
+          ],
+          "frozen": [
+            "FirstStageYout1",
+            "FirstStageYout1~ibias",
+            "FirstStageYout1~out",
+            "FirstStageYout1~in1",
+            "FirstStageYsourceTransconductance~in2",
+            "ibias~out",
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+            "XNormalTransistorNmos3.g",
+            "XNormalTransistorPmos5.s",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+            "XNormalTransistorPmos8.g"
+          ]
+        },
+        {
+          "t": 1.5530961962256606,
+          "binding": [
+            "gbw_mhz"
+          ],
+          "frozen": [
+            "FirstStageYsourceTransconductance",
+            "ibias",
+            "FirstStageYsourceTransconductance~ibias",
+            "FirstStageYsourceTransconductance~in1",
+            "ibias~in1",
+            "XNormalTransistorPmos5.g",
+            "XNormalTransistorPmos8.d",
+            "XNormalTransistorPmos8.s"
+          ]
+        },
+        {
+          "t": 10.0,
+          "binding": [
+            "cap_kappa"
+          ],
+          "frozen": [
+            "XDiodeTransistorPmos2.d",
+            "XDiodeTransistorPmos2.s"
+          ]
+        }
+      ],
+      "constraint_use": [
+        {
+          "constraint": "gain_db",
+          "allowed": 0.5,
+          "used": 0.49999999999999994,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz",
+          "allowed": 1.1693499999999997,
+          "used": 1.1693499999999997,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg",
+          "allowed": 2.6616500000000016,
+          "used": 2.6616500000000016,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XDiodeTransistorNmos1",
+          "allowed": 0.1999432,
+          "used": 0.0011981419528118104,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XDiodeTransistorPmos2",
+          "allowed": 0.20162750000000002,
+          "used": 0.003058436780470305,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XNormalTransistorNmos3",
+          "allowed": 0.4253642,
+          "used": 0.009506884038609494,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XNormalTransistorNmos4",
+          "allowed": 0.22892674999999998,
+          "used": 0.009707380326652902,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XNormalTransistorPmos5",
+          "allowed": 0.4016437,
+          "used": 0.018209064437528847,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XNormalTransistorPmos6",
+          "allowed": 0.4152805,
+          "used": 0.007547305779710978,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XNormalTransistorPmos7",
+          "allowed": 0.4449805,
+          "used": 0.0014779395308144028,
+          "ok": true
+        },
+        {
+          "constraint": "sat_XNormalTransistorPmos8",
+          "allowed": 0.10225870000000001,
+          "used": 0.009303796321458058,
+          "ok": true
+        }
+      ],
+      "reproducible": true,
+      "phase2_refine": {
+        "success": true,
+        "message": "Optimization terminated successfully",
+        "delta": 0.05,
+        "constraint_use": [
+          {
+            "constraint": "gain_db",
+            "allowed": 0.5,
+            "used": 0.47970538260394724,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz",
+            "allowed": 1.1693499999999997,
+            "used": 1.1693500000000001,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg",
+            "allowed": 2.6616500000000016,
+            "used": 2.6616500000000136,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XDiodeTransistorNmos1",
+            "allowed": 0.1999432,
+            "used": 0.0019661557913115474,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XDiodeTransistorPmos2",
+            "allowed": 0.20162750000000002,
+            "used": 0.003058436780470075,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XNormalTransistorNmos3",
+            "allowed": 0.4253642,
+            "used": 0.00905923887737749,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XNormalTransistorNmos4",
+            "allowed": 0.22892674999999998,
+            "used": 0.010192207367327007,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XNormalTransistorPmos5",
+            "allowed": 0.4016437,
+            "used": 0.01965477630506841,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XNormalTransistorPmos6",
+            "allowed": 0.4152805,
+            "used": 0.009318785447651752,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XNormalTransistorPmos7",
+            "allowed": 0.4449805,
+            "used": 0.0036887989497429437,
+            "ok": true
+          },
+          {
+            "constraint": "sat_XNormalTransistorPmos8",
+            "allowed": 0.10225870000000001,
+            "used": 0.009253117298996512,
+            "ok": true
+          }
+        ]
+      }
+    },
+    "G2.5_spice_budget_verification": {
+      "pass": true,
+      "iterations": 1,
+      "rows": [
+        {
+          "check": "gain_db",
+          "margin": 1.0,
+          "allowed_eta_margin": 0.5,
+          "first_order_predicted_use": 0.47970538260394724,
+          "spice_use": 0.46770000000000067,
+          "value_now": 57.532,
+          "spice_use_frac_of_margin": 0.46770000000000067,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 21
+        },
+        {
+          "check": "gbw_mhz",
+          "margin": 2.3386999999999993,
+          "allowed_eta_margin": 1.1693499999999997,
+          "first_order_predicted_use": 1.1693500000000001,
+          "spice_use": 1.0840999999999994,
+          "value_now": 22.303,
+          "spice_use_frac_of_margin": 0.4635481250267241,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 36
+        },
+        {
+          "check": "pm_deg",
+          "margin": 5.323300000000003,
+          "allowed_eta_margin": 2.6616500000000016,
+          "first_order_predicted_use": 2.6616500000000136,
+          "spice_use": 2.6299000000000063,
+          "value_now": 62.6934,
+          "spice_use_frac_of_margin": 0.4940356545751704,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 32
+        },
+        {
+          "check": "sat_XDiodeTransistorNmos1",
+          "margin": 0.3998864,
+          "allowed_eta_margin": 0.1999432,
+          "first_order_predicted_use": 0.0019661557913115474,
+          "spice_use": 0.0019083999999999768,
+          "value_now": 0.397978,
+          "spice_use_frac_of_margin": 0.004772355348919035,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 7
+        },
+        {
+          "check": "sat_XDiodeTransistorPmos2",
+          "margin": 0.40325500000000003,
+          "allowed_eta_margin": 0.20162750000000002,
+          "first_order_predicted_use": 0.003058436780470075,
+          "spice_use": 0.0030593000000000425,
+          "value_now": 0.4001957,
+          "spice_use_frac_of_margin": 0.007586514736333194,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 1
+        },
+        {
+          "check": "sat_XNormalTransistorNmos3",
+          "margin": 0.8507284,
+          "allowed_eta_margin": 0.4253642,
+          "first_order_predicted_use": 0.00905923887737749,
+          "spice_use": 0.009535000000000071,
+          "value_now": 0.8411934,
+          "spice_use_frac_of_margin": 0.011208042425761348,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 7
+        },
+        {
+          "check": "sat_XNormalTransistorNmos4",
+          "margin": 0.45785349999999997,
+          "allowed_eta_margin": 0.22892674999999998,
+          "first_order_predicted_use": 0.010192207367327007,
+          "spice_use": 0.008997100000000036,
+          "value_now": 0.44885639999999993,
+          "spice_use_frac_of_margin": 0.019650608764593996,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 6
+        },
+        {
+          "check": "sat_XNormalTransistorPmos5",
+          "margin": 0.8032874,
+          "allowed_eta_margin": 0.4016437,
+          "first_order_predicted_use": 0.01965477630506841,
+          "spice_use": 0.017591199999999918,
+          "value_now": 0.7856962000000001,
+          "spice_use_frac_of_margin": 0.02189901148704675,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 12
+        },
+        {
+          "check": "sat_XNormalTransistorPmos6",
+          "margin": 0.830561,
+          "allowed_eta_margin": 0.4152805,
+          "first_order_predicted_use": 0.009318785447651752,
+          "spice_use": 0.009603000000000028,
+          "value_now": 0.820958,
+          "spice_use_frac_of_margin": 0.011562064676766702,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 10
+        },
+        {
+          "check": "sat_XNormalTransistorPmos7",
+          "margin": 0.889961,
+          "allowed_eta_margin": 0.4449805,
+          "first_order_predicted_use": 0.0036887989497429437,
+          "spice_use": 0.00365099999999996,
+          "value_now": 0.88631,
+          "spice_use_frac_of_margin": 0.004102426960282484,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 9
+        },
+        {
+          "check": "sat_XNormalTransistorPmos8",
+          "margin": 0.20451740000000002,
+          "allowed_eta_margin": 0.10225870000000001,
+          "first_order_predicted_use": 0.009253117298996512,
+          "spice_use": 0.00936229999999999,
+          "value_now": 0.19515510000000003,
+          "spice_use_frac_of_margin": 0.04577752308605522,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 9
+        }
+      ],
+      "closure_scaled_elements": []
+    },
+    "G2.4_linear_all_budgets_at_once": {
+      "pass": null,
+      "note": "reported: first-order sum vs exact linear model with every budget inserted",
+      "compare": {
+        "gain_db": {
+          "first_order_use": 0.47970538260394724,
+          "linear_model_use": -0.31291412715351896
+        },
+        "gbw_mhz": {
+          "first_order_use": 1.1693500000000001,
+          "linear_model_use": 0.372274614735737
+        },
+        "pm_deg": {
+          "first_order_use": 2.6616500000000136,
+          "linear_model_use": 0.7278002184577446
+        }
+      }
+    },
+    "G2.6_hierarchy_sums": {
+      "pass": true
+    },
+    "G2.1_names_resolve": {
+      "pass": true,
+      "unresolved": []
+    },
+    "G2.2_units_and_provenance": {
+      "pass": true,
+      "missing_units": [],
+      "missing_derived_from": [],
+      "not_evaluated": [
+        "match.max_R_difference.XDiodeTransistorNmos1.d",
+        "match.max_R_difference.XDiodeTransistorNmos1.s",
+        "match.max_R_difference.XNormalTransistorNmos4.d",
+        "match.max_R_difference.XNormalTransistorNmos4.s",
+        "match.max_R_difference.XNormalTransistorPmos6.d",
+        "match.max_R_difference.XNormalTransistorPmos6.s",
+        "match.max_R_difference.XNormalTransistorPmos7.d",
+        "match.max_R_difference.XNormalTransistorPmos7.s",
+        "route.em_width.FirstStageYout1",
+        "route.em_width.sourceNmos",
+        "route.em_width.ibias",
+        "route.em_width.sourcePmos",
+        "route.em_width.out",
+        "route.em_width.outFirstStage",
+        "route.em_width.FirstStageYsourceTransconductance",
+        "route.bias_net.IBIAS"
+      ]
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-10-26T05:23:56+00:00",
+    "git_commit": "43f7d57f1a558f0d6ffe5585f29f43e27f23ef04",
+    "inputs": [
+      {
+        "path": "outputs/S0/loadbench_miller/circuit_ir.json",
+        "sha256": "90713387f941915e6876e7f4f1461950e329b03fd90b2cdfa5a53f5d75857180"
+      },
+      {
+        "path": "outputs/S1/loadbench_miller/sensitivity.json",
+        "sha256": "05f68621532f5d6b59b8e7eb967d66fe9ba1fbfd9d8d3486c7d3ed830bf5502f"
+      },
+      {
+        "path": "outputs/S1/loadbench_miller/sensitivity_r.json",
+        "sha256": "e3d4571ed3ffad9b1a15c9b9bb8b05a7c1172973d4948e4924f676e96979fc1e"
+      },
+      {
+        "path": "outputs/S1/loadbench_miller/intent.json",
+        "sha256": "11826f5035843ae3c85d3dc43e0dfee3f581b764aa13e7820d77509846bf36cf"
+      },
+      {
+        "path": "outputs/S2/pdk/parasitics.json",
+        "sha256": "2166464e52376c741755c5342120953cbe428c8a0d3099715616ed0cb9c169c1"
+      },
+      {
+        "path": "inputs/loadbench_miller/package.yaml",
+        "sha256": "f45a4fbefc8eb61cb1afe9a7149b553d3bbc9d16428dcc4a78e177f28026a701"
+      }
+    ]
+  }
+}

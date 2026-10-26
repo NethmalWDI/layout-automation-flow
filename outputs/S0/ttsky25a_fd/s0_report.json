@@ -1,0 +1,293 @@
+{
+  "design": "ttsky25a_fd",
+  "package": "inputs/ttsky25a_fd/package.yaml",
+  "gates": {
+    "G0.1_inventory": {
+      "pass": true,
+      "mosfets": 54,
+      "sources": 1,
+      "passives": 43
+    },
+    "G0.2_validation": {
+      "pass": true,
+      "errors": []
+    },
+    "G0.3_hash_freeze": {
+      "pass": true,
+      "files": [
+        {
+          "file": "circuits/ttsky25a_fd/source/ttsky25a_fd.spice",
+          "recorded": "44705145dd55f5fde73f4974a20dbb23a5f324f757a94b211abd542485bf7861",
+          "now": "44705145dd55f5fde73f4974a20dbb23a5f324f757a94b211abd542485bf7861",
+          "match": true
+        },
+        {
+          "file": "circuits/ttsky25a_fd/source/config.yaml",
+          "recorded": "bfa0bb31240cd2a3511edc7d97fa5d17fdfc870504e03b3bd430be9033febdae",
+          "now": "bfa0bb31240cd2a3511edc7d97fa5d17fdfc870504e03b3bd430be9033febdae",
+          "match": true
+        }
+      ]
+    },
+    "G0.4_name_map": {
+      "pass": true,
+      "findings": [
+        {
+          "level": "assumption",
+          "msg": "Identity map: the predicted primitives were recognised on this same flat netlist."
+        }
+      ]
+    },
+    "G0.5_round_trip_lvs": {
+      "match_uniquely": true,
+      "property_errors": false,
+      "pin_mismatch": false,
+      "pass": true,
+      "report": "outputs/S0/ttsky25a_fd/ref/round_trip_lvs.txt"
+    },
+    "G0.6_testbench_reproduction": {
+      "pass": true,
+      "note": "no upstream values to compare (stress variant)",
+      "measured": {
+        "gain_db": 98.401,
+        "gbw_mhz": 2.05171,
+        "pm_deg": 78.2341,
+        "isup_ua": 251.102,
+        "power_uw": 451.984,
+        "vout_v": 8.88178e-15,
+        "voutcm_v": 0.902366,
+        "vnoise_nv_rthz": 139.742,
+        "vnoise_rms_uv_rms": 7551.06
+      }
+    },
+    "G0.8_external_reference": {
+      "pass": true,
+      "reference": "circuits/ttsky25a_fd/source/reference.json",
+      "source": "designers' testbench Opamp_with_Bias_tb.sch (xschem netlist), re-run by this flow with measurements added; MIM loads (200 x 1x1 um), open loop, tt, 27 C",
+      "setup": "same PDK and simulator; MIM loads instead of ideal 529 fF, open-loop bench instead of DC-feedback chokes",
+      "compare": {
+        "gain_db": {
+          "reference": 98.4006,
+          "this_flow": 98.401,
+          "deviation": 0.00039999999999906777,
+          "kind": "abs",
+          "tolerance": 0.2,
+          "ok": true
+        },
+        "gbw_mhz": {
+          "reference": 2.05154,
+          "this_flow": 2.05171,
+          "deviation": 8.28645797790184e-05,
+          "kind": "rel",
+          "tolerance": 0.02,
+          "ok": true
+        },
+        "pm_deg": {
+          "reference": 78.2355,
+          "this_flow": 78.2341,
+          "deviation": -0.0014000000000038426,
+          "kind": "abs",
+          "tolerance": 1.0,
+          "ok": true
+        },
+        "power_uw": {
+          "reference": 451.984,
+          "this_flow": 451.984,
+          "deviation": 0.0,
+          "kind": "rel",
+          "tolerance": 0.02,
+          "ok": true
+        }
+      },
+      "note": "ASSUMPTION tolerances (different library build / testbench)"
+    },
+    "G0.7_pcell_binding_drc_lvs": {
+      "pass": false,
+      "detail": "outputs/S0/ttsky25a_fd/pcell_binding.json",
+      "summary": {
+        "XM32": false,
+        "XM33": false,
+        "XM34": false,
+        "XM35": false,
+        "XM36": false,
+        "XM37": false,
+        "XM38": false,
+        "XM39": false,
+        "XM40": true,
+        "XM41": false,
+        "XM42": false,
+        "XM43": false,
+        "XM44": false,
+        "XM45": false,
+        "XM54": false,
+        "XX1_M5": false,
+        "XX1_M6": false,
+        "XX1_M11": false,
+        "XX1_M12": false,
+        "XX1_M13": false,
+        "XX1_M14": false,
+        "XX1_M19": false,
+        "XX1_M1": false,
+        "XX1_M2": false,
+        "XX1_M3": false,
+        "XX1_M4": false,
+        "XX1_M7": false,
+        "XX1_M8": false,
+        "XX1_M9": false,
+        "XX1_M10": false,
+        "XX1_M17": false,
+        "XX1_M18": false,
+        "XX1_M22": false,
+        "XX1_M20": false,
+        "XX1_M21": false,
+        "XX1_M15": false,
+        "XX1_M16": false,
+        "XX1_M46": false,
+        "XX1_M47": false,
+        "XX1_M23": false,
+        "XX1_M24": false,
+        "XX1_M25": false,
+        "XX2_M9": false,
+        "XX2_M4": false,
+        "XX2_M2": false,
+        "XX2_M1": false,
+        "XX2_M3": false,
+        "XX2_M7": false,
+        "XX2_M8": false,
+        "XX2_M5": false,
+        "XX2_M6": false,
+        "XX2_M10": false,
+        "XX2_M11": false,
+        "XX2_M12": false,
+        "XC1": false,
+        "XC2": false,
+        "XX2_X1_R1": false,
+        "XX2_X1_R2": false,
+        "XX2_X1_R3": false,
+        "XX2_X1_R4": false,
+        "XX2_X1_R5": false,
+        "XX2_X1_R6": false,
+        "XX2_X1_R7": false,
+        "XX2_X1_R8": false,
+        "XX2_X1_R9": false,
+        "XX2_X1_R10": false,
+        "XX2_X1_R11": false,
+        "XX2_X1_R12": false,
+        "XX2_X1_R13": false,
+        "XX2_X1_R14": false,
+        "XX2_X1_R16": false,
+        "XX2_X1_R17": false,
+        "XX2_X1_R18": false,
+        "XX2_X1_R19": false,
+        "XX2_X1_R20": false,
+        "XX2_X1_R15": false,
+        "XX2_X2_R1": false,
+        "XX2_X2_R2": false,
+        "XX2_X2_R3": false,
+        "XX2_X2_R4": false,
+        "XX2_X2_R5": false,
+        "XX2_X2_R6": false,
+        "XX2_X2_R7": false,
+        "XX2_X2_R8": false,
+        "XX2_X2_R9": false,
+        "XX2_X2_R10": false,
+        "XX2_X2_R11": false,
+        "XX2_X2_R12": false,
+        "XX2_X2_R13": false,
+        "XX2_X2_R14": false,
+        "XX2_X2_R16": false,
+        "XX2_X2_R17": false,
+        "XX2_X2_R18": false,
+        "XX2_X2_R19": false,
+        "XX2_X2_R20": false,
+        "XX2_X2_R15": false
+      }
+    }
+  },
+  "notes": [
+    "ASSUMPTION: specs derived from this design's own simulated values by the package rule {'gain_db': {'min_delta': -1.0}, 'gbw_mhz': {'min_factor': 0.9}} (no upstream specs, or a stress variant)"
+  ],
+  "testbenches": {
+    "dido_amp_AC": {
+      "rc": 0,
+      "meas": {
+        "gain_db": 98.401,
+        "gbw_mhz": 2.05171,
+        "pm_deg": 78.2341
+      },
+      "log": "outputs/S0/ttsky25a_fd/tb/dido_amp_AC.log",
+      "numerical_warnings": []
+    },
+    "dido_amp_OP": {
+      "rc": 0,
+      "meas": {
+        "isup_ua": 251.102,
+        "power_uw": 451.984,
+        "vout_v": 8.88178e-15,
+        "voutcm_v": 0.902366
+      },
+      "log": "outputs/S0/ttsky25a_fd/tb/dido_amp_OP.log",
+      "numerical_warnings": []
+    },
+    "dido_amp_NOISE": {
+      "rc": 0,
+      "meas": {
+        "vnoise_nv_rthz": 139.742,
+        "vnoise_rms_uv_rms": 7551.06
+      },
+      "log": "outputs/S0/ttsky25a_fd/tb/dido_amp_NOISE.log",
+      "numerical_warnings": []
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-10-26T05:12:53+00:00",
+    "git_commit": "43f7d57f1a558f0d6ffe5585f29f43e27f23ef04",
+    "inputs": [
+      {
+        "path": "circuits/ttsky25a_fd/source/ttsky25a_fd.spice",
+        "sha256": "44705145dd55f5fde73f4974a20dbb23a5f324f757a94b211abd542485bf7861"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/source/config.yaml",
+        "sha256": "bfa0bb31240cd2a3511edc7d97fa5d17fdfc870504e03b3bd430be9033febdae"
+      },
+      {
+        "path": "inputs/ttsky25a_fd/package.yaml",
+        "sha256": "6f5024f160469fb4e04f69f4cef20eae16cb7d809aa942b050a12b8570a89708"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/source/ttsky25a_fd.spice",
+        "sha256": "44705145dd55f5fde73f4974a20dbb23a5f324f757a94b211abd542485bf7861"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/upstream/hierarchy.json",
+        "sha256": "fa46a3cac8ba99928c711026f48b18245684c509dfb5aca2d9e7eb8d96fd51f9"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/upstream/primitives.json",
+        "sha256": "51baeeb46675510f15e37c9f140bea246fb736ba44f1d6be3abfff7fea6fd0ea"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/upstream/equations.predicted.json",
+        "sha256": "2f292e73288dfa6ea0ec94134a1f4216b4ea495d4a1c781799d3a820bc0a8375"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/upstream/name_map.yaml",
+        "sha256": "b3ae223d6492603fbb863a568a40da9cfdc0f2ba7b419a16f1ab7778ab0ed29d"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/testbenches/dido_amp_AC.spice",
+        "sha256": "47421055baad1d2aab7a9a639e51204e27512a050430618e78269c141ecab4fd"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/testbenches/dido_amp_OP.spice",
+        "sha256": "9d67f1a670565cb9a9095af7d7d1c692c37ddacc6e07168e2f1d6bbef0ac564e"
+      },
+      {
+        "path": "circuits/ttsky25a_fd/testbenches/dido_amp_NOISE.spice",
+        "sha256": "2c51c94fd06091a0840c1752c0945225132e5045372f082a96fe900cd8134b08"
+      }
+    ]
+  }
+}

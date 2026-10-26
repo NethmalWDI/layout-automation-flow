@@ -1,0 +1,29 @@
+# ttsky25a_fd: provenance
+
+Generated 2026-10-26 by `scripts/make_ttsky25a_package.py` from the vendored upstream copy
+`upstream_src/` (NethmalWDI/Fully_differential_opamp, commit bdb5ef12cf608390275085180613a77ea7b2c7de Wed Oct 21 13:36:10 2026 +0530, Apache-2.0).
+
+| Item | Origin | Status |
+|---|---|---|
+| Circuit | `Opamp_with_bias.sch` netlisted by xschem, flattened by `scripts/flatten_spice.py` (96 devices) | copied, flattened |
+| Off-chip 12 kohm bias resistor, Vref = 0.9 V | the designers' testbench, kept inside the DUT as `Rgm_ext`, `Vref_ext` (bias_sources) | **adapted** |
+| Load | 529 fF per output: the tt value of the testbench's 200 x (1 um x 1 um) MIM loads, as ideal capacitors | adapted |
+| Reference metrics | `source/reference.json`: the designers' testbench re-run here; README post-layout figures | re-run / reported |
+| Testbenches | `dido_amp_AC/OP/NOISE` (scripts/benchlib.py), DC unity feedback through chokes | **new** |
+| Specs | `config.yaml`: **ASSUMPTION** (README figures are results, not specs) | **new** |
+| Hierarchy | schematic sub-blocks (Diff_opamp, Common_source_stage, res_pack), from the flat names | real |
+| Primitives | `upstream/primitives.json`: rule-based recognition (scripts/recognize_structures.py) | **PREDICTED** |
+| Symbolic equations | `upstream/equations.predicted.json`: textbook two-stage FD model | **PREDICTED** |
+| Layout reference | `upstream_src/gds/tt_um_diff.gds` (taped-out tile) | copied |
+
+SHA-256 of the generated files:
+- `source/ttsky25a_fd.spice` 44705145dd55f5fde73f4974a20dbb23a5f324f757a94b211abd542485bf7861
+- `source/config.yaml` bfa0bb31240cd2a3511edc7d97fa5d17fdfc870504e03b3bd430be9033febdae
+- `source/reference.json` ca627b64766a3f0c1289b0f59000dd679d7ddac43cefc00f6e990b743c109760
+- `testbenches/dido_amp_AC.spice` 47421055baad1d2aab7a9a639e51204e27512a050430618e78269c141ecab4fd
+- `testbenches/dido_amp_NOISE.spice` 2c51c94fd06091a0840c1752c0945225132e5045372f082a96fe900cd8134b08
+- `testbenches/dido_amp_OP.spice` 9d67f1a670565cb9a9095af7d7d1c692c37ddacc6e07168e2f1d6bbef0ac564e
+- `upstream/equations.predicted.json` 2f292e73288dfa6ea0ec94134a1f4216b4ea495d4a1c781799d3a820bc0a8375
+- `upstream/hierarchy.json` fa46a3cac8ba99928c711026f48b18245684c509dfb5aca2d9e7eb8d96fd51f9
+- `upstream/name_map.yaml` b3ae223d6492603fbb863a568a40da9cfdc0f2ba7b419a16f1ab7778ab0ed29d
+- `upstream/primitives.json` 51baeeb46675510f15e37c9f140bea246fb736ba44f1d6be3abfff7fea6fd0ea

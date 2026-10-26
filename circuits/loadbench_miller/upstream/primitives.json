@@ -1,0 +1,100 @@
+{
+ "design": "loadbench_miller",
+ "provenance": "LOADBench struct_recognition.xml (real, converted to the upstream primitives format by scripts/make_loadbench_package.py)",
+ "netlist": "circuits/loadbench_miller/source/loadbench_miller.spice",
+ "subckt": "loadbench_miller",
+ "ports": [
+  "in1",
+  "in2",
+  "out",
+  "sourceNmos",
+  "sourcePmos"
+ ],
+ "instances": [
+  {
+   "instance": "X1",
+   "subckt": "undefined_common_source_stage",
+   "primitive": "common-source-stage",
+   "category": "gm-structure",
+   "library": "LOADBench structure recognition: MosfetAnalogInverter[1]",
+   "transistors": {
+    "M1": "XNormalTransistorPmos5",
+    "M2": "XNormalTransistorNmos3"
+   },
+   "ports": {
+    "Gnd": "sourceNmos",
+    "InputNMOS1": "outFirstStage",
+    "InputPMOS1": "ibias",
+    "Output": "out",
+    "Vdd": "sourcePmos"
+   }
+  },
+  {
+   "instance": "X2",
+   "subckt": "p_differential_pair",
+   "primitive": "pmos-differential-pair",
+   "category": "gm-structure",
+   "library": "LOADBench structure recognition: MosfetDifferentialPair[1]",
+   "transistors": {
+    "M1": "XNormalTransistorPmos7",
+    "M2": "XNormalTransistorPmos6"
+   },
+   "ports": {
+    "Input1": "in1",
+    "Input2": "in2",
+    "Output1": "FirstStageYout1",
+    "Output2": "outFirstStage",
+    "Source": "FirstStageYsourceTransconductance"
+   }
+  },
+  {
+   "instance": "X3",
+   "subckt": "n_current_mirror_load",
+   "primitive": "nmos-current-mirror-load",
+   "category": "load-structure",
+   "library": "LOADBench structure recognition: MosfetSimpleCurrentMirror[1]",
+   "transistors": {
+    "M1": "XDiodeTransistorNmos1",
+    "M2": "XNormalTransistorNmos4"
+   },
+   "ports": {
+    "Input": "FirstStageYout1",
+    "Output": "outFirstStage",
+    "Source": "sourceNmos"
+   }
+  },
+  {
+   "instance": "X4",
+   "subckt": "p_current_mirror",
+   "primitive": "pmos-current-mirror",
+   "category": "bias-structure",
+   "library": "LOADBench structure recognition: MosfetSimpleCurrentMirror[2]",
+   "transistors": {
+    "M1": "XDiodeTransistorPmos2",
+    "M2": "XNormalTransistorPmos8"
+   },
+   "ports": {
+    "Input": "ibias",
+    "Output": "FirstStageYsourceTransconductance",
+    "Source": "sourcePmos"
+   }
+  },
+  {
+   "instance": "X5",
+   "subckt": "p_current_mirror",
+   "primitive": "pmos-current-mirror",
+   "category": "bias-structure",
+   "library": "LOADBench structure recognition: MosfetSimpleCurrentMirror[3]",
+   "transistors": {
+    "M1": "XDiodeTransistorPmos2",
+    "M2": "XNormalTransistorPmos5"
+   },
+   "ports": {
+    "Input": "ibias",
+    "Output": "out",
+    "Source": "sourcePmos"
+   }
+  }
+ ],
+ "not_in_any_structure": []
+}

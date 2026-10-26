@@ -25,7 +25,7 @@ from pathlib import Path
 from src.common import pcell
 from src.common.tools import REPO, provenance, rel, write_json
 from src.s0.ingest import load_package
-from src.s3 import evaluate as E, options as O
+from src.s3 import evaluate as E, options as O, wbins
 
 F_DEVICE = 0.5   # ASSUMPTION: half of each terminal-R budget (S2) is for the PCell, half for routing (S5)
 TOL = 0.01       # consumption tolerance: 1 % of the margin (simulation resolution)
@@ -64,6 +64,12 @@ def main(argv=None) -> int:
     ap.add_argument("package")
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--cells-only", action="store_true", help="only build/measure the option cells (cache)")
+    ap.add_argument("--mode", choices=list(O.MODES), default="A-bin",
+                    help="option mode of the main decision (all modes are reported)")
+    ap.add_argument("--build-mode", choices=list(O.MODES), default=None,
+                    help="options to build: default the package key s3_build_mode, else A-free")
+    ap.add_argument("--rules", choices=["v2", "v1"], default="v2",
+                    help="v2: a cell may always use the library's lowest access R of its terminal (R19 b)")
     a = ap.parse_args(argv)
     pkg = load_package(REPO / a.package)
     design = pkg["design"]
@@ -78,7 +84,8 @@ def main(argv=None) -> int:
 
     # 1. option table: build and measure every option of every device type (parallel, cached by cell)
     types = O.device_types(ir)
-    jobs = [(tid, t, opt) for tid, t in types.items() for opt in O.grid(t["W"])]
+    build_mode = a.build_mode or pkg.get("s3_build_mode") or "A-free"
+    jobs = [(tid, t, opt) for tid, t in types.items() for opt in O.grid(t["W"]) if O.in_mode(t, opt, build_mode)]
 
     def build(job):
         tid, t, opt = job
@@ -105,7 +112,7 @@ def main(argv=None) -> int:
             r["access_resistance_ohm"] = O.access_resistance(types[r["type"]], r["option"], r["geometry"], rules)
     bad = [r["cell"] for r in table if not r.get("ok")]
     gates["G3.4_option_table_complete"] = {"pass": len(table) == len(jobs), "options": len(table),
-                                           "not_signed_off": bad}
+                                           "not_signed_off": bad, "build_mode": build_mode}
     if a.cells_only:
         print(f"option cells: {len(table)} built, {len(bad)} not signed off: {bad}")
         return 0
@@ -169,6 +176,13 @@ def main(argv=None) -> int:
     def mg_of(k):
         return margins[k]["margin"] if k in margins else base["sat_V"].get(k[4:])
 
+    r_floor = {}
+    for r in table:
+        if r.get("ok"):
+            for term in "dgs":
+                v = r["access_resistance_ohm"][term]
+                key_ = (r["type"], term)
+                r_floor[key_] = min(r_floor.get(key_, v), v)
     for r in table:
         if not r.get("ok"):
             continue
@@ -188,6 +202,8 @@ def main(argv=None) -> int:
         rc_ = {}
         for term, rbv in r_budget[r["type"]].items():
             lim_ = rbv["cell_fraction"] * rbv["budget_ohm"]
+            if a.rules == "v2":   # R19 b: the cheapest cell of the library always fits, if the budget allows it
+                lim_ = min(rbv["budget_ohm"], max(lim_, r_floor.get((r["type"], term), 0.0)))
             ra = r["access_resistance_ohm"][term]
             rc_[term] = {"group": rbv["group"], "R_access_ohm": ra, "allowed_ohm": lim_, "ok": ra <= lim_,
                          "remaining_for_routing_ohm": rbv["budget_ohm"] - ra,
@@ -199,42 +215,71 @@ def main(argv=None) -> int:
              [c["slack_frac"] for c in rc_.values() if c["slack_frac"] is not None]
         r["min_slack"] = min(sl) if sl else None
 
-    # 4. choose per type: smallest feasible area; near-ties (2 %) by largest slack
-    decisions = {}
-    for tid, t in types.items():
-        cand = [r for r in table if r["type"] == tid and r.get("ok") and r.get("min_slack") is not None]
-        feas = [r for r in cand if r["feasible"]]
-        relaxed = not feas
-        pool = feas or cand
-        if relaxed:
-            dflt_ = next((r for r in pool if r["option"]["id"] == O.default_option_id()), None)
-            pick = dflt_ or max(pool, key=lambda r: r["min_slack"])
-            why = ("no option met the allowance: the default PCell (the device exactly as sized) is kept and the "
-                   "type is flagged (relaxation); see budget_check for what does not fit")
-        else:
-            amin = min(r["geometry"]["area_um2"] for r in pool)
-            near = [r for r in pool if r["geometry"]["area_um2"] <= amin * (1 + AREA_TIE)]
-            pick = max(near, key=lambda r: r["min_slack"])
-            why = (f"smallest area among the {len(feas)} of {len(cand)} options that stay within the allowance "
-                   f"({len(near)} within {AREA_TIE:.0%} of it; largest slack among those)")
-        dflt = next((r for r in cand if r["option"]["id"] == O.default_option_id()), None)
-        decisions[tid] = {
-            "devices": t["devices"], "model": t["model"], "W_um": t["W"], "L_um": t["L"],
-            "chosen": pick["option"], "cell": pick["cell"], "gds": pick["gds"], "png": pick.get("png"),
-            "reason": why, "relaxed": relaxed, "area_um2": pick["geometry"]["area_um2"],
-            "bbox_um": pick["geometry"]["bbox_um"],
-            "access_resistance_ohm": {k: pick["access_resistance_ohm"][k] for k in "dgs"},
-            "budget_check": pick["budget_check"], "allowance_capacitance": allow_c[tid],
-            "allowance_resistance_margin": allow_r[tid],
-            "pex": {k: pick["pex"][k] for k in ("n_devices", "n_caps", "sum_caps_F")},
-            "drc": pick["drc"], "lvs": pick["lvs"],
-            "device_model_change": model_change(base, pick, t),
-            "vs_default": None if not dflt else {
-                "default_cell": dflt["cell"], "default_area_um2": dflt["geometry"]["area_um2"],
-                "default_feasible": dflt.get("feasible"), "default_budget_check": dflt.get("budget_check"),
-                "default_access_resistance_ohm": {k: dflt["access_resistance_ohm"][k] for k in "dgs"},
-                "magic_extresist_cross_check": dflt.get("magic_extresist")},
-            "n_options": len(cand), "n_feasible": len(feas)}
+    # 4. choose per type: smallest feasible area; near-ties (2 %) by largest slack -- for every option mode
+    def choose(mode: str) -> dict:
+        decisions = {}
+        for tid, t in types.items():
+            if mode == "RoT":
+                cand = [r for r in table if r["type"] == tid and r.get("ok") and r.get("min_slack") is not None
+                        and r["option"]["id"] == O.rule_of_thumb_id(t)]
+            else:
+                cand = [r for r in table if r["type"] == tid and r.get("ok") and r.get("min_slack") is not None
+                        and O.in_mode(t, r["option"], mode)]
+            if not cand:
+                decisions[tid] = None
+                continue
+            feas = [r for r in cand if r["feasible"]]
+            relaxed = not feas
+            pool = feas or cand
+            if relaxed:
+                dflt_ = next((r for r in pool if r["option"]["id"] == O.default_option_id()), None)
+                pick = dflt_ or max(pool, key=lambda r: r["min_slack"])
+                why = ("no option met the allowance: the default PCell (the device exactly as sized) is kept and the "
+                       "type is flagged (relaxation); see budget_check for what does not fit")
+            else:
+                amin = min(r["geometry"]["area_um2"] for r in pool)
+                near = [r for r in pool if r["geometry"]["area_um2"] <= amin * (1 + AREA_TIE)]
+                pick = max(near, key=lambda r: r["min_slack"])
+                why = (f"smallest area among the {len(feas)} of {len(cand)} options that stay within the allowance "
+                       f"({len(near)} within {AREA_TIE:.0%} of it; largest slack among those)")
+            dflt = next((r for r in table if r["type"] == tid and r.get("ok") and r.get("min_slack") is not None
+                         and r["option"]["id"] == O.default_option_id()), None)
+            decisions[tid] = {
+                "devices": t["devices"], "model": t["model"], "W_um": t["W"], "L_um": t["L"],
+                "chosen": pick["option"], "cell": pick["cell"], "gds": pick["gds"], "png": pick.get("png"),
+                "reason": why, "relaxed": relaxed, "area_um2": pick["geometry"]["area_um2"],
+                "bbox_um": pick["geometry"]["bbox_um"],
+                "access_resistance_ohm": {k: pick["access_resistance_ohm"][k] for k in "dgs"},
+                "budget_check": pick["budget_check"], "allowance_capacitance": allow_c[tid],
+                "allowance_resistance_margin": allow_r[tid],
+                "pex": {k: pick["pex"][k] for k in ("n_devices", "n_caps", "sum_caps_F")},
+                "drc": pick["drc"], "lvs": pick["lvs"],
+                "device_model_change": model_change(base, pick, t),
+                "finger_in_sized_bin": wbins.same_bin(t["model"], t["W"], t["L"], t["W"] / pick["option"]["nf"]),
+                "vs_default": None if not dflt else {
+                    "default_cell": dflt["cell"], "default_area_um2": dflt["geometry"]["area_um2"],
+                    "default_feasible": dflt.get("feasible"), "default_budget_check": dflt.get("budget_check"),
+                    "default_access_resistance_ohm": {k: dflt["access_resistance_ohm"][k] for k in "dgs"},
+                    "magic_extresist_cross_check": dflt.get("magic_extresist")},
+                "n_options": len(cand), "n_feasible": len(feas)}
+        return decisions
+
+    by_mode = {m_: choose(m_) for m_ in ("B", "A-bin", "A-free", "RoT")}
+    decisions = by_mode[a.mode]
+    if any(v is None for v in decisions.values()):
+        raise RuntimeError(f"mode {a.mode}: no built option for {[k for k, v in decisions.items() if v is None]}")
+    mode_summary = {}
+    for m_, dd in by_mode.items():
+        ok_ = {k: v for k, v in dd.items() if v is not None}
+        mode_summary[m_] = {"complete": len(ok_) == len(dd), "total_area_um2": sum(v["area_um2"] * len(v["devices"]) for v in ok_.values()),
+                            "relaxed": sorted(k for k, v in ok_.items() if v["relaxed"]),
+                            "fingers_outside_sized_bin": sorted(k for k, v in ok_.items() if not v["finger_in_sized_bin"]),
+                            "chosen": {k: v["chosen"]["id"] for k, v in ok_.items()},
+                            "missing": sorted(k for k, v in dd.items() if v is None)}
+    gates["G3.7_modes (info)"] = {"pass": None, "main_mode": a.mode, "summary": mode_summary,
+                                  "w_bins": wbins.table(sorted({t["model"] for t in types.values()})),
+                                  "note": "the sky130 subcircuits pass W, not W/nf, to BSIM4; an nf-finger layout is "
+                                          "extracted as fingers of W/nf, simulated in the bin of W/nf"}
 
     # 5. every chosen option at once, cells AND access resistance
     repl = {}
@@ -288,7 +333,9 @@ def main(argv=None) -> int:
                                            "budget_check", "feasible", "min_slack", "magic_extresist", "strap", "error")})
     write_json(out / "option_table.json", {"design": design, "f_device": F_DEVICE, "tolerance": TOL,
                                            "baseline_S0": base, "allowance": allow, "options": slim})
-    write_json(out / "device_decisions.json", {"design": design, "decisions": decisions, "final_in_circuit": final,
+    write_json(out / "device_decisions.json", {"design": design, "mode": a.mode, "rules": a.rules,
+                                               "decisions": decisions, "final_in_circuit": final,
+                                               "by_mode": mode_summary,
                                                "f_device_note": "ASSUMPTION: share of each terminal-R budget given to the PCell"})
     try:
         import matplotlib

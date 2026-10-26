@@ -1,0 +1,1147 @@
+{
+  "design": "loadbench_miller",
+  "gates": {
+    "G1.1_operating_point": {
+      "pass": true,
+      "numerical_warnings": [],
+      "saturation": {
+        "XDiodeTransistorNmos1": {
+          "vds": 0.460093,
+          "vdsat": 0.0602066,
+          "vds_minus_vdsat_V": 0.3998864,
+          "saturated": true
+        },
+        "XDiodeTransistorPmos2": {
+          "vds": 0.497638,
+          "vdsat": 0.094383,
+          "vds_minus_vdsat_V": 0.40325500000000003,
+          "saturated": true
+        },
+        "XNormalTransistorNmos3": {
+          "vds": 0.901926,
+          "vdsat": 0.0511976,
+          "vds_minus_vdsat_V": 0.8507284,
+          "saturated": true
+        },
+        "XNormalTransistorNmos4": {
+          "vds": 0.51806,
+          "vdsat": 0.0602065,
+          "vds_minus_vdsat_V": 0.45785349999999997,
+          "saturated": true
+        },
+        "XNormalTransistorPmos5": {
+          "vds": 0.897656,
+          "vdsat": 0.0943686,
+          "vds_minus_vdsat_V": 0.8032874,
+          "saturated": true
+        },
+        "XNormalTransistorPmos6": {
+          "vds": 0.982093,
+          "vdsat": 0.151532,
+          "vds_minus_vdsat_V": 0.830561,
+          "saturated": true
+        },
+        "XNormalTransistorPmos7": {
+          "vds": 1.04007,
+          "vdsat": 0.150109,
+          "vds_minus_vdsat_V": 0.889961,
+          "saturated": true
+        },
+        "XNormalTransistorPmos8": {
+          "vds": 0.298906,
+          "vdsat": 0.0943886,
+          "vds_minus_vdsat_V": 0.20451740000000002,
+          "saturated": true
+        }
+      },
+      "isup_uA": 310.248,
+      "isup_achieved_uA": 310.248,
+      "missing_params": [],
+      "missing_optional_params": [],
+      "charge_conservation_worst_rel": 2.3795926137939264e-06
+    },
+    "G1.2_linear_model_vs_spice": {
+      "pass": true,
+      "linear": {
+        "gain_db": 58.016416341520326,
+        "gbw_mhz": 23.47015739324057,
+        "pm_deg": 65.29641986122216
+      },
+      "spice": {
+        "gain_db": 57.9997,
+        "gbw_mhz": 23.3871,
+        "pm_deg": 65.3233
+      },
+      "delta": {
+        "gain_db": 0.01671634152032908,
+        "gbw_rel": 0.0035514190831940073,
+        "pm_deg": -0.02688013877784101
+      },
+      "tolerance": {
+        "gain_db": 0.2,
+        "gbw_rel": 0.03,
+        "pm_deg": 2.0
+      }
+    },
+    "G1.3_sensitivity_vs_spice": {
+      "pass": true,
+      "tolerance_rel": 0.2,
+      "tolerance_pred_frac_margin": 0.05,
+      "checks": [
+        {
+          "case": "FirstStageYout1",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 7.105427357601002e-15
+        },
+        {
+          "case": "FirstStageYout1",
+          "spec": "gbw_mhz",
+          "linear": -0.0036620069918864573,
+          "spice_5fF": -0.0036400000000000434,
+          "spice_20fF": -0.0036300000000000663,
+          "spice_extrapolated_0": -0.0036433333333333686,
+          "rel_err_vs_extrapolated": 0.005125432356748898,
+          "rel_err_vs_20fF": 0.008817353136746657,
+          "step_consistency": 0.0027548209366327434,
+          "pred_err_at_20fF_frac_of_margin": 0.00027371609771574773,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "FirstStageYout1",
+          "spec": "pm_deg",
+          "linear": -0.003768622281235423,
+          "spice_5fF": -0.0037599999999997635,
+          "spice_20fF": -0.003715000000000401,
+          "spice_extrapolated_0": -0.003774999999999551,
+          "rel_err_vs_extrapolated": 0.0016894619242724558,
+          "rel_err_vs_20fF": 0.014433992257070299,
+          "step_consistency": 0.012113055181522888,
+          "pred_err_at_20fF_frac_of_margin": 0.00020146255606492934,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "FirstStageYsourceTransconductance",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "FirstStageYsourceTransconductance",
+          "spec": "gbw_mhz",
+          "linear": -0.003813293905864157,
+          "spice_5fF": -0.0037799999999997167,
+          "spice_20fF": -0.0037649999999999294,
+          "spice_extrapolated_0": -0.003784999999999646,
+          "rel_err_vs_extrapolated": 0.007475272355221568,
+          "rel_err_vs_20fF": 0.01282706663060513,
+          "step_consistency": 0.003984063744963506,
+          "pred_err_at_20fF_frac_of_margin": 0.000412997869450784,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "FirstStageYsourceTransconductance",
+          "spec": "pm_deg",
+          "linear": 0.007928959325425922,
+          "spice_5fF": 0.007919999999998595,
+          "spice_20fF": 0.007985000000000042,
+          "spice_extrapolated_0": 0.007898333333331446,
+          "rel_err_vs_extrapolated": 0.003877525903500663,
+          "rel_err_vs_20fF": 0.0070182435283807736,
+          "step_consistency": 0.00814026299329333,
+          "pred_err_at_20fF_frac_of_margin": 0.00021054862425232747,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "ibias",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "ibias",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_20fF": -1.4999999999965042e-05,
+          "linear": -1.3784360007207397e-05
+        },
+        {
+          "case": "ibias",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_20fF": 0.0001449999999998397,
+          "linear": 0.0001444006797299835
+        },
+        {
+          "case": "out",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": -7.105427357601002e-15
+        },
+        {
+          "case": "out",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_20fF": -8.999999999996789e-05,
+          "linear": -9.376529343896323e-05
+        },
+        {
+          "case": "out",
+          "spec": "pm_deg",
+          "linear": -0.0025045549950633017,
+          "spice_5fF": -0.0025000000000005686,
+          "spice_20fF": -0.002499999999999858,
+          "spice_extrapolated_0": -0.0025000000000008054,
+          "rel_err_vs_extrapolated": 0.0018219980249979354,
+          "rel_err_vs_20fF": 0.001821998025377663,
+          "step_consistency": 2.8432117771261484e-13,
+          "pred_err_at_20fF_frac_of_margin": 1.7113426120804373e-05,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "outFirstStage",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": -3.765876499528531e-13
+        },
+        {
+          "case": "outFirstStage",
+          "spec": "gbw_mhz",
+          "linear": -0.001180216787906474,
+          "spice_5fF": -0.001180000000000092,
+          "spice_20fF": -0.001174999999999926,
+          "spice_extrapolated_0": -0.001181666666666814,
+          "rel_err_vs_extrapolated": 0.0012269777943637744,
+          "rel_err_vs_20fF": 0.004439819494934656,
+          "step_consistency": 0.004255319149077626,
+          "pred_err_at_20fF_frac_of_margin": 4.461271566723303e-05,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "outFirstStage",
+          "spec": "pm_deg",
+          "linear": -0.003365904528060071,
+          "spice_5fF": -0.0033800000000013598,
+          "spice_20fF": -0.003375000000000483,
+          "spice_extrapolated_0": -0.0033816666666683184,
+          "rel_err_vs_extrapolated": 0.004661056266606182,
+          "rel_err_vs_20fF": 0.0026949546490106645,
+          "step_consistency": 0.001481481481741032,
+          "pred_err_at_20fF_frac_of_margin": 3.417230642801378e-05,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "outFirstStage~in2",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": -3.765876499528531e-13
+        },
+        {
+          "case": "outFirstStage~in2",
+          "spec": "gbw_mhz",
+          "linear": 0.00753779787950748,
+          "spice_5fF": 0.007639999999999958,
+          "spice_20fF": 0.007949999999999947,
+          "spice_extrapolated_0": 0.007536666666666628,
+          "rel_err_vs_extrapolated": 0.00015009458304087857,
+          "rel_err_vs_20fF": 0.05184932333238615,
+          "step_consistency": 0.03899371069182279,
+          "pred_err_at_20fF_frac_of_margin": 0.003525053409949692,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "outFirstStage~in2",
+          "spec": "pm_deg",
+          "linear": -0.09067450223604112,
+          "spice_5fF": -0.09078000000000089,
+          "spice_20fF": -0.09091500000000004,
+          "spice_extrapolated_0": -0.09073500000000118,
+          "rel_err_vs_extrapolated": 0.0006667522340888718,
+          "rel_err_vs_20fF": 0.0026453034588232536,
+          "step_consistency": 0.0014849034812643637,
+          "pred_err_at_20fF_frac_of_margin": 0.0009035664492285464,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "FirstStageYout1~out",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 1.0558665053395089e-11
+        },
+        {
+          "case": "FirstStageYout1~out",
+          "spec": "gbw_mhz",
+          "linear": 0.010608173773075436,
+          "spice_5fF": 0.010560000000000258,
+          "spice_20fF": 0.010195000000000043,
+          "spice_extrapolated_0": 0.010681666666666997,
+          "rel_err_vs_extrapolated": 0.006880283375711584,
+          "rel_err_vs_20fF": 0.040527098879390995,
+          "step_consistency": 0.03580186365867723,
+          "pred_err_at_20fF_frac_of_margin": 0.0035333627491802547,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "FirstStageYout1~out",
+          "spec": "pm_deg",
+          "linear": -0.06931409402115207,
+          "spice_5fF": -0.06949999999999931,
+          "spice_20fF": -0.06991000000000014,
+          "spice_extrapolated_0": -0.06936333333333237,
+          "rel_err_vs_extrapolated": 0.0007098752296646065,
+          "rel_err_vs_20fF": 0.008523901857360388,
+          "step_consistency": 0.005864683164079896,
+          "pred_err_at_20fF_frac_of_margin": 0.0022388592746907577,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "out~outFirstStage",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": -1.1038281400033156e-11
+        },
+        {
+          "case": "out~outFirstStage",
+          "spec": "gbw_mhz",
+          "linear": -0.028169314122676425,
+          "spice_5fF": -0.028059999999999974,
+          "spice_20fF": -0.027749999999999986,
+          "spice_extrapolated_0": -0.028163333333333304,
+          "rel_err_vs_extrapolated": 0.00021236084778510954,
+          "rel_err_vs_20fF": 0.015110418835186996,
+          "step_consistency": 0.011171171171170722,
+          "pred_err_at_20fF_frac_of_margin": 0.0035858735423648955,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "out~outFirstStage",
+          "spec": "pm_deg",
+          "linear": 0.022811529743748338,
+          "spice_5fF": 0.022739999999998872,
+          "spice_20fF": 0.02240499999999983,
+          "spice_extrapolated_0": 0.02285166666666522,
+          "rel_err_vs_extrapolated": 0.0017564111844599515,
+          "rel_err_vs_20fF": 0.018144599140750256,
+          "step_consistency": 0.01495201963843086,
+          "pred_err_at_20fF_frac_of_margin": 0.001527359884840254,
+          "criterion": "a_derivative",
+          "pass": true
+        }
+      ]
+    },
+    "G1.4_matching_groups": {
+      "pass": true,
+      "rule": "diff pair: identical W, L, nf, m; mirror: same L and model (ratio allowed)",
+      "groups": [
+        {
+          "devices": [
+            "XNormalTransistorPmos7",
+            "XNormalTransistorPmos6"
+          ],
+          "kind": "diff_pair",
+          "equal_size": true,
+          "ratio_Wm": [
+            1.0,
+            1.0
+          ],
+          "consistent": true
+        },
+        {
+          "devices": [
+            "XDiodeTransistorNmos1",
+            "XNormalTransistorNmos4"
+          ],
+          "kind": "mirror",
+          "equal_size": true,
+          "ratio_Wm": [
+            1.0,
+            1.0
+          ],
+          "consistent": true
+        },
+        {
+          "devices": [
+            "XDiodeTransistorPmos2",
+            "XNormalTransistorPmos8"
+          ],
+          "kind": "mirror",
+          "equal_size": false,
+          "ratio_Wm": [
+            1.0,
+            2.4298
+          ],
+          "consistent": true
+        },
+        {
+          "devices": [
+            "XDiodeTransistorPmos2",
+            "XNormalTransistorPmos5"
+          ],
+          "kind": "mirror",
+          "equal_size": false,
+          "ratio_Wm": [
+            1.0,
+            23.781
+          ],
+          "consistent": true
+        }
+      ],
+      "not_matching_blocks": [
+        {
+          "devices": [
+            "XNormalTransistorPmos5",
+            "XNormalTransistorNmos3"
+          ],
+          "block": "undefined_common_source_stage",
+          "kind": "gm-structure"
+        }
+      ]
+    },
+    "G1.5_symbolic_vs_spice (reported, not gated)": {
+      "pass": null,
+      "predicted": {
+        "gain_db": 58.05428773162137,
+        "gbw_mhz": 30.075240090278072,
+        "pm_deg": 82.3459727543783
+      },
+      "spice": {
+        "gain_db": 57.9997,
+        "gbw_mhz": 23.3871,
+        "pm_deg": 65.3233
+      },
+      "delta": {
+        "gain_db": 0.05458773162137476,
+        "gbw_mhz": 6.688140090278072,
+        "pm_deg": 17.02267275437829
+      }
+    },
+    "G1.6_resistance_sensitivity_vs_spice": {
+      "pass": false,
+      "checks": [
+        {
+          "case": "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -2.499999999992397e-05,
+          "linear": -2.4290499670343024e-05
+        },
+        {
+          "case": "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.0001449999999998397,
+          "spice_100ohm": -0.0001449999999999818,
+          "spice_extrapolated_0": -0.00014499999999980417,
+          "step_consistency": 9.80081377645209e-13,
+          "pred_err_at_100ohm_frac_of_margin": 3.3371503759275223e-15,
+          "linear": -0.00014483626600849674,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.01465200706537928,
+            "spice_change": -0.014499999999998181,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+          "spec": "gain_db",
+          "spice_20ohm": -9.999999999976694e-06,
+          "spice_100ohm": -6.999999999948159e-06,
+          "spice_extrapolated_0": -1.0749999999983827e-05,
+          "step_consistency": 0.3000000000035527,
+          "pred_err_at_100ohm_frac_of_margin": 0.0003750000000035668,
+          "linear": 9.828490500751742e-06,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.0006816291586915213,
+            "spice_change": -0.0006999999999948159,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -1.399999999995849e-05,
+          "linear": -1.9883091497874262e-05
+        },
+        {
+          "case": "XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -9.500000000038255e-05,
+          "linear": -9.549523629033274e-05
+        },
+        {
+          "case": "XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": -4.831690603168681e-14
+        },
+        {
+          "case": "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.0004049999999999443,
+          "spice_100ohm": -0.0004070000000000107,
+          "spice_extrapolated_0": -0.0004044999999999277,
+          "step_consistency": 0.0049140049141679345,
+          "pred_err_at_100ohm_frac_of_margin": 0.00010689699406007624,
+          "linear": -0.00039764242890534264,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.040909019017082215,
+            "spice_change": -0.04070000000000107,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.0006399999999999295,
+          "spice_100ohm": -0.0006400000000000716,
+          "spice_extrapolated_0": -0.0006399999999998939,
+          "step_consistency": 2.220920387700527e-13,
+          "pred_err_at_100ohm_frac_of_margin": 3.3381687312451686e-15,
+          "linear": -0.0007337651304339943,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.06404997034593407,
+            "spice_change": -0.06400000000000716,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+          "spec": "gain_db",
+          "spice_20ohm": 0.0012500000000002843,
+          "spice_100ohm": 0.0012300000000000466,
+          "spice_extrapolated_0": 0.0012550000000003437,
+          "step_consistency": 0.016000000000186528,
+          "pred_err_at_100ohm_frac_of_margin": 0.0025000000000297137,
+          "linear": 0.0012771831934543342,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.12288982015192573,
+            "spice_change": 0.12300000000000466,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XDiodeTransistorPmos2.d",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 7.02500000000228e-05,
+          "linear": -1.4859755665952433e-07
+        },
+        {
+          "case": "XDiodeTransistorPmos2.d",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 4.750000000228737e-06,
+          "linear": -4.069551224006318e-07
+        },
+        {
+          "case": "XDiodeTransistorPmos2.d",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 5.500000000200344e-06,
+          "linear": 0.0
+        },
+        {
+          "case": "XDiodeTransistorPmos2.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 5.9999999999860165e-06,
+          "linear": 1.824737832833989e-07
+        },
+        {
+          "case": "XDiodeTransistorPmos2.g",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 2.5000000000829916e-07,
+          "linear": -1.5813148195320537e-06
+        },
+        {
+          "case": "XDiodeTransistorPmos2.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "XDiodeTransistorPmos2.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": 0.0028700000000000613,
+          "spice_100ohm": 0.0028659999999999996,
+          "spice_extrapolated_0": 0.0028710000000000766,
+          "step_consistency": 0.0013937282230179772,
+          "pred_err_at_100ohm_frac_of_margin": 0.00021379398811634639,
+          "linear": -7.630523824886382e-06,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.2898089920523006,
+            "spice_change": 0.28659999999999997,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XDiodeTransistorPmos2.s",
+          "spec": "pm_deg",
+          "spice_20ohm": 0.00026499999999956,
+          "spice_100ohm": 0.0002639999999999532,
+          "spice_extrapolated_0": 0.0002652499999994617,
+          "step_consistency": 0.003773584904183014,
+          "pred_err_at_100ohm_frac_of_margin": 2.348167489167497e-05,
+          "linear": -3.127711136130529e-06,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.026434892773920637,
+            "spice_change": 0.026399999999995316,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XDiodeTransistorPmos2.s",
+          "spec": "gain_db",
+          "spice_20ohm": 0.00015000000000000568,
+          "spice_100ohm": 0.00015100000000003888,
+          "spice_extrapolated_0": 0.00014974999999999738,
+          "step_consistency": 0.006622516556509559,
+          "pred_err_at_100ohm_frac_of_margin": 0.0001250000000041501,
+          "linear": -1.4210854715202005e-15,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.015381335870216617,
+            "spice_change": 0.015100000000003888,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorNmos3.d",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.0006399999999999295,
+          "spice_100ohm": -0.0006449999999999889,
+          "spice_extrapolated_0": -0.0006387499999999146,
+          "step_consistency": 0.007751937984588393,
+          "pred_err_at_100ohm_frac_of_margin": 0.0002672424851444965,
+          "linear": -0.0005225061136677311,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.06481139198285035,
+            "spice_change": -0.06449999999999889,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorNmos3.d",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.003130000000000166,
+          "spice_100ohm": -0.003119999999999976,
+          "spice_extrapolated_0": -0.0031325000000002137,
+          "step_consistency": 0.0031948881789742646,
+          "pred_err_at_100ohm_frac_of_margin": 0.00023481674901353622,
+          "linear": -0.0031961914206874555,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.31091345346924015,
+            "spice_change": -0.3119999999999976,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorNmos3.d",
+          "spec": "gain_db",
+          "spice_20ohm": -0.0009449999999997516,
+          "spice_100ohm": -0.000951999999999984,
+          "spice_extrapolated_0": -0.0009432499999996935,
+          "step_consistency": 0.007352941176714836,
+          "pred_err_at_100ohm_frac_of_margin": 0.0008750000000290535,
+          "linear": -0.0004722218790931265,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.09524794266307168,
+            "spice_change": -0.0951999999999984,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorNmos3.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 4.625000000008761e-05,
+          "linear": 3.982124116674868e-05
+        },
+        {
+          "case": "XNormalTransistorNmos3.g",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.0011050000000004446,
+          "spice_100ohm": -0.0011050000000000183,
+          "spice_extrapolated_0": -0.0011050000000005513,
+          "step_consistency": 3.8579936128608945e-13,
+          "pred_err_at_100ohm_frac_of_margin": 1.0012469483100214e-14,
+          "linear": -0.0011087391404316805,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.11087910305663229,
+            "spice_change": -0.11050000000000182,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorNmos3.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": -6.31530383543577e-12
+        },
+        {
+          "case": "XNormalTransistorNmos3.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.004305000000000092,
+          "spice_100ohm": -0.0043440000000000015,
+          "spice_extrapolated_0": -0.004295250000000114,
+          "step_consistency": 0.008977900552465412,
+          "pred_err_at_100ohm_frac_of_margin": 0.002084491384097466,
+          "linear": -0.004440844462826376,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.43509857901083393,
+            "spice_change": -0.4344000000000001,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorNmos3.s",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.02596500000000006,
+          "spice_100ohm": -0.024928000000000027,
+          "spice_extrapolated_0": -0.02622425000000007,
+          "step_consistency": 0.03993837858656006,
+          "pred_err_at_100ohm_frac_of_margin": 0.02435049687224171,
+          "linear": -0.025751906105082868,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -2.4895878823378723,
+            "spice_change": -2.4928000000000026,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorNmos3.s",
+          "spec": "gain_db",
+          "spice_20ohm": -0.02825999999999986,
+          "spice_100ohm": -0.025105999999999965,
+          "spice_extrapolated_0": -0.029048499999999835,
+          "step_consistency": 0.11160651096956518,
+          "pred_err_at_100ohm_frac_of_margin": 0.394249999999987,
+          "linear": -0.028952865288483308,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -2.515529722094435,
+            "spice_change": -2.5105999999999966,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorPmos5.d",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -2.449999999992514e-05,
+          "linear": 5.0308375661245465e-05
+        },
+        {
+          "case": "XNormalTransistorPmos5.d",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.00026500000000027055,
+          "spice_100ohm": -0.00026800000000008593,
+          "spice_extrapolated_0": -0.0002642500000003167,
+          "step_consistency": 0.011194029850053796,
+          "pred_err_at_100ohm_frac_of_margin": 7.044502469838699e-05,
+          "linear": 0.00022201094251528275,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.02721522394486442,
+            "spice_change": -0.026800000000008595,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorPmos5.d",
+          "spec": "gain_db",
+          "spice_20ohm": -2.49999999997641e-05,
+          "spice_100ohm": -2.4999999999977263e-05,
+          "spice_extrapolated_0": -2.4999999999710807e-05,
+          "step_consistency": 8.526572460248444e-12,
+          "pred_err_at_100ohm_frac_of_margin": 2.6645623641546878e-14,
+          "linear": 0.00037924378950577876,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.0024164749350603643,
+            "spice_change": -0.0024999999999977263,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorPmos5.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -2.424999999992572e-05,
+          "linear": -2.942455000898292e-05
+        },
+        {
+          "case": "XNormalTransistorPmos5.g",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 9.74999999954207e-06,
+          "linear": 1.337708781221636e-05
+        },
+        {
+          "case": "XNormalTransistorPmos5.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "XNormalTransistorPmos5.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": 0.0015200000000000103,
+          "spice_100ohm": 0.0008210000000000051,
+          "spice_extrapolated_0": 0.0016947500000000116,
+          "step_consistency": 0.45986842105263187,
+          "pred_err_at_100ohm_frac_of_margin": 0.03736049942275652,
+          "linear": 0.0032896498500313955,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.08215229259353762,
+            "spice_change": 0.0821000000000005,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorPmos5.s",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.026510000000000387,
+          "spice_100ohm": -0.022851,
+          "spice_extrapolated_0": -0.027424750000000483,
+          "step_consistency": 0.13802338740099337,
+          "pred_err_at_100ohm_frac_of_margin": 0.08591944846242897,
+          "linear": -0.004670990768634908,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -2.301221825712588,
+            "spice_change": -2.2851,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorPmos5.s",
+          "spec": "gain_db",
+          "spice_20ohm": 0.01188500000000019,
+          "spice_100ohm": 0.00795100000000005,
+          "spice_extrapolated_0": 0.012868500000000225,
+          "step_consistency": 0.3310054690786771,
+          "pred_err_at_100ohm_frac_of_margin": 0.4917500000000175,
+          "linear": 0.01872113491430909,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.7970855430824741,
+            "spice_change": 0.795100000000005,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": false
+        },
+        {
+          "case": "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -3.475000000012329e-05,
+          "linear": -3.651884448139242e-05
+        },
+        {
+          "case": "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -2.024999999992616e-05,
+          "linear": -1.9116743915503774e-05
+        },
+        {
+          "case": "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+          "spec": "gain_db",
+          "spice_20ohm": -1.4999999999787405e-05,
+          "spice_100ohm": -1.6999999999995907e-05,
+          "spice_extrapolated_0": -1.449999999973528e-05,
+          "step_consistency": 0.11764705883582255,
+          "pred_err_at_100ohm_frac_of_margin": 0.00025000000002606265,
+          "linear": -9.005718844434796e-06,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.0017213104337230334,
+            "spice_change": -0.0016999999999995907,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 4.999999999988347e-07,
+          "linear": -2.8894461710393672e-06
+        },
+        {
+          "case": "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.0003900000000001569,
+          "spice_100ohm": -0.00039299999999997226,
+          "spice_extrapolated_0": -0.000389250000000203,
+          "step_consistency": 0.007633587785790308,
+          "pred_err_at_100ohm_frac_of_margin": 7.044502469838699e-05,
+          "linear": -0.000395306018141639,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.039526781437103864,
+            "spice_change": -0.039299999999997226,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.0027300000000000323,
+          "spice_100ohm": -0.0027169999999999916,
+          "spice_extrapolated_0": -0.0027332500000000425,
+          "step_consistency": 0.004761904761919635,
+          "pred_err_at_100ohm_frac_of_margin": 0.000694830461369605,
+          "linear": -0.002668698945114301,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.27297728152413825,
+            "spice_change": -0.27169999999999916,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+          "spec": "pm_deg",
+          "spice_20ohm": 0.0019849999999998146,
+          "spice_100ohm": 0.001975999999999942,
+          "spice_extrapolated_0": 0.0019872499999997826,
+          "step_consistency": 0.004534005037719512,
+          "pred_err_at_100ohm_frac_of_margin": 0.00021133507410516736,
+          "linear": 0.0019497052858127972,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.19777936250476102,
+            "spice_change": 0.19759999999999422,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+          "spec": "gain_db",
+          "spice_20ohm": -0.0006499999999999062,
+          "spice_100ohm": -0.0006469999999999487,
+          "spice_extrapolated_0": -0.0006507499999998956,
+          "step_consistency": 0.004615384615319841,
+          "pred_err_at_100ohm_frac_of_margin": 0.00037499999999468297,
+          "linear": -0.0006619054100639232,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.06485999938510645,
+            "spice_change": -0.06469999999999487,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorPmos8.d",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -0.00018925000000010963,
+          "linear": 1.0399347768697e-06
+        },
+        {
+          "case": "XNormalTransistorPmos8.d",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 9.000000000018105e-05,
+          "linear": -1.7636702084189436e-05
+        },
+        {
+          "case": "XNormalTransistorPmos8.d",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": -2.5450000862292656e-08
+        },
+        {
+          "case": "XNormalTransistorPmos8.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 7.499999999982521e-07,
+          "linear": -3.5070214835286605e-06
+        },
+        {
+          "case": "XNormalTransistorPmos8.g",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -4.75000000019321e-06,
+          "linear": -6.144635023019873e-06
+        },
+        {
+          "case": "XNormalTransistorPmos8.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "XNormalTransistorPmos8.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.006545000000000023,
+          "spice_100ohm": -0.0063650000000000165,
+          "spice_extrapolated_0": -0.006590000000000025,
+          "step_consistency": 0.027501909854851934,
+          "pred_err_at_100ohm_frac_of_margin": 0.009620729465087794,
+          "linear": -0.00011389454277193068,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.6393347243236711,
+            "spice_change": -0.6365000000000016,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorPmos8.s",
+          "spec": "pm_deg",
+          "spice_20ohm": 0.001034999999999542,
+          "spice_100ohm": 0.0009940000000000283,
+          "spice_extrapolated_0": 0.0010452499999994203,
+          "step_consistency": 0.039613526569595936,
+          "pred_err_at_100ohm_frac_of_margin": 0.0009627486709257797,
+          "linear": -0.0002911584427565117,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.1014042206691812,
+            "spice_change": 0.09940000000000282,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XNormalTransistorPmos8.s",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 5.0000000002015095e-06,
+          "linear": -8.17968591348972e-07
+        }
+      ],
+      "values_ohm": [
+        20.0,
+        100.0
+      ],
+      "note": "matched terminals varied symmetrically. Pass = SPICE slopes consistent between 20 and 100 ohm (or first-order prediction within 5 % of the margin at 100 ohm) AND the linear model explains the change: either directly (small-signal) or when re-solved at the operating point SPICE finds with the resistor inserted (bias shift)."
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-10-26T05:06:48+00:00",
+    "git_commit": "43f7d57f1a558f0d6ffe5585f29f43e27f23ef04",
+    "inputs": [
+      {
+        "path": "outputs/S0/loadbench_miller/circuit_ir.json",
+        "sha256": "90713387f941915e6876e7f4f1461950e329b03fd90b2cdfa5a53f5d75857180"
+      },
+      {
+        "path": "inputs/loadbench_miller/package.yaml",
+        "sha256": "f45a4fbefc8eb61cb1afe9a7149b553d3bbc9d16428dcc4a78e177f28026a701"
+      },
+      {
+        "path": "circuits/loadbench_miller/upstream/equations.predicted.json",
+        "sha256": "c2278f7982eaddc51fc96103e7f5d5beabce6cbdf02bdc99f315826021724d0e"
+      },
+      {
+        "path": "circuits/loadbench_miller/upstream/name_map.yaml",
+        "sha256": "0488fae444826e261943838a04fdb5c07b3afcf7d31cff2531a6f91fc09e8b34"
+      }
+    ]
+  }
+}

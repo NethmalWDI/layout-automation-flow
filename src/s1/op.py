@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from src.common.tools import run_ngspice
+from src.common.tools import bench, run_ngspice
 
 ESSENTIAL = ["id", "vgs", "vds", "vbs", "vth", "vdsat", "gm", "gds", "gmbs",
              "cgg", "cgd", "cgs", "cgb", "cdg", "cdd", "cds", "cdb", "csg", "csd", "css", "csb",
@@ -18,11 +18,17 @@ OPTIONAL = ["weff", "leff"]   # reported if the model exposes them
 PARAMS = ESSENTIAL + OPTIONAL
 
 
+# PDK passives: (element letter, inner element of the model subckt, instance parameter)
+PASSIVE_INNER = {"sky130_fd_pr__cap_mim_m3_1": ("c", "c1", "capacitance"),
+                 "sky130_fd_pr__cap_mim_m3_2": ("c", "c1", "capacitance"),
+                 "sky130_fd_pr__res_generic_po": ("r", "rsky130_fd_pr__res_generic_po", "resistance")}
+
+
 def inst_path(dev: str, model: str, top: str = "x1.xdut") -> str:
     return f"m.{top}.{dev.lower()}.m{model.lower()}"
 
 
-def op_deck(s0_op_deck: Path, devices: list, paths: dict | None = None) -> str:
+def op_deck(s0_op_deck: Path, devices: list, paths: dict | None = None, passives: list | None = None) -> str:
     """paths: optional {device: instance path} for devices that are not plain PDK instances (S3 puts an
     extracted device cell in their place; one finger is then probed)."""
     txt = s0_op_deck.read_text()
@@ -33,9 +39,24 @@ def op_deck(s0_op_deck: Path, devices: list, paths: dict | None = None) -> str:
             v = f"s1_{d['name'].lower()}_{p}"
             lines.append(f"let {v} = @{ip}[{p}]")
             lines.append(f"echo OPV {d['name']} {p} $&{v}")
+    for c in passives or []:
+        if c.get("model", "ideal") == "ideal":
+            continue
+        if c["model"] not in PASSIVE_INNER:
+            raise RuntimeError(f"no simulator path known for PDK passive model {c['model']}")
+        letter, inner, prm = PASSIVE_INNER[c["model"]]
+        v = f"s1p_{c['name'].lower()}"
+        lines.append(f"let {v} = @{letter}.x1.xdut.{c['name'].lower()}.{inner}[{prm}]")
+        lines.append(f"echo OPP {c['name']} $&{v}")
     lines.append("let s1i = i(vsup)")     # supply source and output node names of the diso testbenches
     lines.append("echo OPI isup $&s1i")
-    lines.append("let s1o = v(OUT)")
+    # signal output at DC: v(OUT) (diso benches) or v(OUTP) - v(OUTN) (dido benches)
+    if re.search(r"^x1\s+\S+\s+\S+\s+OUTN\s", txt, re.M | re.I):
+        lines.append("let s1o = v(OUTP) - v(OUTN)")
+        lines.append("let s1cm = (v(OUTP) + v(OUTN)) / 2")
+        lines.append("echo OPI voutcm $&s1cm")
+    else:
+        lines.append("let s1o = v(OUT)")
     lines.append("echo OPI vout $&s1o")
     lines.append("quit 0")
     ctrl = ".control\n" + "\n".join(lines) + "\n.endc"
@@ -48,7 +69,7 @@ def op_deck(s0_op_deck: Path, devices: list, paths: dict | None = None) -> str:
 def run(s0_dir: Path, ir: dict, work: Path) -> dict:
     deck = work / "op_extract.spice"
     work.mkdir(parents=True, exist_ok=True)
-    deck.write_text(op_deck(s0_dir / "tb" / "diso_amp_OP.spice", ir["devices"]))
+    deck.write_text(op_deck(bench(s0_dir / "tb", "OP"), ir["devices"], passives=ir.get("passives")))
     r = run_ngspice(deck, work)
     log = (work / "op_extract.log").read_text()
     vals: dict = {}
@@ -57,15 +78,33 @@ def run(s0_dir: Path, ir: dict, work: Path) -> dict:
             vals.setdefault(m.group(1), {})[m.group(2)] = float(m.group(3))
         except ValueError:
             vals.setdefault(m.group(1), {})[m.group(2)] = None
+    pas = {}
+    for c in ir.get("passives", []):
+        m_ = re.search(rf"^OPP {re.escape(c['name'])} (\S+)", log, re.M)
+        if m_:
+            mult = float(c.get("params", {}).get("M", 1))   # ngspice instance multiplier of the PDK subckt
+            try:
+                pas[c["name"]] = float(m_.group(1)) * mult
+            except ValueError:
+                pas[c["name"]] = None
     isup = re.search(r"^OPI isup (\S+)", log, re.M)
     errors = [ln for ln in log.splitlines() if re.search(r"error|no such vector|not found", ln, re.I)]
     names = [d["name"] for d in ir["devices"]]
     missing = [(d, p) for d in names for p in ESSENTIAL if vals.get(d, {}).get(p) is None]
     missing_opt = [(d, p) for d in names for p in OPTIONAL if vals.get(d, {}).get(p) is None]
-    return {"rc": r["rc"], "log": r["log"], "devices": vals,
+    return {"rc": r["rc"], "log": r["log"], "devices": vals, "passives": pas,
             "isup_A": abs(float(isup.group(1))) if isup else None,
             "missing": missing, "missing_optional": missing_opt, "log_errors": errors[:20],
             "numerical_warnings": r.get("numerical_warnings", [])}
+
+
+def apply_passives(ir: dict, op_json: dict) -> dict:
+    """Give the IR's PDK passives the value S1 read from the simulator (operating_point.json)."""
+    vals = op_json.get("passives") or {}
+    for c in ir.get("passives", []):
+        if c.get("model", "ideal") != "ideal" and vals.get(c["name"]) is not None:
+            c["value"] = vals[c["name"]]
+    return ir
 
 
 def cap_convention(dev: dict) -> dict:

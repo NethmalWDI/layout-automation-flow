@@ -1,0 +1,68 @@
+* loadbench_miller on diso_amp_OP
+.lib $PDK_ROOT/sky130A/libs.tech/combined/sky130.lib.spice tt
+.param VDD_V=1.8 VCM_V=0.9 CL_F=1p
+.temp 27
+
+**.subckt diso_amp_OP
+x1 INP INN net1 VDD 0 OUT dut_amp
+Vsup VDD 0 'VDD_V'
+Vinp INP 0 dc 'VCM_V' ac 0
+* DC unity feedback, AC open loop: a 1 GH choke from OUT to INN and a 1 F capacitor from INN to
+* ground. At DC the amplifier is a follower, so OUT sits at VCM as in LOADBench's offset-corrected
+* open-loop bench; from 1 Hz up INN is an AC ground and the loop is open (corner ~5 uHz).
+Lfb OUT INN 1G
+Cfb INN 0 1
+Cload OUT 0 'CL_F'
+* noconn #net1
+.control
+  save all
+  op
+  let isup    = abs(i(vsup))
+  let isup_ua = isup * 1e6
+  let power_uw = isup * v(VDD) * 1e6
+  let vout_v  = v(OUT)
+  echo MEAS isup_ua $&isup_ua
+  echo MEAS power_uw $&power_uw
+  echo MEAS vout_v $&vout_v
+  write
+  quit 0
+.endc
+**.ends
+
+.subckt dut_amp INP INN OUTN VDD VSS OUTP
+XDUT INN INP OUTP VSS VDD loadbench_miller
+.ends
+
+.subckt loadbench_miller in1 in2 out sourceNmos sourcePmos
+XDiodeTransistorNmos1 FirstStageYout1 FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt L=2.03 W=66.13 NF=1 AD=19.1777 AS=19.1777 PD=132.84 PS=132.84 NRD=0.0043853 NRS=0.0043853 SA=0 SB=0 SD=0 MULT=1
+XDiodeTransistorPmos2 ibias ibias sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=37.3 NF=1 AD=10.817 AS=10.817 PD=75.18 PS=75.18 NRD=0.0077748 NRS=0.0077748 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorNmos3 out outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt L=0.24 W=484.2 NF=1 AD=140.418 AS=140.418 PD=968.98 PS=968.98 NRD=0.000598926 NRS=0.000598926 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorNmos4 outFirstStage FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt L=2.03 W=66.13 NF=1 AD=19.1777 AS=19.1777 PD=132.84 PS=132.84 NRD=0.0043853 NRS=0.0043853 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorPmos5 out ibias sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=887.03 NF=1 AD=257.239 AS=257.239 PD=1774.64 PS=1774.64 NRD=0.000326934 NRS=0.000326934 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorPmos6 outFirstStage in2 FirstStageYsourceTransconductance FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt L=0.89 W=14.21 NF=1 AD=4.1209 AS=4.1209 PD=29 PS=29 NRD=0.0204082 NRS=0.0204082 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorPmos7 FirstStageYout1 in1 FirstStageYsourceTransconductance FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt L=0.89 W=14.21 NF=1 AD=4.1209 AS=4.1209 PD=29 PS=29 NRD=0.0204082 NRS=0.0204082 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorPmos8 sourcePmos FirstStageYsourceTransconductance ibias sourcePmos sourceNmos s3c_pfet_01v8_lvt_w90p63_l0p74_m1__nf8_gboth_sdfull_outs
+Ibias ibias sourceNmos 1e-05
+Capacitor2 outFirstStage out 5e-13
+.ends loadbench_miller
+.subckt s3c_pfet_01v8_lvt_w90p63_l0p74_m1__nf8_gboth_sdfull_outs S D G B SUB
+X0 D G S B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X1 S G D B sky130_fd_pr__pfet_01v8_lvt ad=3.2857 pd=23.24 as=1.64285 ps=11.62 w=11.33 l=0.74
+X2 S G D B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X3 S G D B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X4 D G S B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=3.2857 ps=23.24 w=11.33 l=0.74
+X5 S G D B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X6 D G S B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X7 D G S B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+C0 B S 2.18124f
+C1 S G 4.85693f
+C2 D S 3.85483f
+C3 B G 2.53179f
+C4 B D 1.0891f
+C5 D G 4.84687f
+C6 D SUB 0.2792f
+C7 S SUB 0.88543f
+C8 G SUB 0.97484f
+C9 B SUB 17.7172f
+.ends
+.end

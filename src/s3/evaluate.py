@@ -16,7 +16,7 @@ import re
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from src.common.tools import REPO, run_ngspice_text
+from src.common.tools import REPO, bench, run_ngspice_text
 from src.s1 import op as opmod, resistance
 
 POS = {"d": 1, "g": 2, "s": 3, "b": 4}
@@ -93,13 +93,13 @@ def scenario_jobs(s0: Path, ir: dict, repl: dict, work: Path) -> list:
     gnd = next(p["name"] for p in ir["ports"] if p["role"] == "ground")
     devs = {d["name"]: d for d in ir["devices"]}
     paths = {d: finger_path(d, rec, devs[d]["model"]) for d, (rec, _) in repl.items()}
-    ac = replace_devices((tb / "diso_amp_AC.spice").read_text(), dut, repl, gnd)
-    nz = replace_devices((tb / "diso_amp_NOISE.spice").read_text(), dut, repl, gnd)
+    ac = replace_devices(bench(tb, "AC").read_text(), dut, repl, gnd)
+    nz = replace_devices(bench(tb, "NOISE").read_text(), dut, repl, gnd)
     work.mkdir(parents=True, exist_ok=True)
     opsrc = work / "op_src.spice"
-    opsrc.write_text(replace_devices((tb / "diso_amp_OP.spice").read_text(), dut, repl, gnd))
+    opsrc.write_text(replace_devices(bench(tb, "OP").read_text(), dut, repl, gnd))
     op = opmod.op_deck(opsrc, ir["devices"], paths)
-    meas = (tb / "diso_amp_OP.spice").read_text()
+    meas = bench(tb, "OP").read_text()
     return [("ac", ac, work), ("noise", nz, work), ("op", op, work),
             ("opmeas", replace_devices(meas, dut, repl, gnd), work)]
 

@@ -1,0 +1,17 @@
+* NGSPICE file created from nfet_01v8_lvt_W484p2_L0p24_m1__nf8_gtop_sdhalf_outD.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_lvt_27327W G B D6 D4 D2 D0 S7 a_395_n6084# S5 S3 S1
+X0 S1 G D0 B sky130_fd_pr__nfet_01v8_lvt ad=8.77685 pd=60.82 as=17.5537 ps=121.64 w=60.53 l=0.24
+X1 S3 G D2 B sky130_fd_pr__nfet_01v8_lvt ad=8.77685 pd=60.82 as=8.77685 ps=60.82 w=60.53 l=0.24
+X2 D2 G S1 B sky130_fd_pr__nfet_01v8_lvt ad=8.77685 pd=60.82 as=8.77685 ps=60.82 w=60.53 l=0.24
+X3 S7 G D6 B sky130_fd_pr__nfet_01v8_lvt ad=8.77685 pd=60.82 as=8.77685 ps=60.82 w=60.53 l=0.24
+X4 D6 G S5 B sky130_fd_pr__nfet_01v8_lvt ad=8.77685 pd=60.82 as=8.77685 ps=60.82 w=60.53 l=0.24
+X5 a_395_n6084# G S7 B sky130_fd_pr__nfet_01v8_lvt ad=17.5537 pd=121.64 as=8.77685 ps=60.82 w=60.53 l=0.24
+X6 D4 G S3 B sky130_fd_pr__nfet_01v8_lvt ad=8.77685 pd=60.82 as=8.77685 ps=60.82 w=60.53 l=0.24
+X7 S5 G D4 B sky130_fd_pr__nfet_01v8_lvt ad=8.77685 pd=60.82 as=8.77685 ps=60.82 w=60.53 l=0.24
+.ends
+
+.subckt nfet_01v8_lvt_W484p2_L0p24_m1__nf8_gtop_sdhalf_outD S D G B
+Xnfet_01v8_lvt_W484p2_L0p24_m1__nf8_gtop_sdhalf_outD_pc G B D D D D S D S S S sky130_fd_pr__nfet_01v8_lvt_27327W
+.ends
+

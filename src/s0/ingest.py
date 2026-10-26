@@ -34,6 +34,12 @@ ALLOWED_MODELS = ["sky130_fd_pr__nfet_01v8", "sky130_fd_pr__pfet_01v8",
 ROLE_BY_IFACE = {"INP": "input", "INN": "input", "OUTP": "output", "OUTN": "output",
                  "VDD": "supply", "VSS": "ground"}
 TB_TOL = {"default_rel": 1e-3}  # same netlist, same tools -> results must reproduce to 0.1 %
+# G0.8: agreement with an external reference (another library build / testbench / interpolation).
+# ASSUMPTION: tolerances for 'same circuit, different simulator setup'.
+REF_TOL = {"gain_db": ("abs", 0.2), "gbw_mhz": ("rel", 0.02), "pm_deg": ("abs", 1.0), "power_uw": ("rel", 0.02)}
+# Ideal capacitor -> PDK device for the layout view (PREDICTED binding, ASSUMPTION: MIM m3, one square
+# cell up to the PCell's 30 um side, parallel copies beyond). Model: C = 2 fF/um^2 (W+0.15)(L+0.15).
+MIM_MODEL, MIM_CA, MIM_DW, MIM_SIDE_MAX, MIM_SIDE_MIN = "sky130_fd_pr__cap_mim_m3_1", 2e-15, 0.15, 30.0, 2.0
 
 
 def load_package(path: Path) -> dict:
@@ -119,6 +125,42 @@ def fmt(x: float) -> str:
     return f"{x:.6g}"
 
 
+def bind_ideal_capacitor(c: float) -> dict:
+    """Square MIM capacitor(s) of the PDK for an ideal capacitor of c farads (grid 0.01 um)."""
+    import math
+    cmax = MIM_CA * (MIM_SIDE_MAX + MIM_DW) ** 2
+    n = max(1, math.ceil(c / cmax))
+    side = max(MIM_SIDE_MIN, round(math.sqrt(c / n / MIM_CA) - MIM_DW, 2))
+    got = n * MIM_CA * (side + MIM_DW) ** 2
+    prm = {"W": side, "L": side, **({"MF": n} if n > 1 else {})}
+    return {"model": MIM_MODEL, "params": prm, "value_F": got,
+            "rel_error": got / c - 1, "status": "PREDICTED binding (ASSUMPTION)",
+            "pcell_params": {"w": side, "l": side, "nx": n, "ny": 1},
+            "note": "the netlist capacitor is ideal; the layout view uses this PDK device. MIM bottom plate "
+                    "(metal3) parasitic to substrate is not in the SPICE model: S2 must place the bottom plate on "
+                    "the lower-impedance node."}
+
+
+def passive_bindings(nl: spice.Netlist, bias: dict | None = None) -> dict:
+    out = {}
+    for c in nl.passives:
+        if c.name in (bias or {}):
+            out[c.name] = {"status": "OFF-CHIP test element (bias_sources): removed in the layout view, "
+                                     f"node {c.a} exposed as port {bias[c.name]}"}
+        elif c.model == "ideal" and c.kind == "C":
+            out[c.name] = bind_ideal_capacitor(c.nominal)
+        elif c.model == "ideal":
+            out[c.name] = {"status": "UNBOUND", "note": "ideal resistor: no PDK binding rule yet (flagged, not invented)"}
+        else:
+            mf = int(float(c.params.get("MF", c.params.get("M", 1))))
+            pp = {"w": float(c.params["W"]), "l": float(c.params["L"])}
+            if c.kind == "C" and mf > 1:
+                pp.update({"nx": mf, "ny": 1})
+            out[c.name] = {"model": c.model, "params": dict(c.params), "value_F" if c.kind == "C" else "value_ohm": c.nominal,
+                           "status": "PDK device in the netlist", "pcell_params": pp}
+    return out
+
+
 def write_full(nl: spice.Netlist, name: str) -> str:
     """The circuit exactly as simulated: every original parameter kept, bias sources kept."""
     lines = [f".subckt {name} " + " ".join(nl.ports)]
@@ -127,17 +169,20 @@ def write_full(nl: spice.Netlist, name: str) -> str:
     for s in nl.sources:
         lines.append(f"{s.name} {s.p} {s.n} {s.value}")
     for c in nl.passives:
-        lines.append(f"{c.name} {c.a} {c.b} {c.value}")
+        lines.append(c.line())
     lines.append(f".ends {name}")
     return "\n".join(lines) + "\n"
 
 
-def write_layout(nl: spice.Netlist, name: str, bias: dict) -> tuple[str, list]:
+def write_layout(nl: spice.Netlist, name: str, bias: dict, bindings: dict | None = None) -> tuple[str, list]:
     """The circuit as laid out: ideal bias sources removed, their node exposed as a port (µm units)."""
     ren = {}
     for s in nl.sources:
         if s.name in bias:
             ren[s.p] = bias[s.name]
+    for c in nl.passives:   # an off-chip passive (e.g. a bias resistor) declared in bias_sources
+        if c.name in bias:
+            ren[c.a] = bias[c.name]
     ports = list(nl.ports) + [v for v in bias.values()]
     lines = [f".subckt {name} " + " ".join(ports)]
     for m in nl.mosfets:
@@ -148,6 +193,20 @@ def write_layout(nl: spice.Netlist, name: str, bias: dict) -> tuple[str, list]:
             prm["m"] = mult
         lines.append(spice.mos_line(m.name, t, m.model, prm))
     unhandled = [s.name for s in nl.sources if s.name not in bias]
+    for c in nl.passives:  # every passive is laid out: PDK devices as they are, ideal ones through their binding
+        if c.name in bias:
+            continue
+        a_, b_ = ren.get(c.a, c.a), ren.get(c.b, c.b)
+        bd = (bindings or {}).get(c.name, {})
+        if c.model != "ideal":
+            nodes = [a_, b_] + ([ren.get(c.body, c.body)] if c.body else [])
+            lines.append(f"{c.name if c.name.upper().startswith('X') else 'X' + c.name} {' '.join(nodes)} {c.model} "
+                         + " ".join(f"{k}={v}" for k, v in c.params.items()))
+        elif bd.get("model"):
+            lines.append(f"X{c.name} {a_} {b_} {bd['model']} " + " ".join(f"{k}={v}" for k, v in bd["params"].items()))
+        else:
+            unhandled.append(c.name)
+            lines.append(f"{c.name} {a_} {b_} {c.value}")
     lines.append(f".ends {name}")
     return "\n".join(lines) + "\n", unhandled
 
@@ -232,11 +291,19 @@ def main(argv=None) -> int:
 
     # --- ports and roles
     iface = cfg.get("interface", {}).get("ports", {})
+    # DUT ports outside the six standard ones (a CMFB control input, a bias current input...) get their
+    # role from the package: bias_ac_ground (held by an ideal source in the testbench wrapper: AC ground
+    # in differential mode) or bias_current (fed by an ideal current source: solved, open in AC)
+    extra_roles = pkg.get("port_roles") or {}
     port_roles = []
     for prt in nl.ports:
-        std = next((k for k, v in iface.items() if v == prt), prt)
-        port_roles.append({"name": prt, "role": ROLE_BY_IFACE.get(std, "unknown"),
-                           "direction": nl.port_dirs.get(prt, "unknown"), "testbench_port": std})
+        std = next((k for k, v in iface.items() if v == prt), None)
+        role = ROLE_BY_IFACE.get(std) if std else extra_roles.get(prt, "unknown")
+        port_roles.append({"name": prt, "role": role, "direction": nl.port_dirs.get(prt, "unknown"),
+                           "testbench_port": std})
+    unknown_ports = [r["name"] for r in port_roles if r["role"] == "unknown"]
+    if unknown_ports:
+        notes.append(f"ports with no role (declare them in the package 'port_roles'): {unknown_ports}")
     bias = pkg.get("bias_sources") or {}
     for s_name, port in bias.items():
         port_roles.append({"name": port, "role": "bias", "direction": "input",
@@ -249,11 +316,16 @@ def main(argv=None) -> int:
     # --- reference netlists
     full_name, lay_name = design, design
     full_txt = write_full(nl, full_name)
-    lay_txt, unhandled = write_layout(nl, lay_name, bias)
+    bindings = passive_bindings(nl, bias)
+    lay_txt, unhandled = write_layout(nl, lay_name, bias, bindings)
     (out / "ref" / f"{design}_full.spice").write_text(full_txt)
     (out / "ref" / f"{design}_layout.spice").write_text(lay_txt)
     if unhandled:
-        notes.append(f"sources kept inside the layout view (not declared as bias): {unhandled}")
+        notes.append(f"elements kept ideal inside the layout view (not declared as bias, no PDK binding): {unhandled}")
+    for c_name, bd in bindings.items():
+        if "PREDICTED" in bd.get("status", ""):
+            notes.append(f"ASSUMPTION: ideal {c_name} bound to {bd['model']} {bd['params']} for the layout view "
+                         f"({bd['rel_error']:+.3%} value error); predicted, not from upstream")
 
     # --- round trip: IR-written netlist vs the original, in netgen
     wrapped = out / "ref" / "original_wrapped.spice"
@@ -286,9 +358,11 @@ def main(argv=None) -> int:
                     specs[k] = {"min": round(v + rule["min_delta"], 4)}
                 if "min_factor" in rule:
                     specs[k] = {"min": round(v * rule["min_factor"], 4)}
+                if "max_factor" in rule:
+                    specs[k] = {"max": round(v * rule["max_factor"], 4)}
         cfg = {**cfg, "specs": specs}
-        notes.append("ASSUMPTION: stress-variant specs derived from its own achieved values "
-                     f"by {pkg['specs_from_achieved']}; this is a test case, not a design target")
+        notes.append("ASSUMPTION: specs derived from this design's own simulated values "
+                     f"by the package rule {pkg['specs_from_achieved']} (no upstream specs, or a stress variant)")
         gates["G0.6_testbench_reproduction"] = {"pass": all(r["rc"] == 0 for r in tb_results.values()) and bool(measured),
                                                 "note": "no upstream values to compare (stress variant)",
                                                 "measured": measured}
@@ -303,6 +377,22 @@ def main(argv=None) -> int:
                                                 "tolerance_rel": TB_TOL["default_rel"], "compare": cmp}
     else:
         gates["G0.6_testbench_reproduction"] = {"pass": None, "note": "skipped (--skip-sim)"}
+
+    # --- external reference (e.g. LOADBench's own simulation of the same sized circuit)
+    if pkg.get("reference") and not a.skip_sim:
+        ref = json.loads(p(pkg["reference"]).read_text())
+        rows = {}
+        for k, (how, tol) in REF_TOL.items():
+            r_, g_ = (ref.get("metrics") or {}).get(k), measured.get(k)
+            if r_ is None or g_ is None:
+                continue
+            dev = (g_ - r_) if how == "abs" else (g_ / r_ - 1)
+            rows[k] = {"reference": r_, "this_flow": g_, "deviation": dev, "kind": how, "tolerance": tol,
+                       "ok": abs(dev) <= tol}
+        gates["G0.8_external_reference"] = {"pass": bool(rows) and all(r["ok"] for r in rows.values()),
+                                            "reference": pkg["reference"], "source": ref.get("source"),
+                                            "setup": ref.get("simulator_setup"), "compare": rows,
+                                            "note": "ASSUMPTION tolerances (different library build / testbench)"}
 
     specs, margins = specs_and_margins(cfg, achieved, units)
 
@@ -337,9 +427,13 @@ def main(argv=None) -> int:
                      "m": int(m.num("MULT", m.params.get("M", 1))),
                      "extra_params": {k: v for k, v in m.params.items() if k not in ("W", "L", "NF", "MULT", "M")},
                      "source_line": m.line_no} for m in nl.mosfets],
-        "internal_sources": [{"name": s.name, "p": s.p, "n": s.n, "value": s.value,
+        "internal_sources": [{"name": s.name, "kind": s.kind, "p": s.p, "n": s.n, "value": s.value, "dc": s.dc,
                               "layout_handling": f"removed in layout view; node exposed as port {bias[s.name]}"
                               if s.name in bias else "kept"} for s in nl.sources],
+        "passives": [{"name": c.name, "kind": c.kind, "model": c.model, "a": c.a, "b": c.b, "body": c.body,
+                      "value": c.nominal, "value_unit": "F" if c.kind == "C" else "ohm",
+                      "params": c.params, "source_line": c.line_no, "layout_binding": bindings.get(c.name)}
+                     for c in nl.passives],
         "hierarchy": {"blocks": blocks, "source": "upstream 5t-ota primitives through name map",
                       "findings": findings},
         "conditions": cond, "specs": specs, "achieved": achieved, "achieved_source": ach_source,
@@ -358,8 +452,18 @@ def main(argv=None) -> int:
     prov = provenance(inputs)
     ir["provenance"] = prov
     write_json(out / "circuit_ir.json", ir)
-    write_json(out / "device_map.json", {"schema": "device_map/v1", "design": design, "devices": devmap,
-                                          "provenance": prov})
+    pmap = []
+    for c in nl.passives:
+        bd = bindings.get(c.name, {})
+        if not bd.get("model"):
+            pmap.append({"device": c.name, "kind": c.kind, "pcell": None, "status": bd.get("status")})
+            continue
+        pp = bd.get("pcell_params") or {k.lower(): float(v) for k, v in bd["params"].items() if k in ("W", "L")}
+        pmap.append({"device": c.name, "kind": c.kind, "model": bd["model"], "nodes": [c.a, c.b],
+                     "value": bd.get("value_F", bd.get("value_ohm")), "status": bd["status"],
+                     "pcell": {"generator": "magic::gencell", "cell": f"sky130::{bd['model']}", "params": pp}})
+    write_json(out / "device_map.json", {"schema": "device_map/v2", "design": design, "devices": devmap,
+                                          "passives": pmap, "provenance": prov})
 
     # --- PDK / tool configuration
     tv = {}
