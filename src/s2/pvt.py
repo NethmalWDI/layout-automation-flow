@@ -85,7 +85,7 @@ def constraints(ir: dict, s0: Path, elements: list, nominal_rates: dict, eta: fl
         import copy
         p = pts[pid]
         opj = ops.get(pid)
-        if opj is None or p.get("failed"):
+        if opj is None or "AC" in p.get("failed", []):   # a failed NOISE run alone does not drop the point
             return pid, None
         op_p = opj["devices"]
         ir_p = opmod.apply_passives(copy.deepcopy(ir), opj)   # PDK resistor/capacitor values at this point
@@ -102,16 +102,18 @@ def constraints(ir: dict, s0: Path, elements: list, nominal_rates: dict, eta: fl
                     ln, l0 = lin.get(k), lin_nom_r[e["id"]].get(k)
                     nom_used = nominal_rates[e["id"]].get(k, 0.0)
                     if ln is None:
+                        r[k] = None
                         continue
-                    if l0 and B.harmful_rate(kinds.get(k, "min"), l0) > 0:
-                        r[k] = nom_used * B.harmful_rate(kinds.get(k, "min"), ln) / B.harmful_rate(kinds.get(k, "min"), l0)
-                    else:
-                        r[k] = B.harmful_rate(kinds.get(k, "min"), ln)
+                    # additive rule (review item 9): the nominal rate S2 uses (SPICE-based where S1 measured it)
+                    # plus the change of the linear-model rate from nominal to this point
+                    hk = lambda v: B.harmful_rate(kinds.get(k, "min"), v)  # noqa: E731
+                    r[k] = max(0.0, nom_used + hk(ln) - hk(l0 if l0 is not None else 0.0))
                 rates[e["id"]] = r
             else:
                 a_, b_ = (e["targets"] + [None])[:2]
                 rc = fm.rates_c(a_, b_)
-                rates[e["id"]] = {k: B.harmful_rate(kinds.get(k, "min"), rc[k]) for k in SPECS_PVT if k in rc}
+                rates[e["id"]] = {k: (None if rc.get(k) is None else B.harmful_rate(kinds.get(k, "min"), rc[k]))
+                                  for k in SPECS_PVT}
         return pid, {"rates": rates, "fast_base": fm.base}
 
     with ThreadPoolExecutor(max_workers=workers) as ex:
@@ -126,6 +128,10 @@ def constraints(ir: dict, s0: Path, elements: list, nominal_rates: dict, eta: fl
             m = pts[pid]["margin"].get(k)
             if m is None or m <= 0:
                 skipped.setdefault(pid, []).append(k)
+                continue
+            if any(r["rates"][e["id"]].get(k) is None for e in elements):
+                # no rate (e.g. no unity-gain crossing in the linear model): never a vacuous constraint (item 8)
+                skipped.setdefault(pid, []).append(f"{k} (no linear-model rate)")
                 continue
             out.append({"id": f"{k}@{pid}", "spec": k, "point": pid, "b": eta * m, "margin": m,
                         "units": ir["margins"][k].get("units"),

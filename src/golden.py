@@ -111,6 +111,6 @@ def compare(design: str, stage: str) -> list[str]:
             if not math.isclose(cur, ref, rel_tol=rtol, abs_tol=max(atol, ATOL)):
                 diffs.append(f"{k}: {ref:.6g} -> {cur:.6g}")
     for k in now.keys() - snap["values"].keys():
-        if k.startswith("gate."):
+        if k.startswith("gate.") and now[k] is not None:   # a new information-only gate is not a change
             diffs.append(f"{k}: new gate (now {now[k]!r})")
     return diffs

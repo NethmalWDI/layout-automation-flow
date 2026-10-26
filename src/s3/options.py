@@ -49,9 +49,10 @@ def device_types(ir: dict) -> dict:
     return types
 
 
-def grid(W: float) -> list:
+def grid(W: float, wide: bool = True) -> list:
+    """wide=False: the v1 grid (nf <= 8), for the 'before' variant"""
     out = []
-    nfs = NF_GRID + tuple(n for n in NF_GRID_WIDE if W / n >= WIDE_MIN_WF)
+    nfs = NF_GRID + (tuple(n for n in NF_GRID_WIDE if W / n >= WIDE_MIN_WF) if wide else ())
     for nf, (g, gc), (s, sc) in itertools.product(nfs, GATE_GRID.items(), SD_GRID.items()):
         if W / nf < MIN_WF:
             continue

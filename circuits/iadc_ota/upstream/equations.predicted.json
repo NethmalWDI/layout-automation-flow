@@ -1,0 +1,30 @@
+{
+ "design": "iadc_ota",
+ "mode": "differential",
+ "provenance": "PREDICTED",
+ "assumes": "purely differential drive; single-stage folded cascode; output resistance by gm*ro*ro on both sides; non-dominant pole at the folding node; CMFB inactive in differential mode",
+ "source": "textbook folded-cascode OTA (Johns & Martin, 2nd ed., sec. 6.4; Razavi, 2nd ed., sec. 9.4)",
+ "performance": {
+  "circuit": "iadc_ota",
+  "input": "vd",
+  "output": "v(op) - v(on)",
+  "load": {
+   "CL": "each output to GND"
+  },
+  "terms": {
+   "gm1": "G1_XX2_M1",
+   "rup": "G1_XX2_M8*R1_XX2_M8*(R1_XX2_M12*R1_XX2_M2/(R1_XX2_M12 + R1_XX2_M2))",
+   "rdn": "G1_XX2_M7*R1_XX2_M7*R1_XX2_M4",
+   "Ro": "rup*rdn/(rup + rdn)",
+   "Cout": "CL + C_XC3 + C4_XX2_M8 + C4_XX2_M7 + C3_XX2_M8 + C3_XX2_M7",
+   "Cf": "C2_XX2_M8 + C4_XX2_M12 + C4_XX2_M2 + C3_XX2_M2 + C3_XX2_M12",
+   "A0": "gm1*Ro",
+   "wgbw": "gm1/Cout",
+   "wp2": "G1_XX2_M8/Cf",
+   "wu": "wgbw"
+  },
+  "gain_db": "20*log(Abs(A0))/log(10)",
+  "gbw_mhz": "wu/(2000000*pi)",
+  "pm_deg": "180 - 180*(atan(wu*Ro*Cout) + atan(wu/wp2))/pi"
+ }
+}

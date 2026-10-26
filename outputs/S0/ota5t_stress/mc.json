@@ -1,0 +1,2438 @@
+{
+  "design": "ota5t_stress",
+  "runs": 200,
+  "library_section": "tt_mm (mismatch only)",
+  "summary": {
+    "gain_db": {
+      "mean": 31.180938,
+      "std": 3.51738197515592,
+      "min": 22.764,
+      "max": 38.0206,
+      "n": 200
+    },
+    "gbw_mhz": {
+      "mean": 372.55082999999996,
+      "std": 4.012244689490126,
+      "min": 358.655,
+      "max": 380.309,
+      "n": 200
+    },
+    "pm_deg": {
+      "mean": 65.2412675,
+      "std": 0.518244861892659,
+      "min": 64.4662,
+      "max": 66.9889,
+      "n": 200
+    },
+    "offset_v": {
+      "mean": -0.007044480000000024,
+      "std": 0.0017097923232201962,
+      "min": -0.010566999999999993,
+      "max": -0.0025089999999999835,
+      "n": 200,
+      "definition": "follower output - VCM (single-ended) or v(OUTP) - v(OUTN) (differential)"
+    }
+  },
+  "runs_detail": {
+    "mc000": {
+      "seed": 1000,
+      "meas": {
+        "isup_ua": 85.4167,
+        "power_uw": 153.75,
+        "vout_v": 0.892146,
+        "gain_db": 29.7582,
+        "gbw_mhz": 373.634,
+        "pm_deg": 65.2818
+      },
+      "failed": []
+    },
+    "mc001": {
+      "seed": 1001,
+      "meas": {
+        "isup_ua": 84.389,
+        "power_uw": 151.9,
+        "vout_v": 0.892721,
+        "gain_db": 31.13,
+        "gbw_mhz": 372.473,
+        "pm_deg": 65.0841
+      },
+      "failed": []
+    },
+    "mc002": {
+      "seed": 1002,
+      "meas": {
+        "isup_ua": 85.8273,
+        "power_uw": 154.489,
+        "vout_v": 0.892928,
+        "gain_db": 31.572,
+        "gbw_mhz": 376.317,
+        "pm_deg": 65.0921
+      },
+      "failed": []
+    },
+    "mc003": {
+      "seed": 1003,
+      "meas": {
+        "isup_ua": 84.7988,
+        "power_uw": 152.638,
+        "vout_v": 0.894081,
+        "gain_db": 33.8731,
+        "gbw_mhz": 375.988,
+        "pm_deg": 64.783
+      },
+      "failed": []
+    },
+    "mc004": {
+      "seed": 1004,
+      "meas": {
+        "isup_ua": 84.8887,
+        "power_uw": 152.8,
+        "vout_v": 0.891956,
+        "gain_db": 29.2822,
+        "gbw_mhz": 371.538,
+        "pm_deg": 65.3678
+      },
+      "failed": []
+    },
+    "mc005": {
+      "seed": 1005,
+      "meas": {
+        "isup_ua": 84.6684,
+        "power_uw": 152.403,
+        "vout_v": 0.893635,
+        "gain_db": 33.0247,
+        "gbw_mhz": 374.269,
+        "pm_deg": 65.0116
+      },
+      "failed": []
+    },
+    "mc006": {
+      "seed": 1006,
+      "meas": {
+        "isup_ua": 85.0621,
+        "power_uw": 153.112,
+        "vout_v": 0.89728,
+        "gain_db": 37.8635,
+        "gbw_mhz": 378.547,
+        "pm_deg": 64.6141
+      },
+      "failed": []
+    },
+    "mc007": {
+      "seed": 1007,
+      "meas": {
+        "isup_ua": 85.4121,
+        "power_uw": 153.742,
+        "vout_v": 0.891038,
+        "gain_db": 26.9282,
+        "gbw_mhz": 369.8,
+        "pm_deg": 65.8712
+      },
+      "failed": []
+    },
+    "mc008": {
+      "seed": 1008,
+      "meas": {
+        "isup_ua": 84.5469,
+        "power_uw": 152.184,
+        "vout_v": 0.896816,
+        "gain_db": 37.4778,
+        "gbw_mhz": 376.252,
+        "pm_deg": 64.7221
+      },
+      "failed": []
+    },
+    "mc009": {
+      "seed": 1009,
+      "meas": {
+        "isup_ua": 84.3956,
+        "power_uw": 151.912,
+        "vout_v": 0.891508,
+        "gain_db": 28.1531,
+        "gbw_mhz": 369.3,
+        "pm_deg": 65.5213
+      },
+      "failed": []
+    },
+    "mc010": {
+      "seed": 1010,
+      "meas": {
+        "isup_ua": 84.5274,
+        "power_uw": 152.149,
+        "vout_v": 0.891428,
+        "gain_db": 27.9555,
+        "gbw_mhz": 368.558,
+        "pm_deg": 65.7105
+      },
+      "failed": []
+    },
+    "mc011": {
+      "seed": 1011,
+      "meas": {
+        "isup_ua": 85.2119,
+        "power_uw": 153.381,
+        "vout_v": 0.894655,
+        "gain_db": 34.8189,
+        "gbw_mhz": 377.644,
+        "pm_deg": 64.7203
+      },
+      "failed": []
+    },
+    "mc012": {
+      "seed": 1012,
+      "meas": {
+        "isup_ua": 84.6832,
+        "power_uw": 152.43,
+        "vout_v": 0.891117,
+        "gain_db": 27.1555,
+        "gbw_mhz": 368.672,
+        "pm_deg": 65.6935
+      },
+      "failed": []
+    },
+    "mc013": {
+      "seed": 1013,
+      "meas": {
+        "isup_ua": 84.4559,
+        "power_uw": 152.021,
+        "vout_v": 0.895833,
+        "gain_db": 36.4329,
+        "gbw_mhz": 376.469,
+        "pm_deg": 64.5949
+      },
+      "failed": []
+    },
+    "mc014": {
+      "seed": 1014,
+      "meas": {
+        "isup_ua": 84.0599,
+        "power_uw": 151.308,
+        "vout_v": 0.891452,
+        "gain_db": 27.9812,
+        "gbw_mhz": 366.9,
+        "pm_deg": 65.799
+      },
+      "failed": []
+    },
+    "mc015": {
+      "seed": 1015,
+      "meas": {
+        "isup_ua": 84.8377,
+        "power_uw": 152.708,
+        "vout_v": 0.893082,
+        "gain_db": 31.9165,
+        "gbw_mhz": 373.979,
+        "pm_deg": 65.0564
+      },
+      "failed": []
+    },
+    "mc016": {
+      "seed": 1016,
+      "meas": {
+        "isup_ua": 85.4403,
+        "power_uw": 153.793,
+        "vout_v": 0.896263,
+        "gain_db": 36.9137,
+        "gbw_mhz": 378.838,
+        "pm_deg": 64.7303
+      },
+      "failed": []
+    },
+    "mc017": {
+      "seed": 1017,
+      "meas": {
+        "isup_ua": 85.1346,
+        "power_uw": 153.242,
+        "vout_v": 0.891375,
+        "gain_db": 27.8385,
+        "gbw_mhz": 370.587,
+        "pm_deg": 65.6264
+      },
+      "failed": []
+    },
+    "mc018": {
+      "seed": 1018,
+      "meas": {
+        "isup_ua": 84.8749,
+        "power_uw": 152.775,
+        "vout_v": 0.889945,
+        "gain_db": 24.0822,
+        "gbw_mhz": 364.652,
+        "pm_deg": 66.5471
+      },
+      "failed": []
+    },
+    "mc019": {
+      "seed": 1019,
+      "meas": {
+        "isup_ua": 84.7995,
+        "power_uw": 152.639,
+        "vout_v": 0.89271,
+        "gain_db": 31.0761,
+        "gbw_mhz": 372.527,
+        "pm_deg": 65.3023
+      },
+      "failed": []
+    },
+    "mc020": {
+      "seed": 1020,
+      "meas": {
+        "isup_ua": 84.053,
+        "power_uw": 151.295,
+        "vout_v": 0.894059,
+        "gain_db": 33.8305,
+        "gbw_mhz": 373.522,
+        "pm_deg": 64.8324
+      },
+      "failed": []
+    },
+    "mc021": {
+      "seed": 1021,
+      "meas": {
+        "isup_ua": 84.5786,
+        "power_uw": 152.241,
+        "vout_v": 0.89384,
+        "gain_db": 33.4291,
+        "gbw_mhz": 374.59,
+        "pm_deg": 64.8505
+      },
+      "failed": []
+    },
+    "mc022": {
+      "seed": 1022,
+      "meas": {
+        "isup_ua": 85.2784,
+        "power_uw": 153.501,
+        "vout_v": 0.893227,
+        "gain_db": 32.2335,
+        "gbw_mhz": 375.747,
+        "pm_deg": 64.9923
+      },
+      "failed": []
+    },
+    "mc023": {
+      "seed": 1023,
+      "meas": {
+        "isup_ua": 85.6243,
+        "power_uw": 154.124,
+        "vout_v": 0.892555,
+        "gain_db": 30.7458,
+        "gbw_mhz": 375.864,
+        "pm_deg": 65.0729
+      },
+      "failed": []
+    },
+    "mc024": {
+      "seed": 1024,
+      "meas": {
+        "isup_ua": 85.7185,
+        "power_uw": 154.293,
+        "vout_v": 0.892635,
+        "gain_db": 30.9258,
+        "gbw_mhz": 375.688,
+        "pm_deg": 65.1274
+      },
+      "failed": []
+    },
+    "mc025": {
+      "seed": 1025,
+      "meas": {
+        "isup_ua": 84.6599,
+        "power_uw": 152.388,
+        "vout_v": 0.89343,
+        "gain_db": 32.6253,
+        "gbw_mhz": 373.149,
+        "pm_deg": 65.1782
+      },
+      "failed": []
+    },
+    "mc026": {
+      "seed": 1026,
+      "meas": {
+        "isup_ua": 84.6139,
+        "power_uw": 152.305,
+        "vout_v": 0.894461,
+        "gain_db": 34.5292,
+        "gbw_mhz": 374.987,
+        "pm_deg": 64.9005
+      },
+      "failed": []
+    },
+    "mc027": {
+      "seed": 1027,
+      "meas": {
+        "isup_ua": 84.2095,
+        "power_uw": 151.577,
+        "vout_v": 0.891419,
+        "gain_db": 27.8776,
+        "gbw_mhz": 367.846,
+        "pm_deg": 65.6594
+      },
+      "failed": []
+    },
+    "mc028": {
+      "seed": 1028,
+      "meas": {
+        "isup_ua": 85.0026,
+        "power_uw": 153.005,
+        "vout_v": 0.890414,
+        "gain_db": 25.2948,
+        "gbw_mhz": 366.492,
+        "pm_deg": 66.2436
+      },
+      "failed": []
+    },
+    "mc029": {
+      "seed": 1029,
+      "meas": {
+        "isup_ua": 85.8372,
+        "power_uw": 154.507,
+        "vout_v": 0.893484,
+        "gain_db": 32.7392,
+        "gbw_mhz": 377.001,
+        "pm_deg": 65.1209
+      },
+      "failed": []
+    },
+    "mc030": {
+      "seed": 1030,
+      "meas": {
+        "isup_ua": 84.9794,
+        "power_uw": 152.963,
+        "vout_v": 0.890939,
+        "gain_db": 26.6666,
+        "gbw_mhz": 368.696,
+        "pm_deg": 65.8204
+      },
+      "failed": []
+    },
+    "mc031": {
+      "seed": 1031,
+      "meas": {
+        "isup_ua": 83.5357,
+        "power_uw": 150.364,
+        "vout_v": 0.889973,
+        "gain_db": 24.0977,
+        "gbw_mhz": 360.632,
+        "pm_deg": 66.583
+      },
+      "failed": []
+    },
+    "mc032": {
+      "seed": 1032,
+      "meas": {
+        "isup_ua": 84.781,
+        "power_uw": 152.606,
+        "vout_v": 0.891152,
+        "gain_db": 27.2251,
+        "gbw_mhz": 368.717,
+        "pm_deg": 65.7608
+      },
+      "failed": []
+    },
+    "mc033": {
+      "seed": 1033,
+      "meas": {
+        "isup_ua": 84.4995,
+        "power_uw": 152.099,
+        "vout_v": 0.892933,
+        "gain_db": 31.5775,
+        "gbw_mhz": 372.534,
+        "pm_deg": 65.1662
+      },
+      "failed": []
+    },
+    "mc034": {
+      "seed": 1034,
+      "meas": {
+        "isup_ua": 85.1342,
+        "power_uw": 153.241,
+        "vout_v": 0.896854,
+        "gain_db": 37.4961,
+        "gbw_mhz": 379.398,
+        "pm_deg": 64.4662
+      },
+      "failed": []
+    },
+    "mc035": {
+      "seed": 1035,
+      "meas": {
+        "isup_ua": 85.1424,
+        "power_uw": 153.256,
+        "vout_v": 0.893476,
+        "gain_db": 32.7005,
+        "gbw_mhz": 375.821,
+        "pm_deg": 64.8908
+      },
+      "failed": []
+    },
+    "mc036": {
+      "seed": 1036,
+      "meas": {
+        "isup_ua": 84.7973,
+        "power_uw": 152.635,
+        "vout_v": 0.892982,
+        "gain_db": 31.7049,
+        "gbw_mhz": 374.152,
+        "pm_deg": 64.9779
+      },
+      "failed": []
+    },
+    "mc037": {
+      "seed": 1037,
+      "meas": {
+        "isup_ua": 84.3574,
+        "power_uw": 151.843,
+        "vout_v": 0.891116,
+        "gain_db": 27.1385,
+        "gbw_mhz": 367.414,
+        "pm_deg": 65.7834
+      },
+      "failed": []
+    },
+    "mc038": {
+      "seed": 1038,
+      "meas": {
+        "isup_ua": 83.4584,
+        "power_uw": 150.225,
+        "vout_v": 0.891394,
+        "gain_db": 27.8143,
+        "gbw_mhz": 365.29,
+        "pm_deg": 65.7557
+      },
+      "failed": []
+    },
+    "mc039": {
+      "seed": 1039,
+      "meas": {
+        "isup_ua": 85.8109,
+        "power_uw": 154.46,
+        "vout_v": 0.897068,
+        "gain_db": 37.6875,
+        "gbw_mhz": 380.309,
+        "pm_deg": 64.6655
+      },
+      "failed": []
+    },
+    "mc040": {
+      "seed": 1040,
+      "meas": {
+        "isup_ua": 84.1965,
+        "power_uw": 151.554,
+        "vout_v": 0.889433,
+        "gain_db": 22.764,
+        "gbw_mhz": 360.843,
+        "pm_deg": 66.9889
+      },
+      "failed": []
+    },
+    "mc041": {
+      "seed": 1041,
+      "meas": {
+        "isup_ua": 85.0591,
+        "power_uw": 153.106,
+        "vout_v": 0.893025,
+        "gain_db": 31.7665,
+        "gbw_mhz": 374.772,
+        "pm_deg": 65.0482
+      },
+      "failed": []
+    },
+    "mc042": {
+      "seed": 1042,
+      "meas": {
+        "isup_ua": 85.255,
+        "power_uw": 153.459,
+        "vout_v": 0.893459,
+        "gain_db": 32.6993,
+        "gbw_mhz": 376.094,
+        "pm_deg": 64.9155
+      },
+      "failed": []
+    },
+    "mc043": {
+      "seed": 1043,
+      "meas": {
+        "isup_ua": 84.4534,
+        "power_uw": 152.016,
+        "vout_v": 0.89353,
+        "gain_db": 32.8171,
+        "gbw_mhz": 373.67,
+        "pm_deg": 64.9712
+      },
+      "failed": []
+    },
+    "mc044": {
+      "seed": 1044,
+      "meas": {
+        "isup_ua": 84.564,
+        "power_uw": 152.215,
+        "vout_v": 0.895574,
+        "gain_db": 36.1269,
+        "gbw_mhz": 376.475,
+        "pm_deg": 64.6395
+      },
+      "failed": []
+    },
+    "mc045": {
+      "seed": 1045,
+      "meas": {
+        "isup_ua": 85.3688,
+        "power_uw": 153.664,
+        "vout_v": 0.892723,
+        "gain_db": 31.1217,
+        "gbw_mhz": 374.639,
+        "pm_deg": 65.214
+      },
+      "failed": []
+    },
+    "mc046": {
+      "seed": 1046,
+      "meas": {
+        "isup_ua": 83.6111,
+        "power_uw": 150.5,
+        "vout_v": 0.89224,
+        "gain_db": 29.9764,
+        "gbw_mhz": 368.984,
+        "pm_deg": 65.26
+      },
+      "failed": []
+    },
+    "mc047": {
+      "seed": 1047,
+      "meas": {
+        "isup_ua": 84.4022,
+        "power_uw": 151.924,
+        "vout_v": 0.893507,
+        "gain_db": 32.7645,
+        "gbw_mhz": 373.769,
+        "pm_deg": 64.9142
+      },
+      "failed": []
+    },
+    "mc048": {
+      "seed": 1048,
+      "meas": {
+        "isup_ua": 85.253,
+        "power_uw": 153.455,
+        "vout_v": 0.894595,
+        "gain_db": 34.731,
+        "gbw_mhz": 377.005,
+        "pm_deg": 64.8864
+      },
+      "failed": []
+    },
+    "mc049": {
+      "seed": 1049,
+      "meas": {
+        "isup_ua": 84.1503,
+        "power_uw": 151.471,
+        "vout_v": 0.890632,
+        "gain_db": 25.8221,
+        "gbw_mhz": 364.951,
+        "pm_deg": 66.1208
+      },
+      "failed": []
+    },
+    "mc050": {
+      "seed": 1050,
+      "meas": {
+        "isup_ua": 84.9745,
+        "power_uw": 152.954,
+        "vout_v": 0.889643,
+        "gain_db": 23.3206,
+        "gbw_mhz": 363.97,
+        "pm_deg": 66.7954
+      },
+      "failed": []
+    },
+    "mc051": {
+      "seed": 1051,
+      "meas": {
+        "isup_ua": 85.3279,
+        "power_uw": 153.59,
+        "vout_v": 0.891023,
+        "gain_db": 26.9205,
+        "gbw_mhz": 370.229,
+        "pm_deg": 65.7468
+      },
+      "failed": []
+    },
+    "mc052": {
+      "seed": 1052,
+      "meas": {
+        "isup_ua": 84.1087,
+        "power_uw": 151.396,
+        "vout_v": 0.891134,
+        "gain_db": 27.1784,
+        "gbw_mhz": 366.875,
+        "pm_deg": 65.7516
+      },
+      "failed": []
+    },
+    "mc053": {
+      "seed": 1053,
+      "meas": {
+        "isup_ua": 85.0109,
+        "power_uw": 153.02,
+        "vout_v": 0.894358,
+        "gain_db": 34.3346,
+        "gbw_mhz": 376.507,
+        "pm_deg": 64.7888
+      },
+      "failed": []
+    },
+    "mc054": {
+      "seed": 1054,
+      "meas": {
+        "isup_ua": 85.0744,
+        "power_uw": 153.134,
+        "vout_v": 0.892188,
+        "gain_db": 29.8516,
+        "gbw_mhz": 372.762,
+        "pm_deg": 65.3156
+      },
+      "failed": []
+    },
+    "mc055": {
+      "seed": 1055,
+      "meas": {
+        "isup_ua": 84.6883,
+        "power_uw": 152.439,
+        "vout_v": 0.89135,
+        "gain_db": 27.7306,
+        "gbw_mhz": 368.954,
+        "pm_deg": 65.68
+      },
+      "failed": []
+    },
+    "mc056": {
+      "seed": 1056,
+      "meas": {
+        "isup_ua": 84.2357,
+        "power_uw": 151.624,
+        "vout_v": 0.889638,
+        "gain_db": 23.2626,
+        "gbw_mhz": 361.403,
+        "pm_deg": 66.8948
+      },
+      "failed": []
+    },
+    "mc057": {
+      "seed": 1057,
+      "meas": {
+        "isup_ua": 84.9799,
+        "power_uw": 152.964,
+        "vout_v": 0.893954,
+        "gain_db": 33.6432,
+        "gbw_mhz": 376.047,
+        "pm_deg": 64.8149
+      },
+      "failed": []
+    },
+    "mc058": {
+      "seed": 1058,
+      "meas": {
+        "isup_ua": 84.9019,
+        "power_uw": 152.823,
+        "vout_v": 0.893233,
+        "gain_db": 32.239,
+        "gbw_mhz": 374.853,
+        "pm_deg": 64.9297
+      },
+      "failed": []
+    },
+    "mc059": {
+      "seed": 1059,
+      "meas": {
+        "isup_ua": 85.228,
+        "power_uw": 153.41,
+        "vout_v": 0.89376,
+        "gain_db": 33.2471,
+        "gbw_mhz": 376.171,
+        "pm_deg": 64.9567
+      },
+      "failed": []
+    },
+    "mc060": {
+      "seed": 1060,
+      "meas": {
+        "isup_ua": 85.0603,
+        "power_uw": 153.109,
+        "vout_v": 0.890538,
+        "gain_db": 25.6313,
+        "gbw_mhz": 367.325,
+        "pm_deg": 66.1632
+      },
+      "failed": []
+    },
+    "mc061": {
+      "seed": 1061,
+      "meas": {
+        "isup_ua": 83.8438,
+        "power_uw": 150.919,
+        "vout_v": 0.893157,
+        "gain_db": 32.0661,
+        "gbw_mhz": 372.139,
+        "pm_deg": 64.8682
+      },
+      "failed": []
+    },
+    "mc062": {
+      "seed": 1062,
+      "meas": {
+        "isup_ua": 85.0914,
+        "power_uw": 153.164,
+        "vout_v": 0.89195,
+        "gain_db": 29.2974,
+        "gbw_mhz": 371.986,
+        "pm_deg": 65.4476
+      },
+      "failed": []
+    },
+    "mc063": {
+      "seed": 1063,
+      "meas": {
+        "isup_ua": 84.9228,
+        "power_uw": 152.861,
+        "vout_v": 0.891586,
+        "gain_db": 28.3418,
+        "gbw_mhz": 370.957,
+        "pm_deg": 65.4528
+      },
+      "failed": []
+    },
+    "mc064": {
+      "seed": 1064,
+      "meas": {
+        "isup_ua": 85.6395,
+        "power_uw": 154.151,
+        "vout_v": 0.890952,
+        "gain_db": 26.7343,
+        "gbw_mhz": 369.986,
+        "pm_deg": 65.9672
+      },
+      "failed": []
+    },
+    "mc065": {
+      "seed": 1065,
+      "meas": {
+        "isup_ua": 84.8449,
+        "power_uw": 152.721,
+        "vout_v": 0.890765,
+        "gain_db": 26.2225,
+        "gbw_mhz": 367.453,
+        "pm_deg": 66.0215
+      },
+      "failed": []
+    },
+    "mc066": {
+      "seed": 1066,
+      "meas": {
+        "isup_ua": 84.9668,
+        "power_uw": 152.94,
+        "vout_v": 0.892438,
+        "gain_db": 30.4383,
+        "gbw_mhz": 373.388,
+        "pm_deg": 65.1813
+      },
+      "failed": []
+    },
+    "mc067": {
+      "seed": 1067,
+      "meas": {
+        "isup_ua": 84.5612,
+        "power_uw": 152.21,
+        "vout_v": 0.897491,
+        "gain_db": 38.0206,
+        "gbw_mhz": 377.576,
+        "pm_deg": 64.4916
+      },
+      "failed": []
+    },
+    "mc068": {
+      "seed": 1068,
+      "meas": {
+        "isup_ua": 83.9373,
+        "power_uw": 151.087,
+        "vout_v": 0.895522,
+        "gain_db": 36.0532,
+        "gbw_mhz": 374.877,
+        "pm_deg": 64.5652
+      },
+      "failed": []
+    },
+    "mc069": {
+      "seed": 1069,
+      "meas": {
+        "isup_ua": 85.6113,
+        "power_uw": 154.1,
+        "vout_v": 0.895897,
+        "gain_db": 36.4948,
+        "gbw_mhz": 379.938,
+        "pm_deg": 64.5374
+      },
+      "failed": []
+    },
+    "mc070": {
+      "seed": 1070,
+      "meas": {
+        "isup_ua": 84.588,
+        "power_uw": 152.258,
+        "vout_v": 0.891293,
+        "gain_db": 27.5691,
+        "gbw_mhz": 368.293,
+        "pm_deg": 65.7767
+      },
+      "failed": []
+    },
+    "mc071": {
+      "seed": 1071,
+      "meas": {
+        "isup_ua": 84.7798,
+        "power_uw": 152.604,
+        "vout_v": 0.892829,
+        "gain_db": 31.3259,
+        "gbw_mhz": 373.328,
+        "pm_deg": 65.1355
+      },
+      "failed": []
+    },
+    "mc072": {
+      "seed": 1072,
+      "meas": {
+        "isup_ua": 84.0676,
+        "power_uw": 151.322,
+        "vout_v": 0.89367,
+        "gain_db": 33.0851,
+        "gbw_mhz": 373.179,
+        "pm_deg": 64.8797
+      },
+      "failed": []
+    },
+    "mc073": {
+      "seed": 1073,
+      "meas": {
+        "isup_ua": 85.3712,
+        "power_uw": 153.668,
+        "vout_v": 0.894516,
+        "gain_db": 34.5979,
+        "gbw_mhz": 378.113,
+        "pm_deg": 64.7114
+      },
+      "failed": []
+    },
+    "mc074": {
+      "seed": 1074,
+      "meas": {
+        "isup_ua": 84.3769,
+        "power_uw": 151.878,
+        "vout_v": 0.893004,
+        "gain_db": 31.7495,
+        "gbw_mhz": 372.309,
+        "pm_deg": 65.148
+      },
+      "failed": []
+    },
+    "mc075": {
+      "seed": 1075,
+      "meas": {
+        "isup_ua": 85.0696,
+        "power_uw": 153.125,
+        "vout_v": 0.891974,
+        "gain_db": 29.3497,
+        "gbw_mhz": 372.091,
+        "pm_deg": 65.413
+      },
+      "failed": []
+    },
+    "mc076": {
+      "seed": 1076,
+      "meas": {
+        "isup_ua": 85.2755,
+        "power_uw": 153.496,
+        "vout_v": 0.890647,
+        "gain_db": 25.9316,
+        "gbw_mhz": 368.478,
+        "pm_deg": 66.051
+      },
+      "failed": []
+    },
+    "mc077": {
+      "seed": 1077,
+      "meas": {
+        "isup_ua": 84.2717,
+        "power_uw": 151.689,
+        "vout_v": 0.893534,
+        "gain_db": 32.8569,
+        "gbw_mhz": 373.42,
+        "pm_deg": 64.9177
+      },
+      "failed": []
+    },
+    "mc078": {
+      "seed": 1078,
+      "meas": {
+        "isup_ua": 85.7691,
+        "power_uw": 154.384,
+        "vout_v": 0.892786,
+        "gain_db": 31.2626,
+        "gbw_mhz": 375.91,
+        "pm_deg": 65.1677
+      },
+      "failed": []
+    },
+    "mc079": {
+      "seed": 1079,
+      "meas": {
+        "isup_ua": 84.8738,
+        "power_uw": 152.773,
+        "vout_v": 0.891071,
+        "gain_db": 26.9958,
+        "gbw_mhz": 368.789,
+        "pm_deg": 65.8326
+      },
+      "failed": []
+    },
+    "mc080": {
+      "seed": 1080,
+      "meas": {
+        "isup_ua": 84.6524,
+        "power_uw": 152.374,
+        "vout_v": 0.892947,
+        "gain_db": 31.5807,
+        "gbw_mhz": 373.176,
+        "pm_deg": 65.1347
+      },
+      "failed": []
+    },
+    "mc081": {
+      "seed": 1081,
+      "meas": {
+        "isup_ua": 84.0435,
+        "power_uw": 151.278,
+        "vout_v": 0.893409,
+        "gain_db": 32.5942,
+        "gbw_mhz": 372.377,
+        "pm_deg": 64.9932
+      },
+      "failed": []
+    },
+    "mc082": {
+      "seed": 1082,
+      "meas": {
+        "isup_ua": 85.4296,
+        "power_uw": 153.773,
+        "vout_v": 0.891264,
+        "gain_db": 27.5392,
+        "gbw_mhz": 370.734,
+        "pm_deg": 65.7495
+      },
+      "failed": []
+    },
+    "mc083": {
+      "seed": 1083,
+      "meas": {
+        "isup_ua": 85.3126,
+        "power_uw": 153.563,
+        "vout_v": 0.891259,
+        "gain_db": 27.5012,
+        "gbw_mhz": 370.686,
+        "pm_deg": 65.6868
+      },
+      "failed": []
+    },
+    "mc084": {
+      "seed": 1084,
+      "meas": {
+        "isup_ua": 83.6432,
+        "power_uw": 150.558,
+        "vout_v": 0.893295,
+        "gain_db": 32.3282,
+        "gbw_mhz": 371.557,
+        "pm_deg": 64.9052
+      },
+      "failed": []
+    },
+    "mc085": {
+      "seed": 1085,
+      "meas": {
+        "isup_ua": 83.8754,
+        "power_uw": 150.976,
+        "vout_v": 0.892404,
+        "gain_db": 30.3735,
+        "gbw_mhz": 369.796,
+        "pm_deg": 65.2768
+      },
+      "failed": []
+    },
+    "mc086": {
+      "seed": 1086,
+      "meas": {
+        "isup_ua": 84.4284,
+        "power_uw": 151.971,
+        "vout_v": 0.894134,
+        "gain_db": 33.9576,
+        "gbw_mhz": 374.988,
+        "pm_deg": 64.7702
+      },
+      "failed": []
+    },
+    "mc087": {
+      "seed": 1087,
+      "meas": {
+        "isup_ua": 83.762,
+        "power_uw": 150.772,
+        "vout_v": 0.890027,
+        "gain_db": 24.2575,
+        "gbw_mhz": 361.652,
+        "pm_deg": 66.5275
+      },
+      "failed": []
+    },
+    "mc088": {
+      "seed": 1088,
+      "meas": {
+        "isup_ua": 84.2539,
+        "power_uw": 151.657,
+        "vout_v": 0.89455,
+        "gain_db": 34.6552,
+        "gbw_mhz": 374.308,
+        "pm_deg": 64.7906
+      },
+      "failed": []
+    },
+    "mc089": {
+      "seed": 1089,
+      "meas": {
+        "isup_ua": 84.8227,
+        "power_uw": 152.681,
+        "vout_v": 0.892353,
+        "gain_db": 30.253,
+        "gbw_mhz": 372.115,
+        "pm_deg": 65.3154
+      },
+      "failed": []
+    },
+    "mc090": {
+      "seed": 1090,
+      "meas": {
+        "isup_ua": 84.2434,
+        "power_uw": 151.638,
+        "vout_v": 0.891645,
+        "gain_db": 28.4924,
+        "gbw_mhz": 368.969,
+        "pm_deg": 65.5017
+      },
+      "failed": []
+    },
+    "mc091": {
+      "seed": 1091,
+      "meas": {
+        "isup_ua": 84.1933,
+        "power_uw": 151.548,
+        "vout_v": 0.892512,
+        "gain_db": 30.6245,
+        "gbw_mhz": 371.405,
+        "pm_deg": 65.0913
+      },
+      "failed": []
+    },
+    "mc092": {
+      "seed": 1092,
+      "meas": {
+        "isup_ua": 85.0438,
+        "power_uw": 153.079,
+        "vout_v": 0.892249,
+        "gain_db": 30.0213,
+        "gbw_mhz": 373.51,
+        "pm_deg": 65.1478
+      },
+      "failed": []
+    },
+    "mc093": {
+      "seed": 1093,
+      "meas": {
+        "isup_ua": 85.4561,
+        "power_uw": 153.821,
+        "vout_v": 0.894727,
+        "gain_db": 34.956,
+        "gbw_mhz": 377.717,
+        "pm_deg": 64.8863
+      },
+      "failed": []
+    },
+    "mc094": {
+      "seed": 1094,
+      "meas": {
+        "isup_ua": 85.3558,
+        "power_uw": 153.641,
+        "vout_v": 0.892639,
+        "gain_db": 30.8949,
+        "gbw_mhz": 373.689,
+        "pm_deg": 65.3761
+      },
+      "failed": []
+    },
+    "mc095": {
+      "seed": 1095,
+      "meas": {
+        "isup_ua": 84.5102,
+        "power_uw": 152.118,
+        "vout_v": 0.895864,
+        "gain_db": 36.4788,
+        "gbw_mhz": 375.938,
+        "pm_deg": 64.6953
+      },
+      "failed": []
+    },
+    "mc096": {
+      "seed": 1096,
+      "meas": {
+        "isup_ua": 84.9125,
+        "power_uw": 152.842,
+        "vout_v": 0.891993,
+        "gain_db": 29.366,
+        "gbw_mhz": 371.691,
+        "pm_deg": 65.3855
+      },
+      "failed": []
+    },
+    "mc097": {
+      "seed": 1097,
+      "meas": {
+        "isup_ua": 83.5664,
+        "power_uw": 150.42,
+        "vout_v": 0.892138,
+        "gain_db": 29.718,
+        "gbw_mhz": 367.777,
+        "pm_deg": 65.4315
+      },
+      "failed": []
+    },
+    "mc098": {
+      "seed": 1098,
+      "meas": {
+        "isup_ua": 83.8731,
+        "power_uw": 150.972,
+        "vout_v": 0.892501,
+        "gain_db": 30.5523,
+        "gbw_mhz": 370.114,
+        "pm_deg": 65.2275
+      },
+      "failed": []
+    },
+    "mc099": {
+      "seed": 1099,
+      "meas": {
+        "isup_ua": 85.6915,
+        "power_uw": 154.245,
+        "vout_v": 0.896207,
+        "gain_db": 36.8743,
+        "gbw_mhz": 380.101,
+        "pm_deg": 64.6053
+      },
+      "failed": []
+    },
+    "mc100": {
+      "seed": 1100,
+      "meas": {
+        "isup_ua": 84.4687,
+        "power_uw": 152.044,
+        "vout_v": 0.893121,
+        "gain_db": 31.9881,
+        "gbw_mhz": 372.742,
+        "pm_deg": 65.1412
+      },
+      "failed": []
+    },
+    "mc101": {
+      "seed": 1101,
+      "meas": {
+        "isup_ua": 83.844,
+        "power_uw": 150.919,
+        "vout_v": 0.89484,
+        "gain_db": 35.1137,
+        "gbw_mhz": 373.732,
+        "pm_deg": 64.7473
+      },
+      "failed": []
+    },
+    "mc102": {
+      "seed": 1102,
+      "meas": {
+        "isup_ua": 84.7878,
+        "power_uw": 152.618,
+        "vout_v": 0.894332,
+        "gain_db": 34.302,
+        "gbw_mhz": 375.171,
+        "pm_deg": 64.9534
+      },
+      "failed": []
+    },
+    "mc103": {
+      "seed": 1103,
+      "meas": {
+        "isup_ua": 85.6732,
+        "power_uw": 154.212,
+        "vout_v": 0.892542,
+        "gain_db": 30.7169,
+        "gbw_mhz": 375.37,
+        "pm_deg": 65.186
+      },
+      "failed": []
+    },
+    "mc104": {
+      "seed": 1104,
+      "meas": {
+        "isup_ua": 84.962,
+        "power_uw": 152.932,
+        "vout_v": 0.895507,
+        "gain_db": 36.0375,
+        "gbw_mhz": 377.075,
+        "pm_deg": 64.7414
+      },
+      "failed": []
+    },
+    "mc105": {
+      "seed": 1105,
+      "meas": {
+        "isup_ua": 84.4905,
+        "power_uw": 152.083,
+        "vout_v": 0.892788,
+        "gain_db": 31.2276,
+        "gbw_mhz": 372.221,
+        "pm_deg": 65.2022
+      },
+      "failed": []
+    },
+    "mc106": {
+      "seed": 1106,
+      "meas": {
+        "isup_ua": 84.8373,
+        "power_uw": 152.707,
+        "vout_v": 0.890918,
+        "gain_db": 26.6169,
+        "gbw_mhz": 368.067,
+        "pm_deg": 65.8888
+      },
+      "failed": []
+    },
+    "mc107": {
+      "seed": 1107,
+      "meas": {
+        "isup_ua": 83.25,
+        "power_uw": 149.85,
+        "vout_v": 0.889585,
+        "gain_db": 23.1356,
+        "gbw_mhz": 358.655,
+        "pm_deg": 66.8449
+      },
+      "failed": []
+    },
+    "mc108": {
+      "seed": 1108,
+      "meas": {
+        "isup_ua": 84.4848,
+        "power_uw": 152.073,
+        "vout_v": 0.89446,
+        "gain_db": 34.5296,
+        "gbw_mhz": 375.517,
+        "pm_deg": 64.7444
+      },
+      "failed": []
+    },
+    "mc109": {
+      "seed": 1109,
+      "meas": {
+        "isup_ua": 84.9467,
+        "power_uw": 152.904,
+        "vout_v": 0.893021,
+        "gain_db": 31.7749,
+        "gbw_mhz": 374.683,
+        "pm_deg": 64.9546
+      },
+      "failed": []
+    },
+    "mc110": {
+      "seed": 1110,
+      "meas": {
+        "isup_ua": 84.3879,
+        "power_uw": 151.898,
+        "vout_v": 0.894351,
+        "gain_db": 34.3261,
+        "gbw_mhz": 374.523,
+        "pm_deg": 64.8538
+      },
+      "failed": []
+    },
+    "mc111": {
+      "seed": 1111,
+      "meas": {
+        "isup_ua": 85.2765,
+        "power_uw": 153.498,
+        "vout_v": 0.895204,
+        "gain_db": 35.6105,
+        "gbw_mhz": 378.568,
+        "pm_deg": 64.622
+      },
+      "failed": []
+    },
+    "mc112": {
+      "seed": 1112,
+      "meas": {
+        "isup_ua": 84.5516,
+        "power_uw": 152.193,
+        "vout_v": 0.893508,
+        "gain_db": 32.7822,
+        "gbw_mhz": 374.187,
+        "pm_deg": 64.923
+      },
+      "failed": []
+    },
+    "mc113": {
+      "seed": 1113,
+      "meas": {
+        "isup_ua": 84.8608,
+        "power_uw": 152.749,
+        "vout_v": 0.891712,
+        "gain_db": 28.6936,
+        "gbw_mhz": 371.564,
+        "pm_deg": 65.2967
+      },
+      "failed": []
+    },
+    "mc114": {
+      "seed": 1114,
+      "meas": {
+        "isup_ua": 85.0702,
+        "power_uw": 153.126,
+        "vout_v": 0.893789,
+        "gain_db": 33.3361,
+        "gbw_mhz": 375.865,
+        "pm_deg": 64.913
+      },
+      "failed": []
+    },
+    "mc115": {
+      "seed": 1115,
+      "meas": {
+        "isup_ua": 84.6164,
+        "power_uw": 152.309,
+        "vout_v": 0.895534,
+        "gain_db": 36.0769,
+        "gbw_mhz": 375.955,
+        "pm_deg": 64.7383
+      },
+      "failed": []
+    },
+    "mc116": {
+      "seed": 1116,
+      "meas": {
+        "isup_ua": 84.694,
+        "power_uw": 152.449,
+        "vout_v": 0.891064,
+        "gain_db": 27.0069,
+        "gbw_mhz": 368.277,
+        "pm_deg": 65.7865
+      },
+      "failed": []
+    },
+    "mc117": {
+      "seed": 1117,
+      "meas": {
+        "isup_ua": 85.4137,
+        "power_uw": 153.745,
+        "vout_v": 0.890407,
+        "gain_db": 25.2756,
+        "gbw_mhz": 368.018,
+        "pm_deg": 66.183
+      },
+      "failed": []
+    },
+    "mc118": {
+      "seed": 1118,
+      "meas": {
+        "isup_ua": 84.4394,
+        "power_uw": 151.991,
+        "vout_v": 0.889758,
+        "gain_db": 23.6008,
+        "gbw_mhz": 363.209,
+        "pm_deg": 66.5786
+      },
+      "failed": []
+    },
+    "mc119": {
+      "seed": 1119,
+      "meas": {
+        "isup_ua": 84.6835,
+        "power_uw": 152.43,
+        "vout_v": 0.894748,
+        "gain_db": 34.9744,
+        "gbw_mhz": 376.487,
+        "pm_deg": 64.6684
+      },
+      "failed": []
+    },
+    "mc120": {
+      "seed": 1120,
+      "meas": {
+        "isup_ua": 84.1026,
+        "power_uw": 151.385,
+        "vout_v": 0.892913,
+        "gain_db": 31.5585,
+        "gbw_mhz": 371.986,
+        "pm_deg": 65.051
+      },
+      "failed": []
+    },
+    "mc121": {
+      "seed": 1121,
+      "meas": {
+        "isup_ua": 85.3928,
+        "power_uw": 153.707,
+        "vout_v": 0.895411,
+        "gain_db": 35.8945,
+        "gbw_mhz": 378.86,
+        "pm_deg": 64.6319
+      },
+      "failed": []
+    },
+    "mc122": {
+      "seed": 1122,
+      "meas": {
+        "isup_ua": 84.9798,
+        "power_uw": 152.964,
+        "vout_v": 0.891671,
+        "gain_db": 28.6453,
+        "gbw_mhz": 371.398,
+        "pm_deg": 65.4155
+      },
+      "failed": []
+    },
+    "mc123": {
+      "seed": 1123,
+      "meas": {
+        "isup_ua": 85.3795,
+        "power_uw": 153.683,
+        "vout_v": 0.892195,
+        "gain_db": 29.9018,
+        "gbw_mhz": 373.986,
+        "pm_deg": 65.2257
+      },
+      "failed": []
+    },
+    "mc124": {
+      "seed": 1124,
+      "meas": {
+        "isup_ua": 84.4408,
+        "power_uw": 151.993,
+        "vout_v": 0.892216,
+        "gain_db": 29.9199,
+        "gbw_mhz": 371.567,
+        "pm_deg": 65.1652
+      },
+      "failed": []
+    },
+    "mc125": {
+      "seed": 1125,
+      "meas": {
+        "isup_ua": 83.8203,
+        "power_uw": 150.876,
+        "vout_v": 0.892151,
+        "gain_db": 29.7568,
+        "gbw_mhz": 369.111,
+        "pm_deg": 65.3258
+      },
+      "failed": []
+    },
+    "mc126": {
+      "seed": 1126,
+      "meas": {
+        "isup_ua": 84.5205,
+        "power_uw": 152.137,
+        "vout_v": 0.890818,
+        "gain_db": 26.3281,
+        "gbw_mhz": 366.457,
+        "pm_deg": 66.0252
+      },
+      "failed": []
+    },
+    "mc127": {
+      "seed": 1127,
+      "meas": {
+        "isup_ua": 84.3339,
+        "power_uw": 151.801,
+        "vout_v": 0.894493,
+        "gain_db": 34.5567,
+        "gbw_mhz": 374.818,
+        "pm_deg": 64.7598
+      },
+      "failed": []
+    },
+    "mc128": {
+      "seed": 1128,
+      "meas": {
+        "isup_ua": 84.7571,
+        "power_uw": 152.563,
+        "vout_v": 0.893495,
+        "gain_db": 32.7685,
+        "gbw_mhz": 374.87,
+        "pm_deg": 64.9011
+      },
+      "failed": []
+    },
+    "mc129": {
+      "seed": 1129,
+      "meas": {
+        "isup_ua": 84.0422,
+        "power_uw": 151.276,
+        "vout_v": 0.89294,
+        "gain_db": 31.5825,
+        "gbw_mhz": 371.661,
+        "pm_deg": 65.0752
+      },
+      "failed": []
+    },
+    "mc130": {
+      "seed": 1130,
+      "meas": {
+        "isup_ua": 84.7429,
+        "power_uw": 152.537,
+        "vout_v": 0.890982,
+        "gain_db": 26.8042,
+        "gbw_mhz": 368.679,
+        "pm_deg": 65.7301
+      },
+      "failed": []
+    },
+    "mc131": {
+      "seed": 1131,
+      "meas": {
+        "isup_ua": 84.5381,
+        "power_uw": 152.169,
+        "vout_v": 0.893588,
+        "gain_db": 32.9454,
+        "gbw_mhz": 374.23,
+        "pm_deg": 64.9181
+      },
+      "failed": []
+    },
+    "mc132": {
+      "seed": 1132,
+      "meas": {
+        "isup_ua": 84.6061,
+        "power_uw": 152.291,
+        "vout_v": 0.89474,
+        "gain_db": 34.9258,
+        "gbw_mhz": 375.978,
+        "pm_deg": 64.7385
+      },
+      "failed": []
+    },
+    "mc133": {
+      "seed": 1133,
+      "meas": {
+        "isup_ua": 85.1258,
+        "power_uw": 153.226,
+        "vout_v": 0.894926,
+        "gain_db": 35.2271,
+        "gbw_mhz": 376.796,
+        "pm_deg": 64.8837
+      },
+      "failed": []
+    },
+    "mc134": {
+      "seed": 1134,
+      "meas": {
+        "isup_ua": 84.3246,
+        "power_uw": 151.784,
+        "vout_v": 0.893775,
+        "gain_db": 33.2881,
+        "gbw_mhz": 374.104,
+        "pm_deg": 64.8312
+      },
+      "failed": []
+    },
+    "mc135": {
+      "seed": 1135,
+      "meas": {
+        "isup_ua": 84.7552,
+        "power_uw": 152.559,
+        "vout_v": 0.89361,
+        "gain_db": 33.0,
+        "gbw_mhz": 374.703,
+        "pm_deg": 64.9364
+      },
+      "failed": []
+    },
+    "mc136": {
+      "seed": 1136,
+      "meas": {
+        "isup_ua": 84.883,
+        "power_uw": 152.789,
+        "vout_v": 0.893632,
+        "gain_db": 33.0428,
+        "gbw_mhz": 375.07,
+        "pm_deg": 64.9315
+      },
+      "failed": []
+    },
+    "mc137": {
+      "seed": 1137,
+      "meas": {
+        "isup_ua": 85.6135,
+        "power_uw": 154.104,
+        "vout_v": 0.894745,
+        "gain_db": 34.9723,
+        "gbw_mhz": 378.176,
+        "pm_deg": 64.8699
+      },
+      "failed": []
+    },
+    "mc138": {
+      "seed": 1138,
+      "meas": {
+        "isup_ua": 84.5803,
+        "power_uw": 152.244,
+        "vout_v": 0.892966,
+        "gain_db": 31.6683,
+        "gbw_mhz": 373.593,
+        "pm_deg": 64.9855
+      },
+      "failed": []
+    },
+    "mc139": {
+      "seed": 1139,
+      "meas": {
+        "isup_ua": 84.89,
+        "power_uw": 152.802,
+        "vout_v": 0.897264,
+        "gain_db": 37.8548,
+        "gbw_mhz": 377.765,
+        "pm_deg": 64.6325
+      },
+      "failed": []
+    },
+    "mc140": {
+      "seed": 1140,
+      "meas": {
+        "isup_ua": 84.9513,
+        "power_uw": 152.912,
+        "vout_v": 0.894087,
+        "gain_db": 33.8753,
+        "gbw_mhz": 375.783,
+        "pm_deg": 64.8957
+      },
+      "failed": []
+    },
+    "mc141": {
+      "seed": 1141,
+      "meas": {
+        "isup_ua": 84.5061,
+        "power_uw": 152.111,
+        "vout_v": 0.890861,
+        "gain_db": 26.4677,
+        "gbw_mhz": 366.532,
+        "pm_deg": 66.0268
+      },
+      "failed": []
+    },
+    "mc142": {
+      "seed": 1142,
+      "meas": {
+        "isup_ua": 84.3768,
+        "power_uw": 151.878,
+        "vout_v": 0.890988,
+        "gain_db": 26.7851,
+        "gbw_mhz": 367.46,
+        "pm_deg": 65.7402
+      },
+      "failed": []
+    },
+    "mc143": {
+      "seed": 1143,
+      "meas": {
+        "isup_ua": 85.1963,
+        "power_uw": 153.353,
+        "vout_v": 0.893312,
+        "gain_db": 32.3978,
+        "gbw_mhz": 375.379,
+        "pm_deg": 65.0358
+      },
+      "failed": []
+    },
+    "mc144": {
+      "seed": 1144,
+      "meas": {
+        "isup_ua": 85.5144,
+        "power_uw": 153.926,
+        "vout_v": 0.892022,
+        "gain_db": 29.4466,
+        "gbw_mhz": 373.238,
+        "pm_deg": 65.4482
+      },
+      "failed": []
+    },
+    "mc145": {
+      "seed": 1145,
+      "meas": {
+        "isup_ua": 83.879,
+        "power_uw": 150.982,
+        "vout_v": 0.895729,
+        "gain_db": 36.3124,
+        "gbw_mhz": 374.396,
+        "pm_deg": 64.6646
+      },
+      "failed": []
+    },
+    "mc146": {
+      "seed": 1146,
+      "meas": {
+        "isup_ua": 83.2165,
+        "power_uw": 149.79,
+        "vout_v": 0.891399,
+        "gain_db": 27.8294,
+        "gbw_mhz": 364.909,
+        "pm_deg": 65.6739
+      },
+      "failed": []
+    },
+    "mc147": {
+      "seed": 1147,
+      "meas": {
+        "isup_ua": 84.3073,
+        "power_uw": 151.753,
+        "vout_v": 0.894204,
+        "gain_db": 34.0859,
+        "gbw_mhz": 373.941,
+        "pm_deg": 64.9248
+      },
+      "failed": []
+    },
+    "mc148": {
+      "seed": 1148,
+      "meas": {
+        "isup_ua": 84.6771,
+        "power_uw": 152.419,
+        "vout_v": 0.893347,
+        "gain_db": 32.4525,
+        "gbw_mhz": 373.899,
+        "pm_deg": 64.9934
+      },
+      "failed": []
+    },
+    "mc149": {
+      "seed": 1149,
+      "meas": {
+        "isup_ua": 85.8118,
+        "power_uw": 154.461,
+        "vout_v": 0.892349,
+        "gain_db": 30.2348,
+        "gbw_mhz": 374.611,
+        "pm_deg": 65.3757
+      },
+      "failed": []
+    },
+    "mc150": {
+      "seed": 1150,
+      "meas": {
+        "isup_ua": 85.1493,
+        "power_uw": 153.269,
+        "vout_v": 0.891007,
+        "gain_db": 26.8456,
+        "gbw_mhz": 368.859,
+        "pm_deg": 65.9604
+      },
+      "failed": []
+    },
+    "mc151": {
+      "seed": 1151,
+      "meas": {
+        "isup_ua": 84.4591,
+        "power_uw": 152.026,
+        "vout_v": 0.892758,
+        "gain_db": 31.1713,
+        "gbw_mhz": 373.064,
+        "pm_deg": 64.9868
+      },
+      "failed": []
+    },
+    "mc152": {
+      "seed": 1152,
+      "meas": {
+        "isup_ua": 85.1131,
+        "power_uw": 153.204,
+        "vout_v": 0.895106,
+        "gain_db": 35.4798,
+        "gbw_mhz": 377.42,
+        "pm_deg": 64.7213
+      },
+      "failed": []
+    },
+    "mc153": {
+      "seed": 1153,
+      "meas": {
+        "isup_ua": 84.7434,
+        "power_uw": 152.538,
+        "vout_v": 0.892212,
+        "gain_db": 29.9318,
+        "gbw_mhz": 371.962,
+        "pm_deg": 65.2579
+      },
+      "failed": []
+    },
+    "mc154": {
+      "seed": 1154,
+      "meas": {
+        "isup_ua": 84.4745,
+        "power_uw": 152.054,
+        "vout_v": 0.894837,
+        "gain_db": 35.1026,
+        "gbw_mhz": 375.475,
+        "pm_deg": 64.736
+      },
+      "failed": []
+    },
+    "mc155": {
+      "seed": 1155,
+      "meas": {
+        "isup_ua": 84.3278,
+        "power_uw": 151.79,
+        "vout_v": 0.893337,
+        "gain_db": 32.4445,
+        "gbw_mhz": 372.739,
+        "pm_deg": 65.0595
+      },
+      "failed": []
+    },
+    "mc156": {
+      "seed": 1156,
+      "meas": {
+        "isup_ua": 84.3493,
+        "power_uw": 151.829,
+        "vout_v": 0.890551,
+        "gain_db": 25.58,
+        "gbw_mhz": 364.736,
+        "pm_deg": 66.2437
+      },
+      "failed": []
+    },
+    "mc157": {
+      "seed": 1157,
+      "meas": {
+        "isup_ua": 84.195,
+        "power_uw": 151.551,
+        "vout_v": 0.892183,
+        "gain_db": 29.8362,
+        "gbw_mhz": 369.938,
+        "pm_deg": 65.4035
+      },
+      "failed": []
+    },
+    "mc158": {
+      "seed": 1158,
+      "meas": {
+        "isup_ua": 84.5155,
+        "power_uw": 152.128,
+        "vout_v": 0.896641,
+        "gain_db": 37.3006,
+        "gbw_mhz": 376.541,
+        "pm_deg": 64.6181
+      },
+      "failed": []
+    },
+    "mc159": {
+      "seed": 1159,
+      "meas": {
+        "isup_ua": 84.8417,
+        "power_uw": 152.715,
+        "vout_v": 0.893801,
+        "gain_db": 33.3639,
+        "gbw_mhz": 375.447,
+        "pm_deg": 64.8615
+      },
+      "failed": []
+    },
+    "mc160": {
+      "seed": 1160,
+      "meas": {
+        "isup_ua": 84.7786,
+        "power_uw": 152.601,
+        "vout_v": 0.892537,
+        "gain_db": 30.7089,
+        "gbw_mhz": 372.495,
+        "pm_deg": 65.2841
+      },
+      "failed": []
+    },
+    "mc161": {
+      "seed": 1161,
+      "meas": {
+        "isup_ua": 84.3976,
+        "power_uw": 151.916,
+        "vout_v": 0.893358,
+        "gain_db": 32.4864,
+        "gbw_mhz": 372.993,
+        "pm_deg": 65.111
+      },
+      "failed": []
+    },
+    "mc162": {
+      "seed": 1162,
+      "meas": {
+        "isup_ua": 85.6744,
+        "power_uw": 154.214,
+        "vout_v": 0.893076,
+        "gain_db": 31.8956,
+        "gbw_mhz": 376.847,
+        "pm_deg": 65.0078
+      },
+      "failed": []
+    },
+    "mc163": {
+      "seed": 1163,
+      "meas": {
+        "isup_ua": 85.104,
+        "power_uw": 153.187,
+        "vout_v": 0.893201,
+        "gain_db": 32.1786,
+        "gbw_mhz": 374.942,
+        "pm_deg": 65.0531
+      },
+      "failed": []
+    },
+    "mc164": {
+      "seed": 1164,
+      "meas": {
+        "isup_ua": 85.7759,
+        "power_uw": 154.397,
+        "vout_v": 0.893661,
+        "gain_db": 33.0928,
+        "gbw_mhz": 377.518,
+        "pm_deg": 64.9985
+      },
+      "failed": []
+    },
+    "mc165": {
+      "seed": 1165,
+      "meas": {
+        "isup_ua": 84.5954,
+        "power_uw": 152.272,
+        "vout_v": 0.894078,
+        "gain_db": 33.8592,
+        "gbw_mhz": 374.664,
+        "pm_deg": 64.9197
+      },
+      "failed": []
+    },
+    "mc166": {
+      "seed": 1166,
+      "meas": {
+        "isup_ua": 85.1339,
+        "power_uw": 153.241,
+        "vout_v": 0.890296,
+        "gain_db": 24.98,
+        "gbw_mhz": 366.397,
+        "pm_deg": 66.3462
+      },
+      "failed": []
+    },
+    "mc167": {
+      "seed": 1167,
+      "meas": {
+        "isup_ua": 84.9382,
+        "power_uw": 152.889,
+        "vout_v": 0.89234,
+        "gain_db": 30.2608,
+        "gbw_mhz": 372.511,
+        "pm_deg": 65.3257
+      },
+      "failed": []
+    },
+    "mc168": {
+      "seed": 1168,
+      "meas": {
+        "isup_ua": 84.0625,
+        "power_uw": 151.313,
+        "vout_v": 0.89225,
+        "gain_db": 30.0037,
+        "gbw_mhz": 369.913,
+        "pm_deg": 65.3241
+      },
+      "failed": []
+    },
+    "mc169": {
+      "seed": 1169,
+      "meas": {
+        "isup_ua": 84.676,
+        "power_uw": 152.417,
+        "vout_v": 0.892214,
+        "gain_db": 29.8941,
+        "gbw_mhz": 371.42,
+        "pm_deg": 65.3473
+      },
+      "failed": []
+    },
+    "mc170": {
+      "seed": 1170,
+      "meas": {
+        "isup_ua": 85.4528,
+        "power_uw": 153.815,
+        "vout_v": 0.890859,
+        "gain_db": 26.4882,
+        "gbw_mhz": 369.552,
+        "pm_deg": 65.9337
+      },
+      "failed": []
+    },
+    "mc171": {
+      "seed": 1171,
+      "meas": {
+        "isup_ua": 83.8537,
+        "power_uw": 150.937,
+        "vout_v": 0.893858,
+        "gain_db": 33.4564,
+        "gbw_mhz": 372.54,
+        "pm_deg": 64.9011
+      },
+      "failed": []
+    },
+    "mc172": {
+      "seed": 1172,
+      "meas": {
+        "isup_ua": 84.7715,
+        "power_uw": 152.589,
+        "vout_v": 0.89116,
+        "gain_db": 27.2276,
+        "gbw_mhz": 368.257,
+        "pm_deg": 65.8855
+      },
+      "failed": []
+    },
+    "mc173": {
+      "seed": 1173,
+      "meas": {
+        "isup_ua": 84.847,
+        "power_uw": 152.725,
+        "vout_v": 0.892297,
+        "gain_db": 30.1087,
+        "gbw_mhz": 372.5,
+        "pm_deg": 65.2475
+      },
+      "failed": []
+    },
+    "mc174": {
+      "seed": 1174,
+      "meas": {
+        "isup_ua": 84.9101,
+        "power_uw": 152.838,
+        "vout_v": 0.892192,
+        "gain_db": 29.8751,
+        "gbw_mhz": 372.347,
+        "pm_deg": 65.2817
+      },
+      "failed": []
+    },
+    "mc175": {
+      "seed": 1175,
+      "meas": {
+        "isup_ua": 83.8021,
+        "power_uw": 150.844,
+        "vout_v": 0.895157,
+        "gain_db": 35.5786,
+        "gbw_mhz": 374.477,
+        "pm_deg": 64.5869
+      },
+      "failed": []
+    },
+    "mc176": {
+      "seed": 1176,
+      "meas": {
+        "isup_ua": 84.1933,
+        "power_uw": 151.548,
+        "vout_v": 0.895993,
+        "gain_db": 36.6393,
+        "gbw_mhz": 375.321,
+        "pm_deg": 64.6703
+      },
+      "failed": []
+    },
+    "mc177": {
+      "seed": 1177,
+      "meas": {
+        "isup_ua": 85.6037,
+        "power_uw": 154.087,
+        "vout_v": 0.8941,
+        "gain_db": 33.8936,
+        "gbw_mhz": 377.751,
+        "pm_deg": 64.8835
+      },
+      "failed": []
+    },
+    "mc178": {
+      "seed": 1178,
+      "meas": {
+        "isup_ua": 85.1537,
+        "power_uw": 153.277,
+        "vout_v": 0.89233,
+        "gain_db": 30.1975,
+        "gbw_mhz": 373.48,
+        "pm_deg": 65.2363
+      },
+      "failed": []
+    },
+    "mc179": {
+      "seed": 1179,
+      "meas": {
+        "isup_ua": 84.7598,
+        "power_uw": 152.568,
+        "vout_v": 0.892628,
+        "gain_db": 30.8953,
+        "gbw_mhz": 372.631,
+        "pm_deg": 65.2423
+      },
+      "failed": []
+    },
+    "mc180": {
+      "seed": 1180,
+      "meas": {
+        "isup_ua": 85.0603,
+        "power_uw": 153.109,
+        "vout_v": 0.893639,
+        "gain_db": 33.069,
+        "gbw_mhz": 375.727,
+        "pm_deg": 64.9112
+      },
+      "failed": []
+    },
+    "mc181": {
+      "seed": 1181,
+      "meas": {
+        "isup_ua": 84.5351,
+        "power_uw": 152.163,
+        "vout_v": 0.891491,
+        "gain_db": 28.0885,
+        "gbw_mhz": 368.991,
+        "pm_deg": 65.6443
+      },
+      "failed": []
+    },
+    "mc182": {
+      "seed": 1182,
+      "meas": {
+        "isup_ua": 84.1246,
+        "power_uw": 151.424,
+        "vout_v": 0.891868,
+        "gain_db": 29.0529,
+        "gbw_mhz": 369.283,
+        "pm_deg": 65.4102
+      },
+      "failed": []
+    },
+    "mc183": {
+      "seed": 1183,
+      "meas": {
+        "isup_ua": 85.3586,
+        "power_uw": 153.645,
+        "vout_v": 0.892759,
+        "gain_db": 31.2095,
+        "gbw_mhz": 374.864,
+        "pm_deg": 65.1795
+      },
+      "failed": []
+    },
+    "mc184": {
+      "seed": 1184,
+      "meas": {
+        "isup_ua": 85.0015,
+        "power_uw": 153.003,
+        "vout_v": 0.891651,
+        "gain_db": 28.5391,
+        "gbw_mhz": 370.607,
+        "pm_deg": 65.5717
+      },
+      "failed": []
+    },
+    "mc185": {
+      "seed": 1185,
+      "meas": {
+        "isup_ua": 84.5819,
+        "power_uw": 152.247,
+        "vout_v": 0.893734,
+        "gain_db": 33.2063,
+        "gbw_mhz": 374.797,
+        "pm_deg": 64.8325
+      },
+      "failed": []
+    },
+    "mc186": {
+      "seed": 1186,
+      "meas": {
+        "isup_ua": 84.3136,
+        "power_uw": 151.765,
+        "vout_v": 0.89289,
+        "gain_db": 31.4913,
+        "gbw_mhz": 372.413,
+        "pm_deg": 65.099
+      },
+      "failed": []
+    },
+    "mc187": {
+      "seed": 1187,
+      "meas": {
+        "isup_ua": 84.2348,
+        "power_uw": 151.623,
+        "vout_v": 0.894356,
+        "gain_db": 34.3192,
+        "gbw_mhz": 374.214,
+        "pm_deg": 64.8166
+      },
+      "failed": []
+    },
+    "mc188": {
+      "seed": 1188,
+      "meas": {
+        "isup_ua": 85.2932,
+        "power_uw": 153.528,
+        "vout_v": 0.891008,
+        "gain_db": 26.8735,
+        "gbw_mhz": 369.805,
+        "pm_deg": 65.8141
+      },
+      "failed": []
+    },
+    "mc189": {
+      "seed": 1189,
+      "meas": {
+        "isup_ua": 85.1028,
+        "power_uw": 153.185,
+        "vout_v": 0.894953,
+        "gain_db": 35.2889,
+        "gbw_mhz": 377.083,
+        "pm_deg": 64.7985
+      },
+      "failed": []
+    },
+    "mc190": {
+      "seed": 1190,
+      "meas": {
+        "isup_ua": 84.4094,
+        "power_uw": 151.937,
+        "vout_v": 0.894698,
+        "gain_db": 34.896,
+        "gbw_mhz": 375.06,
+        "pm_deg": 64.7854
+      },
+      "failed": []
+    },
+    "mc191": {
+      "seed": 1191,
+      "meas": {
+        "isup_ua": 84.8766,
+        "power_uw": 152.778,
+        "vout_v": 0.894482,
+        "gain_db": 34.5665,
+        "gbw_mhz": 376.346,
+        "pm_deg": 64.803
+      },
+      "failed": []
+    },
+    "mc192": {
+      "seed": 1192,
+      "meas": {
+        "isup_ua": 84.3135,
+        "power_uw": 151.764,
+        "vout_v": 0.894423,
+        "gain_db": 34.4637,
+        "gbw_mhz": 375.052,
+        "pm_deg": 64.727
+      },
+      "failed": []
+    },
+    "mc193": {
+      "seed": 1193,
+      "meas": {
+        "isup_ua": 84.3917,
+        "power_uw": 151.905,
+        "vout_v": 0.891545,
+        "gain_db": 28.2357,
+        "gbw_mhz": 369.261,
+        "pm_deg": 65.4918
+      },
+      "failed": []
+    },
+    "mc194": {
+      "seed": 1194,
+      "meas": {
+        "isup_ua": 84.278,
+        "power_uw": 151.7,
+        "vout_v": 0.892131,
+        "gain_db": 29.6979,
+        "gbw_mhz": 370.543,
+        "pm_deg": 65.2727
+      },
+      "failed": []
+    },
+    "mc195": {
+      "seed": 1195,
+      "meas": {
+        "isup_ua": 85.1072,
+        "power_uw": 153.193,
+        "vout_v": 0.893717,
+        "gain_db": 33.1894,
+        "gbw_mhz": 375.53,
+        "pm_deg": 64.998
+      },
+      "failed": []
+    },
+    "mc196": {
+      "seed": 1196,
+      "meas": {
+        "isup_ua": 83.7735,
+        "power_uw": 150.792,
+        "vout_v": 0.895068,
+        "gain_db": 35.4663,
+        "gbw_mhz": 373.255,
+        "pm_deg": 64.8005
+      },
+      "failed": []
+    },
+    "mc197": {
+      "seed": 1197,
+      "meas": {
+        "isup_ua": 84.9497,
+        "power_uw": 152.909,
+        "vout_v": 0.890828,
+        "gain_db": 26.3629,
+        "gbw_mhz": 367.545,
+        "pm_deg": 66.0489
+      },
+      "failed": []
+    },
+    "mc198": {
+      "seed": 1198,
+      "meas": {
+        "isup_ua": 84.9292,
+        "power_uw": 152.873,
+        "vout_v": 0.893019,
+        "gain_db": 31.7819,
+        "gbw_mhz": 374.185,
+        "pm_deg": 65.0385
+      },
+      "failed": []
+    },
+    "mc199": {
+      "seed": 1199,
+      "meas": {
+        "isup_ua": 84.1701,
+        "power_uw": 151.506,
+        "vout_v": 0.892692,
+        "gain_db": 31.0234,
+        "gbw_mhz": 371.425,
+        "pm_deg": 65.1564
+      },
+      "failed": []
+    }
+  }
+}

@@ -1,0 +1,631 @@
+{
+ "design": "iadc_ota",
+ "provenance": "PREDICTED (rule-based structure recognition, scripts/recognize_structures.py)",
+ "subckt": "iadc_ota",
+ "ports": [
+  "ip",
+  "in",
+  "op",
+  "on",
+  "VDD",
+  "VSS",
+  "cmc",
+  "cm",
+  "bias_a"
+ ],
+ "instances": [
+  {
+   "instance": "X1",
+   "subckt": "nmos_differential_pair",
+   "primitive": "nmos-differential-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M1",
+    "M2": "XX2_M2"
+   },
+   "passives": [],
+   "note": "common source x2_tail"
+  },
+  {
+   "instance": "X2",
+   "subckt": "nmos_current_mirror",
+   "primitive": "nmos-current-mirror",
+   "category": "bias-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XM9",
+    "M2": "XX1_M42",
+    "M3": "XX2_M40",
+    "M4": "XX2_M41",
+    "M5": "XX2_M30",
+    "M6": "XX2_M80",
+    "M7": "XX2_M81"
+   },
+   "passives": [],
+   "note": "gate VSS, source VSS"
+  },
+  {
+   "instance": "X3",
+   "subckt": "nmos_current_mirror",
+   "primitive": "nmos-current-mirror",
+   "category": "bias-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M44",
+    "M2": "XX1_M10"
+   },
+   "passives": [],
+   "note": "gate bias_c, source bias_c"
+  },
+  {
+   "instance": "X4",
+   "subckt": "nmos_current_mirror",
+   "primitive": "nmos-current-mirror",
+   "category": "bias-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M7",
+    "M2": "XX1_M6"
+   },
+   "passives": [],
+   "note": "gate i_bias, source VSS"
+  },
+  {
+   "instance": "X5",
+   "subckt": "pmos_current_mirror_load",
+   "primitive": "pmos-current-mirror-load",
+   "category": "load-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XM43",
+    "M2": "XM45",
+    "M3": "XX1_M57",
+    "M4": "XX1_M58",
+    "M5": "XX1_M59",
+    "M6": "XX1_M60",
+    "M7": "XX2_M55",
+    "M8": "XX2_M56",
+    "M9": "XX2_M61",
+    "M10": "XX2_M62"
+   },
+   "passives": [],
+   "note": "gate VDD, source VDD"
+  },
+  {
+   "instance": "X6",
+   "subckt": "pmos_current_mirror",
+   "primitive": "pmos-current-mirror",
+   "category": "bias-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M46",
+    "M2": "XX1_M51"
+   },
+   "passives": [],
+   "note": "gate x1_m21d, source x1_m21d"
+  },
+  {
+   "instance": "X7",
+   "subckt": "pmos_current_mirror",
+   "primitive": "pmos-current-mirror",
+   "category": "bias-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M54",
+    "M2": "XX1_M47"
+   },
+   "passives": [],
+   "note": "gate x1_m25d, source x1_m25d"
+  },
+  {
+   "instance": "X8",
+   "subckt": "nmos_matched_current_source_pair",
+   "primitive": "nmos-matched-current-source-pair",
+   "category": "load-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M3",
+    "M2": "XX2_M4"
+   },
+   "passives": [],
+   "note": "gate bias_a"
+  },
+  {
+   "instance": "X9",
+   "subckt": "nmos_matched_cascode_pair",
+   "primitive": "nmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M3A",
+    "M2": "XX2_M7"
+   },
+   "passives": [],
+   "note": "gate bias_d"
+  },
+  {
+   "instance": "X10",
+   "subckt": "nmos_matched_cascode_pair",
+   "primitive": "nmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M33",
+    "M2": "XX1_M49"
+   },
+   "passives": [],
+   "note": "gate cm"
+  },
+  {
+   "instance": "X11",
+   "subckt": "nmos_matched_cascode_pair",
+   "primitive": "nmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M50",
+    "M2": "XX1_M63"
+   },
+   "passives": [],
+   "note": "gate cm"
+  },
+  {
+   "instance": "X12",
+   "subckt": "nmos_matched_cascode_pair",
+   "primitive": "nmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M68",
+    "M2": "XX1_M69"
+   },
+   "passives": [],
+   "note": "gate cm"
+  },
+  {
+   "instance": "X13",
+   "subckt": "nmos_matched_cascode_pair",
+   "primitive": "nmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M70",
+    "M2": "XX1_M71"
+   },
+   "passives": [],
+   "note": "gate cm"
+  },
+  {
+   "instance": "X14",
+   "subckt": "nmos_matched_cascode_pair",
+   "primitive": "nmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M72",
+    "M2": "XX1_M73"
+   },
+   "passives": [],
+   "note": "gate cm"
+  },
+  {
+   "instance": "X15",
+   "subckt": "nmos_matched_cascode_pair",
+   "primitive": "nmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M74",
+    "M2": "XX1_M75"
+   },
+   "passives": [],
+   "note": "gate cm"
+  },
+  {
+   "instance": "X16",
+   "subckt": "nmos_matched_cascode_pair",
+   "primitive": "nmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M76",
+    "M2": "XX1_M77"
+   },
+   "passives": [],
+   "note": "gate cm"
+  },
+  {
+   "instance": "X17",
+   "subckt": "nmos_matched_cascode_pair",
+   "primitive": "nmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M78",
+    "M2": "XX1_M79"
+   },
+   "passives": [],
+   "note": "gate cm"
+  },
+  {
+   "instance": "X18",
+   "subckt": "nmos_matched_cascode_pair",
+   "primitive": "nmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M64",
+    "M2": "XX1_M65"
+   },
+   "passives": [],
+   "note": "gate cm"
+  },
+  {
+   "instance": "X19",
+   "subckt": "nmos_matched_cascode_pair",
+   "primitive": "nmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M66",
+    "M2": "XX1_M67"
+   },
+   "passives": [],
+   "note": "gate cm"
+  },
+  {
+   "instance": "X20",
+   "subckt": "nmos_matched_cascode_pair",
+   "primitive": "nmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M3",
+    "M2": "XX1_M35"
+   },
+   "passives": [],
+   "note": "gate x1_m2d"
+  },
+  {
+   "instance": "X21",
+   "subckt": "pmos_matched_current_source_pair",
+   "primitive": "pmos-matched-current-source-pair",
+   "category": "load-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M21",
+    "M2": "XX1_M25"
+   },
+   "passives": [],
+   "note": "gate bias_b"
+  },
+  {
+   "instance": "X22",
+   "subckt": "pmos_matched_current_source_pair",
+   "primitive": "pmos-matched-current-source-pair",
+   "category": "load-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M11",
+    "M2": "XX2_M12"
+   },
+   "passives": [],
+   "note": "gate bias_b"
+  },
+  {
+   "instance": "X23",
+   "subckt": "pmos_matched_cascode_pair",
+   "primitive": "pmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M22",
+    "M2": "XX1_M26"
+   },
+   "passives": [],
+   "note": "gate bias_c"
+  },
+  {
+   "instance": "X24",
+   "subckt": "pmos_matched_cascode_pair",
+   "primitive": "pmos-matched-cascode-pair",
+   "category": "gm-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M1A",
+    "M2": "XX2_M8"
+   },
+   "passives": [],
+   "note": "gate bias_c"
+  },
+  {
+   "instance": "X25",
+   "subckt": "nmos_diode",
+   "primitive": "nmos-diode",
+   "category": "bias-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M1"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X26",
+   "subckt": "nmos_diode",
+   "primitive": "nmos-diode",
+   "category": "bias-structure",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M2"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X27",
+   "subckt": "nmos_dummy",
+   "primitive": "nmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M27"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X28",
+   "subckt": "nmos_dummy",
+   "primitive": "nmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M29"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X29",
+   "subckt": "pmos_single",
+   "primitive": "pmos-single",
+   "category": "other",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M31"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X30",
+   "subckt": "pmos_single",
+   "primitive": "pmos-single",
+   "category": "other",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M32"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X31",
+   "subckt": "nmos_dummy",
+   "primitive": "nmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M34"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X32",
+   "subckt": "nmos_dummy",
+   "primitive": "nmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M36"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X33",
+   "subckt": "nmos_dummy",
+   "primitive": "nmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M37"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X34",
+   "subckt": "nmos_single",
+   "primitive": "nmos-single",
+   "category": "other",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M4"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X35",
+   "subckt": "pmos_dummy",
+   "primitive": "pmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M48"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X36",
+   "subckt": "nmos_single",
+   "primitive": "nmos-single",
+   "category": "other",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M5"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X37",
+   "subckt": "nmos_dummy",
+   "primitive": "nmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX1_M8"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X38",
+   "subckt": "nmos_dummy",
+   "primitive": "nmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M23"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X39",
+   "subckt": "nmos_dummy",
+   "primitive": "nmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M24"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X40",
+   "subckt": "nmos_dummy",
+   "primitive": "nmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M28"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X41",
+   "subckt": "nmos_dummy",
+   "primitive": "nmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M38"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X42",
+   "subckt": "nmos_dummy",
+   "primitive": "nmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M39"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X43",
+   "subckt": "nmos_single",
+   "primitive": "nmos-single",
+   "category": "other",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M5"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X44",
+   "subckt": "nmos_single",
+   "primitive": "nmos-single",
+   "category": "other",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M6"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X45",
+   "subckt": "pmos_dummy",
+   "primitive": "pmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M82"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X46",
+   "subckt": "pmos_dummy",
+   "primitive": "pmos-dummy",
+   "category": "dummy",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {
+    "M1": "XX2_M83"
+   },
+   "passives": [],
+   "note": ""
+  },
+  {
+   "instance": "X47",
+   "subckt": "capacitor",
+   "primitive": "capacitor",
+   "category": "passive",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {},
+   "passives": [
+    "XC3"
+   ],
+   "note": "op-cmc"
+  },
+  {
+   "instance": "X48",
+   "subckt": "capacitor",
+   "primitive": "capacitor",
+   "category": "passive",
+   "library": "scripts/recognize_structures.py (rule-based, PREDICTED)",
+   "transistors": {},
+   "passives": [
+    "XC4"
+   ],
+   "note": "on-cmc"
+  }
+ ]
+}

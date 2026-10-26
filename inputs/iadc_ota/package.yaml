@@ -1,0 +1,42 @@
+# Design package: iadc fully differential folded-cascode OTA (r09g/iadc, MIT), AC model with an ideal CMFB.
+# Generated inputs: circuits/iadc_ota/ (scripts/make_iadc_package.py, see its SOURCE.md).
+design: iadc_ota
+description: >
+  Fully differential folded-cascode OTA of the iadc incremental delta-sigma modulator, with a hand-drawn
+  Magic layout and its PEX netlist upstream. The switched-capacitor CMFB is modelled by an ideal source with
+  its steady-state law (ASSUMPTION). Specs are an ASSUMPTION.
+
+netlist: circuits/iadc_ota/source/iadc_ota.spice
+config: circuits/iadc_ota/source/config.yaml
+achieved: null
+reference: null                 # upstream has no OTA performance figures
+testbenches:
+  - circuits/iadc_ota/testbenches/dido_amp_AC.spice
+  - circuits/iadc_ota/testbenches/dido_amp_OP.spice
+  - circuits/iadc_ota/testbenches/dido_amp_NOISE.spice
+dut_subckt_in_testbench: iadc_ota
+
+upstream:
+  netlist: circuits/iadc_ota/source/iadc_ota.spice
+  hierarchy: circuits/iadc_ota/upstream/hierarchy.json
+  primitives: circuits/iadc_ota/upstream/primitives.json            # PREDICTED (rule-based)
+  equations: circuits/iadc_ota/upstream/equations.predicted.json    # PREDICTED (textbook)
+  name_map: circuits/iadc_ota/upstream/name_map.yaml
+
+bias_sources:
+  Ibias_ext: IBIAS              # 30 uA ideal bias current (testbench), removed in the layout view
+
+port_roles:                     # DUT ports outside the six standard ones
+  cmc: bias_ac_ground           # CMFB control, driven by the ideal CMFB in the wrapper: AC ground in DM
+  cm: bias_monitor              # CM reference made by the bias block, read by the ideal CMFB
+  bias_a: bias_monitor          # bias node read by the ideal CMFB (SC CMFB steady-state law)
+
+ac_drive: {INP: 0.5, INN: -0.5}
+s3_build_mode: A-bin            # many device types: build only the options the main mode can choose
+
+operating_point: null
+variation_ranges: null
+conditions_override: {}
+specs_from_achieved:
+  gain_db: {min_delta: -1.0}
+  gbw_mhz: {min_factor: 0.9}

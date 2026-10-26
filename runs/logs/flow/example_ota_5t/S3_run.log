@@ -1,11 +1,12 @@
-$ /usr/bin/python3 -m src.s3.run inputs/example_ota_5t/package.yaml --workers 4
+$ /usr/bin/python3 -m src.s3.run inputs/example_ota_5t/package.yaml --workers 2
 G3.1_chosen_DRC                          PASS
 G3.2_chosen_LVS_W_L_nf                   PASS
 G3.3_all_chosen_devices_in_circuit       PASS
 G3.4_option_table_complete               PASS
-G3.5_no_relaxation                       PASS
+G3.5_no_relaxation                       FAIL
 G3.6_model_has_no_gate_resistance        PASS
-  pfet_01v8_W8_L1_m1           -> nf2_gtop_sdfull_outS     area 24.8 um2  R(d,g,s)=59.2, 72.5, 29.6 ohm
-  nfet_01v8_W24_L0p5_m1        -> nf2_gtop_sdfull_outS     area 43.0 um2  R(d,g,s)=12.0, 273.5, 6.0 ohm
-  nfet_01v8_W24_L1_m1          -> nf4_gtop_sdhalf_outS     area 51.6 um2  R(d,g,s)=13.5, 44.3, 9.0 ohm
-S3 PASS -> outputs/S3/example_ota_5t
+G3.7_modes (info)                        FAIL
+  pfet_01v8_W8_L1_m1           -> nf1_gtop_sdfull          area 29.1 um2  R(d,g,s)=27.3, 209.2, 27.3 ohm
+  nfet_01v8_W24_L0p5_m1        -> nf1_gboth_sdfull         area 61.1 um2  R(d,g,s)=7.1, 273.5, 7.1 ohm
+  nfet_01v8_W24_L1_m1          -> nf1_gboth_sdfull         area 74.1 um2  R(d,g,s)=7.1, 136.7, 7.1 ohm
+S3 FAIL -> outputs/S3/example_ota_5t

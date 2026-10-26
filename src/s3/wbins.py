@@ -42,7 +42,7 @@ def bins(model: str) -> tuple:
 def bin_index(model: str, W: float, L: float) -> int | None:
     eps = 1e-9
     for i, (l0, l1, w0, w1) in enumerate(bins(model)):
-        if l0 - eps <= L < l1 + eps and w0 - eps <= W < w1 + eps:
+        if l0 - eps <= L < l1 - eps and w0 - eps <= W < w1 - eps:   # SPICE: min <= value < max
             return i
     return None
 

@@ -177,12 +177,14 @@ def write_full(nl: spice.Netlist, name: str) -> str:
 def write_layout(nl: spice.Netlist, name: str, bias: dict, bindings: dict | None = None) -> tuple[str, list]:
     """The circuit as laid out: ideal bias sources removed, their node exposed as a port (µm units)."""
     ren = {}
+    # the exposed node is the element's terminal that is not already a port (e.g. not VDD for a current
+    # source that feeds a bias node from the supply)
     for s in nl.sources:
         if s.name in bias:
-            ren[s.p] = bias[s.name]
+            ren[s.p if s.p not in nl.ports else s.n] = bias[s.name]
     for c in nl.passives:   # an off-chip passive (e.g. a bias resistor) declared in bias_sources
         if c.name in bias:
-            ren[c.a] = bias[c.name]
+            ren[c.a if c.a not in nl.ports else c.b] = bias[c.name]
     ports = list(nl.ports) + [v for v in bias.values()]
     lines = [f".subckt {name} " + " ".join(ports)]
     for m in nl.mosfets:

@@ -83,8 +83,9 @@ def run(s0_dir: Path, ir: dict, work: Path) -> dict:
         m_ = re.search(rf"^OPP {re.escape(c['name'])} (\S+)", log, re.M)
         if m_:
             mult = float(c.get("params", {}).get("M", 1))   # ngspice instance multiplier of the PDK subckt
-            try:
-                pas[c["name"]] = float(m_.group(1)) * mult
+            try:   # m parallel copies: C x m, R / m
+                v_ = float(m_.group(1))
+                pas[c["name"]] = v_ * mult if c["kind"] == "C" else v_ / mult
             except ValueError:
                 pas[c["name"]] = None
     isup = re.search(r"^OPI isup (\S+)", log, re.M)

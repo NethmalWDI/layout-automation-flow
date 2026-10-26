@@ -43,6 +43,27 @@ def with_conditions(txt: str, corner: str, vdd: float | None, temp: float | None
     return txt
 
 
+def looped(txt: str, vdds: list, temps: list) -> str:
+    """One ngspice run for many (VDD, temperature) pairs of one corner: the bench's control block is wrapped
+    in foreach loops (alter vsup dc, option temp) and every 'echo MEAS name value' becomes
+    'echo MEASP <vdd> <temp> name value'. Checked against separate runs (same values)."""
+    m = re.search(r"^\.control\s*\n(.*?)^\.endc", txt, re.S | re.M)
+    body = [ln for ln in m.group(1).splitlines()
+            if not re.match(r"\s*(quit|write|wrdata|set appendwrite|save\b)", ln)]
+    body = [re.sub(r"^(\s*)echo MEAS (\w+)", r"\1echo MEASP $vv $tt \2", ln) for ln in body]
+    ctrl = (".control\nsave all\nforeach vv " + " ".join(f"{v:g}" for v in vdds) + "\nforeach tt " +
+            " ".join(f"{t:g}" for t in temps) + "\ndestroy all\nalter vsup dc=$vv\noption temp=$tt\n" + "\n".join(body) +
+            "\nend\nend\nquit 0\n.endc")
+    return txt[:m.start()] + ctrl + txt[m.end():]
+
+
+def with_op_first(ac_txt: str, sig: str) -> str:
+    """AC bench that also reports its DC signal output first (benches that close the loop at DC: the
+    follower's output, i.e. the offset), so one Monte Carlo run gives both."""
+    return re.sub(r"^(\.control\s*\n(?:\s*save all\s*\n)?)", lambda m_: m_.group(1) +
+                  f"  op\n  let vout_v = {sig}\n  echo MEAS vout_v $&vout_v\n", ac_txt, count=1, flags=re.M)
+
+
 def follower(op_txt: str) -> str:
     """OP bench as a unity-gain follower (already one when it closes the loop at DC through a choke)."""
     if re.search(r"^L\S*\s+OUT\S*\s+IN[NP]\s", op_txt, re.M | re.I):
@@ -81,23 +102,44 @@ def main(argv=None) -> int:
     work = s0 / "pvt_work"
 
     jobs = []
-    for c, fv, t in itertools.product(CORNERS, VDD_FACTORS, TEMPS):
-        pid = f"{c}_v{fv:g}_t{t:g}"
+    for c in CORNERS:
         for k in kinds:
-            jobs.append(("pvt", pid, k, with_conditions(decks[k], c, vdd0 * fv, t), work / "pvt" / pid / k,
-                         {"corner": c, "vdd": vdd0 * fv, "temp": t}))
+            if k == "NOISE":   # noise plots cannot be looped cleanly: one run per point
+                for fv, t in itertools.product(VDD_FACTORS, TEMPS):
+                    pid = f"{c}_v{fv:g}_t{t:g}"
+                    jobs.append(("pvt", pid, k, with_conditions(decks[k], c, vdd0 * fv, t), work / "pvt" / pid / k,
+                                 {"corner": c, "vdd": vdd0 * fv, "temp": t}))
+            else:
+                jobs.append(("pvtloop", c, k, looped(with_conditions(decks[k], c, None, None),
+                                                     [vdd0 * f for f in VDD_FACTORS], list(TEMPS)),
+                             work / "pvt" / f"{c}_loop" / k, {"corner": c}))
     n_mc = a.mc if a.mc is not None else int(pkg.get("mc_runs", 200))
     fol = follower(decks["OP"])
+    chokes = fol == decks["OP"]          # the OP bench already is a follower: the AC bench is at the same DC point
+    sig = "v(OUTP) - v(OUTN)" if bench(tb, "AC").name.startswith("dido") else "v(OUT)"
     for i in range(n_mc):
         seed = 1000 + i
-        jobs.append(("mc", f"mc{i:03d}", "OP", with_conditions(fol, "tt_mm", None, None, seed), work / "mc" / f"{i:03d}" / "OP",
-                     {"seed": seed}))
-        jobs.append(("mc", f"mc{i:03d}", "AC", with_conditions(decks["AC"], "tt_mm", None, None, seed),
-                     work / "mc" / f"{i:03d}" / "AC", {"seed": seed}))
+        if chokes:
+            jobs.append(("mc", f"mc{i:03d}", "AC", with_conditions(with_op_first(decks["AC"], sig), "tt_mm", None, None, seed),
+                         work / "mc" / f"{i:03d}" / "AC", {"seed": seed}))
+        else:
+            jobs.append(("mc", f"mc{i:03d}", "OP", with_conditions(fol, "tt_mm", None, None, seed),
+                         work / "mc" / f"{i:03d}" / "OP", {"seed": seed}))
+            jobs.append(("mc", f"mc{i:03d}", "AC", with_conditions(decks["AC"], "tt_mm", None, None, seed),
+                         work / "mc" / f"{i:03d}" / "AC", {"seed": seed}))
 
     def one(j):
         grp, pid, k, txt, wd, cond = j
         r = run_ngspice_text(txt, wd, k.lower(), cache=False)
+        if grp == "pvtloop":
+            log = (wd / f"{k.lower()}.log").read_text() if (wd / f"{k.lower()}.log").exists() else ""
+            per = {}
+            for m_ in re.finditer(r"^MEASP (\S+) (\S+) (\w+) (\S+)", log, re.M):
+                try:
+                    per.setdefault((float(m_.group(1)), float(m_.group(2))), {})[m_.group(3)] = float(m_.group(4))
+                except ValueError:
+                    pass
+            return grp, pid, k, cond, per
         return grp, pid, k, cond, (r["meas"] if r["rc"] == 0 else None)
 
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
@@ -106,6 +148,16 @@ def main(argv=None) -> int:
     points: dict = {}
     mc: dict = {}
     for grp, pid, k, cond, meas in res:
+        if grp == "pvtloop":
+            for fv, t in itertools.product(VDD_FACTORS, TEMPS):
+                key = f"{pid}_v{fv:g}_t{t:g}"
+                rec = points.setdefault(key, {"corner": pid, "vdd": vdd0 * fv, "temp": t, "meas": {}, "failed": []})
+                got = next((v for (vv, tt), v in meas.items() if abs(vv - vdd0 * fv) < 1e-6 and abs(tt - t) < 1e-6), None)
+                if got:
+                    rec["meas"].update(got)
+                else:
+                    rec["failed"].append(k)
+            continue
         tgt = points if grp == "pvt" else mc
         rec = tgt.setdefault(pid, {**cond, "meas": {}, "failed": []})
         if meas is None:

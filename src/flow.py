@@ -84,7 +84,7 @@ def steps(stage: str, design: str, a) -> list[tuple[str, list[str]]]:
         if not (REPO / "outputs" / "S2" / "pdk" / "parasitics.json").exists():
             s.append(("pdk_parasitics", [PY, "-m", "src.s2.pdk_parasitics"]))
         # S2's expected need uses the default device cells of the S3 library (built before S2)
-        s.append(("cells", [PY, "-m", "src.s3.run", pkg, "--cells-only"] + w))
+        s.append(("cells", [PY, "-m", "src.s3.run", pkg, "--cells-only"] + w + [x for x in var["S3"] if x in ("--rules", "v1", "v2")]))
         s.append(("run", [PY, "-m", "src.s2.run", pkg] + w + var["S2"]))
         return s
     if stage == "S3":

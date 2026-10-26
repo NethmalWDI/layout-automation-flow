@@ -5,49 +5,564 @@
   "eta_note": "ASSUMPTION (accepted): fraction of each margin given to layout",
   "expected_layout_use": {
     "gain_db": {
-      "use_at_expected_need": 0.14328939388527814,
+      "use_at_expected_need": 0.14535925300940203,
       "margin": 1.6969999999999992,
-      "fraction_of_margin": 0.08443688502373495
+      "fraction_of_margin": 0.08565660165551096
     },
     "gbw_mhz": {
-      "use_at_expected_need": 5.151063160877285,
+      "use_at_expected_need": 4.909748008445994,
       "margin": 84.455,
-      "fraction_of_margin": 0.06099180819225961
+      "fraction_of_margin": 0.05813448592085719
     },
     "pm_deg": {
-      "use_at_expected_need": 1.709489493911564,
+      "use_at_expected_need": 1.568283754588304,
       "margin": 20.934799999999996,
-      "fraction_of_margin": 0.08165778960924223
+      "fraction_of_margin": 0.07491276508914842
     },
     "vnoise_nv_rthz": {
-      "use_at_expected_need": 0.9283822925425997,
+      "use_at_expected_need": 0.9309419713654755,
       "margin": 60.93599999999998,
-      "fraction_of_margin": 0.015235366491771696
+      "fraction_of_margin": 0.015277372511577325
     },
     "sat_XM3": {
-      "use_at_expected_need": 0.002213794697845717,
+      "use_at_expected_need": 0.002187800228215978,
       "margin": 1.048933,
-      "fraction_of_margin": 0.0021105205936372646
+      "fraction_of_margin": 0.002085738772844384
     },
     "sat_XM4": {
-      "use_at_expected_need": 0.002213794697845717,
+      "use_at_expected_need": 0.002187800228215978,
       "margin": 1.048933,
-      "fraction_of_margin": 0.0021105205936372646
+      "fraction_of_margin": 0.002085738772844384
     },
     "sat_XM1": {
-      "use_at_expected_need": 0.002584256705903273,
+      "use_at_expected_need": 0.00262076406957894,
       "margin": 0.1300596,
-      "fraction_of_margin": 0.01986978820404855
+      "fraction_of_margin": 0.020150485389613223
     },
     "sat_XM2": {
-      "use_at_expected_need": 0.002584256705903273,
+      "use_at_expected_need": 0.00262076406957894,
       "margin": 0.1300596,
-      "fraction_of_margin": 0.01986978820404855
+      "fraction_of_margin": 0.020150485389613223
     },
     "sat_XM5": {
-      "use_at_expected_need": 0.002450556819875891,
+      "use_at_expected_need": 0.0028767271060199558,
       "margin": 0.019568000000000002,
-      "fraction_of_margin": 0.12523287100755778
+      "fraction_of_margin": 0.14701181040576225
+    },
+    "pm_deg@ff_v0.9_t-40": {
+      "use_at_expected_need": 0.39683665366027304,
+      "margin": 93.12700000000001,
+      "fraction_of_margin": 0.004261241677067585
+    },
+    "gain_db@ff_v1.1_t-40": {
+      "use_at_expected_need": 0.1511488773934269,
+      "margin": 7.563499999999998,
+      "fraction_of_margin": 0.01998398590512685
+    },
+    "gbw_mhz@ff_v1.1_t-40": {
+      "use_at_expected_need": 5.47245549124222,
+      "margin": 96.044,
+      "fraction_of_margin": 0.05697862949525447
+    },
+    "pm_deg@ff_v1.1_t-40": {
+      "use_at_expected_need": 1.7039844931089516,
+      "margin": 19.969899999999996,
+      "fraction_of_margin": 0.08532764275779808
+    },
+    "gain_db@ff_v1.1_t27": {
+      "use_at_expected_need": 0.1531020242814682,
+      "margin": 6.162999999999997,
+      "fraction_of_margin": 0.024842126282892795
+    },
+    "gbw_mhz@ff_v1.1_t27": {
+      "use_at_expected_need": 5.906543883172628,
+      "margin": 102.69,
+      "fraction_of_margin": 0.057518199271327564
+    },
+    "pm_deg@ff_v1.1_t27": {
+      "use_at_expected_need": 1.7659271489916115,
+      "margin": 19.756299999999996,
+      "fraction_of_margin": 0.08938552001091357
+    },
+    "gain_db@ff_v1.1_t85": {
+      "use_at_expected_need": 0.15415415693244205,
+      "margin": 5.0961,
+      "fraction_of_margin": 0.030249437203438326
+    },
+    "gbw_mhz@ff_v1.1_t85": {
+      "use_at_expected_need": 5.820694053063626,
+      "margin": 100.73,
+      "fraction_of_margin": 0.05778510923323365
+    },
+    "pm_deg@ff_v1.1_t85": {
+      "use_at_expected_need": 1.743790526920613,
+      "margin": 19.852500000000006,
+      "fraction_of_margin": 0.08783732662992634
+    },
+    "gain_db@ff_v1_t-40": {
+      "use_at_expected_need": 0.14534298136134102,
+      "margin": 2.6396999999999977,
+      "fraction_of_margin": 0.05506041647207681
+    },
+    "gbw_mhz@ff_v1_t-40": {
+      "use_at_expected_need": 5.3462004383263775,
+      "margin": 92.836,
+      "fraction_of_margin": 0.05758757850754424
+    },
+    "pm_deg@ff_v1_t-40": {
+      "use_at_expected_need": 1.6697157631202195,
+      "margin": 20.831900000000005,
+      "fraction_of_margin": 0.08015187107850072
+    },
+    "gbw_mhz@ff_v1_t27": {
+      "use_at_expected_need": 5.647214168197476,
+      "margin": 96.546,
+      "fraction_of_margin": 0.058492471652864704
+    },
+    "pm_deg@ff_v1_t27": {
+      "use_at_expected_need": 1.7018135748562901,
+      "margin": 21.439400000000006,
+      "fraction_of_margin": 0.07937785455079385
+    },
+    "gbw_mhz@ff_v1_t85": {
+      "use_at_expected_need": 5.469519869598766,
+      "margin": 92.506,
+      "fraction_of_margin": 0.05912610932911126
+    },
+    "pm_deg@ff_v1_t85": {
+      "use_at_expected_need": 1.6557492555461324,
+      "margin": 22.272199999999998,
+      "fraction_of_margin": 0.07434152241566314
+    },
+    "gain_db@fs_v0.9_t-40": {
+      "use_at_expected_need": 0.14528104656355273,
+      "margin": 1.4284999999999997,
+      "fraction_of_margin": 0.1017018176853712
+    },
+    "gbw_mhz@fs_v0.9_t-40": {
+      "use_at_expected_need": 3.1778203935380973,
+      "margin": 46.315,
+      "fraction_of_margin": 0.0686132007673129
+    },
+    "pm_deg@fs_v0.9_t-40": {
+      "use_at_expected_need": 1.159415318895596,
+      "margin": 22.386399999999995,
+      "fraction_of_margin": 0.05179105702103046
+    },
+    "gbw_mhz@fs_v0.9_t27": {
+      "use_at_expected_need": 3.7400079372738055,
+      "margin": 58.8186,
+      "fraction_of_margin": 0.06358546339548724
+    },
+    "pm_deg@fs_v0.9_t27": {
+      "use_at_expected_need": 1.2946995809409634,
+      "margin": 22.793499999999995,
+      "fraction_of_margin": 0.056801262681947205
+    },
+    "gbw_mhz@fs_v0.9_t85": {
+      "use_at_expected_need": 3.8552453481776414,
+      "margin": 60.5026,
+      "fraction_of_margin": 0.06372032521210066
+    },
+    "pm_deg@fs_v0.9_t85": {
+      "use_at_expected_need": 1.3050272333829591,
+      "margin": 23.8502,
+      "fraction_of_margin": 0.05471766414465955
+    },
+    "gain_db@fs_v1.1_t-40": {
+      "use_at_expected_need": 0.14690189794905212,
+      "margin": 9.418700000000001,
+      "fraction_of_margin": 0.015596833740224457
+    },
+    "gbw_mhz@fs_v1.1_t-40": {
+      "use_at_expected_need": 3.238922417821621,
+      "margin": 48.761700000000005,
+      "fraction_of_margin": 0.06642349257350791
+    },
+    "pm_deg@fs_v1.1_t-40": {
+      "use_at_expected_need": 1.193323512423743,
+      "margin": 21.292599999999993,
+      "fraction_of_margin": 0.05604404875044585
+    },
+    "gain_db@fs_v1.1_t27": {
+      "use_at_expected_need": 0.15101580146091484,
+      "margin": 8.736400000000003,
+      "fraction_of_margin": 0.01728581583500238
+    },
+    "gbw_mhz@fs_v1.1_t27": {
+      "use_at_expected_need": 3.927927340195378,
+      "margin": 64.8596,
+      "fraction_of_margin": 0.0605604619855099
+    },
+    "pm_deg@fs_v1.1_t27": {
+      "use_at_expected_need": 1.3702053286431155,
+      "margin": 20.4148,
+      "fraction_of_margin": 0.06711823425373335
+    },
+    "gain_db@fs_v1.1_t85": {
+      "use_at_expected_need": 0.15365206148589414,
+      "margin": 7.977699999999999,
+      "fraction_of_margin": 0.01926019548063905
+    },
+    "gbw_mhz@fs_v1.1_t85": {
+      "use_at_expected_need": 4.161546340655971,
+      "margin": 69.5521,
+      "fraction_of_margin": 0.05983351100334816
+    },
+    "pm_deg@fs_v1.1_t85": {
+      "use_at_expected_need": 1.4216175817936676,
+      "margin": 20.178299999999993,
+      "fraction_of_margin": 0.07045279244503591
+    },
+    "gain_db@fs_v1_t-40": {
+      "use_at_expected_need": 0.1452780295181082,
+      "margin": 7.485700000000001,
+      "fraction_of_margin": 0.019407407392509474
+    },
+    "gbw_mhz@fs_v1_t-40": {
+      "use_at_expected_need": 3.2258710824518184,
+      "margin": 48.32340000000001,
+      "fraction_of_margin": 0.06675587981085392
+    },
+    "pm_deg@fs_v1_t-40": {
+      "use_at_expected_need": 1.1851841426404353,
+      "margin": 21.4602,
+      "fraction_of_margin": 0.05522707815586226
+    },
+    "gain_db@fs_v1_t27": {
+      "use_at_expected_need": 0.14764225957820673,
+      "margin": 6.2287000000000035,
+      "fraction_of_margin": 0.02370354320776513
+    },
+    "gbw_mhz@fs_v1_t27": {
+      "use_at_expected_need": 3.8896643858120195,
+      "margin": 63.8638,
+      "fraction_of_margin": 0.060905620802583306
+    },
+    "pm_deg@fs_v1_t27": {
+      "use_at_expected_need": 1.3535646612547332,
+      "margin": 20.721999999999994,
+      "fraction_of_margin": 0.0653201747541132
+    },
+    "gain_db@fs_v1_t85": {
+      "use_at_expected_need": 0.14918012348410023,
+      "margin": 5.139000000000003,
+      "fraction_of_margin": 0.02902901799651686
+    },
+    "gbw_mhz@fs_v1_t85": {
+      "use_at_expected_need": 4.104753720702242,
+      "margin": 68.1936,
+      "fraction_of_margin": 0.060192653279812804
+    },
+    "pm_deg@fs_v1_t85": {
+      "use_at_expected_need": 1.3992318006731783,
+      "margin": 20.596199999999996,
+      "fraction_of_margin": 0.06793640577743364
+    },
+    "gain_db@sf_v1.1_t-40": {
+      "use_at_expected_need": 0.1495446787993454,
+      "margin": 5.7742,
+      "fraction_of_margin": 0.02589877018450095
+    },
+    "gbw_mhz@sf_v1.1_t-40": {
+      "use_at_expected_need": 6.219282462640971,
+      "margin": 108.161,
+      "fraction_of_margin": 0.05750023079151423
+    },
+    "pm_deg@sf_v1.1_t-40": {
+      "use_at_expected_need": 1.830734658764074,
+      "margin": 19.7847,
+      "fraction_of_margin": 0.09253284905831648
+    },
+    "gain_db@sf_v1.1_t27": {
+      "use_at_expected_need": 0.14978685187877028,
+      "margin": 3.6818000000000026,
+      "fraction_of_margin": 0.040683049562379864
+    },
+    "gbw_mhz@sf_v1.1_t27": {
+      "use_at_expected_need": 6.403159529870005,
+      "margin": 110.19399999999999,
+      "fraction_of_margin": 0.058108059693540534
+    },
+    "pm_deg@sf_v1.1_t27": {
+      "use_at_expected_need": 1.8392639652261848,
+      "margin": 19.9405,
+      "fraction_of_margin": 0.0922376051365906
+    },
+    "gain_db@sf_v1.1_t85": {
+      "use_at_expected_need": 0.1498198788091235,
+      "margin": 2.2490000000000023,
+      "fraction_of_margin": 0.06661622001294946
+    },
+    "gbw_mhz@sf_v1.1_t85": {
+      "use_at_expected_need": 6.154690371238071,
+      "margin": 105.587,
+      "fraction_of_margin": 0.05829022863835577
+    },
+    "pm_deg@sf_v1.1_t85": {
+      "use_at_expected_need": 1.7880060751583902,
+      "margin": 20.273899999999998,
+      "fraction_of_margin": 0.0881925073694943
+    },
+    "gbw_mhz@sf_v1_t-40": {
+      "use_at_expected_need": 5.673022742398978,
+      "margin": 92.835,
+      "fraction_of_margin": 0.06110866313781417
+    },
+    "pm_deg@sf_v1_t-40": {
+      "use_at_expected_need": 1.7088856639637273,
+      "margin": 24.366299999999995,
+      "fraction_of_margin": 0.07013316194759679
+    },
+    "gbw_mhz@sf_v1_t27": {
+      "use_at_expected_need": 4.859120970920732,
+      "margin": 73.8689,
+      "fraction_of_margin": 0.06578033476768616
+    },
+    "pm_deg@sf_v1_t27": {
+      "use_at_expected_need": 1.429548697083072,
+      "margin": 33.6305,
+      "fraction_of_margin": 0.04250750649211496
+    },
+    "gbw_mhz@sf_v1_t85": {
+      "use_at_expected_need": 4.198952209944825,
+      "margin": 59.141000000000005,
+      "fraction_of_margin": 0.07099900593403603
+    },
+    "pm_deg@sf_v1_t85": {
+      "use_at_expected_need": 1.216955468495174,
+      "margin": 40.150000000000006,
+      "fraction_of_margin": 0.03031022337472413
+    },
+    "gbw_mhz@ss_v0.9_t-40": {
+      "use_at_expected_need": 3.2368636702818945,
+      "margin": 43.3235,
+      "fraction_of_margin": 0.07471380821683138
+    },
+    "pm_deg@ss_v0.9_t-40": {
+      "use_at_expected_need": 1.08582660997847,
+      "margin": 30.697999999999993,
+      "fraction_of_margin": 0.035371249266351885
+    },
+    "gbw_mhz@ss_v0.9_t27": {
+      "use_at_expected_need": 2.9217371704474044,
+      "margin": 29.2549,
+      "fraction_of_margin": 0.0998717196246579
+    },
+    "pm_deg@ss_v0.9_t27": {
+      "use_at_expected_need": 0.8151020428166641,
+      "margin": 49.149,
+      "fraction_of_margin": 0.016584305740028567
+    },
+    "gbw_mhz@ss_v0.9_t85": {
+      "use_at_expected_need": 2.730830995114176,
+      "margin": 21.4916,
+      "fraction_of_margin": 0.12706503913688028
+    },
+    "pm_deg@ss_v0.9_t85": {
+      "use_at_expected_need": 0.6875850574369134,
+      "margin": 57.884,
+      "fraction_of_margin": 0.01187867212765036
+    },
+    "gain_db@ss_v1.1_t-40": {
+      "use_at_expected_need": 0.14740778587609438,
+      "margin": 8.8397,
+      "fraction_of_margin": 0.016675654815898094
+    },
+    "gbw_mhz@ss_v1.1_t-40": {
+      "use_at_expected_need": 3.706859319333813,
+      "margin": 60.294200000000004,
+      "fraction_of_margin": 0.06147953400714849
+    },
+    "pm_deg@ss_v1.1_t-40": {
+      "use_at_expected_need": 1.3191506840396465,
+      "margin": 20.750200000000007,
+      "fraction_of_margin": 0.06357291419068954
+    },
+    "gain_db@ss_v1.1_t27": {
+      "use_at_expected_need": 0.1505548476171803,
+      "margin": 7.8279,
+      "fraction_of_margin": 0.01923310819213075
+    },
+    "gbw_mhz@ss_v1.1_t27": {
+      "use_at_expected_need": 4.3623535789675785,
+      "margin": 74.0095,
+      "fraction_of_margin": 0.05894315701318856
+    },
+    "pm_deg@ss_v1.1_t27": {
+      "use_at_expected_need": 1.4643711541505193,
+      "margin": 20.0839,
+      "fraction_of_margin": 0.07291268897726634
+    },
+    "gain_db@ss_v1.1_t85": {
+      "use_at_expected_need": 0.15237422049151578,
+      "margin": 6.9018000000000015,
+      "fraction_of_margin": 0.02207746102343095
+    },
+    "gbw_mhz@ss_v1.1_t85": {
+      "use_at_expected_need": 4.521302799810091,
+      "margin": 76.8367,
+      "fraction_of_margin": 0.05884301121482432
+    },
+    "pm_deg@ss_v1.1_t85": {
+      "use_at_expected_need": 1.493669989478139,
+      "margin": 19.9662,
+      "fraction_of_margin": 0.07480992825265392
+    },
+    "gain_db@ss_v1_t-40": {
+      "use_at_expected_need": 0.14528917418398266,
+      "margin": 5.640300000000003,
+      "fraction_of_margin": 0.02575912171054422
+    },
+    "gbw_mhz@ss_v1_t-40": {
+      "use_at_expected_need": 3.6729679650095286,
+      "margin": 59.2469,
+      "fraction_of_margin": 0.0619942640882397
+    },
+    "pm_deg@ss_v1_t-40": {
+      "use_at_expected_need": 1.3039631165743284,
+      "margin": 21.1246,
+      "fraction_of_margin": 0.06172723348959641
+    },
+    "gain_db@ss_v1_t27": {
+      "use_at_expected_need": 0.1454767666034134,
+      "margin": 3.510300000000001,
+      "fraction_of_margin": 0.041442830129451436
+    },
+    "gbw_mhz@ss_v1_t27": {
+      "use_at_expected_need": 4.27737523832114,
+      "margin": 71.837,
+      "fraction_of_margin": 0.059542787676561376
+    },
+    "pm_deg@ss_v1_t27": {
+      "use_at_expected_need": 1.4338304746389263,
+      "margin": 20.785300000000007,
+      "fraction_of_margin": 0.06898290977945595
+    },
+    "gain_db@ss_v1_t85": {
+      "use_at_expected_need": 0.14594583558162194,
+      "margin": 1.9258999999999986,
+      "fraction_of_margin": 0.07578058859838104
+    },
+    "gbw_mhz@ss_v1_t85": {
+      "use_at_expected_need": 4.399585896461628,
+      "margin": 73.7838,
+      "fraction_of_margin": 0.05962807413635009
+    },
+    "pm_deg@ss_v1_t85": {
+      "use_at_expected_need": 1.4526192777371274,
+      "margin": 20.951999999999998,
+      "fraction_of_margin": 0.06933081699776286
+    },
+    "gbw_mhz@tt_v0.9_t-40": {
+      "use_at_expected_need": 3.0796805980460684,
+      "margin": 33.0003,
+      "fraction_of_margin": 0.09332280609709816
+    },
+    "pm_deg@tt_v0.9_t-40": {
+      "use_at_expected_need": 0.8877832476994364,
+      "margin": 48.032,
+      "fraction_of_margin": 0.018483162218925642
+    },
+    "gbw_mhz@tt_v0.9_t27": {
+      "use_at_expected_need": 2.36751076431309,
+      "margin": 4.967500000000001,
+      "fraction_of_margin": 0.47660005320847293
+    },
+    "pm_deg@tt_v0.9_t27": {
+      "use_at_expected_need": 0.4759349993008886,
+      "margin": 81.97,
+      "fraction_of_margin": 0.005806209580345109
+    },
+    "pm_deg@tt_v0.9_t85": {
+      "use_at_expected_need": 0.4681292165530864,
+      "margin": 92.043,
+      "fraction_of_margin": 0.005085983904838894
+    },
+    "gain_db@tt_v1.1_t-40": {
+      "use_at_expected_need": 0.14930615185325946,
+      "margin": 8.262799999999999,
+      "fraction_of_margin": 0.018069679993859163
+    },
+    "gbw_mhz@tt_v1.1_t-40": {
+      "use_at_expected_need": 4.490997907076273,
+      "margin": 77.4796,
+      "fraction_of_margin": 0.05796361761129733
+    },
+    "pm_deg@tt_v1.1_t-40": {
+      "use_at_expected_need": 1.5044489266475571,
+      "margin": 20.309399999999997,
+      "fraction_of_margin": 0.07407648313822945
+    },
+    "gain_db@tt_v1.1_t27": {
+      "use_at_expected_need": 0.15194228001457905,
+      "margin": 7.053899999999999,
+      "fraction_of_margin": 0.021540180611375137
+    },
+    "gbw_mhz@tt_v1.1_t27": {
+      "use_at_expected_need": 5.0779615243872,
+      "margin": 88.076,
+      "fraction_of_margin": 0.05765431586796857
+    },
+    "pm_deg@tt_v1.1_t27": {
+      "use_at_expected_need": 1.6118128039221509,
+      "margin": 19.870999999999995,
+      "fraction_of_margin": 0.08111382436325053
+    },
+    "gain_db@tt_v1.1_t85": {
+      "use_at_expected_need": 0.15339963804877232,
+      "margin": 6.055399999999999,
+      "fraction_of_margin": 0.025332701068265077
+    },
+    "gbw_mhz@tt_v1.1_t85": {
+      "use_at_expected_need": 5.133308676934735,
+      "margin": 88.627,
+      "fraction_of_margin": 0.057920370507122385
+    },
+    "pm_deg@tt_v1.1_t85": {
+      "use_at_expected_need": 1.6165675294959938,
+      "margin": 19.862899999999996,
+      "fraction_of_margin": 0.08138627942022535
+    },
+    "gain_db@tt_v1_t-40": {
+      "use_at_expected_need": 0.14531372752201197,
+      "margin": 4.3324,
+      "fraction_of_margin": 0.033541161370605664
+    },
+    "gbw_mhz@tt_v1_t-40": {
+      "use_at_expected_need": 4.424600952996155,
+      "margin": 75.6602,
+      "fraction_of_margin": 0.05847990030420425
+    },
+    "pm_deg@tt_v1_t-40": {
+      "use_at_expected_need": 1.481103170665175,
+      "margin": 20.870900000000006,
+      "fraction_of_margin": 0.07096498812534076
+    },
+    "gain_db@tt_v1_t27": {
+      "use_at_expected_need": 0.14535925300940272,
+      "margin": 1.6969999999999992,
+      "fraction_of_margin": 0.08565660165551137
+    },
+    "gbw_mhz@tt_v1_t27": {
+      "use_at_expected_need": 4.930487397585605,
+      "margin": 84.455,
+      "fraction_of_margin": 0.058380053254225385
+    },
+    "pm_deg@tt_v1_t27": {
+      "use_at_expected_need": 1.567711038668334,
+      "margin": 20.934799999999996,
+      "fraction_of_margin": 0.07488540796512669
+    },
+    "gbw_mhz@tt_v1_t85": {
+      "use_at_expected_need": 4.930266938067689,
+      "margin": 83.744,
+      "fraction_of_margin": 0.05887307673466384
+    },
+    "pm_deg@tt_v1_t85": {
+      "use_at_expected_need": 1.5580576593589464,
+      "margin": 21.362099999999998,
+      "fraction_of_margin": 0.07293560367936422
     }
   },
   "default_cells_used": [
@@ -63,24 +578,38 @@
         "OUTP"
       ],
       "units": "fF",
-      "w": 4.555122154000001,
-      "w_basis": "route estimate 20.7 um of met1 + 2.8 fF inside the default device cells",
+      "w": 3.759372154000001,
+      "w_basis": "route estimate 20.7 um of met1 + 2.8 fF inside the default device cells (v2: cells of the library's representative option, 2)",
       "w_parts": {
         "wiring": 1.7581221540000007,
-        "device_cells": 2.797,
+        "device_cells": 2.00125,
         "device_cells_by_device": {
+          "XM4": 0.9568,
+          "XM2": 1.04445
+        },
+        "device_cells_default_option": 2.797,
+        "device_cells_by_device_default_option": {
           "XM4": 0.9568,
           "XM2": 1.8402
         }
       },
-      "budget": 45.551221540000014,
-      "budget_maxmin": 45.551221540000014,
-      "multiple_of_expected": 10.0,
+      "budget": 3.7593721540000007,
+      "budget_maxmin": 3.9439485252801547,
+      "multiple_of_expected": 0.9999999999999999,
       "binding": [
-        "cap_kappa"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gbw_mhz": 4.314951054215481
+        "gbw_mhz": 0.35611573720028544
+      },
+      "floor": 0.6019300000000001,
+      "floor_source": {
+        "floor": 0.6019300000000001,
+        "per_type_option": {
+          "pfet_01v8_W8_L1_m1": "nf1_gboth_sdhalf",
+          "nfet_01v8_W24_L0p5_m1": "nf2_gboth_sdhalf_outS"
+        },
+        "kind": "cell capacitance"
       }
     },
     {
@@ -90,25 +619,40 @@
         "net1"
       ],
       "units": "fF",
-      "w": 11.142705792000001,
-      "w_basis": "route estimate 42.8 um of met1 + 7.52 fF inside the default device cells",
+      "w": 8.230075792000001,
+      "w_basis": "route estimate 42.8 um of met1 + 7.52 fF inside the default device cells (v2: cells of the library's representative option, 4.61)",
       "w_parts": {
         "wiring": 3.623875792000001,
-        "device_cells": 7.5188299999999995,
+        "device_cells": 4.606199999999999,
         "device_cells_by_device": {
+          "XM1": 1.04445,
+          "XM2": 1.04445,
+          "XM5": 2.5172999999999996
+        },
+        "device_cells_default_option": 7.5188299999999995,
+        "device_cells_by_device_default_option": {
           "XM1": 1.8402,
           "XM2": 1.8402,
           "XM5": 3.83843
         }
       },
-      "budget": 111.42705792000001,
-      "budget_maxmin": 111.42705792000001,
-      "multiple_of_expected": 10.0,
+      "budget": 8.740646206855251,
+      "budget_maxmin": 8.634153245048028,
+      "multiple_of_expected": 1.062037146164747,
       "binding": [
-        "cap_kappa"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gbw_mhz": 0.028444253749984223
+        "gbw_mhz": 0.002231245832813135
+      },
+      "floor": 1.5545799999999999,
+      "floor_source": {
+        "floor": 1.5545799999999999,
+        "per_type_option": {
+          "nfet_01v8_W24_L0p5_m1": "nf2_gboth_sdhalf_outD",
+          "nfet_01v8_W24_L1_m1": "nf2_gtop_sdhalf_outS"
+        },
+        "kind": "cell capacitance"
       }
     },
     {
@@ -118,26 +662,41 @@
         "net3"
       ],
       "units": "fF",
-      "w": 7.761674134000001,
-      "w_basis": "route estimate 33.9 um of met1 + 4.89 fF inside the default device cells",
+      "w": 6.965924134000001,
+      "w_basis": "route estimate 33.9 um of met1 + 4.89 fF inside the default device cells (v2: cells of the library's representative option, 4.09)",
       "w_parts": {
         "wiring": 2.8725741340000006,
-        "device_cells": 4.8891,
+        "device_cells": 4.09335,
         "device_cells_by_device": {
+          "XM3": 2.00285,
+          "XM4": 1.04605,
+          "XM1": 1.04445
+        },
+        "device_cells_default_option": 4.8891,
+        "device_cells_by_device_default_option": {
           "XM3": 2.00285,
           "XM4": 1.04605,
           "XM1": 1.8402
         }
       },
-      "budget": 45.156788561787444,
-      "budget_maxmin": 47.53346164398679,
-      "multiple_of_expected": 5.817918632267516,
+      "budget": 69.65924133999626,
+      "budget_maxmin": 69.65924134000001,
+      "multiple_of_expected": 9.999999999999462,
       "binding": [
-        "pm_deg"
+        "cap_kappa"
       ],
       "margin_used": {
-        "gbw_mhz": 2.615098865665063,
-        "pm_deg": 2.8774271716520805
+        "gbw_mhz": 4.034073476284922,
+        "pm_deg": 4.438743324585992
+      },
+      "floor": 2.10724,
+      "floor_source": {
+        "floor": 2.10724,
+        "per_type_option": {
+          "pfet_01v8_W8_L1_m1": "nf1_gtop_sdhalf",
+          "nfet_01v8_W24_L0p5_m1": "nf2_gboth_sdhalf_outS"
+        },
+        "kind": "cell capacitance"
       }
     },
     {
@@ -148,23 +707,35 @@
         "net1"
       ],
       "units": "fF",
-      "w": 1.4590584370000002,
-      "w_basis": "coupling estimate 5.2 um of met1 + 1.17 fF inside the default device cells",
+      "w": 0.8791684370000001,
+      "w_basis": "coupling estimate 5.2 um of met1 + 1.17 fF inside the default device cells (v2: cells of the library's representative option, 0.587)",
       "w_parts": {
         "wiring": 0.2925584370000001,
-        "device_cells": 1.1665,
+        "device_cells": 0.58661,
         "device_cells_by_device": {
+          "XM2": 0.58661
+        },
+        "device_cells_default_option": 1.1665,
+        "device_cells_by_device_default_option": {
           "XM2": 1.1665
         }
       },
-      "budget": 14.59058437,
-      "budget_maxmin": 14.590584370000002,
-      "multiple_of_expected": 9.999999999999998,
+      "budget": 2.630883507599137,
+      "budget_maxmin": 0.9223335489383976,
+      "multiple_of_expected": 2.9924681060850418,
       "binding": [
-        "cap_kappa"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gbw_mhz": 1.2526265143855264
+        "gbw_mhz": 0.22586582924356677
+      },
+      "floor": 0.58661,
+      "floor_source": {
+        "floor": 0.58661,
+        "per_type_option": {
+          "nfet_01v8_W24_L0p5_m1": "nf1_gboth_sdhalf"
+        },
+        "kind": "cell capacitance"
       }
     },
     {
@@ -176,23 +747,35 @@
       ],
       "units": "fF",
       "w": 0.7274684370000002,
-      "w_basis": "coupling estimate 5.2 um of met1 + 0.435 fF inside the default device cells",
+      "w_basis": "coupling estimate 5.2 um of met1 + 0.435 fF inside the default device cells (v2: cells of the library's representative option, 0.435)",
       "w_parts": {
         "wiring": 0.2925584370000001,
         "device_cells": 0.43491,
         "device_cells_by_device": {
           "XM4": 0.43491
+        },
+        "device_cells_default_option": 0.43491,
+        "device_cells_by_device_default_option": {
+          "XM4": 0.43491
         }
       },
-      "budget": 5.545900671239799,
-      "budget_maxmin": 4.455107551588242,
-      "multiple_of_expected": 7.623561915772571,
+      "budget": 1.7737482298653282,
+      "budget_maxmin": 0.7631854341000178,
+      "multiple_of_expected": 2.4382476814802727,
       "binding": [
-        "pm_deg"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gbw_mhz": 1.377033929324568,
-        "pm_deg": 0.6523327209927445
+        "gbw_mhz": 0.44041746136393034,
+        "pm_deg": 0.20863590564189585
+      },
+      "floor": 0.22127,
+      "floor_source": {
+        "floor": 0.22127,
+        "per_type_option": {
+          "pfet_01v8_W8_L1_m1": "nf1_gboth_sdhalf"
+        },
+        "kind": "cell capacitance"
       }
     },
     {
@@ -210,14 +793,14 @@
         "device_cells": 0,
         "device_cells_by_device": {}
       },
-      "budget": 1.9983384200000005,
-      "budget_maxmin": 1.9983384200000005,
-      "multiple_of_expected": 10.0,
+      "budget": 1.0357955739353153,
+      "budget_maxmin": 0.2096452157891276,
+      "multiple_of_expected": 5.183284090265928,
       "binding": [
-        "cap_kappa"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gbw_mhz": 0.20660206752912122
+        "gbw_mhz": 0.10708772096397408
       }
     },
     {
@@ -228,24 +811,36 @@
         "INN"
       ],
       "units": "fF",
-      "w": 1.052383842,
-      "w_basis": "coupling estimate 3.5 um of met1 + 0.853 fF inside the default device cells",
+      "w": 0.628603842,
+      "w_basis": "coupling estimate 3.5 um of met1 + 0.853 fF inside the default device cells (v2: cells of the library's representative option, 0.429)",
       "w_parts": {
         "wiring": 0.19983384200000004,
-        "device_cells": 0.85255,
+        "device_cells": 0.42877,
         "device_cells_by_device": {
+          "XM2": 0.42877
+        },
+        "device_cells_default_option": 0.85255,
+        "device_cells_by_device_default_option": {
           "XM2": 0.85255
         }
       },
-      "budget": 10.523838419999999,
-      "budget_maxmin": 6.444930065967448,
-      "multiple_of_expected": 9.999999999999998,
+      "budget": 1.0561477089191755,
+      "budget_maxmin": 0.6594668189483373,
+      "multiple_of_expected": 1.6801483515577615,
       "binding": [
-        "pm_deg"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gbw_mhz": 0.9057658967856513,
-        "pm_deg": 0.2073935164575115
+        "gbw_mhz": 0.09090053823795674,
+        "pm_deg": 0.020813526254358068
+      },
+      "floor": 0.42877,
+      "floor_source": {
+        "floor": 0.42877,
+        "per_type_option": {
+          "nfet_01v8_W24_L0p5_m1": "nf1_gboth_sdhalf"
+        },
+        "kind": "cell capacitance"
       }
     },
     {
@@ -256,24 +851,36 @@
         "net3"
       ],
       "units": "fF",
-      "w": 1.6445076270000003,
-      "w_basis": "coupling estimate 8.5 um of met1 + 1.17 fF inside the default device cells",
+      "w": 1.064617627,
+      "w_basis": "coupling estimate 8.5 um of met1 + 1.17 fF inside the default device cells (v2: cells of the library's representative option, 0.587)",
       "w_parts": {
         "wiring": 0.4780076270000001,
-        "device_cells": 1.1665,
+        "device_cells": 0.58661,
         "device_cells_by_device": {
+          "XM1": 0.58661
+        },
+        "device_cells_default_option": 1.1665,
+        "device_cells_by_device_default_option": {
           "XM1": 1.1665
         }
       },
-      "budget": 9.56761156402936,
-      "budget_maxmin": 10.071170067399308,
-      "multiple_of_expected": 5.817918632267528,
+      "budget": 10.646176269999428,
+      "budget_maxmin": 10.646176270000002,
+      "multiple_of_expected": 9.999999999999462,
       "binding": [
-        "pm_deg"
+        "cap_kappa"
       ],
       "margin_used": {
-        "gbw_mhz": 0.38097018270487126,
-        "pm_deg": 0.7117402225983763
+        "gbw_mhz": 0.4239172641517474,
+        "pm_deg": 0.7919752821821072
+      },
+      "floor": 0.58661,
+      "floor_source": {
+        "floor": 0.58661,
+        "per_type_option": {
+          "nfet_01v8_W24_L0p5_m1": "nf1_gboth_sdhalf"
+        },
+        "kind": "cell capacitance"
       }
     },
     {
@@ -284,23 +891,35 @@
         "INP"
       ],
       "units": "fF",
-      "w": 1.052383842,
-      "w_basis": "coupling estimate 3.5 um of met1 + 0.853 fF inside the default device cells",
+      "w": 0.628603842,
+      "w_basis": "coupling estimate 3.5 um of met1 + 0.853 fF inside the default device cells (v2: cells of the library's representative option, 0.429)",
       "w_parts": {
         "wiring": 0.19983384200000004,
-        "device_cells": 0.85255,
+        "device_cells": 0.42877,
         "device_cells_by_device": {
+          "XM1": 0.42877
+        },
+        "device_cells_default_option": 0.85255,
+        "device_cells_by_device_default_option": {
           "XM1": 0.85255
         }
       },
-      "budget": 10.523838419999999,
-      "budget_maxmin": 10.52383842,
-      "multiple_of_expected": 9.999999999999998,
+      "budget": 6.286038419998858,
+      "budget_maxmin": 0.6594668189483373,
+      "multiple_of_expected": 9.999999999998185,
       "binding": [
-        "cap_kappa"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gbw_mhz": 0.07687707647669942
+        "gbw_mhz": 0.04591977157605609
+      },
+      "floor": 0.42877,
+      "floor_source": {
+        "floor": 0.42877,
+        "per_type_option": {
+          "nfet_01v8_W24_L0p5_m1": "nf1_gboth_sdhalf"
+        },
+        "kind": "cell capacitance"
       }
     },
     {
@@ -311,23 +930,35 @@
         "INN"
       ],
       "units": "fF",
-      "w": 1.052383842,
-      "w_basis": "coupling estimate 3.5 um of met1 + 0.853 fF inside the default device cells",
+      "w": 0.628603842,
+      "w_basis": "coupling estimate 3.5 um of met1 + 0.853 fF inside the default device cells (v2: cells of the library's representative option, 0.429)",
       "w_parts": {
         "wiring": 0.19983384200000004,
-        "device_cells": 0.85255,
+        "device_cells": 0.42877,
         "device_cells_by_device": {
+          "XM2": 0.42877
+        },
+        "device_cells_default_option": 0.85255,
+        "device_cells_by_device_default_option": {
           "XM2": 0.85255
         }
       },
-      "budget": 10.523838419999999,
-      "budget_maxmin": 6.444930065967448,
-      "multiple_of_expected": 9.999999999999998,
+      "budget": 6.286038419998899,
+      "budget_maxmin": 0.6594668189483373,
+      "multiple_of_expected": 9.999999999998249,
       "binding": [
-        "pm_deg"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "pm_deg": 0.027223494754861258
+        "pm_deg": 0.016260980749236587
+      },
+      "floor": 0.42877,
+      "floor_source": {
+        "floor": 0.42877,
+        "per_type_option": {
+          "nfet_01v8_W24_L0p5_m1": "nf1_gboth_sdhalf"
+        },
+        "kind": "cell capacitance"
       }
     },
     {
@@ -338,24 +969,36 @@
         "INP"
       ],
       "units": "fF",
-      "w": 1.052383842,
-      "w_basis": "coupling estimate 3.5 um of met1 + 0.853 fF inside the default device cells",
+      "w": 0.628603842,
+      "w_basis": "coupling estimate 3.5 um of met1 + 0.853 fF inside the default device cells (v2: cells of the library's representative option, 0.429)",
       "w_parts": {
         "wiring": 0.19983384200000004,
-        "device_cells": 0.85255,
+        "device_cells": 0.42877,
         "device_cells_by_device": {
+          "XM1": 0.42877
+        },
+        "device_cells_default_option": 0.85255,
+        "device_cells_by_device_default_option": {
           "XM1": 0.85255
         }
       },
-      "budget": 7.4749458010411685,
-      "budget_maxmin": 6.444930065967448,
-      "multiple_of_expected": 7.1028701721944225,
+      "budget": 6.286038419999662,
+      "budget_maxmin": 6.28603842,
+      "multiple_of_expected": 9.999999999999464,
       "binding": [
-        "pm_deg"
+        "cap_kappa"
       ],
       "margin_used": {
-        "gbw_mhz": 0.48223155850425947,
-        "pm_deg": 0.6523327209524289
+        "gbw_mhz": 0.4055315161846208,
+        "pm_deg": 0.5485776961698805
+      },
+      "floor": 0.42877,
+      "floor_source": {
+        "floor": 0.42877,
+        "per_type_option": {
+          "nfet_01v8_W24_L0p5_m1": "nf1_gboth_sdhalf"
+        },
+        "kind": "cell capacitance"
       }
     },
     {
@@ -373,15 +1016,15 @@
         "device_cells": 0,
         "device_cells_by_device": {}
       },
-      "budget": 1.9983384200000005,
-      "budget_maxmin": 1.2238074028730561,
-      "multiple_of_expected": 10.0,
+      "budget": 1.998338419999895,
+      "budget_maxmin": 1.9983384200000005,
+      "multiple_of_expected": 9.999999999999472,
       "binding": [
-        "pm_deg"
+        "cap_kappa"
       ],
       "margin_used": {
-        "gbw_mhz": 0.10253484502542344,
-        "pm_deg": 0.08027806754270844
+        "gbw_mhz": 0.10253484502541803,
+        "pm_deg": 0.08027806754270421
       }
     },
     {
@@ -393,24 +1036,31 @@
       ],
       "units": "ohm",
       "w": 33.17732095802748,
-      "w_basis": "per member: measured default-cell access 27.3 ohm + 6.6 um met1",
+      "w_basis": "per member: measured default-cell access 27.3 ohm + 6.6 um met1 (v2: cells of the library's representative option, 27.3)",
       "w_parts": {
         "device_cells": 27.306785243741768,
-        "wiring": 5.870535714285714
+        "wiring": 5.870535714285714,
+        "device_cells_default_option": 27.306785243741768
       },
-      "budget": 331.77320958027474,
-      "budget_maxmin": 203.18205660045018,
-      "multiple_of_expected": 9.999999999999998,
+      "budget": 331.77320958020516,
+      "budget_maxmin": 34.80624974197721,
+      "multiple_of_expected": 9.9999999999979,
       "binding": [
-        "pm_deg"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gain_db": 0.008377273541879466,
-        "pm_deg": 0.011529119032814008,
-        "sat_XM3": 0.013967652123328065,
-        "sat_XM4": 0.013967652123328065,
-        "sat_XM1": 6.784762135925246e-05,
-        "sat_XM2": 6.784762135925246e-05
+        "gain_db": 0.00837727354187771,
+        "pm_deg": 0.01152911903281159,
+        "sat_XM3": 0.013967652123325135,
+        "sat_XM4": 0.013967652123325135,
+        "sat_XM1": 6.784762135923823e-05,
+        "sat_XM2": 6.784762135923823e-05
+      },
+      "floor": 27.306785243741768,
+      "floor_source": {
+        "floor": 27.306785243741768,
+        "option": "nf1_gboth_sdfull",
+        "kind": "access resistance"
       }
     },
     {
@@ -422,19 +1072,26 @@
       ],
       "units": "ohm",
       "w": 78.32886904761904,
-      "w_basis": "per member: measured default-cell access 72.5 ohm + 6.6 um met1",
+      "w_basis": "per member: measured default-cell access 72.5 ohm + 6.6 um met1 (v2: cells of the library's representative option, 72.5)",
       "w_parts": {
         "device_cells": 72.45833333333333,
-        "wiring": 5.870535714285714
+        "wiring": 5.870535714285714,
+        "device_cells_default_option": 72.45833333333333
       },
-      "budget": 783.2886904761906,
-      "budget_maxmin": 479.69577544903706,
-      "multiple_of_expected": 10.000000000000004,
+      "budget": 783.2886904761488,
+      "budget_maxmin": 783.2886904761904,
+      "multiple_of_expected": 9.999999999999469,
       "binding": [
-        "pm_deg"
+        "cap_kappa"
       ],
       "margin_used": {
-        "pm_deg": 0.08224531249994747
+        "pm_deg": 0.08224531249994307
+      },
+      "floor": 72.45833333333333,
+      "floor_source": {
+        "floor": 72.45833333333333,
+        "option": "nf1_gboth_sdfull",
+        "kind": "access resistance"
       }
     },
     {
@@ -446,23 +1103,30 @@
       ],
       "units": "ohm",
       "w": 33.17732095802748,
-      "w_basis": "per member: measured default-cell access 27.3 ohm + 6.6 um met1",
+      "w_basis": "per member: measured default-cell access 27.3 ohm + 6.6 um met1 (v2: cells of the library's representative option, 27.3)",
       "w_parts": {
         "device_cells": 27.306785243741768,
-        "wiring": 5.870535714285714
+        "wiring": 5.870535714285714,
+        "device_cells_default_option": 27.306785243741768
       },
-      "budget": 145.8856341732171,
-      "budget_maxmin": 132.46251040601484,
-      "multiple_of_expected": 4.397149316479669,
+      "budget": 33.17732095802748,
+      "budget_maxmin": 34.80624974197721,
+      "multiple_of_expected": 1.0,
       "binding": [
-        "sat_XM5"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gain_db": 0.4198223837419767,
-        "gbw_mhz": 0.579530681753089,
-        "sat_XM1": 0.007690324734032619,
-        "sat_XM2": 0.007690324734032619,
-        "sat_XM5": 0.00014442677783165975
+        "gain_db": 0.09547603538696384,
+        "gbw_mhz": 0.1317969075057605,
+        "sat_XM1": 0.001748934179972184,
+        "sat_XM2": 0.001748934179972184,
+        "sat_XM5": 3.284554774848696e-05
+      },
+      "floor": 27.306785243741768,
+      "floor_source": {
+        "floor": 27.306785243741768,
+        "option": "nf1_gboth_sdfull",
+        "kind": "access resistance"
       }
     },
     {
@@ -473,24 +1137,31 @@
         "XM2.d"
       ],
       "units": "ohm",
-      "w": 19.783378035008468,
-      "w_basis": "per member: measured default-cell access 7.13 ohm + 14.2 um met1",
+      "w": 20.65508118267068,
+      "w_basis": "per member: measured default-cell access 7.13 ohm + 14.2 um met1 (v2: cells of the library's representative option, 8)",
       "w_parts": {
-        "device_cells": 7.1315923207227545,
-        "wiring": 12.651785714285715
+        "device_cells": 8.003295468384966,
+        "wiring": 12.651785714285715,
+        "device_cells_default_option": 7.1315923207227545
       },
-      "budget": 177.00582973938788,
-      "budget_maxmin": 78.98636306842532,
-      "multiple_of_expected": 8.947199483635208,
+      "budget": 20.655081182670678,
+      "budget_maxmin": 21.669197310848592,
+      "multiple_of_expected": 0.9999999999999998,
       "binding": [
-        "sat_XM5"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gain_db": 0.42030034271616545,
-        "gbw_mhz": 0.614652743769947,
-        "sat_XM1": 0.007413092652400358,
-        "sat_XM2": 0.007413092652400358,
-        "sat_XM5": 0.00014071963464297866
+        "gain_db": 0.04904549026825023,
+        "gbw_mhz": 0.0717247694068149,
+        "sat_XM1": 0.0008650451274708305,
+        "sat_XM2": 0.0008650451274708305,
+        "sat_XM5": 1.642078954024248e-05
+      },
+      "floor": 5.995304695304695,
+      "floor_source": {
+        "floor": 5.995304695304695,
+        "option": "nf2_gboth_sdfull_outD",
+        "kind": "access resistance"
       }
     },
     {
@@ -502,21 +1173,28 @@
       ],
       "units": "ohm",
       "w": 286.10178571428577,
-      "w_basis": "per member: measured default-cell access 273 ohm + 14.2 um met1",
+      "w_basis": "per member: measured default-cell access 273 ohm + 14.2 um met1 (v2: cells of the library's representative option, 273)",
       "w_parts": {
         "device_cells": 273.45000000000005,
-        "wiring": 12.651785714285715
+        "wiring": 12.651785714285715,
+        "device_cells_default_option": 273.45000000000005
       },
-      "budget": 1664.5169098321592,
-      "budget_maxmin": 1752.1230629812123,
-      "multiple_of_expected": 5.817918632267543,
+      "budget": 286.1017857142859,
+      "budget_maxmin": 300.1487135683763,
+      "multiple_of_expected": 1.0000000000000004,
       "binding": [
-        "pm_deg"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gbw_mhz": 1.1651618368821022,
-        "pm_deg": 4.970663621985478,
-        "vnoise_nv_rthz": 0.08322584548916685
+        "gbw_mhz": 0.20027124999992976,
+        "pm_deg": 0.8543714575891475,
+        "vnoise_nv_rthz": 0.01430508928529471
+      },
+      "floor": 88.52500000000002,
+      "floor_source": {
+        "floor": 88.52500000000002,
+        "option": "nf2_gboth_sdfull_outD",
+        "kind": "access resistance"
       }
     },
     {
@@ -527,24 +1205,31 @@
         "XM2.s"
       ],
       "units": "ohm",
-      "w": 19.78337803500847,
-      "w_basis": "per member: measured default-cell access 7.13 ohm + 14.2 um met1",
+      "w": 20.65508118267068,
+      "w_basis": "per member: measured default-cell access 7.13 ohm + 14.2 um met1 (v2: cells of the library's representative option, 8)",
       "w_parts": {
-        "device_cells": 7.131592320722755,
-        "wiring": 12.651785714285715
+        "device_cells": 8.003295468384966,
+        "wiring": 12.651785714285715,
+        "device_cells_default_option": 7.131592320722755
       },
-      "budget": 84.70920905175483,
-      "budget_maxmin": 78.98636306842533,
-      "multiple_of_expected": 4.2818374547488425,
+      "budget": 20.655081182670678,
+      "budget_maxmin": 21.669197310848592,
+      "multiple_of_expected": 0.9999999999999998,
       "binding": [
-        "sat_XM5"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gbw_mhz": 7.286283793888967,
-        "vnoise_nv_rthz": 1.546578384262389,
-        "sat_XM3": 0.00012896977078121998,
-        "sat_XM4": 0.00012896977078121998,
-        "sat_XM5": 0.0034006511973828247
+        "gbw_mhz": 1.7766519716977172,
+        "vnoise_nv_rthz": 0.37711014469260384,
+        "sat_XM3": 3.1447361100597393e-05,
+        "sat_XM4": 3.1447361100597393e-05,
+        "sat_XM5": 0.0008291982340783453
+      },
+      "floor": 5.995304695304695,
+      "floor_source": {
+        "floor": 5.995304695304695,
+        "option": "nf2_gboth_sdfull_outS",
+        "kind": "access resistance"
       }
     },
     {
@@ -554,25 +1239,32 @@
         "XM5.d"
       ],
       "units": "ohm",
-      "w": 20.006592320722753,
-      "w_basis": "per member: measured default-cell access 7.13 ohm + 14.4 um met1",
+      "w": 24.865609390609393,
+      "w_basis": "per member: measured default-cell access 7.13 ohm + 14.4 um met1 (v2: cells of the library's representative option, 12)",
       "w_parts": {
-        "device_cells": 7.1315923207227545,
-        "wiring": 12.875
+        "device_cells": 11.990609390609391,
+        "wiring": 12.875,
+        "device_cells_default_option": 7.1315923207227545
       },
-      "budget": 75.88368194297644,
-      "budget_maxmin": 79.87755993997517,
-      "multiple_of_expected": 3.792933885316212,
+      "budget": 24.865609390609396,
+      "budget_maxmin": 26.086452596064596,
+      "multiple_of_expected": 1.0000000000000002,
       "binding": [
-        "sat_XM5"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gbw_mhz": 0.421913271602947,
-        "pm_deg": 0.003073289118682035,
-        "vnoise_nv_rthz": 0.22840988264826348,
-        "sat_XM3": 0.0002198729684303469,
-        "sat_XM4": 0.0002198729684303469,
-        "sat_XM5": 0.0060982023901425455
+        "gbw_mhz": 0.1382527882117876,
+        "pm_deg": 0.0010070571803168918,
+        "vnoise_nv_rthz": 0.07484548426570296,
+        "sat_XM3": 7.204810320947838e-05,
+        "sat_XM4": 7.204810320947838e-05,
+        "sat_XM5": 0.0019982625346528808
+      },
+      "floor": 5.995304695304695,
+      "floor_source": {
+        "floor": 5.995304695304695,
+        "option": "nf2_gboth_sdfull_outD",
+        "kind": "access resistance"
       }
     },
     {
@@ -582,20 +1274,27 @@
         "XM5.g"
       ],
       "units": "ohm",
-      "w": 149.60000000000002,
-      "w_basis": "per member: measured default-cell access 137 ohm + 14.4 um met1",
+      "w": 57.13750000000001,
+      "w_basis": "per member: measured default-cell access 137 ohm + 14.4 um met1 (v2: cells of the library's representative option, 44.3)",
       "w_parts": {
-        "device_cells": 136.72500000000002,
-        "wiring": 12.875
+        "device_cells": 44.26250000000001,
+        "wiring": 12.875,
+        "device_cells_default_option": 136.72500000000002
       },
-      "budget": 1496.0000000000007,
-      "budget_maxmin": 916.1690814602324,
-      "multiple_of_expected": 10.000000000000004,
+      "budget": 329.16108957822826,
+      "budget_maxmin": 59.94281747908984,
+      "multiple_of_expected": 5.760859148164134,
       "binding": [
-        "pm_deg"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "pm_deg": 0.0007480000000248314
+        "pm_deg": 0.00016458054479457764
+      },
+      "floor": 44.26250000000001,
+      "floor_source": {
+        "floor": 44.26250000000001,
+        "option": "nf2_gboth_sdfull_outD",
+        "kind": "access resistance"
       }
     },
     {
@@ -605,24 +1304,31 @@
         "XM5.s"
       ],
       "units": "ohm",
-      "w": 20.006592320722756,
-      "w_basis": "per member: measured default-cell access 7.13 ohm + 14.4 um met1",
+      "w": 18.870304695304696,
+      "w_basis": "per member: measured default-cell access 7.13 ohm + 14.4 um met1 (v2: cells of the library's representative option, 6)",
       "w_parts": {
-        "device_cells": 7.131592320722755,
-        "wiring": 12.875
+        "device_cells": 5.995304695304695,
+        "wiring": 12.875,
+        "device_cells_default_option": 7.131592320722755
       },
-      "budget": 200.0659232072275,
-      "budget_maxmin": 122.52286971675069,
-      "multiple_of_expected": 9.999999999999998,
+      "budget": 18.870304695304693,
+      "budget_maxmin": 19.796792476490243,
+      "multiple_of_expected": 0.9999999999999998,
       "binding": [
-        "pm_deg"
+        "gbw_mhz@tt_v0.9_t27"
       ],
       "margin_used": {
-        "gbw_mhz": 14.85114356207649,
-        "pm_deg": 0.1904127424123602,
-        "vnoise_nv_rthz": 4.926623358977932,
-        "sat_XM3": 0.007289401912051823,
-        "sat_XM4": 0.007289401912051823
+        "gbw_mhz": 1.4007663054133348,
+        "pm_deg": 0.017959812493745057,
+        "vnoise_nv_rthz": 0.46468125312187375,
+        "sat_XM3": 0.0006875395515730953,
+        "sat_XM4": 0.0006875395515730953
+      },
+      "floor": 5.995304695304695,
+      "floor_source": {
+        "floor": 5.995304695304695,
+        "option": "nf2_gboth_sdfull_outS",
+        "kind": "access resistance"
       }
     }
   ],
@@ -680,9 +1386,628 @@
       "b": 0.009784000000000001,
       "margin": 0.019568000000000002,
       "units": "V"
+    },
+    {
+      "id": "pm_deg@ff_v0.9_t-40",
+      "b": 46.563500000000005,
+      "margin": 93.12700000000001,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@ff_v1.1_t-40",
+      "b": 3.781749999999999,
+      "margin": 7.563499999999998,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@ff_v1.1_t-40",
+      "b": 48.022,
+      "margin": 96.044,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ff_v1.1_t-40",
+      "b": 9.984949999999998,
+      "margin": 19.969899999999996,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@ff_v1.1_t27",
+      "b": 3.0814999999999984,
+      "margin": 6.162999999999997,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@ff_v1.1_t27",
+      "b": 51.345,
+      "margin": 102.69,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ff_v1.1_t27",
+      "b": 9.878149999999998,
+      "margin": 19.756299999999996,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@ff_v1.1_t85",
+      "b": 2.54805,
+      "margin": 5.0961,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@ff_v1.1_t85",
+      "b": 50.365,
+      "margin": 100.73,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ff_v1.1_t85",
+      "b": 9.926250000000003,
+      "margin": 19.852500000000006,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@ff_v1_t-40",
+      "b": 1.3198499999999989,
+      "margin": 2.6396999999999977,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@ff_v1_t-40",
+      "b": 46.418,
+      "margin": 92.836,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ff_v1_t-40",
+      "b": 10.415950000000002,
+      "margin": 20.831900000000005,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@ff_v1_t27",
+      "b": 48.273,
+      "margin": 96.546,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ff_v1_t27",
+      "b": 10.719700000000003,
+      "margin": 21.439400000000006,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@ff_v1_t85",
+      "b": 46.253,
+      "margin": 92.506,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ff_v1_t85",
+      "b": 11.136099999999999,
+      "margin": 22.272199999999998,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@fs_v0.9_t-40",
+      "b": 0.7142499999999998,
+      "margin": 1.4284999999999997,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@fs_v0.9_t-40",
+      "b": 23.1575,
+      "margin": 46.315,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@fs_v0.9_t-40",
+      "b": 11.193199999999997,
+      "margin": 22.386399999999995,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@fs_v0.9_t27",
+      "b": 29.4093,
+      "margin": 58.8186,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@fs_v0.9_t27",
+      "b": 11.396749999999997,
+      "margin": 22.793499999999995,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@fs_v0.9_t85",
+      "b": 30.2513,
+      "margin": 60.5026,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@fs_v0.9_t85",
+      "b": 11.9251,
+      "margin": 23.8502,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@fs_v1.1_t-40",
+      "b": 4.709350000000001,
+      "margin": 9.418700000000001,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@fs_v1.1_t-40",
+      "b": 24.380850000000002,
+      "margin": 48.761700000000005,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@fs_v1.1_t-40",
+      "b": 10.646299999999997,
+      "margin": 21.292599999999993,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@fs_v1.1_t27",
+      "b": 4.368200000000002,
+      "margin": 8.736400000000003,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@fs_v1.1_t27",
+      "b": 32.4298,
+      "margin": 64.8596,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@fs_v1.1_t27",
+      "b": 10.2074,
+      "margin": 20.4148,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@fs_v1.1_t85",
+      "b": 3.9888499999999993,
+      "margin": 7.977699999999999,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@fs_v1.1_t85",
+      "b": 34.77605,
+      "margin": 69.5521,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@fs_v1.1_t85",
+      "b": 10.089149999999997,
+      "margin": 20.178299999999993,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@fs_v1_t-40",
+      "b": 3.7428500000000007,
+      "margin": 7.485700000000001,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@fs_v1_t-40",
+      "b": 24.161700000000003,
+      "margin": 48.32340000000001,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@fs_v1_t-40",
+      "b": 10.7301,
+      "margin": 21.4602,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@fs_v1_t27",
+      "b": 3.1143500000000017,
+      "margin": 6.2287000000000035,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@fs_v1_t27",
+      "b": 31.9319,
+      "margin": 63.8638,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@fs_v1_t27",
+      "b": 10.360999999999997,
+      "margin": 20.721999999999994,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@fs_v1_t85",
+      "b": 2.5695000000000014,
+      "margin": 5.139000000000003,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@fs_v1_t85",
+      "b": 34.0968,
+      "margin": 68.1936,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@fs_v1_t85",
+      "b": 10.298099999999998,
+      "margin": 20.596199999999996,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@sf_v1.1_t-40",
+      "b": 2.8871,
+      "margin": 5.7742,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@sf_v1.1_t-40",
+      "b": 54.0805,
+      "margin": 108.161,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@sf_v1.1_t-40",
+      "b": 9.89235,
+      "margin": 19.7847,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@sf_v1.1_t27",
+      "b": 1.8409000000000013,
+      "margin": 3.6818000000000026,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@sf_v1.1_t27",
+      "b": 55.096999999999994,
+      "margin": 110.19399999999999,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@sf_v1.1_t27",
+      "b": 9.97025,
+      "margin": 19.9405,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@sf_v1.1_t85",
+      "b": 1.1245000000000012,
+      "margin": 2.2490000000000023,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@sf_v1.1_t85",
+      "b": 52.7935,
+      "margin": 105.587,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@sf_v1.1_t85",
+      "b": 10.136949999999999,
+      "margin": 20.273899999999998,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@sf_v1_t-40",
+      "b": 46.4175,
+      "margin": 92.835,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@sf_v1_t-40",
+      "b": 12.183149999999998,
+      "margin": 24.366299999999995,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@sf_v1_t27",
+      "b": 36.93445,
+      "margin": 73.8689,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@sf_v1_t27",
+      "b": 16.81525,
+      "margin": 33.6305,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@sf_v1_t85",
+      "b": 29.570500000000003,
+      "margin": 59.141000000000005,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@sf_v1_t85",
+      "b": 20.075000000000003,
+      "margin": 40.150000000000006,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@ss_v0.9_t-40",
+      "b": 21.66175,
+      "margin": 43.3235,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ss_v0.9_t-40",
+      "b": 15.348999999999997,
+      "margin": 30.697999999999993,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@ss_v0.9_t27",
+      "b": 14.62745,
+      "margin": 29.2549,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ss_v0.9_t27",
+      "b": 24.5745,
+      "margin": 49.149,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@ss_v0.9_t85",
+      "b": 10.7458,
+      "margin": 21.4916,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ss_v0.9_t85",
+      "b": 28.942,
+      "margin": 57.884,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@ss_v1.1_t-40",
+      "b": 4.41985,
+      "margin": 8.8397,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@ss_v1.1_t-40",
+      "b": 30.147100000000002,
+      "margin": 60.294200000000004,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ss_v1.1_t-40",
+      "b": 10.375100000000003,
+      "margin": 20.750200000000007,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@ss_v1.1_t27",
+      "b": 3.91395,
+      "margin": 7.8279,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@ss_v1.1_t27",
+      "b": 37.00475,
+      "margin": 74.0095,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ss_v1.1_t27",
+      "b": 10.04195,
+      "margin": 20.0839,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@ss_v1.1_t85",
+      "b": 3.4509000000000007,
+      "margin": 6.9018000000000015,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@ss_v1.1_t85",
+      "b": 38.41835,
+      "margin": 76.8367,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ss_v1.1_t85",
+      "b": 9.9831,
+      "margin": 19.9662,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@ss_v1_t-40",
+      "b": 2.8201500000000017,
+      "margin": 5.640300000000003,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@ss_v1_t-40",
+      "b": 29.62345,
+      "margin": 59.2469,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ss_v1_t-40",
+      "b": 10.5623,
+      "margin": 21.1246,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@ss_v1_t27",
+      "b": 1.7551500000000004,
+      "margin": 3.510300000000001,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@ss_v1_t27",
+      "b": 35.9185,
+      "margin": 71.837,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ss_v1_t27",
+      "b": 10.392650000000003,
+      "margin": 20.785300000000007,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@ss_v1_t85",
+      "b": 0.9629499999999993,
+      "margin": 1.9258999999999986,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@ss_v1_t85",
+      "b": 36.8919,
+      "margin": 73.7838,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@ss_v1_t85",
+      "b": 10.475999999999999,
+      "margin": 20.951999999999998,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@tt_v0.9_t-40",
+      "b": 16.50015,
+      "margin": 33.0003,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@tt_v0.9_t-40",
+      "b": 24.016,
+      "margin": 48.032,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@tt_v0.9_t27",
+      "b": 2.4837500000000006,
+      "margin": 4.967500000000001,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@tt_v0.9_t27",
+      "b": 40.985,
+      "margin": 81.97,
+      "units": "deg"
+    },
+    {
+      "id": "pm_deg@tt_v0.9_t85",
+      "b": 46.0215,
+      "margin": 92.043,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@tt_v1.1_t-40",
+      "b": 4.131399999999999,
+      "margin": 8.262799999999999,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@tt_v1.1_t-40",
+      "b": 38.7398,
+      "margin": 77.4796,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@tt_v1.1_t-40",
+      "b": 10.154699999999998,
+      "margin": 20.309399999999997,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@tt_v1.1_t27",
+      "b": 3.5269499999999994,
+      "margin": 7.053899999999999,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@tt_v1.1_t27",
+      "b": 44.038,
+      "margin": 88.076,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@tt_v1.1_t27",
+      "b": 9.935499999999998,
+      "margin": 19.870999999999995,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@tt_v1.1_t85",
+      "b": 3.0276999999999994,
+      "margin": 6.055399999999999,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@tt_v1.1_t85",
+      "b": 44.3135,
+      "margin": 88.627,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@tt_v1.1_t85",
+      "b": 9.931449999999998,
+      "margin": 19.862899999999996,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@tt_v1_t-40",
+      "b": 2.1662,
+      "margin": 4.3324,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@tt_v1_t-40",
+      "b": 37.8301,
+      "margin": 75.6602,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@tt_v1_t-40",
+      "b": 10.435450000000003,
+      "margin": 20.870900000000006,
+      "units": "deg"
+    },
+    {
+      "id": "gain_db@tt_v1_t27",
+      "b": 0.8484999999999996,
+      "margin": 1.6969999999999992,
+      "units": "dB"
+    },
+    {
+      "id": "gbw_mhz@tt_v1_t27",
+      "b": 42.2275,
+      "margin": 84.455,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@tt_v1_t27",
+      "b": 10.467399999999998,
+      "margin": 20.934799999999996,
+      "units": "deg"
+    },
+    {
+      "id": "gbw_mhz@tt_v1_t85",
+      "b": 41.872,
+      "margin": 83.744,
+      "units": "MHz"
+    },
+    {
+      "id": "pm_deg@tt_v1_t85",
+      "b": 10.681049999999999,
+      "margin": 21.362099999999998,
+      "units": "deg"
     }
   ],
-  "method": "max-min fair progressive filling (budgets.allocate), then proportional-fairness refinement keeping >= 95 % of every max-min budget (budgets.refine)",
+  "method": "v2: max-min fair progressive filling of max(t*w, floor) with library floors, then proportional-fairness refinement keeping >= max(95 % of, min(need, )) every max-min budget and the floors (budgets.allocate/refine)",
+  "alloc": "v2",
   "rates": {
     "gain_db": {
       "OUTP": 0.0,
@@ -891,5 +2216,8 @@
       "XM5.g": 0.0,
       "XM5.s": 0.0
     }
-  }
+  },
+  "pvt_binding": [
+    "gbw_mhz@tt_v0.9_t27"
+  ]
 }

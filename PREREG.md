@@ -22,13 +22,22 @@ After the tag, changes are allowed only as dated amendments at the end, with the
 ## Metrics, thresholds, circuits
 
 - Circuits: example_ota_5t (development), ota5t_stress (development), loadbench_miller,
-  iadc_ota, ttsky25_fdopamp (held out: the rules and constants are frozen before they are run).
+  iadc_ota, ttsky25a_fd (held out: the rules and constants are frozen before they are run).
+  Note (honest record): loadbench_miller and ttsky25a_fd were already run once on 2026-10-26 with the v1 flow,
+  to measure the "before" state; the v2 rules below were written before their v2 ("after") runs.
 - Corners: tt/ss/ff/sf/fs x VDD +-10 % x {-40, 27, 85} C.
 - eta sweep: 0.3, 0.5, 0.7, 0.9, 1.0. Headline numbers are reported at eta = 0.9 and at the sweep.
 - Every method gets the same SPICE/PEX budget; counts and wall time are logged.
 
-## Frozen constants (to be filled before tagging)
+## Frozen constants (set 2026-10-26, before the v2 runs)
 
-- Rule-of-thumb target finger width: TBD (from a published guideline or the reference layouts).
-- S2 phase-2 floor rule (R19 fix): TBD.
-- Model-change cap: 10 % of eta × margin per spec.
+- Rule-of-thumb target finger width: 4.0 um (`src/s3/options.py`, RULE_OF_THUMB_WF); nf = the grid value
+  nearest W / 4 um, default contacts and coverage.
+- nf grid: 1, 2, 4, 8; plus 16, 32, 64 only when the finger stays >= 7 um (the lower W edge of the wide
+  SKY130 bins).
+- S2 phase-2 floor rule (R19 fix): an element is never trimmed below min(phase-1 budget, expected need),
+  nor below its library floor (the least any library cell puts on it).
+- S3 resistance allowance v2: a cell may use max(its share of the budget, the library's lowest access R of
+  that terminal), never more than the budget.
+- Model-change cap: 10 % of eta × margin per spec (to be applied in S4a).
+- PVT: 5 corners x VDD x {0.9, 1.0, 1.1} x {-40, 27, 85} C = 45 points; Monte Carlo: 200 runs of tt_mm.

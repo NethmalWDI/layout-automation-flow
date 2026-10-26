@@ -1,0 +1,23 @@
+=== A: v1 switch on example_ota_5t: done at 11:59 (golden S0-S3 reproduced; runs/logs/queue_all.log of the first start)
+=== B: after on the 5T designs 12:05:03
+PVT: 25/45 points meet every spec; worst {'gain_db': {'margin': -45.8877, 'point': 'sf_v0.9_t-40', 'nominal_margin': 1.6969999999999992}, 'gbw_mhz': {'margin': -2.0685000000000002, 'point': 'tt_v0.9_t85', 'nominal_margin': 84.455}, 'pm_deg': {'margin': 19.756299999999996, 'point': 'ff_v1.1_t27', 'nominal_margin': 20.934799999999996}, 'power_uw': {'margin': 750.563, 'point': 'sf_v1.1_t85', 'nominal_margin': 847.4010000000001}, 'vnoise_nv_rthz': {'margin': -1158.27, 'point': 'sf_v0.9_t-40', 'nominal_margin': 60.93599999999998}}
+MC (200 runs): {"gain_db": {"mean": 31.180938, "std": 3.517382, "min": 22.764, "max": 38.0206}, "gbw_mhz": {"mean": 104.26973, "std": 0.917665, "min": 101.199, "max": 106.458}, "pm_deg": {"mean": 81.158394, "std": 0.757449, "min": 80.0442, "max": 83.6346}, "offset_v": {"mean": -0.007044, "std": 0.00171, "min": -0.010567, "max": -0.002509}}
+== example_ota_5t
+  S2/cells           rc=0      3.9 s  log: runs/logs/flow/example_ota_5t/S2_cells.log
+  S2/run             rc=0    612.7 s  log: runs/logs/flow/example_ota_5t/S2_run.log
+  S2: PASS
+  S3/run             rc=1     38.5 s  log: runs/logs/flow/example_ota_5t/S3_run.log
+  S3: FAIL  failed: ['G3.5_no_relaxation']
+/foss/designs/outputs/compare/example_ota_5t/after.json
+PVT: 13/45 points meet every spec; worst {'gain_db': {'margin': -47.0847, 'point': 'sf_v0.9_t-40', 'nominal_margin': 0.5}, 'gbw_mhz': {'margin': -266.4267, 'point': 'tt_v0.9_t85', 'nominal_margin': 37.36540000000002}, 'pm_deg': {'margin': 3.3286999999999978, 'point': 'ff_v1.1_t-40', 'nominal_margin': 5.0}, 'power_uw': {'margin': 750.563, 'point': 'sf_v1.1_t85', 'nominal_margin': 847.4010000000001}, 'vnoise_nv_rthz': {'margin': -1158.27, 'point': 'sf_v0.9_t-40', 'nominal_margin': 60.93599999999998}}
+MC (200 runs): {"gain_db": {"mean": 31.180938, "std": 3.517382, "min": 22.764, "max": 38.0206}, "gbw_mhz": {"mean": 372.55083, "std": 4.012245, "min": 358.655, "max": 380.309}, "pm_deg": {"mean": 65.241268, "std": 0.518245, "min": 64.4662, "max": 66.9889}, "offset_v": {"mean": -0.007044, "std": 0.00171, "min": -0.010567, "max": -0.002509}}
+== ota5t_stress
+  S2/cells           rc=0      3.2 s  log: runs/logs/flow/ota5t_stress/S2_cells.log
+  S2/run             rc=1   1014.6 s  log: runs/logs/flow/ota5t_stress/S2_run.log
+  S2: ERROR  (no fresh report at outputs/S2/ota5t_stress/s2_report.json)
+/foss/designs/outputs/compare/ota5t_stress/after.json
+=== E: iadc before 13:42:26
+== iadc_ota
+  S0/ingest          rc=0     28.2 s  log: runs/logs/flow/iadc_ota/S0_ingest.log
+  S0/pcell_binding   rc=1    299.9 s  log: runs/logs/flow/iadc_ota/S0_pcell_binding.log
+  S0: FAIL  failed: ['G0.7_pcell_binding_drc_lvs']

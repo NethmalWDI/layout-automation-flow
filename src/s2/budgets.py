@@ -123,7 +123,7 @@ def lp_first_round(elements: list, constraints: list, floors: dict | None = None
         A.append(row)
         b.append(0.0)
     fl = [float((floors or {}).get(k, 0.0)) for k in ids]
-    r = linprog(cobj, A_ub=np.array(A), b_ub=np.array(b), bounds=[(v, None) for v in fl] + [(0, None)], method="highs")
+    r = linprog(cobj, A_ub=np.array(A), b_ub=np.array(b), bounds=[(v, None) for v in fl] + [(0, KAPPA)], method="highs")
     return {"status": r.message, "success": bool(r.success), "t": float(r.x[-1]) if r.success else None}
 
 
@@ -148,11 +148,12 @@ def _refine_large(A, b, w, lo, hi, x0):
     sc = np.where(b > 0, b, 1.0)
     As, bs = csr_matrix(A / sc[:, None]), b / sc
     r = minimize(lambda x: -np.sum(np.log(x / w)), x0, jac=lambda x: -1.0 / x, hess=lambda x: diags(1.0 / x ** 2),
-                 method="trust-constr", constraints=[LinearConstraint(As, -np.inf, bs)], bounds=Bounds(lo, hi),
+                 method="trust-constr", constraints=[LinearConstraint(As, -np.inf, bs * (1 - 1e-9))],
+                 bounds=Bounds(lo, hi),
                  options={"maxiter": 3000, "gtol": 1e-10, "xtol": 1e-12, "verbose": 0})
     x = np.clip(r.x, lo, hi)
     over = As @ x - bs
-    if over.max() > 0:
+    if over.max() > 1e-9:          # within check()'s tolerance is accepted (review item 2)
         d = x - x0
         ad = As @ d
         slack = bs - As @ x0
@@ -181,7 +182,9 @@ def refine(elements: list, constraints: list, x_mm: dict, delta: float = 0.05, k
         lo_lin = np.maximum(lo_lin, np.minimum(xm, w))
     if floors:
         lo_lin = np.maximum(lo_lin, np.array([float(floors.get(k, 0.0)) for k in ids]))
-    lo_lin = np.minimum(lo_lin, xm)   # phase 2 may never ask for more than phase 1 gave as its floor
+    # phase 2 may never ask for more than phase 1 gave as its floor; a pinned element keeps a hair of room
+    # so that a tight constraint does not make the solver report the bounds as incompatible (review item 1)
+    lo_lin = np.minimum(lo_lin, xm * (1 - 1e-9))
     lo = np.log(np.maximum(lo_lin, 1e-30))
     hi = np.log(kappa * w)
     hi = np.maximum(hi, lo)

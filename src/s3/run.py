@@ -85,7 +85,8 @@ def main(argv=None) -> int:
     # 1. option table: build and measure every option of every device type (parallel, cached by cell)
     types = O.device_types(ir)
     build_mode = a.build_mode or pkg.get("s3_build_mode") or "A-free"
-    jobs = [(tid, t, opt) for tid, t in types.items() for opt in O.grid(t["W"]) if O.in_mode(t, opt, build_mode)]
+    jobs = [(tid, t, opt) for tid, t in types.items() for opt in O.grid(t["W"], wide=(a.rules == "v2"))
+            if O.in_mode(t, opt, build_mode)]
 
     def build(job):
         tid, t, opt = job
@@ -110,6 +111,13 @@ def main(argv=None) -> int:
             pl = S.plan(gds, r["option"]["outer"])
             r["geometry"] = O.geometry(gds, pl)
             r["access_resistance_ohm"] = O.access_resistance(types[r["type"]], r["option"], r["geometry"], rules)
+            # keep the cache in step, so that S2's floors read the same values (review item 5)
+            cf = cells_dir / r["cell"] / "record.json"
+            if cf.exists():
+                cr = json.loads(cf.read_text())
+                if cr.get("access_resistance_ohm") != r["access_resistance_ohm"] or cr.get("geometry") != r["geometry"]:
+                    cr["access_resistance_ohm"], cr["geometry"] = r["access_resistance_ohm"], r["geometry"]
+                    write_json(cf, cr)
     bad = [r["cell"] for r in table if not r.get("ok")]
     gates["G3.4_option_table_complete"] = {"pass": len(table) == len(jobs), "options": len(table),
                                            "not_signed_off": bad, "build_mode": build_mode}
@@ -178,7 +186,7 @@ def main(argv=None) -> int:
 
     r_floor = {}
     for r in table:
-        if r.get("ok"):
+        if r.get("ok") and O.in_mode(types[r["type"]], r["option"], a.mode):   # options the main mode may use
             for term in "dgs":
                 v = r["access_resistance_ohm"][term]
                 key_ = (r["type"], term)

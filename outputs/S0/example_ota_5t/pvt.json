@@ -1,0 +1,1127 @@
+{
+  "design": "example_ota_5t",
+  "corners": [
+    "tt",
+    "ff",
+    "ss",
+    "fs",
+    "sf"
+  ],
+  "vdd_factors": [
+    0.9,
+    1.0,
+    1.1
+  ],
+  "temps": [
+    -40,
+    27,
+    85
+  ],
+  "specs": {
+    "gain_db": {
+      "min": 30
+    },
+    "gbw_mhz": {
+      "min": 20
+    },
+    "pm_deg": {
+      "min": 60
+    },
+    "power_uw": {
+      "max": 1000
+    },
+    "vnoise_nv_rthz": {
+      "max": 400
+    }
+  },
+  "points": {
+    "tt_v0.9_t-40": {
+      "corner": "tt",
+      "vdd": 1.62,
+      "temp": -40,
+      "meas": {
+        "gain_db": 8.68755,
+        "gbw_mhz": 53.0003,
+        "pm_deg": 108.032,
+        "isup_ua": 60.8202,
+        "power_uw": 98.5287,
+        "vout_v": 0.21417,
+        "vnoise_nv_rthz": 333.768,
+        "vnoise_rms_uv_rms": 438.896
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -21.31245,
+        "gbw_mhz": 33.0003,
+        "pm_deg": 48.032,
+        "power_uw": 901.4713,
+        "vnoise_nv_rthz": 66.23200000000003
+      },
+      "meets_all": false
+    },
+    "tt_v0.9_t27": {
+      "corner": "tt",
+      "vdd": 1.62,
+      "temp": 27,
+      "meas": {
+        "gain_db": 1.99564,
+        "gbw_mhz": 24.9675,
+        "pm_deg": 141.97,
+        "isup_ua": 82.9414,
+        "power_uw": 134.365,
+        "vout_v": 0.225204,
+        "vnoise_nv_rthz": 414.52,
+        "vnoise_rms_uv_rms": 579.183
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -28.00436,
+        "gbw_mhz": 4.967500000000001,
+        "pm_deg": 81.97,
+        "power_uw": 865.635,
+        "vnoise_nv_rthz": -14.519999999999982
+      },
+      "meets_all": false
+    },
+    "tt_v0.9_t85": {
+      "corner": "tt",
+      "vdd": 1.62,
+      "temp": 85,
+      "meas": {
+        "gain_db": 1.04313,
+        "gbw_mhz": 17.9315,
+        "pm_deg": 152.043,
+        "isup_ua": 96.2645,
+        "power_uw": 155.948,
+        "vout_v": 0.247386,
+        "vnoise_nv_rthz": 439.216,
+        "vnoise_rms_uv_rms": 676.949
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -28.95687,
+        "gbw_mhz": -2.0685000000000002,
+        "pm_deg": 92.043,
+        "power_uw": 844.052,
+        "vnoise_nv_rthz": -39.21600000000001
+      },
+      "meets_all": false
+    },
+    "tt_v1_t-40": {
+      "corner": "tt",
+      "vdd": 1.8,
+      "temp": -40,
+      "meas": {
+        "gain_db": 34.3324,
+        "gbw_mhz": 95.6602,
+        "pm_deg": 80.8709,
+        "isup_ua": 61.2659,
+        "power_uw": 110.279,
+        "vout_v": 0.393071,
+        "vnoise_nv_rthz": 337.943,
+        "vnoise_rms_uv_rms": 360.247
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 4.3324,
+        "gbw_mhz": 75.6602,
+        "pm_deg": 20.870900000000006,
+        "power_uw": 889.721,
+        "vnoise_nv_rthz": 62.057000000000016
+      },
+      "meets_all": true
+    },
+    "tt_v1_t27": {
+      "corner": "tt",
+      "vdd": 1.8,
+      "temp": 27,
+      "meas": {
+        "gain_db": 31.697,
+        "gbw_mhz": 104.455,
+        "pm_deg": 80.9348,
+        "isup_ua": 84.7774,
+        "power_uw": 152.599,
+        "vout_v": 0.400774,
+        "vnoise_nv_rthz": 339.064,
+        "vnoise_rms_uv_rms": 398.929
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 1.6969999999999992,
+        "gbw_mhz": 84.455,
+        "pm_deg": 20.934799999999996,
+        "power_uw": 847.4010000000001,
+        "vnoise_nv_rthz": 60.93599999999998
+      },
+      "meets_all": true
+    },
+    "tt_v1_t85": {
+      "corner": "tt",
+      "vdd": 1.8,
+      "temp": 85,
+      "meas": {
+        "gain_db": 29.867,
+        "gbw_mhz": 103.744,
+        "pm_deg": 81.3621,
+        "isup_ua": 99.5516,
+        "power_uw": 179.193,
+        "vout_v": 0.419281,
+        "vnoise_nv_rthz": 344.485,
+        "vnoise_rms_uv_rms": 448.96
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -0.13299999999999912,
+        "gbw_mhz": 83.744,
+        "pm_deg": 21.362099999999998,
+        "power_uw": 820.807,
+        "vnoise_nv_rthz": 55.514999999999986
+      },
+      "meets_all": false
+    },
+    "tt_v1.1_t-40": {
+      "corner": "tt",
+      "vdd": 1.9800000000000002,
+      "temp": -40,
+      "meas": {
+        "gain_db": 38.2628,
+        "gbw_mhz": 97.4796,
+        "pm_deg": 80.3094,
+        "isup_ua": 61.3515,
+        "power_uw": 121.476,
+        "vout_v": 0.57286,
+        "vnoise_nv_rthz": 344.016,
+        "vnoise_rms_uv_rms": 357.762
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 8.262799999999999,
+        "gbw_mhz": 77.4796,
+        "pm_deg": 20.309399999999997,
+        "power_uw": 878.524,
+        "vnoise_nv_rthz": 55.98399999999998
+      },
+      "meets_all": true
+    },
+    "tt_v1.1_t27": {
+      "corner": "tt",
+      "vdd": 1.9800000000000002,
+      "temp": 27,
+      "meas": {
+        "gain_db": 37.0539,
+        "gbw_mhz": 108.076,
+        "pm_deg": 79.871,
+        "isup_ua": 84.9828,
+        "power_uw": 168.266,
+        "vout_v": 0.580282,
+        "vnoise_nv_rthz": 347.108,
+        "vnoise_rms_uv_rms": 394.095
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 7.053899999999999,
+        "gbw_mhz": 88.076,
+        "pm_deg": 19.870999999999995,
+        "power_uw": 831.734,
+        "vnoise_nv_rthz": 52.891999999999996
+      },
+      "meets_all": true
+    },
+    "tt_v1.1_t85": {
+      "corner": "tt",
+      "vdd": 1.9800000000000002,
+      "temp": 85,
+      "meas": {
+        "gain_db": 36.0554,
+        "gbw_mhz": 108.627,
+        "pm_deg": 79.8629,
+        "isup_ua": 99.9094,
+        "power_uw": 197.821,
+        "vout_v": 0.598406,
+        "vnoise_nv_rthz": 353.689,
+        "vnoise_rms_uv_rms": 441.174
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 6.055399999999999,
+        "gbw_mhz": 88.627,
+        "pm_deg": 19.862899999999996,
+        "power_uw": 802.179,
+        "vnoise_nv_rthz": 46.31099999999998
+      },
+      "meets_all": true
+    },
+    "ff_v0.9_t-40": {
+      "corner": "ff",
+      "vdd": 1.62,
+      "temp": -40,
+      "meas": {
+        "gain_db": 0.968673,
+        "gbw_mhz": 18.3595,
+        "pm_deg": 153.127,
+        "isup_ua": 74.9232,
+        "power_uw": 121.376,
+        "vout_v": 0.196269,
+        "vnoise_nv_rthz": 429.11,
+        "vnoise_rms_uv_rms": 484.097
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -29.031327,
+        "gbw_mhz": -1.6404999999999994,
+        "pm_deg": 93.12700000000001,
+        "power_uw": 878.624,
+        "vnoise_nv_rthz": -29.110000000000014
+      },
+      "meets_all": false
+    },
+    "ff_v0.9_t27": {
+      "corner": "ff",
+      "vdd": 1.62,
+      "temp": 27,
+      "meas": {
+        "gain_db": -2.95751,
+        "isup_ua": 96.0579,
+        "power_uw": 155.614,
+        "vout_v": 0.210578,
+        "vnoise_nv_rthz": 544.041,
+        "vnoise_rms_uv_rms": 650.596
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -32.95751,
+        "power_uw": 844.386,
+        "vnoise_nv_rthz": -144.04100000000005
+      },
+      "meets_all": false
+    },
+    "ff_v0.9_t85": {
+      "corner": "ff",
+      "vdd": 1.62,
+      "temp": 85,
+      "meas": {
+        "gain_db": -2.87436,
+        "isup_ua": 108.439,
+        "power_uw": 175.671,
+        "vout_v": 0.2347,
+        "vnoise_nv_rthz": 539.044,
+        "vnoise_rms_uv_rms": 738.768
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -32.87436,
+        "power_uw": 824.329,
+        "vnoise_nv_rthz": -139.04399999999998
+      },
+      "meets_all": false
+    },
+    "ff_v1_t-40": {
+      "corner": "ff",
+      "vdd": 1.8,
+      "temp": -40,
+      "meas": {
+        "gain_db": 32.6397,
+        "gbw_mhz": 112.836,
+        "pm_deg": 80.8319,
+        "isup_ua": 76.1476,
+        "power_uw": 137.066,
+        "vout_v": 0.373572,
+        "vnoise_nv_rthz": 336.307,
+        "vnoise_rms_uv_rms": 324.12
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 2.6396999999999977,
+        "gbw_mhz": 92.836,
+        "pm_deg": 20.831900000000005,
+        "power_uw": 862.934,
+        "vnoise_nv_rthz": 63.692999999999984
+      },
+      "meets_all": true
+    },
+    "ff_v1_t27": {
+      "corner": "ff",
+      "vdd": 1.8,
+      "temp": 27,
+      "meas": {
+        "gain_db": 29.3632,
+        "gbw_mhz": 116.546,
+        "pm_deg": 81.4394,
+        "isup_ua": 100.001,
+        "power_uw": 180.002,
+        "vout_v": 0.381835,
+        "vnoise_nv_rthz": 337.565,
+        "vnoise_rms_uv_rms": 370.794
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -0.6368000000000009,
+        "gbw_mhz": 96.546,
+        "pm_deg": 21.439400000000006,
+        "power_uw": 819.998,
+        "vnoise_nv_rthz": 62.435
+      },
+      "meets_all": false
+    },
+    "ff_v1_t85": {
+      "corner": "ff",
+      "vdd": 1.8,
+      "temp": 85,
+      "meas": {
+        "gain_db": 27.2062,
+        "gbw_mhz": 112.506,
+        "pm_deg": 82.2722,
+        "isup_ua": 114.417,
+        "power_uw": 205.95,
+        "vout_v": 0.400971,
+        "vnoise_nv_rthz": 342.536,
+        "vnoise_rms_uv_rms": 423.819
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -2.793800000000001,
+        "gbw_mhz": 92.506,
+        "pm_deg": 22.272199999999998,
+        "power_uw": 794.05,
+        "vnoise_nv_rthz": 57.464
+      },
+      "meets_all": false
+    },
+    "ff_v1.1_t-40": {
+      "corner": "ff",
+      "vdd": 1.9800000000000002,
+      "temp": -40,
+      "meas": {
+        "gain_db": 37.5635,
+        "gbw_mhz": 116.044,
+        "pm_deg": 79.9699,
+        "isup_ua": 76.278,
+        "power_uw": 151.03,
+        "vout_v": 0.553286,
+        "vnoise_nv_rthz": 344.371,
+        "vnoise_rms_uv_rms": 321.263
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 7.563499999999998,
+        "gbw_mhz": 96.044,
+        "pm_deg": 19.969899999999996,
+        "power_uw": 848.97,
+        "vnoise_nv_rthz": 55.62900000000002
+      },
+      "meets_all": true
+    },
+    "ff_v1.1_t27": {
+      "corner": "ff",
+      "vdd": 1.9800000000000002,
+      "temp": 27,
+      "meas": {
+        "gain_db": 36.163,
+        "gbw_mhz": 122.69,
+        "pm_deg": 79.7563,
+        "isup_ua": 100.307,
+        "power_uw": 198.607,
+        "vout_v": 0.561165,
+        "vnoise_nv_rthz": 348.181,
+        "vnoise_rms_uv_rms": 364.43
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 6.162999999999997,
+        "gbw_mhz": 102.69,
+        "pm_deg": 19.756299999999996,
+        "power_uw": 801.393,
+        "vnoise_nv_rthz": 51.81900000000002
+      },
+      "meets_all": true
+    },
+    "ff_v1.1_t85": {
+      "corner": "ff",
+      "vdd": 1.9800000000000002,
+      "temp": 85,
+      "meas": {
+        "gain_db": 35.0961,
+        "gbw_mhz": 120.73,
+        "pm_deg": 79.8525,
+        "isup_ua": 114.935,
+        "power_uw": 227.571,
+        "vout_v": 0.579797,
+        "vnoise_nv_rthz": 354.396,
+        "vnoise_rms_uv_rms": 413.044
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 5.0961,
+        "gbw_mhz": 100.73,
+        "pm_deg": 19.852500000000006,
+        "power_uw": 772.429,
+        "vnoise_nv_rthz": 45.603999999999985
+      },
+      "meets_all": true
+    },
+    "ss_v0.9_t-40": {
+      "corner": "ss",
+      "vdd": 1.62,
+      "temp": -40,
+      "meas": {
+        "gain_db": 17.1053,
+        "gbw_mhz": 63.3235,
+        "pm_deg": 90.698,
+        "isup_ua": 48.2042,
+        "power_uw": 78.0907,
+        "vout_v": 0.23257,
+        "vnoise_nv_rthz": 320.17,
+        "vnoise_rms_uv_rms": 449.003
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -12.8947,
+        "gbw_mhz": 43.3235,
+        "pm_deg": 30.697999999999993,
+        "power_uw": 921.9093,
+        "vnoise_nv_rthz": 79.82999999999998
+      },
+      "meets_all": false
+    },
+    "ss_v0.9_t27": {
+      "corner": "ss",
+      "vdd": 1.62,
+      "temp": 27,
+      "meas": {
+        "gain_db": 8.35601,
+        "gbw_mhz": 49.2549,
+        "pm_deg": 109.149,
+        "isup_ua": 70.2336,
+        "power_uw": 113.778,
+        "vout_v": 0.241793,
+        "vnoise_nv_rthz": 344.025,
+        "vnoise_rms_uv_rms": 538.458
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -21.643990000000002,
+        "gbw_mhz": 29.2549,
+        "pm_deg": 49.149,
+        "power_uw": 886.222,
+        "vnoise_nv_rthz": 55.97500000000002
+      },
+      "meets_all": false
+    },
+    "ss_v0.9_t85": {
+      "corner": "ss",
+      "vdd": 1.62,
+      "temp": 85,
+      "meas": {
+        "gain_db": 5.99149,
+        "gbw_mhz": 41.4916,
+        "pm_deg": 117.884,
+        "isup_ua": 84.2269,
+        "power_uw": 136.448,
+        "vout_v": 0.262108,
+        "vnoise_nv_rthz": 371.423,
+        "vnoise_rms_uv_rms": 632.054
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -24.00851,
+        "gbw_mhz": 21.4916,
+        "pm_deg": 57.884,
+        "power_uw": 863.552,
+        "vnoise_nv_rthz": 28.576999999999998
+      },
+      "meets_all": false
+    },
+    "ss_v1_t-40": {
+      "corner": "ss",
+      "vdd": 1.8,
+      "temp": -40,
+      "meas": {
+        "gain_db": 35.6403,
+        "gbw_mhz": 79.2469,
+        "pm_deg": 81.1246,
+        "isup_ua": 48.381,
+        "power_uw": 87.0857,
+        "vout_v": 0.412076,
+        "vnoise_nv_rthz": 339.369,
+        "vnoise_rms_uv_rms": 408.417
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 5.640300000000003,
+        "gbw_mhz": 59.2469,
+        "pm_deg": 21.1246,
+        "power_uw": 912.9143,
+        "vnoise_nv_rthz": 60.63099999999997
+      },
+      "meets_all": true
+    },
+    "ss_v1_t27": {
+      "corner": "ss",
+      "vdd": 1.8,
+      "temp": 27,
+      "meas": {
+        "gain_db": 33.5103,
+        "gbw_mhz": 91.837,
+        "pm_deg": 80.7853,
+        "isup_ua": 71.0055,
+        "power_uw": 127.81,
+        "vout_v": 0.41975,
+        "vnoise_nv_rthz": 340.078,
+        "vnoise_rms_uv_rms": 434.984
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 3.510300000000001,
+        "gbw_mhz": 71.837,
+        "pm_deg": 20.785300000000007,
+        "power_uw": 872.19,
+        "vnoise_nv_rthz": 59.922000000000025
+      },
+      "meets_all": true
+    },
+    "ss_v1_t85": {
+      "corner": "ss",
+      "vdd": 1.8,
+      "temp": 85,
+      "meas": {
+        "gain_db": 31.9259,
+        "gbw_mhz": 93.7838,
+        "pm_deg": 80.952,
+        "isup_ua": 85.8527,
+        "power_uw": 154.535,
+        "vout_v": 0.437778,
+        "vnoise_nv_rthz": 345.962,
+        "vnoise_rms_uv_rms": 481.215
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 1.9258999999999986,
+        "gbw_mhz": 73.7838,
+        "pm_deg": 20.951999999999998,
+        "power_uw": 845.465,
+        "vnoise_nv_rthz": 54.03800000000001
+      },
+      "meets_all": true
+    },
+    "ss_v1.1_t-40": {
+      "corner": "ss",
+      "vdd": 1.9800000000000002,
+      "temp": -40,
+      "meas": {
+        "gain_db": 38.8397,
+        "gbw_mhz": 80.2942,
+        "pm_deg": 80.7502,
+        "isup_ua": 48.4375,
+        "power_uw": 95.9062,
+        "vout_v": 0.591918,
+        "vnoise_nv_rthz": 343.978,
+        "vnoise_rms_uv_rms": 406.059
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 8.8397,
+        "gbw_mhz": 60.294200000000004,
+        "pm_deg": 20.750200000000007,
+        "power_uw": 904.0938,
+        "vnoise_nv_rthz": 56.02199999999999
+      },
+      "meets_all": true
+    },
+    "ss_v1.1_t27": {
+      "corner": "ss",
+      "vdd": 1.9800000000000002,
+      "temp": 27,
+      "meas": {
+        "gain_db": 37.8279,
+        "gbw_mhz": 94.0095,
+        "pm_deg": 80.0839,
+        "isup_ua": 71.1451,
+        "power_uw": 140.867,
+        "vout_v": 0.599381,
+        "vnoise_nv_rthz": 346.258,
+        "vnoise_rms_uv_rms": 430.938
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 7.8279,
+        "gbw_mhz": 74.0095,
+        "pm_deg": 20.0839,
+        "power_uw": 859.133,
+        "vnoise_nv_rthz": 53.74200000000002
+      },
+      "meets_all": true
+    },
+    "ss_v1.1_t85": {
+      "corner": "ss",
+      "vdd": 1.9800000000000002,
+      "temp": 85,
+      "meas": {
+        "gain_db": 36.9018,
+        "gbw_mhz": 96.8367,
+        "pm_deg": 79.9662,
+        "isup_ua": 86.1041,
+        "power_uw": 170.486,
+        "vout_v": 0.617111,
+        "vnoise_nv_rthz": 353.15,
+        "vnoise_rms_uv_rms": 475.03
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 6.9018000000000015,
+        "gbw_mhz": 76.8367,
+        "pm_deg": 19.9662,
+        "power_uw": 829.514,
+        "vnoise_nv_rthz": 46.85000000000002
+      },
+      "meets_all": true
+    },
+    "fs_v0.9_t-40": {
+      "corner": "fs",
+      "vdd": 1.62,
+      "temp": -40,
+      "meas": {
+        "gain_db": 31.4285,
+        "gbw_mhz": 66.315,
+        "pm_deg": 82.3864,
+        "isup_ua": 39.804,
+        "power_uw": 64.4824,
+        "vout_v": 0.315191,
+        "vnoise_nv_rthz": 340.014,
+        "vnoise_rms_uv_rms": 458.541
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 1.4284999999999997,
+        "gbw_mhz": 46.315,
+        "pm_deg": 22.386399999999995,
+        "power_uw": 935.5176,
+        "vnoise_nv_rthz": 59.98599999999999
+      },
+      "meets_all": true
+    },
+    "fs_v0.9_t27": {
+      "corner": "fs",
+      "vdd": 1.62,
+      "temp": 27,
+      "meas": {
+        "gain_db": 27.6015,
+        "gbw_mhz": 78.8186,
+        "pm_deg": 82.7935,
+        "isup_ua": 61.4981,
+        "power_uw": 99.6269,
+        "vout_v": 0.324982,
+        "vnoise_nv_rthz": 336.83,
+        "vnoise_rms_uv_rms": 475.316
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -2.3984999999999985,
+        "gbw_mhz": 58.8186,
+        "pm_deg": 22.793499999999995,
+        "power_uw": 900.3731,
+        "vnoise_nv_rthz": 63.170000000000016
+      },
+      "meets_all": false
+    },
+    "fs_v0.9_t85": {
+      "corner": "fs",
+      "vdd": 1.62,
+      "temp": 85,
+      "meas": {
+        "gain_db": 24.9596,
+        "gbw_mhz": 80.5026,
+        "pm_deg": 83.8502,
+        "isup_ua": 76.2944,
+        "power_uw": 123.597,
+        "vout_v": 0.344095,
+        "vnoise_nv_rthz": 341.566,
+        "vnoise_rms_uv_rms": 522.872
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -5.040400000000002,
+        "gbw_mhz": 60.5026,
+        "pm_deg": 23.8502,
+        "power_uw": 876.403,
+        "vnoise_nv_rthz": 58.434000000000026
+      },
+      "meets_all": false
+    },
+    "fs_v1_t-40": {
+      "corner": "fs",
+      "vdd": 1.8,
+      "temp": -40,
+      "meas": {
+        "gain_db": 37.4857,
+        "gbw_mhz": 68.3234,
+        "pm_deg": 81.4602,
+        "isup_ua": 39.8642,
+        "power_uw": 71.7556,
+        "vout_v": 0.495008,
+        "vnoise_nv_rthz": 347.571,
+        "vnoise_rms_uv_rms": 451.798
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 7.485700000000001,
+        "gbw_mhz": 48.32340000000001,
+        "pm_deg": 21.4602,
+        "power_uw": 928.2444,
+        "vnoise_nv_rthz": 52.428999999999974
+      },
+      "meets_all": true
+    },
+    "fs_v1_t27": {
+      "corner": "fs",
+      "vdd": 1.8,
+      "temp": 27,
+      "meas": {
+        "gain_db": 36.2287,
+        "gbw_mhz": 83.8638,
+        "pm_deg": 80.722,
+        "isup_ua": 61.67,
+        "power_uw": 111.006,
+        "vout_v": 0.504503,
+        "vnoise_nv_rthz": 348.077,
+        "vnoise_rms_uv_rms": 462.341
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 6.2287000000000035,
+        "gbw_mhz": 63.8638,
+        "pm_deg": 20.721999999999994,
+        "power_uw": 888.994,
+        "vnoise_nv_rthz": 51.923
+      },
+      "meets_all": true
+    },
+    "fs_v1_t85": {
+      "corner": "fs",
+      "vdd": 1.8,
+      "temp": 85,
+      "meas": {
+        "gain_db": 35.139,
+        "gbw_mhz": 88.1936,
+        "pm_deg": 80.5962,
+        "isup_ua": 76.6362,
+        "power_uw": 137.945,
+        "vout_v": 0.523151,
+        "vnoise_nv_rthz": 354.564,
+        "vnoise_rms_uv_rms": 502.125
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 5.139000000000003,
+        "gbw_mhz": 68.1936,
+        "pm_deg": 20.596199999999996,
+        "power_uw": 862.0550000000001,
+        "vnoise_nv_rthz": 45.43599999999998
+      },
+      "meets_all": true
+    },
+    "fs_v1.1_t-40": {
+      "corner": "fs",
+      "vdd": 1.9800000000000002,
+      "temp": -40,
+      "meas": {
+        "gain_db": 39.4187,
+        "gbw_mhz": 68.7617,
+        "pm_deg": 81.2926,
+        "isup_ua": 39.9021,
+        "power_uw": 79.0062,
+        "vout_v": 0.674894,
+        "vnoise_nv_rthz": 350.352,
+        "vnoise_rms_uv_rms": 449.892
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 9.418700000000001,
+        "gbw_mhz": 48.761700000000005,
+        "pm_deg": 21.292599999999993,
+        "power_uw": 920.9938,
+        "vnoise_nv_rthz": 49.648000000000025
+      },
+      "meets_all": true
+    },
+    "fs_v1.1_t27": {
+      "corner": "fs",
+      "vdd": 1.9800000000000002,
+      "temp": 27,
+      "meas": {
+        "gain_db": 38.7364,
+        "gbw_mhz": 84.8596,
+        "pm_deg": 80.4148,
+        "isup_ua": 61.7608,
+        "power_uw": 122.286,
+        "vout_v": 0.68425,
+        "vnoise_nv_rthz": 351.708,
+        "vnoise_rms_uv_rms": 459.612
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 8.736400000000003,
+        "gbw_mhz": 64.8596,
+        "pm_deg": 20.4148,
+        "power_uw": 877.7139999999999,
+        "vnoise_nv_rthz": 48.29199999999997
+      },
+      "meets_all": true
+    },
+    "fs_v1.1_t85": {
+      "corner": "fs",
+      "vdd": 1.9800000000000002,
+      "temp": 85,
+      "meas": {
+        "gain_db": 37.9777,
+        "gbw_mhz": 89.5521,
+        "pm_deg": 80.1783,
+        "isup_ua": 76.7993,
+        "power_uw": 152.063,
+        "vout_v": 0.702702,
+        "vnoise_nv_rthz": 358.76,
+        "vnoise_rms_uv_rms": 498.366
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 7.977699999999999,
+        "gbw_mhz": 69.5521,
+        "pm_deg": 20.178299999999993,
+        "power_uw": 847.937,
+        "vnoise_nv_rthz": 41.24000000000001
+      },
+      "meets_all": true
+    },
+    "sf_v0.9_t-40": {
+      "corner": "sf",
+      "vdd": 1.62,
+      "temp": -40,
+      "meas": {
+        "gain_db": -15.8877,
+        "isup_ua": 78.5091,
+        "power_uw": 127.185,
+        "vout_v": 0.128448,
+        "vnoise_nv_rthz": 1558.27,
+        "vnoise_rms_uv_rms": 1010.6
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -45.8877,
+        "power_uw": 872.815,
+        "vnoise_nv_rthz": -1158.27
+      },
+      "meets_all": false
+    },
+    "sf_v0.9_t27": {
+      "corner": "sf",
+      "vdd": 1.62,
+      "temp": 27,
+      "meas": {
+        "gain_db": -14.8731,
+        "isup_ua": 95.0606,
+        "power_uw": 153.998,
+        "vout_v": 0.151967,
+        "vnoise_nv_rthz": 1323.06,
+        "vnoise_rms_uv_rms": 1102.45
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -44.8731,
+        "power_uw": 846.002,
+        "vnoise_nv_rthz": -923.06
+      },
+      "meets_all": false
+    },
+    "sf_v0.9_t85": {
+      "corner": "sf",
+      "vdd": 1.62,
+      "temp": 85,
+      "meas": {
+        "gain_db": -12.9594,
+        "isup_ua": 106.046,
+        "power_uw": 171.795,
+        "vout_v": 0.178672,
+        "vnoise_nv_rthz": 1098.04,
+        "vnoise_rms_uv_rms": 1127.29
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -42.9594,
+        "power_uw": 828.205,
+        "vnoise_nv_rthz": -698.04
+      },
+      "meets_all": false
+    },
+    "sf_v1_t-40": {
+      "corner": "sf",
+      "vdd": 1.8,
+      "temp": -40,
+      "meas": {
+        "gain_db": 23.16,
+        "gbw_mhz": 112.835,
+        "pm_deg": 84.3663,
+        "isup_ua": 88.2945,
+        "power_uw": 158.93,
+        "vout_v": 0.287458,
+        "vnoise_nv_rthz": 317.798,
+        "vnoise_rms_uv_rms": 316.903
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -6.84,
+        "gbw_mhz": 92.835,
+        "pm_deg": 24.366299999999995,
+        "power_uw": 841.0699999999999,
+        "vnoise_nv_rthz": 82.202
+      },
+      "meets_all": false
+    },
+    "sf_v1_t27": {
+      "corner": "sf",
+      "vdd": 1.8,
+      "temp": 27,
+      "meas": {
+        "gain_db": 15.0339,
+        "gbw_mhz": 93.8689,
+        "pm_deg": 93.6305,
+        "isup_ua": 111.259,
+        "power_uw": 200.266,
+        "vout_v": 0.296241,
+        "vnoise_nv_rthz": 324.376,
+        "vnoise_rms_uv_rms": 395.428
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -14.9661,
+        "gbw_mhz": 73.8689,
+        "pm_deg": 33.6305,
+        "power_uw": 799.734,
+        "vnoise_nv_rthz": 75.62400000000002
+      },
+      "meets_all": false
+    },
+    "sf_v1_t85": {
+      "corner": "sf",
+      "vdd": 1.8,
+      "temp": 85,
+      "meas": {
+        "gain_db": 11.7198,
+        "gbw_mhz": 79.141,
+        "pm_deg": 100.15,
+        "isup_ua": 124.317,
+        "power_uw": 223.77,
+        "vout_v": 0.316624,
+        "vnoise_nv_rthz": 341.03,
+        "vnoise_rms_uv_rms": 478.879
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": -18.2802,
+        "gbw_mhz": 59.141000000000005,
+        "pm_deg": 40.150000000000006,
+        "power_uw": 776.23,
+        "vnoise_nv_rthz": 58.97000000000003
+      },
+      "meets_all": false
+    },
+    "sf_v1.1_t-40": {
+      "corner": "sf",
+      "vdd": 1.9800000000000002,
+      "temp": -40,
+      "meas": {
+        "gain_db": 35.7742,
+        "gbw_mhz": 128.161,
+        "pm_deg": 79.7847,
+        "isup_ua": 88.5826,
+        "power_uw": 175.394,
+        "vout_v": 0.466857,
+        "vnoise_nv_rthz": 337.021,
+        "vnoise_rms_uv_rms": 303.053
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 5.7742,
+        "gbw_mhz": 108.161,
+        "pm_deg": 19.7847,
+        "power_uw": 824.606,
+        "vnoise_nv_rthz": 62.978999999999985
+      },
+      "meets_all": true
+    },
+    "sf_v1.1_t27": {
+      "corner": "sf",
+      "vdd": 1.9800000000000002,
+      "temp": 27,
+      "meas": {
+        "gain_db": 33.6818,
+        "gbw_mhz": 130.194,
+        "pm_deg": 79.9405,
+        "isup_ua": 112.154,
+        "power_uw": 222.064,
+        "vout_v": 0.474341,
+        "vnoise_nv_rthz": 341.161,
+        "vnoise_rms_uv_rms": 351.244
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 3.6818000000000026,
+        "gbw_mhz": 110.19399999999999,
+        "pm_deg": 19.9405,
+        "power_uw": 777.936,
+        "vnoise_nv_rthz": 58.839
+      },
+      "meets_all": true
+    },
+    "sf_v1.1_t85": {
+      "corner": "sf",
+      "vdd": 1.9800000000000002,
+      "temp": 85,
+      "meas": {
+        "gain_db": 32.249,
+        "gbw_mhz": 125.587,
+        "pm_deg": 80.2739,
+        "isup_ua": 125.978,
+        "power_uw": 249.437,
+        "vout_v": 0.492947,
+        "vnoise_nv_rthz": 346.922,
+        "vnoise_rms_uv_rms": 402.385
+      },
+      "failed": [],
+      "margin": {
+        "gain_db": 2.2490000000000023,
+        "gbw_mhz": 105.587,
+        "pm_deg": 20.273899999999998,
+        "power_uw": 750.563,
+        "vnoise_nv_rthz": 53.077999999999975
+      },
+      "meets_all": true
+    }
+  },
+  "worst_margin": {
+    "gain_db": {
+      "margin": -45.8877,
+      "point": "sf_v0.9_t-40",
+      "nominal_margin": 1.6969999999999992
+    },
+    "gbw_mhz": {
+      "margin": -2.0685000000000002,
+      "point": "tt_v0.9_t85",
+      "nominal_margin": 84.455
+    },
+    "pm_deg": {
+      "margin": 19.756299999999996,
+      "point": "ff_v1.1_t27",
+      "nominal_margin": 20.934799999999996
+    },
+    "power_uw": {
+      "margin": 750.563,
+      "point": "sf_v1.1_t85",
+      "nominal_margin": 847.4010000000001
+    },
+    "vnoise_nv_rthz": {
+      "margin": -1158.27,
+      "point": "sf_v0.9_t-40",
+      "nominal_margin": 60.93599999999998
+    }
+  },
+  "n_meeting_all_specs": 25
+}

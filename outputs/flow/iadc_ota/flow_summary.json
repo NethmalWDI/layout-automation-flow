@@ -1,0 +1,37 @@
+{
+ "design": "iadc_ota",
+ "stages": {
+  "S0": {
+   "stage": "S0",
+   "steps": [
+    {
+     "step": "ingest",
+     "rc": 0,
+     "seconds": 28.2,
+     "log": "runs/logs/flow/iadc_ota/S0_ingest.log"
+    },
+    {
+     "step": "pcell_binding",
+     "rc": 1,
+     "seconds": 299.9,
+     "log": "runs/logs/flow/iadc_ota/S0_pcell_binding.log"
+    }
+   ],
+   "started": "2026-10-26T13:42:26",
+   "gates": {
+    "G0.1_inventory": true,
+    "G0.2_validation": true,
+    "G0.3_hash_freeze": true,
+    "G0.4_name_map": true,
+    "G0.5_round_trip_lvs": true,
+    "G0.6_testbench_reproduction": true,
+    "G0.7_pcell_binding_drc_lvs": false
+   },
+   "status": "FAIL",
+   "failed_gates": [
+    "G0.7_pcell_binding_drc_lvs"
+   ],
+   "seconds": 328.1
+  }
+ }
+}

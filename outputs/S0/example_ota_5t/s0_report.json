@@ -115,6 +115,76 @@
         "XM2": true,
         "XM5": true
       }
+    },
+    "G0.9_pvt (info)": {
+      "pass": null,
+      "points": 45,
+      "meeting_all_specs": 25,
+      "worst_margin": {
+        "gain_db": {
+          "margin": -45.8877,
+          "point": "sf_v0.9_t-40",
+          "nominal_margin": 1.6969999999999992
+        },
+        "gbw_mhz": {
+          "margin": -2.0685000000000002,
+          "point": "tt_v0.9_t85",
+          "nominal_margin": 84.455
+        },
+        "pm_deg": {
+          "margin": 19.756299999999996,
+          "point": "ff_v1.1_t27",
+          "nominal_margin": 20.934799999999996
+        },
+        "power_uw": {
+          "margin": 750.563,
+          "point": "sf_v1.1_t85",
+          "nominal_margin": 847.4010000000001
+        },
+        "vnoise_nv_rthz": {
+          "margin": -1158.27,
+          "point": "sf_v0.9_t-40",
+          "nominal_margin": 60.93599999999998
+        }
+      },
+      "failed_runs": [],
+      "detail": "outputs/S0/example_ota_5t/pvt.json"
+    },
+    "G0.10_mismatch_mc (info)": {
+      "pass": null,
+      "runs": 200,
+      "summary": {
+        "gain_db": {
+          "mean": 31.180938,
+          "std": 3.51738197515592,
+          "min": 22.764,
+          "max": 38.0206,
+          "n": 200
+        },
+        "gbw_mhz": {
+          "mean": 104.26973,
+          "std": 0.9176649781705761,
+          "min": 101.199,
+          "max": 106.458,
+          "n": 200
+        },
+        "pm_deg": {
+          "mean": 81.1583935,
+          "std": 0.7574493192709795,
+          "min": 80.0442,
+          "max": 83.6346,
+          "n": 200
+        },
+        "offset_v": {
+          "mean": -0.007044480000000024,
+          "std": 0.0017097923232201962,
+          "min": -0.010566999999999993,
+          "max": -0.0025089999999999835,
+          "n": 200,
+          "definition": "follower output - VCM (single-ended) or v(OUTP) - v(OUTN) (differential)"
+        }
+      },
+      "detail": "outputs/S0/example_ota_5t/mc.json"
     }
   },
   "notes": [],

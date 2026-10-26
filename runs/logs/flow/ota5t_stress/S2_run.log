@@ -1,0 +1,50 @@
+$ /usr/bin/python3 -m src.s2.run inputs/ota5t_stress/package.yaml --workers 2
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/foss/designs/src/s2/run.py", line 808, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/foss/designs/src/s2/run.py", line 662, in main
+    rows_ = spice_checks(checks_b, v_["budgets"], f"baselines/{m_}")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/foss/designs/src/s2/run.py", line 609, in spice_checks
+    r = run_scenarios(s0, ir, scen, out / "work" / tag, a.workers, pvt_points)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/foss/designs/src/s2/run.py", line 392, in run_scenarios
+    return dict(ex.map(one, jobs))
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/foss/designs/src/s2/run.py", line 383, in one
+    r = run_ngspice_text(txt, wd, kind)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/foss/designs/src/common/tools.py", line 116, in run_ngspice_text
+    return run_ngspice(deck, workdir, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/foss/designs/src/common/tools.py", line 95, in run_ngspice
+    r = subprocess.run(["ngspice", "-b", str(deck)], cwd=workdir, env=TOOL_ENV,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/usr/lib/python3.12/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['ngspice', '-b', '/foss/designs/outputs/S2/ota5t_stress/work/baselines/lp_sum/sat_XM3/op.spice']' timed out after 600 seconds

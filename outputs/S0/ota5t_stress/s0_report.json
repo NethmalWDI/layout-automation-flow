@@ -83,6 +83,76 @@
         "XM2": true,
         "XM5": true
       }
+    },
+    "G0.9_pvt (info)": {
+      "pass": null,
+      "points": 45,
+      "meeting_all_specs": 13,
+      "worst_margin": {
+        "gain_db": {
+          "margin": -47.0847,
+          "point": "sf_v0.9_t-40",
+          "nominal_margin": 0.5
+        },
+        "gbw_mhz": {
+          "margin": -266.4267,
+          "point": "tt_v0.9_t85",
+          "nominal_margin": 37.36540000000002
+        },
+        "pm_deg": {
+          "margin": 3.3286999999999978,
+          "point": "ff_v1.1_t-40",
+          "nominal_margin": 5.0
+        },
+        "power_uw": {
+          "margin": 750.563,
+          "point": "sf_v1.1_t85",
+          "nominal_margin": 847.4010000000001
+        },
+        "vnoise_nv_rthz": {
+          "margin": -1158.27,
+          "point": "sf_v0.9_t-40",
+          "nominal_margin": 60.93599999999998
+        }
+      },
+      "failed_runs": [],
+      "detail": "outputs/S0/ota5t_stress/pvt.json"
+    },
+    "G0.10_mismatch_mc (info)": {
+      "pass": null,
+      "runs": 200,
+      "summary": {
+        "gain_db": {
+          "mean": 31.180938,
+          "std": 3.51738197515592,
+          "min": 22.764,
+          "max": 38.0206,
+          "n": 200
+        },
+        "gbw_mhz": {
+          "mean": 372.55082999999996,
+          "std": 4.012244689490126,
+          "min": 358.655,
+          "max": 380.309,
+          "n": 200
+        },
+        "pm_deg": {
+          "mean": 65.2412675,
+          "std": 0.518244861892659,
+          "min": 64.4662,
+          "max": 66.9889,
+          "n": 200
+        },
+        "offset_v": {
+          "mean": -0.007044480000000024,
+          "std": 0.0017097923232201962,
+          "min": -0.010566999999999993,
+          "max": -0.0025089999999999835,
+          "n": 200,
+          "definition": "follower output - VCM (single-ended) or v(OUTP) - v(OUTN) (differential)"
+        }
+      },
+      "detail": "outputs/S0/ota5t_stress/mc.json"
     }
   },
   "notes": [

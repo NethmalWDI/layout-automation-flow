@@ -13,7 +13,7 @@ from pathlib import Path
 
 MOS_MODEL_RE = re.compile(r"^sky130_fd_pr__([np])fet_\w+$", re.I)
 PDK_PASSIVE_RE = re.compile(r"^sky130_fd_pr__(cap|res)_\w+$", re.I)
-SI = {"t": 1e12, "g": 1e9, "meg": 1e6, "k": 1e3, "m": 1e-3, "u": 1e-6, "n": 1e-9, "p": 1e-12, "f": 1e-15}
+SI = {"t": 1e12, "g": 1e9, "meg": 1e6, "k": 1e3, "m": 1e-3, "u": 1e-6, "n": 1e-9, "p": 1e-12, "f": 1e-15, "a": 1e-18}
 
 
 def si(text) -> float:
@@ -21,7 +21,7 @@ def si(text) -> float:
     if isinstance(text, (int, float)):
         return float(text)
     s_ = str(text).strip().strip("'").lower()
-    m = re.fullmatch(r"([-+]?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?)(meg|[tgkmunpf])?[a-z]*", s_)
+    m = re.fullmatch(r"([-+]?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?)(meg|[tgkmunpfa])?[a-z]*", s_)
     if not m:
         raise SpiceError(f"not a number: {text!r}")
     return float(f"{float(m.group(1)) * (SI[m.group(2)] if m.group(2) else 1.0):.15g}")
@@ -112,7 +112,8 @@ class Passive:
             return si(self.value.split()[0])
         if re.match(r"sky130_fd_pr__cap_mim_m[34]_[12]$", self.model, re.I):
             w, l_ = float(self.params["W"]), float(self.params["L"])
-            mult = float(self.params.get("MF", self.params.get("MULT", self.params.get("M", 1))))
+            # the simulator multiplies by the instance m; xschem writes MF (for layout) = m
+            mult = float(self.params.get("M", self.params.get("MF", self.params.get("MULT", 1))))
             return 2e-15 * (w + 0.15) * (l_ + 0.15) * mult
         return None
 

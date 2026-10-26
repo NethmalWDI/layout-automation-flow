@@ -1,0 +1,45 @@
+{
+  "design": "ttsky25a_fd",
+  "gds": "circuits/ttsky25a_fd/upstream_src/gds/tt_um_diff.gds",
+  "cell": "tt_um_diff",
+  "lvs_vs_layout_view": {
+    "match": false,
+    "report": "outputs/reference_layout/ttsky25a_fd/lvs_report.txt",
+    "summary": [
+      "Instance: sky130_fd_pr__cap_mim_m3_1:357   |(no matching instance)                     ",
+      "Instance: sky130_fd_pr__cap_mim_m3_1:397   |(no matching instance)                     ",
+      "Instance: sky130_fd_pr__res_generic_po:69  |(no matching instance)                     ",
+      "Instance: sky130_fd_pr__res_generic_po:177 |(no matching instance)                     ",
+      "Instance: sky130_fd_pr__pfet_01v8:917      |(no matching instance)                     ",
+      "Netlists do not match.",
+      "Port matching may fail to disambiguate symmetries.",
+      "ua[3]                                      |Vom **Mismatch**                           ",
+      "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2sta |Vdd **Mismatch**                           ",
+      "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2sta |Vss **Mismatch**                           ",
+      "Final result: Netlists do not match.",
+      "Port matching may fail to disambiguate symmetries."
+    ]
+  },
+  "pex_ports": [
+    "ena",
+    "ua[0]",
+    "ua[1]",
+    "ua[2]",
+    "ua[3]",
+    "ua[4]",
+    "ua[5]",
+    "ua[6]",
+    "ua[7]",
+    "ui_in[0]"
+  ],
+  "unmapped_ports": [
+    "ena",
+    "ua[6]",
+    "ua[7]"
+  ],
+  "pex_caps": 908,
+  "drawn_devices_only": {},
+  "post_layout": {},
+  "compare": {},
+  "note": "PEX with capacitance only (cthresh 0, no wire resistance); LVS against the flow's layout view"
+}

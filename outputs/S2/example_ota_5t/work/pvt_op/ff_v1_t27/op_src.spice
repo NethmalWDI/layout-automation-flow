@@ -1,0 +1,52 @@
+* example_ota_5t on diso_amp_OP
+.lib $PDK_ROOT/sky130A/libs.tech/combined/sky130.lib.spice ff
+.param VDD_V=1.8 VCM_V=0.9 CL_F=1p
+.temp 27
+
+** sch_path: /foss/designs/PROJECTS/llm-analog-sizing/testbenches/diso_amp_OP.sch
+**.subckt diso_amp_OP
+x1 INP INN net1 VDD 0 OUT dut_amp
+Vinp INP 0 'VCM_V'
+Vinn INN 0 'VCM_V'
+Cload OUT 0 'CL_F'
+* noconn #net1
+Vsup VDD 0 'VDD_V'
+**** begin user architecture code
+
+.control
+  save all
+  op
+
+  * supply current [uA], supply power [uW], output operating point [V]
+  let isup    = abs(i(vsup))
+  let isup_ua = isup * 1e6
+  let power_uw = isup * v(VDD) * 1e6
+  let vout_v  = v(OUT)
+
+  echo MEAS isup_ua $&isup_ua
+  echo MEAS power_uw $&power_uw
+  echo MEAS vout_v $&vout_v
+
+  write
+  quit 0
+.endc
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  dut_amp.sym # of pins=6
+** sym_path: /foss/designs/PROJECTS/llm-analog-sizing/testbenches/dut_amp.sym
+** sch_path: /foss/designs/PROJECTS/llm-analog-sizing/testbenches/dut_amp.sch
+.subckt dut_amp INP INN OUTN VDD VSS OUTP
+XDUT VDD OUTP INP INN VSS example_ota_5t_sized
+.ends
+
+.subckt example_ota_5t_sized VDD OUTP INP INN VSS
+XM3 net3 net3 VDD VDD sky130_fd_pr__pfet_01v8 L=1 W=8 NF=1 AD=2.32 AS=2.32 PD=16.58 PS=16.58 NRD=0.03625 NRS=0.03625 SA=0 SB=0 SD=0 MULT=1
+XM4 OUTP net3 VDD VDD sky130_fd_pr__pfet_01v8 L=1 W=8 NF=1 AD=2.32 AS=2.32 PD=16.58 PS=16.58 NRD=0.03625 NRS=0.03625 SA=0 SB=0 SD=0 MULT=1
+XM1 net3 INP net1 VSS sky130_fd_pr__nfet_01v8 L=0.5 W=24 NF=1 AD=6.96 AS=6.96 PD=48.58 PS=48.58 NRD=0.0120833333333333 NRS=0.0120833333333333 SA=0 SB=0 SD=0 MULT=1
+XM2 OUTP INN net1 VSS sky130_fd_pr__nfet_01v8 L=0.5 W=24 NF=1 AD=6.96 AS=6.96 PD=48.58 PS=48.58 NRD=0.0120833333333333 NRS=0.0120833333333333 SA=0 SB=0 SD=0 MULT=1
+XM5 net1 net2 VSS VSS sky130_fd_pr__nfet_01v8 L=1 W=24 NF=1 AD=6.96 AS=6.96 PD=48.58 PS=48.58 NRD=0.0120833333333333 NRS=0.0120833333333333 SA=0 SB=0 SD=0 MULT=1
+V1 net2 VSS 0.75
+.ends example_ota_5t_sized
+.end

@@ -1,0 +1,14 @@
+=== A: v1 switch on example_ota_5t 11:59:07
+== example_ota_5t
+  S2/cells           rc=0      4.8 s  log: runs/logs/flow/example_ota_5t/S2_cells.log
+  S2/run             rc=0     20.8 s  log: runs/logs/flow/example_ota_5t/S2_run.log
+  S2: PASS
+  S3/run             rc=0     20.8 s  log: runs/logs/flow/example_ota_5t/S3_run.log
+  S3: PASS
+== golden example_ota_5t S0: OK
+== golden example_ota_5t S1: OK
+== golden example_ota_5t S2: 1 differences
+    gate.G2.7_library_floors_feasible: new gate (now None)
+== golden example_ota_5t S3: 1 differences
+    gate.G3.7_modes (info): new gate (now None)
+=== B: after on the 5T designs 11:59:54

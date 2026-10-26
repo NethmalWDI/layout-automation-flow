@@ -43,6 +43,8 @@ def device_sizes(s0: Path) -> dict:
     pb = json.loads((s0 / "pcell_binding.json").read_text())
     out = {}
     for d in pb["devices"]:
+        if not d.get("gds"):
+            continue
         ly = kdb.Layout()
         ly.read(str(REPO / d["gds"]))
         bb = ly.top_cell().dbbox()
@@ -112,7 +114,7 @@ def _label(a_, b_, acg, sens):
     return next((l for l in sens if "~" in l and set(l.split("~")) == {a_, b_}), None)
 
 
-def library_floors(ir: dict, elements: list, sens: dict) -> dict:
+def library_floors(ir: dict, elements: list, sens: dict, mode: str = "A-bin") -> dict:
     """v2 (R19 part b): per element, the least that any cell of the S3 unit library puts on it. Device types
     are independent (S3 picks one option per type), so a net touched by several types gets the sum of the
     per-type minima. Capacitance: the cells' own extracted capacitance on that net / net pair; resistance:
@@ -125,9 +127,12 @@ def library_floors(ir: dict, elements: list, sens: dict) -> dict:
     by_type_c: dict = {}     # element -> type -> [value per option]
     by_type_r: dict = {}     # (device, terminal) -> [access R per option]
     src: dict = {}
+    rep_type: dict = {}      # type -> representative option and its values
     for tid, t in O.device_types(ir).items():
         recs = []
         for opt in O.grid(t["W"]):
+            if not O.in_mode(t, opt, mode):     # only options the S3 main mode may choose (review item 15)
+                continue
             f = REPO / "outputs" / "S3" / "_cells" / f"{tid}__{opt['id']}" / "record.json"
             if f.exists():
                 r = json.loads(f.read_text())
@@ -135,9 +140,12 @@ def library_floors(ir: dict, elements: list, sens: dict) -> dict:
                     recs.append(r)
         if not recs:
             continue
+        per_opt = []
         for r in recs:
             caps = _cell_caps(r)
             per_el: dict = {}
+            per_dev: dict = {}
+            r_terms = {}
             for d in t["devices"]:
                 term = devs[d]["terminals"]
                 net = {"D": term["d"], "G": term["g"], "S": term["s"], "B": term["b"], "VSUBS": gnd}
@@ -145,10 +153,28 @@ def library_floors(ir: dict, elements: list, sens: dict) -> dict:
                     lab = _label(net.get(a_, a_), net.get(b_, b_), acg, sens)
                     if lab in sens:
                         per_el[lab] = per_el.get(lab, 0.0) + c
+                        per_dev.setdefault(lab, {}).setdefault(d, 0.0)
+                        per_dev[lab][d] += c
                 for k in "dgs":
                     by_type_r.setdefault((d, k), []).append((r["access_resistance_ohm"][k], r["option"]["id"]))
-            for lab, v in per_el.items():
-                by_type_c.setdefault(lab, {}).setdefault(tid, []).append((v, r["option"]["id"]))
+                    r_terms[(d, k)] = r["access_resistance_ohm"][k]
+            per_opt.append((per_el, r["option"]["id"], per_dev, r_terms))
+        labels = {lab for pe, *_ in per_opt for lab in pe}
+        for lab in labels:          # an option that puts nothing on an element counts as 0 there (review item 4)
+            for pe, oid, *_ in per_opt:
+                by_type_c.setdefault(lab, {}).setdefault(tid, []).append((pe.get(lab, 0.0), oid))
+        # representative cell of the type for the expected need: ONE option for all its elements (the one
+        # whose values, relative to the as-sized default cell, are smallest in sum), so that the need is a
+        # cell that exists -- per-element minima of different options are not realisable together
+        dflt = next((x for x in per_opt if x[1] == O.default_option_id()), None)
+        if dflt is not None:
+            def score(x):
+                sc_ = sum(x[3][k] / dflt[3][k] for k in dflt[3] if dflt[3][k] > 0)
+                sc_ += sum(x[0].get(lab, 0.0) / v for lab, v in dflt[0].items() if v > 0)
+                return sc_
+            best = min(per_opt, key=lambda x: (score(x), x[1] != O.default_option_id()))
+            rep_type[tid] = {"option": best[1], "caps": best[0], "by_device": best[2], "r": best[3],
+                             "score_vs_default": score(best) / max(score(dflt), 1e-30)}
     floors = {}
     for e in elements:
         if e["kind"] == "terminal_resistance":
@@ -165,7 +191,27 @@ def library_floors(ir: dict, elements: list, sens: dict) -> dict:
                 floors[e["id"]] = v
                 src[e["id"]] = {"floor": v, "per_type_option": {t: min(x)[1] for t, x in per_t.items()},
                                 "kind": "cell capacitance"}
-    return {"floors": floors, "source": src}
+    rep, rep_by_dev = {}, {}
+    for e in elements:
+        if e["kind"] == "terminal_resistance":
+            vals = [rt["r"][tuple(m.split("."))] for rt in rep_type.values() for m in e["targets"]
+                    if tuple(m.split(".")) in rt["r"]]
+            if vals:
+                rep[e["id"]] = max(vals)
+        else:
+            tot, bd = 0.0, {}
+            hit = False
+            for tid_, rt in rep_type.items():
+                if tid_ in by_type_c.get(e["id"], {}):    # the type touches this element in some option
+                    hit = True
+                    tot += rt["caps"].get(e["id"], 0.0)
+                    bd.update(rt["by_device"].get(e["id"], {}))
+            if hit:
+                rep[e["id"]] = tot
+                rep_by_dev[e["id"]] = bd
+    return {"floors": floors, "source": src, "representative": rep, "representative_by_device": rep_by_dev,
+            "representative_option": {t: {k: v for k, v in rt.items() if k in ("option", "score_vs_default")}
+                                      for t, rt in rep_type.items()}}
 
 
 def build_problem(ir, s1, pdk, sizes, eta):
@@ -182,6 +228,10 @@ def build_problem(ir, s1, pdk, sizes, eta):
     for d in ir["devices"]:
         for t in ("d", "g", "s"):
             pins.setdefault(d["terminals"][t], []).append(d["name"])
+    for c in ir.get("passives", []):     # nets that touch only passives get a wiring estimate too (review item 7)
+        if c["name"] in sizes:
+            for n_ in (c["a"], c["b"]):
+                pins.setdefault(n_, []).append(c["name"])
     unit = {d: (s["w_um"] + s["h_um"]) / 2 for d, s in sizes.items()}   # half perimeter of the PCell
     L_est = {n: sum(unit[d] for d in ds) for n, ds in pins.items()}   # one device-crossing stub per pin
     # what the default device cells themselves put on each element (measured, S3 library), so that the
@@ -386,17 +436,21 @@ def main(argv=None) -> int:
 
     elements, constraints, geo = build_problem(ir, s1, pdk, sizes, eta)
     sens_tab = json.loads((s1 / "sensitivity.json").read_text())["table"]
-    lib = library_floors(ir, elements, sens_tab) if a.alloc == "v2" else {"floors": {}, "source": {}}
+    lib = library_floors(ir, elements, sens_tab, pkg.get("s3_mode", "A-bin")) if a.alloc == "v2" else {"floors": {}, "source": {}}
     if a.alloc == "v2":
         # v2: the device-cell part of the expected need is the library's best cell for the element, not the
         # as-sized single-finger cell (a 484 um single finger is not what a compact layout draws)
         for e in elements:
-            f_ = lib["floors"].get(e["id"])
+            f_ = lib["representative"].get(e["id"])
             if f_ is not None and "device_cells" in e["w_parts"]:
-                e["w_parts"]["device_cells_default_option"] = e["w_parts"]["device_cells"]
+                old_ = e["w_parts"]["device_cells"]
+                e["w_parts"]["device_cells_default_option"] = old_
                 e["w_parts"]["device_cells"] = f_
+                if e["kind"] != "terminal_resistance":   # S3's per-device share, from the same cell (review item 3)
+                    e["w_parts"]["device_cells_by_device_default_option"] = dict(e["w_parts"].get("device_cells_by_device") or {})
+                    e["w_parts"]["device_cells_by_device"] = dict(lib["representative_by_device"].get(e["id"], {}))
                 e["w"] = e["w_parts"]["wiring"] + f_
-                e["w_basis"] += f" (v2: cells at the library's best, {f_:.3g})"
+                e["w_basis"] += f" (v2: cells of the library's representative option, {f_:.3g})"
     drive = ac_drive(s0, ir, pkg.get("ac_drive"))
     pvt_info, pvt_points = None, {}
     if not a.no_pvt and (s0 / "pvt.json").exists():
@@ -428,8 +482,9 @@ def main(argv=None) -> int:
     floor_use = {c["id"]: sum(c["a"].get(k, 0.0) * v for k, v in lib["floors"].items()) / c["b"] if c["b"] else None
                  for c in constraints}
     gates["G2.7_library_floors_feasible"] = {
-        "pass": alloc["floors_feasible"] if a.alloc == "v2" else None,
+        "pass": (alloc["floors_feasible"] if lib["floors"] else None) if a.alloc == "v2" else None,
         "alloc": a.alloc, "n_floors": len(lib["floors"]),
+        "representative_option": lib.get("representative_option"),
         "floor_use_of_allowed": floor_use,
         "note": "the cheapest cell of the S3 unit library for every element, all at once, as a fraction of "
                 "eta*margin; > 1 means no layout built from library cells can meet the budgets at this eta"}
@@ -500,11 +555,17 @@ def main(argv=None) -> int:
 
     nom_cons = [c for c in constraints if "@" not in c["id"]]
 
-    def top_corner_checks(sets: list, n: int = 5) -> list:
-        """the corner constraints most used (first order, relative to their allowed use) by any budget set"""
+    binding_corners = {cid for r_ in alloc["rounds"] for cid in r_["binding"] if "@" in cid}
+
+    def top_corner_checks(sets: list, n: int = 5, cap: int = 15) -> list:
+        """every corner constraint that bound the allocation, plus the n most used (first order, relative to
+        their allowed use) by any budget set; ties go to the smaller margin (review item 10)"""
         cc = [c for c in constraints if "@" in c["id"]]
-        score_ = {c["id"]: max(sum(c["a"].get(k, 0.0) * v for k, v in xx.items()) / c["b"] for xx in sets) for c in cc}
-        return [c for c in cc if c["id"] in sorted(score_, key=score_.get, reverse=True)[:n]]
+        score_ = {c["id"]: (round(max(sum(c["a"].get(k, 0.0) * v for k, v in xx.items()) / c["b"] for xx in sets), 6),
+                            -c["margin"]) for c in cc}
+        top = sorted(score_, key=score_.get, reverse=True)
+        pick = [k for k in top if k in binding_corners][:cap - n] + [k for k in top if k not in binding_corners][:n]
+        return [c for c in cc if c["id"] in pick]
 
     def corner_use(c, m):
         """SPICE margin use of a corner check: its spec at the point, vs the point's own pre-layout value"""
@@ -607,6 +668,7 @@ def main(argv=None) -> int:
                 fr = [r_["spice_use_frac_of_allowed"] for r_ in v_["spice"].values() if r_["spice_use_frac_of_allowed"] is not None]
                 v_["score"]["spice_worst_use_of_allowed"] = max(fr) if fr else None
                 v_["score"]["spice_specs_violated"] = sorted(k for k, r_ in v_["spice"].items() if not r_["meets_spec"])
+                v_["score"]["spice_failed_runs"] = sorted(k for k, r_ in v_["spice"].items() if r_["spice_use_frac_of_allowed"] is None)
         write_json(out / "baselines.json", {"design": design, "eta": eta, "alloc": a.alloc,
                                             "methods": bl, "note": BL.__doc__})
         gates["G2.8_baselines (info)"] = {"pass": None, "eta": eta,
@@ -641,7 +703,8 @@ def main(argv=None) -> int:
     gates["G2.4_linear_all_budgets_at_once"] = {
         "pass": None, "note": "reported: first-order sum vs exact linear model with every budget inserted",
         "compare": {k: {"first_order_use": pred_first.get(k),
-                        "linear_model_use": (base_lin[k] - lin[k]) if ir["margins"][k]["kind"] == "min" else (lin[k] - base_lin[k])}
+                        "linear_model_use": None if lin[k] is None or base_lin[k] is None else
+                        ((base_lin[k] - lin[k]) if ir["margins"][k]["kind"] == "min" else (lin[k] - base_lin[k]))}
                     for k in ("gain_db", "gbw_mhz", "pm_deg")}}
     write_json(out / "verification.json", ver)
 

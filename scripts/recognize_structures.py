@@ -78,8 +78,11 @@ def recognize(nl: spice.Netlist, rails: set) -> list:
                     [a.name, b.name], f"gate {g}")
     # 4. single devices
     for name, m in sorted(left.items()):
-        role = "diode" if m.d == m.g else ("tied-off" if {m.d, m.g, m.s} <= rails else "single")
-        add(f"{m.polarity}-{role}", "bias-structure" if role == "diode" else "other", [name])
+        if m.d == m.g == m.s or {m.d, m.g, m.s} <= rails:
+            role = "dummy"       # all terminals on one net (or on the rails): drawn for matching, no function
+        else:
+            role = "diode" if m.d == m.g else "single"
+        add(f"{m.polarity}-{role}", "bias-structure" if role == "diode" else ("dummy" if role == "dummy" else "other"), [name])
     # passives
     caps = [p for p in nl.passives if p.kind == "C"]
     for c in caps:

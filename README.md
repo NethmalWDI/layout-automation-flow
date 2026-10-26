@@ -7,7 +7,18 @@ An electrically informed analog layout flow for the SkyWater SKY130 open PDK, st
 - **S2 Budgets:** joint parasitic budgets (fF, Ω) and layout rules, verified all at once in SPICE; G2.0 says before layout whether a compact layout can fit.
 - **S3 Devices:** PCell options per device, chosen against the budgets, each cell DRC/LVS-signed.
 
-Designs: a sized 5T OTA and its stress variant; more benchmarks are being added (see `docs/flow_record.md`).
+Designs (`./flow list`):
+
+| Design | What | Source |
+|---|---|---|
+| `example_ota_5t` | sized 5T OTA (development) | upstream sizing team |
+| `ota5t_stress` | the same, 200 fF load, tight specs (development) | derived |
+| `loadbench_miller` | two-stage Miller op-amp, one Pareto point | LOADBench (CC BY 4.0) |
+| `ttsky25a_fd` | two-stage fully differential op-amp, taped out on TTSKY25a | NethmalWDI/Fully_differential_opamp (Apache-2.0) |
+| `iadc_ota` | fully differential folded-cascode OTA with a hand-drawn layout | r09g/iadc (MIT) |
+
+Inputs the upstream stages did not provide are predicted by the package scripts and labelled PREDICTED
+(`circuits/<design>/SOURCE.md`). The before/after comparison of the plan-v2 updates is in `docs/before_after.md`.
 
 ## Quick start (anyone, any OS)
 
@@ -23,7 +34,13 @@ git clone <this repo> && cd layout-automation-flow
 ./flow status all                        # gate table per design and stage
 ./flow test                              # unit tests + golden comparison of the committed outputs
 ./flow test --stage S1 --rerun           # re-run S1 for the golden designs, then compare
+./flow run loadbench_miller --variant v1 # the flow as it was before the plan-v2 updates (ablation)
+./flow run ttsky25a_fd --no-pvt          # skip the 45-point PVT sweep and Monte Carlo in S0
 ```
+
+Inside the container you can also call the stages directly, e.g. `python3 -m src.s2.run inputs/<d>/package.yaml
+--alloc v1|v2 --no-pvt --no-baselines --eta 0.9` or `python3 -m src.s3.run inputs/<d>/package.yaml --mode B|A-bin|A-free
+--rules v1|v2`; `python3 scripts/compare_before_after.py snap <design> <tag>` and `... report` keep and compare runs.
 
 Each stage writes to `outputs/<stage>/<design>/` and logs to `runs/logs/flow/<design>/`; the run summary is
 `outputs/flow/<design>/flow_summary.json`. A stage is **PASS** (all gates pass), **FAIL** (a gate failed but the
@@ -34,6 +51,12 @@ are the reference results; `./flow test` fails if a re-run moves any of them bey
 **Your own design:** copy `inputs/_template/` to `inputs/<name>/`, fill in `package.yaml` (every field is
 explained in `docs/INPUTS.md`), and run `./flow run <name>`. Missing upstream files are reported as pending,
 never invented.
+
+**What changed in plan v2 (2026-10-26):**
+
+- S0 handles current sources, ideal and PDK passives (MIM, poly resistors), differential outputs, off-chip test elements and an external-reference gate (G0.8), and runs 45 PVT points plus a mismatch Monte Carlo (G0.9, G0.10).
+- S2 floors every budget at what the cheapest library cell already puts there (G2.7), no longer trims binding elements in phase 2 (finding R19), adds a constraint per spec and PVT point (G2.9), and scores three other budget rules on the same sensitivities (G2.8: per-net, equal split, LP) plus an eta sweep.
+- S3 decides in three option modes (B: nf as in the netlist; A-bin: the finger stays in the sized device's SKY130 model bin; A-free) plus a rule-of-thumb folding baseline, and a cell may always use the library's lowest access resistance (G3.7).
 
 **Repository rules:** third-party material and licences are listed in `THIRD_PARTY.md`; hypotheses and
 thresholds for the experiments are fixed in `PREREG.md` before baselines run.

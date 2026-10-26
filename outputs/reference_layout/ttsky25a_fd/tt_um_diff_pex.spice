@@ -1,0 +1,1978 @@
+* NGSPICE file created from tt_um_diff_flat.ext - technology: sky130A
+
+.subckt tt_um_diff_flat ena ua[0] ua[1] ua[2] ua[3] ua[4] ua[5] ua[6] ua[7] ui_in[0]
++ ui_in[1] VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3
++ tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1
++ tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias
++ tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2
++ tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4
+X0 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=182.1084 ps=1.6016k w=2 l=1
+X1 ena ui_in[0] a_14141_7329# ena sky130_fd_pr__nfet_01v8_lvt ad=0.725 pd=5.29 as=0.725 ps=5.29 w=5 l=0.15
+X2 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=266.6405 ps=2.17472k w=5 l=1
+X3 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X4 a_2907_33595# a_3207_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X5 a_7107_33595# a_6807_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X6 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X7 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X8 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X9 a_11776_17127# a_9303_4575# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X10 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X11 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_31138# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X12 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X13 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X14 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X15 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X16 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X17 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X18 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X19 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X20 a_9758_6454# a_9661_6254# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X21 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X22 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X23 a_12305_11698# a_13664_11640# a_14142_8008# ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X24 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X25 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X26 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X27 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X28 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X29 a_22672_34768# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X30 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X31 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X32 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X33 ua[5] a_11776_18327# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X34 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X35 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X36 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X37 a_9758_6954# a_9661_6254# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X38 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X39 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X40 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=10
+X41 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X42 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X43 a_13664_11640# a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X44 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X45 ua[4] a_11776_17127# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X46 a_22672_34768# a_11776_17127# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X47 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 ui_in[0] a_17186_37195# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=0.15
+X48 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X49 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X50 a_9718_18327# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X51 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X52 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X53 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X54 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X55 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X56 ena a_13428_34968# a_13028_34968# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=20
+X57 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X58 a_11776_17127# a_9303_4575# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X59 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X60 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X61 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X62 a_22672_34768# a_11776_17127# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X63 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X64 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X65 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X66 ena ena sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X67 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X68 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X69 a_9303_3439# a_17733_3723# sky130_fd_pr__res_generic_po w=0.5 l=40
+X70 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X71 a_4107_33595# a_3807_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X72 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X73 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X74 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X75 a_22672_36168# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X76 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X77 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X78 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X79 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X80 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X81 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X82 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X83 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X84 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X85 VDPWR a_12305_11698# a_12305_11698# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X86 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X87 a_11776_17127# a_9303_4575# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X88 a_6657_33595# a_6957_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X89 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X90 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X91 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.0609 pd=0.71 as=0 ps=0 w=0.42 l=0.15
+X92 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X93 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X94 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X95 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X96 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X97 a_20452_17278# ua[2] a_9718_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X98 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X99 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X100 a_13028_34968# ua[5] sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X101 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X102 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_26958# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X103 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X104 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X105 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X106 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X107 a_20452_17278# ua[1] a_9718_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X108 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_25058# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X109 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X110 a_22672_36168# a_11776_18327# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X111 a_9758_8954# a_9661_6254# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X112 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X113 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_26958# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X114 ua[4] a_11776_17127# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X115 a_20452_17278# ua[2] a_9718_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X116 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X117 a_9366_24378# a_11776_18327# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X118 a_22672_36168# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X119 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X120 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X121 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X122 a_9758_6954# ui_in[1] a_17186_37195# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=0.15
+X123 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_13664_12326# a_14141_7329# ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X124 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X125 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X126 a_9718_18327# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X127 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X128 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X129 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X130 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X131 ena a_13428_34968# a_13028_34968# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=20
+X132 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X133 VDPWR a_12305_11698# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X134 a_13028_34968# ua[0] a_10185_31921# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X135 ua[5] a_11776_18327# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X136 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X137 a_9718_17127# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X138 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X139 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X140 ena ena sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X141 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X142 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X143 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X144 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X145 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X146 a_4707_33595# a_5007_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X147 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X148 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X149 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X150 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X151 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X152 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X153 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X154 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X155 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X156 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X157 a_3657_33595# a_3957_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X158 a_7707_33595# a_7557_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X159 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X160 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X161 a_22672_36168# a_11776_18327# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X162 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X163 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X164 ena ena sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X165 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X166 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X167 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X168 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X169 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.1218 pd=1.42 as=0 ps=0 w=0.42 l=0.15
+X170 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X171 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X172 a_9303_4007# a_17733_3723# sky130_fd_pr__res_generic_po w=0.5 l=40
+X173 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X174 a_12100_15180# a_13664_12326# ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X175 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X176 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X177 a_9303_3581# ua[5] sky130_fd_pr__res_generic_po w=0.5 l=40
+X178 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X179 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X180 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X181 a_20452_17278# ua[2] a_9718_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X182 ena a_13028_34968# ua[5] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X183 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X184 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X185 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X186 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X187 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X188 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X189 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X190 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X191 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X192 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X193 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X194 a_22672_36168# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X195 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X196 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X197 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X198 a_22672_36168# a_11776_18327# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X199 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X200 a_9661_6254# ui_in[1] ua[3] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=0.15
+X201 ua[4] a_11776_17127# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X202 ua[5] a_11776_18327# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X203 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X204 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_29238# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X205 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X206 a_9718_18327# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X207 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X208 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X209 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X210 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X211 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X212 ua[5] a_2007_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X213 VDPWR a_12100_15180# a_12100_15180# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=20
+X214 a_9303_3581# a_17733_3865# sky130_fd_pr__res_generic_po w=0.5 l=40
+X215 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X216 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X217 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X218 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X219 ena a_13028_34968# ua[5] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X220 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X221 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X222 ena ena sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X223 a_11776_18327# a_9303_4717# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X224 a_4857_33595# a_4557_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X225 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X226 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X227 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X228 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X229 a_11776_17127# a_9303_4575# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X230 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X231 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X232 a_20452_17278# ua[2] a_9718_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X233 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X234 a_22672_36168# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X235 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X236 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X237 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X238 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X239 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X240 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X241 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X242 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X243 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X244 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X245 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X246 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X247 VDPWR a_12305_11698# a_12305_11698# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X248 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X249 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.0609 pd=0.71 as=0 ps=0 w=0.42 l=0.15
+X250 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X251 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X252 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X253 a_11776_17127# a_9303_4575# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X254 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X255 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X256 ena a_13028_34968# ua[5] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X257 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X258 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X259 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X260 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X261 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X262 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X263 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X264 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X265 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X266 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X267 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X268 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X269 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X270 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X271 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X272 ena ena sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X273 a_22672_36168# a_11776_18327# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X274 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X275 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta ui_in[0] ua[3] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=0.15
+X276 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X277 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22672_36168# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X278 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X279 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X280 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X281 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X282 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X283 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X284 a_22672_34768# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X285 ua[4] a_11776_17127# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X286 ua[4] a_11776_17127# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X287 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X288 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X289 a_9718_17127# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X290 a_5457_33595# a_5757_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X291 a_12731_24523# a_12731_24523# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X292 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X293 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X294 VDPWR a_12100_15180# a_12100_15180# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=20
+X295 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=10
+X296 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X297 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=10
+X298 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X299 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X300 a_22672_34768# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X301 a_9366_24378# a_11776_18327# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X302 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X303 a_9776_17101# a_9776_17101# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X304 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_29238# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X305 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X306 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X307 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X308 a_11776_17127# a_9303_4575# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X309 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X310 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X311 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X312 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X313 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X314 a_22672_34768# a_11776_17127# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X315 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X316 a_9303_4149# a_17733_3865# sky130_fd_pr__res_generic_po w=0.5 l=40
+X317 a_13664_11640# a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X318 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X319 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_31138# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X320 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X321 a_9718_17127# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X322 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X323 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X324 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X325 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X326 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X327 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X328 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X329 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X330 a_11776_17127# a_9303_4575# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X331 a_5907_33595# a_5607_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X332 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X333 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X334 a_13428_34968# a_7707_33595# a_10185_31921# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X335 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X336 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X337 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X338 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X339 a_13028_34968# ua[0] a_10185_31921# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X340 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X341 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X342 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X343 a_22672_34768# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X344 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X345 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X346 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X347 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X348 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X349 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X350 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X351 ua[5] a_11776_18327# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X352 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_25058# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X353 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X354 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X355 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=0.15
+X356 ena ena sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X357 a_9366_24378# a_11776_17127# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X358 a_20452_17278# ua[2] a_9718_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X359 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X360 a_2457_33595# a_2757_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X361 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X362 a_6657_33595# a_6357_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X363 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X364 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X365 a_9718_18327# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X366 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X367 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X368 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X369 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X370 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.1218 pd=1.42 as=0 ps=0 w=0.42 l=0.15
+X371 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X372 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X373 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X374 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X375 a_9366_24378# a_11776_17127# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X376 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X377 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X378 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X379 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X380 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_13664_12326# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X381 a_22672_34768# a_11776_17127# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X382 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X383 a_13664_11640# a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X384 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X385 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X386 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.0609 pd=0.71 as=0 ps=0 w=0.42 l=0.15
+X387 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X388 a_9718_17127# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X389 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X390 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 a_9776_17101# ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X391 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X392 a_2907_33595# a_2607_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X393 a_6507_33595# a_6807_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X394 a_13664_12326# a_13664_12326# ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X395 ua[5] a_11776_18327# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X396 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X397 a_13028_34968# ua[4] sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X398 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X399 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X400 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X401 ena a_13028_34968# ua[5] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X402 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X403 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X404 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X405 a_9366_24378# a_11776_17127# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X406 a_9366_24378# a_11776_18327# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X407 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X408 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X409 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X410 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X411 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X412 VDPWR a_12305_11698# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X413 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X414 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X415 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X416 a_9366_24378# a_11776_17127# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X417 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X418 a_9758_8954# a_9661_6254# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X419 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_25058# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X420 ena a_13028_34968# ua[5] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X421 a_22672_34768# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X422 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X423 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X424 a_20452_17278# ua[2] a_9718_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X425 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X426 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X427 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X428 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X429 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X430 a_22672_36168# a_11776_18327# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X431 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X432 VDPWR a_8978_28614# a_10185_31921# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X433 ena a_17186_37195# a_8978_28614# ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X434 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X435 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X436 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X437 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X438 a_13664_11640# a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X439 a_3657_33595# a_3357_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X440 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X441 a_7257_33595# a_7557_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X442 a_20452_17278# ua[1] a_9718_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X443 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X444 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X445 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X446 ua[5] a_11776_18327# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X447 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X448 ena a_13028_34968# ua[4] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X449 a_14141_7329# ui_in[0] ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.725 pd=5.29 as=0.725 ps=5.29 w=5 l=0.15
+X450 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.1218 pd=1.42 as=0 ps=0 w=0.42 l=0.15
+X451 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X452 ena a_13028_34968# ua[4] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X453 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X454 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X455 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X456 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X457 ena a_13028_34968# ua[4] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X458 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=20
+X459 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X460 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X461 ena a_13028_34968# ua[4] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X462 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X463 a_9366_24378# a_12731_24523# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X464 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X465 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X466 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X467 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X468 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X469 a_22672_36168# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X470 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X471 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_13664_12326# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X472 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X473 a_3507_33595# a_3807_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X474 a_7707_33595# a_7407_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X475 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X476 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X477 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X478 a_13028_34968# ua[5] sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X479 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X480 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X481 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X482 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X483 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X484 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X485 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X486 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X487 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X488 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X489 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X490 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X491 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X492 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X493 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X494 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X495 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X496 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X497 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X498 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X499 ua[4] a_11776_17127# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X500 a_9758_6954# a_9661_6254# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X501 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X502 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X503 a_20452_17278# ua[1] a_9718_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X504 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X505 a_13028_34968# ua[0] a_10185_31921# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X506 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X507 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X508 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X509 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X510 a_20452_17278# ua[2] a_9718_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X511 a_9776_17101# a_9776_17101# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X512 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X513 a_20452_17278# ua[2] a_9718_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X514 a_4257_33595# a_4557_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X515 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X516 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X517 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X518 a_9758_6454# a_9661_6254# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X519 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_31138# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X520 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X521 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X522 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X523 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X524 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X525 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X526 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X527 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X528 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X529 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 a_9776_17101# ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X530 a_9758_8954# ui_in[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=0.15
+X531 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X532 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X533 a_9776_17101# a_9776_17101# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X534 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X535 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X536 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X537 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X538 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X539 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X540 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X541 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X542 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X543 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X544 ena a_13428_34968# a_13428_34968# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=20
+X545 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X546 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.0609 pd=0.71 as=0 ps=0 w=0.42 l=0.15
+X547 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X548 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X549 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X550 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X551 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X552 a_9718_17127# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X553 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X554 a_13664_12326# a_13664_12326# ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X555 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X556 a_4707_33595# a_4407_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X557 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X558 a_11776_18327# a_9303_4717# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X559 a_9661_6254# a_9661_6254# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X560 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X561 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X562 a_9366_24378# a_11776_17127# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X563 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X564 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X565 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X566 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X567 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X568 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X569 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_13664_12326# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X570 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X571 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=10
+X572 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X573 ua[5] a_11776_18327# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X574 a_22672_36168# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X575 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X576 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=0.15
+X577 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X578 a_9718_18327# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X579 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X580 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X581 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X582 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X583 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X584 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X585 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X586 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X587 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X588 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X589 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X590 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X591 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X592 a_5457_33595# a_5157_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X593 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X594 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22672_34768# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X595 a_9776_17101# a_9776_17101# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X596 a_9758_8454# a_9661_6254# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X597 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X598 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X599 a_14142_8008# ui_in[0] ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0.725 ps=5.29 w=5 l=0.15
+X600 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X601 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X602 VDPWR a_12305_11698# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X603 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X604 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X605 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X606 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X607 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X608 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 ui_in[0] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=0.15
+X609 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X610 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X611 a_22672_36168# a_11776_18327# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X612 a_9776_17101# a_9776_17101# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X613 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X614 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X615 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X616 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X617 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X618 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X619 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X620 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X621 a_22672_34768# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X622 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X623 a_11776_18327# a_9303_4717# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X624 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X625 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X626 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X627 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X628 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X629 a_5307_33595# a_5607_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X630 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X631 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X632 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X633 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X634 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X635 a_20452_17278# ua[1] a_9718_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X636 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X637 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_29238# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X638 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X639 a_13428_34968# a_7707_33595# a_10185_31921# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X640 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X641 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X642 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X643 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X644 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X645 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X646 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X647 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_29238# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X648 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X649 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X650 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_13664_12326# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X651 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X652 a_9718_17127# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X653 a_22672_34768# a_11776_17127# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X654 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X655 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X656 ua[5] a_11776_18327# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X657 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X658 ena ena sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X659 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X660 a_2457_33595# a_2157_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X661 a_22672_34768# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X662 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X663 a_6057_33595# a_6357_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X664 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.1218 pd=1.42 as=0 ps=0 w=0.42 l=0.15
+X665 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X666 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X667 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X668 ena a_17186_37195# a_17186_37195# ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X669 VDPWR a_12305_11698# a_12305_11698# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X670 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_26958# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X671 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X672 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X673 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X674 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X675 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X676 a_9758_8454# ui_in[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=0.15
+X677 a_13664_11640# a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X678 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X679 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X680 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X681 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X682 a_9303_4149# a_17733_4433# sky130_fd_pr__res_generic_po w=0.5 l=40
+X683 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.0609 pd=0.71 as=0 ps=0 w=0.42 l=0.15
+X684 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X685 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X686 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X687 a_2307_33595# a_2607_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X688 a_6507_33595# a_6207_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X689 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X690 a_20452_17278# ua[1] a_9718_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X691 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X692 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X693 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X694 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X695 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X696 ena a_13028_34968# ua[4] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X697 a_20452_17278# ua[1] a_9718_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X698 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X699 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X700 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.1218 pd=1.42 as=0 ps=0 w=0.42 l=0.15
+X701 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X702 a_13028_34968# ua[4] sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X703 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X704 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X705 ua[4] a_11776_17127# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X706 a_22672_34768# a_11776_17127# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X707 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X708 a_13028_34968# ua[0] a_10185_31921# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X709 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X710 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X711 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X712 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X713 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X714 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X715 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X716 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X717 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X718 a_3057_33595# a_3357_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X719 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X720 a_12305_11698# a_13664_11640# a_14142_8008# ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X721 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_13664_11640# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X722 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22672_34768# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X723 a_7257_33595# a_6957_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X724 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X725 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X726 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X727 a_9303_4717# a_17733_4433# sky130_fd_pr__res_generic_po w=0.5 l=40
+X728 a_22672_34768# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X729 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X730 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X731 a_9366_24378# a_11776_17127# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X732 a_9718_17127# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X733 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X734 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X735 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X736 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X737 a_9366_24378# a_11776_17127# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X738 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X739 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X740 ena a_13028_34968# ua[5] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X741 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X742 ena a_13028_34968# ua[5] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X743 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X744 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X745 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X746 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X747 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X748 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X749 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X750 a_22672_34768# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X751 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X752 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X753 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X754 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X755 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X756 a_9303_3439# ua[4] sky130_fd_pr__res_generic_po w=0.5 l=40
+X757 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X758 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X759 a_3507_33595# a_3207_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X760 a_22672_36168# a_11776_18327# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X761 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X762 a_7107_33595# a_7407_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X763 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X764 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X765 a_11776_18327# a_9303_4717# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X766 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X767 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X768 a_20452_17278# ua[1] a_9718_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X769 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X770 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X771 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X772 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X773 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X774 a_20452_17278# ua[1] a_9718_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X775 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X776 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X777 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X778 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X779 a_13664_11640# a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X780 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X781 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X782 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X783 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X784 a_9303_4007# a_17733_4291# sky130_fd_pr__res_generic_po w=0.5 l=40
+X785 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X786 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X787 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X788 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X789 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X790 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X791 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X792 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X793 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X794 a_22672_36168# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X795 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X796 a_4257_33595# a_3957_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X797 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X798 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X799 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X800 a_9366_24378# a_12731_24523# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X801 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X802 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X803 ua[5] a_11776_18327# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X804 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X805 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X806 a_9776_17101# a_9776_17101# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X807 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X808 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X809 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X810 a_22672_36168# a_11776_18327# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X811 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 ui_in[0] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=0.15
+X812 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X813 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X814 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X815 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X816 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_13664_11640# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X817 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X818 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X819 a_9718_18327# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X820 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X821 ena a_13428_34968# a_13428_34968# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=20
+X822 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X823 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X824 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_13664_12326# a_14141_7329# ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X825 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X826 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X827 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X828 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X829 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X830 a_9303_4575# a_17733_4291# sky130_fd_pr__res_generic_po w=0.5 l=40
+X831 VDPWR a_12305_11698# a_12305_11698# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X832 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X833 a_4107_33595# a_4407_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X834 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X835 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X836 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_25058# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X837 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X838 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X839 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X840 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X841 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X842 a_22672_36168# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X843 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X844 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X845 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X846 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X847 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X848 a_13028_34968# ua[4] sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X849 a_11776_18327# a_9303_4717# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X850 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X851 a_9366_24378# a_11776_18327# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X852 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_26958# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X853 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X854 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X855 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X856 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.0609 pd=0.71 as=0 ps=0 w=0.42 l=0.15
+X857 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X858 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X859 VDPWR a_8978_28614# a_10185_31921# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X860 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X861 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X862 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X863 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X864 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X865 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X866 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X867 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X868 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X869 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X870 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X871 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X872 a_4857_33595# a_5157_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X873 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X874 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X875 a_11776_18327# a_9303_4717# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X876 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X877 ua[4] a_11776_17127# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X878 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X879 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X880 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X881 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X882 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X883 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X884 a_20452_17278# ua[1] a_9718_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X885 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X886 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X887 a_22672_36168# a_11776_18327# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X888 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X889 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X890 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X891 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X892 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X893 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X894 a_9758_6454# ui_in[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=0.15
+X895 ena a_17186_37195# a_17186_37195# ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X896 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X897 a_22672_36168# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X898 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X899 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X900 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X901 a_20452_17278# ua[2] a_9718_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X902 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X903 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=20
+X904 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X905 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X906 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X907 ena ena sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X908 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X909 ena ui_in[0] a_14142_8008# ena sky130_fd_pr__nfet_01v8_lvt ad=0.725 pd=5.29 as=1.45 ps=10.58 w=5 l=0.15
+X910 a_20452_17278# ua[1] a_9718_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X911 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_13664_11640# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X912 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X913 a_5307_33595# a_5007_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X914 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X915 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X916 a_9718_18327# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X917 VDPWR ui_in[0] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias VDPWR sky130_fd_pr__pfet_01v8 ad=0.1305 pd=1.48 as=0.1305 ps=1.48 w=0.45 l=0.15
+X918 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X919 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X920 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X921 ena ena sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X922 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X923 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X924 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X925 a_13028_34968# ua[5] sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X926 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X927 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X928 a_13664_11640# a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X929 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X930 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X931 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X932 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X933 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X934 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X935 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X936 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X937 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X938 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X939 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X940 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X941 a_22672_36168# a_11776_18327# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X942 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X943 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X944 ena a_13028_34968# ua[4] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X945 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X946 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X947 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X948 a_12100_15180# a_13664_12326# ena ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X949 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X950 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_31138# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X951 ua[4] a_2157_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X952 a_6057_33595# a_5757_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X953 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X954 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X955 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X956 ena a_13028_34968# ua[4] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X957 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X958 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X959 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X960 ua[4] a_11776_17127# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X961 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X962 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X963 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X964 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X965 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X966 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X967 a_22672_36168# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X968 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 ui_in[0] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=0.15
+X969 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X970 a_12731_24523# a_12731_24523# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X971 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X972 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X973 a_20452_17278# ua[2] a_9718_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=10
+X974 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X975 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X976 a_22672_34768# a_11776_17127# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X977 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X978 a_2307_33595# a_2007_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X979 a_5907_33595# a_6207_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X980 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X981 a_9366_24378# a_11776_18327# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X982 ena ena sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X983 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=2 w=2
+X984 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X985 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X986 VDPWR VDPWR sky130_fd_pr__cap_mim_m3_1 l=10 w=2
+X987 ena a_13028_34968# ua[5] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X988 a_9718_17127# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X989 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X990 a_11776_17127# a_9303_4575# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X991 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X992 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X993 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_13664_11640# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X994 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X995 a_22812_25058# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X996 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X997 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X998 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X999 a_9366_24378# a_11776_18327# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X1000 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.1218 pd=1.42 as=0 ps=0 w=0.42 l=0.15
+X1001 ena a_17186_37195# a_8978_28614# ena sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X1002 a_9758_8454# a_9661_6254# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X1003 a_22672_34768# a_11776_17127# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X1004 ena a_13028_34968# ua[5] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X1005 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=10
+X1006 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X1007 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X1008 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X1009 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X1010 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X1011 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X1012 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X1013 VDPWR a_12305_11698# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X1014 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X1015 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X1016 a_13428_34968# a_7707_33595# a_10185_31921# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X1017 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X1018 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X1019 a_22672_34768# ua[0] a_9366_24378# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X1020 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X1021 a_9366_24378# a_11776_18327# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X1022 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_20452_17278# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X1023 a_9718_18327# a_9366_24378# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X1024 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_12100_15180# a_13664_12326# ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X1025 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X1026 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X1027 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X1028 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X1029 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X1030 a_3057_33595# a_2757_25165# sky130_fd_pr__res_generic_po w=0.5 l=40
+X1031 a_13428_34968# a_7707_33595# a_10185_31921# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X1032 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X1033 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=2
+X1034 a_22672_34768# a_11776_17127# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X1035 ena a_13028_34968# ua[4] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X1036 a_11776_18327# a_9303_4717# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X1037 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=0.5
+X1038 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X1039 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X1040 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0 ps=0 w=2 l=1
+X1041 ena ena ena ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X1042 a_13664_11640# a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta ena sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X1043 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X1044 a_9661_6254# a_9661_6254# VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X1045 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 VDPWR sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X1046 ena a_13028_34968# ua[4] ena sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X1047 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X1048 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X1049 ena tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22672_36168# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X1050 VDPWR a_8978_28614# a_8978_28614# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X1051 a_9366_24378# a_11776_17127# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X1052 a_22672_34768# a_11776_17127# a_12731_24523# ena sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X1053 a_11776_17127# a_9776_17101# a_9718_17127# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X1054 a_9366_24378# a_11776_18327# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X1055 ena ena sky130_fd_pr__cap_mim_m3_1 l=2 w=10
+X1056 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X1057 VDPWR VDPWR VDPWR VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=0.5
+X1058 a_11776_18327# a_9776_17101# a_9718_18327# VDPWR sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=10
+X1059 a_11776_18327# a_9303_4717# sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+C0 a_9661_6254# ui_in[0] 0.17589f
+C1 a_9758_8954# ui_in[0] 0.11623f
+C2 a_9758_8954# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 0.00408f
+C3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 a_9758_6454# 0.02802f
+C4 a_9758_8954# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.44317f
+C5 a_9758_6454# ui_in[0] 0.16166f
+C6 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 a_9661_6254# 0.07114f
+C7 m2_9363_4589# a_9303_4007# 0.00603f
+C8 a_9758_6454# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.00531f
+C9 a_9758_6954# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 0.1656f
+C10 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 a_13664_12326# 0.08351f
+C11 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 a_9758_8954# 0.00402f
+C12 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 a_9758_6454# 0.08182f
+C13 a_13664_12326# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.93845f
+C14 a_9303_4575# a_2607_25165# 0.00108f
+C15 a_13664_12326# ui_in[0] 0.29044f
+C16 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 a_13664_12326# 0.08885f
+C17 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 a_14142_8008# 0
+C18 a_9303_4575# ua[4] 5.38077f
+C19 a_6207_25165# a_6357_25165# 0.85074f
+C20 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 a_9758_8454# 0
+C21 m2_9363_4589# a_9303_4149# 0.00819f
+C22 a_17733_4433# ua[4] 0.00362f
+C23 a_6507_33595# a_6057_33595# 0.2458f
+C24 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 a_9758_8454# 0.19527f
+C25 a_9303_4575# VDPWR 9.3235f
+C26 a_9758_6954# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias 0.00122f
+C27 a_9661_6254# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 0.05584f
+C28 a_9758_6954# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.001f
+C29 ua[5] a_17733_4433# 0
+C30 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 a_9758_8954# 0.00262f
+C31 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 a_9758_6454# 0
+C32 a_5157_25165# a_11776_18327# 0.01077f
+C33 a_9661_6254# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 0.12533f
+C34 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 a_13664_12326# 0.0785f
+C35 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 a_9758_8954# 0.04089f
+C36 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 a_9758_6454# 0.26431f
+C37 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_9758_8454# 0.00124f
+C38 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_9758_8454# 0.00131f
+C39 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 a_13664_12326# 0.27312f
+C40 a_9758_6954# ua[2] 0
+C41 a_9303_4717# ua[4] 0.00111f
+C42 a_11776_17127# a_5157_25165# 0.10312f
+C43 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_9661_6254# 0.00141f
+C44 ua[2] a_9758_8454# 0
+C45 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_9758_8954# 0.0325f
+C46 a_6507_33595# a_5907_33595# 0.00896f
+C47 a_9661_6254# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.00436f
+C48 a_9303_4575# m2_9363_4589# 0.08196f
+C49 a_9303_4717# VDPWR 10.6297f
+C50 a_9758_8954# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.1781f
+C51 a_9758_6454# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.0011f
+C52 a_9758_6954# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0
+C53 a_14141_7329# VDPWR 0
+C54 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_13664_12326# 4.69987f
+C55 a_14142_8008# VDPWR 0.11937f
+C56 a_9758_6954# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 0
+C57 a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 5.28267f
+C58 a_13664_11640# ui_in[0] 0.34149f
+C59 a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 0.08285f
+C60 a_9661_6254# ua[2] 0
+C61 a_5757_25165# a_6357_25165# 0.02491f
+C62 a_9758_8954# ua[2] 0
+C63 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 a_9758_8454# 0.17747f
+C64 a_9758_6454# ua[2] 0
+C65 a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 0.08401f
+C66 ui_in[1] a_12100_15180# 0.01254f
+C67 a_12305_11698# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 0.14326f
+C68 a_9661_6254# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0.00419f
+C69 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 a_9758_6454# 0
+C70 a_12305_11698# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.6961f
+C71 ua[3] a_12100_15180# 0.00342f
+C72 a_12305_11698# ui_in[0] 0.1723f
+C73 a_17733_3865# a_17733_3723# 0.88311f
+C74 a_12305_11698# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 0.1398f
+C75 a_9303_4717# m2_9363_4589# 0.0092f
+C76 a_3357_25165# a_2757_25165# 0.02491f
+C77 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_9661_6254# 0.00393f
+C78 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_9758_6454# 0.17594f
+C79 ui_in[0] a_12100_15180# 0.12239f
+C80 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 a_12100_15180# 0.90866f
+C81 a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 0.08246f
+C82 a_12100_15180# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 1.31731f
+C83 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 a_12100_15180# 0.19229f
+C84 a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 1.46706f
+C85 ui_in[1] a_22812_26958# 0
+C86 a_9758_6954# ua[5] 0.00371f
+C87 a_9303_3439# a_9303_4007# 0.02408f
+C88 a_12305_11698# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 2.25696f
+C89 a_9758_6954# VDPWR 2.35522f
+C90 a_22812_26958# ui_in[0] 0
+C91 ui_in[1] a_22812_29238# 0
+C92 a_12305_11698# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 0.20077f
+C93 a_13664_11640# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias 4.4549f
+C94 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 a_12100_15180# 0.13056f
+C95 ui_in[1] a_22812_25058# 0.02324f
+C96 a_3807_25165# a_11776_17127# 0.03969f
+C97 VDPWR a_9758_8454# 2.57994f
+C98 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 a_12100_15180# 0.60862f
+C99 a_22812_29238# ui_in[0] 0
+C100 ui_in[0] a_22812_25058# 0.01788f
+C101 a_12305_11698# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias 9.76206f
+C102 a_2157_25165# a_2607_25165# 0.2458f
+C103 a_5757_25165# a_6207_25165# 0.2458f
+C104 a_2157_25165# ua[4] 0.01893f
+C105 a_9661_6254# VDPWR 12.8903f
+C106 a_6057_33595# a_5907_33595# 0.85074f
+C107 a_9758_8954# VDPWR 2.51755f
+C108 a_9758_6454# VDPWR 2.15834f
+C109 a_9303_4717# a_5007_25165# 0.00129f
+C110 a_13664_12326# VDPWR 4.57567f
+C111 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_12100_15180# 0.7562f
+C112 a_2157_25165# ua[5] 0.00248f
+C113 a_2157_25165# VDPWR 0.0326f
+C114 ui_in[1] a_22812_31138# 0
+C115 ua[1] a_12100_15180# 0
+C116 a_9303_4575# a_9303_3439# 0.02511f
+C117 a_12100_15180# ua[2] 0.00371f
+C118 a_22812_31138# ui_in[0] 0
+C119 a_9303_4007# a_9303_3581# 0.27104f
+C120 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 1.35503f
+C121 ua[1] a_9776_17101# 0
+C122 a_5607_25165# a_6207_25165# 0.00896f
+C123 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 a_12100_15180# 0.02565f
+C124 a_9303_4149# a_9303_3581# 0.01185f
+C125 a_3207_25165# a_3357_25165# 0.85074f
+C126 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_12100_15180# 0.02057f
+C127 a_22812_29238# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 2.54779f
+C128 a_17733_4291# a_17733_3723# 0.0218f
+C129 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 a_22812_25058# 1.37358f
+C130 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 a_9776_17101# 1.22263f
+C131 m2_14920_14290# a_13664_12326# 0
+C132 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_9776_17101# 0.30407f
+C133 a_9303_4717# a_9303_3439# 0.00231f
+C134 a_20452_17278# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0
+C135 a_22812_26958# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0.00162f
+C136 ui_in[1] a_22672_34768# 0.00249f
+C137 a_13664_11640# VDPWR 4.71186f
+C138 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_22812_26958# 8.8451f
+C139 a_20452_17278# ua[2] 4.68749f
+C140 a_20452_17278# ua[1] 2.74947f
+C141 a_22672_34768# ui_in[0] 0.00166f
+C142 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_22812_29238# 6.71917f
+C143 a_22812_26958# ua[0] 0
+C144 a_9718_17127# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.014f
+C145 a_9303_4575# a_9303_3581# 0.0187f
+C146 a_12305_11698# VDPWR 18.1442f
+C147 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_22812_25058# 3.31104f
+C148 a_22812_31138# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 2.58438f
+C149 a_20452_17278# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0
+C150 ui_in[1] a_22672_36168# 0.02211f
+C151 a_20452_17278# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 9.74705f
+C152 a_12100_15180# VDPWR 18.7988f
+C153 a_22812_29238# ua[0] 0.00124f
+C154 a_9718_17127# ua[2] 0.70552f
+C155 a_5757_25165# a_5607_25165# 0.85074f
+C156 a_9718_17127# ua[1] 6.26809f
+C157 ua[0] a_22812_25058# 0.05559f
+C158 a_3357_25165# ua[4] 0
+C159 a_3657_33595# a_3507_33595# 0.85074f
+C160 a_9776_17101# VDPWR 72.5418f
+C161 a_12100_15180# m4_20500_10710# 0.00561f
+C162 a_22672_36168# ui_in[0] 0.01717f
+C163 a_20452_17278# ua[0] 0
+C164 a_3357_25165# VDPWR 0.03305f
+C165 a_9718_17127# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0.15087f
+C166 a_13664_11640# m2_14920_14290# 0
+C167 a_4257_33595# ua[4] 0.03066f
+C168 a_9303_4717# a_9303_3581# 0.00146f
+C169 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_9718_17127# 0.55249f
+C170 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_22812_31138# 3.46801f
+C171 a_9718_18327# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.00186f
+C172 ua[5] a_4257_33595# 0.00641f
+C173 a_22672_34768# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 1.23559f
+C174 a_17733_4291# a_17733_3865# 0.26476f
+C175 a_12305_11698# m2_14920_14290# 0.01219f
+C176 a_9718_18327# ua[2] 6.28467f
+C177 ua[1] a_9718_18327# 2.39385f
+C178 a_22812_31138# ua[0] 0.00102f
+C179 ui_in[1] a_11776_18327# 0.29386f
+C180 a_11776_17127# a_2757_25165# 0.10312f
+C181 a_5157_25165# a_4557_25165# 0.02491f
+C182 m2_14920_14290# a_12100_15180# 0.00545f
+C183 a_9718_18327# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0.13142f
+C184 a_11776_18327# ui_in[0] 0.02244f
+C185 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 a_11776_18327# 0.01796f
+C186 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 a_11776_18327# 0.02864f
+C187 a_5457_33595# a_6057_33595# 0.02491f
+C188 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_9718_18327# 0.24721f
+C189 a_22672_36168# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 1.2394f
+C190 a_22672_34768# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 0.13388f
+C191 a_9718_17127# VDPWR 13.0588f
+C192 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_12731_24523# 0.00575f
+C193 a_9758_6954# a_17733_3723# 0.00297f
+C194 ui_in[1] a_17186_37195# 0.18061f
+C195 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 a_11776_18327# 0.01266f
+C196 a_17733_4433# a_17733_3865# 0.00978f
+C197 a_17186_37195# ua[3] 0.15709f
+C198 a_22672_34768# ua[0] 1.73082f
+C199 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 a_11776_18327# 0.12154f
+C200 a_12731_24523# ua[0] 0.76521f
+C201 a_17186_37195# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 0.14166f
+C202 a_17186_37195# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.001f
+C203 a_17186_37195# ui_in[0] 0.19048f
+C204 a_5457_33595# a_5907_33595# 0.2458f
+C205 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 a_17186_37195# 0.07376f
+C206 a_11776_17127# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 0.01386f
+C207 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_22672_36168# 0.01465f
+C208 a_20452_17278# m2_20750_30962# 0.00364f
+C209 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_11776_18327# 0.06591f
+C210 a_9661_6254# a_9303_3581# 0
+C211 a_9718_18327# VDPWR 14.7832f
+C212 a_12731_24523# ua[4] 0.02532f
+C213 a_9303_4149# a_9303_4007# 0.89352f
+C214 a_22672_36168# ua[0] 4.10499f
+C215 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_11776_17127# 0
+C216 a_4407_25165# a_11776_17127# 0.03969f
+C217 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 a_17186_37195# 0.34122f
+C218 ua[5] a_12731_24523# 0.00178f
+C219 a_12731_24523# VDPWR 9.68362f
+C220 a_17186_37195# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 0.0123f
+C221 a_4107_33595# ua[4] 0.01976f
+C222 a_11776_17127# ua[1] 0
+C223 a_3207_25165# a_11776_17127# 0.03969f
+C224 ua[5] a_4107_33595# 0.00437f
+C225 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_9366_24378# 0.01012f
+C226 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 a_11776_18327# 0.03101f
+C227 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_17186_37195# 0.11136f
+C228 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_18327# 8.82471f
+C229 a_17186_37195# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.30851f
+C230 a_11776_17127# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0.05113f
+C231 ua[0] a_9366_24378# 5.51162f
+C232 m2_14920_14290# a_9718_18327# 0.00234f
+C233 a_3807_25165# a_3957_25165# 0.85074f
+C234 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_11776_17127# 6.12332f
+C235 a_9303_4575# a_9303_4007# 0.05002f
+C236 a_11776_18327# ua[0] 1.39195f
+C237 a_17186_37195# ua[2] 0.28107f
+C238 a_9758_6954# a_17733_3865# 0.00408f
+C239 a_17186_37195# ua[1] 0.00204f
+C240 a_9303_4575# a_9303_4149# 0.31467f
+C241 a_11776_17127# ua[0] 0.55573f
+C242 a_17186_37195# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 5.48648f
+C243 ua[4] a_9366_24378# 0.00167f
+C244 a_11776_18327# ua[4] 0.92935f
+C245 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_17186_37195# 1.54172f
+C246 ua[5] a_9366_24378# 0
+C247 a_17733_4291# a_17733_4433# 0.88389f
+C248 VDPWR a_9366_24378# 27.2917f
+C249 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 a_13428_34968# 0
+C250 a_11776_17127# a_2607_25165# 0.03987f
+C251 a_9303_4717# a_9303_4007# 0.00333f
+C252 ua[5] a_11776_18327# 2.04572f
+C253 a_11776_17127# ua[4] 2.56555f
+C254 a_11776_18327# VDPWR 26.5396f
+C255 a_17186_37195# ua[0] 0.10345f
+C256 ua[5] a_11776_17127# 1.91913f
+C257 a_9303_4717# a_9303_4149# 0.00153f
+C258 a_13428_34968# ua[0] 0.32793f
+C259 a_11776_17127# VDPWR 22.8351f
+C260 a_17186_37195# ua[4] 0
+C261 m3_15710_28342# a_11776_18327# 0.01135f
+C262 a_13428_34968# ua[4] 0.09206f
+C263 a_13028_34968# ua[0] 0.77471f
+C264 m2_9363_4589# a_11776_18327# 0
+C265 ua[5] a_17186_37195# 0
+C266 a_17186_37195# VDPWR 0.31601f
+C267 ua[5] a_13428_34968# 0.063f
+C268 m3_15710_28342# a_11776_17127# 0.06837f
+C269 a_10185_31921# ua[0] 0.99135f
+C270 a_13428_34968# VDPWR 3.51226f
+C271 m2_14920_14290# a_11776_18327# 0
+C272 a_9303_4575# a_9303_4717# 7.70282f
+C273 a_17186_37195# m4_20500_10710# 0.01987f
+C274 m2_20750_30962# a_11776_18327# 0.0232f
+C275 a_13028_34968# ua[4] 33.8748f
+C276 a_5757_25165# a_5157_25165# 0.02491f
+C277 m2_14920_14290# a_11776_17127# 0
+C278 a_10185_31921# ua[4] 0.03641f
+C279 a_13028_34968# ua[5] 30.9428f
+C280 ua[0] a_7707_33595# 2.66447f
+C281 m2_20750_30962# a_11776_17127# 0.01104f
+C282 a_13028_34968# VDPWR 3.98691f
+C283 ua[5] a_10185_31921# 0.00753f
+C284 a_9758_6954# a_17733_4291# 0.00949f
+C285 a_10185_31921# VDPWR 4.06367f
+C286 a_9661_6254# a_9303_4007# 0
+C287 a_17733_4291# a_9758_8454# 0
+C288 a_11776_18327# a_5007_25165# 0.00659f
+C289 ua[4] a_7707_33595# 1.87302f
+C290 a_9661_6254# a_9303_4149# 0
+C291 a_14141_7329# a_14142_8008# 0.43347f
+C292 a_5607_25165# a_5157_25165# 0.2458f
+C293 ua[5] a_7707_33595# 0.00983f
+C294 a_13028_34968# m3_15710_28342# 0.00183f
+C295 a_7707_33595# VDPWR 11.4042f
+C296 a_11776_17127# a_5007_25165# 0.03969f
+C297 a_9661_6254# a_17733_4291# 0
+C298 a_9758_8954# a_17733_4291# 0
+C299 a_17733_4291# a_9758_6454# 0
+C300 a_7557_25165# VDPWR 0.13142f
+C301 a_9758_6954# a_17733_4433# 0.01837f
+C302 a_7407_25165# VDPWR 0.04336f
+C303 a_17733_4433# a_9758_8454# 0.00185f
+C304 a_5457_33595# a_4857_33595# 0.02491f
+C305 a_9303_4575# a_9661_6254# 0
+C306 a_7257_33595# ua[4] 0.02836f
+C307 a_9758_6954# a_14141_7329# 0.02169f
+C308 ua[5] a_7257_33595# 0.005f
+C309 a_9303_3439# a_11776_18327# 0.01224f
+C310 a_9661_6254# a_17733_4433# 0.00246f
+C311 a_9758_8954# a_17733_4433# 0.00144f
+C312 a_17733_4433# a_9758_6454# 0.0034f
+C313 a_7257_33595# VDPWR 0.0112f
+C314 a_9758_6954# a_14142_8008# 0.0196f
+C315 a_2307_33595# a_2457_33595# 0.85074f
+C316 a_11776_17127# a_9303_3439# 0
+C317 a_4407_25165# a_4557_25165# 0.85074f
+C318 a_14142_8008# a_9758_8454# 0.04196f
+C319 a_9303_4717# a_9661_6254# 0.00259f
+C320 a_9661_6254# a_14141_7329# 0.01885f
+C321 a_14141_7329# a_9758_8954# 0.00472f
+C322 a_14141_7329# a_9758_6454# 0
+C323 a_9661_6254# a_14142_8008# 0.07435f
+C324 a_14141_7329# a_13664_12326# 1.43261f
+C325 a_9758_8954# a_14142_8008# 0.50841f
+C326 a_9758_6454# a_14142_8008# 0.00126f
+C327 a_13664_12326# a_14142_8008# 0.15674f
+C328 a_7107_33595# ua[4] 0.01976f
+C329 a_2457_33595# ua[4] 0.0646f
+C330 a_7107_33595# ua[5] 0.00442f
+C331 ua[5] a_2457_33595# 0.00641f
+C332 a_4407_25165# a_3957_25165# 0.2458f
+C333 a_7107_33595# VDPWR 0.00338f
+C334 a_2307_33595# a_2907_33595# 0.00896f
+C335 a_11776_18327# a_9303_3581# 0.00332f
+C336 VDPWR a_6957_25165# 0.02498f
+C337 a_9758_6954# a_9758_8454# 0.21459f
+C338 a_11776_17127# a_9303_3581# 0
+C339 a_9758_6954# a_9661_6254# 1.20776f
+C340 a_9758_6954# a_9758_8954# 0.05828f
+C341 a_9758_6954# a_9758_6454# 4.19094f
+C342 a_9661_6254# a_9758_8454# 3.69891f
+C343 ua[4] a_2907_33595# 0.02418f
+C344 a_4707_33595# a_4857_33595# 0.85074f
+C345 a_13664_11640# a_14141_7329# 1.78529f
+C346 a_9758_8954# a_9758_8454# 3.65738f
+C347 a_9758_6454# a_9758_8454# 0.2766f
+C348 a_3057_33595# a_2457_33595# 0.02491f
+C349 a_13664_12326# a_9758_8454# 0.00375f
+C350 VDPWR a_6807_25165# 0.02134f
+C351 a_13664_11640# a_14142_8008# 1.74005f
+C352 a_9303_4575# a_3357_25165# 0.00109f
+C353 ua[5] a_2907_33595# 0.00437f
+C354 a_4557_25165# VDPWR 0.01741f
+C355 a_9661_6254# a_9758_8954# 1.05372f
+C356 a_9661_6254# a_9758_6454# 4.37346f
+C357 a_5307_33595# a_5907_33595# 0.00896f
+C358 a_9758_8954# a_9758_6454# 0.19997f
+C359 a_12305_11698# a_14141_7329# 0.20651f
+C360 a_9661_6254# a_13664_12326# 0.00106f
+C361 a_9758_8954# a_13664_12326# 0.01569f
+C362 a_12305_11698# a_14142_8008# 0.32137f
+C363 a_14141_7329# a_12100_15180# 0.21308f
+C364 a_2607_25165# a_2007_25165# 0.00896f
+C365 a_12100_15180# a_14142_8008# 0.03489f
+C366 a_2007_25165# ua[4] 0.02336f
+C367 a_6657_33595# ua[4] 0.03066f
+C368 a_9303_4717# a_9776_17101# 0
+C369 ua[5] a_2007_25165# 0.0063f
+C370 a_3957_25165# VDPWR 0.03305f
+C371 ua[5] a_6657_33595# 0.00641f
+C372 a_2007_25165# VDPWR 0.045f
+C373 a_6657_33595# VDPWR 0
+C374 a_3057_33595# a_2907_33595# 0.85074f
+C375 a_9758_6954# a_13664_11640# 0.00168f
+C376 a_13664_11640# a_9758_8454# 0
+C377 a_9758_6954# a_12305_11698# 0
+C378 a_6507_33595# ua[4] 0.01976f
+C379 a_9758_6954# a_12100_15180# 0.02574f
+C380 ua[5] a_6507_33595# 0.00437f
+C381 a_13664_11640# a_9661_6254# 0.0041f
+C382 a_12305_11698# a_9758_8454# 0.00484f
+C383 a_13664_11640# a_9758_8954# 0.01624f
+C384 a_13664_11640# a_9758_6454# 0
+C385 a_13664_11640# a_13664_12326# 4.00398f
+C386 VDPWR a_6357_25165# 0.03309f
+C387 a_4557_25165# a_5007_25165# 0.2458f
+C388 a_12305_11698# a_9661_6254# 0.00259f
+C389 a_12305_11698# a_9758_8954# 0.04463f
+C390 a_9303_4717# a_9718_17127# 0
+C391 a_12305_11698# a_13664_12326# 0.79448f
+C392 a_9661_6254# a_12100_15180# 0.0885f
+C393 a_13664_12326# a_12100_15180# 2.18744f
+C394 a_11776_18327# a_9303_4007# 0.01243f
+C395 a_9303_4717# a_9718_18327# 0.00129f
+C396 a_9303_4149# a_11776_18327# 0.00333f
+C397 a_11776_17127# a_9303_4007# 0
+C398 a_11776_17127# a_9303_4149# 0
+C399 a_6057_33595# ua[4] 0.03066f
+C400 a_6207_25165# VDPWR 0.02873f
+C401 a_12305_11698# a_13664_11640# 1.9181f
+C402 ua[5] a_6057_33595# 0.00641f
+C403 a_5307_33595# a_5457_33595# 0.85074f
+C404 a_13664_11640# a_12100_15180# 0.50382f
+C405 a_9303_4575# a_11776_18327# 1.40258f
+C406 a_12305_11698# a_12100_15180# 0.9849f
+C407 ua[4] a_5907_33595# 0.01976f
+C408 a_9303_4575# a_11776_17127# 77.5101f
+C409 ua[4] a_3507_33595# 0.01976f
+C410 ua[5] a_5907_33595# 0.00437f
+C411 a_12305_11698# a_9776_17101# 0
+C412 ua[5] a_3507_33595# 0.00437f
+C413 a_9776_17101# a_12100_15180# 0.00683f
+C414 a_5757_25165# VDPWR 0.03309f
+C415 a_9303_4717# a_11776_18327# 80.1628f
+C416 a_9303_4717# a_11776_17127# 0.70403f
+C417 a_22812_26958# a_9776_17101# 0
+C418 a_5307_33595# a_4857_33595# 0.2458f
+C419 a_3657_33595# ua[4] 0.03066f
+C420 a_3057_33595# a_3507_33595# 0.2458f
+C421 a_5607_25165# VDPWR 0.02873f
+C422 a_22812_29238# a_22812_26958# 2.02347f
+C423 ua[5] a_3657_33595# 0.00641f
+C424 a_20452_17278# a_9776_17101# 0
+C425 a_22812_26958# a_22812_25058# 6.71412f
+C426 a_8978_28614# ua[0] 0.25644f
+C427 a_12305_11698# a_9718_17127# 0
+C428 a_5307_33595# a_4707_33595# 0.00896f
+C429 a_20452_17278# a_22812_26958# 2.6648f
+C430 a_9718_17127# a_12100_15180# 0.00905f
+C431 a_22812_29238# a_22812_25058# 1.19261f
+C432 ua[4] a_8978_28614# 0.4031f
+C433 a_20452_17278# a_22812_29238# 0.64755f
+C434 a_9718_17127# a_9776_17101# 8.26098f
+C435 a_20452_17278# a_22812_25058# 1.8389f
+C436 ua[5] a_8978_28614# 0.06193f
+C437 a_8978_28614# VDPWR 81.71729f
+C438 a_22812_26958# a_9718_17127# 0
+C439 a_22812_31138# a_22812_26958# 1.68364f
+C440 a_9661_6254# a_11776_18327# 0.05745f
+C441 a_12305_11698# a_9718_18327# 0.00819f
+C442 a_3057_33595# a_3657_33595# 0.02491f
+C443 a_22812_29238# a_9718_17127# 0.00549f
+C444 a_22812_29238# a_22812_31138# 4.74353f
+C445 a_9758_6954# a_17186_37195# 0.08801f
+C446 a_9718_18327# a_12100_15180# 0.18112f
+C447 a_22812_31138# a_22812_25058# 1.17389f
+C448 a_9718_17127# a_22812_25058# 0.00895f
+C449 a_20452_17278# a_22812_31138# 2.1437f
+C450 a_9718_18327# a_9776_17101# 4.4312f
+C451 a_20452_17278# a_9718_17127# 1.00701f
+C452 a_2157_25165# a_11776_17127# 0.0241f
+C453 a_22812_26958# a_9718_18327# 0
+C454 a_12731_24523# a_9776_17101# 0.00415f
+C455 a_9661_6254# a_17186_37195# 0.00396f
+C456 a_5607_25165# a_5007_25165# 0.00896f
+C457 a_22672_34768# a_22812_26958# 1.05117f
+C458 a_5457_33595# ua[4] 0.03066f
+C459 a_22812_31138# a_9718_17127# 0.09934f
+C460 a_9718_18327# a_22812_25058# 0
+C461 ua[5] a_5457_33595# 0.00641f
+C462 a_22672_34768# a_22812_29238# 0.47067f
+C463 a_20452_17278# a_9718_18327# 2.86326f
+C464 a_22672_34768# a_22812_25058# 2.5583f
+C465 a_22672_34768# a_20452_17278# 0.00122f
+C466 a_22672_36168# a_22812_26958# 2.29613f
+C467 a_4257_33595# a_4107_33595# 0.85074f
+C468 a_20452_17278# a_12731_24523# 0.00117f
+C469 a_22812_31138# a_9718_18327# 0.00146f
+C470 a_9718_17127# a_9718_18327# 14.7838f
+C471 a_12305_11698# a_11776_18327# 0.01036f
+C472 a_22812_29238# a_22672_36168# 0.84745f
+C473 a_22672_36168# a_22812_25058# 0.33913f
+C474 a_22672_34768# a_22812_31138# 1.1307f
+C475 a_11776_18327# a_12100_15180# 0.52703f
+C476 a_12305_11698# a_11776_17127# 0
+C477 a_9718_17127# a_12731_24523# 0.03032f
+C478 a_9776_17101# a_9366_24378# 0.03295f
+C479 a_22812_31138# a_12731_24523# 0
+C480 a_20452_17278# a_22672_36168# 0.00433f
+C481 a_11776_18327# a_9776_17101# 3.19727f
+C482 a_11776_17127# a_12100_15180# 0.02978f
+C483 a_22812_26958# a_11776_18327# 0.63289f
+C484 a_11776_17127# a_9776_17101# 2.6033f
+C485 a_4857_33595# ua[4] 0.03066f
+C486 a_3357_25165# a_11776_17127# 0.10312f
+C487 a_9303_4717# a_6957_25165# 0
+C488 a_12305_11698# a_17186_37195# 0
+C489 a_22812_31138# a_22672_36168# 0.21567f
+C490 a_22812_25058# a_9366_24378# 0
+C491 a_9303_4575# a_4557_25165# 0
+C492 a_22812_29238# a_11776_18327# 1.63453f
+C493 a_22812_26958# a_11776_17127# 0.1474f
+C494 ua[5] a_4857_33595# 0.00641f
+C495 a_11776_18327# a_22812_25058# 0
+C496 a_17186_37195# a_12100_15180# 0.17604f
+C497 a_12731_24523# a_9718_18327# 0.00306f
+C498 a_20452_17278# a_9366_24378# 0
+C499 a_22812_29238# a_11776_17127# 0.00966f
+C500 a_20452_17278# a_11776_18327# 0.60588f
+C501 a_17186_37195# a_9776_17101# 0.55164f
+C502 a_11776_17127# a_22812_25058# 2.01226f
+C503 a_4707_33595# ua[4] 0.01976f
+C504 a_22672_34768# a_12731_24523# 0.14609f
+C505 a_4707_33595# ua[5] 0.00437f
+C506 a_22812_26958# a_17186_37195# 0
+C507 a_20452_17278# a_11776_17127# 2.61987f
+C508 a_9303_4717# a_6807_25165# 0
+C509 a_9718_17127# a_9366_24378# 1.41137f
+C510 a_22812_31138# a_9366_24378# 0
+C511 a_9303_4575# a_3957_25165# 0.00109f
+C512 a_9718_17127# a_11776_18327# 0.77476f
+C513 a_22812_31138# a_11776_18327# 0.33301f
+C514 a_22672_34768# a_22672_36168# 7.33126f
+C515 a_22672_36168# a_12731_24523# 0.56981f
+C516 a_11776_17127# a_9718_17127# 1.17191f
+C517 a_20452_17278# a_17186_37195# 0
+C518 a_22812_31138# a_11776_17127# 2.0514f
+C519 a_3807_25165# a_4407_25165# 0.00896f
+C520 a_9718_18327# a_9366_24378# 2.0044f
+C521 a_5157_25165# VDPWR 0.03309f
+C522 a_9718_18327# a_11776_18327# 0.68613f
+C523 a_17186_37195# a_9718_17127# 0.16514f
+C524 a_3807_25165# a_3207_25165# 0.00896f
+C525 a_22672_34768# a_9366_24378# 1.58559f
+C526 a_12731_24523# a_9366_24378# 5.18497f
+C527 a_11776_17127# a_9718_18327# 3.12732f
+C528 a_22672_34768# a_11776_18327# 0.93715f
+C529 a_12731_24523# a_11776_18327# 2.58107f
+C530 a_22672_34768# a_11776_17127# 1.49843f
+C531 a_11776_17127# a_12731_24523# 3.1731f
+C532 a_22672_36168# a_9366_24378# 0.35942f
+C533 a_9303_4717# a_6357_25165# 0.00109f
+C534 a_17186_37195# a_9718_18327# 0.15592f
+C535 a_22672_36168# a_11776_18327# 1.23823f
+C536 a_22672_36168# a_11776_17127# 0.4918f
+C537 a_17186_37195# a_12731_24523# 0.74387f
+C538 a_13428_34968# a_12731_24523# 0.23595f
+C539 a_3807_25165# VDPWR 0.02869f
+C540 a_11776_18327# a_9366_24378# 79.01589f
+C541 a_13028_34968# a_12731_24523# 0.35637f
+C542 a_5157_25165# a_5007_25165# 0.85074f
+C543 a_11776_17127# a_9366_24378# 82.236f
+C544 a_2157_25165# a_2007_25165# 0.85074f
+C545 ui_in[1] ua[3] 0.05791f
+C546 a_11776_17127# a_11776_18327# 37.7962f
+C547 ui_in[1] ui_in[0] 13.6314f
+C548 ui_in[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 0.11174f
+C549 ui_in[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.06417f
+C550 ui_in[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 0.15478f
+C551 ua[3] ui_in[0] 0.11287f
+C552 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 ua[3] 0.01263f
+C553 ua[3] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.08982f
+C554 a_9303_4717# a_6207_25165# 0.00129f
+C555 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 ua[3] 0.01404f
+C556 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 ui_in[0] 0.37305f
+C557 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.05833f
+C558 ui_in[0] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.21921f
+C559 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.05904f
+C560 a_17186_37195# a_9366_24378# 0.28652f
+C561 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 ui_in[0] 0.54779f
+C562 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 5.59395f
+C563 a_13428_34968# a_9366_24378# 0.09638f
+C564 a_17186_37195# a_11776_18327# 2.49762f
+C565 ui_in[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 0.66155f
+C566 a_13428_34968# a_11776_18327# 0.06164f
+C567 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 ua[3] 0.01152f
+C568 ui_in[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 0.11743f
+C569 a_11776_17127# a_17186_37195# 1.20589f
+C570 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 ua[3] 0.01812f
+C571 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 4.82705f
+C572 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.05765f
+C573 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 ui_in[0] 0.32243f
+C574 a_11776_17127# a_13428_34968# 0.05229f
+C575 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 0.23132f
+C576 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 0.10444f
+C577 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.10533f
+C578 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 ui_in[0] 0.53256f
+C579 a_13028_34968# a_9366_24378# 0.00667f
+C580 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 5.28075f
+C581 ui_in[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias 0
+C582 a_13028_34968# a_11776_18327# 0.03677f
+C583 ui_in[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.36767f
+C584 ua[3] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.84684f
+C585 a_10185_31921# a_11776_18327# 0.00523f
+C586 a_3207_25165# a_2757_25165# 0.2458f
+C587 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.54487f
+C588 a_5757_25165# a_9303_4717# 0.00109f
+C589 a_13028_34968# a_11776_17127# 0.04313f
+C590 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias ui_in[0] 0.64538f
+C591 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 3.26187f
+C592 a_13428_34968# a_17186_37195# 0.00567f
+C593 ui_in[0] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.16659f
+C594 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.00278f
+C595 ui_in[1] ua[1] 0.19739f
+C596 ui_in[1] ua[2] 0.1911f
+C597 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.00646f
+C598 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 3.24861f
+C599 a_10185_31921# a_11776_17127# 0.01052f
+C600 ua[3] ua[2] 0.05984f
+C601 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.00237f
+C602 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 0.47923f
+C603 ui_in[0] ua[2] 0.20624f
+C604 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 ua[2] 0
+C605 ua[2] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0
+C606 ui_in[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0.107f
+C607 ua[1] ui_in[0] 0.21516f
+C608 a_11776_18327# a_7707_33595# 0
+C609 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 ua[2] 0
+C610 ui_in[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 0.10679f
+C611 a_3357_25165# a_3957_25165# 0.02491f
+C612 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 ua[3] 0.11776f
+C613 a_13028_34968# a_17186_37195# 0.00404f
+C614 a_5307_33595# ua[4] 0.01976f
+C615 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 3.6339f
+C616 a_7557_25165# a_9366_24378# 0.0108f
+C617 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 ua[3] 0.11224f
+C618 a_11776_17127# a_7707_33595# 0
+C619 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.00376f
+C620 a_7557_25165# a_11776_18327# 0.01472f
+C621 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 3.55879f
+C622 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.00107f
+C623 a_13028_34968# a_13428_34968# 3.48204f
+C624 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 ui_in[0] 0.15528f
+C625 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 0.01051f
+C626 a_7407_25165# a_9366_24378# 0.0025f
+C627 a_5307_33595# ua[5] 0.00437f
+C628 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0.14777f
+C629 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.12854f
+C630 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 0.13037f
+C631 a_10185_31921# a_13428_34968# 0.15793f
+C632 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 ui_in[0] 0.15177f
+C633 ui_in[1] ua[0] 7.8565f
+C634 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0
+C635 a_7407_25165# a_11776_18327# 0.00659f
+C636 a_5607_25165# a_9303_4717# 0.00129f
+C637 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 0.08979f
+C638 a_11776_17127# a_7557_25165# 0.10312f
+C639 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 ua[2] 0
+C640 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 ua[2] 0
+C641 a_2607_25165# a_2757_25165# 0.85074f
+C642 ui_in[0] ua[0] 0.16853f
+C643 ua[4] a_2757_25165# 0.00586f
+C644 a_7407_25165# a_11776_17127# 0.03969f
+C645 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0.01284f
+C646 a_13428_34968# a_7707_33595# 0.77814f
+C647 a_13028_34968# a_10185_31921# 0.01918f
+C648 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 0.00729f
+C649 a_2757_25165# VDPWR 0.03305f
+C650 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0.07878f
+C651 ua[5] ua[7] 0.00904f
+C652 ua[5] ua[6] 0.00904f
+C653 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 ua[2] 0.27873f
+C654 ua[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 1.04187f
+C655 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 0
+C656 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0.01826f
+C657 ua[1] ua[2] 9.08061f
+C658 a_13028_34968# a_7707_33595# 1.24003f
+C659 VDPWR tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.22599f
+C660 ui_in[0] VDPWR 0.83726f
+C661 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 VDPWR 5.84769f
+C662 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 1.18767f
+C663 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 0.01223f
+C664 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 VDPWR 5.86906f
+C665 a_10185_31921# a_7707_33595# 0.74806f
+C666 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0.18212f
+C667 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 ua[2] 0.05484f
+C668 ui_in[0] m4_20500_10710# 0.01124f
+C669 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 m4_20500_10710# 0.00636f
+C670 ua[1] tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 0
+C671 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 m4_20500_10710# 0.00462f
+C672 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 ua[2] 0.40204f
+C673 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 ua[1] 0.20354f
+C674 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 VDPWR 8.27994f
+C675 a_9366_24378# a_6957_25165# 0
+C676 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 VDPWR 6.76359f
+C677 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 6.15219f
+C678 a_11776_18327# a_6957_25165# 0.01077f
+C679 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 m4_20500_10710# 0.0039f
+C680 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 m4_20500_10710# 0.00325f
+C681 a_11776_17127# a_6957_25165# 0.10312f
+C682 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias VDPWR 49.4798f
+C683 a_4407_25165# VDPWR 0.0226f
+C684 a_3207_25165# a_2607_25165# 0.00896f
+C685 a_3207_25165# ua[4] 0.00199f
+C686 a_7407_25165# a_7557_25165# 0.85074f
+C687 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias m4_20500_10710# 0.15405f
+C688 VDPWR ua[2] 0.00383f
+C689 a_3207_25165# VDPWR 0.02869f
+C690 a_11776_18327# a_6807_25165# 0.00659f
+C691 a_7257_33595# a_7707_33595# 0.27013f
+C692 a_2307_33595# ua[4] 0.27374f
+C693 a_4557_25165# a_11776_18327# 0.01882f
+C694 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3 VDPWR 0.03569f
+C695 a_11776_17127# a_6807_25165# 0.03969f
+C696 ua[5] a_2307_33595# 0.01333f
+C697 a_11776_17127# a_4557_25165# 0.10312f
+C698 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 VDPWR 0.02729f
+C699 ua[4] ua[0] 0.24224f
+C700 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias m2_14920_14290# 0.02409f
+C701 ua[5] ua[0] 0.05828f
+C702 ua[0] VDPWR 11.3011f
+C703 a_2607_25165# ua[4] 0.00643f
+C704 a_11776_17127# a_3957_25165# 0.10312f
+C705 ua[5] ua[4] 24.7548f
+C706 a_2607_25165# VDPWR 0.02276f
+C707 ua[4] VDPWR 13.3167f
+C708 a_7107_33595# a_7707_33595# 0.01219f
+C709 ua[5] VDPWR 8.30645f
+C710 a_4407_25165# a_5007_25165# 0.00896f
+C711 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2 m2_20750_30962# 0.05236f
+C712 a_7557_25165# a_6957_25165# 0.02491f
+C713 VDPWR m4_20500_10710# 0.01007f
+C714 m3_15710_28342# ua[4] 0
+C715 a_11776_18327# a_6357_25165# 0.01077f
+C716 a_7407_25165# a_6957_25165# 0.2458f
+C717 m2_9363_4589# ua[4] 0
+C718 ua[5] m3_15710_28342# 0
+C719 m3_15710_28342# VDPWR 0.0045f
+C720 a_11776_17127# a_6357_25165# 0.10312f
+C721 a_3057_33595# ua[4] 0.03358f
+C722 a_3657_33595# a_4257_33595# 0.02491f
+C723 m2_9363_4589# VDPWR 0.00476f
+C724 a_7107_33595# a_7257_33595# 0.85074f
+C725 ua[5] a_3057_33595# 0.00641f
+C726 m2_14920_14290# VDPWR 0.26034f
+C727 a_7407_25165# a_6807_25165# 0.00896f
+C728 a_9303_4717# a_5157_25165# 0.00109f
+C729 a_6657_33595# a_7707_33595# 0.00279f
+C730 a_5007_25165# VDPWR 0.02873f
+C731 a_11776_18327# a_6207_25165# 0.00659f
+C732 a_4107_33595# a_3507_33595# 0.00896f
+C733 a_11776_17127# a_6207_25165# 0.03969f
+C734 a_9303_4575# a_3807_25165# 0.00129f
+C735 a_9718_17127# a_8978_28614# 0.02102f
+C736 a_6507_33595# a_7707_33595# 0.00117f
+C737 a_7257_33595# a_6657_33595# 0.02491f
+C738 a_9303_3439# ua[4] 0.02086f
+C739 ua[5] a_9303_3439# 0.00495f
+C740 a_2457_33595# a_2907_33595# 0.2458f
+C741 a_6807_25165# a_6957_25165# 0.85074f
+C742 a_9303_3439# VDPWR 0.00614f
+C743 a_3657_33595# a_4107_33595# 0.2458f
+C744 a_9718_18327# a_8978_28614# 0.00259f
+C745 a_5757_25165# a_11776_18327# 0.01077f
+C746 a_5757_25165# a_11776_17127# 0.10312f
+C747 a_12731_24523# a_8978_28614# 0
+C748 m2_9363_4589# a_9303_3439# 0
+C749 a_7107_33595# a_6657_33595# 0.2458f
+C750 a_5607_25165# a_11776_18327# 0.00659f
+C751 ua[4] a_17733_3723# 0.01527f
+C752 ua[4] a_9303_3581# 0.00835f
+C753 a_5607_25165# a_11776_17127# 0.03969f
+C754 a_6057_33595# a_7707_33595# 0
+C755 ua[5] a_17733_3723# 0.27887f
+C756 VDPWR a_9303_3581# 0.00537f
+C757 a_4857_33595# a_4257_33595# 0.02491f
+C758 a_7107_33595# a_6507_33595# 0.00896f
+C759 a_3957_25165# a_4557_25165# 0.02491f
+C760 a_8978_28614# a_9366_24378# 0.41819f
+C761 a_6357_25165# a_6957_25165# 0.02491f
+C762 a_11776_18327# a_8978_28614# 0.15664f
+C763 a_4707_33595# a_4257_33595# 0.2458f
+C764 a_7707_33595# a_5907_33595# 0
+C765 m2_9363_4589# a_9303_3581# 0
+C766 a_11776_17127# a_8978_28614# 0.18213f
+C767 a_6357_25165# a_6807_25165# 0.2458f
+C768 a_9303_4575# a_2757_25165# 0.00109f
+C769 a_17186_37195# a_8978_28614# 0.68451f
+C770 a_13428_34968# a_8978_28614# 0.49624f
+C771 ua[4] a_17733_3865# 0.00756f
+C772 ua[5] a_17733_3865# 0.01141f
+C773 a_13028_34968# a_8978_28614# 0.59671f
+C774 a_6507_33595# a_6657_33595# 0.85074f
+C775 a_10185_31921# a_8978_28614# 2.03731f
+C776 ui_in[1] a_14141_7329# 0
+C777 ui_in[1] a_14142_8008# 0
+C778 a_14141_7329# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 0
+C779 a_14141_7329# ui_in[0] 0.16816f
+C780 a_14141_7329# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.0475f
+C781 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 a_14141_7329# 0
+C782 a_14142_8008# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 1.26357f
+C783 ui_in[0] a_14142_8008# 0.15015f
+C784 a_8978_28614# a_7707_33595# 0.91224f
+C785 a_6207_25165# a_6807_25165# 0.00896f
+C786 a_3807_25165# a_3357_25165# 0.2458f
+C787 a_9303_4575# a_4407_25165# 0.00106f
+C788 a_4707_33595# a_4107_33595# 0.00896f
+C789 a_9303_3439# a_9303_3581# 0.88894f
+C790 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 a_14141_7329# 0
+C791 a_9303_4717# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 0.00162f
+C792 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 a_14141_7329# 0
+C793 a_9303_4575# a_3207_25165# 0.00129f
+C794 ua[4] a_9303_4007# 0.00467f
+C795 ui_in[1] a_9758_6954# 0.16105f
+C796 a_9758_6954# ua[3] 0.0819f
+C797 a_9303_4149# ua[4] 0.0039f
+C798 VDPWR a_9303_4007# 0.00861f
+C799 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_14141_7329# 0.29099f
+C800 ui_in[1] a_9758_8454# 0.18405f
+C801 a_9758_6954# ui_in[0] 0.22454f
+C802 a_9758_6954# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 0.05079f
+C803 a_7257_33595# a_8978_28614# 0
+C804 a_9758_6954# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.00445f
+C805 a_17733_4291# ua[4] 0.00447f
+C806 ua[3] a_9758_8454# 0.02196f
+C807 a_9758_6954# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 0.04823f
+C808 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias a_14142_8008# 0.43646f
+C809 a_14142_8008# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1 0
+C810 a_9303_4149# VDPWR 0.00598f
+C811 a_6057_33595# a_6657_33595# 0.02491f
+C812 ua[5] a_17733_4291# 0.00144f
+C813 ui_in[0] a_9758_8454# 0.14929f
+C814 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 a_9758_8454# 0
+C815 a_9758_8454# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.06262f
+C816 ui_in[1] a_9661_6254# 0.14722f
+C817 ui_in[1] a_9758_8954# 0.18729f
+C818 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 a_9758_8454# 0.00808f
+C819 ui_in[1] a_9758_6454# 0.12984f
+C820 a_3507_33595# a_2907_33595# 0.00896f
+C821 a_2157_25165# a_2757_25165# 0.02491f
+C822 a_9661_6254# ua[3] 0.29034f
+C823 ui_in[1] a_13664_12326# 0
+C824 a_9758_8954# ua[3] 0.01916f
+C825 ua[3] a_9758_6454# 0.04012f
+C826 a_9661_6254# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 0.06116f
+C827 a_9758_6954# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 0.05489f
+C828 a_9661_6254# tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta 0.1338f
+C829 ua[6] ena 0.12715f
+C830 ua[7] ena 0.12715f
+C831 ua[3] ena 4.92452f
+C832 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta ena 7.51458f
+C833 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2 ena 1.16185f
+C834 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3 ena 1.46827f
+C835 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1 ena 0.89403f
+C836 tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4 ena 8.18663f
+C837 ua[4] ena 26.9273f
+C838 ua[5] ena 0.1054p
+C839 m4_20500_10710# ena 0.02698f ; **FLOATING
+C840 m3_15710_28342# ena 0.0654f ; **FLOATING
+C841 m2_9363_4589# ena 0.02619f ; **FLOATING
+C842 m2_14920_14290# ena 0.03303f ; **FLOATING
+C843 m2_20750_30962# ena 0.02414f ; **FLOATING
+C844 a_9303_3439# ena 0.96239f
+C845 a_9303_3581# ena 0.77575f
+C846 a_17733_3723# ena 0.74405f
+C847 a_17733_3865# ena 0.75451f
+C848 a_9303_4007# ena 0.69826f
+C849 a_9303_4149# ena 0.7492f
+C850 a_17733_4291# ena 0.7516f
+C851 a_9303_4575# ena 76.1429f
+C852 a_17733_4433# ena 0.98938f
+C853 a_9303_4717# ena 18.3391f
+C854 a_14141_7329# ena 20.50936f
+C855 a_14142_8008# ena 14.41656f
+C856 a_9758_6954# ena 8.10468f
+C857 a_9758_8454# ena 1.14662f
+C858 a_9758_6454# ena 2.00704f
+C859 a_9758_8954# ena 3.20427f
+C860 a_22812_26958# ena 75.9015f
+C861 a_22812_29238# ena 10.4476f
+C862 a_22812_25058# ena 15.9278f
+C863 a_20452_17278# ena 99.2172f
+C864 a_22812_31138# ena 45.905f
+C865 a_9718_17127# ena 26.15184f
+C866 a_9718_18327# ena 40.45474f
+C867 a_22672_34768# ena 43.0284f
+C868 a_22672_36168# ena 17.6033f
+C869 a_10185_31921# ena 1.20605f
+C870 a_7557_25165# ena 0.88555f
+C871 a_7407_25165# ena 0.78065f
+C872 a_7257_33595# ena 0.78228f
+C873 a_7107_33595# ena 0.78029f
+C874 a_6957_25165# ena 0.74863f
+C875 a_6807_25165# ena 0.77542f
+C876 a_6657_33595# ena 0.75906f
+C877 a_6507_33595# ena 0.78245f
+C878 a_6357_25165# ena 0.74825f
+C879 a_6207_25165# ena 0.77505f
+C880 a_6057_33595# ena 0.75877f
+C881 a_5907_33595# ena 0.78218f
+C882 a_5757_25165# ena 0.74822f
+C883 a_5607_25165# ena 0.77497f
+C884 a_5457_33595# ena 0.75865f
+C885 a_5307_33595# ena 0.78218f
+C886 a_5157_25165# ena 0.74835f
+C887 a_5007_25165# ena 0.77497f
+C888 a_4857_33595# ena 0.75629f
+C889 a_4707_33595# ena 0.77908f
+C890 a_4557_25165# ena 0.74836f
+C891 a_4407_25165# ena 0.77497f
+C892 a_4257_33595# ena 0.75863f
+C893 a_4107_33595# ena 0.78218f
+C894 a_3957_25165# ena 0.74824f
+C895 a_3807_25165# ena 0.77497f
+C896 a_3657_33595# ena 0.75876f
+C897 a_3507_33595# ena 0.78218f
+C898 a_3357_25165# ena 0.74812f
+C899 a_3207_25165# ena 0.77513f
+C900 a_3057_33595# ena 0.75896f
+C901 a_2907_33595# ena 0.78254f
+C902 a_2757_25165# ena 0.74839f
+C903 a_2607_25165# ena 0.77562f
+C904 a_2457_33595# ena 0.75707f
+C905 a_2307_33595# ena 0.78142f
+C906 a_2157_25165# ena 0.79286f
+C907 a_2007_25165# ena 1.02545f
+.ends
+

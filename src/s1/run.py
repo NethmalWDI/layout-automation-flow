@@ -386,7 +386,11 @@ def main(argv=None) -> int:
             for d_ in m["devices"]:
                 in_match[d_] = m["devices"]
     seen = set()
+    acg_r = {p_["name"] for p_ in ir["ports"] if p_["role"] in ("supply", "ground")}
     for d in ir["devices"]:
+        t_ = d["terminals"]
+        if t_["d"] == t_["g"] == t_["s"] or {t_["d"], t_["g"], t_["s"]} <= acg_r:
+            seen.add(d["name"])   # dummy: no terminal carries a signal or a current
         if d["name"] in seen:
             continue
         mem = in_match.get(d["name"], [d["name"]])
