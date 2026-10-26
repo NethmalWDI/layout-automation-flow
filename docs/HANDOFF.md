@@ -27,25 +27,29 @@ Also still to do:
 
 `plan_v2_resume.sh` runs all of these, in about 5–6 hours.
 
-## 2. One-time setup (about 15 min)
+## 2. One-time setup (about 5 min)
 
-1. **Install Claude Code.** Follow the official setup page, https://code.claude.com/docs/en/setup. On Windows,
-   use the native installer from PowerShell, or WSL.
-   - Your rule is "ask before installing any software". This one you install yourself; check with your
-     supervisor if the university needs approval.
-2. **Open the repo in Claude Code.** Open a terminal in `C:\Users\suind\Documents\GitHub\layout-automation-s0-s3`
-   and start `claude`. You can also use the VS Code extension and open that folder.
-   - Claude Code reads `CLAUDE.md` automatically.
-3. **Make sure the container runs.** Start Docker Desktop, then run `docker start layout-s0s3`.
-4. **Paste this as your first message to Claude Code:**
+Claude Code is already inside the Claude desktop app: it is the **Code** tab at the top of the sidebar, next to
+Home. Nothing has to be installed (https://code.claude.com/docs/en/desktop-quickstart).
+
+1. **Start Docker.** Start Docker Desktop, then run `docker start layout-s0s3` in a terminal (Docker Desktop's
+   container list works too).
+2. **Open the repo in the Code tab.** In the Claude desktop app, click **Code**. Under the prompt box:
+   - environment selector: **Local** (top entry);
+   - folder: **Open folder…** → `C:\Users\suind\Documents\GitHub\layout-automation-s0-s3`.
+
+   Claude Code reads `CLAUDE.md` from that folder.
+3. **Permission mode:** **Manual** (it asks before every edit and command) or **Accept edits** (edits go
+   through, commands still ask). Approve `docker exec` commands as they come.
+4. **Paste this as your first message:**
 
    > Read CLAUDE.md, docs/STATUS.md and docs/HANDOFF.md. Check the container (`docker exec layout-s0s3 pgrep
    > -af '^python3'`) and `runs/state/plan_v2/`. Then start the remaining plan-v2 runs with
    > scripts/plan_v2_resume.sh exactly as its header says, record the job in docs/STATUS.md, and tell me
    > what will run and how long it takes. Do not run git; I commit with GitHub Desktop.
 
-5. **Allow its command prompts.** Claude Code asks before each command. Allowing `docker exec` commands for this
-   project saves prompts. Don't allow anything that deletes outside `outputs/`, `runs/` or `.incoming/`.
+The command-line version (`claude` in a terminal, https://code.claude.com/docs/en/setup) does the same; you
+only need it if you prefer a terminal.
 
 ## 3. Daily routine
 
@@ -59,12 +63,13 @@ Also still to do:
 
 - The runs are detached inside the container, so closing Claude Code does not stop them. Only switching the
   PC off, or stopping Docker, stops them.
-- Claude Code only looks at them while it is open. It does not check in by itself or message your phone.
+- Claude Code only looks at them while the app is open and you ask. The desktop app can also run scheduled
+  tasks (for example "every hour: check the runs, update STATUS.md") while the PC and the app are on.
 - Ask it now and then: "check the runs and update STATUS.md".
 
 **Before switching the PC off**
 
-1. Tell Claude Code: "stop the plan-v2 runs cleanly and update STATUS.md". What it does:
+1. Tell Claude Code (Code tab): "stop the plan-v2 runs cleanly and update STATUS.md". What it does:
    - finds the job PIDs with `pgrep -af 'plan_v2|src\.|reference_layout'`;
    - kills the lanes' bash processes first, then their python and ngspice children;
    - leaves the `.done` markers as they are; the step that was interrupted runs again next time.
@@ -104,10 +109,10 @@ Also still to do:
 
 ## 5. What Claude Code has and does not have
 
-| | Claude Code (laptop) | Cowork (Claude desktop app, cloud) |
+| | Claude Code (Code tab, Local, on your PC) | Cowork (Home tab, runs in the cloud) |
 |---|---|---|
 | Repo files and container | direct: file edits, `docker exec` | through the desktop app |
-| Works while you are away | no; only while its terminal is open | yes, with scheduled check-ins |
+| Works while you are away | only while the PC and the app are on | yes, with scheduled check-ins, but it can't reach the container when the PC is off |
 | Updates to your phone | no | yes |
 | claude.ai project docs, slides | no (copies of the docs are in `docs/context/project_docs/`) | yes |
 | Git | only if you allow it (rule: you commit) | no |
