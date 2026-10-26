@@ -61,18 +61,22 @@ def lvs_device(gds: Path, cell: str, model: str, W: float, L: float, nf: int, m:
     wrapper (S0); mode 'top' compares the wrapper, whose own labels D/G/S/B are the ports (S3 device
     cells with finger straps)."""
     out.mkdir(parents=True, exist_ok=True)
+    # negative control: L changed by 10 % (at least 0.1 um). A fixed 0.1 um is 1 % of a 10 um channel, inside
+    # Netgen's relative property tolerance, so the wrong reference matched (ttsky25a_fd, 18 long-channel
+    # devices, 2026-10-26)
+    neg_dl = max(0.1, round(0.1 * L, 3))
     if m != 1 and mode == "subcell":   # the PCell's m copies are drawn unconnected: check them as drawn
         return lvs_by_extraction(gds, cell, model, {"W": W / nf if nf > 1 else W, "L": L, "nf": nf}, m, out,
-                                 neg_key="L", neg_delta=0.1)
+                                 neg_key="L", neg_delta=neg_dl)
     mpart = f" m={m}" if m != 1 else ""
     ref = out / "ref.spice"
     ref.write_text(f".subckt {cell} D G S B\nX{cell} D G S B {model} L={L:g} W={W:g} nf={nf}{mpart}\n.ends\n")
     txt = _run(["bash", str(SCRIPTS / "magic_lvs.sh"), str(gds), cell, str(ref), cell, str(out / "lvs")],
                {"LVS_MODE": mode})
     ok = "LVS_RESULT MATCH" in txt
-    # negative control: same layout, reference with L + 0.1 um must not match
+    # negative control: same layout, reference with L + neg_dl must not match
     bad = out / "ref_wrongL.spice"
-    bad.write_text(ref.read_text().replace(f"L={L:g}", f"L={L + 0.1:g}"))
+    bad.write_text(ref.read_text().replace(f"L={L:g}", f"L={L + neg_dl:g}"))
     txt2 = _run(["bash", str(SCRIPTS / "magic_lvs.sh"), str(gds), cell, str(bad), cell, str(out / "lvs_negctl")],
                 {"LVS_MODE": mode})
     neg_ok = "LVS_RESULT FAIL" in txt2

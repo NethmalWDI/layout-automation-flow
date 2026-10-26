@@ -114,6 +114,71 @@
         "XNormalTransistorPmos8": true,
         "Capacitor2": true
       }
+    },
+    "G0.9_pvt (info)": {
+      "pass": null,
+      "points": 45,
+      "meeting_all_specs": 18,
+      "worst_margin": {
+        "pm_deg": {
+          "margin": 4.297600000000003,
+          "point": "ss_v1.1_t85",
+          "nominal_margin": 5.323300000000003
+        },
+        "power_uw": {
+          "margin": -86.351,
+          "point": "fs_v1.1_t85",
+          "nominal_margin": 55.75400000000002
+        },
+        "gain_db": {
+          "margin": -0.31909999999999883,
+          "point": "ff_v0.9_t85",
+          "nominal_margin": 1.0
+        },
+        "gbw_mhz": {
+          "margin": -15.416540000000001,
+          "point": "sf_v0.9_t-40",
+          "nominal_margin": 2.3386999999999993
+        }
+      },
+      "failed_runs": [],
+      "detail": "outputs/S0/loadbench_miller/pvt.json"
+    },
+    "G0.10_mismatch_mc (info)": {
+      "pass": null,
+      "runs": 200,
+      "summary": {
+        "gain_db": {
+          "mean": 58.0005065,
+          "std": 0.02276830883456039,
+          "min": 57.9463,
+          "max": 58.0644,
+          "n": 200
+        },
+        "gbw_mhz": {
+          "mean": 23.39704,
+          "std": 0.4698414056170026,
+          "min": 21.9949,
+          "max": 24.7869,
+          "n": 200
+        },
+        "pm_deg": {
+          "mean": 65.3483285,
+          "std": 0.2130255075621474,
+          "min": 64.8654,
+          "max": 65.949,
+          "n": 200
+        },
+        "offset_v": {
+          "mean": 0.0016801049999999801,
+          "std": 0.004080289566773244,
+          "min": -0.010168999999999984,
+          "max": 0.011216000000000004,
+          "n": 200,
+          "definition": "follower output - VCM (single-ended) or v(OUTP) - v(OUTN) (differential)"
+        }
+      },
+      "detail": "outputs/S0/loadbench_miller/mc.json"
     }
   },
   "notes": [

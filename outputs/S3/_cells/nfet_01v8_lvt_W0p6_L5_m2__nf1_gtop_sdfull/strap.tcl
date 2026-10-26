@@ -1,0 +1,19 @@
+drc off
+gds read nfet_01v8_lvt_W0p6_L5_m2__nf1_gtop_sdfull.gds
+load nfet_01v8_lvt_W0p6_L5_m2__nf1_gtop_sdfull
+select top cell
+box 0.455um 0.775um 0.685um 0.975um
+paint metal1
+label D c metal1
+box 5.745um 0.775um 5.975um 0.975um
+paint metal1
+label S c metal1
+box 0.735um 1.235um 5.695um 1.465um
+paint metal1
+label G c metal1
+box 3.130um -0.085um 3.300um 0.085um
+paint locali
+label B c locali
+save nfet_01v8_lvt_W0p6_L5_m2__nf1_gtop_sdfull
+gds write nfet_01v8_lvt_W0p6_L5_m2__nf1_gtop_sdfull
+quit -noprompt

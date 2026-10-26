@@ -92,7 +92,9 @@ def main(argv=None) -> int:
         tid, t, opt = job
         cache = cells_dir / f"{tid}__{opt['id']}" / "record.json"
         if cache.exists():
-            return json.loads(cache.read_text())
+            cr = json.loads(cache.read_text())
+            if t.get("m", 1) == 1 or cr.get("cell_format") == 2:   # m > 1 cells of the old format drew m copies
+                return cr
         try:
             rec = O.build_one(t, tid, opt, cells_dir, rules, cross_check=(opt["id"] == O.default_option_id()))
         except Exception as e:  # recorded, never silently dropped
@@ -109,7 +111,7 @@ def main(argv=None) -> int:
         if r.get("ok"):
             gds = REPO / r["gds"]
             pl = S.plan(gds, r["option"]["outer"])
-            r["geometry"] = O.geometry(gds, pl)
+            r["geometry"] = O.device_geometry(gds, pl, types[r["type"]])
             r["access_resistance_ohm"] = O.access_resistance(types[r["type"]], r["option"], r["geometry"], rules)
             # keep the cache in step, so that S2's floors read the same values (review item 5)
             cf = cells_dir / r["cell"] / "record.json"

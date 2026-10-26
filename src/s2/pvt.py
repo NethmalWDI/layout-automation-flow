@@ -52,7 +52,7 @@ def corner_ops(s0: Path, ir: dict, points: dict, work: Path, workers: int = 4) -
             m_ = re.search(rf"^OPP {re.escape(c['name'])} (\S+)", log, re.M)
             if m_:
                 try:
-                    pas[c["name"]] = float(m_.group(1)) * float(c.get("params", {}).get("M", 1))
+                    pas[c["name"]] = opmod.passive_value(c, float(m_.group(1)))
                 except ValueError:
                     pass
         ok = r["rc"] == 0 and all(dd["name"] in vals and all(vals[dd["name"]].get(k) is not None for k in opmod.ESSENTIAL)

@@ -26,11 +26,10 @@ conditions:
   corner: tt
 specs:
   pm_deg:
-    min: 50
-  power_uw:
-    max: 550
+    min: 60
 spec_notes:
-  ASSUMPTION: 'the repository gives post-layout results, not specs (README: ~100 dB,
-    2.3 MHz, PM >= 52 deg, ~500 uW). Specs used here: gain_db and gbw_mhz from this
-    flow''s own simulation by the package rule (gain -1 dB, GBW x 0.9); PM >= 50 deg;
-    power <= 550 uW. To be replaced by the designers'' spec table.'
+  ASSUMPTION: 'the repository gives post-layout results, not specs (README/paper:
+    ~100 dB, 2.3 MHz, 52 deg, ~500 uW), and the designer chose the schematic''s own
+    performance as the reference (2026-10-26). Same rule as loadbench_miller: gain_db,
+    gbw_mhz and power_uw from this flow''s own simulation of the schematic (package
+    key specs_from_achieved: gain -1 dB, GBW x 0.9, power x 1.1); PM >= 60 deg.'

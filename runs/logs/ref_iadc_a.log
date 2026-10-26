@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/foss/designs/scripts/reference_layout.py", line 198, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/foss/designs/scripts/reference_layout.py", line 168, in main
+    lost = (mg["achieved"] - meas[k]) if mg["kind"] == "min" else (meas[k] - mg["achieved"])
+            ~~~~~~~~~~~~~~~^~~~~~~~~
+TypeError: unsupported operand type(s) for -: 'float' and 'NoneType'

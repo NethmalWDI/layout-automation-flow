@@ -23,4 +23,4 @@ SHA-256 of the generated files:
 - `upstream/equations.predicted.json` b6d04c5fc0892008b87ead8b67ae4952a235de1e9f74a2fd0a15c7b175ab37ee
 - `upstream/hierarchy.json` 4472c469c9d24a218832d14a69256270afe90582803aad3cfcafc11add54f608
 - `upstream/name_map.yaml` cb8604994fbbab953ecfa6070133005fce9b3b4df812757fd1e4c45a0d4081e4
-- `upstream/primitives.json` c252fa9c4169b5d9e755e78c3a88ed29fdfecd2feaf90034ce75343a0075adb2
+- `upstream/primitives.json` 84c106a25c3e29d28e5f416d62a7d61bc31fb4a282af29342c4fb7fd1e5cbb4f

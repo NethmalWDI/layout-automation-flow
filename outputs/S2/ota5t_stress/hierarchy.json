@@ -1,50 +1,50 @@
 {
   "nets": {
     "OUTP": {
-      "budget_fF": 4.317611196341501,
+      "budget_fF": 0.965186443798967,
       "devices": [
         "XM2",
         "XM4"
       ],
       "block_port_fF": {
-        "pmos_current_mirror_load": 0.9122935202360526,
-        "nmos_differential_pair": 1.9661139439916142
+        "pmos_current_mirror_load": 0.20393993309161107,
+        "nmos_differential_pair": 0.4395176961077002
       },
-      "top_level_fF": 1.4392037321138336,
-      "route_budget_fF": 1.4392037321138336,
-      "max_route_length_metal1_um": 9.083783242721905,
+      "top_level_fF": 0.32172881459965563,
+      "route_budget_fF": 0.32172881459965563,
+      "max_route_length_metal1_um": 2.0306470512473482,
       "note": null
     },
     "net1": {
-      "budget_fF": 111.42705791999803,
+      "budget_fF": 2.113001123718077,
       "devices": [
         "XM1",
         "XM2",
         "XM5"
       ],
       "block_port_fF": {
-        "nmos_differential_pair": 55.38779504418986,
-        "nmos_current_mirror_bias": 28.18249839580867
+        "nmos_differential_pair": 1.0503236408940066,
+        "nmos_current_mirror_bias": 0.534427201894551
       },
-      "top_level_fF": 27.85676447999951,
-      "route_budget_fF": 27.85676447999951,
-      "max_route_length_metal1_um": 175.82278640162377,
+      "top_level_fF": 0.5282502809295192,
+      "route_budget_fF": 0.5282502809295192,
+      "max_route_length_metal1_um": 3.334143000604148,
       "note": null
     },
     "net3": {
-      "budget_fF": 7.356968706949987,
+      "budget_fF": 1.7884410660208496,
       "devices": [
         "XM1",
         "XM3",
         "XM4"
       ],
       "block_port_fF": {
-        "pmos_current_mirror_load": 3.4250764477259414,
-        "nmos_differential_pair": 2.460498517834048
+        "pmos_current_mirror_load": 0.8326183809355068,
+        "nmos_differential_pair": 0.5981344718811727
       },
-      "top_level_fF": 1.4713937413899973,
-      "route_budget_fF": 1.4713937413899973,
-      "max_route_length_metal1_um": 9.28695605302056,
+      "top_level_fF": 0.35768821320416994,
+      "route_budget_fF": 0.35768821320416994,
+      "max_route_length_metal1_um": 2.2576110141480563,
       "note": null
     }
   },
@@ -56,7 +56,7 @@
         "XM4.d"
       ],
       "terminal": "d",
-      "budget_ohm_each": 331.77320958026615
+      "budget_ohm_each": 8.517991600321748
     },
     "XM3+XM4.g": {
       "block": "pmos_current_mirror_load",
@@ -65,7 +65,7 @@
         "XM4.g"
       ],
       "terminal": "g",
-      "budget_ohm_each": 562.5766862080633
+      "budget_ohm_each": 20.110262955058946
     },
     "XM3+XM4.s": {
       "block": "pmos_current_mirror_load",
@@ -74,7 +74,7 @@
         "XM4.s"
       ],
       "terminal": "s",
-      "budget_ohm_each": 31.4474052703955
+      "budget_ohm_each": 8.517991600321748
     },
     "XM1+XM2.d": {
       "block": "nmos_differential_pair",
@@ -83,7 +83,7 @@
         "XM2.d"
       ],
       "terminal": "d",
-      "budget_ohm_each": 39.392983928013074
+      "budget_ohm_each": 5.303014316331735
     },
     "XM1+XM2.g": {
       "block": "nmos_differential_pair",
@@ -92,7 +92,7 @@
         "XM2.g"
       ],
       "terminal": "g",
-      "budget_ohm_each": 271.18400594560575
+      "budget_ohm_each": 73.45417101743674
     },
     "XM1+XM2.s": {
       "block": "nmos_differential_pair",
@@ -101,7 +101,7 @@
         "XM2.s"
       ],
       "terminal": "s",
-      "budget_ohm_each": 18.751842786565387
+      "budget_ohm_each": 5.303014316331735
     },
     "XM5.d": {
       "block": "nmos_current_mirror_bias",
@@ -109,7 +109,7 @@
         "XM5.d"
       ],
       "terminal": "d",
-      "budget_ohm_each": 21.816732043492475
+      "budget_ohm_each": 6.384031193900381
     },
     "XM5.g": {
       "block": "nmos_current_mirror_bias",
@@ -117,7 +117,7 @@
         "XM5.g"
       ],
       "terminal": "g",
-      "budget_ohm_each": 1495.999999999974
+      "budget_ohm_each": 14.66992958775665
     },
     "XM5.s": {
       "block": "nmos_current_mirror_bias",
@@ -125,41 +125,41 @@
         "XM5.s"
       ],
       "terminal": "s",
-      "budget_ohm_each": 18.96341834186351
+      "budget_ohm_each": 4.84478831468838
     }
   },
   "blocks": {
     "pmos_current_mirror_load": {
       "ports_fF": {
-        "OUTP": 0.9122935202360526,
-        "net3": 3.4250764477259414
+        "OUTP": 0.20393993309161107,
+        "net3": 0.8326183809355068
       },
       "terminals_ohm": {
-        "XM3+XM4.d": 331.77320958026615,
-        "XM3+XM4.g": 562.5766862080633,
-        "XM3+XM4.s": 31.4474052703955
+        "XM3+XM4.d": 8.517991600321748,
+        "XM3+XM4.g": 20.110262955058946,
+        "XM3+XM4.s": 8.517991600321748
       }
     },
     "nmos_differential_pair": {
       "ports_fF": {
-        "OUTP": 1.9661139439916142,
-        "net1": 55.38779504418986,
-        "net3": 2.460498517834048
+        "OUTP": 0.4395176961077002,
+        "net1": 1.0503236408940066,
+        "net3": 0.5981344718811727
       },
       "terminals_ohm": {
-        "XM1+XM2.d": 39.392983928013074,
-        "XM1+XM2.g": 271.18400594560575,
-        "XM1+XM2.s": 18.751842786565387
+        "XM1+XM2.d": 5.303014316331735,
+        "XM1+XM2.g": 73.45417101743674,
+        "XM1+XM2.s": 5.303014316331735
       }
     },
     "nmos_current_mirror_bias": {
       "ports_fF": {
-        "net1": 28.18249839580867
+        "net1": 0.534427201894551
       },
       "terminals_ohm": {
-        "XM5.d": 21.816732043492475,
-        "XM5.g": 1495.999999999974,
-        "XM5.s": 18.96341834186351
+        "XM5.d": 6.384031193900381,
+        "XM5.g": 14.66992958775665,
+        "XM5.s": 4.84478831468838
       }
     }
   },

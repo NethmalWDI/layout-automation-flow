@@ -5,7 +5,7 @@ Generating JSON file result
 Reading netlist file /foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M9/lvs/extracted.spice for /foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M9/lvs/extracted.spice sky130_fd_pr__pfet_01v8_lvt_TH4544
 Call to undefined subcircuit sky130_fd_pr__pfet_01v8_lvt
 Creating placeholder cell definition.
-Reading netlist file /foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M9/ref.spice for /foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M9/ref.spice XX2_M9
+Reading netlist file /foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M9/ref_lvs.spice for /foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M9/ref_lvs.spice XX2_M9
 Call to undefined subcircuit sky130_fd_pr__pfet_01v8_lvt
 Creating placeholder cell definition.
 
@@ -45,16 +45,16 @@ Circuit sky130_fd_pr__pfet_01v8_lvt_TH4544 contains 9 device instances.
   Class: sky130_fd_pr__pfet_01v8_lvt instances:   9
 Circuit contains 28 nets.
 Contents of circuit 2:  Circuit: 'XX2_M9'
-Circuit XX2_M9 contains 1 device instances.
-  Class: sky130_fd_pr__pfet_01v8_lvt instances:   1
-Circuit contains 4 nets.
+Circuit XX2_M9 contains 9 device instances.
+  Class: sky130_fd_pr__pfet_01v8_lvt instances:   9
+Circuit contains 28 nets.
 
-Circuit 1 contains 9 devices, Circuit 2 contains 1 devices. *** MISMATCH ***
-Circuit 1 contains 28 nets,    Circuit 2 contains 4 nets. *** MISMATCH ***
+Circuit 1 contains 9 devices, Circuit 2 contains 9 devices.
+Circuit 1 contains 28 nets,    Circuit 2 contains 28 nets.
 
 
 Final result: 
-Netlists do not match.
-Port matching may fail to disambiguate symmetries.
+Circuits match uniquely.
+.
 Logging to file "/foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M9/lvs/lvs_report.txt" disabled
 LVS Done.

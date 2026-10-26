@@ -9,8 +9,12 @@ allowed use b_i = eta * m_i of every check i. They differ only in how b_i is sha
             It ignores that the other elements consume the same margin.
   equal     every element of a check gets an equal share of it: x_k = min_i b_i / (N_i a_ik), N_i = number of
             elements with a_ik > 0. Safe by construction, blind to what a layout needs.
-  lp_sum    Choudhury & Sangiovanni-Vincentelli style linear program: maximise sum_k x_k / w_k subject to
-            A x <= b, x_k <= kappa w_k (HiGHS). Safe, but puts the margin where it is cheapest.
+  lp_sum    linear program: maximise sum_k x_k / w_k subject to A x <= b, 0 <= x_k <= kappa w_k (HiGHS). Its
+            optimum is a vertex: many budgets at 0 or at kappa x need, i.e. far outside the range where the
+            first-order model holds. Kept as the plain LP; not a reproduction of any published method.
+  lp_floor  the same LP made fair to the library: maximise sum_k min(x_k / w_k, 1) (a budget above its need
+            earns nothing) with x_k >= f_k, the library floor ours also gets (bounds [f_k, w_k]; [0, w_k] when
+            the floors alone are infeasible). It differs from ours only in max-sum vs max-min sharing.
   ours      max-min fair progressive filling in units of expected need, phase-2 proportional fairness,
             R19 floor and library floors (budgets.allocate/refine), i.e. what S2 outputs.
 
@@ -66,6 +70,27 @@ def lp_sum(elements, constraints, kappa=B.KAPPA):
     return {k: float(v) for k, v in zip(ids, r.x)}
 
 
+def lp_floor(elements, constraints, floors: dict | None = None):
+    ids = [e["id"] for e in elements if any(c["a"].get(e["id"], 0) > 0 for c in constraints)]
+    if not ids:
+        return {}, None
+    w = {e["id"]: e["w"] for e in elements}
+    fl = floors or {}
+    A = np.array([[c["a"].get(k, 0.0) for k in ids] for c in constraints])
+    b = np.array([c["b"] for c in constraints])
+    cobj = -np.array([1.0 / w[k] for k in ids])
+
+    def solve(lo):
+        return linprog(cobj, A_ub=A, b_ub=b, bounds=[(lo(k), w[k]) for k in ids], method="highs")
+    r = solve(lambda k: min(fl.get(k, 0.0), w[k]))
+    floored = True
+    if not r.success:
+        r, floored = solve(lambda k: 0.0), False
+    if not r.success:
+        return {}, None
+    return {k: float(v) for k, v in zip(ids, r.x)}, floored
+
+
 def score(x: dict, elements: list, constraints: list, floors: dict | None = None) -> dict:
     w = {e["id"]: e["w"] for e in elements}
     use = {}
@@ -85,6 +110,25 @@ def score(x: dict, elements: list, constraints: list, floors: dict | None = None
 
 
 def run_all(elements: list, constraints: list, ours: dict, floors: dict | None = None) -> dict:
+    xf, floored = lp_floor(elements, constraints, floors)
     sets = {"per_net": per_net(elements, constraints), "equal": equal(elements, constraints),
-            "lp_sum": lp_sum(elements, constraints), "ours": dict(ours)}
-    return {m: {"budgets": x, "score": score(x, elements, constraints, floors)} for m, x in sets.items()}
+            "lp_sum": lp_sum(elements, constraints), "lp_floor": xf, "ours": dict(ours)}
+    res = {m: {"budgets": x, "score": score(x, elements, constraints, floors)} for m, x in sets.items()}
+    res["lp_floor"]["score"]["floors_applied"] = floored
+    return res
+
+
+def outcome(sc: dict, tol: float = 0.02) -> str:
+    """One word per method, from its scores (SPICE where available, else first order):
+    'unsafe'      a spec is violated in SPICE, or the layout would use more than eta x margin (use/allowed > 1);
+    'infeasible'  some budget is below what the cheapest library cell already adds (no layout can meet it);
+    'ok'          neither; 'unverified' is appended when some SPICE runs failed (no value, not a violation)."""
+    use = sc.get("spice_worst_use_of_allowed")
+    use = sc.get("worst_use_of_allowed") if use is None else use
+    words = []
+    if sc.get("spice_specs_violated") or (use is not None and use > 1 + tol):
+        words.append("unsafe")
+    if sc.get("below_floor"):
+        words.append("infeasible")
+    w = " + ".join(words) or "ok"
+    return w + (" (unverified: failed runs)" if sc.get("spice_failed_runs") else "")

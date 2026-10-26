@@ -1,0 +1,140 @@
+{
+  "design": "ttsky25a_fd",
+  "gds": "circuits/ttsky25a_fd/upstream_src/gds/tt_um_diff.gds",
+  "cell": "tt_um_diff",
+  "lvs_vs_layout_view": {
+    "match": false,
+    "report": "outputs/reference_layout/ttsky25a_fd/lvs_report.txt",
+    "summary": [
+      "Instance: sky130_fd_pr__cap_mim_m3_1:357   |(no matching instance)                     ",
+      "Instance: sky130_fd_pr__cap_mim_m3_1:397   |(no matching instance)                     ",
+      "Instance: sky130_fd_pr__res_generic_po:69  |(no matching instance)                     ",
+      "Instance: sky130_fd_pr__res_generic_po:177 |(no matching instance)                     ",
+      "Instance: sky130_fd_pr__pfet_01v8:917      |(no matching instance)                     ",
+      "Netlists do not match.",
+      "Port matching may fail to disambiguate symmetries.",
+      "ua[3]                                      |Vom **Mismatch**                           ",
+      "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2sta |Vdd **Mismatch**                           ",
+      "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2sta |Vss **Mismatch**                           ",
+      "Final result: Netlists do not match.",
+      "Port matching may fail to disambiguate symmetries."
+    ]
+  },
+  "pex_ports": [
+    "ena",
+    "ua[0]",
+    "ua[1]",
+    "ua[2]",
+    "ua[3]",
+    "ua[4]",
+    "ua[5]",
+    "ua[6]",
+    "ua[7]",
+    "ui_in[0]",
+    "ui_in[1]",
+    "VDPWR",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4"
+  ],
+  "conditions": {
+    "corner": "tt",
+    "temp": 27.0,
+    "mim_load": "1,1,100",
+    "bias": "Rgm_ext RGM VSS 12k;Vref_ext VREF VSS 0.9;Ven1 EN1 VSS 1.8;Ven2 EN2 VSS 0",
+    "note": "None = the flow bench's own value"
+  },
+  "unmapped_ports": [
+    "ua[6]",
+    "ua[7]",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3",
+    "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4"
+  ],
+  "pex_caps": 908,
+  "schematic_same_conditions": {
+    "gain_db": 98.3916,
+    "gbw_mhz": 2.0524,
+    "pm_deg": 78.8429,
+    "isup_ua": 251.102,
+    "power_uw": 451.984,
+    "vout_v": -4.61853e-14,
+    "voutcm_v": 0.902367
+  },
+  "drawn_devices_only": {
+    "gain_db": 108.122,
+    "gbw_mhz": 1.52866,
+    "pm_deg": 81.1641,
+    "isup_ua": 267.336,
+    "power_uw": 481.206,
+    "vout_v": -1.03828e-11,
+    "voutcm_v": 0.902093
+  },
+  "post_layout": {
+    "gain_db": 108.108,
+    "gbw_mhz": 1.42439,
+    "pm_deg": 78.1842,
+    "isup_ua": 267.336,
+    "power_uw": 481.206,
+    "vout_v": -5.27034e-12,
+    "voutcm_v": 0.902093
+  },
+  "lost_to_parasitics": {
+    "gain_db": 0.013999999999995794,
+    "gbw_mhz": 0.10426999999999986,
+    "pm_deg": 2.9799000000000007
+  },
+  "runs": {
+    "schematic.AC": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "schematic.OP": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "drawn_devices_only.AC": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "drawn_devices_only.OP": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "pex.AC": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "pex.OP": {
+      "rc": 0,
+      "numerical_warnings": []
+    }
+  },
+  "compare": null,
+  "reported_post_layout": {
+    "source": "ICM 2026 paper text, supplied by the designer in the chat on 2026-10-26 (hand-entered; not generated)",
+    "quote": "achieves approximately 100 dB DC gain, 2.3 MHz unity-gain bandwidth, and 52 deg phase margin, as shown in Fig. 4(a). The post-layout CMRR is approximately 91 dB at 1 kHz.",
+    "metrics": {
+      "gain_db": 100.0,
+      "gbw_mhz": 2.3,
+      "pm_deg": 52.0,
+      "cmrr_db_1k": 91.0
+    },
+    "kind": "post-layout simulation (not measurement)",
+    "conditions_in_repo_bench": "Opamp_Design/Simulations/gain_and_phase.sch: ff corner, .temp 20, VDD 1.8, inputs DC 0.9 V AC +-0.1 mV open loop, 12 kohm bias resistor, Vref 0.9 V, loads cap_mim_m3_1 W=1 L=1 MF=100 per output. ASSUMPTION: the paper's post-layout run used the same bench with the extracted netlist; the extraction options are not in the repository.",
+    "schematic_note": "the flow's DUT is Opamp_with_bias.sch (58 devices); the tile layout has 86 (bias switch block, bias dummies). Kept by the designer's decision of 2026-10-26: the switch block does not change the area much."
+  },
+  "note": "PEX with capacitance only (cthresh 0, no wire resistance); LVS against the flow's layout view. 'compare' (against the flow's nominal S0 margins) only for runs at the bench's own conditions; 'lost_to_parasitics' = drawn devices only - PEX, at this run's conditions"
+}

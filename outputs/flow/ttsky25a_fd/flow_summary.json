@@ -7,17 +7,17 @@
     {
      "step": "ingest",
      "rc": 0,
-     "seconds": 53.0,
+     "seconds": 20.4,
      "log": "runs/logs/flow/ttsky25a_fd/S0_ingest.log"
     },
     {
      "step": "pcell_binding",
      "rc": 1,
-     "seconds": 1254.4,
+     "seconds": 361.2,
      "log": "runs/logs/flow/ttsky25a_fd/S0_pcell_binding.log"
     }
    ],
-   "started": "2026-10-26T06:12:00",
+   "started": "2026-10-26T18:28:23",
    "gates": {
     "G0.1_inventory": true,
     "G0.2_validation": true,
@@ -32,7 +32,30 @@
    "failed_gates": [
     "G0.7_pcell_binding_drc_lvs"
    ],
-   "seconds": 1307.5
+   "seconds": 381.6
+  },
+  "S1": {
+   "stage": "S1",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 0,
+     "seconds": 509.9,
+     "log": "runs/logs/flow/ttsky25a_fd/S1_run.log"
+    }
+   ],
+   "started": "2026-10-26T19:41:36",
+   "gates": {
+    "G1.1_operating_point": true,
+    "G1.2_linear_model_vs_spice": true,
+    "G1.3_sensitivity_vs_spice": true,
+    "G1.4_matching_groups": true,
+    "G1.5_symbolic_vs_spice (reported, not gated)": null,
+    "G1.6_resistance_sensitivity_vs_spice": true
+   },
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 509.9
   }
  }
 }

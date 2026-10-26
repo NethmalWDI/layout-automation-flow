@@ -21,3 +21,16 @@ MC (200 runs): {"gain_db": {"mean": 31.180938, "std": 3.517382, "min": 22.764, "
   S0/ingest          rc=0     28.2 s  log: runs/logs/flow/iadc_ota/S0_ingest.log
   S0/pcell_binding   rc=1    299.9 s  log: runs/logs/flow/iadc_ota/S0_pcell_binding.log
   S0: FAIL  failed: ['G0.7_pcell_binding_drc_lvs']
+  S1/run             rc=1    326.9 s  log: runs/logs/flow/iadc_ota/S1_run.log
+  S1: ERROR  (no fresh report at outputs/S1/iadc_ota/s1_report.json)
+Traceback (most recent call last):
+  File "/foss/designs/scripts/compare_before_after.py", line 155, in <module>
+    print(snap(sys.argv[2], sys.argv[3]))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/foss/designs/scripts/compare_before_after.py", line 36, in snap
+    rec["S1"]["linear_vs_spice"] = lm["delta"]
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+TypeError: 'NoneType' object does not support item assignment
+=== D: ttsky25a before 13:53:21
+== ttsky25a_fd
+  S0/ingest          rc=0     31.5 s  log: runs/logs/flow/ttsky25a_fd/S0_ingest.log

@@ -67,7 +67,9 @@ def replace_devices(deck: str, dut: str, repl: dict, gnd: str = "VSS") -> str:
                 inner = {t: (f"s3_{tok[0]}_{t}" if t != "b" else net["b"]) for t in POS}
                 res = "".join(f"Rs3_{tok[0]}_{t} {inner[t]} {net[t]} {R[t]:.6g}\n" for t in ("d", "g", "s"))
             inner["sub"] = gnd
-            inst = f"{tok[0]} " + " ".join(inner[p.lower()] for p in ports) + f" {name}\n"
+            mult = int(rec["pex"].get("mult", 1))    # m copies of the unit cell (ngspice instance multiplier)
+            inst = f"{tok[0]} " + " ".join(inner[p.lower()] for p in ports) + f" {name}" + \
+                (f" m={mult}" if mult > 1 else "") + "\n"
             lines[i] = inst + res
     if not inside:
         raise RuntimeError(f"DUT subcircuit {dut} not found in the testbench")

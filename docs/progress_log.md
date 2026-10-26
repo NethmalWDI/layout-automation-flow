@@ -350,3 +350,56 @@ Layout parasitics will now consume a visible share of the margin, which is the p
 - Tests: 40 pass.
 
 **Supervisor review 3** (R19–R24) is in the flow record.
+
+## 2026-10-26: plan v2 (new designs, generality fixes, PVT, baselines, before/after)
+
+The full account is section 7 of `docs/flow_record.md` (draft in `docs/flow_record_section7_draft.md` until the
+runs finish). Log of the day:
+
+- **New designs:** `loadbench_miller` (LOADBench two-stage Miller), `ttsky25a_fd` (the TTSKY25a fully
+  differential op-amp, with the taped-out tile as layout reference), `iadc_ota` (r09g/iadc folded cascode, with a
+  hand-drawn layout). Missing upstream inputs predicted and labelled PREDICTED / ASSUMPTION in each `SOURCE.md`.
+- **v1 switch** (`--variant v1`) reproduces the old example_ota_5t golden exactly: the "before" side of every
+  comparison.
+- **Your decisions:** keep `Opamp_with_bias.sch` as the TTSKY25a DUT (the tile's bias switch block hardly changes
+  the area); the ICM 2026 paper figures (~100 dB, 2.3 MHz, 52 deg, CMRR ~91 dB at 1 kHz, post-layout) are the
+  reported reference (`circuits/ttsky25a_fd/source/paper_post_layout.json`).
+- **Hand-drawn TTSKY25a tile** (`scripts/reference_ttsky25a.sh`): drawn -> PEX costs GBW -6.8 %, PM -3.0 deg at
+  every condition set. The tile already differs from the schematic without parasitics (+9.7 dB, -25 % GBW).
+  The paper's 2.3 MHz / 52 deg is not reproduced at the designers' own bench conditions (ff, 20 C, 100 MIM
+  loads): 1.43 MHz / 78.5 deg. Open question: how the paper's post-layout run was set up.
+- **Fixes during the runs:**
+  - S2 crashed when a baseline rule's budget left the circuit with no DC solution and ngspice hung: a run
+    that times out is now a failed run (`tools.run_ngspice`), budget scenarios time out after 180 s.
+  - The structure recogniser put dummies into mirrors (iadc: 24 of 38 dummies in 6 false blocks; S1 divided by
+    their zero gm). Dummies are assigned first; iadc package regenerated; S1 reports an off device in a
+    matched group instead of crashing.
+  - iadc S0 G0.7 FAIL is real: 4 LVT devices (W 1.2, L 0.2 um) give met1.6 minimum-area errors in the default
+    PCell, as LOADBench's 484 um single finger does.
+- **Git:** GitHub's repository had its own two commits (Initial commit, Delete README.md; no files), so GitHub
+  Desktop could not combine the histories and stashed the uncommitted work while trying. Fixed locally without
+  force-push: `git merge --allow-unrelated-histories origin/main` (no file changed), then the stash restored into
+  the working tree. The interrupted runs were restarted (`runs/tmp/queue_v2c.sh`, log `runs/logs/queue_v2c.log`).
+- **Two agents, one repo (20:15):** Imasha may also work with Claude Code on the laptop. The agents share no
+  conversation memory, so the shared state now lives in the repo: `CLAUDE.md` (rules verbatim, environment, how
+  to run, git policy, coordination protocol; Claude Code reads it at start) and `docs/STATUS.md` (running jobs,
+  claims, pending tasks, open questions; updated at the start and end of every work session). Cowork's deploys
+  now go through `.incoming/apply.sh`, which refuses to overwrite a file changed since Cowork last synced
+  (CONFLICT) instead of silently replacing someone else's edit.
+- **Baselines re-scored (20:15):** 5T and ota5t_stress 'after' re-run with review B's scoring. 5T: the LP with
+  floors and ours are both safe and feasible, so the table now also reports budget / need: the LP with floors
+  gives every element exactly its need (geomean 1.00), ours 3.19. Stress: only ours stays inside the allowance
+  in SPICE (0.98) and it reports the design infeasible (G2.7). Snapshots now keep G2.0's split into route C,
+  cell C and resistance (`g20_by_part`) and each rule's budget / need.
+- **iadc hand layout, R+C (20:20):** the first R+C run was invalid (19.4 dB, gmin stepping failed): the R+C
+  netlist exposes the CMFB sub-cell's clock ports separately and they floated. `--map-shorted` ties them; the
+  re-run is clean. Wire resistance costs GBW 2.5 MHz and PM 2.5 deg beyond the capacitance, and shifts the
+  operating point (output CM -68 mV, gain +3.6 dB). G2.0 'before' predicted the PM part well (2.53 deg) and the
+  GBW part 25 x too high (62 MHz, mostly the access resistance of v1's single-finger default cells).
+- **Overnight stop and the move to Claude Code (2026-10-27 01:10 Sri Lanka time):** the PC goes off at 01:30,
+  about 6 h of runs short. All runs were stopped cleanly (`scripts/plan_v2_stop.sh`) right after loadbench's
+  45 PVT points finished. The remaining runs are one resumable script, `scripts/plan_v2_resume.sh`: finished
+  steps are marked in `runs/state/plan_v2/`, an interrupted step re-runs, and outputs set aside are restored.
+  `docs/HANDOFF.md` is the plan for continuing with Claude Code: setup, first prompt, daily routine, remaining
+  work in order, and what each agent can and cannot do. Copies of the claude.ai project docs 08–12 are in
+  `docs/context/project_docs/`.

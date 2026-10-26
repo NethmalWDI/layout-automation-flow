@@ -1,0 +1,143 @@
+{
+  "type": "pfet_01v8_lvt_W1_L20_m2",
+  "option": {
+    "id": "nf1_gboth_sdfull",
+    "nf": 1,
+    "gate_contacts": "both",
+    "sd_cov": "full",
+    "outer": "D",
+    "magic": {
+      "topc": 1,
+      "botc": 1,
+      "diffcov": 100,
+      "viasrc": 100,
+      "viadrn": 100,
+      "guard": 1,
+      "conn_gates": 0
+    }
+  },
+  "cell": "pfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull",
+  "gds": "outputs/S3/_cells/pfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull/pfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull.gds",
+  "gen_rc": 0,
+  "strap": {
+    "rc": 0,
+    "strapped": false,
+    "roles": [
+      "D",
+      "S"
+    ]
+  },
+  "drc": {
+    "errors": 0,
+    "neg_control_flagged": true,
+    "pass": true,
+    "report": "outputs/S3/_cells/pfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull/drc/drc_report.txt"
+  },
+  "lvs": {
+    "match": true,
+    "neg_control_rejected": true,
+    "pass": true,
+    "pcell_instance": "pfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull",
+    "report": "outputs/S3/_cells/pfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull/lvs/lvs/lvs_report.txt",
+    "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull/lvs/lvs/extracted.spice"
+  },
+  "geometry": {
+    "bbox_um": [
+      21.96,
+      3.19
+    ],
+    "area_um2": 140.104,
+    "n_licon_poly": 116,
+    "n_licon_diff": 6,
+    "n_mcon_diff": 4,
+    "n_mcon_gate": 110,
+    "strips": [
+      {
+        "x0": 0.455,
+        "x1": 0.685,
+        "y0": 0.8300000000000001,
+        "y1": 1.83,
+        "role": "D",
+        "n_licon": 3,
+        "n_mcon": 2,
+        "width_um": 0.23000000000000004,
+        "length_um": 1.0,
+        "li_length_um": 1.0,
+        "li_width_um": 0.17
+      },
+      {
+        "x0": 20.745,
+        "x1": 20.975,
+        "y0": 0.8300000000000001,
+        "y1": 1.83,
+        "role": "S",
+        "n_licon": 3,
+        "n_mcon": 2,
+        "width_um": 0.23000000000000043,
+        "length_um": 1.0,
+        "li_length_um": 1.0,
+        "li_width_um": 0.17
+      }
+    ],
+    "area_um2_unit": 70.052,
+    "m_copies": 2
+  },
+  "pex": {
+    "file": "outputs/S3/_cells/pfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull/pex/pex.spice",
+    "subckt": "pfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull",
+    "ports": [
+      "D",
+      "S",
+      "G",
+      "B"
+    ],
+    "n_devices": 1,
+    "fingers": [
+      {
+        "ad": "0.29",
+        "pd": "2.58",
+        "as": "0.29",
+        "ps": "2.58",
+        "w": "1",
+        "l": "20"
+      }
+    ],
+    "n_caps": 9,
+    "sum_caps_F": 1.895478e-14,
+    "mult": 2
+  },
+  "cell_format": 2,
+  "access_resistance_ohm": {
+    "g": 0.7978618077324974,
+    "g_parts": {
+      "poly_distributed": 0.20083333333333334,
+      "ngcon": 2,
+      "poly_contacts": 116,
+      "gate_mcons": 110
+    },
+    "d": 99.91557971014493,
+    "d_strips_ohm": [
+      199.8312
+    ],
+    "s": 99.91557971014493,
+    "s_strips_ohm": [
+      199.8312
+    ],
+    "unit_cell_ohm": {
+      "d": 199.83115942028985,
+      "g": 1.5957236154649947,
+      "s": 199.83115942028985
+    }
+  },
+  "magic_extresist": {
+    "largest_resistor_on_net_ohm": {
+      "G": null,
+      "D": null,
+      "S": null
+    },
+    "file": "outputs/S3/_cells/pfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull/rx/rx.spice",
+    "note": "Magic lumps each net to a point; None = net below extresist tolerance"
+  },
+  "png": "outputs/S3/_cells/pfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull/pfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull.png",
+  "ok": true
+}

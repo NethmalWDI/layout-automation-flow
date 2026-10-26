@@ -20,7 +20,6 @@
           "complete": true,
           "total_area_um2": 254.478,
           "relaxed": [
-            "nfet_01v8_W24_L0p5_m1",
             "nfet_01v8_W24_L1_m1"
           ],
           "fingers_outside_sized_bin": [],
@@ -33,31 +32,27 @@
         },
         "A-bin": {
           "complete": true,
-          "total_area_um2": 254.478,
-          "relaxed": [
-            "nfet_01v8_W24_L0p5_m1",
-            "nfet_01v8_W24_L1_m1"
-          ],
+          "total_area_um2": 237.041,
+          "relaxed": [],
           "fingers_outside_sized_bin": [],
           "chosen": {
             "pfet_01v8_W8_L1_m1": "nf1_gtop_sdfull",
             "nfet_01v8_W24_L0p5_m1": "nf1_gboth_sdfull",
-            "nfet_01v8_W24_L1_m1": "nf1_gboth_sdfull"
+            "nfet_01v8_W24_L1_m1": "nf2_gtop_sdfull_outS"
           },
           "missing": []
         },
         "A-free": {
           "complete": true,
-          "total_area_um2": 254.478,
-          "relaxed": [
-            "nfet_01v8_W24_L0p5_m1",
+          "total_area_um2": 232.016,
+          "relaxed": [],
+          "fingers_outside_sized_bin": [
             "nfet_01v8_W24_L1_m1"
           ],
-          "fingers_outside_sized_bin": [],
           "chosen": {
             "pfet_01v8_W8_L1_m1": "nf1_gtop_sdfull",
             "nfet_01v8_W24_L0p5_m1": "nf1_gboth_sdfull",
-            "nfet_01v8_W24_L1_m1": "nf1_gboth_sdfull"
+            "nfet_01v8_W24_L1_m1": "nf4_gtop_sdfull_outS"
           },
           "missing": []
         },
@@ -669,11 +664,11 @@
     "G3.3_all_chosen_devices_in_circuit": {
       "pass": true,
       "specs": {
-        "gain_db": 31.7523,
-        "gbw_mhz": 102.612,
-        "pm_deg": 79.6346,
-        "power_uw": 151.787,
-        "vnoise_nv_rthz": 339.277
+        "gain_db": 31.7948,
+        "gbw_mhz": 102.373,
+        "pm_deg": 79.6341,
+        "power_uw": 151.237,
+        "vnoise_nv_rthz": 339.363
       },
       "meets": {
         "gain_db": true,
@@ -683,34 +678,34 @@
         "vnoise_nv_rthz": true
       },
       "saturated": {
-        "XM3": 1.048808,
-        "XM4": 1.048808,
-        "XM1": 0.1309372,
-        "XM2": 0.1309372,
-        "XM5": 0.019254999999999994
+        "XM3": 1.0486879999999998,
+        "XM4": 1.0486879999999998,
+        "XM1": 0.1316037,
+        "XM2": 0.1316037,
+        "XM5": 0.019249000000000016
       },
       "margin_use_signed": {
-        "gain_db": -0.05530000000000257,
-        "gbw_mhz": 1.8430000000000035,
-        "pm_deg": 1.3001999999999896,
-        "power_uw": -0.8119999999999834,
-        "vnoise_nv_rthz": 0.21299999999996544,
-        "sat_XM3": 0.00012499999999993072,
-        "sat_XM4": 0.00012499999999993072,
-        "sat_XM1": -0.0008776000000000062,
-        "sat_XM2": -0.0008776000000000062,
-        "sat_XM5": 0.0003130000000000077
+        "gain_db": -0.09779999999999944,
+        "gbw_mhz": 2.0819999999999936,
+        "pm_deg": 1.300699999999992,
+        "power_uw": -1.3619999999999948,
+        "vnoise_nv_rthz": 0.29899999999997817,
+        "sat_XM3": 0.00024500000000005073,
+        "sat_XM4": 0.00024500000000005073,
+        "sat_XM1": -0.0015440999999999927,
+        "sat_XM2": -0.0015440999999999927,
+        "sat_XM5": 0.00031899999999998596
       },
       "allowance_total": {
-        "gbw_mhz": 37.17585071246303,
-        "pm_deg": 7.822890777402222,
-        "gain_db": 0.7971340572407732,
-        "vnoise_nv_rthz": 29.84339168936701,
-        "sat_XM3": 0.5214363188668213,
-        "sat_XM4": 0.5214363188668213,
-        "sat_XM1": 0.06412574954953047,
-        "sat_XM2": 0.06412574954953047,
-        "sat_XM5": 0.008127670791140199,
+        "gbw_mhz": 37.38010199361153,
+        "pm_deg": 7.872219557185751,
+        "gain_db": 0.8000820904017902,
+        "vnoise_nv_rthz": 29.880576808035748,
+        "sat_XM3": 0.5214693361830365,
+        "sat_XM4": 0.5214693361830365,
+        "sat_XM1": 0.06417846782031249,
+        "sat_XM2": 0.06417846782031249,
+        "sat_XM5": 0.008225556874999946,
         "pm_deg@ff_v0.9_t-40": 46.563500000000005,
         "gain_db@ff_v1.1_t-40": 3.781749999999999,
         "gbw_mhz@ff_v1.1_t-40": 48.02199999999999,
@@ -848,7 +843,7 @@
           "errors": 0,
           "neg_control_flagged": true,
           "pass": true,
-          "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf1_gboth_sdfull/drc/drc_report.txt"
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS/drc/drc_report.txt"
         }
       }
     },
@@ -875,18 +870,15 @@
           "match": true,
           "neg_control_rejected": true,
           "pass": true,
-          "pcell_instance": "nfet_01v8_W24_L1_m1__nf1_gboth_sdfull",
-          "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf1_gboth_sdfull/lvs/lvs/lvs_report.txt",
-          "extracted": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf1_gboth_sdfull/lvs/lvs/extracted.spice"
+          "pcell_instance": "nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS",
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS/lvs/lvs/extracted.spice"
         }
       }
     },
     "G3.5_no_relaxation": {
-      "pass": false,
-      "relaxed": [
-        "nfet_01v8_W24_L0p5_m1",
-        "nfet_01v8_W24_L1_m1"
-      ]
+      "pass": true,
+      "relaxed": []
     },
     "G3.6_model_has_no_gate_resistance": {
       "pass": true,
@@ -906,10 +898,10 @@
       }
     }
   },
-  "all_pass": false,
+  "all_pass": true,
   "provenance": {
-    "created": "2026-10-26T11:48:34+00:00",
-    "git_commit": "73559458e4dae107669b6fb24b6fe4ec415c2ecc",
+    "created": "2026-10-26T18:54:27+00:00",
+    "git_commit": "f6aea31251505c4a9b8220319cf1b7bb5ba1bd4c",
     "inputs": [
       {
         "path": "outputs/S0/example_ota_5t/circuit_ir.json",
@@ -917,7 +909,7 @@
       },
       {
         "path": "outputs/S2/example_ota_5t/budgets.json",
-        "sha256": "5975744dc0dcb88500736be5f2344d0e7912ef84f7514a461af200895931bd0a"
+        "sha256": "f33e8eabf63263b1762618e20ec7d0786080248e4244ac8645d386056924a570"
       },
       {
         "path": "outputs/S2/pdk/parasitics.json",

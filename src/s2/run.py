@@ -35,6 +35,8 @@ COUPLE_FRACTION = 0.25     # ASSUMPTION: expected parallel run = 1/4 of the shor
 SPECS = ("gain_db", "gbw_mhz", "pm_deg", "vnoise_nv_rthz")
 TOL_VERIFY = 0.10          # ASSUMPTION: 10 % of the allowed use for first-order model error
 CLOSURE_ITERS = 2
+SCENARIO_TIMEOUT_S = 180   # a budget scenario that has not converged by then is a failed run (e.g. a baseline's
+                           # huge series resistor leaves no DC solution); it is recorded, never a crash
 
 
 def device_sizes(s0: Path) -> dict:
@@ -85,10 +87,7 @@ def default_cells(ir: dict) -> dict:
         rec = json.loads(rec_f.read_text())
         if not rec.get("ok"):
             continue
-        txt = (REPO / rec["pex"]["file"]).read_text()
-        caps = []
-        for m in _re.finditer(r"^C\S*\s+(\S+)\s+(\S+)\s+([0-9.eE+-]+)([afp]?)", txt, _re.M):
-            caps.append((m.group(1), m.group(2), float(m.group(3)) * {"a": 1e-3, "f": 1.0, "p": 1e3, "": 1e15}[m.group(4)]))
+        caps = _cell_caps(rec)
         for d in t["devices"]:
             term = next(x for x in ir["devices"] if x["name"] == d)["terminals"]
             net = {"D": term["d"], "G": term["g"], "S": term["s"], "B": term["b"], "VSUBS": gnd}
@@ -98,11 +97,14 @@ def default_cells(ir: dict) -> dict:
 
 
 def _cell_caps(rec: dict) -> list:
+    """(terminal a, terminal b, fF) of a device cell's own extracted capacitances, for the whole device:
+    a unit cell of a device with m > 1 counts m times (pex.mult)."""
     import re as _re
     txt = (REPO / rec["pex"]["file"]).read_text()
+    mult = float(rec["pex"].get("mult", 1))
     caps = []
     for m in _re.finditer(r"^C\S*\s+(\S+)\s+(\S+)\s+([0-9.eE+-]+)([afp]?)", txt, _re.M):
-        caps.append((m.group(1), m.group(2), float(m.group(3)) * {"a": 1e-3, "f": 1.0, "p": 1e3, "": 1e15}[m.group(4)]))
+        caps.append((m.group(1), m.group(2), mult * float(m.group(3)) * {"a": 1e-3, "f": 1.0, "p": 1e3, "": 1e15}[m.group(4)]))
     return caps
 
 
@@ -292,11 +294,19 @@ def build_problem(ir, s1, pdk, sizes, eta):
         if k in margins:
             constraints.append({"id": k, "b": eta * margins[k]["margin"], "margin": margins[k]["margin"],
                                 "units": margins[k]["units"], "a": {e["id"]: rates[e["id"]].get(k, 0.0) for e in elements}})
+    not_sat = {}
     for d, m0 in sr["dc_saturation_margin_V"].items():
+        if m0 is None or m0 <= 0:
+            # a device that is not saturated before layout (a dummy, a MOS resistor, a triode device by design)
+            # has no saturation margin to share: no constraint (a negative 'margin' would zero every budget
+            # that touches it; found on iadc_ota, 2026-10-26)
+            not_sat[d] = m0
+            continue
         constraints.append({"id": f"sat_{d}", "b": eta * m0, "margin": m0, "units": "V",
                             "a": {e["id"]: rates[e["id"]].get(f"sat_{d}", 0.0) for e in elements}})
     return elements, constraints, {"pins": pins, "L_est_um": L_est, "unit_um": unit,
-                                   "default_cells_used": sorted({c["cell"] for c in cells.values()})}
+                                   "default_cells_used": sorted({c["cell"] for c in cells.values()}),
+                                   "sat_not_constrained": not_sat}
 
 
 def hierarchy_split(ir, elements, x, geo, pdk):
@@ -380,7 +390,7 @@ def run_scenarios(s0, ir, scen: dict, work: Path, workers: int = 4, points: dict
 
     def one(j):
         name, kind, txt, wd = j
-        r = run_ngspice_text(txt, wd, kind)
+        r = run_ngspice_text(txt, wd, kind, timeout=SCENARIO_TIMEOUT_S)
         if r["rc"] != 0 or r.get("numerical_warnings"):
             return name, None
         if kind == "op":
@@ -469,6 +479,7 @@ def main(argv=None) -> int:
                               if c["margin"] else None} for c in constraints}
     gates["G2.0_expected_layout_use (info)"] = {
         "pass": None, "checks": expected_use, "default_cells_used": geo["default_cells_used"],
+        "saturation_not_constrained": geo.get("sat_not_constrained", {}),
         "note": "fraction of each margin that a compact layout with the default device cells would use (sum of "
                 "rate x expected need); above eta the budgets fall below the expected need"}
     floors = lib["floors"] or None
@@ -657,7 +668,13 @@ def main(argv=None) -> int:
     if not a.no_baselines:
         bl = BL.run_all(elements, constraints, x, lib["floors"])
         if not a.no_spice:
-            checks_b = nom_cons + top_corner_checks([v_["budgets"] for v_ in bl.values()])
+            # each method's own most-used corners (plus the corners that bound ours), one common set for all
+            cb_ids, checks_b = set(), list(nom_cons)
+            for v_ in bl.values():
+                for c_ in top_corner_checks([v_["budgets"]]):
+                    if c_["id"] not in cb_ids:
+                        cb_ids.add(c_["id"])
+                        checks_b.append(c_)
             for m_, v_ in bl.items():
                 rows_ = spice_checks(checks_b, v_["budgets"], f"baselines/{m_}")
                 v_["spice"] = {r_["check"]: {"spice_use_frac_of_margin": r_["spice_use_frac_of_margin"],
@@ -667,8 +684,14 @@ def main(argv=None) -> int:
                                for r_ in rows_}
                 fr = [r_["spice_use_frac_of_allowed"] for r_ in v_["spice"].values() if r_["spice_use_frac_of_allowed"] is not None]
                 v_["score"]["spice_worst_use_of_allowed"] = max(fr) if fr else None
-                v_["score"]["spice_specs_violated"] = sorted(k for k, r_ in v_["spice"].items() if not r_["meets_spec"])
-                v_["score"]["spice_failed_runs"] = sorted(k for k, r_ in v_["spice"].items() if r_["spice_use_frac_of_allowed"] is None)
+                # a run that failed (no DC solution, timeout, numerical warnings) has no value: it is listed as
+                # failed, never as a violation (review B, item 1)
+                v_["score"]["spice_specs_violated"] = sorted(k for k, r_ in v_["spice"].items()
+                                                             if r_["value_now"] is not None and not r_["meets_spec"])
+                v_["score"]["spice_failed_runs"] = sorted(k for k, r_ in v_["spice"].items() if r_["value_now"] is None)
+                v_["score"]["spice_checks"] = len(v_["spice"])
+            for v_ in bl.values():
+                v_["score"]["outcome"] = BL.outcome(v_["score"])
         write_json(out / "baselines.json", {"design": design, "eta": eta, "alloc": a.alloc,
                                             "methods": bl, "note": BL.__doc__})
         gates["G2.8_baselines (info)"] = {"pass": None, "eta": eta,
@@ -715,7 +738,8 @@ def main(argv=None) -> int:
     offset = json.loads((s1 / "sensitivity_r.json").read_text()).get("mismatch_offset")
     cons = R.build(ir, intent, budgets_doc, pdk, currents, hier, sizes, offset)
     names = {n["name"] for n in ir["nets"]} | {d["name"] for d in ir["devices"]} | {"all devices"} | \
-            {f"{d['name']}.{t}" for d in ir["devices"] for t in ("d", "g", "s")} | {p_["name"] for p_ in ir["ports"]}
+            {f"{d['name']}.{t}" for d in ir["devices"] for t in ("d", "g", "s")} | {p_["name"] for p_ in ir["ports"]} | \
+            {c_["name"] for c_ in ir.get("passives", [])}     # a placement rule may name a capacitor or resistor
     unresolved = [c["id"] for c in cons for t in c["targets"] if t not in names]
     no_units = [c["id"] for c in cons if c["value"] is not None and not c["units"]]
     no_deriv = [c["id"] for c in cons if not c["derived_from"]]
@@ -768,8 +792,9 @@ def main(argv=None) -> int:
             blj = json.loads(blf.read_text())["methods"]
             ms = list(blj)
             fig, axs = plt.subplots(1, 3, figsize=(14, 4))
-            fo = [blj[m_]["score"]["worst_use_of_allowed"] or 0 for m_ in ms]
-            sp = [blj[m_]["score"].get("spice_worst_use_of_allowed") or 0 for m_ in ms]
+            nan = float("nan")    # a missing value is drawn as no bar, never as 0 (review B, item 1)
+            fo = [nan if blj[m_]["score"]["worst_use_of_allowed"] is None else blj[m_]["score"]["worst_use_of_allowed"] for m_ in ms]
+            sp = [nan if blj[m_]["score"].get("spice_worst_use_of_allowed") is None else blj[m_]["score"]["spice_worst_use_of_allowed"] for m_ in ms]
             xs = range(len(ms))
             axs[0].bar([i - 0.2 for i in xs], fo, 0.4, label="first order", color="#4C78A8")
             axs[0].bar([i + 0.2 for i in xs], sp, 0.4, label="SPICE (per check)", color="#F58518")
@@ -782,7 +807,7 @@ def main(argv=None) -> int:
             axs[1].set_title("starved: budget < expected need")
             sw = json.loads((out / "eta_sweep.json").read_text())["sweep"]
             ets = sorted(sw, key=float)
-            for m_, col in zip(ms, ("#E45756", "#72B7B2", "#B279A2", "#4C78A8")):
+            for m_, col in zip(ms, ("#E45756", "#72B7B2", "#B279A2", "#EECA3B", "#4C78A8")):
                 axs[2].plot([float(e_) for e_ in ets], [len(sw[e_]["methods"][m_]["starved"]) / max(1, sw[e_]["methods"][m_]["n_elements"])
                                                         for e_ in ets], "o-", color=col, label=m_)
             axs[2].set_xlabel("eta"); axs[2].set_ylabel("fraction starved"); axs[2].set_title("eta sweep (first order)")

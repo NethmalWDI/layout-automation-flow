@@ -33,11 +33,19 @@ TEMPS = (-40, 27, 85)
 
 
 def with_conditions(txt: str, corner: str, vdd: float | None, temp: float | None, seed: int | None = None) -> str:
-    txt = re.sub(r"(sky130\.lib\.spice)\s+\w+", rf"\1 {corner}", txt, count=1)
+    """The bench at another corner / VDD / temperature; raises if a requested change finds nothing to change
+    (a bench without the line would otherwise be simulated at its own conditions, silently)."""
+    txt, n = re.subn(r"(sky130\.lib\.spice)\s+\w+", rf"\1 {corner}", txt, count=1)
+    if not n:
+        raise ValueError("with_conditions: no 'sky130.lib.spice <corner>' line in the bench")
     if vdd is not None:
-        txt = re.sub(r"(^\.param .*?\bVDD_V=)([^\s]+)", rf"\g<1>{vdd:g}", txt, count=1, flags=re.M)
+        txt, n = re.subn(r"(^\.param .*?\bVDD_V=)([^\s]+)", rf"\g<1>{vdd:g}", txt, count=1, flags=re.M)
+        if not n:
+            raise ValueError("with_conditions: no '.param ... VDD_V=' in the bench")
     if temp is not None:
-        txt = re.sub(r"^\.temp .*$", f".temp {temp:g}", txt, count=1, flags=re.M)
+        txt, n = re.subn(r"^\.temp .*$", f".temp {temp:g}", txt, count=1, flags=re.M)
+        if not n:
+            raise ValueError("with_conditions: no '.temp' line in the bench")
     if seed is not None:
         txt = re.sub(r"^(\.lib .*sky130\.lib\.spice.*)$", rf"\1\n.option seed={seed}", txt, count=1, flags=re.M)
     return txt

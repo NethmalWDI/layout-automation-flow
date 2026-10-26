@@ -1,0 +1,216 @@
+{
+  "design": "iadc_ota",
+  "gds": "circuits/iadc_ota/upstream_src/layout/ota/ota.gds",
+  "cell": "ota",
+  "lvs_vs_layout_view": {
+    "match": false,
+    "report": "outputs/reference_layout/iadc_ota/lvs_report.txt",
+    "summary": [
+      "Instance: sky130_fd_pr__cap_mim_m3_1:503   |(no matching instance)                     ",
+      "Instance: sky130_fd_pr__cap_mim_m3_1:1092  |(no matching instance)                     ",
+      "Netlists do not match.",
+      "Port matching may fail to disambiguate symmetries.",
+      "cm                                         |cmc **Mismatch**                           ",
+      "p2_uq0                                     |on **Mismatch**                            ",
+      "p2                                         |op **Mismatch**                            ",
+      "p1_uq0                                     |cm **Mismatch**                            ",
+      "p1                                         |VSS **Mismatch**                           ",
+      "p1_b_uq0                                   |bias_a **Mismatch**                        ",
+      "Final result: Netlists do not match.",
+      "Port matching may fail to disambiguate symmetries."
+    ]
+  },
+  "pex_ports": [
+    "ip",
+    "in",
+    "p1",
+    "p1_b",
+    "p2",
+    "p2_b",
+    "op",
+    "on",
+    "i_bias",
+    "cm",
+    "VDD",
+    "VSS",
+    "cmc",
+    "bias_a",
+    "bias_d",
+    "bias_c",
+    "bias_b",
+    "sc_cmfb_0.transmission_gate_9.in",
+    "sc_cmfb_0.transmission_gate_7.in",
+    "sc_cmfb_0.transmission_gate_5.in",
+    "sc_cmfb_0.transmission_gate_3.in",
+    "sc_cmfb_0.transmission_gate_2.out",
+    "sc_cmfb_0.transmission_gate_1.in",
+    "p1_uq0",
+    "p1_b_uq0",
+    "p2_uq0",
+    "p2_b_uq0",
+    "VDD_uq0",
+    "VDD_uq1",
+    "VDD_uq2",
+    "VDD_uq3",
+    "VDD_uq4",
+    "VDD_uq5",
+    "VDD_uq6",
+    "VDD_uq7",
+    "VDD_uq8",
+    "VDD_uq9",
+    "VDD_uq10",
+    "VDD_uq11"
+  ],
+  "conditions": {
+    "corner": null,
+    "temp": null,
+    "mim_load": null,
+    "bias": "Bcmfb cmc_w VSS V = v(bias_a_w) + (v(OUTP) + v(OUTN))/2 - v(cm_w);Ibias_ext VDD ib_w 30u;Vp1 p1_w VSS 1.8;Vp1b p1b_w VSS 0;Vp2 p2_w VSS 0;Vp2b p2b_w VSS 1.8",
+    "note": "None = the flow bench's own value"
+  },
+  "unmapped_ports": [
+    "bias_d",
+    "bias_c",
+    "bias_b",
+    "sc_cmfb_0.transmission_gate_9.in",
+    "sc_cmfb_0.transmission_gate_7.in",
+    "sc_cmfb_0.transmission_gate_5.in",
+    "sc_cmfb_0.transmission_gate_3.in",
+    "sc_cmfb_0.transmission_gate_2.out",
+    "sc_cmfb_0.transmission_gate_1.in"
+  ],
+  "pex_caps": 800,
+  "schematic_same_conditions": {
+    "gain_db": 53.4703,
+    "gbw_mhz": 209.852,
+    "pm_deg": 77.2336,
+    "isup_ua": 421.052,
+    "power_uw": 757.894,
+    "vout_v": 6.44829e-10,
+    "voutcm_v": 0.926497
+  },
+  "drawn_devices_only": {
+    "gain_db": 53.6012,
+    "gbw_mhz": 171.85,
+    "pm_deg": 82.0516,
+    "isup_ua": 420.647,
+    "power_uw": 757.164,
+    "vout_v": 1.05355e-09,
+    "voutcm_v": 0.92359
+  },
+  "post_layout": {
+    "gain_db": 53.6012,
+    "gbw_mhz": 156.201,
+    "pm_deg": 81.1695,
+    "isup_ua": 420.647,
+    "power_uw": 757.164,
+    "vout_v": 1.05324e-09,
+    "voutcm_v": 0.92359
+  },
+  "lost_to_parasitics": {
+    "gain_db": 0.0,
+    "gbw_mhz": 15.649000000000001,
+    "pm_deg": 0.8820999999999941
+  },
+  "post_layout_rc": {
+    "gain_db": 19.3905,
+    "gbw_mhz": 149.644,
+    "pm_deg": 83.798,
+    "isup_ua": 436.698,
+    "power_uw": 786.056,
+    "vout_v": -0.00019126,
+    "voutcm_v": 0.850315
+  },
+  "rc_tolerance": 100.0,
+  "lost_to_parasitics_rc": {
+    "gain_db": 34.2107,
+    "gbw_mhz": 22.20599999999999,
+    "pm_deg": -1.7464000000000084
+  },
+  "runs": {
+    "schematic.AC": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "schematic.OP": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "drawn_devices_only.AC": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "drawn_devices_only.OP": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "pex.AC": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "pex.OP": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "pex_rc.AC": {
+      "rc": 0,
+      "numerical_warnings": [
+        "Warning: Dynamic gmin stepping failed",
+        "Warning: True gmin stepping failed"
+      ]
+    },
+    "pex_rc.OP": {
+      "rc": 0,
+      "numerical_warnings": [
+        "Warning: Dynamic gmin stepping failed",
+        "Warning: True gmin stepping failed"
+      ]
+    }
+  },
+  "compare": {
+    "pm_deg": {
+      "schematic": 77.2336,
+      "hand_layout_drawn_devices_only": 82.0516,
+      "hand_layout_pex": 81.1695,
+      "lost_to_parasitics": 0.8820999999999941,
+      "lost_to_parasitics_frac_of_margin": 0.051184894624454226,
+      "limit": 60,
+      "margin": 17.233599999999996,
+      "lost": -3.9359000000000037,
+      "lost_frac_of_margin": -0.22838524742363783,
+      "meets_spec": true,
+      "S2_G2.0_predicted_frac": 0.28450275037898,
+      "eta": 0.5
+    },
+    "gain_db": {
+      "schematic": 53.4704,
+      "hand_layout_drawn_devices_only": 53.6012,
+      "hand_layout_pex": 53.6012,
+      "lost_to_parasitics": 0.0,
+      "lost_to_parasitics_frac_of_margin": 0.0,
+      "limit": 52.4704,
+      "margin": 1.0,
+      "lost": -0.1308000000000007,
+      "lost_frac_of_margin": -0.1308000000000007,
+      "meets_spec": true,
+      "S2_G2.0_predicted_frac": 2.882701641824169,
+      "eta": 0.5
+    },
+    "gbw_mhz": {
+      "schematic": 209.852,
+      "hand_layout_drawn_devices_only": 171.85,
+      "hand_layout_pex": 156.201,
+      "lost_to_parasitics": 15.649000000000001,
+      "lost_to_parasitics_frac_of_margin": 0.7457160284390908,
+      "limit": 188.8668,
+      "margin": 20.985199999999992,
+      "lost": 53.65100000000001,
+      "lost_frac_of_margin": 2.5566113260774275,
+      "meets_spec": false,
+      "S2_G2.0_predicted_frac": 3.697375001972146,
+      "eta": 0.5
+    }
+  },
+  "reported_post_layout": null,
+  "note": "PEX with capacitance only (cthresh 0, no wire resistance); LVS against the flow's layout view. 'compare' (against the flow's nominal S0 margins) only for runs at the bench's own conditions; 'lost_to_parasitics' = drawn devices only - PEX, at this run's conditions"
+}

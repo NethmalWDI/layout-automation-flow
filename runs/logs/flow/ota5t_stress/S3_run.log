@@ -1,0 +1,12 @@
+$ /usr/bin/python3 -m src.s3.run inputs/ota5t_stress/package.yaml --workers 2
+G3.1_chosen_DRC                          PASS
+G3.2_chosen_LVS_W_L_nf                   PASS
+G3.3_all_chosen_devices_in_circuit       PASS
+G3.4_option_table_complete               PASS
+G3.5_no_relaxation                       FAIL
+G3.6_model_has_no_gate_resistance        PASS
+G3.7_modes (info)                        FAIL
+  pfet_01v8_W8_L1_m1           -> nf1_gboth_sdfull         area 30.2 um2  R(d,g,s)=27.3, 72.5, 27.3 ohm
+  nfet_01v8_W24_L0p5_m1        -> nf1_gboth_sdfull         area 61.1 um2  R(d,g,s)=7.1, 273.5, 7.1 ohm
+  nfet_01v8_W24_L1_m1          -> nf1_gboth_sdfull         area 74.1 um2  R(d,g,s)=7.1, 136.7, 7.1 ohm
+S3 FAIL -> outputs/S3/ota5t_stress

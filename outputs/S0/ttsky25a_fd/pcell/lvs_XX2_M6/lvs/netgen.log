@@ -5,7 +5,7 @@ Generating JSON file result
 Reading netlist file /foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M6/lvs/extracted.spice for /foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M6/lvs/extracted.spice sky130_fd_pr__nfet_01v8_lvt_LUGTRV
 Call to undefined subcircuit sky130_fd_pr__nfet_01v8_lvt
 Creating placeholder cell definition.
-Reading netlist file /foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M6/ref.spice for /foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M6/ref.spice XX2_M6
+Reading netlist file /foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M6/ref_lvs.spice for /foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M6/ref_lvs.spice XX2_M6
 Call to undefined subcircuit sky130_fd_pr__nfet_01v8_lvt
 Creating placeholder cell definition.
 
@@ -45,16 +45,16 @@ Circuit sky130_fd_pr__nfet_01v8_lvt_LUGTRV contains 2 device instances.
   Class: sky130_fd_pr__nfet_01v8_lvt instances:   2
 Circuit contains 7 nets.
 Contents of circuit 2:  Circuit: 'XX2_M6'
-Circuit XX2_M6 contains 1 device instances.
-  Class: sky130_fd_pr__nfet_01v8_lvt instances:   1
-Circuit contains 4 nets.
+Circuit XX2_M6 contains 2 device instances.
+  Class: sky130_fd_pr__nfet_01v8_lvt instances:   2
+Circuit contains 7 nets.
 
-Circuit 1 contains 2 devices, Circuit 2 contains 1 devices. *** MISMATCH ***
-Circuit 1 contains 7 nets,    Circuit 2 contains 4 nets. *** MISMATCH ***
+Circuit 1 contains 2 devices, Circuit 2 contains 2 devices.
+Circuit 1 contains 7 nets,    Circuit 2 contains 7 nets.
 
 
 Final result: 
-Netlists do not match.
-Port matching may fail to disambiguate symmetries.
+Circuits match uniquely.
+.
 Logging to file "/foss/designs/outputs/S0/ttsky25a_fd/pcell/lvs_XX2_M6/lvs/lvs_report.txt" disabled
 LVS Done.

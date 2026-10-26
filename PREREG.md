@@ -41,3 +41,21 @@ After the tag, changes are allowed only as dated amendments at the end, with the
   that terminal), never more than the budget.
 - Model-change cap: 10 % of eta × margin per spec (to be applied in S4a).
 - PVT: 5 corners x VDD x {0.9, 1.0, 1.1} x {-40, 27, 85} C = 45 points; Monte Carlo: 200 runs of tt_mm.
+
+## Amendments
+
+- **2026-10-26, after the first v2 runs of the two development designs (5T), before any v2 run of the
+  held-out designs.** Following an independent review (flow record 7.7, review B): (1) a SPICE run that fails
+  (timeout, no DC solution, numerical warnings) is a failed run, never a violation; (2) a fifth budget rule,
+  `lp_floor` (the LP with the library floors and budgets capped at need), is added next to the plain LP,
+  which is kept; (3) every method's own most-used PVT points are checked in SPICE (one common set);
+  (4) outcomes are defined as: unsafe = a spec violated in SPICE or use / (eta x margin) > 1.02; infeasible =
+  some budget below its library floor; ok = neither. H1b and H1c are read with these definitions. The
+  development designs were re-run with them; their first numbers are kept in the flow record as superseded.
+- **2026-10-26, ttsky25a_fd specs.** At the designer's request the specs are the schematic's own simulated
+  performance (gain -1 dB, GBW x 0.9, power x 1.1, PM >= 60 deg), the same rule as loadbench_miller, set
+  before its v2 run.
+- **2026-10-26, eta of the SPICE-scored comparison.** The SPICE-scored baseline comparison (G2.8) runs at each
+  design's own eta (0.5 unless the package sets it; ota5t_stress 0.9), not at 0.9 as written above; the
+  eta sweep (first order) covers 0.3 to 1.0 for every design. A SPICE-scored run at eta = 0.9 for every design
+  is still to do.

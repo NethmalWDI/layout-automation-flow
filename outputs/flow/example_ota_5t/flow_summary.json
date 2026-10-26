@@ -66,46 +66,56 @@
     {
      "step": "cells",
      "rc": 0,
-     "seconds": 4.1,
+     "seconds": 5.1,
      "log": "runs/logs/flow/example_ota_5t/S2_cells.log"
     },
     {
      "step": "run",
-     "rc": 1,
-     "seconds": 2067.0,
+     "rc": 0,
+     "seconds": 496.1,
      "log": "runs/logs/flow/example_ota_5t/S2_run.log"
     }
    ],
-   "started": "2026-10-26T12:51:05",
-   "status": "ERROR",
-   "reason": "no fresh report at outputs/S2/example_ota_5t/s2_report.json",
-   "seconds": 2071.0
+   "started": "2026-10-26T19:45:44",
+   "gates": {
+    "G2.9_pvt_constraints (info)": null,
+    "G2.0_expected_layout_use (info)": null,
+    "G2.7_library_floors_feasible": true,
+    "G2.3_allocation": true,
+    "G2.5_spice_budget_verification": true,
+    "G2.8_baselines (info)": null,
+    "G2.4_linear_all_budgets_at_once": null,
+    "G2.6_hierarchy_sums": true,
+    "G2.1_names_resolve": true,
+    "G2.2_units_and_provenance": true
+   },
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 501.2
   },
   "S3": {
    "stage": "S3",
    "steps": [
     {
      "step": "run",
-     "rc": 1,
-     "seconds": 38.5,
+     "rc": 0,
+     "seconds": 21.7,
      "log": "runs/logs/flow/example_ota_5t/S3_run.log"
     }
    ],
-   "started": "2026-10-26T12:47:56",
+   "started": "2026-10-26T19:54:05",
    "gates": {
     "G3.4_option_table_complete": true,
     "G3.7_modes (info)": null,
     "G3.3_all_chosen_devices_in_circuit": true,
     "G3.1_chosen_DRC": true,
     "G3.2_chosen_LVS_W_L_nf": true,
-    "G3.5_no_relaxation": false,
+    "G3.5_no_relaxation": true,
     "G3.6_model_has_no_gate_resistance": true
    },
-   "status": "FAIL",
-   "failed_gates": [
-    "G3.5_no_relaxation"
-   ],
-   "seconds": 38.5
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 21.7
   }
  }
 }

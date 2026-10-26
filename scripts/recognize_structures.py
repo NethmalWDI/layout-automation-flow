@@ -4,6 +4,8 @@ blocks the flow's S0/S1 expect from the upstream hierarchy stage (primitives.jso
 
 It is a stand-in for the upstream hierarchy when a design comes without one, so its output is
 labelled PREDICTED. Rules, in this order, each device assigned once:
+  0. dummy: an off device (gate tied to source, or gate on the rail that turns it off) -> 'dummy';
+     drain = source otherwise -> 'mos-capacitor'
   1. differential pair: two devices of one polarity on the same non-rail source net, different gates
      and drains, identical size -> 'differential-pair' (gm-structure)
   2. current mirror: devices of one polarity sharing gate and source nets, one diode-connected
@@ -31,20 +33,45 @@ def size(m) -> tuple:
     return (m.model, m.num("W"), m.num("L"), int(m.num("NF", 1)), int(m.num("MULT", m.params.get("M", 1))))
 
 
+def rail_kind(net: str) -> str | None:
+    """'high' / 'low' from the usual SKY130 / xschem supply names (case-insensitive), else None."""
+    n = net.lower()
+    if n in ("0", "gnd") or any(n.startswith(p) for p in ("vss", "vgnd", "agnd", "dgnd", "gnd")):
+        return "low"
+    if any(n.startswith(p) for p in ("vdd", "vcc", "vpwr", "vdpwr", "avdd", "dvdd")):
+        return "high"
+    return None
+
+
 def recognize(nl: spice.Netlist, rails: set) -> list:
     devs = {m.name: m for m in nl.mosfets}
     left = dict(devs)
     blocks = []
+    rails_l = {r.lower() for r in rails}
+    on_rail = lambda n: n.lower() in rails_l  # noqa: E731
 
     def add(kind, cat, members, note=""):
         blocks.append({"primitive": kind, "category": cat, "devices": members, "note": note})
         for d in members:
             left.pop(d, None)
 
-    # 1. differential pairs
+    # 0. dummies and MOS capacitors first. Without this step a dummy with d = g = s looks diode-connected
+    #    and joins a "mirror" with the other dummies of its net (found on iadc_ota: 24 of its 38 dummies were
+    #    in 6 false blocks). Off device = dummy (enhancement models only; native / zero-Vt devices conduct at
+    #    Vgs = 0): gate tied to source, or gate on the rail that turns it off (nmos: low rail, pmos: high
+    #    rail), whatever its drain and source. A device with drain = source whose gate is on the other rail
+    #    or on a signal net is a MOS capacitor, not a dummy.
+    for name, m in sorted(devs.items()):
+        native = any(s_ in m.model.lower() for s_ in ("nvt", "native", "zvt"))
+        g_off = on_rail(m.g) and rail_kind(m.g) == ("low" if m.polarity == "nmos" else "high")
+        if not native and (m.g == m.s or g_off):
+            add(f"{m.polarity}-dummy", "dummy", [name])
+        elif m.d == m.s and m.g != m.d:
+            add(f"{m.polarity}-mos-capacitor", "other", [name], f"gate {m.g}, drain = source {m.d}")
+    # 1. differential pairs (never a device whose gate sits on a rail)
     by_src: dict = {}
     for m in devs.values():
-        if m.s not in rails:
+        if not on_rail(m.s) and not on_rail(m.g):
             by_src.setdefault((m.polarity, m.s), []).append(m)
     pair_drains = set()
     for (pol, src), ms in sorted(by_src.items()):
@@ -73,16 +100,13 @@ def recognize(nl: spice.Netlist, rails: set) -> list:
     for (pol, g), ms in sorted(by_g.items()):
         for a, b in itertools.combinations(ms, 2):
             if a.name in left and b.name in left and size(a) == size(b) and a.d != b.d:
-                kind = "matched-current-source-pair" if (a.s == b.s and a.s in rails) else "matched-cascode-pair"
+                kind = "matched-current-source-pair" if (a.s == b.s and on_rail(a.s)) else "matched-cascode-pair"
                 add(f"{pol}-{kind}", "load-structure" if kind.endswith("source-pair") else "gm-structure",
                     [a.name, b.name], f"gate {g}")
     # 4. single devices
     for name, m in sorted(left.items()):
-        if m.d == m.g == m.s or {m.d, m.g, m.s} <= rails:
-            role = "dummy"       # all terminals on one net (or on the rails): drawn for matching, no function
-        else:
-            role = "diode" if m.d == m.g else "single"
-        add(f"{m.polarity}-{role}", "bias-structure" if role == "diode" else ("dummy" if role == "dummy" else "other"), [name])
+        role = "diode" if m.d == m.g else "single"
+        add(f"{m.polarity}-{role}", "bias-structure" if role == "diode" else "other", [name])
     # passives
     caps = [p for p in nl.passives if p.kind == "C"]
     for c in caps:

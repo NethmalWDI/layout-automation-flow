@@ -1,0 +1,11 @@
+* NGSPICE file created from nfet_01v8_lvt_W5_L2_m2__nf2_gtop_sdfull_outD.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_lvt_QKX5HP G B a_429_n281# D0 S1
+X0 a_429_n281# G S1 B sky130_fd_pr__nfet_01v8_lvt ad=0.725 pd=5.58 as=0.3625 ps=2.79 w=2.5 l=2
+X1 S1 G D0 B sky130_fd_pr__nfet_01v8_lvt ad=0.3625 pd=2.79 as=0.725 ps=5.58 w=2.5 l=2
+.ends
+
+.subckt nfet_01v8_lvt_W5_L2_m2__nf2_gtop_sdfull_outD S D G B
+Xnfet_01v8_lvt_W5_L2_m2__nf2_gtop_sdfull_outD_pc G B D D S sky130_fd_pr__nfet_01v8_lvt_QKX5HP
+.ends
+

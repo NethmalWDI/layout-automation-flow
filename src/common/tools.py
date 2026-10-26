@@ -92,13 +92,18 @@ def numerical_warnings(log: str) -> list:
 def run_ngspice(deck: Path, workdir: Path, timeout: int = 600) -> dict:
     """Run ngspice in batch mode; return {'rc', 'meas': {key: float}, 'log', 'numerical_warnings'}."""
     workdir.mkdir(parents=True, exist_ok=True)
-    r = subprocess.run(["ngspice", "-b", str(deck)], cwd=workdir, env=TOOL_ENV,
-                       capture_output=True, text=True, timeout=timeout)
-    log = r.stdout + r.stderr
+    try:
+        r = subprocess.run(["ngspice", "-b", str(deck)], cwd=workdir, env=TOOL_ENV,
+                           capture_output=True, text=True, timeout=timeout)
+        log, rc = r.stdout + r.stderr, r.returncode
+    except subprocess.TimeoutExpired as e:   # a run that hangs (e.g. no DC solution) is a failed run, not a crash
+        dec = lambda s: s.decode(errors="replace") if isinstance(s, bytes) else (s or "")  # noqa: E731
+        log, rc = dec(e.stdout) + dec(e.stderr) + f"\nTIMEOUT after {timeout} s\n", -9
     (workdir / (deck.stem + ".log")).write_text(log)
-    (workdir / (deck.stem + ".rc")).write_text(str(r.returncode))
-    return {"rc": r.returncode, "meas": parse_meas(log), "log": rel(workdir / (deck.stem + ".log")),
-            "numerical_warnings": numerical_warnings(log)}
+    (workdir / (deck.stem + ".rc")).write_text(str(rc))
+    return {"rc": rc, "meas": parse_meas(log) if rc == 0 else {}, "log": rel(workdir / (deck.stem + ".log")),
+            "timed_out": "TIMEOUT after" in log[-64:],
+            "numerical_warnings": numerical_warnings(log) + (["timeout"] if "TIMEOUT after" in log[-64:] else [])}
 
 
 def run_ngspice_text(txt: str, workdir: Path, name: str, cache: bool = True, timeout: int = 600) -> dict:

@@ -42,6 +42,16 @@ Inside the container you can also call the stages directly, e.g. `python3 -m src
 --alloc v1|v2 --no-pvt --no-baselines --eta 0.9` or `python3 -m src.s3.run inputs/<d>/package.yaml --mode B|A-bin|A-free
 --rules v1|v2`; `python3 scripts/compare_before_after.py snap <design> <tag>` and `... report` keep and compare runs.
 
+**Hand-drawn reference layouts** (plan v2, baseline 8): `python3 scripts/reference_layout.py <design> <gds> <cell>
+--ports "<pin>=<bench node>,..." [--bias "<off-chip element>;..."] [--corner ff --temp 20 --mim-load 1,1,100 --tag <name>]`
+extracts a layout with Magic (LVS netlist and a capacitance-only PEX), runs LVS against the flow's layout view and
+simulates the schematic, the drawn devices and the PEX in the flow's own benches
+(`outputs/reference_layout/<design>/reference_layout[_<tag>].json`; `--rc` adds a Magic extresist R+C extraction,
+`--map-shorted` ties ports that Magic reports as electrically shorted, e.g. a sub-cell's copy of a clock pin).
+`scripts/reference_ttsky25a.sh` runs it for the taped-out TTSKY25a tile at the flow's conditions and at the
+designers' `gain_and_phase.sch` conditions; `scripts/reference_iadc.sh` for the hand-drawn iadc OTA (CMFB clocks
+held in phase 1, cmc driven by the flow's ideal CMFB law).
+
 Each stage writes to `outputs/<stage>/<design>/` and logs to `runs/logs/flow/<design>/`; the run summary is
 `outputs/flow/<design>/flow_summary.json`. A stage is **PASS** (all gates pass), **FAIL** (a gate failed but the
 stage finished, e.g. S3 flags a device type that does not fit) or **ERROR** (it crashed). The committed outputs
@@ -55,7 +65,7 @@ never invented.
 **What changed in plan v2 (2026-10-26):**
 
 - S0 handles current sources, ideal and PDK passives (MIM, poly resistors), differential outputs, off-chip test elements and an external-reference gate (G0.8), and runs 45 PVT points plus a mismatch Monte Carlo (G0.9, G0.10).
-- S2 floors every budget at what the cheapest library cell already puts there (G2.7), no longer trims binding elements in phase 2 (finding R19), adds a constraint per spec and PVT point (G2.9), and scores three other budget rules on the same sensitivities (G2.8: per-net, equal split, LP) plus an eta sweep.
+- S2 floors every budget at what the cheapest library cell already puts there (G2.7), no longer trims binding elements in phase 2 (finding R19), adds a constraint per spec and PVT point (G2.9), and scores four other budget rules on the same sensitivities (G2.8: per-net, equal split, a plain LP, the LP with floors), each in SPICE at its own worst PVT points, with outcomes unsafe / infeasible / ok, plus an eta sweep.
 - S3 decides in three option modes (B: nf as in the netlist; A-bin: the finger stays in the sized device's SKY130 model bin; A-free) plus a rule-of-thumb folding baseline, and a cell may always use the library's lowest access resistance (G3.7).
 
 **Repository rules:** third-party material and licences are listed in `THIRD_PARTY.md`; hypotheses and

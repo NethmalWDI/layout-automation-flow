@@ -49,9 +49,9 @@ XDUT VDD OUTP INP INN VSS example_ota_5t_sized
 .ends
 
 .subckt example_ota_5t_sized VDD OUTP INP INN VSS
-Cbud_s2_0 net3 VSS 49.7981f
-Cbud_s2_1 OUTP net3 1.68903f
-Cbud_s2_2 OUTP INN 1.00571f
+Cbud_s2_0 net3 VSS 69.6592f
+Cbud_s2_1 OUTP net3 1.77375f
+Cbud_s2_2 OUTP INN 1.05615f
 Cbud_s2_3 net1 net3 10.6462f
 Cbud_s2_4 net1 INN 6.28604f
 Cbud_s2_5 net3 INP 6.28604f
@@ -63,13 +63,13 @@ XM4 s1r_XM4_d s1r_XM4_g VDD VDD sky130_fd_pr__pfet_01v8 L=1 W=8 NF=1 AD=2.32 AS=
 Rpar_s1_XM4_g s1r_XM4_g net3 783.289
 Rpar_s1_XM4_d s1r_XM4_d OUTP 331.773
 XM1 net3 s1r_XM1_g net1 VSS sky130_fd_pr__nfet_01v8 L=0.5 W=24 NF=1 AD=6.96 AS=6.96 PD=48.58 PS=48.58 NRD=0.0120833333333333 NRS=0.0120833333333333 SA=0 SB=0 SD=0 MULT=1
-Rpar_s1_XM1_g s1r_XM1_g INP 153.749
+Rpar_s1_XM1_g s1r_XM1_g INP 286.102
 XM2 OUTP s1r_XM2_g net1 VSS sky130_fd_pr__nfet_01v8 L=0.5 W=24 NF=1 AD=6.96 AS=6.96 PD=48.58 PS=48.58 NRD=0.0120833333333333 NRS=0.0120833333333333 SA=0 SB=0 SD=0 MULT=1
-Rpar_s1_XM2_g s1r_XM2_g INN 153.749
+Rpar_s1_XM2_g s1r_XM2_g INN 286.102
 XM5 s1r_XM5_d s1r_XM5_g s1r_XM5_s VSS sky130_fd_pr__nfet_01v8 L=1 W=24 NF=1 AD=6.96 AS=6.96 PD=48.58 PS=48.58 NRD=0.0120833333333333 NRS=0.0120833333333333 SA=0 SB=0 SD=0 MULT=1
-Rpar_s1_XM5_s s1r_XM5_s VSS 20.0556
-Rpar_s1_XM5_g s1r_XM5_g net2 313.44
-Rpar_s1_XM5_d s1r_XM5_d net1 20.0556
+Rpar_s1_XM5_s s1r_XM5_s VSS 18.8703
+Rpar_s1_XM5_g s1r_XM5_g net2 329.161
+Rpar_s1_XM5_d s1r_XM5_d net1 24.8656
 V1 net2 VSS 0.75
 .ends example_ota_5t_sized
 .end

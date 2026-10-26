@@ -94,7 +94,11 @@ def default_option_id() -> str:
 
 
 def magic_params(t: dict, opt: dict) -> dict:
-    p = {"w": round(t["W"] / opt["nf"], 4), "l": t["L"], "nf": opt["nf"], "m": t["m"]}
+    """One unit of the device: m = 1. A device with m > 1 is m copies of this cell, connected in parallel by
+    the block / routing stages; the PDK PCell draws its m copies unconnected, which is not a device cell
+    (found on iadc_ota and ttsky25a_fd, 2026-10-26). Area, access resistance and capacitance are scaled to
+    the device by `device_geometry`, `access_resistance` and the consumers of the cell's PEX (`pex.mult`)."""
+    p = {"w": round(t["W"] / opt["nf"], 4), "l": t["L"], "nf": opt["nf"], "m": 1}
     p.update(opt["magic"])
     return p
 
@@ -200,12 +204,34 @@ def access_resistance(t: dict, opt: dict, geo: dict, rules: dict) -> dict:
             g_tot += 1.0 / r
         out[term] = 1.0 / g_tot if g_tot else None
         out[f"{term}_strips_ohm"] = parts
+    m = int(t.get("m", 1))
+    if m > 1:   # m unit cells in parallel: the device's access resistance per terminal
+        out["unit_cell_ohm"] = {k: out[k] for k in "dgs"}
+        for k in "dgs":
+            out[k] = None if out[k] is None else out[k] / m
     return out
+
+
+def device_geometry(gds: Path, roles_plan: dict, t: dict) -> dict:
+    """geometry() of the unit cell, with area_um2 scaled to the m copies of the device (area_um2_unit kept;
+    abutting copies would share some diffusion, so this is an upper bound until S4 places them)."""
+    geo = geometry(gds, roles_plan)
+    m = int(t.get("m", 1))
+    if m > 1:
+        geo["area_um2_unit"] = geo["area_um2"]
+        geo["area_um2"] = geo["area_um2"] * m
+        geo["m_copies"] = m
+    return geo
 
 
 def build_one(t: dict, tid: str, opt: dict, out: Path, rules: dict, cross_check: bool = False) -> dict:
     cell = f"{tid}__{opt['id']}"
     d = out / cell
+    # a rebuild starts from an empty folder: Magic would otherwise load the old .mag (whose PCell subcell may
+    # be gone) instead of generating, and the old GDS would be strapped and measured (iadc_ota, 2026-10-26)
+    if d.exists():
+        import shutil
+        shutil.rmtree(d)
     gen = pcell.generate([{"cell": cell, "model": t["model"], "params": magic_params(t, opt)}], d)
     gds = d / f"{cell}.gds"
     rec = {"type": tid, "option": opt, "cell": cell, "gds": rel(gds), "gen_rc": gen["rc"]}
@@ -219,13 +245,15 @@ def build_one(t: dict, tid: str, opt: dict, out: Path, rules: dict, cross_check:
         return rec
     rec["strap"] = {k: st[k] for k in ("rc", "strapped", "roles")}
     rec["drc"] = pcell.drc(gds, cell, d / "drc")
-    rec["lvs"] = pcell.lvs_device(gds, cell, t["model"], t["W"], t["L"], opt["nf"], t["m"], d / "lvs", mode="top")
-    geo = geometry(gds, st["plan"])
+    rec["lvs"] = pcell.lvs_device(gds, cell, t["model"], t["W"], t["L"], opt["nf"], 1, d / "lvs", mode="top")
+    geo = device_geometry(gds, st["plan"], t)
     rec["geometry"] = geo
     rec["pex"] = pex(gds, cell, d / "pex")
+    rec["pex"]["mult"] = int(t.get("m", 1))     # the device is pex.mult copies of this extracted unit
+    rec["cell_format"] = 2                      # unit cell (m = 1) + scaling; older records drew m copies
     rec["access_resistance_ohm"] = access_resistance(t, opt, geo, rules)
     if cross_check:
         rec["magic_extresist"] = magic_lumped_r(gds, cell, d / "rx")
     rec["png"] = pcell.png(gds, d / f"{cell}.png")
-    rec["ok"] = bool(rec["drc"]["pass"] and rec["lvs"]["pass"] and rec["pex"]["n_devices"] == opt["nf"] * t["m"])
+    rec["ok"] = bool(rec["drc"]["pass"] and rec["lvs"]["pass"] and rec["pex"]["n_devices"] == opt["nf"])
     return rec

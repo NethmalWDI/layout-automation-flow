@@ -1,0 +1,1253 @@
+* iadc_ota on dido_amp_AC
+.lib $PDK_ROOT/sky130A/libs.tech/combined/sky130.lib.spice tt
+.option rshunt=1e12
+.param VDD_V=1.8 VCM_V=0.9 CL_F=0.3p
+.temp 27
+
+**.subckt dido_amp_AC
+x1 INP INN OUTN VDD 0 OUTP dut_amp
+Vsup VDD 0 'VDD_V'
+* AC drive through 1 F couplers; DC set by unity feedback through 1 GH chokes (OUTP->INN, OUTN->INP)
+Vacp ACP 0 dc 0 ac 0.5
+Vacn ACN 0 dc 0 ac -0.5
+Cinp ACP INP 1
+Cinn ACN INN 1
+Lfbp OUTP INN 1G
+Lfbn OUTN INP 1G
+Cloadp OUTP 0 'CL_F'
+Cloadn OUTN 0 'CL_F'
+.control
+  save all
+  ac dec 40 1 1G
+  let hsig = v(OUTP) - v(OUTN)
+  let hdb = db(hsig)
+  let gph_deg = 180/pi * cph(hsig)
+  meas ac gain_db find hdb at=1
+  meas ac gbw_hz  when hdb=0
+  meas ac ph_dc   find gph_deg at=1
+  meas ac ph_ugb  find gph_deg when hdb=0
+  let gbw_mhz = gbw_hz / 1e6
+  let pm_deg  = 180 + (ph_ugb - ph_dc)
+  echo MEAS gain_db $&gain_db
+  echo MEAS gbw_mhz $&gbw_mhz
+  echo MEAS pm_deg $&pm_deg
+  write
+  quit 0
+.endc
+**.ends
+
+.subckt dut_amp INP INN OUTN VDD VSS OUTP
+XDUT INP INN p1_w p1b_w p2_w p2b_w OUTP OUTN ib_w cm_w VDD VSS cmc_w bias_a_w NC_bias_d NC_bias_c NC_bias_b NC_sc_cmfb_0_transmission_gate_9_in NC_sc_cmfb_0_transmission_gate_7_in NC_sc_cmfb_0_transmission_gate_5_in NC_sc_cmfb_0_transmission_gate_3_in NC_sc_cmfb_0_transmission_gate_2_out NC_sc_cmfb_0_transmission_gate_1_in p1_w p1b_w p2_w p2b_w VDD VDD VDD VDD VDD VDD VDD VDD VDD VDD VDD VDD ota_flat
+Bcmfb cmc_w VSS V = v(bias_a_w) + (v(OUTP) + v(OUTN))/2 - v(cm_w)
+Ibias_ext VDD ib_w 30u
+Vp1 p1_w VSS 1.8
+Vp1b p1b_w VSS 0
+Vp2 p2_w VSS 0
+Vp2b p2b_w VSS 1.8
+.ends
+.subckt iadc_ota ip in op on VDD VSS cmc cm bias_a
+XX1_M22 bias_b bias_c x1_m21d VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M26 x1_m2d bias_c x1_m25d VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M32 cm bias_c x1_m31d VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M21 x1_m21d bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M25 x1_m25d bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M31 x1_m31d bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M1 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=56 M=56
+XX1_M2 x1_m2d x1_m2d bias_d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=50 M=50
+XX1_M3 bias_d x1_m2d bias_a VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M4 bias_a bias_d x1_m5d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=18 M=18
+XX1_M5 x1_m5d bias_a VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=18 M=18
+XX1_M6 bias_c i_bias VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=18 M=18
+XX1_M7 i_bias i_bias VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=18 M=18
+XX1_M33 cm cm x1_net1 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M49 x1_net1 cm x1_net2 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M50 x1_net2 cm x1_net3 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M63 x1_net3 cm VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M68 cm cm x1_net4 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M69 x1_net4 cm x1_net5 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M70 x1_net5 cm x1_net6 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M71 x1_net6 cm VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M72 cm cm x1_net7 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M73 x1_net7 cm x1_net8 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M74 x1_net8 cm x1_net9 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M75 x1_net9 cm VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M76 cm cm x1_net10 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M77 x1_net10 cm x1_net11 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M78 x1_net11 cm x1_net12 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M79 x1_net12 cm VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M64 cm cm x1_net13 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M65 x1_net13 cm x1_net14 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M66 x1_net14 cm x1_net15 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M67 x1_net15 cm VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M57 bias_b VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M58 x1_m2d VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M59 cm VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M60 x1_m31d VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M42 x1_m5d VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M44 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M34 bias_d bias_d bias_d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=8 M=8
+XX1_M35 x1_m2d x1_m2d x1_m2d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M36 bias_a bias_a bias_a VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=4 M=4
+XX1_M37 cm cm cm VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=8 M=8
+XX1_M54 x1_m25d x1_m25d x1_m25d VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M29 x1_m5d x1_m5d x1_m5d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M8 i_bias i_bias i_bias VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M10 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=8 M=8
+XX1_M27 bias_b bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=8 M=8
+XX1_M46 x1_m21d x1_m21d x1_m21d VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M47 x1_m25d x1_m25d x1_m25d VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M48 x1_m31d x1_m31d x1_m31d VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M51 x1_m21d x1_m21d x1_m21d VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M1 x2_foldp ip x2_tail VSS sky130_fd_pr__nfet_01v8_lvt L=0.2 W=1.2 NF=1 AD=0.348 AS=0.348 PD=2.98 PS=2.98 NRD=0.241667 NRS=0.241667 SA=0 SB=0 SD=0 MULT=6 M=6
+XX2_M2 x2_foldn in x2_tail VSS sky130_fd_pr__nfet_01v8_lvt L=0.2 W=1.2 NF=1 AD=0.348 AS=0.348 PD=2.98 PS=2.98 NRD=0.241667 NRS=0.241667 SA=0 SB=0 SD=0 MULT=6 M=6
+XX2_M6 x2_tail cmc VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=96 M=96
+XX2_M5 x2_tail bias_a VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=96 M=96
+XX2_M11 x2_foldp bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=24 M=24
+XX2_M12 x2_foldn bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=24 M=24
+XX2_M1A on bias_c x2_foldp VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=20 M=20
+XX2_M8 op bias_c x2_foldn VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=20 M=20
+XX2_M3A on bias_d x2_m3d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=36 M=36
+XX2_M7 op bias_d x2_m4d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=36 M=36
+XX2_M3 x2_m3d bias_a VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=36 M=36
+XX2_M4 x2_m4d bias_a VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=36 M=36
+XX2_M82 x2_foldn x2_foldn x2_foldn VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M83 x2_foldp x2_foldp x2_foldp VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M55 x2_foldn VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M56 op VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=4 M=4
+XX2_M61 x2_foldp VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M62 on VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=4 M=4
+XX2_M40 x2_m4d VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX2_M41 x2_m3d VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=8 M=8
+XX2_M38 op op op VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M39 on on on VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M30 x2_tail VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M23 x2_foldp x2_foldp x2_foldp VSS sky130_fd_pr__nfet_01v8_lvt L=0.2 W=1.2 NF=1 AD=0.348 AS=0.348 PD=2.98 PS=2.98 NRD=0.241667 NRS=0.241667 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M24 x2_foldn x2_foldn x2_foldn VSS sky130_fd_pr__nfet_01v8_lvt L=0.2 W=1.2 NF=1 AD=0.348 AS=0.348 PD=2.98 PS=2.98 NRD=0.241667 NRS=0.241667 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M80 op VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M81 on VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M28 x2_tail x2_tail x2_tail VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XM43 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=8 M=8
+XM45 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XM9 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=23 M=23
+Ibias_ext VDD i_bias 3e-05
+XC3 op cmc sky130_fd_pr__cap_mim_m3_1 W=4.8 L=4.8 MF=4 M=4
+XC4 on cmc sky130_fd_pr__cap_mim_m3_1 W=4.8 L=4.8 MF=4 M=4
+.ends iadc_ota
+* NGSPICE file created from ota_flat.ext - technology: sky130A
+
+.subckt ota_flat ip in p1 p1_b p2 p2_b op on i_bias cm VDD VSS cmc bias_a bias_d bias_c
++ bias_b sc_cmfb_0.transmission_gate_9.in sc_cmfb_0.transmission_gate_7.in sc_cmfb_0.transmission_gate_5.in
++ sc_cmfb_0.transmission_gate_3.in sc_cmfb_0.transmission_gate_2.out sc_cmfb_0.transmission_gate_1.in
++ p1_uq0 p1_b_uq0 p2_uq0 p2_b_uq0 VDD_uq0 VDD_uq1 VDD_uq2 VDD_uq3 VDD_uq4 VDD_uq5
++ VDD_uq6 VDD_uq7 VDD_uq8 VDD_uq9 VDD_uq10 VDD_uq11
+X0 cm p2_uq0 sc_cmfb_0.transmission_gate_2.out VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X2 sc_cmfb_0.transmission_gate_2.out p2_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X3 bias_a p1_b_uq0 sc_cmfb_0.transmission_gate_5.in VDD_uq0 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X4 cm p2_uq0 sc_cmfb_0.transmission_gate_2.out VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X5 a_12106_n11502# cm VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X6 op p2_b sc_cmfb_0.transmission_gate_1.in VDD_uq11 sky130_fd_pr__pfet_01v8 ad=0.4216 pd=3.34 as=0.2244 ps=1.69 w=1.36 l=0.15
+X7 sc_cmfb_0.transmission_gate_7.in p2_uq0 bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.1612 pd=1.66 as=0.0858 ps=0.85 w=0.52 l=0.15
+X8 a_n5928_n13620# bias_c op VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X9 a_n6314_n5010# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X10 a_12398_n9962# cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X11 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=23.954 ps=199.42 w=1.4 l=0.6
+X12 sc_cmfb_0.transmission_gate_2.out p1_b op VDD sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X13 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X14 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X15 op p2 sc_cmfb_0.transmission_gate_1.in VSS sky130_fd_pr__nfet_01v8 ad=0.1612 pd=1.66 as=0.0858 ps=0.85 w=0.52 l=0.15
+X16 VDD_uq7 VDD_uq7 a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X17 bias_d bias_d bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=14.616 ps=121.68 w=1.4 l=0.6
+X18 a_n5928_n12940# ip a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X19 cm p2_uq0 sc_cmfb_0.transmission_gate_2.out VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X20 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X21 a_n2185_n13400# bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X22 a_n5580_n13620# in a_n5928_n13620# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X23 sc_cmfb_0.transmission_gate_2.out p2_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X24 a_n5928_n13620# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X25 a_n6314_n5010# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X26 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X27 a_n5580_n13620# a_n5580_n13620# a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=47.212 ps=394.04001 w=1.4 l=0.6
+X28 VSS VSS a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X29 sc_cmfb_0.transmission_gate_3.in p1_b_uq0 cm VDD_uq1 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X30 op VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X31 a_n6314_n4140# a_n6314_n4140# a_n6314_n4140# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=4.06 ps=33.8 w=1.4 l=0.6
+X32 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X33 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X34 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X35 sc_cmfb_0.transmission_gate_5.in p1_uq0 bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X36 on p1_b sc_cmfb_0.transmission_gate_9.in VDD_uq2 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X37 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X38 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X39 op p1 sc_cmfb_0.transmission_gate_2.out VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X40 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X41 a_n1651_n13400# VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X42 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=21.112 ps=175.75999 w=1.4 l=0.6
+X43 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X44 bias_a bias_d a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X45 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X46 a_n6314_n5010# a_n6314_n5010# a_n6314_n5010# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=4.872 ps=40.56 w=1.4 l=0.6
+X47 cm p1_uq0 sc_cmfb_0.transmission_gate_3.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X48 VSS VSS a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X49 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X50 a_n5928_n13620# bias_c op VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X51 VSS i_bias i_bias VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X52 VDD_uq7 bias_b a_n6314_n3270# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X53 sc_cmfb_0.transmission_gate_9.in p1 on VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X54 c1_12802_1831# m3_12702_1731# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X55 sc_cmfb_0.transmission_gate_7.in p2_b_uq0 bias_a VDD_uq10 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X56 sc_cmfb_0.transmission_gate_9.in p2_b_uq0 cm VDD_uq5 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X57 bias_a p1_uq0 sc_cmfb_0.transmission_gate_5.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X58 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X59 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X60 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X61 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X62 sc_cmfb_0.transmission_gate_7.in p2_uq0 bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X63 cmc p2_b sc_cmfb_0.transmission_gate_5.in VDD_uq6 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X64 op p2_b sc_cmfb_0.transmission_gate_1.in VDD_uq11 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X65 a_n5928_n12940# bias_c on VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X66 sc_cmfb_0.transmission_gate_1.in p1_b_uq0 cm VDD_uq3 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X67 sc_cmfb_0.transmission_gate_2.out p1 op VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X68 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X69 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X70 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X71 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X72 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X73 op p2 sc_cmfb_0.transmission_gate_1.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X74 cmc p1_b sc_cmfb_0.transmission_gate_7.in VDD_uq4 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X75 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X76 VDD_uq7 bias_b a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X77 a_n1110_n5852# a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=11.368 ps=94.64 w=1.4 l=0.6
+X78 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X79 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X80 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X81 cm p2_b_uq0 sc_cmfb_0.transmission_gate_9.in VDD_uq5 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X82 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X83 VDD_uq7 bias_b a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X84 a_n6314_n4140# a_n6314_n4140# a_n6314_n4140# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X85 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X86 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X87 i_bias i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X88 sc_cmfb_0.transmission_gate_5.in p2_b cmc VDD_uq6 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X89 op bias_c a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X90 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X91 VDD_uq7 bias_b a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X92 sc_cmfb_0.transmission_gate_3.in p1_b_uq0 cm VDD_uq1 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X93 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X94 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X95 VDD_uq7 VDD_uq7 op VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X96 on p1_b sc_cmfb_0.transmission_gate_9.in VDD_uq2 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X97 VSS VSS a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X98 sc_cmfb_0.transmission_gate_5.in p1_b_uq0 bias_a VDD_uq0 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X99 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X100 c1_16402_31# m3_16302_n69# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X101 c1_7402_n3569# m3_7302_n3669# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X102 a_n5928_n13620# bias_c op VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X103 VDD_uq7 bias_b a_n6314_n5010# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X104 a_n1110_n5852# bias_c a_n6314_n5010# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X105 bias_b bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=16.24 ps=135.2 w=1.4 l=0.6
+X106 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X107 bias_a bias_d a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X108 VDD_uq7 bias_b a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X109 op p1_b sc_cmfb_0.transmission_gate_2.out VDD sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X110 VSS i_bias bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X111 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X112 op op op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=10.9496 ps=94.6 w=1.4 l=0.6
+X113 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X114 VSS VSS a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X115 VDD_uq7 bias_b a_n6314_n4140# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X116 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X117 a_n5928_n13620# in a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X118 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=11.958 ps=104.98 w=1.4 l=0.6
+X119 a_n5928_n12940# a_n5928_n12940# a_n5928_n12940# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=3.48 ps=29.8 w=1.2 l=0.2
+X120 cm p1_b_uq0 sc_cmfb_0.transmission_gate_3.in VDD_uq1 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X121 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X122 a_n5928_n12940# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X123 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X124 VDD_uq7 bias_b a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X125 on cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X126 sc_cmfb_0.transmission_gate_9.in p1_b on VDD_uq2 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X127 a_n5928_n12940# bias_c on VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X128 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X129 bias_a p2_b_uq0 sc_cmfb_0.transmission_gate_7.in VDD_uq10 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X130 VSS i_bias i_bias VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X131 a_n5928_n12940# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X132 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X133 bias_a p2_uq0 sc_cmfb_0.transmission_gate_7.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X134 a_n1110_n5852# bias_c a_n6314_n5010# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X135 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X136 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X137 sc_cmfb_0.transmission_gate_1.in p2_b op VDD_uq11 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X138 on p2_b sc_cmfb_0.transmission_gate_3.in VDD_uq9 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X139 sc_cmfb_0.transmission_gate_3.in p2_b on VDD_uq9 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X140 VSS i_bias bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X141 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X142 op bias_c a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X143 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X144 op bias_c a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X145 sc_cmfb_0.transmission_gate_1.in p2 op VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X146 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X147 bias_a bias_a bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=8.212 ps=71.08 w=1.4 l=0.6
+X148 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X149 a_n1651_n11400# VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X150 sc_cmfb_0.transmission_gate_3.in p2_b on VDD_uq9 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X151 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X152 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X153 on p2_b sc_cmfb_0.transmission_gate_3.in VDD_uq9 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X154 cm p2_uq0 sc_cmfb_0.transmission_gate_9.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.1612 ps=1.66 w=0.52 l=0.15
+X155 sc_cmfb_0.transmission_gate_3.in p2_b on VDD_uq9 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X156 on VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X157 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X158 VSS i_bias i_bias VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X159 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X160 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X161 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X162 sc_cmfb_0.transmission_gate_5.in p2 cmc VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.1612 ps=1.66 w=0.52 l=0.15
+X163 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X164 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X165 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X166 sc_cmfb_0.transmission_gate_3.in p2_b on VDD_uq9 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X167 cm p1_b_uq0 sc_cmfb_0.transmission_gate_1.in VDD_uq3 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X168 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X169 on p2_b sc_cmfb_0.transmission_gate_3.in VDD_uq9 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X170 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X171 sc_cmfb_0.transmission_gate_2.out p2_b_uq0 cm VDD_uq8 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X172 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X173 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X174 VSS VSS a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X175 sc_cmfb_0.transmission_gate_7.in p1_b cmc VDD_uq4 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X176 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X177 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X178 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X179 a_n2185_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X180 a_n6314_n3270# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X181 on on on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=10.9496 ps=94.6 w=1.4 l=0.6
+X182 cm p2_b_uq0 sc_cmfb_0.transmission_gate_2.out VDD_uq8 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.4216 ps=3.34 w=1.36 l=0.15
+X183 bias_b bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X184 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X185 a_n1110_n5852# a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X186 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X187 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X188 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X189 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X190 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X191 c1_14602_1831# m3_14502_1731# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X192 a_n5928_n13620# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X193 a_n5580_n13620# a_n5580_n13620# a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X194 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X195 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X196 a_12106_n9962# cm a_11928_n10732# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X197 VSS i_bias bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X198 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X199 on p2 sc_cmfb_0.transmission_gate_3.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X200 c1_14602_n7169# m3_14502_n7269# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X201 bias_c i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X202 sc_cmfb_0.transmission_gate_7.in p2_b_uq0 bias_a VDD_uq10 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X203 sc_cmfb_0.transmission_gate_3.in p2 on VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X204 op bias_c a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X205 a_n5928_n13620# a_n5928_n13620# a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=10.556 ps=87.88 w=1.4 l=0.6
+X206 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X207 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X208 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X209 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X210 op bias_c a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X211 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X212 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X213 sc_cmfb_0.transmission_gate_7.in p2_uq0 bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X214 a_n5928_n13620# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X215 a_n6314_n4140# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X216 VDD_uq7 VDD_uq7 a_n1110_n5852# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X217 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X218 op p2_b sc_cmfb_0.transmission_gate_1.in VDD_uq11 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X219 sc_cmfb_0.transmission_gate_1.in p1_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.1612 pd=1.66 as=0.0858 ps=0.85 w=0.52 l=0.15
+X220 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X221 a_n2185_n13400# VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X222 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X223 bias_a p1_b_uq0 sc_cmfb_0.transmission_gate_5.in VDD_uq0 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X224 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X225 sc_cmfb_0.transmission_gate_3.in p2 on VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X226 a_n5928_n12940# a_n5928_n12940# a_n5928_n12940# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0 ps=0 w=1.2 l=0.2
+X227 op p2 sc_cmfb_0.transmission_gate_1.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X228 on p2 sc_cmfb_0.transmission_gate_3.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X229 sc_cmfb_0.transmission_gate_3.in p2 on VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X230 cmc p1 sc_cmfb_0.transmission_gate_7.in VSS sky130_fd_pr__nfet_01v8 ad=0.1612 pd=1.66 as=0.0858 ps=0.85 w=0.52 l=0.15
+X231 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X232 sc_cmfb_0.transmission_gate_2.out p1_b op VDD sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X233 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X234 a_n5580_n13620# in a_n5928_n13620# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X235 a_n6314_n5010# a_n6314_n5010# a_n6314_n5010# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X236 a_n2185_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X237 a_n6314_n3270# bias_c bias_b VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X238 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X239 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X240 VSS i_bias bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X241 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X242 a_n2185_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X243 c1_16402_n5369# m3_16302_n5469# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X244 a_n1651_n13400# VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X245 sc_cmfb_0.transmission_gate_3.in p2 on VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X246 on p2 sc_cmfb_0.transmission_gate_3.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X247 a_n5928_n12940# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X248 a_n5580_n13620# a_n5580_n13620# a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X249 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X250 sc_cmfb_0.transmission_gate_2.out p2_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X251 on bias_c a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X252 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X253 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X254 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X255 bias_d bias_d bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X256 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X257 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X258 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X259 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X260 VDD_uq7 VDD_uq7 a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X261 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X262 cm p2_uq0 sc_cmfb_0.transmission_gate_2.out VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.1612 ps=1.66 w=0.52 l=0.15
+X263 VDD_uq7 bias_b a_n6314_n4140# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X264 a_n5928_n13620# bias_c op VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X265 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X266 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X267 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X268 cm p1_uq0 sc_cmfb_0.transmission_gate_3.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.1612 ps=1.66 w=0.52 l=0.15
+X269 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X270 VSS VSS op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X271 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X272 bias_a bias_d a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X273 a_n2185_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X274 VSS i_bias bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X275 i_bias i_bias i_bias VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=4.872 ps=40.56 w=1.4 l=0.6
+X276 sc_cmfb_0.transmission_gate_9.in p1 on VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.1612 ps=1.66 w=0.52 l=0.15
+X277 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X278 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X279 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X280 sc_cmfb_0.transmission_gate_9.in p2_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X281 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X282 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X283 i_bias i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X284 cmc p2 sc_cmfb_0.transmission_gate_5.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X285 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X286 VSS i_bias bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X287 bias_a p2_b_uq0 sc_cmfb_0.transmission_gate_7.in VDD_uq10 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X288 a_11230_n11502# cm VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X289 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X290 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X291 a_n6314_n3270# a_n6314_n3270# a_n6314_n3270# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=4.872 ps=40.56 w=1.4 l=0.6
+X292 VDD_uq7 VDD_uq7 op VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X293 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X294 a_n6314_n4140# bias_c cm VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X295 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X296 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X297 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X298 sc_cmfb_0.transmission_gate_1.in p2_b op VDD_uq11 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X299 bias_a p2_uq0 sc_cmfb_0.transmission_gate_7.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X300 cm p2_uq0 sc_cmfb_0.transmission_gate_9.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X301 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X302 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X303 a_n6314_n3270# a_n6314_n3270# a_n6314_n3270# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X304 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X305 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X306 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X307 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X308 sc_cmfb_0.transmission_gate_5.in p2 cmc VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X309 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X310 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X311 sc_cmfb_0.transmission_gate_1.in p2 op VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X312 cm p1_uq0 sc_cmfb_0.transmission_gate_1.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X313 VDD_uq7 bias_b a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X314 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X315 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X316 a_n2185_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X317 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X318 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X319 sc_cmfb_0.transmission_gate_7.in p1 cmc VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X320 on cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X321 VSS i_bias bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X322 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X323 sc_cmfb_0.transmission_gate_5.in p1_uq0 bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.1612 pd=1.66 as=0.0858 ps=0.85 w=0.52 l=0.15
+X324 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X325 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X326 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X327 a_n2185_n13400# bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X328 VDD_uq7 bias_b a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X329 VDD_uq7 bias_b a_n6314_n4140# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X330 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X331 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X332 op p1 sc_cmfb_0.transmission_gate_2.out VSS sky130_fd_pr__nfet_01v8 ad=0.1612 pd=1.66 as=0.0858 ps=0.85 w=0.52 l=0.15
+X333 a_n2185_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X334 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X335 sc_cmfb_0.transmission_gate_9.in p2_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X336 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X337 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X338 a_11522_n11502# cm a_11344_n10732# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X339 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X340 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X341 VDD_uq7 bias_b a_n6314_n5010# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X342 on bias_c a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X343 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X344 cmc p2 sc_cmfb_0.transmission_gate_5.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X345 c1_7402_31# m3_7302_n69# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X346 a_n2185_n13400# bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X347 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X348 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X349 op cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X350 a_n6314_n3270# bias_c bias_b VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X351 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X352 VDD_uq7 bias_b a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X353 bias_a bias_d a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X354 a_n5928_n13620# in a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X355 VDD_uq7 bias_b a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X356 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X357 c1_16402_1831# m3_16302_1731# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X358 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X359 a_n5580_n13620# ip a_n5928_n12940# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X360 sc_cmfb_0.transmission_gate_9.in p2_b_uq0 cm VDD_uq5 sky130_fd_pr__pfet_01v8 ad=0.4216 pd=3.34 as=0.2244 ps=1.69 w=1.36 l=0.15
+X361 VSS i_bias i_bias VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X362 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X363 a_n5928_n13620# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X364 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X365 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X366 c1_7402_1831# m3_7302_1731# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X367 cmc p2_b sc_cmfb_0.transmission_gate_5.in VDD_uq6 sky130_fd_pr__pfet_01v8 ad=0.4216 pd=3.34 as=0.2244 ps=1.69 w=1.36 l=0.15
+X368 VDD_uq7 VDD_uq7 cm VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X369 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X370 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X371 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X372 bias_b bias_c a_n6314_n3270# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X373 a_n5928_n12940# bias_c on VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X374 a_11522_n9962# cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X375 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X376 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X377 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X378 on cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X379 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X380 VSS VSS a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X381 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X382 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X383 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X384 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X385 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X386 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X387 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X388 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X389 sc_cmfb_0.transmission_gate_3.in p1_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X390 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X391 sc_cmfb_0.transmission_gate_7.in p2_b_uq0 bias_a VDD_uq10 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X392 a_n5928_n13620# bias_c op VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X393 VSS i_bias i_bias VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X394 on p1 sc_cmfb_0.transmission_gate_9.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X395 op p2_b sc_cmfb_0.transmission_gate_1.in VDD_uq11 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X396 sc_cmfb_0.transmission_gate_7.in p2_uq0 bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X397 bias_d a_n1110_n5852# bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X398 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X399 VSS i_bias i_bias VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X400 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X401 c1_16402_n1769# m3_16302_n1869# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X402 op p2 sc_cmfb_0.transmission_gate_1.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X403 cm p1_b_uq0 sc_cmfb_0.transmission_gate_1.in VDD_uq3 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.4216 ps=3.34 w=1.36 l=0.15
+X404 on bias_c a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X405 sc_cmfb_0.transmission_gate_3.in p1_b_uq0 cm VDD_uq1 sky130_fd_pr__pfet_01v8 ad=0.4216 pd=3.34 as=0.2244 ps=1.69 w=1.36 l=0.15
+X406 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X407 cm p1_uq0 sc_cmfb_0.transmission_gate_3.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X408 a_11814_n9962# cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X409 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X410 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X411 bias_b bias_c a_n6314_n3270# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X412 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X413 a_n2185_n13400# bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X414 sc_cmfb_0.transmission_gate_7.in p1_b cmc VDD_uq4 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.4216 ps=3.34 w=1.36 l=0.15
+X415 cm bias_c a_n6314_n4140# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X416 on p1_b sc_cmfb_0.transmission_gate_9.in VDD_uq2 sky130_fd_pr__pfet_01v8 ad=0.4216 pd=3.34 as=0.2244 ps=1.69 w=1.36 l=0.15
+X417 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X418 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X419 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X420 sc_cmfb_0.transmission_gate_9.in p1 on VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X421 bias_a p1_uq0 sc_cmfb_0.transmission_gate_5.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X422 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X423 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X424 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X425 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X426 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X427 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X428 sc_cmfb_0.transmission_gate_9.in p2_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X429 a_n5928_n12940# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X430 sc_cmfb_0.transmission_gate_2.out p1 op VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X431 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X432 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X433 on p2_b sc_cmfb_0.transmission_gate_3.in VDD_uq9 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X434 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X435 bias_a bias_d a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X436 cmc p2 sc_cmfb_0.transmission_gate_5.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X437 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X438 sc_cmfb_0.transmission_gate_1.in p1_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X439 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X440 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X441 a_n5928_n12940# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X442 a_n6314_n3270# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X443 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X444 sc_cmfb_0.transmission_gate_3.in p2_b on VDD_uq9 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.4216 ps=3.34 w=1.36 l=0.15
+X445 cmc p1 sc_cmfb_0.transmission_gate_7.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X446 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X447 sc_cmfb_0.transmission_gate_3.in p1_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X448 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X449 bias_d bias_d bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X450 VSS i_bias bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X451 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=83.23 ps=692.90002 w=1.4 l=0.6
+X452 on p1 sc_cmfb_0.transmission_gate_9.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X453 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X454 cm p2_b_uq0 sc_cmfb_0.transmission_gate_9.in VDD_uq5 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X455 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X456 bias_a p1_b_uq0 sc_cmfb_0.transmission_gate_5.in VDD_uq0 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.4216 ps=3.34 w=1.36 l=0.15
+X457 c1_9202_n7169# m3_9102_n7269# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X458 VSS VSS a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X459 sc_cmfb_0.transmission_gate_5.in p2_b cmc VDD_uq6 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X460 cm p2_uq0 sc_cmfb_0.transmission_gate_9.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X461 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X462 bias_a p2_b_uq0 sc_cmfb_0.transmission_gate_7.in VDD_uq10 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.4216 ps=3.34 w=1.36 l=0.15
+X463 bias_b bias_c a_n6314_n3270# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X464 sc_cmfb_0.transmission_gate_2.out p1_b op VDD sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.4216 ps=3.34 w=1.36 l=0.15
+X465 a_11230_n9962# cm a_11052_n10732# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X466 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X467 a_n5928_n13620# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X468 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X469 sc_cmfb_0.transmission_gate_5.in p2 cmc VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X470 a_n5928_n13620# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X471 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X472 bias_a p2_uq0 sc_cmfb_0.transmission_gate_7.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.1612 ps=1.66 w=0.52 l=0.15
+X473 sc_cmfb_0.transmission_gate_1.in p2_b op VDD_uq11 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.4216 ps=3.34 w=1.36 l=0.15
+X474 bias_c i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X475 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X476 cm bias_c a_n6314_n4140# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X477 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X478 sc_cmfb_0.transmission_gate_3.in sc_cmfb_0.transmission_gate_5.in sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X479 sc_cmfb_0.transmission_gate_1.in p2 op VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.1612 ps=1.66 w=0.52 l=0.15
+X480 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X481 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X482 on bias_c a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X483 VDD_uq7 VDD_uq7 bias_b VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X484 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X485 VDD_uq7 bias_b a_n6314_n5010# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X486 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X487 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X488 sc_cmfb_0.transmission_gate_1.in sc_cmfb_0.transmission_gate_5.in sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X489 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X490 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X491 on p2 sc_cmfb_0.transmission_gate_3.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X492 cm p1_b_uq0 sc_cmfb_0.transmission_gate_3.in VDD_uq1 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X493 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X494 op bias_c a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X495 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X496 a_12398_n9962# cm a_12220_n10732# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X497 sc_cmfb_0.transmission_gate_3.in p2 on VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.1612 ps=1.66 w=0.52 l=0.15
+X498 a_n2185_n13400# bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X499 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X500 sc_cmfb_0.transmission_gate_9.in p1_b on VDD_uq2 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X501 a_12398_n11502# cm a_12220_n10732# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X502 a_11814_n11502# cm VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X503 sc_cmfb_0.transmission_gate_9.in sc_cmfb_0.transmission_gate_7.in sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X504 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X505 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X506 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X507 VSS i_bias i_bias VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X508 a_n5928_n12940# bias_c on VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X509 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X510 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X511 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X512 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X513 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X514 c1_9202_1831# m3_9102_1731# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X515 VDD_uq7 bias_b a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X516 a_n6314_n4140# VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X517 a_n6314_n3270# a_n6314_n3270# a_n6314_n3270# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X518 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X519 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X520 VSS VSS a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X521 sc_cmfb_0.transmission_gate_1.in p1_b_uq0 cm VDD_uq3 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X522 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X523 sc_cmfb_0.transmission_gate_3.in p1_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X524 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X525 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X526 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X527 cmc p1_b sc_cmfb_0.transmission_gate_7.in VDD_uq4 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X528 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X529 on p1 sc_cmfb_0.transmission_gate_9.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X530 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X531 sc_cmfb_0.transmission_gate_5.in p1_uq0 bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X532 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X533 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X534 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X535 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X536 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X537 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X538 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X539 cm p1_b_uq0 sc_cmfb_0.transmission_gate_1.in VDD_uq3 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X540 a_n5928_n13620# bias_c op VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X541 op p1 sc_cmfb_0.transmission_gate_2.out VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X542 VDD_uq7 bias_b a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X543 VDD_uq7 bias_b a_n6314_n3270# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X544 sc_cmfb_0.transmission_gate_7.in p1_b cmc VDD_uq4 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X545 VDD_uq7 VDD_uq7 on VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X546 a_12106_n11502# cm a_11928_n10732# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X547 cm p1_uq0 sc_cmfb_0.transmission_gate_1.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X548 a_n6314_n4140# bias_c cm VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X549 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X550 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X551 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X552 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X553 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X554 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X555 VDD_uq7 bias_b a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X556 sc_cmfb_0.transmission_gate_7.in p1 cmc VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X557 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X558 bias_a bias_d a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X559 a_n5580_n13620# ip a_n5928_n12940# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X560 cm p1_uq0 sc_cmfb_0.transmission_gate_3.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X561 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X562 a_n5928_n13620# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X563 on bias_c a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X564 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X565 bias_c i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X566 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X567 a_n5928_n13620# in a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X568 sc_cmfb_0.transmission_gate_9.in p1 on VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X569 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X570 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X571 sc_cmfb_0.transmission_gate_9.in p2_b_uq0 cm VDD_uq5 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X572 VDD_uq7 bias_b a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X573 op cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X574 VSS i_bias i_bias VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X575 VDD_uq7 bias_b a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X576 sc_cmfb_0.transmission_gate_5.in p1_b_uq0 bias_a VDD_uq0 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X577 bias_b bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X578 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X579 cmc p2_b sc_cmfb_0.transmission_gate_5.in VDD_uq6 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X580 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X581 sc_cmfb_0.transmission_gate_1.in p1_b_uq0 cm VDD_uq3 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X582 a_n5928_n12940# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X583 op p1_b sc_cmfb_0.transmission_gate_2.out VDD sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X584 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X585 bias_a bias_d a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X586 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X587 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X588 cmc p1_b sc_cmfb_0.transmission_gate_7.in VDD_uq4 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X589 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X590 c1_7402_n5369# m3_7302_n5469# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X591 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X592 bias_a p1_b_uq0 sc_cmfb_0.transmission_gate_5.in VDD_uq0 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X593 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X594 bias_c i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X595 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X596 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X597 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X598 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X599 a_n2185_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X600 sc_cmfb_0.transmission_gate_2.out p1_b op VDD sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X601 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X602 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X603 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X604 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X605 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X606 a_n5928_n12940# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X607 a_n5928_n13620# a_n5928_n13620# a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X608 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X609 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X610 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X611 a_n6314_n5010# bias_c a_n1110_n5852# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X612 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X613 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X614 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X615 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X616 VDD_uq7 VDD_uq7 cm VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X617 sc_cmfb_0.transmission_gate_3.in p1_b_uq0 cm VDD_uq1 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X618 op cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X619 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X620 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X621 on p1_b sc_cmfb_0.transmission_gate_9.in VDD_uq2 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X622 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X623 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X624 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X625 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X626 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X627 sc_cmfb_0.transmission_gate_5.in p1_b_uq0 bias_a VDD_uq0 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X628 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X629 a_n1651_n13400# VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X630 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X631 op p1_b sc_cmfb_0.transmission_gate_2.out VDD sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X632 i_bias i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X633 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X634 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X635 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X636 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X637 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X638 VSS i_bias bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X639 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X640 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X641 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X642 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X643 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X644 bias_d bias_d bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X645 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X646 on bias_c a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X647 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X648 bias_a p1_uq0 sc_cmfb_0.transmission_gate_5.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X649 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X650 a_n5928_n13620# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X651 VSS bias_a a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X652 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X653 bias_b bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X654 cm bias_c a_n6314_n4140# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X655 sc_cmfb_0.transmission_gate_2.out p1 op VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X656 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X657 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X658 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X659 sc_cmfb_0.transmission_gate_1.in p1_b_uq0 cm VDD_uq3 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X660 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X661 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X662 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X663 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X664 cmc p1_b sc_cmfb_0.transmission_gate_7.in VDD_uq4 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X665 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X666 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X667 a_n5928_n12940# bias_c on VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X668 a_n2185_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X669 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X670 a_n2185_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X671 op bias_c a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X672 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X673 a_n5928_n12940# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X674 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X675 a_n6314_n3270# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X676 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X677 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X678 a_n5928_n13620# a_n5928_n13620# a_n5928_n13620# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=3.48 ps=29.8 w=1.2 l=0.2
+X679 cm p2_b_uq0 sc_cmfb_0.transmission_gate_9.in VDD_uq5 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X680 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X681 a_n5580_n13620# VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X682 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X683 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X684 a_n5928_n12940# ip a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X685 sc_cmfb_0.transmission_gate_5.in p2_b cmc VDD_uq6 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X686 a_n6314_n3270# bias_c bias_b VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X687 bias_a a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X688 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X689 a_n2185_n13400# VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X690 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X691 cm p1_b_uq0 sc_cmfb_0.transmission_gate_1.in VDD_uq3 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X692 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X693 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X694 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X695 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X696 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X697 sc_cmfb_0.transmission_gate_7.in p1_b cmc VDD_uq4 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X698 a_n1651_n11400# VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X699 sc_cmfb_0.transmission_gate_5.in p1_b_uq0 bias_a VDD_uq0 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X700 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X701 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X702 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X703 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X704 op bias_c a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X705 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X706 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X707 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X708 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X709 op p1_b sc_cmfb_0.transmission_gate_2.out VDD sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X710 i_bias i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X711 a_n1110_n5852# bias_c a_n6314_n5010# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X712 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X713 c1_16402_n7169# m3_16302_n7269# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X714 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X715 cm bias_c a_n6314_n4140# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X716 on on on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X717 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X718 sc_cmfb_0.transmission_gate_9.in p2_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.1612 pd=1.66 as=0.0858 ps=0.85 w=0.52 l=0.15
+X719 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X720 a_n2185_n13400# bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X721 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X722 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X723 cm p1_b_uq0 sc_cmfb_0.transmission_gate_3.in VDD_uq1 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X724 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X725 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X726 cmc p2 sc_cmfb_0.transmission_gate_5.in VSS sky130_fd_pr__nfet_01v8 ad=0.1612 pd=1.66 as=0.0858 ps=0.85 w=0.52 l=0.15
+X727 a_n5928_n12940# bias_c on VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X728 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X729 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X730 a_n1651_n11400# VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X731 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X732 sc_cmfb_0.transmission_gate_9.in p1_b on VDD_uq2 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X733 bias_a p1_b_uq0 sc_cmfb_0.transmission_gate_5.in VDD_uq0 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X734 i_bias i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X735 c1_7402_n1769# m3_7302_n1869# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X736 sc_cmfb_0.transmission_gate_2.out p1_b op VDD sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X737 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X738 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X739 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X740 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X741 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X742 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X743 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X744 VDD_uq7 bias_b a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X745 bias_d bias_d bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X746 bias_a bias_a bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X747 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X748 a_n6314_n4140# VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X749 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X750 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X751 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X752 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X753 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X754 VDD_uq7 bias_b a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X755 a_n2185_n13400# VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X756 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X757 cm p1_uq0 sc_cmfb_0.transmission_gate_1.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.1612 ps=1.66 w=0.52 l=0.15
+X758 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X759 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X760 a_n6314_n5010# a_n6314_n5010# a_n6314_n5010# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X761 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X762 sc_cmfb_0.transmission_gate_7.in p1 cmc VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.1612 ps=1.66 w=0.52 l=0.15
+X763 on VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X764 a_n5928_n13620# bias_c op VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X765 VDD_uq7 bias_b a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X766 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X767 VDD_uq7 bias_b a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X768 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X769 a_n5580_n13620# ip a_n5928_n12940# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X770 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X771 bias_a bias_d a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X772 a_n5928_n12940# bias_c on VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X773 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X774 a_n5928_n13620# a_n5928_n13620# a_n5928_n13620# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0 ps=0 w=1.2 l=0.2
+X775 sc_cmfb_0.transmission_gate_2.out p2_b_uq0 cm VDD_uq8 sky130_fd_pr__pfet_01v8 ad=0.4216 pd=3.34 as=0.2244 ps=1.69 w=1.36 l=0.15
+X776 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X777 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X778 c1_11002_n7169# m3_10902_n7269# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X779 bias_b VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X780 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X781 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X782 op op op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X783 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X784 a_n2185_n13400# bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X785 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X786 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X787 bias_c i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X788 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X789 op bias_c a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X790 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X791 a_n5928_n12940# VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X792 bias_a bias_a bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X793 a_n1651_n13400# VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X794 a_n5928_n12940# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X795 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X796 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X797 cm p2_uq0 sc_cmfb_0.transmission_gate_9.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X798 a_12106_n9962# cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X799 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X800 c1_12802_n7169# m3_12702_n7269# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X801 VSS VSS a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X802 sc_cmfb_0.transmission_gate_5.in p2 cmc VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X803 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X804 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X805 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X806 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X807 sc_cmfb_0.transmission_gate_7.in p2_b_uq0 bias_a VDD_uq10 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X808 sc_cmfb_0.transmission_gate_3.in p1_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.1612 pd=1.66 as=0.0858 ps=0.85 w=0.52 l=0.15
+X809 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X810 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X811 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X812 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X813 sc_cmfb_0.transmission_gate_7.in p2_uq0 bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X814 on p1 sc_cmfb_0.transmission_gate_9.in VSS sky130_fd_pr__nfet_01v8 ad=0.1612 pd=1.66 as=0.0858 ps=0.85 w=0.52 l=0.15
+X815 op p2_b sc_cmfb_0.transmission_gate_1.in VDD_uq11 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X816 bias_b bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X817 a_n5580_n13620# VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X818 a_n2185_n13400# bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X819 op p2 sc_cmfb_0.transmission_gate_1.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X820 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X821 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X822 sc_cmfb_0.transmission_gate_3.in sc_cmfb_0.transmission_gate_5.in sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X823 a_n5928_n12940# a_n5928_n12940# a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=10.556 ps=87.88 w=1.4 l=0.6
+X824 a_n5928_n12940# bias_c on VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X825 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X826 a_11230_n11502# cm a_11052_n10732# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X827 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X828 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X829 sc_cmfb_0.transmission_gate_2.out p2_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.1612 pd=1.66 as=0.0858 ps=0.85 w=0.52 l=0.15
+X830 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X831 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X832 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X833 a_n5928_n13620# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X834 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X835 i_bias i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X836 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X837 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X838 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X839 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X840 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X841 a_11522_n9962# cm a_11344_n10732# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X842 a_n2185_n13400# bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X843 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X844 bias_a p1_uq0 sc_cmfb_0.transmission_gate_5.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.1612 ps=1.66 w=0.52 l=0.15
+X845 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X846 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X847 c1_16402_n3569# m3_16302_n3669# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X848 a_n6314_n5010# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X849 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X850 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X851 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X852 sc_cmfb_0.transmission_gate_2.out p1 op VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.1612 ps=1.66 w=0.52 l=0.15
+X853 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X854 a_n5580_n13620# a_n5580_n13620# a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X855 c1_11002_1831# m3_10902_1731# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X856 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X857 a_n2185_n13400# a_n2185_n13400# a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=12.18 ps=101.4 w=1.4 l=0.6
+X858 sc_cmfb_0.transmission_gate_1.in p1_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X859 a_n5928_n13620# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X860 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X861 a_n6314_n4140# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X862 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X863 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X864 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X865 cmc p1 sc_cmfb_0.transmission_gate_7.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X866 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X867 a_11522_n11502# cm VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X868 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X869 a_n5928_n12940# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X870 op bias_c a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X871 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X872 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X873 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X874 bias_c i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X875 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X876 VDD_uq7 bias_b a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X877 a_11814_n9962# cm a_11636_n10732# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X878 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X879 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X880 a_n5580_n13620# in a_n5928_n13620# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X881 cm p2_b_uq0 sc_cmfb_0.transmission_gate_9.in VDD_uq5 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.4216 ps=3.34 w=1.36 l=0.15
+X882 cm p1_uq0 sc_cmfb_0.transmission_gate_1.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X883 a_n5928_n12940# bias_c on VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X884 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X885 a_n5928_n12940# ip a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X886 a_n6314_n3270# a_n6314_n3270# a_n6314_n3270# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X887 a_n5928_n13620# bias_c op VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X888 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X889 sc_cmfb_0.transmission_gate_5.in p2_b cmc VDD_uq6 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.4216 ps=3.34 w=1.36 l=0.15
+X890 sc_cmfb_0.transmission_gate_7.in p1 cmc VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X891 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X892 bias_a bias_d a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X893 a_n5928_n13620# bias_c op VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X894 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X895 bias_a p2_b_uq0 sc_cmfb_0.transmission_gate_7.in VDD_uq10 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X896 on bias_c a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X897 cm p1_uq0 sc_cmfb_0.transmission_gate_3.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X898 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X899 a_n5580_n13620# a_n5580_n13620# a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X900 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X901 bias_a p2_uq0 sc_cmfb_0.transmission_gate_7.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X902 sc_cmfb_0.transmission_gate_9.in p1 on VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X903 a_n2185_n13400# a_n2185_n13400# a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X904 sc_cmfb_0.transmission_gate_1.in p2_b op VDD_uq11 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X905 bias_b bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X906 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X907 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X908 bias_c i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X909 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X910 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X911 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X912 VSS bias_a a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X913 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X914 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X915 sc_cmfb_0.transmission_gate_1.in p2 op VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X916 sc_cmfb_0.transmission_gate_9.in p2_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X917 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X918 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X919 cmc p2 sc_cmfb_0.transmission_gate_5.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X920 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X921 sc_cmfb_0.transmission_gate_1.in p1_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X922 bias_d bias_d bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X923 VDD_uq7 bias_b a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X924 bias_d bias_d bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X925 VSS bias_a a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X926 a_n6314_n5010# bias_c a_n1110_n5852# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X927 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X928 cmc p1 sc_cmfb_0.transmission_gate_7.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X929 bias_b bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X930 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X931 a_n5580_n13620# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X932 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X933 cm p1_b_uq0 sc_cmfb_0.transmission_gate_3.in VDD_uq1 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.4216 ps=3.34 w=1.36 l=0.15
+X934 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X935 sc_cmfb_0.transmission_gate_9.in sc_cmfb_0.transmission_gate_7.in sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X936 on bias_d a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X937 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X938 on bias_c a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X939 sc_cmfb_0.transmission_gate_9.in p1_b on VDD_uq2 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.4216 ps=3.34 w=1.36 l=0.15
+X940 VDD_uq7 VDD_uq7 on VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X941 i_bias i_bias i_bias VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X942 on VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X943 VDD_uq7 VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X944 sc_cmfb_0.transmission_gate_1.in p1_b_uq0 cm VDD_uq3 sky130_fd_pr__pfet_01v8 ad=0.4216 pd=3.34 as=0.2244 ps=1.69 w=1.36 l=0.15
+X945 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X946 a_n5580_n13620# a_n5580_n13620# a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X947 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X948 a_n2185_n13400# a_n2185_n13400# a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X949 VDD_uq7 bias_b a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X950 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X951 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X952 on cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X953 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X954 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X955 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X956 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X957 cmc p1_b sc_cmfb_0.transmission_gate_7.in VDD_uq4 sky130_fd_pr__pfet_01v8 ad=0.4216 pd=3.34 as=0.2244 ps=1.69 w=1.36 l=0.15
+X958 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X959 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X960 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X961 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X962 a_n5928_n13620# bias_c op VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X963 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X964 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X965 VSS i_bias bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X966 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X967 sc_cmfb_0.transmission_gate_1.in sc_cmfb_0.transmission_gate_5.in sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X968 VDD_uq7 bias_b a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X969 VSS bias_a a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X970 bias_c i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X971 a_n6314_n5010# a_n6314_n5010# a_n6314_n5010# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X972 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X973 sc_cmfb_0.transmission_gate_5.in p1_uq0 bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X974 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X975 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X976 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X977 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X978 VDD_uq7 bias_b a_n5928_n13620# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X979 op p1 sc_cmfb_0.transmission_gate_2.out VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X980 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X981 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X982 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X983 a_n5928_n12940# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X984 a_n2185_n13400# a_n2185_n13400# a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X985 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X986 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X987 bias_a bias_a bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X988 VDD_uq7 bias_b a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X989 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X990 VSS bias_a a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X991 op cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X992 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X993 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X994 VSS bias_a a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X995 sc_cmfb_0.transmission_gate_5.in p1_b_uq0 bias_a VDD_uq0 sky130_fd_pr__pfet_01v8 ad=0.4216 pd=3.34 as=0.2244 ps=1.69 w=1.36 l=0.15
+X996 bias_a p1_uq0 sc_cmfb_0.transmission_gate_5.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X997 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X998 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X999 on bias_c a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1000 op p1_b sc_cmfb_0.transmission_gate_2.out VDD sky130_fd_pr__pfet_01v8 ad=0.4216 pd=3.34 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1001 sc_cmfb_0.transmission_gate_2.out p1 op VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1002 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1003 VDD_uq7 bias_b a_n6314_n3270# VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1004 op VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1005 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1006 sc_cmfb_0.transmission_gate_2.out p2_b_uq0 cm VDD_uq8 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1007 VSS bias_a a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1008 cm p2_b_uq0 sc_cmfb_0.transmission_gate_2.out VDD_uq8 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1009 sc_cmfb_0.transmission_gate_9.in p2_b_uq0 cm VDD_uq5 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1010 op VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1011 sc_cmfb_0.transmission_gate_1.in p1_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1012 a_n5928_n12940# bias_c on VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1013 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1014 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X1015 on p2_b sc_cmfb_0.transmission_gate_3.in VDD_uq9 sky130_fd_pr__pfet_01v8 ad=0.4216 pd=3.34 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1016 a_n5928_n13620# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1017 a_n1651_n11400# bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1018 cmc p2_b sc_cmfb_0.transmission_gate_5.in VDD_uq6 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1019 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1020 cmc p1 sc_cmfb_0.transmission_gate_7.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1021 cm p2_b_uq0 sc_cmfb_0.transmission_gate_2.out VDD_uq8 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1022 sc_cmfb_0.transmission_gate_3.in p1_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1023 bias_b bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X1024 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1025 sc_cmfb_0.transmission_gate_2.out p2_b_uq0 cm VDD_uq8 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1026 cm p2_b_uq0 sc_cmfb_0.transmission_gate_2.out VDD_uq8 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1027 a_n5928_n13620# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1028 a_n2185_n13400# a_n2185_n13400# a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X1029 on p1 sc_cmfb_0.transmission_gate_9.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1030 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X1031 VSS VSS a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1032 cm p2_b_uq0 sc_cmfb_0.transmission_gate_9.in VDD_uq5 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1033 sc_cmfb_0.transmission_gate_5.in p1_uq0 bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1034 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1035 VSS i_bias i_bias VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1036 VSS bias_a a_n1651_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1037 a_n1651_n11400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1038 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1039 i_bias i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1040 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1041 sc_cmfb_0.transmission_gate_5.in p2_b cmc VDD_uq6 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1042 cm p2_uq0 sc_cmfb_0.transmission_gate_9.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1043 op p1 sc_cmfb_0.transmission_gate_2.out VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1044 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1045 cm p2_b_uq0 sc_cmfb_0.transmission_gate_2.out VDD_uq8 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1046 sc_cmfb_0.transmission_gate_2.out p2_b_uq0 cm VDD_uq8 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1047 cm p1_b_uq0 sc_cmfb_0.transmission_gate_1.in VDD_uq3 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1048 VSS bias_a a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1049 a_n1110_n5852# VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1050 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1051 sc_cmfb_0.transmission_gate_5.in p2 cmc VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1052 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X1053 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1054 sc_cmfb_0.transmission_gate_7.in p1_b cmc VDD_uq4 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1055 bias_d bias_d bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X1056 a_11814_n11502# cm a_11636_n10732# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X1057 c1_7402_n7169# m3_7302_n7269# sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X1058 cm p1_uq0 sc_cmfb_0.transmission_gate_1.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1059 VSS cmc a_n5580_n13620# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1060 a_12398_n11502# cm VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X1061 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1062 a_11230_n9962# cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X1063 sc_cmfb_0.transmission_gate_7.in p1 cmc VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1064 on bias_c a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1065 VSS VSS on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1066 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1067 bias_a p2_b_uq0 sc_cmfb_0.transmission_gate_7.in VDD_uq10 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1068 a_n5928_n13620# VDD_uq7 VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1069 sc_cmfb_0.transmission_gate_3.in p1_b_uq0 cm VDD_uq1 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1070 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1071 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X1072 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1073 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1074 bias_a p2_uq0 sc_cmfb_0.transmission_gate_7.in VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1075 a_n5928_n12940# a_n5928_n12940# a_n5928_n12940# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0 ps=0 w=1.4 l=0.6
+X1076 on p1_b sc_cmfb_0.transmission_gate_9.in VDD_uq2 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1077 a_n5928_n12940# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1078 a_n5580_n13620# cmc VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1079 bias_d a_n1110_n5852# a_n1110_n5852# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1080 sc_cmfb_0.transmission_gate_1.in p2_b op VDD_uq11 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1081 sc_cmfb_0.transmission_gate_9.in p2_b_uq0 cm VDD_uq5 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1082 a_n2185_n13400# a_n2185_n13400# a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X1083 i_bias i_bias VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1084 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1085 VSS i_bias i_bias VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1086 sc_cmfb_0.transmission_gate_1.in p2 op VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1087 sc_cmfb_0.transmission_gate_2.out p2_uq0 cm VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1088 cm p2_uq0 sc_cmfb_0.transmission_gate_2.out VSS sky130_fd_pr__nfet_01v8 ad=0.0858 pd=0.85 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1089 cmc p2_b sc_cmfb_0.transmission_gate_5.in VDD_uq6 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1090 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1091 op bias_d a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1092 sc_cmfb_0.transmission_gate_2.out sc_cmfb_0.transmission_gate_7.in sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X1093 bias_c bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1094 VSS bias_a a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1095 a_n1651_n13400# bias_a VSS VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1096 VSS bias_a a_n2185_n13400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1097 cm p1_b_uq0 sc_cmfb_0.transmission_gate_3.in VDD_uq1 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1098 a_n6314_n5010# bias_c a_n1110_n5852# VDD_uq7 sky130_fd_pr__pfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1099 on p2 sc_cmfb_0.transmission_gate_3.in VSS sky130_fd_pr__nfet_01v8 ad=0.1612 pd=1.66 as=0.0858 ps=0.85 w=0.52 l=0.15
+X1100 a_n6314_n4140# bias_b VDD_uq7 VDD_uq7 sky130_fd_pr__pfet_01v8_lvt ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1101 sc_cmfb_0.transmission_gate_2.out sc_cmfb_0.transmission_gate_7.in sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X1102 sc_cmfb_0.transmission_gate_7.in p2_b_uq0 bias_a VDD_uq10 sky130_fd_pr__pfet_01v8 ad=0.4216 pd=3.34 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1103 sc_cmfb_0.transmission_gate_9.in p1_b on VDD_uq2 sky130_fd_pr__pfet_01v8 ad=0.2244 pd=1.69 as=0.2244 ps=1.69 w=1.36 l=0.15
+X1104 a_n1110_n5852# a_n1110_n5852# bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1105 VSS bias_a a_n1651_n11400# VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+X1106 a_n1651_n13400# bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.203 pd=1.69 as=0.203 ps=1.69 w=1.4 l=0.6
+.ends
+
+
+.end

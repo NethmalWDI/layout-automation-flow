@@ -124,6 +124,19 @@ def test_baselines_safety_and_starvation():
     assert s["equal"]["score"]["worst_use_of_allowed"] <= 1 + 1e-9    # safe by construction
     assert s["ours"]["score"]["worst_use_of_allowed"] <= 1 + 1e-9
     assert s["lp_sum"]["score"]["worst_use_of_allowed"] <= 1 + 1e-6
+    assert s["lp_floor"]["score"]["worst_use_of_allowed"] <= 1 + 1e-6
+    assert all(v <= e["w"] * (1 + 1e-9) for e in EL for k, v in s["lp_floor"]["budgets"].items() if k == e["id"])
+
+
+def test_lp_floor_respects_floors_and_outcome_words():
+    fl = {e["id"]: 0.1 * e["w"] for e in EL}
+    x, floored = BL.lp_floor(EL, CO, fl)
+    assert floored and all(x[k] >= fl[k] * (1 - 1e-9) for k in x)
+    # a failed SPICE run is 'unverified', never a violation
+    assert BL.outcome({"worst_use_of_allowed": 0.5, "spice_worst_use_of_allowed": None, "spice_specs_violated": [],
+                       "spice_failed_runs": ["gbw_mhz"], "below_floor": []}) == "ok (unverified: failed runs)"
+    assert BL.outcome({"worst_use_of_allowed": 0.9, "spice_worst_use_of_allowed": 1.3, "spice_specs_violated": [],
+                       "below_floor": ["a"]}) == "unsafe + infeasible"
 
 
 # ------------------------------------------------------------------ linear model: passives, current sources, dido
@@ -197,6 +210,43 @@ def test_flatten_and_recognise(tmp_path):
     assert "nmos-differential-pair" in kinds and "nmos-current-mirror" in kinds
 
 
+def test_recognise_dummies_never_join_a_mirror(tmp_path):
+    """A dummy with d = g = s looks diode-connected; it must not form a mirror with the diode it sits next
+    to (iadc_ota: 24 of its 38 dummies had formed 6 false blocks)."""
+    import recognize_structures as rs
+    f = tmp_path / "d.spice"
+    f.write_text(".subckt t g o x vss\nXM1 g g vss vss sky130_fd_pr__nfet_01v8 L=1 W=4 nf=1 m=1\n"
+                 "XM2 o g vss vss sky130_fd_pr__nfet_01v8 L=1 W=4 nf=1 m=1\n"
+                 "XM3 x x x vss sky130_fd_pr__nfet_01v8 L=1 W=4 nf=1 m=1\n"
+                 "XM4 g vss vss vss sky130_fd_pr__nfet_01v8 L=1 W=4 nf=1 m=1\n"
+                 "XM5 vss vss vss vss sky130_fd_pr__nfet_01v8 L=1 W=4 nf=1 m=1\n.ends\n")
+    blocks = rs.recognize(spice.parse(f), {"vss"})
+    by = {tuple(b["devices"]): b["primitive"] for b in blocks}
+    assert by[("XM1", "XM2")] == "nmos-current-mirror"
+    assert all(by[(d,)] == "nmos-dummy" for d in ("XM3", "XM4", "XM5"))
+
+
+def test_recognise_off_devices_mos_caps_and_rail_gates(tmp_path):
+    """review B, item 6: polarity-aware off test, native devices, MOS capacitors, and no rail-gated
+    device in a differential pair."""
+    import recognize_structures as rs
+    f = tmp_path / "e.spice"
+    f.write_text(".subckt t a b o1 o2 t x VDD VSS\n"
+                 "XM1 o1 a t VSS sky130_fd_pr__nfet_01v8 L=1 W=4 nf=1 m=1\n"
+                 "XM2 o2 b t VSS sky130_fd_pr__nfet_01v8 L=1 W=4 nf=1 m=1\n"
+                 "XM3 x VSS t VSS sky130_fd_pr__nfet_01v8 L=1 W=4 nf=1 m=1\n"      # edge dummy on the tail
+                 "XM4 VSS VDD VSS VSS sky130_fd_pr__nfet_01v8 L=1 W=4 nf=1 m=1\n"  # NMOS decap, on
+                 "XM5 x x x VSS sky130_fd_pr__nfet_01v8_nvt L=1 W=4 nf=1 m=1\n"     # native, not off at Vgs = 0
+                 "XM6 o1 o1 o1 VDD sky130_fd_pr__pfet_01v8 L=1 W=4 nf=1 m=1\n"
+                 "XM7 o2 a o2 VSS sky130_fd_pr__nfet_01v8 L=1 W=4 nf=1 m=1\n.ends\n")   # MOS cap on a signal
+    blocks = rs.recognize(spice.parse(f), {"VDD", "VSS"})
+    by = {d: b["primitive"] for b in blocks for d in b["devices"]}
+    assert by["XM1"] == by["XM2"] == "nmos-differential-pair"
+    assert by["XM3"] == "nmos-dummy" and by["XM6"] == "pmos-dummy"
+    assert by["XM4"] == "nmos-mos-capacitor" and by["XM7"] == "nmos-mos-capacitor"
+    assert by["XM5"] != "nmos-dummy"
+
+
 def test_benchlib_dido_has_both_loads_and_chokes():
     import benchlib
     t = benchlib.bench("d", "AC", ".subckt d a b c d e f\n.ends d\n", "XDUT INP INN OUTP OUTN VDD VSS d", True)
@@ -211,3 +261,22 @@ def test_wbins_read_from_pdk():
     b = wbins.bins("sky130_fd_pr__nfet_01v8_lvt")
     assert b and all(l0 < l1 and w0 < w1 for l0, l1, w0, w1 in b)
     assert wbins.bin_index("sky130_fd_pr__nfet_01v8_lvt", 24, 0.5) is not None
+
+
+def test_s3_unit_cell_scaling_for_m_copies():
+    """A device with m > 1 is m unit cells in parallel: access R / m, area x m, PCell drawn with m = 1."""
+    from src.s3 import options as O
+    rules = {"poly_sheet_res_ohm_sq": 48.2, "contacts": {k: {"ohm_per_contact": v} for k, v in
+             {"licon_poly": 152.0, "licon_ndiff": 185.0, "licon_pdiff": 585.0, "mcon": 9.3, "via1": 4.5}.items()},
+             "layers": {"metal1": {"sheet_res_ohm_sq": 0.125}, "locali": {"sheet_res_ohm_sq": 12.8}}}
+    geo = {"n_licon_poly": 4, "n_mcon_gate": 2,
+           "strips": [{"role": "D", "n_licon": 6, "n_mcon": 6, "length_um": 1.4, "width_um": 0.17},
+                      {"role": "S", "n_licon": 6, "n_mcon": 6, "length_um": 1.4, "width_um": 0.17}]}
+    opt = {"nf": 1, "gate_contacts": "both"}
+    t1 = {"W": 1.4, "L": 0.6, "m": 1, "type": "nmos"}
+    t6 = {**t1, "m": 6}
+    r1, r6 = O.access_resistance(t1, opt, geo, rules), O.access_resistance(t6, opt, geo, rules)
+    for k in "dgs":
+        assert abs(r6[k] * 6 - r1[k]) < 1e-9 * r1[k]
+    assert r6["unit_cell_ohm"]["d"] == r1["d"]
+    assert O.magic_params(t6, {"nf": 2, "magic": {}})["m"] == 1

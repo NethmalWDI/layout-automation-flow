@@ -139,18 +139,37 @@ def check(x: dict, constraints: list) -> list:
 SLSQP_MAX_VARS = 200   # above this many elements phase 2 uses an interior-point solver (same optimum, scales)
 
 
+REFINE_LARGE_TIME_S = 300   # wall-clock cap of the large phase 2; past it the phase-1 budgets are kept
+
+
 def _refine_large(A, b, w, lo, hi, x0):
     """Same phase-2 problem in x space for many elements: maximise sum log(x/w) s.t. A x <= b,
     lo <= x <= hi, with scipy's interior-point trust-constr (sparse A, diagonal Hessian). The result is
-    clipped to the bounds and, if a constraint is still exceeded by rounding, moved back towards x0."""
+    clipped to the bounds and, if a constraint is still exceeded by rounding, moved back towards x0.
+    sum log(x/w) = sum log x - const, so w does not enter the solver (an element with w = 0 made the
+    objective NaN and the solver ran for hours on iadc_ota); x is kept strictly positive and the solve is
+    capped at REFINE_LARGE_TIME_S."""
+    import time as _time
     from scipy.optimize import Bounds, LinearConstraint, minimize
     from scipy.sparse import csr_matrix, diags
     sc = np.where(b > 0, b, 1.0)
     As, bs = csr_matrix(A / sc[:, None]), b / sc
-    r = minimize(lambda x: -np.sum(np.log(x / w)), x0, jac=lambda x: -1.0 / x, hess=lambda x: diags(1.0 / x ** 2),
-                 method="trust-constr", constraints=[LinearConstraint(As, -np.inf, bs * (1 - 1e-9))],
-                 bounds=Bounds(lo, hi),
-                 options={"maxiter": 3000, "gtol": 1e-10, "xtol": 1e-12, "verbose": 0})
+    pos = max(1e-12 * float(np.max(np.abs(x0))) if len(x0) else 1e-12, 1e-30)
+    lo = np.maximum(lo, pos)
+    hi = np.maximum(hi, lo)
+    x0 = np.clip(x0, lo, hi)
+    t0 = _time.time()
+
+    def stop(xk, state):          # trust-constr: True terminates
+        return _time.time() - t0 > REFINE_LARGE_TIME_S
+    with np.errstate(divide="ignore", invalid="ignore"):
+        r = minimize(lambda x: -np.sum(np.log(np.maximum(x, pos))), x0, jac=lambda x: -1.0 / np.maximum(x, pos),
+                     hess=lambda x: diags(1.0 / np.maximum(x, pos) ** 2),
+                     method="trust-constr", constraints=[LinearConstraint(As, -np.inf, bs * (1 - 1e-9))],
+                     bounds=Bounds(lo, hi), callback=stop,
+                     options={"maxiter": 1000, "gtol": 1e-10, "xtol": 1e-12, "verbose": 0})
+    if not np.all(np.isfinite(r.x)):
+        return np.array(x0, dtype=float), "non-finite result; phase-1 budgets kept"
     x = np.clip(r.x, lo, hi)
     over = As @ x - bs
     if over.max() > 1e-9:          # within check()'s tolerance is accepted (review item 2)

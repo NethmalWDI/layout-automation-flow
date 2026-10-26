@@ -43,6 +43,13 @@
     "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3",
     "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4"
   ],
+  "conditions": {
+    "corner": null,
+    "temp": null,
+    "mim_load": null,
+    "bias": "Rgm_ext RGM VSS 12k;Vref_ext VREF VSS 0.9;Ven1 EN1 VSS 1.8;Ven2 EN2 VSS 0",
+    "note": "None = the flow bench's own value"
+  },
   "unmapped_ports": [
     "ua[6]",
     "ua[7]",
@@ -57,6 +64,15 @@
     "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4"
   ],
   "pex_caps": 908,
+  "schematic_same_conditions": {
+    "gain_db": 98.3916,
+    "gbw_mhz": 2.05171,
+    "pm_deg": 78.2315,
+    "isup_ua": 251.102,
+    "power_uw": 451.984,
+    "vout_v": -4.61853e-14,
+    "voutcm_v": 0.902367
+  },
   "drawn_devices_only": {
     "gain_db": 108.122,
     "gbw_mhz": 1.53019,
@@ -75,31 +91,48 @@
     "vout_v": -5.27034e-12,
     "voutcm_v": 0.902093
   },
+  "lost_to_parasitics": {
+    "gain_db": 0.013999999999995794,
+    "gbw_mhz": 0.10440999999999989,
+    "pm_deg": 2.9598999999999904
+  },
+  "runs": {
+    "schematic.AC": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "schematic.OP": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "drawn_devices_only.AC": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "drawn_devices_only.OP": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "pex.AC": {
+      "rc": 0,
+      "numerical_warnings": []
+    },
+    "pex.OP": {
+      "rc": 0,
+      "numerical_warnings": []
+    }
+  },
   "compare": {
     "pm_deg": {
       "schematic": 78.2341,
       "hand_layout_drawn_devices_only": 80.556,
       "hand_layout_pex": 77.5961,
       "lost_to_parasitics": 2.9598999999999904,
-      "lost_to_parasitics_frac_of_margin": 0.10483422528077717,
-      "limit": 50,
-      "margin": 28.234099999999998,
+      "lost_to_parasitics_frac_of_margin": 0.16232772662209766,
+      "limit": 60,
+      "margin": 18.234099999999998,
       "lost": 0.637999999999991,
-      "lost_frac_of_margin": 0.022596788989200686,
-      "meets_spec": true,
-      "S2_G2.0_predicted_frac": null,
-      "eta": null
-    },
-    "power_uw": {
-      "schematic": 451.984,
-      "hand_layout_drawn_devices_only": 481.206,
-      "hand_layout_pex": 481.206,
-      "lost_to_parasitics": 0.0,
-      "lost_to_parasitics_frac_of_margin": 0.0,
-      "limit": 550,
-      "margin": 98.01600000000002,
-      "lost": 29.222000000000037,
-      "lost_frac_of_margin": 0.29813499836761376,
+      "lost_frac_of_margin": 0.03498938801476306,
       "meets_spec": true,
       "S2_G2.0_predicted_frac": null,
       "eta": null
@@ -131,7 +164,34 @@
       "meets_spec": false,
       "S2_G2.0_predicted_frac": null,
       "eta": null
+    },
+    "power_uw": {
+      "schematic": 451.984,
+      "hand_layout_drawn_devices_only": 481.206,
+      "hand_layout_pex": 481.206,
+      "lost_to_parasitics": 0.0,
+      "lost_to_parasitics_frac_of_margin": 0.0,
+      "limit": 497.1824,
+      "margin": 45.19839999999999,
+      "lost": 29.222000000000037,
+      "lost_frac_of_margin": 0.6465273107012647,
+      "meets_spec": true,
+      "S2_G2.0_predicted_frac": null,
+      "eta": null
     }
   },
-  "note": "PEX with capacitance only (cthresh 0, no wire resistance); LVS against the flow's layout view"
+  "reported_post_layout": {
+    "source": "ICM 2026 paper text, supplied by the designer in the chat on 2026-10-26 (hand-entered; not generated)",
+    "quote": "achieves approximately 100 dB DC gain, 2.3 MHz unity-gain bandwidth, and 52 deg phase margin, as shown in Fig. 4(a). The post-layout CMRR is approximately 91 dB at 1 kHz.",
+    "metrics": {
+      "gain_db": 100.0,
+      "gbw_mhz": 2.3,
+      "pm_deg": 52.0,
+      "cmrr_db_1k": 91.0
+    },
+    "kind": "post-layout simulation (not measurement)",
+    "conditions_in_repo_bench": "Opamp_Design/Simulations/gain_and_phase.sch: ff corner, .temp 20, VDD 1.8, inputs DC 0.9 V AC +-0.1 mV open loop, 12 kohm bias resistor, Vref 0.9 V, loads cap_mim_m3_1 W=1 L=1 MF=100 per output. ASSUMPTION: the paper's post-layout run used the same bench with the extracted netlist; the extraction options are not in the repository.",
+    "schematic_note": "the flow's DUT is Opamp_with_bias.sch (58 devices); the tile layout has 86 (bias switch block, bias dummies). Kept by the designer's decision of 2026-10-26: the switch block does not change the area much."
+  },
+  "note": "PEX with capacitance only (cthresh 0, no wire resistance); LVS against the flow's layout view. 'compare' (against the flow's nominal S0 margins) only for runs at the bench's own conditions; 'lost_to_parasitics' = drawn devices only - PEX, at this run's conditions"
 }

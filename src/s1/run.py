@@ -118,6 +118,28 @@ def classify_nodes(ir: dict, lm: linear.LinearModel) -> dict:
                                      "structural tags from topology"}
 
 
+
+def _matching_entry(b: dict, kind: str, members: list, devs: dict, op: dict, subset: bool) -> dict:
+    """One matched group of G1.4: a pair must be identical; a mirror may be ratioed by W*m (same L and model)."""
+    sizes = {(devs[x]["W_um"], devs[x]["L_um"], devs[x]["nf"], devs[x]["m"]) for x in members}
+    gm = [op[x]["gm"] for x in members]
+    same_l_model = len({(devs[x]["L_um"], devs[x]["model"]) for x in members}) == 1
+    wm = [devs[x]["W_um"] * devs[x]["m"] for x in members]
+    ok = (len(sizes) == 1) if kind == "diff_pair" else same_l_model
+    # a member conducting next to nothing (gm below 1e-3 of the group's largest) is off: a matched group
+    # with an off member is a recognition error or a design problem, never consistent (review B, item 9)
+    off = [x for x, g in zip(members, gm) if g < 1e-3 * max(max(gm), 1e-30)]
+    ok = ok and not off
+    return {"devices": members, "kind": kind, "equal_size": len(sizes) == 1,
+            "same_L_and_model": same_l_model, "ratio_Wm": [round(w / wm[0], 4) for w in wm],
+            "consistent": ok, "off_members": off,
+            "purpose": {"diff_pair": "input offset, CMRR, symmetric loading of the pair's drains",
+                        "mirror": "current-copy accuracy (systematic offset, gain)"}.get(kind, ""),
+            "evidence": [f"hierarchy block {b['name']} ({b['source']})" + (" (equal-L subset)" if subset else ""),
+                         f"sizes {sorted(sizes)}",
+                         (f"gm spread {max(gm)/min(gm)-1:.2%}" if not off else
+                          f"off at the operating point (gm < 1e-3 of the group's largest): {off}")]}
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("package")
@@ -139,9 +161,13 @@ def main(argv=None) -> int:
     isup_ok = isup_ach is None or abs(opr["isup_A"] * 1e6 - isup_ach) <= 0.01 * isup_ach
     conv = {} if opr["missing"] else {d: opmod.cap_convention(v) for d, v in opr["devices"].items()}
     conv_ok = bool(conv) and all(c["derivative_convention"] for c in conv.values())
-    gates["G1.1_operating_point"] = {"pass": opr["rc"] == 0 and not opr["missing"] and all(s["saturated"] for s in sat.values())
+    # dummies (hierarchy role) have no operating point to keep: excluded from the saturation requirement
+    dum_h = {x for b in ir["hierarchy"]["blocks"] if "dummy" in (b.get("primitive") or "") for x in b["devices"]}
+    not_sat = sorted(k for k, s in sat.items() if not s["saturated"] and k not in dum_h)
+    gates["G1.1_operating_point"] = {"pass": opr["rc"] == 0 and not opr["missing"] and not not_sat
                                      and isup_ok and conv_ok and not opr["numerical_warnings"],
                                      "numerical_warnings": opr["numerical_warnings"],
+                                     "not_saturated": not_sat, "dummies_excluded": sorted(dum_h),
                                      "saturation": sat, "isup_uA": opr["isup_A"] * 1e6, "isup_achieved_uA": isup_ach,
                                      "missing_params": opr["missing"], "missing_optional_params": opr["missing_optional"],
                                      "charge_conservation_worst_rel": max((c["worst_rel_to_cgg"] for c in conv.values()), default=None)}
@@ -334,19 +360,21 @@ def main(argv=None) -> int:
             # e.g. a common-source stage (driver + load of opposite polarity): no matching requirement
             not_matching.append({"devices": b["devices"], "block": b["name"], "kind": kind})
             continue
-        sizes = {(devs[x]["W_um"], devs[x]["L_um"], devs[x]["nf"], devs[x]["m"]) for x in b["devices"]}
-        gm = [op[x]["gm"] for x in b["devices"]]
-        same_l_model = len({(devs[x]["L_um"], devs[x]["model"]) for x in b["devices"]}) == 1
-        wm = [devs[x]["W_um"] * devs[x]["m"] for x in b["devices"]]
-        # a pair must be identical; a mirror may be ratioed (same L and model, W*m sets the current ratio)
-        ok = (len(sizes) == 1) if kind == "diff_pair" else same_l_model
-        matching.append({"devices": b["devices"], "kind": kind, "equal_size": len(sizes) == 1,
-                         "same_L_and_model": same_l_model, "ratio_Wm": [round(w / wm[0], 4) for w in wm],
-                         "consistent": ok,
-                         "purpose": {"diff_pair": "input offset, CMRR, symmetric loading of the pair's drains",
-                                     "mirror": "current-copy accuracy (systematic offset, gain)"}.get(kind, ""),
-                         "evidence": [f"hierarchy block {b['name']} ({b['source']})", f"sizes {sorted(sizes)}",
-                                      f"gm spread {max(gm)/min(gm)-1:.2%}"]})
+        lm_groups: dict = {}
+        for x in b["devices"]:
+            lm_groups.setdefault((devs[x]["L_um"], devs[x]["model"]), []).append(x)
+        if kind == "mirror" and len(lm_groups) > 1:
+            # a mirror ratioed by L (TTSKY25a's bias distribution: L = 2, 10 and 20 um on one gate). Devices of
+            # different L cannot be matched by layout; the equal-L subsets can. Each subset of two or more is
+            # checked as a mirror; the whole group is recorded as L-ratioed (no layout matching implied).
+            not_matching.append({"devices": b["devices"], "block": b["name"], "kind": "L-ratioed mirror",
+                                 "subsets": [g_ for g_ in lm_groups.values()]})
+            subsets = [g_ for g_ in lm_groups.values() if len(g_) >= 2]
+        else:
+            subsets = [b["devices"]]
+        for members in subsets:
+            matching.append(_matching_entry(b, kind, members, devs, op, len(subsets) > 1 or members != b["devices"]))
+
     crit, pairs_r = [], []
     for label, row in table.items():
         worst = min((v.get("fF_to_consume_margin", math.inf), k) for k, v in row.items())
@@ -387,10 +415,11 @@ def main(argv=None) -> int:
                 in_match[d_] = m["devices"]
     seen = set()
     acg_r = {p_["name"] for p_ in ir["ports"] if p_["role"] in ("supply", "ground")}
+    dummies_h = {x for b in ir["hierarchy"]["blocks"] if "dummy" in (b.get("primitive") or "") for x in b["devices"]}
     for d in ir["devices"]:
         t_ = d["terminals"]
-        if t_["d"] == t_["g"] == t_["s"] or {t_["d"], t_["g"], t_["s"]} <= acg_r:
-            seen.add(d["name"])   # dummy: no terminal carries a signal or a current
+        if d["name"] in dummies_h or t_["d"] == t_["g"] == t_["s"] or {t_["d"], t_["g"], t_["s"]} <= acg_r:
+            seen.add(d["name"])   # dummy (hierarchy role, or no terminal carries a signal or a current)
         if d["name"] in seen:
             continue
         mem = in_match.get(d["name"], [d["name"]])

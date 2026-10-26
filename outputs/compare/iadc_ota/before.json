@@ -1,0 +1,161 @@
+{
+ "design": "iadc_ota",
+ "tag": "before",
+ "S0": {
+  "gates": {
+   "G0.1_inventory": true,
+   "G0.2_validation": true,
+   "G0.3_hash_freeze": true,
+   "G0.4_name_map": true,
+   "G0.5_round_trip_lvs": true,
+   "G0.6_testbench_reproduction": true,
+   "G0.7_pcell_binding_drc_lvs": false
+  },
+  "failed": [
+   "G0.7_pcell_binding_drc_lvs"
+  ]
+ },
+ "S1": {
+  "gates": {
+   "G1.1_operating_point": false,
+   "G1.2_linear_model_vs_spice": true,
+   "G1.3_sensitivity_vs_spice": true,
+   "G1.4_matching_groups": true,
+   "G1.5_symbolic_vs_spice (reported, not gated)": null,
+   "G1.6_resistance_sensitivity_vs_spice": true
+  },
+  "failed": [
+   "G1.1_operating_point"
+  ],
+  "linear_vs_spice": {
+   "gain_db": 0.0895087291242973,
+   "gbw_rel": 0.02786735350694869,
+   "pm_deg": -0.18007931916352504
+  },
+  "symbolic_vs_spice": {
+   "gain_db": -1.3633222831016596,
+   "gbw_mhz": 205.24879579675613,
+   "pm_deg": -20.527304567771324
+  }
+ },
+ "S2": {
+  "gates": {
+   "G2.0_expected_layout_use (info)": null,
+   "G2.7_library_floors_feasible": null,
+   "G2.3_allocation": true,
+   "G2.5_spice_budget_verification": true,
+   "G2.4_linear_all_budgets_at_once": null,
+   "G2.6_hierarchy_sums": true,
+   "G2.1_names_resolve": true,
+   "G2.2_units_and_provenance": true
+  },
+  "failed": [],
+  "eta": 0.5,
+  "alloc": "v1",
+  "expected_use_fraction": {
+   "gain_db": 2.882701641824169,
+   "gbw_mhz": 3.697375001972146,
+   "pm_deg": 0.28450275037898
+  },
+  "t_round1": 0.1352310760291571,
+  "n_budgeted": 512,
+  "starved": 137,
+  "min_ratio_to_need": 0.12846952222772062,
+  "verify": {
+   "gain_db": 0.5052999999999983,
+   "gbw_mhz": 0.48653336637249167,
+   "pm_deg": 0.3915200538482962,
+   "sat_XX1_M22": 0.06313205334896675,
+   "sat_XX1_M32": 0.13910431119920705,
+   "sat_XX1_M1": 0.053740067135357346,
+   "sat_XX1_M2": 0.029082981004833596,
+   "sat_XX1_M3": 0.4855619724566838,
+   "sat_XX1_M4": 0.049471338865844844,
+   "sat_XX1_M5": 0.07617678677985593,
+   "sat_XX1_M6": 0.051852655284666635,
+   "sat_XX1_M7": 0.0018647997799804228,
+   "sat_XX1_M33": 0.018438661020042737,
+   "sat_XX1_M68": 0.018438661020042737,
+   "sat_XX1_M72": 0.018438661020042737,
+   "sat_XX1_M76": 0.018438661020042737,
+   "sat_XX1_M64": 0.018438661020042737,
+   "sat_XX1_M57": 0.016347588132278705,
+   "sat_XX1_M58": 0.05164953466662146,
+   "sat_XX1_M59": 0.01029123593027212,
+   "sat_XX1_M60": 0.0949059020200045,
+   "sat_XX1_M42": 0.09958838893113371,
+   "sat_XX2_M1": 0.08224165390917733,
+   "sat_XX2_M2": 0.08224165390917733,
+   "sat_XX2_M6": 0.40937962930862426,
+   "sat_XX2_M5": 0.33492244863814546,
+   "sat_XX2_M1A": 0.16906905547645892,
+   "sat_XX2_M8": 0.16906905547645892,
+   "sat_XX2_M3A": 0.06779990936624615,
+   "sat_XX2_M7": 0.06779990936624615,
+   "sat_XX2_M3": 0.10645373106327125,
+   "sat_XX2_M4": 0.10645373106327125,
+   "sat_XX2_M55": 0.00743159154093502,
+   "sat_XX2_M56": 0.08179461090652626,
+   "sat_XX2_M61": 0.00743159154093502,
+   "sat_XX2_M62": 0.08179461090652626,
+   "sat_XX2_M40": 0.10876477782307373,
+   "sat_XX2_M41": 0.10876477782307373,
+   "sat_XX2_M30": 0.23027340188253134,
+   "sat_XX2_M80": 0.04960006090179389,
+   "sat_XX2_M81": 0.04960006090179389
+  },
+  "floors": {
+   "pass": null,
+   "alloc": "v1",
+   "n_floors": 0,
+   "representative_option": null,
+   "floor_use_of_allowed": {
+    "gain_db": 0.0,
+    "gbw_mhz": 0.0,
+    "pm_deg": 0.0,
+    "sat_XX1_M22": 0.0,
+    "sat_XX1_M32": 0.0,
+    "sat_XX1_M1": 0.0,
+    "sat_XX1_M2": 0.0,
+    "sat_XX1_M3": 0.0,
+    "sat_XX1_M4": 0.0,
+    "sat_XX1_M5": 0.0,
+    "sat_XX1_M6": 0.0,
+    "sat_XX1_M7": 0.0,
+    "sat_XX1_M33": 0.0,
+    "sat_XX1_M68": 0.0,
+    "sat_XX1_M72": 0.0,
+    "sat_XX1_M76": 0.0,
+    "sat_XX1_M64": 0.0,
+    "sat_XX1_M57": 0.0,
+    "sat_XX1_M58": 0.0,
+    "sat_XX1_M59": 0.0,
+    "sat_XX1_M60": 0.0,
+    "sat_XX1_M42": 0.0,
+    "sat_XX2_M1": 0.0,
+    "sat_XX2_M2": 0.0,
+    "sat_XX2_M6": 0.0,
+    "sat_XX2_M5": 0.0,
+    "sat_XX2_M1A": 0.0,
+    "sat_XX2_M8": 0.0,
+    "sat_XX2_M3A": 0.0,
+    "sat_XX2_M7": 0.0,
+    "sat_XX2_M3": 0.0,
+    "sat_XX2_M4": 0.0,
+    "sat_XX2_M55": 0.0,
+    "sat_XX2_M56": 0.0,
+    "sat_XX2_M61": 0.0,
+    "sat_XX2_M62": 0.0,
+    "sat_XX2_M40": 0.0,
+    "sat_XX2_M41": 0.0,
+    "sat_XX2_M30": 0.0,
+    "sat_XX2_M80": 0.0,
+    "sat_XX2_M81": 0.0
+   },
+   "note": "the cheapest cell of the S3 unit library for every element, all at once, as a fraction of eta*margin; > 1 means no layout built from library cells can meet the budgets at this eta"
+  },
+  "baselines": null,
+  "pvt": {}
+ },
+ "S3": null
+}

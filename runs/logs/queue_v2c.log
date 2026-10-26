@@ -1,0 +1,29 @@
+=== B: 5T after (S2/S3 rerun with the timeout fix) 14:15:51
+== example_ota_5t
+  S2/cells           rc=0      2.3 s  log: runs/logs/flow/example_ota_5t/S2_cells.log
+  S2/run             rc=0    268.6 s  log: runs/logs/flow/example_ota_5t/S2_run.log
+  S2: PASS
+  S3/run             rc=0     32.1 s  log: runs/logs/flow/example_ota_5t/S3_run.log
+  S3: PASS
+/foss/designs/outputs/compare/example_ota_5t/after.json
+== ota5t_stress
+  S2/cells           rc=0      3.1 s  log: runs/logs/flow/ota5t_stress/S2_cells.log
+  S2/run             rc=1    500.7 s  log: runs/logs/flow/ota5t_stress/S2_run.log
+  S2: FAIL  failed: ['G2.7_library_floors_feasible']
+  S3/run             rc=1     29.4 s  log: runs/logs/flow/ota5t_stress/S3_run.log
+  S3: FAIL  failed: ['G3.5_no_relaxation']
+/foss/designs/outputs/compare/ota5t_stress/after.json
+=== E: iadc before 14:29:48
+== iadc_ota
+  S0/ingest          rc=0     20.0 s  log: runs/logs/flow/iadc_ota/S0_ingest.log
+  S0/pcell_binding   rc=1    248.7 s  log: runs/logs/flow/iadc_ota/S0_pcell_binding.log
+  S0: FAIL  failed: ['G0.7_pcell_binding_drc_lvs']
+  S1/run             rc=1   3256.3 s  log: runs/logs/flow/iadc_ota/S1_run.log
+  S1: FAIL  failed: ['G1.1_operating_point', 'G1.2_linear_model_vs_spice', 'G1.3_sensitivity_vs_spice', 'G1.6_resistance_sensitivity_vs_spice']
+  S2/cells           rc=0     38.3 s  log: runs/logs/flow/iadc_ota/S2_cells.log
+  S2/run             rc=-15   9427.0 s  log: runs/logs/flow/iadc_ota/S2_run.log
+  S2: ERROR  (no fresh report at outputs/S2/iadc_ota/s2_report.json)
+/foss/designs/outputs/compare/iadc_ota/before.json
+=== D: ttsky25a before 18:06:19
+== ttsky25a_fd
+  S0/ingest          rc=1     25.0 s  log: runs/logs/flow/ttsky25a_fd/S0_ingest.log

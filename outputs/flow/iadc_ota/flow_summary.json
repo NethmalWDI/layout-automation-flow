@@ -7,17 +7,17 @@
     {
      "step": "ingest",
      "rc": 0,
-     "seconds": 28.2,
+     "seconds": 20.0,
      "log": "runs/logs/flow/iadc_ota/S0_ingest.log"
     },
     {
      "step": "pcell_binding",
      "rc": 1,
-     "seconds": 299.9,
+     "seconds": 248.7,
      "log": "runs/logs/flow/iadc_ota/S0_pcell_binding.log"
     }
    ],
-   "started": "2026-10-26T13:42:26",
+   "started": "2026-10-26T14:29:48",
    "gates": {
     "G0.1_inventory": true,
     "G0.2_validation": true,
@@ -31,7 +31,78 @@
    "failed_gates": [
     "G0.7_pcell_binding_drc_lvs"
    ],
-   "seconds": 328.1
+   "seconds": 268.6
+  },
+  "S1": {
+   "stage": "S1",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 1,
+     "seconds": 74.9,
+     "log": "runs/logs/flow/iadc_ota/S1_run.log"
+    }
+   ],
+   "started": "2026-10-26T18:10:12",
+   "gates": {
+    "G1.1_operating_point": false,
+    "G1.2_linear_model_vs_spice": true,
+    "G1.3_sensitivity_vs_spice": true,
+    "G1.4_matching_groups": true,
+    "G1.5_symbolic_vs_spice (reported, not gated)": null,
+    "G1.6_resistance_sensitivity_vs_spice": true
+   },
+   "status": "FAIL",
+   "failed_gates": [
+    "G1.1_operating_point"
+   ],
+   "seconds": 74.9
+  },
+  "S2": {
+   "stage": "S2",
+   "steps": [
+    {
+     "step": "cells",
+     "rc": 0,
+     "seconds": 28.7,
+     "log": "runs/logs/flow/iadc_ota/S2_cells.log"
+    },
+    {
+     "step": "run",
+     "rc": 0,
+     "seconds": 109.5,
+     "log": "runs/logs/flow/iadc_ota/S2_run.log"
+    }
+   ],
+   "started": "2026-10-26T19:42:57",
+   "gates": {
+    "G2.0_expected_layout_use (info)": null,
+    "G2.7_library_floors_feasible": null,
+    "G2.3_allocation": true,
+    "G2.5_spice_budget_verification": true,
+    "G2.4_linear_all_budgets_at_once": null,
+    "G2.6_hierarchy_sums": true,
+    "G2.1_names_resolve": true,
+    "G2.2_units_and_provenance": true
+   },
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 138.2
+  },
+  "S3": {
+   "stage": "S3",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 1,
+     "seconds": 28.2,
+     "log": "runs/logs/flow/iadc_ota/S3_run.log"
+    }
+   ],
+   "started": "2026-10-26T19:45:15",
+   "status": "ERROR",
+   "reason": "no fresh report at outputs/S3/iadc_ota/s3_report.json",
+   "seconds": 28.3
   }
  }
 }

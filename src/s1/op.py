@@ -24,6 +24,16 @@ PASSIVE_INNER = {"sky130_fd_pr__cap_mim_m3_1": ("c", "c1", "capacitance"),
                  "sky130_fd_pr__res_generic_po": ("r", "rsky130_fd_pr__res_generic_po", "resistance")}
 
 
+def passive_value(c: dict, raw: float) -> float:
+    """Effective value of a PDK passive from the simulator's reading of its inner element. With an instance
+    multiplier m (M on the X line), ngspice reports a capacitor's [capacitance] already multiplied by m (four
+    4.8 x 4.8 um MIM units in parallel read 196 fF, the effective value), but a resistor's [resistance] per
+    copy (R / m is the effective value). Checked on ngspice-47 with cap_mim_m3_1 and res_generic_po,
+    2026-10-26; the earlier rule C x m counted m twice (iadc_ota: C3/C4 read as 784 fF, GBW off by 2x)."""
+    mult = float(c.get("params", {}).get("M", 1))
+    return raw if c["kind"] == "C" else raw / mult
+
+
 def inst_path(dev: str, model: str, top: str = "x1.xdut") -> str:
     return f"m.{top}.{dev.lower()}.m{model.lower()}"
 
@@ -82,10 +92,8 @@ def run(s0_dir: Path, ir: dict, work: Path) -> dict:
     for c in ir.get("passives", []):
         m_ = re.search(rf"^OPP {re.escape(c['name'])} (\S+)", log, re.M)
         if m_:
-            mult = float(c.get("params", {}).get("M", 1))   # ngspice instance multiplier of the PDK subckt
-            try:   # m parallel copies: C x m, R / m
-                v_ = float(m_.group(1))
-                pas[c["name"]] = v_ * mult if c["kind"] == "C" else v_ / mult
+            try:
+                pas[c["name"]] = passive_value(c, float(m_.group(1)))
             except ValueError:
                 pas[c["name"]] = None
     isup = re.search(r"^OPI isup (\S+)", log, re.M)
