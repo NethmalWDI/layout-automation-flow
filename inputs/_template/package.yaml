@@ -1,0 +1,31 @@
+# Design package template. Copy this folder to inputs/<your_design>/ and fill it in.
+# Every path is relative to the repository root. Leave an item null when you do not have it:
+# S0 reports it as pending; nothing is ever invented. Full field reference: docs/INPUTS.md.
+design: my_design                 # folder name under inputs/ and outputs/<stage>/
+description: >
+  One or two lines: topology, devices, where it comes from.
+
+netlist: circuits/my_design/source/my_design.spice          # sized SKY130 netlist with one .subckt (the DUT)
+config: circuits/my_design/source/config.yaml               # interface (ports), conditions, specs
+achieved: circuits/my_design/source/measurements.json       # schematic-simulated results to reproduce
+testbenches:                                                # ngspice decks, see docs/INPUTS.md "Testbenches"
+  - circuits/my_design/testbenches/diso_amp_AC.spice
+  - circuits/my_design/testbenches/diso_amp_OP.spice
+  - circuits/my_design/testbenches/diso_amp_NOISE.spice
+dut_subckt_in_testbench: my_design   # the .subckt name the testbenches instantiate as XDUT
+
+# Upstream (sizing-stage) analysis. All optional. Files we built ourselves are listed under `predicted`.
+upstream:
+  netlist: null        # the netlist the hierarchy/equations were made for
+  hierarchy: null      # hierarchy.json (levels of blocks)
+  primitives: null     # primitives.json (block -> devices, ports)
+  equations: null      # <design>_differential_equations.json (symbolic, per level)
+  name_map: null       # upstream names -> this netlist's names, checked terminal by terminal (G0.4)
+predicted: []          # paths of upstream files that are predictions (ASSUMPTION), not sizing-stage outputs
+
+bias_sources: {}       # ideal sources inside the DUT kept for simulation, e.g. {V1: VBIAS}
+operating_point: null  # S1 generates it
+variation_ranges: null # sizing-stage feasibility ranges (format pending)
+conditions_override: {}  # e.g. {CL_F: 200f}
+eta: 0.5               # fraction of each spec margin given to layout (S2); swept in the eta study
+s1_extras: []          # optional S1 add-ons, e.g. [symbolic_patch] (5T OTA template only)

@@ -1,0 +1,31 @@
+# Unit tests and the golden comparison on the committed outputs run on every push (no EDA tools
+# needed). The full flow needs the 17 GB EDA image, so it runs only on demand (workflow_dispatch).
+name: ci
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      design:
+        description: "design to run through S0-S3 in the EDA image (blank = skip)"
+        required: false
+        default: ""
+jobs:
+  unit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -m pytest -q tests   # tests that need Magic/Netgen/ngspice skip themselves
+  flow:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.design != ''
+    runs-on: ubuntu-24.04
+    container:
+      image: hpretl/iic-osic-tools:2026.10
+      options: --entrypoint ""
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash -lc "source scripts/env.sh && python3 -m src.flow run ${{ github.event.inputs.design }} && python3 -m src.flow test --design ${{ github.event.inputs.design }} --golden-only"

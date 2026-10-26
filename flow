@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Launcher for the layout-automation flow (Linux / macOS / WSL).
+# Runs `python3 -m src.flow <args>` inside the pinned EDA image with this repository mounted at
+# /foss/designs, so nothing has to be installed except Docker.
+#
+#   ./flow list                         designs in inputs/
+#   ./flow run example_ota_5t           S0..S3 for one design   (./flow run all  for every design)
+#   ./flow run example_ota_5t --stage S2
+#   ./flow status all                   gate table
+#   ./flow test                         unit tests + golden comparison of the committed outputs
+#   ./flow test --stage S1 --rerun      re-run S1 for the golden designs, then compare
+#
+# FLOW_IMAGE      override the image (default hpretl/iic-osic-tools:2026.10, local image id 306585de35d1)
+# FLOW_CONTAINER  reuse a running container that already mounts this repo at /foss/designs
+set -euo pipefail
+IMAGE="${FLOW_IMAGE:-hpretl/iic-osic-tools:2026.10}"
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ARGS="$(printf '%q ' "$@")"
+if [[ -f /foss/tools/bin/magic || -x /foss/tools/bin/magic ]]; then      # already inside the image
+  cd "$HERE"; source scripts/env.sh; exec python3 -m src.flow "$@"
+fi
+if [[ -n "${FLOW_CONTAINER:-}" ]]; then
+  exec docker exec -i "$FLOW_CONTAINER" bash -lc "cd /foss/designs && source scripts/env.sh && python3 -m src.flow $ARGS"
+fi
+exec docker run --rm -i -e IIC_OSIC_TOOLS_QUIET=1 --user "$(id -u):$(id -g)" \
+  -v "$HERE:/foss/designs" -w /foss/designs "$IMAGE" \
+  --skip bash -lc "source scripts/env.sh && python3 -m src.flow $ARGS"

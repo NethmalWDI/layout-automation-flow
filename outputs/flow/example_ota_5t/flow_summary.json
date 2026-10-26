@@ -1,0 +1,117 @@
+{
+ "design": "example_ota_5t",
+ "stages": {
+  "S0": {
+   "stage": "S0",
+   "steps": [
+    {
+     "step": "ingest",
+     "rc": 0,
+     "seconds": 17.4,
+     "log": "runs/logs/flow/example_ota_5t/S0_ingest.log"
+    },
+    {
+     "step": "pcell_binding",
+     "rc": 0,
+     "seconds": 22.9,
+     "log": "runs/logs/flow/example_ota_5t/S0_pcell_binding.log"
+    }
+   ],
+   "started": "2026-10-26T05:39:38",
+   "gates": {
+    "G0.1_inventory": true,
+    "G0.2_validation": true,
+    "G0.3_hash_freeze": true,
+    "G0.4_name_map": true,
+    "G0.5_round_trip_lvs": true,
+    "G0.6_testbench_reproduction": true,
+    "G0.7_pcell_binding_drc_lvs": true
+   },
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 40.3
+  },
+  "S1": {
+   "stage": "S1",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 0,
+     "seconds": 16.7,
+     "log": "runs/logs/flow/example_ota_5t/S1_run.log"
+    },
+    {
+     "step": "symbolic_patch",
+     "rc": 0,
+     "seconds": 3.6,
+     "log": "runs/logs/flow/example_ota_5t/S1_symbolic_patch.log"
+    }
+   ],
+   "started": "2026-10-26T05:40:18",
+   "gates": {
+    "G1.1_operating_point": true,
+    "G1.2_linear_model_vs_spice": true,
+    "G1.3_sensitivity_vs_spice": true,
+    "G1.4_matching_groups": true,
+    "G1.5_symbolic_vs_spice (reported, not gated)": null,
+    "G1.6_resistance_sensitivity_vs_spice": true
+   },
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 20.3
+  },
+  "S2": {
+   "stage": "S2",
+   "steps": [
+    {
+     "step": "cells",
+     "rc": 0,
+     "seconds": 3.2,
+     "log": "runs/logs/flow/example_ota_5t/S2_cells.log"
+    },
+    {
+     "step": "run",
+     "rc": 0,
+     "seconds": 3.5,
+     "log": "runs/logs/flow/example_ota_5t/S2_run.log"
+    }
+   ],
+   "started": "2026-10-26T05:40:39",
+   "gates": {
+    "G2.0_expected_layout_use (info)": null,
+    "G2.3_allocation": true,
+    "G2.5_spice_budget_verification": true,
+    "G2.4_linear_all_budgets_at_once": null,
+    "G2.6_hierarchy_sums": true,
+    "G2.1_names_resolve": true,
+    "G2.2_units_and_provenance": true
+   },
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 6.6
+  },
+  "S3": {
+   "stage": "S3",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 0,
+     "seconds": 12.5,
+     "log": "runs/logs/flow/example_ota_5t/S3_run.log"
+    }
+   ],
+   "started": "2026-10-26T05:40:45",
+   "gates": {
+    "G3.4_option_table_complete": true,
+    "G3.3_all_chosen_devices_in_circuit": true,
+    "G3.1_chosen_DRC": true,
+    "G3.2_chosen_LVS_W_L_nf": true,
+    "G3.5_no_relaxation": true,
+    "G3.6_model_has_no_gate_resistance": true
+   },
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 12.5
+  }
+ }
+}

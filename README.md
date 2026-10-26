@@ -1,6 +1,42 @@
-# layout-automation-s0-s3
+# layout-automation-flow
 
-An electrically informed analog layout flow for SKY130, covering stages S0–S3. The first test case is a sized 5T OTA.
+An electrically informed analog layout flow for the SkyWater SKY130 open PDK, stages S0–S3:
+
+- **S0 Ingest:** freeze a sized netlist, its specs and testbenches; bind every transistor to its exact SKY130 PCell (DRC/LVS-checked).
+- **S1 Intent:** operating point, exact small-signal model, sensitivity of every spec to capacitance at each net and resistance at each terminal (checked against SPICE).
+- **S2 Budgets:** joint parasitic budgets (fF, Ω) and layout rules, verified all at once in SPICE; G2.0 says before layout whether a compact layout can fit.
+- **S3 Devices:** PCell options per device, chosen against the budgets, each cell DRC/LVS-signed.
+
+Designs: a sized 5T OTA and its stress variant; more benchmarks are being added (see `docs/flow_record.md`).
+
+## Quick start (anyone, any OS)
+
+You need Docker (Docker Desktop on Windows/macOS) and about 20 GB of disk for the EDA image.
+Nothing else is installed on your machine: the launchers run everything inside the pinned image
+`hpretl/iic-osic-tools:2026.10` with this repository mounted at `/foss/designs`.
+
+```bash
+git clone <this repo> && cd layout-automation-flow
+./flow list                              # designs found in inputs/        (Windows: .\flow.ps1 list)
+./flow run example_ota_5t                # S0 -> S3 for one design (about 10 min the first time)
+./flow run example_ota_5t --stage S2     # one stage; it reads only the earlier stages' outputs
+./flow status all                        # gate table per design and stage
+./flow test                              # unit tests + golden comparison of the committed outputs
+./flow test --stage S1 --rerun           # re-run S1 for the golden designs, then compare
+```
+
+Each stage writes to `outputs/<stage>/<design>/` and logs to `runs/logs/flow/<design>/`; the run summary is
+`outputs/flow/<design>/flow_summary.json`. A stage is **PASS** (all gates pass), **FAIL** (a gate failed but the
+stage finished, e.g. S3 flags a device type that does not fit) or **ERROR** (it crashed). The committed outputs
+are the reference results; `./flow test` fails if a re-run moves any of them beyond its tolerance
+(`tests/golden/`).
+
+**Your own design:** copy `inputs/_template/` to `inputs/<name>/`, fill in `package.yaml` (every field is
+explained in `docs/INPUTS.md`), and run `./flow run <name>`. Missing upstream files are reported as pending,
+never invented.
+
+**Repository rules:** third-party material and licences are listed in `THIRD_PARTY.md`; hypotheses and
+thresholds for the experiments are fixed in `PREREG.md` before baselines run.
 
 ## Documents
 
@@ -10,7 +46,7 @@ An electrically informed analog layout flow for SKY130, covering stages S0–S3.
 - `docs/04_device_generation.md` … `docs/07_stage_guide_and_sunday_baseline.md`: device generation, literature, final plan and stage guide.
 - `docs/context/project_context_S0-S9.md`
 
-## Environment
+## Environment (development setup used so far)
 
 1. **Docker MCP server.** Set it up once by following `tools/mcp-docker-eda/README.md`.
 2. **Container.** `layout-s0s3`, from `hpretl/iic-osic-tools:2026.10`, with this repo mounted at `/foss/designs`.
