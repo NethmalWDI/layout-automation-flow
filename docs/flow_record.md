@@ -11,7 +11,7 @@ evidence with pictures, and the problems met on the way and how they were fixed.
 - How to run each stage: [`../README.md`](../README.md). Chronological notes: [`progress_log.md`](progress_log.md).
 - To get a self-contained HTML copy (pictures embedded), run from `docs/`: `pandoc flow_record.md --standalone --embed-resources -c flow_record/record.css -o ../runs/tmp/flow_record.html`.
 
-**Last updated:** 2026-10-26 (evening). Adds section 7: plan v2 on five designs (two development, three new), the journey of the day (what went wrong, how it was found, what changed), corners and mismatch, the budget baselines, the hand-drawn layouts of TTSKY25a and iadc, and two independent reviews. Runs still in progress are marked as such.
+**Last updated:** 2026-10-27 (evening). Section 7 (plan v2) is complete: every before/after run on the five designs, the post-hoc S3 test, the five budget rules at each design's own eta and at eta 0.9 (PREREG headline; TTSKY25a's eta 0.9 run is not valid), the hand-drawn layouts against the 'after' G2.0, a third independent review (review C) and what it changed, the journey table to row 44, and an assessment (7.11). Figures: `flow_record/img/v2_*.png`.
 
 > **Decisions of 2026-10-25 (night), from you:**
 > - The stress variant gives layout **90 % of each margin** (η = 0.9, package key `eta`). The example design keeps η = 0.5.
@@ -59,6 +59,21 @@ In VS Code, open `docs\flow_record.md` and press Ctrl+Shift+V to see it with the
 > The same gate then applies to the whole design: **0 DRC errors**, and **"Circuits match uniquely"
 > with no property errors** against the sized netlist. This record will show that evidence when it
 > exists.
+
+### Plan v2 status at a glance (2026-10-27)
+
+The table above is the state of 2026-10-25 for the two development designs. Plan v2 (section 7) ran S0–S3 on five
+designs, before (v1) and after (v2):
+
+![Stage gates before and after](flow_record/img/v2_gates_before_after.png)
+
+| Design | v2 'after' in one line | Section |
+|---|---|---|
+| example_ota_5t | all gates pass; area 187 → 237 um2 (PVT constraints; the binding corner is contradicted by SPICE) | 7.5 |
+| ota5t_stress | S2 says it does not fit (G2.7) at a PVT point; S3 relaxes 3 types; passes without the PVT constraints | 7.5 |
+| loadbench_miller | S2 does not fit (G2.7, binding margin 0.014 dB); S3 relaxes all 6 types, PM 48.1 deg (fails); post hoc 64.7 deg | 7.5 |
+| iadc_ota | S2 does not fit (G2.7); S3 result fixed by a saturation-check defect (row 41); specs met | 7.5, 7.8 |
+| ttsky25a_fd | S2 does not fit (G2.7, one corner with 0.093 dB margin); specs met; eta 0.9 run not valid | 7.5, 7.7 |
 
 ### What each stage does (S0–S9), in one table
 
@@ -1107,10 +1122,11 @@ The full-layout DRC/LVS evidence (Magic DRC 0, Netgen "Circuits match uniquely" 
 ---
 
 <!-- section7:start -->
-## 7. Plan v2 (2026-10-26): new circuits, generality fixes, corners, baselines and hand layouts
+## 7. Plan v2 (2026-10-26 and 27): new circuits, generality fixes, corners, baselines and hand layouts
 
-This section is the whole story of 2026-10-26: what we set out to do, what we ran, what went wrong, how
-each problem was found, what was changed, and what the numbers became. "Before" is the flow as it was on
+This section is the whole story of plan v2 (runs on 2026-10-26 and 27, written up on 2026-10-27): what we set
+out to do, what we ran, what went wrong, how each problem was found, what was changed, and what the numbers
+became. The short answer is in 7.11. "Before" is the flow as it was on
 the morning of 2026-10-26 (variant v1, still runnable as `--variant v1`); "after" is v2. Every number comes
 from `outputs/compare/<design>/{before,after}.json`, `docs/before_after.md` or the file named next to it.
 
@@ -1130,6 +1146,15 @@ Decisions of the day, from you:
 - Git: you commit and push with GitHub Desktop; the flow's sessions do not run git while `.git/index.lock`
   exists.
 - Work continues while your laptop is on, with hourly updates; decisions are asked as FEEDBACK NEEDED.
+
+Decisions of 2026-10-27 (the runs continued with Claude Code, then this write-up with Cowork):
+
+- S3's met1.6 failure of short-L gate pads is fixed with a met1 patch on the pad (your suggestion; row 37).
+- Lane A restarted as a side run next to lane B, so iadc and LOADBench did not wait for TTSKY25a.
+- LOADBench's 'after' result is kept as it is; a 'least-bad' fallback for relaxed types was tested separately
+  as a post-hoc S3 run (row 38), and then adopted as S3's default for later runs (PREREG amendment). Plan v2's
+  results keep the old rule.
+- The eta 0.9 S2 runs of the 5T and LOADBench were repeated with the PC awake (row 39).
 
 ### 7.1 The journey: what went wrong, how it was found, what changed
 
@@ -1178,6 +1203,12 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 37 | S3 | iadc 'before' S3 stopped: its two 1.2/0.2 um LVT types had no signed-off cell. Every option iadc builds for them (nf = 1, in the sized W bin) failed met1.6, because the PCell's gate contact pad stays 0.290 x 0.230 um = 0.067 um2 at short L (also LOADBench's 484/0.24 nf = 1 cells) | S3 ERROR (`no built option`), then every met1 island of the failing cells measured: only the gate pads are below 0.083 um2 | the strap step widens a gate pad below the minimum area along the gate, away from the S/D strips, to 0.370 x 0.230 = 0.085 um2 (Imasha's suggestion); cells that failed DRC before the patch are rebuilt, signed-off cells are not | iadc 88 of 88 options signed off (was 80): DRC 0, LVS match, negative control still caught, cell size unchanged |
 | 38 | S3 | LOADBench 'after' missed PM: 48.1° against ≥ 60° ('before' 64.9°). S2's budgets were starved at the PVT points, so all 6 types were relaxed, and a relaxed type keeps its default PCell. The 484/0.24 and 887/0.74 um devices became single fingers with 8.2 and 4.9 kohm of gate R. The 484 um cell only passed DRC after row 37's patch; before that, the fallback took nf = 8 | G3.3 FAIL, then the chosen cells' access R in `device_decisions.json`: the cells alone cost about 1° of PM, all cells with their access R 17.3° | none in the flow: the 'after' result stands. A 'least-bad' fallback (`--relax-fallback least-bad`: largest min_slack, access R included) is tested post hoc after the queue, in its own folder and snapshot column (Imasha's decision) | post hoc, not pre-registered, same inputs: LOADBench PM 64.7° (spec met), G3.3 passes, area 4396 → 2142 um2, the wide devices at nf = 64 (gate R 2–3 ohm); ota5t_stress area 257 → 206 um2 with GBW and PM slightly up; iadc and TTSKY unchanged (the least-bad option is the default cell). Adopted as the S3 default for later runs (PREREG amendment 2026-10-27; Imasha's decision); plan v2's results keep the old rule |
 | 39 | infra | Windows put the PC into Modern Standby on idle timeout five times during the runs (06:59–11:16). The container slowed or paused, and a SPICE check slowed past its 180 s limit would count as a failed run ("unverified", a violation possibly hidden). The eta 0.9 runs of the 5T and LOADBench ran almost entirely in standby, and their logs were gone | the processes' run times were 28–32 min shorter than the wall clock; the Windows event log (Kernel-Power 506/507) | timeouts checked against the standby windows: one possible case (an iadc lp_floor check, no outcome change). The two eta 0.9 runs were re-run with the PC awake (app keep-awake), keeping their logs and a wall-clock vs uptime record | identical results: gates, outcomes, failed-run counts and worst use. For long runs, keep the PC awake |
+| 40 | S2 / infra | The TTSKY25a S2 run at eta 0.9 crashed (`OSError: [Errno 22] Invalid argument` while writing an ngspice log in the mounted folder, 12:36), but the resume script snapped it anyway: a crash and a gate FAIL both exit with code 1, and review B's stale-report guard (item 10) only covers stages run through `./flow`. The snapshot mixes the crashed run's `budgets.json` (eta 0.9: eta, starved count, minimum budget / need) with the 'after' run's eta 0.5 report (round-1 t, verification, every budget-rule number, G2.7) | Cowork, writing up 7.6: TTSKY25a's round-1 t and all its budget-rule numbers were identical at eta 0.5 and 0.9, while the round-1 t of the other eta 0.5 designs grew about 1.8 x; then the traceback in `runs/logs/plan_v2_resume.log` | nothing in this documentation pass: the row is marked 'not valid' in 7.6 and in `v2_budget_rules.png`; the re-run and the script fix are open (7.10) | the PREREG headline at eta 0.9 has 4 of 5 designs |
+| 41 | S3 | For a device already below vdsat before layout, S3 takes its negative vds − vdsat as the margin, so the check `use <= allowance + 1 % x margin` fails for every option; every iadc type is relaxed whatever its cells, and the least-bad slack flips sign | review C (finding 6), confirmed in `src/s3/run.py` (`mg_of`, the `ok` test, G3.3's `within`) | nothing yet (documentation pass); fix and re-run iadc S3 are open (7.10) | iadc's S3 'before', 'after' and post-hoc results are artefacts of the check |
+| 42 | S2 | The 5T's binding PVT constraint (GBW at tt, 0.9 V, 27 C) is contradicted by SPICE: first order says ours uses all of its allowance there, SPICE measures −0.16 of the margin (GBW rises). G2.5 cannot see it: it checks use <= 1.1 x allowed and never compares SPICE with first order | review C (finding 3), confirmed in the 5T snapshot (`verify`) and `src/s2/run.py` | nothing yet; checking the corner's rates and baseline, and a gate on SPICE vs first order, are open | "PVT constraints cost the 5T 36 um2" is qualified (7.5) |
+| 43 | infra | Variant S2 runs (no-PVT ablation, eta 0.9) reuse the 'after' S2 folder without clearing it, so files the variant does not write stay behind: the `after_nopvt` snapshots carry the 'after' run's `baseline_budget_over_need` (from a stale `baselines.json`), and the TTSKY25a eta 0.9 snapshot mixed files (row 40) | review C (finding 9), confirmed in both `after_nopvt.json` files (ours' geomean 3.1935 = 'after') | nothing yet; clearing the folder and an identity check in `snap` are open | the stale field is not shown in any table; row 40 as above |
+| 44 | S2 | G2.0's route part still uses route lengths from S0's as-sized PCells (single 484 and 887 um fingers on LOADBench; m unconnected copies for m > 1), while v2 changed only the cell part to the representative cell | review C (finding 7), confirmed in `src/s2/run.py` (`unit` = half-perimeter of `device_sizes(s0)`) | nothing yet; route stubs from the representative cells is open | LOADBench's G2.0 is mostly this route R; the claim that G2.0 "flagged" LOADBench's problem is withdrawn (7.8) |
+| 45 | infra | A Cowork deploy reused an archive name from 2026-10-26 (`docs_c`); the bridge delivered the old archive, which had no `__prev_md5.txt`, and `apply.sh` extracted it anyway, overwriting `PREREG.md` and `docs/flow_record_section7_draft.md` with their 2026-10-26 18:22 versions for about 5 minutes (no run used them) | the archive's md5 printed by `apply.sh` differed from the one built; then its file list | both files restored from Cowork's copy (md5 checked); `apply.sh` now refuses an archive whose md5 differs from the expected one or that has no `__prev_md5.txt`; archive names carry a timestamp | no lasting change |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -1309,21 +1340,53 @@ are in 7.9.
 
 ### 7.5 Results before and after
 
+The numbers in 7.5 and 7.6 come from the snapshots `outputs/compare/<design>/<tag>.json` (also tabulated in
+`docs/before_after.md`) or from the run outputs named next to them (`outputs/S2/<design>/budgets.json`,
+`s2_report.json`, `outputs/S3/<design>/device_decisions.json`). The figures are drawn from the snapshots by
+`scripts/make_v2_figures.py`. 'before' is v1 (the
+flow as it was, `--variant v1`), 'after' is v2. The **post hoc** column is a separate S3 re-run on the 'after' budgets
+with the 'least-bad' rule for relaxed types (7.1 row 38, PREREG amendment of 2026-10-27). It is not a plan-v2 result,
+and nothing in the 'after' columns uses it.
+
+![Stage gates before and after](flow_record/img/v2_gates_before_after.png)
+
+![S3 device area and specs before, after and post hoc](flow_record/img/v2_s3_area_specs.png)
+
+What the two figures show at a glance:
+
+- **No design passes S2 or S3 in v2 except the 5T.** The 5T passes everything, before and after. The other four
+  fail S2's new gate G2.7 in v2: the S3 library's cheapest cells alone use more than eta x margin of some
+  constraint (worst: ota5t_stress 1.26x, TTSKY25a 2.32x, LOADBench 2.80x, iadc 12.7x; `floor_use_of_allowed` in G2.7). v1 had no such
+  gate and passed S2 on all five.
+- **S0 and S1 are the same before and after** (v2 only adds the PVT points to S0). Their failures are about the
+  designs, not the flow version: G0.7 on LOADBench and iadc (PDK PCells at the netlist size fail met1.6, row 7), G1.6
+  on LOADBench (one nonlinear resistance case) and G1.1 on iadc (21 functional devices below vdsat, open question).
+- **Every final circuit meets every spec, except LOADBench 'after'** (PM 48.1 deg against >= 60). There the
+  relaxed-type fallback, not the budgets, decided the result (below and 7.1 row 38).
+
 **example_ota_5t** (before = v1, after = v2; both S2 and S3 PASS):
 
 | | before (v1) | after (v2) |
 |---|---|---|
 | S3 cells (PMOS load / input pair / tail) | nf2 / nf2 / nf4 | nf1 / nf1 / nf2 |
 | total device area | 187.2 um2 | 237.0 um2 (+27 %) |
-| final gain / GBW / PM (cells in the circuit) | 32.88 dB / 101.9 MHz / 79.84 deg | 31.80 dB / 102.4 MHz / 79.63 deg |
+| final gain / GBW / PM (cells in the circuit) | 32.88 dB / 101.9 MHz / 79.84 deg | 31.79 dB / 102.4 MHz / 79.63 deg |
 | fingers outside the sized device's W bin | (not checked in v1) | none (A-bin) |
 
-Why v2 costs area here: S2's round 1 is now bound by a PVT point, GBW at tt, VDD −10 %, 27 C (point tt_v0.9_t27, G2.9), not by
-the nominal margins, so every budget sits at its need (t = 1.05). The input pair's gate then gets only the
-library's lowest gate resistance (273 ohm), which one of its 12 cells has: the unfolded default. In v2's other
-modes: B (nf as in the netlist) 254.5 um2 with the tail relaxed; A-free 232.0 um2 but the tail's 6 um fingers
-leave the sized W bin; rule-of-thumb folding 190.5 um2 with all three types over their allowances. So the area
-v1 saved came from nominal-only budgets and, for the tail (nf4, 6 um fingers), from a finger in another model bin.
+Why v2 costs area here: S2's round 1 is now bound by a PVT point, GBW at tt, VDD −10 %, 27 C (point tt_v0.9_t27,
+G2.9; margin 4.97 MHz against 84.5 MHz nominal), not by the nominal margins, so the binding elements' budgets sit
+at their need (round-1 t = 1.05; other elements get more in phase 2, geometric mean 3.2 x need). The input
+pair's drain and source may then carry 8.0 ohm of access resistance, and its folded cells have 8.5–17 ohm on one
+side, so only the unfolded cell fits (row 20; the first draft blamed gate resistance, which was wrong). In v2's
+other modes: B (nf as in the netlist) 254.5 um2 with the tail relaxed; A-free 232.0 um2 but the tail's 6 um
+fingers leave the sized W bin; rule-of-thumb folding 190.5 um2 with all three types over their allowances.
+Without the PVT constraints the area is 200.8 um2 (ablation).
+
+**Caveat (review C, finding 3): the binding PVT constraint is contradicted by SPICE.** At tt_v0.9_t27 the first-
+order model says ours' budgets use all of their allowance (0.5 of the margin), but SPICE, with every harmful
+budget inserted, measures −0.16 of the margin: GBW goes *up* (−0.27 at eta 0.9). G2.5 does not catch this,
+because it only checks use <= 1.1 x allowed. Until the corner's rates or its baseline are explained, "the PVT
+constraints cost the 5T 36 um2" rests on a constraint SPICE does not confirm.
 
 **ota5t_stress** (eta 0.9; the 5T with a 200 fF load and tight specs):
 
@@ -1332,7 +1395,7 @@ v1 saved came from nominal-only budgets and, for the tail (nf4, 6 um fingers), f
 | S2 gates | PASS | G2.7 FAIL: the library's cheapest cells do not fit |
 | S2 round-1 t (budget / need) / elements starved | 1.00 / 11 of 21 | 0.26 / 20 of 21 |
 | PVT constraints | none | 83 |
-| budgets in SPICE, worst use / allowed | 0.84 (GBW, nominal) | 0.89 (GBW at ss, 1.1 V, 85 C) |
+| budgets in SPICE, worst use as a fraction of the margin (/ allowed at eta 0.9) | 0.84 / 0.94 (GBW, nominal) | 0.89 / 0.98 (GBW at ss, 1.1 V, 85 C) |
 | S3 | G3.5 FAIL: 2 device types relaxed | G3.5 FAIL: 3 device types relaxed |
 | total device area | 206.9 um2 | 256.6 um2 |
 | final gain / GBW / PM | 32.22 dB / 369.2 MHz / 63.65 deg | 31.75 dB / 356.3 MHz / 62.41 deg |
@@ -1343,20 +1406,123 @@ v2's S2 fails G2.7 before any cell is chosen, names the binding point (GBW at ss
 margin is 7.8 MHz against 37.4 MHz nominal), and gives the number: the cheapest library cells alone use
 1.26 x eta x that margin.
 
-(loadbench_miller, ttsky25a_fd, iadc_ota: filled when their after-runs end)
+- **Without the PVT constraints** (ablation `after_nopvt`): S2 passes (G2.7 too), S3 relaxes nothing, 200.8 um2,
+  31.80 dB / 368.5 MHz / 61.94 deg. So the PVT points are what make this design not fit.
+- **Post hoc, least-bad fallback** (not plan v2): the same 3 types relaxed, 2 of them now nf = 2; area 206 um2,
+  31.80 dB / 370.2 MHz / 63.76 deg.
+
+**loadbench_miller** (two-stage Miller, held out; eta 0.5; specs gain >= 57.0 dB, GBW >= 21.05 MHz, PM >= 60 deg,
+power <= 614.2 uW):
+
+| | before (v1) | after (v2) | post hoc (least-bad S3; not plan v2) |
+|---|---|---|---|
+| S2 gates | PASS | FAIL G2.7 (cheapest cells use 1.16–2.80 x eta x margin at 4 PVT points) and G2.3 (phase 2 did not converge; the max-min budgets are kept) | as 'after' (same budgets) |
+| S2 round-1 t (budget / need) / starved | 0.076 / 21 of 40 | 0.00094 / 39 of 42 | – |
+| PVT constraints | none | 122 | – |
+| G2.0, expected use of the margins (gain / GBW / PM) | 6.57 / 0.97 / 6.26 | 6.64 / 0.91 / 3.74 | – |
+| S3 relaxed types | 3 of 6 | 6 of 6 | 6 of 6 (5 change cell) |
+| total device area | 2342 um2 | 4396 um2 | 2142 um2 |
+| final gain / GBW / PM / power | 57.99 dB / 22.96 MHz / **64.9 deg** / 550.7 uW | 57.74 dB / 22.55 MHz / **48.1 deg** / 361.1 uW | 57.99 dB / 22.74 MHz / **64.7 deg** / 555.4 uW |
+| specs met | all | **PM fails** (G3.3 FAIL) | all |
+
+![LOADBench: the relaxed-type fallback](flow_record/img/v2_loadbench_fallback.png)
+
+What happened:
+
+1. **S2 says, before any layout, that this design cannot fit.** G2.0's expected use is 6.6 margins of gain and
+   3.7 of PM. Almost all of it is route resistance (6.55 of the 6.64 gain margins, 17.7 of 19.9 deg of PM), with
+   route lengths taken from the as-sized single-finger PCells (7.8, review C finding 7). The gain spec is only
+   1 dB below the sized circuit (our PREDICTED spec rule, 7.2), and at sf, 0.9 V, −40 C only 0.014 dB (7.6). v2 adds the PVT
+   points and floors, and round 1 ends at t = 0.00094: almost every budget is a small fraction of its need.
+2. **So S3 relaxes all six types, and the rule for a relaxed type decides the result.** The plan-v2 rule kept
+   the default PCell, the device as sized. For the 484.2/0.24 and 887.03/0.74 um devices that is one finger with
+   8.2 and 4.9 kohm of gate resistance. All cells together, with their access resistance, cost 17.3 deg of PM; the
+   cells without access resistance about 1 deg (read from `device_decisions.json`, 7.1 row 38).
+3. **Why 'before' did better.** v1 relaxed only 3 types (the 887 um device was not one of them), and the 484 um
+   nf = 1 cell was not DRC-clean before the gate-pad patch of 2026-10-27 (row 37), so v1's fallback took nf = 8
+   for it. The patch made the bad cell available to v2's fallback.
+4. **The post-hoc least-bad rule** keeps, for each relaxed type, the option that breaks its allowances least,
+   access R included. 5 of 6 types change; the two wide devices go to nf = 64 (gate R 3 and 2 ohm), PM is
+   64.7 deg and the area halves. Power also returns to 'before' (555 uW): the nf = 1 strips put 88–161 ohm in
+   the sources of large, weakly inverted devices, which cut their current. That last point is an inference from
+   the access-R values; no separate run tested it.
+
+**iadc_ota** (folded cascode with SC CMFB, held out, hand layout in 7.8; eta 0.5; specs gain >= 52.47 dB, GBW >=
+188.87 MHz, PM >= 60 deg):
+
+| | before (v1) | after (v2) | post hoc |
+|---|---|---|---|
+| S2 gates | PASS | FAIL G2.7 (cheapest cells use up to 12.7 x eta x margin) | as 'after' |
+| S2 round-1 t / starved | 0.135 / 137 of 512 | 0.0166 / 574 of 750 | – |
+| PVT constraints | none | 105 | – |
+| G2.0 expected use (gain / GBW / PM margins) | 2.88 / 3.70 / 0.28 | 1.03 / 1.84 / 0.24 | – |
+| S3 relaxed types | 22 of 22 | 22 of 22 | 22 of 22 (no cell changes) |
+| total device area | 7026 um2 | 7026 um2 | 7026 um2 |
+| final gain / GBW / PM | 53.47 dB / 203.8 MHz / 76.5 deg | the same | the same |
+| specs met | all | all | all |
+| S3 gates | FAIL G3.3, G3.5 | FAIL G3.3, G3.5 | FAIL G3.3, G3.5 |
+
+- **S3's result is identical before and after, and the reason is a code defect** (review C, finding 6, checked in
+  `src/s3/run.py`). For a device that is already below vdsat before any layout (the G1.1 devices; 45 such checks in
+  G3.3), S3 uses its negative vds − vdsat as the "margin", so the check `use <= allowance + 1 % x margin` has a
+  negative right-hand side and fails for every option, even one that changes nothing. Every type is therefore
+  relaxed whatever its cells are. S2 v2 rightly sets no constraint for these devices (row 24); S3 did not follow.
+  The same sign error enters the least-bad rule's slack. In A-bin mode every iadc type also has only nf = 1
+  options (W = 1.2–1.4 um), so there would be little to choose even without the defect; how much is not known.
+- **What v2 changes is S2's estimate.** G2.0's GBW use drops from 3.70 to 1.84 margins because the expected cells
+  are now the library's representative cells instead of v1's as-sized single fingers (access R part 52.3 → 7.6
+  MHz). 7.8 tests this against the hand layout.
+- The gate-pad patch (row 37) was needed for this design to run S3 at all.
+
+**ttsky25a_fd** (Imasha's taped-out two-stage FD op-amp, held out; eta 0.5; specs gain >= 97.40 dB, GBW >=
+1.8465 MHz, PM >= 60 deg, power <= 497.2 uW):
+
+| | before (v1) | after (v2) | post hoc |
+|---|---|---|---|
+| S2 gates | PASS | FAIL G2.7 (cheapest cells use up to 2.32 x eta x margin) | as 'after' |
+| S2 round-1 t / starved | 1.62 / 0 of 2555 | 0.227 / 2035 of 2678 | – |
+| PVT constraints | none | 104 (5 of 45 PVT points meet every spec) | – |
+| G2.0 expected use (gain / GBW / PM margins) | 0.19 / 0.31 / 0.21 | 0.20 / 0.31 / 0.21 | – |
+| S3 relaxed types | 4 of 22 | 10 of 22 | 10 of 22 (no cell changes) |
+| total device area | 4025 um2 | 4092 um2 | 4092 um2 |
+| final gain / GBW / PM / power | 98.42 dB / 2.046 MHz / 77.86 deg / 452.6 uW | the same (PM 77.862) | the same |
+| specs met | all | all | all |
+| S3 gates | FAIL G3.3, G3.5 | FAIL G3.3, G3.5 | FAIL G3.3, G3.5 |
+
+- **Nominally the design has room** (G2.0 uses only 0.2–0.3 of each margin, and v1 gave every element 1.6 x its
+  need). **One PVT point takes it away:** gain at ff, 1.0 V, 27 C meets its spec by only 0.093 dB, and there the
+  cheapest cells already use 2.3 x eta x margin (the next point: 0.41; 7.6). Only 5 of 45 points meet every spec. So v2 starves 2035 elements and relaxes 10 types, mostly on S/D access R.
+- **The final circuit performs as 'before'** to 0.002 deg, although the cells differ (area +1.7 %): at 2 MHz, with
+  load and Miller capacitors of about 0.5–1 pF on the signal nodes, the cells' own parasitics barely register
+  (an inference; not tested separately).
+- **G3.3 fails on power in both versions**, by 0.6 uW of a 45 uW margin. S2 budgets gain, GBW, PM and noise, not
+  power (`SPECS` in `src/s2/run.py`), so S3's power allowance is zero, and an increase above S3's 1 %-of-margin
+  tolerance (0.45 uW) fails G3.3. This is a gate-definition issue, not a layout problem (7.10).
+
+**Before → after, overall.** v2 never improved a final spec on these five designs. What it changed is *where and how*
+the flow says that a design does not fit: in S2, before any cell is chosen, with the binding PVT point and a number,
+instead of as relaxed cells in S3. But the binding points are corners where the sized circuit only just meets a
+spec (0.014 dB, 0.093 dB, 0.26 deg on the held-out designs; 7.6), and on the 5T SPICE contradicts the binding
+corner's first-order rate (caveat above). Two side results: the PVT constraints, not the floors, are what the
+ablation removes to make the 5T smaller and the stress design fit, and the relaxed-type rule can dominate a result
+when S2 leaves no budget (LOADBench). On iadc, S3's result is fixed by a saturation-check defect, not by the
+budgets (review C, finding 6).
 
 ### 7.6 Joint vs per-net budgets: the three-outcome result
 
 Five budget rules on the same sensitivities, the same eta and the same constraints (nominal + PVT points),
 scored two ways: first order (the sum the rule assumed) and in SPICE (every budget that hurts a spec inserted
 into the transistor netlist at once, at each rule's own most-used PVT points; one common set of checks per
-design). The words follow PREREG's amendment (review B, item 3):
+design). The words are those of PREREG's 2026-10-26 amendment, as `outcome()` in `src/s2/baselines.py` computes them:
 
-- **unsafe**: use / allowed > 1 in SPICE or first order (the layout would eat more than eta x margin);
-- **infeasible**: an element budgeted below its library floor, i.e. below what the cheapest S3 cell already
+- **unsafe**: a spec is violated in SPICE, or use / (eta x margin) > 1.02 (SPICE use where SPICE ran, else first
+  order): the layout would eat more than its allowance;
+- **infeasible**: some element is budgeted below its library floor, i.e. below what the cheapest S3 cell already
   adds there, so no layout can meet it ("starved" = below the expected need, a softer signal);
 - **ok**: neither. A SPICE run that fails (no DC solution, timeout) is listed apart and marks the outcome
-  "unverified", never a violation (review B, item 1).
+  "(unverified)", never a violation (review B, item 1).
+
+![Budget rules at each design's own eta and at eta 0.9](flow_record/img/v2_budget_rules.png)
 
 The last numeric column says how much room a rule leaves the layout: budget / expected need, minimum and
 geometric mean over the budgeted elements. The tables below are the re-runs after review B
@@ -1366,17 +1532,19 @@ geometric mean over the budgeted elements. The tables below are the re-runs afte
 
 | Rule | Use / allowed, 1st order | Use / allowed, SPICE | Failed runs | Starved | Below floor | Budget / need, min / geomean | Outcome |
 |---|---|---|---|---|---|---|---|
-| per-net (SpiceXplorer's rule) | 4.21 | 1.71 | 1 | 0 | 0 | 1.77 / 8.68 | **unsafe** |
+| per-net (SpiceXplorer's rule) | 4.21 | 1.71 | 1 | 0 | 0 | 1.77 / 8.68 | **unsafe** (unverified) |
 | equal split | 0.62 | 1.21 | 0 | 4 | 2 | 0.11 / 3.53 | **unsafe + infeasible** |
-| plain LP (max sum of budget / need) | 1.00 | 1.77 | 1 | 4 | 4 | 0 / 0.03 | **unsafe + infeasible** |
+| plain LP (max sum of budget / need) | 1.00 | 1.77 | 1 | 4 | 4 | 0 / 0.03 | **unsafe + infeasible** (unverified) |
 | LP with floors, capped at need | 0.95 | 0.29 | 0 | 0 | 0 | 1.00 / 1.00 | **ok** |
 | ours (joint max-min, floors, PVT) | 1.00 | 0.65 | 0 | 0 | 0 | 1.00 / 3.19 | **ok** |
 
 Two rules are safe and feasible on the 5T. The LP with floors reaches that by giving every element exactly its
 expected need (it is capped there, as review B asked, so that it does not sit on vertices at 0 or 10 x need):
-any net that comes out above its estimate breaks it. Ours is as safe in SPICE (0.65 of the allowance) and leaves
-the layout 3.2 x the expected need on the geometric mean; the elements at 1.0 are the ones the GBW point at tt,
-0.9 V, 27 C binds. Per-net budgets each net as if it were alone and overshoots the allowance 1.7 x in SPICE;
+any net that comes out above its estimate breaks it. Ours leaves the layout 3.2 x the expected need on the
+geometric mean, and the LP with floors is the safer of the two in SPICE (0.29 against 0.65 of the allowance).
+Two cautions (review C, finding 5): the budget / need column was added after the outcomes tied (row 34), and the
+LP with floors cannot exceed the need by construction (its upper bound is the need; ours may go to 10 x), so that
+column favours ours by design. A fair comparison of room needs the LP re-run with ours' upper bound. Per-net budgets each net as if it were alone and overshoots the allowance 1.7 x in SPICE;
 equal split and the plain LP put elements below the cheapest library cell.
 
 **ota5t_stress** (eta 0.9, 21 elements, 83 PVT constraints, 22 SPICE checks): no rule works, and S2 says so
@@ -1391,11 +1559,85 @@ cheapest library cells alone use 1.26 x eta x that margin, so the LP with floors
 | LP with floors (floors dropped) | 1.00 | 9.02 | GBW at 2 points | 9 | 6 | 4 | 0 / 0.005 | **unsafe + infeasible** (unverified) |
 | ours | 1.00 | 0.98 | none | 0 | 20 | 15 | 0.26 / 0.31 | **infeasible** |
 
-Ours is the only rule that stays inside the allowance in SPICE here, and it reports the design as infeasible
-instead of handing out budgets that a layout cannot meet. Equal split also stays inside, but by starving 13 of
-21 elements; the two LPs put many elements at zero, and those circuits often have no DC solution in SPICE.
+Two rules stay inside the allowance in SPICE here: equal split (0.74) and ours (0.98), and both are
+infeasible. Equal split does it with fewer elements below their floor (11 against 15) and more room (geometric
+mean 0.73 against 0.31 x need); ours has the higher minimum (0.26 against 0.06 x need), which is what max-min
+sharing maximises (review C, finding 1; the first version of this paragraph said ours was the only rule inside).
+The two LPs put many elements at zero, and those circuits often have no DC solution in SPICE.
 
-(other designs: to be filled)
+**The three held-out designs at their own eta (0.5).** Each cell: outcome (SPICE worst use / allowed; failed SPICE
+runs / checks when there are any).
+
+| Design | per-net | equal split | plain LP | LP with floors | ours |
+|---|---|---|---|---|---|
+| loadbench_miller (42 elements, 21 checks) | unsafe + infeasible (13.2) | infeasible (0.76) | unsafe + infeasible (3.6e4; 11/21 failed) | unsafe + infeasible (4.4e4) | **infeasible (1.00)** |
+| iadc_ota (750 elements, 50 checks) | unsafe + infeasible (64.6) | infeasible (0.30) | unsafe + infeasible (1.3e3; 26/50 failed) | unsafe + infeasible (1.0e3; 9/50 failed) | **infeasible (0.97)** |
+| ttsky25a_fd (2678 elements, 69 checks) | unsafe (15.2; 1/69 failed) | infeasible (0.73; 1/69 failed) | unsafe + infeasible (8.65; 26/69 failed) | unsafe + infeasible (543; 2/69 failed) | **unsafe + infeasible (1.04; 1/69 failed)** |
+
+**PREREG headline: every design at eta = 0.9** (snapshots `after_eta0.9`; S2 only, S3 not re-run).
+
+| Design | per-net | equal split | plain LP | LP with floors | ours | ours: budget / need (geomean) |
+|---|---|---|---|---|---|---|
+| example_ota_5t | unsafe (3.55; violates GBW at tt, 0.9 V, 27 C and XM5's saturation) | unsafe + infeasible (1.10) | infeasible (0.82; 8/19 failed) | ok (0.16; every budget = need) | **ok (0.41)** | 4.79 |
+| ota5t_stress | unsafe (9.07) | infeasible (0.87) | unsafe + infeasible (7.97; 8/22 failed) | unsafe + infeasible (9.02; 9/22 failed) | **unsafe + infeasible (1.11)** | 0.31 |
+| loadbench_miller | unsafe + infeasible (10.2) | infeasible (0.74) | unsafe + infeasible (2.0e4; 4/21 failed) | infeasible (0.62) | **infeasible (1.008)** | 0.014 |
+| iadc_ota | unsafe + infeasible (53.2) | infeasible (0.30) | unsafe + infeasible (672; 25/50 failed) | unsafe + infeasible (583; 9/50 failed) | **infeasible (0.97)** | 0.14 |
+| ttsky25a_fd | **not valid**: the eta 0.9 S2 run crashed, and its snapshot mixes that run's `budgets.json` with the eta 0.5 report (7.1 row 40). Not re-run yet | | | | | |
+
+**Is the eta 0.9 table trustworthy?** The first eta 0.9 runs of example_ota_5t and loadbench_miller ran almost
+entirely during a Windows standby (7.1 row 39). Both were re-run with the PC awake, and all 31 compared fields
+agree exactly for each (gates, every rule's outcome, failed-run lists, worst use first order and in SPICE,
+verification; `outputs/posthoc/eta09_rerun/compare.json`). The 5T's 8 failed plain-LP runs repeat with the PC
+awake (4 are ngspice timeouts), so those budget scenarios genuinely do not converge. The TTSKY25a row is the
+exception above. ota5t_stress also ran at eta 0.9 on 2026-10-26 ('after'); today's run differs slightly (round-1
+t 0.2567 → 0.2575; ours' SPICE use 0.984 → 1.11, which turns "infeasible" into "unsafe + infeasible"). The
+cause is not found yet (7.10).
+
+**What binds: one PVT point with a very small margin** (review C, finding 2; from `outputs/S2/<design>/budgets.json`
+and G2.7 in `s2_report.json`). PREREG adds a constraint for every PVT point where the sized circuit meets the spec,
+however narrowly. On every design the point that binds round 1 and drives G2.7 is such a point:
+
+| Design | binding constraint (round 1) | its margin | nominal margin | G2.7 floor use there (next highest) |
+|---|---|---|---|---|
+| example_ota_5t | GBW at tt, 0.9 V, 27 C | 4.97 MHz | 84.5 MHz | 0.33 (passes) |
+| ota5t_stress | GBW at ss, 1.1 V, 85 C | 7.78 MHz | 37.4 MHz | 1.26 (0.93) |
+| loadbench_miller | gain at sf, 0.9 V, −40 C | **0.014 dB** | 1.0 dB | 2.43 (GBW at sf, 1 V, 85 C: 2.80, margin 0.25 MHz) |
+| iadc_ota | PM at ss, 0.9 V, −40 C | **0.26 deg** | 17.2 deg | 12.7 (GBW at ss, 0.9 V, 85 C: 12.7, margin 1.32 MHz) |
+| ttsky25a_fd | gain at ff, 1.0 V, 27 C | **0.093 dB** | 1.0 dB | 2.32 (0.41) |
+
+- These margins are at or below S1's own model error (gain: 0.07 dB on TTSKY25a, 0.017 dB on LOADBench; G1.2,
+  nominal point). So "infeasible" on the held-out designs says that the sized circuits barely meet their
+  specs at some corners, more than it says anything about layout.
+- TTSKY25a's G2.7 FAIL rests on that single point (2.32; the next is 0.41). Without it, G2.7 would pass and S2 would
+  not starve 2035 elements. LOADBench's eta 0.9 "exceedance" (1.008 = 127/126 at a 0.0126 dB allowance) is one
+  step of the gain measurement's resolution.
+- A sensitivity analysis that drops PVT constraints whose margin is below the model error was not run (7.10).
+
+**Read against the hypotheses** (PREREG; the benchmark circuits are the three held-out designs; corrected after
+review C, finding 4):
+
+| Hypothesis | What the runs show | Verdict |
+|---|---|---|
+| **H1** soundness: all of ours' budgets together use at most eta x margin in SPICE | H1 as written has no tolerance (the 1.02 of the 2026-10-26 amendment is for H1b and H1c). In 8 distinct design–eta pairs, ours exceeds 1.0 three times: TTSKY25a at eta 0.5 (1.035, with 1 failed run), LOADBench at eta 0.9 (1.008, one resolution step on a 0.014 dB margin) and ota5t_stress at eta 0.9 (1.11 in today's run; 0.98 in 2026-10-26's run of the same pair). The SPICE checks cover up to 15 PVT points per design, not every corner | **not supported in full.** Two of the three exceedances sit on margins below the model error; the third is not reproducible |
+| **H1b** per-net violates H1 on >= 2 of 3 benchmark circuits, joint does not | Per-net is unsafe on all 3 held-out designs at eta 0.5 (13–65 x the allowance in SPICE, with real spec violations) and on both valid ones at 0.9. Ours stays within on iadc and (at eta 0.5) LOADBench, not on TTSKY25a | **first half supported, but expected by construction**: per-net gives each element the whole allowance, so N elements overshoot about N-fold (first order 4.2 to 70). **Second half fails on TTSKY25a.** Our per-net rule re-implements SpiceXplorer's rule; PREREG asked for the authors' code |
+| **H1c** equal split gives some element a budget below its floor on >= 2 of 3 | Infeasible on all 3 held-out designs at eta 0.5 (11–85 elements below floor) and on both valid ones at 0.9 | **supported, but uninformative here**: on all three held-out designs the floors alone already exceed the allowance (G2.7), so *every* rule that respects the allowance must put some element below its floor. Ours does so too, with more elements below floor than equal split on LOADBench and iadc |
+
+What this means:
+
+1. **Per-net budgets are unsafe everywhere** (1.7 to 65 x the allowance once all budgets are in the circuit
+   together). This is the expected textbook result (superposition), now measured in SPICE on five designs; it
+   is not by itself evidence for our allocation.
+2. **On the held-out designs, ours is not better than equal split on any pre-registered outcome** (review C,
+   finding 1). Both are "infeasible" on LOADBench and iadc; on TTSKY25a equal split is "infeasible" and ours
+   "unsafe + infeasible". Equal split also has fewer elements below floor there. Ours wins only on the minimum
+   budget / need, the quantity max-min sharing maximises by construction. The "safe and feasible, with room"
+   result that PREREG's argument needs is shown on the 5T only, and there the LP with floors is also safe and
+   feasible.
+3. **The infeasibility itself comes from near-zero-margin PVT points** (table above), so it describes the sized
+   circuits and the spec rule as much as the layout problem.
+4. **The plain LP is not a usable baseline in SPICE**: it puts many budgets at zero or at the cap, and on the larger
+   designs about half of its SPICE checks fail to converge (from 1 of 19 on the 5T to 26 of 50 on iadc). The LP
+   with floors behaves better, but at eta 0.9 it is unsafe on 2 of the 4 valid designs and infeasible on 3.
 
 ### 7.7 The hand-drawn TTSKY25a layout measured the flow's way
 
@@ -1447,6 +1689,32 @@ Correction recorded here: the first runs of the MIM-load condition sets (14:14) 
 this PDK scales the mismatch term, not the capacitance, so they had one 1x1 um unit (2.6 fF) per output. The
 table above is from the corrected runs (`MF=100 M=100`); the PEX loss changed by less than 0.003 MHz.
 
+The final run of 2026-10-27 (09:30, after the 'after' S2) repeats these numbers: PEX 108.11 dB, 1.426 MHz,
+77.60 deg; drawn → PEX costs 0.104 MHz of GBW, 2.96 deg of PM and 0.014 dB of gain.
+
+**Against S2's G2.0 (the 'after' run).** G2.0 is S2's estimate, before any layout, of the spec a compact layout
+loses, split by where it comes from (`g20_by_part` in the snapshot; table at the end of `docs/before_after.md`).
+The capacitance-only extraction can be compared with G2.0's capacitance parts only.
+
+| Loss (bench conditions; allowance = 0.5 x margin) | G2.0: C routes + C cells | G2.0: R (routes + cell access) | tile: drawn → PEX (C only) |
+|---|---|---|---|
+| GBW (MHz; margin 0.205) | 0.042 + 0.005 = 0.047 | 0.016 | 0.104 |
+| PM (deg; margin 18.2) | 3.29 + 0.30 = 3.60 | 0.18 | 2.96 |
+| gain (dB; margin 1) | 0.0002 | 0.196 | 0.014 |
+
+![G2.0 against the hand layouts](flow_record/img/v2_g20_vs_hand_layouts.png)
+
+- **PM: G2.0's capacitance part is 21 % above the tile's measured loss** (3.60 against 2.96 deg).
+- **GBW: G2.0's capacitance part is 2.2 x below it** (0.047 against 0.104 MHz).
+- Neither number tests G2.0 against PREREG's 25 %: G2.0 is computed for the schematic's nodes and a compact route
+  estimate, and the tile is a different circuit (point 2 above: 25 % less GBW, other devices on the nodes) with
+  its own wiring. Both are comparisons of two related circuits (review C, finding 8c).
+- **The tile's R+C extraction is not trusted** (`reference_layout_rc100s.json`, 2026-10-27 10:08). Both of its R+C
+  simulations (OP and AC) warn "Dynamic gmin stepping failed". By the rule adopted after review B, a run with
+  numerical warnings is not a result, so its numbers are not reported here. A lead for the next attempt (a
+  hypothesis, not checked): its unmapped ports include sub-cell copies of bias nets (`...Vbias1`–`Vbias3`,
+  `PBias`, `switchblock_1.beta`), the same kind of symptom as iadc's first R+C run (7.1 row 35).
+
 ### 7.8 The hand-drawn iadc_ota layout, and a first test of G2.0
 
 `scripts/reference_iadc.sh` measures the upstream layout (`layout/ota/ota.gds`, cell `ota`) the same way. The
@@ -1496,7 +1764,7 @@ re-run has rc 0 and no warnings.
   2 %: IR drop on the hand layout's bias and supply wiring. The 3.6 dB gain *increase* comes with that DC
   shift, so the gain row is not a parasitic loss in G2.0's sense. G2.0's linear rates cannot predict a DC
   shift of this size. S2's DC saturation constraints cover part of it, but only per device.
-- **PM: the R part agrees** (2.53 predicted, 2.46 measured).
+- **PM: the R part agrees** (2.53 predicted, 2.46 measured), but with v1's G2.0, whose expected cells were wrong (next bullet).
 - **GBW: the R part is over-predicted 25 x** (62.1 MHz predicted, 2.5 MHz measured). 52 of the 62 MHz come
   from the access resistance of v1's expected cells: the as-sized single-finger default PCell, whose gate
   and straps run the full width of one long finger. The hand layout draws its wide devices with many fingers. That is what v2 changes:
@@ -1505,11 +1773,42 @@ re-run has rc 0 and no warnings.
 - One circuit, one layout. The C part of GBW agreeing to 1 % is encouraging; the R part shows that G2.0 is
   only as good as its assumed cells.
 
+**Against the 'after' G2.0 (v2).** v2's expected need takes the S3 library's representative cell for each device
+type instead of the as-sized single finger, which adds capacitance inside the cells and removes most of the access
+resistance:
+
+| Loss from the drawn devices | G2.0 'before' (v1): C routes + C cells / R | G2.0 'after' (v2): C routes + C cells / R | layout: C only | layout: R part (R+C − C) |
+|---|---|---|---|---|
+| GBW (MHz; margin 21.0) | 15.5 + 0 / 62.1 | 15.5 + 5.65 / 17.5 | 15.6 | 2.5 |
+| PM (deg; margin 17.2) | 2.38 + 0 / 2.53 | 2.38 + 0.97 / 0.81 | 0.88 | 2.46 |
+| gain (dB; margin 1) | 0 / 2.88 | 0 / 1.03 | 0 | −3.64 (a gain increase, with the DC shift) |
+
+- **Capacitance.** The C-only extraction is flattened with cthresh 0, so drawn → PEX includes the metal inside
+  the devices' own layout as well as the routes: it is the counterpart of G2.0's route *and* cell parts (review
+  C, finding 8a). Compared that way, G2.0 is 35 % high for GBW (21.2 against 15.6 MHz) and 3.8 x high for PM
+  (3.35 against 0.88 deg). The route part alone happens to match GBW (15.5), but that is not the like-for-like
+  comparison. G2.0 also counts only harmful rates, while the measured loss is net of helpful parasitics, which
+  biases G2.0 upwards (finding 8b).
+- **Resistance.** v2 cuts the GBW over-prediction from 25 x to 7 x (17.5 against 2.5 MHz) but now under-predicts
+  PM 3 x (0.81 against 2.46 deg). Three cautions: the R+C run also moves the operating point (output CM −68 mV,
+  supply current +2 %), so its GBW and PM mix a DC shift with the parasitic loss, not only its gain (finding 8d);
+  extresist at tolerance 100 drops small resistors, so the measured R part is a lower bound, and no tolerance
+  sweep was run (8e); and G2.0's route part still uses route lengths from the as-sized netlist PCells (S0's single
+  fingers and, for m > 1, the m copies), not from the representative cells (finding 7): its route resistance alone
+  (9.8 MHz) is 3.9 x the layout's whole measured R part.
+- **Verdict on G2.0 so far.** On the one like-for-like layout (iadc), none of the four comparable numbers (C and R
+  for GBW and PM) is within PREREG's 25 %: they are off by 1.35 to 7 x, in both directions. On the TTSKY25a tile
+  (a different circuit) one of two is within 25 %. G2.0 is not yet a calibrated predictor. The first draft of
+  this section said G2.0 had flagged LOADBench's resistance problem; that is withdrawn: G2.0 predicted mostly
+  route resistance (from as-sized route lengths), while the loss that happened came from the cells' gate and
+  access resistance (finding 7). PREREG's G2.0 test needs S5–S7 layouts of the flow's own circuits.
+
 ### 7.9 Independent reviews of v2
 
-Two independent review agents read the code, with no access to our conclusions beyond what the files say.
+Three independent review agents read the code, with no access to our conclusions beyond what the files say.
 Code comments cite their items as "review item N" (review A, before the runs) and "review B, item N" (after the
-first runs, on the code and on this section's first draft).
+first runs, on the code and on this section's first draft). Review C (2026-10-27) read the finished write-up of
+7.5–7.11 against the snapshots, run outputs and code, without the status notes or the progress log.
 
 **Review A (before the runs, 17 findings).** Applied: phase 2 keeps a hair of room above pinned elements (1);
 the constraint check's tolerance is the solver's (2); S3's per-device share comes from the same cell (3); an
@@ -1539,19 +1838,158 @@ against 196 fF): ngspice already reports a capacitor's value multiplied by M, so
 | 10 | Before/after snapshots could pick up a stale report after a crash | a report older than the start of an ERROR stage is marked stale |
 | 11 | Minor: timeout decoding, silent `with_conditions`, G0.8 bench, block count | decode with replacement, stderr kept, `timed_out` flag; `with_conditions` raises when a line is missing; 48 - 6 + 24 + 1 = 67 blocks (XX1_M3 left its false cascode pair as a single) |
 
+**Review C (2026-10-27, after all runs, on this write-up; 14 findings).** The reviewer found the tables matched the
+snapshots almost everywhere and that the problems were in the reading. Every finding below was checked against
+the files before it was acted on. "Open" means it needs a run or a code change, which this documentation pass did
+not do; those are listed for Imasha in 7.10.
+
+| # | Finding (short) | Checked | Done |
+|---|---|---|---|
+| 1 | The write-up said ours was the only rule inside the allowance on ota5t_stress; equal split is inside too, and on the held-out designs equal split matches or beats ours on every pre-registered outcome | yes (snapshots) | 7.6 and 7.11 corrected |
+| 2 | The infeasibility and H1 verdicts rest on single PVT points with tiny margins (LOADBench 0.014 dB, TTSKY25a 0.093 dB, iadc 0.26 deg), at or below the model error; TTSKY25a's G2.7 FAIL is one point | yes (`budgets.json`, G2.7) | binding-margin table in 7.6, 7.5 and 7.11 restated; sensitivity analysis open |
+| 3 | The 5T's binding corner is contradicted by SPICE (−0.16 of margin vs first order 0.5); G2.5 cannot detect this and uses a 10 % tolerance against the 2 % of `outcome()` | yes (snapshot `verify`, `run.py`) | caveat in 7.5, row 42; investigation and gate open |
+| 4 | H1 has no tolerance; stress is double-counted; H1c is guaranteed when floors exceed the allowance; per-net's overshoot is by construction; "joint budgets are safe" overgeneralised (the LPs are joint too) | yes (PREREG, data) | 7.6 hypothesis table rewritten (3 exceedances in 8 pairs; H1c uninformative; H1b expected by construction) |
+| 5 | lp_floor is capped at the need while ours may go to 10 x, so the room column (added after the tie, row 34) favours ours; the common SPICE set also prefers ours' binding corners | yes (`baselines.py`, `run.py`) | stated in 7.6; re-scoring lp_floor with the same bound open |
+| 6 | S3 bug: a device below vdsat before layout gets a negative margin, so every option fails its saturation check; iadc's 22/22 relaxed is an artefact; the least-bad slack flips sign | yes (`src/s3/run.py`) | 7.5 iadc rewritten, row 41; fix and iadc S3 re-run open |
+| 7 | G2.0's route part uses the as-sized PCell geometry; "G2.0 flagged LOADBench's resistance problem" is unsupported | yes (`run.py`) | claim withdrawn (7.8), row 44; fix open |
+| 8 | G2.0 vs hand layout is not like-for-like: drawn → PEX includes in-cell metal (compare with route + cell parts), G2.0 counts harmful rates only, the 25 % was applied selectively, the DC shift affects GBW and PM too, the R part is a lower bound | yes | 7.7 and 7.8 rewritten: no like-for-like number within 25 % |
+| 9 | Snapshot mixing beyond row 40: `after_nopvt` snapshots carry a stale `baselines.json` field; row 40's "every number" was inexact | yes (both `after_nopvt.json`) | row 40 corrected, row 43; script fixes open |
+| 10 | The stress drift is in the PVT-point inputs, not the cell cache (34 of 92 floor-use entries differ, all at PVT points; nominal entries and representative cells identical) | yes (snapshots) | 7.6 and 7.10 corrected; the cause is still open |
+| 11 | Phase 2 above 200 elements is capped by wall-clock time (300 s), so iadc's and TTSKY25a's budgets can depend on machine load; the re-runs cover only the 5T and LOADBench; the re-run's clock record shows 25–32 s jumps | yes (`budgets.py`) | in 7.10; an iteration cap and repeats of iadc and TTSKY25a open. The 25–32 s per run was read as the VM's normal clock drift (5 %), not standby; both readings are recorded |
+| 12 | Number and text errors (stress "use / allowed" was a fraction of margin; 5T "every budget at need"; the 5T gate-resistance story contradicted row 20; 31.79 dB; missing "(unverified)"; TTSKY25a's G3.3 tolerance) | yes | all corrected in 7.5 and 7.6 |
+| 13 | Evidence not in the files named (18 TTSKY25a runs; numbers not in the snapshots) | partly: the reviewer's copy lacked two of the tile's result files, which are in the repo | wording of 7.5's source note corrected |
+| 14 | G3.3 and S3 check the nominal point only, power is unbudgeted, and LOADBench turned on the fallback rule, so S3's before/after comparisons say little until 6 and 7 are fixed | yes | 7.10 and 7.11 |
+
 ### 7.10 Limitations and open questions
 
-- **S3 checks at the nominal point only.** S2's budgets cover the PVT points; S3's in-circuit check of the
-  chosen cells does not yet (review A).
-- **The hand-layout comparisons rest on two layouts, and on one R+C extraction.** iadc has a clean R+C run (7.8,
-  rows 29, 30, 35); the TTSKY25a tile's is next. G2.0's resistance part has one data point.
-- **The TTSKY25a tile is a later circuit than the schematic** (7.7); only its drawn -> PEX loss is comparable.
+Updated 2026-10-27 after all plan-v2 runs. Items marked **(technical)** need a run or a code change; none was
+done in the documentation pass.
+
+**About the results themselves**
+
+- **The PREREG headline at eta 0.9 has 4 of 5 designs.** TTSKY25a's eta 0.9 S2 crashed, and its snapshot is not
+  a result (7.1 row 40; 7.6). **(technical)** Re-run it, then fix the script so that a crash is never snapped:
+  check the report's freshness, not only the exit code. The same script has a second latent problem in its
+  eta 0.9 step (STATUS pending 1c: after an interruption between S2 and the snapshot, the restored 'after' S2
+  would be snapped as eta 0.9).
+- **ota5t_stress drift.** The 'after' run (2026-10-26) and 'after_eta0.9' (2026-10-27) both ran S2 at eta 0.9 and
+  should be identical. They differ slightly: round-1 t 0.2567 → 0.2575, and ours' SPICE use 0.984 → 1.11, which
+  turns "infeasible" into "unsafe + infeasible". Same-day re-runs of other designs reproduce exactly, so something
+  changed between the two days. **(technical)** Unexplained. The difference is in the PVT-point inputs: 34 of 92
+  floor-use entries differ, all at PVT points, while the nominal entries and the representative cells are identical
+  (review C, finding 10). So it is not the cell cache; the per-point operating-point rates or S0's `pvt.json` are
+  the places to diff.
+- **The binding PVT points have margins at or below the model error** (7.6: 0.014 dB, 0.093 dB, 0.26 deg on the
+  held-out designs). **(technical)** A sensitivity run without constraints whose margin is below S1's error would
+  show how much of "infeasible" is the spec rule and the sized circuit rather than layout.
+- **The 5T's binding corner is contradicted by SPICE, and G2.5 cannot see it** (row 42). G2.5 also uses a 10 %
+  tolerance where `outcome()` uses 2 %, so a run can pass G2.5 and be called "unsafe" (TTSKY25a, 1.035).
+  **(technical)**
+- **H1 is tested on the most-used PVT points, not every corner.** Each design's SPICE checks (19–69 in all, up to
+  15 PVT points) are chosen from ours' binding corners and each rule's most-used points; H1 as written asks for
+  every corner where the schematic meets the spec.
+- **The room comparison is tilted towards ours**: the LP with floors cannot exceed the need, ours may reach 10 x,
+  and the column was added after the tie (7.6, row 34). **(technical)** Re-run the LP with the same upper bound.
+- **H1b deviates from PREREG:** the per-net baseline is our re-implementation of SpiceXplorer's rule on our
+  sensitivities, not the authors' code.
+- **Joint budgets are shown safe and feasible on the 5T only.** On every held-out design S2 says the library's
+  cheapest cells already break the allowance (G2.7), at eta 0.5 and 0.9. The specs come from our PREDICTED rule
+  (gain −1 dB, GBW x 0.9 of the sized circuit; 7.2), which leaves very small margins; a looser rule would change
+  this picture, and that is not tested.
+- **The S3 rule for relaxed types was changed post hoc.** 'Least-bad' became the default after plan v2's results
+  were seen (PREREG amendment 2026-10-27). Plan v2's results use the old rule; the least-bad results are post hoc
+  only (7.5). Any later comparison must say which rule it used.
+- **Windows standby during the runs** (06:59–11:16 on 2026-10-27, row 39). The two eta 0.9 runs that ran inside it
+  were re-run awake and reproduced exactly; among the remaining logs, one SPICE timeout may be a standby artefact
+  and changes no outcome. Other runs were not repeated.
+
+**About the gates and checks**
+
+- **S3's saturation check is wrong for devices that are below vdsat before layout** (row 41): every option fails
+  it, so iadc's S3 results ('before', 'after', post hoc) are artefacts, and the least-bad rule's slack has the
+  wrong sign for those checks. **(technical)** Fix, then re-run iadc S3.
+- **Variant runs leave stale files in the S2 folder** (row 43): `after_nopvt` snapshots carry a stale field, and
+  the TTSKY25a eta 0.9 snapshot mixed two runs. **(technical)** Clear the folder before a variant run, and make
+  `snap` check that `budgets.json`, `s2_report.json` and `baselines.json` come from the same run.
+- **Phase 2 above 200 elements stops on wall-clock time (300 s)**, so the iadc and TTSKY25a budgets can depend on
+  machine load or standby. **(technical)** Use an iteration cap.
+- **S3 checks at the nominal point only.** S2's budgets cover the PVT points; S3's in-circuit check of the chosen
+  cells does not yet (review A).
+- **G3.3 can fail for reasons no layout can fix.** It counts power, which S2 does not budget (TTSKY25a fails by
+  0.6 uW of a 45 uW margin), and the saturation of devices that are already below vdsat before layout, which S2
+  deliberately leaves unconstrained (iadc: 45 checks). Worth redefining before S4.
+- **`docs/before_after.md` is generated from all snapshots,** so its TTSKY25a `after_eta0.9` column shows the
+  invalid snapshot, and its budget-rule tables are the 'after' runs only (each design's own eta). Use 7.6 for the
+  eta 0.9 results.
+
+**About the hand-layout comparisons**
+
+- **G2.0's route part uses the as-sized PCell geometry** (row 44) and counts only harmful rates, so it is
+  biased; the comparisons in 7.7 and 7.8 are only as good as that. **(technical)**
+- **The measured R part is a lower bound**: extresist at tolerance 100 drops small resistors, and no tolerance
+  sweep was run. (Minor: `extract_rc`'s docstring gives 324 k resistors at tolerance 10; the netlist the R+C runs
+  used has 324,340 resistors and the run record says tolerance 100. Which tolerance produced that netlist is not
+  certain from the files.)
+- **They rest on two layouts and one trusted R+C extraction.** iadc has a clean R+C run (7.8, rows 29, 30, 35).
+  The TTSKY25a tile's R+C run warns of gmin-stepping failures and is not trusted (7.7). **(technical)** Find the
+  cause and re-run. G2.0's resistance part has one data point.
+- **The TTSKY25a tile is a later circuit than the schematic** (7.7); only its drawn → PEX loss is comparable, and
+  G2.0 is computed for the schematic.
 - **The ICM 2026 paper's 2.3 MHz / 52 deg** is not reproduced: how was that post-layout run set up? (to you)
-- **iadc G1.1:** 21 functional devices are below BSIM's vdsat (15 in MOS-resistor stacks, 6 current sources
-  at vds 0.10-0.21 V). Is each intended? The flow does not assume design intent (to the iadc authors' docs).
-- **PREREG headline eta:** the SPICE-scored baseline comparison runs at each design's eta, not at 0.9 for all
-  (amendment); a run at 0.9 is still to do.
+
+**Other open points**
+
+- **iadc G1.1:** 21 functional devices are below BSIM's vdsat (15 in MOS-resistor stacks, 6 current sources at
+  vds 0.10–0.21 V). Is each intended? The flow does not assume design intent (to the iadc authors' docs).
+- **Golden snapshots of v2** were taken on 2026-10-27 (12:36) but `./flow test` has not been run on them yet
+  **(technical)**; CI runs it on every push.
 - **Area of m > 1 devices** is m x the unit cell, an upper bound until S4 places the copies.
+
+### 7.11 Where plan v2 leaves the flow (assessment, 2026-10-27)
+
+Written as a supervisor would read the results above, after review C; every point links to its evidence.
+
+**What works**
+
+- **S0 and S1 generalise.** Five designs from three sources go in: a 5T, a LOADBench Miller op-amp, a folded-cascode
+  FD OTA with SC CMFB, and a taped-out two-stage FD op-amp with about 80 devices. Their testbenches reproduce the
+  sources' numbers (G0.6, G0.8), and S1's linear model matches SPICE within 0.09 dB, 2.8 % GBW and 0.2 deg on
+  all five (G1.2). The failures that remain in S0 and S1 are true statements about the designs (met1.6 at the
+  netlist size, devices below vdsat), not crashes.
+- **S2 now reports misfit before layout, with a reason.** G2.7 names the binding PVT point and the factor on four
+  designs; v1 passed S2 on all five and let S3 find out.
+- **Per-net budgets are shown unsafe in SPICE on five designs** (1.7–65 x the allowance). Expected from
+  superposition, but now measured.
+- **The flow and the reviews catch their own mistakes.** 45 journey rows, most of them found by gates, SPICE
+  cross-checks or the three reviews (column "Found by" in 7.1).
+
+**What does not work yet**
+
+- **The headline claim is not supported on the held-out designs.** Joint max-min budgets were meant to be safe
+  *and* feasible where other rules are not. On LOADBench, iadc and TTSKY25a every rule, ours included, is infeasible,
+  and equal split matches or beats ours on every pre-registered outcome (7.6). "Safe, feasible, with room" is shown
+  on the 5T only, and there the LP with floors is also safe and feasible.
+- **The verdicts hinge on corners with almost no margin.** The binding points meet their specs by 0.014 dB,
+  0.093 dB and 0.26 deg, at or below S1's model error (7.6). And on the 5T, the binding corner's first-order rate is
+  contradicted by SPICE (row 42).
+- **S3 says little yet.** iadc's result is fixed by a saturation-check defect (row 41); TTSKY25a's relaxed cells
+  barely matter; LOADBench's result was decided by the relaxed-type rule, which had to be changed post hoc.
+- **G2.0 is not calibrated.** On the one like-for-like layout no comparable number is within 25 %; its route part
+  still uses as-sized geometry (rows 44, 7.8).
+- **The PREREG headline is incomplete**: TTSKY25a at eta 0.9 is missing (row 40), H1 has three exceedances in eight
+  pairs, H1c is uninformative here, and H1b's per-net baseline is not the authors' code.
+- **Infrastructure caused several of the problems**: standby, a mounted-folder write error, a crash snapped as a
+  result, stale files in variant runs, a wall-clock cap, an unexplained drift between two days.
+
+**What to settle before S4 builds on these budgets**
+
+1. Fix the defects that bias the evidence (rows 40–44, 7.10 "technical"), then re-run the affected steps.
+2. Decide how PVT points with near-zero margin should count (for example: only points whose margin exceeds the
+   model error, or a margin floor in the spec rule), and pre-register it before re-running.
+3. Re-score the baselines fairly (same upper bound for the LP with floors; one tolerance in G2.5 and `outcome()`).
+4. Give S3 options that can lower the floors (nf / m choices beyond A-bin's), so that "infeasible" can be tested
+   rather than assumed.
+5. Test G2.0 on layouts of the flow's own circuits (S5–S7), with route lengths from the representative cells.
 <!-- section7:end -->
 
 ---
@@ -1580,7 +2018,7 @@ against 196 fF): ngspice already reports a capacitor's value multiplied by M, so
 | 47 | S1 add-on | The mirror pole was quoted as ≈ 614 MHz (R20) | Corrected to ≈ 313 MHz (3.9) |
 | 48 | S2 | Phase 2 takes budget from binding elements (R19) | Fix applied in v2 (2026-10-26, section 7.4) |
 | 49 | Infra | A chained run script with `set -e` skipped the figures after a legitimate S3 FAIL (R24) | Figures re-run separately |
-| 50+ | all | Plan v2, 2026-10-26: every problem of the day, from the Miller capacitor that would have vanished to the R+C extraction reading the wrong file | Each with how it was found and what changed: the journey table, section 7.1 |
+| 50+ | all | Plan v2, 2026-10-26 and 27: every problem, from the Miller capacitor that would have vanished to the crashed eta 0.9 run that was snapped as a result and the defects review C found | Each with how it was found and what changed: the journey table, section 7.1 (rows 1–44) |
 
 ## Changelog of this document
 
@@ -1588,3 +2026,4 @@ against 196 fF): ngspice already reports a capacitor's value multiplied by M, so
 - 2026-10-25 (evening): added where-to-find, S1 resistance extension (G1.6), supervisor review 1 (R1–R18), S2 and S3 with results on both designs.
 - 2026-10-25 (night): your decisions (stress η = 0.9, EM ignored, S3 on hold, S4 from Monday); the stage table S0–S9; S2/S3 stress results at η = 0.9 (η = 0.5 kept as the previous run); section 3.9, the pole drop-out problem and its input-side fix on patched copies; supervisor review 3 (R19–R24); the 614 MHz correction; the S4 plan.
 - 2026-10-26: section 7 (plan v2): new designs, generality fixes, PVT and Monte Carlo, library floors and the R19 fix, budget baselines, S3 option modes, hand-drawn layouts of TTSKY25a and iadc, two independent reviews, and the journey table (7.1); section 6 note (S4 not started); R19 marked applied.
+- 2026-10-27: section 7 completed (Cowork, documentation pass, no runs): 7.5 for LOADBench, iadc and TTSKY25a with the post-hoc column; 7.6 with the held-out designs, the eta 0.9 headline and the hypothesis reading; 7.7 and 7.8 against the 'after' G2.0; review C (7.9) and its corrections; 7.10 and the new 7.11 assessment; journey rows 40–44; figures `v2_*.png` from `scripts/make_v2_figures.py`; plan v2 status at a glance.

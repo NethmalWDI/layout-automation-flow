@@ -561,3 +561,57 @@ runs finish). Log of the day:
 - **Work stopped here for a handoff to Cowork (13:35 CET).** Imasha will run Cowork on this folder for the
   documentation. Nothing is running in the container, nothing is set aside, and nothing is committed.
   STATUS.md has the handoff notes.
+
+## 2026-10-27 (afternoon): documentation pass and independent review C (Cowork)
+
+Imasha handed the write-up to Cowork after Claude Code finished the runs. No run was started and no flow code was
+changed in this pass.
+
+- **Catch-up findings before writing:**
+  - The TTSKY25a S2 run at eta 0.9 crashed (`OSError: [Errno 22] Invalid argument` writing an ngspice log in the
+    mounted folder, 12:36). The resume script snapped it anyway, because a crash and a gate FAIL both exit with
+    code 1. The snapshot mixes that run's `budgets.json` with the eta 0.5 report, so it is not a result. Flow record
+    row 40.
+  - `docs/before_after.md` has budget-rule tables for the 'after' runs only (each design's own eta). The eta 0.9
+    table was built from the snapshots for flow record 7.6.
+  - Today's work was committed by Imasha as `1aa7f791` (17:54 Sri Lanka time).
+- **Written:** flow record section 7 completed.
+  - 7.5: LOADBench, iadc and TTSKY25a before/after, with the post-hoc column labelled.
+  - 7.6: held-out designs at eta 0.5, the eta 0.9 headline, a binding-margin table and the hypothesis reading.
+  - 7.7, 7.8: against the 'after' G2.0.
+  - 7.9: review C. 7.10: limitations. New 7.11: assessment.
+  - Journey rows 40–44.
+  - Outside section 7: the record's header, status at a glance, problems log and changelog.
+- **Figures:** five `docs/flow_record/img/v2_*.png`, drawn from the snapshots by `scripts/make_v2_figures.py`. They
+  are rendered in the container (DejaVu Sans), so they can be regenerated there.
+- **Independent review C:** an agent that had not seen our notes read the write-up against the snapshots, the run
+  outputs and the code. It made 14 findings, each checked against the files before acting.
+  - **Corrected in the text:**
+    - equal split matches or beats ours on every pre-registered outcome on the held-out designs;
+    - H1 has no tolerance (3 exceedances in 8 pairs);
+    - H1c is guaranteed when the floors exceed the allowance;
+    - per-net's overshoot is by construction;
+    - the G2.0 vs hand-layout comparison must include the cell part (no like-for-like number within 25 %);
+    - the claim that G2.0 "flagged" LOADBench is withdrawn;
+    - the 5T gate-resistance sentence contradicted row 20;
+    - several number and label errors.
+  - **Confirmed and open (technical):**
+    - S3's saturation check gives devices below vdsat a negative margin, so every option fails; iadc's S3 results
+      are artefacts (row 41).
+    - The 5T's binding PVT corner is contradicted by SPICE, and G2.5 cannot see it (row 42).
+    - Variant S2 runs leave stale files in the S2 folder (row 43).
+    - G2.0's route lengths still come from the as-sized PCells (row 44).
+    - The binding PVT points have margins of 0.014 dB, 0.093 dB and 0.26 deg, at or below the model error.
+    - The LP with floors is capped at the need while ours may reach 10 x.
+    - Phase 2 above 200 elements stops on wall-clock time.
+    - The ota5t_stress drift is in the PVT-point inputs, not in the cell cache, which contradicts the earlier
+      hypothesis.
+- **Slides:** deck version 7, with the section "Plan v2" (15 slides; titles in `docs/slides_v2.md`).
+- **claude.ai project doc 13:** `claude/13_plan_v2_results_and_review.md` (copy in `docs/context/project_docs/`).
+- **STATUS.md:** claim released; pending tasks 1d–1i added; one FEEDBACK NEEDED list.
+- **Deploy incident (14:19 CET), fixed:** a deploy archive reused an old name (`docs_c`), the bridge delivered the
+  2026-10-26 archive of that name, and `apply.sh` extracted it because it had no `__prev_md5.txt` to check. That
+  overwrote `PREREG.md` and `docs/flow_record_section7_draft.md` with their 2026-10-26 18:22 versions for about
+  5 minutes. Found from the archive md5 that `apply.sh` prints. Both files were restored from Cowork's copy, with the
+  md5s checked. `apply.sh` now requires the expected archive md5 and the `__prev_md5.txt` file, and archive names
+  carry a timestamp (flow record row 45).

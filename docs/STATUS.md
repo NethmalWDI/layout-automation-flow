@@ -2,14 +2,14 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-10-27 13:35 CET in the container (18:05 Sri Lanka time), by Claude Code.
+**Last updated:** 2026-10-27 14:20 CET (18:50 Sri Lanka time), by Cowork (documentation pass finished; nothing running).
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
 Claude Code stopped here at Imasha's request. She will run Cowork on this folder for the documentation.
 
-- **State:** all plan-v2 runs are finished, and nothing is running or set aside. No commits since `073f0df7`:
-  everything from today is uncommitted, for Imasha to commit with GitHub Desktop.
+- **State:** all plan-v2 runs are finished, and nothing is running or set aside. (Cowork, later: Imasha committed
+  today's runs as `1aa7f791 "v1_v2_handoff"`, 17:54 Sri Lanka time; the documentation pass after it is uncommitted.)
 - **Where the results are:**
   - `docs/before_after.md`: every design, every snapshot tag (before, after, after_nopvt, after_eta0.9,
     after_eta0.9_rerun, after_posthoc_leastbad), the budget-rule tables at eta 0.9 (PREREG headline) and the
@@ -80,7 +80,7 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
-| Cowork | slides and the claude.ai project doc 13 only (the record and the scripts are released to Claude Code) | 2026-10-27 |
+| Cowork | **released 2026-10-27 14:20 CET**: documentation pass done (flow record section 7, figures, slides, project doc 13, review C). No runs, no flow code changed | 2026-10-27 |
 | Claude Code | **released 2026-10-27 13:35 CET**: the runs are finished; the write-up goes to Cowork (Imasha's decision) | 2026-10-27 |
 
 ## Pending tasks (plan v2)
@@ -100,20 +100,46 @@ Earlier history of this run:
    interrupted between that S2 run and its snapshot, the next start puts the 'after' outputs back, skips S2, and
    snaps the 'after' S2 under `after_eta0.9`. This only bites for a design whose eta 0.9 S2 passes, and it has
    not happened. Fix it when the script is not running (script B avoids it: its S2 run has no marker).
-2. Fill flow record 7.5 (before/after table) and 7.6 (baseline table) with the final numbers. Put the post-hoc
-   test in 7.5 as its own labelled column, not as the 'after' result. All numbers are in `docs/before_after.md`
-   (13:04).
-3. Compare G2.0's prediction with the hand layouts' drawn → PEX loss, for TTSKY and iadc, using the after runs (iadc 'before' done, flow record 7.8).
+1d. **(review C, row 41)** S3 saturation check: a device below vdsat before layout gets a negative margin, so every
+   option fails; iadc's S3 results are artefacts. Fix (`src/s3/run.py`: `mg_of`, the `ok` test, G3.3 `within`, the
+   least-bad slack), then re-run iadc S3.
+1e. **(row 42)** 5T binding corner GBW@tt_v0.9_t27: first order 0.5 of margin, SPICE −0.16 (GBW rises). Check the
+   corner's rates and baseline; add a gate on |SPICE − first order| / margin; use one tolerance (G2.5 has 10 %,
+   `outcome()` 2 %).
+1f. **(row 43)** Variant S2 runs leave stale files: clear `outputs/S2/<d>` before a variant run; make `snap` check
+   that `budgets.json`, `s2_report.json`, `baselines.json` share eta and run; the resume script must tell a crash
+   from a FAIL (both rc 1). Then re-run TTSKY25a S2 at eta 0.9 (row 40).
+1g. **(row 44)** G2.0 route lengths still come from S0's as-sized PCells; take them from the representative cells.
+1h. Near-zero-margin PVT points bind every design (7.6 table): decide how they count, amend PREREG, re-run.
+1i. Fair re-scoring: LP with floors with ours' upper bound (10 x need); phase 2 above 200 elements on an iteration
+   cap instead of 300 s wall clock (budgets.py).
+2. ~~Fill flow record 7.5 and 7.6~~: **done 2026-10-27 (Cowork)**, with the post-hoc column labelled, the eta 0.9
+   table and the hypothesis reading; corrected after review C.
+3. ~~G2.0 vs the hand layouts~~: **done** (7.7, 7.8; like-for-like after review C).
 4. R+C extraction of the TTSKY25a tile: run at 10:08, but not trusted yet (item 1a). iadc's is done and clean:
    `reference_layout_rc100s.json`.
 5. ~~Golden snapshots for v2~~: taken at 12:36 by the resume script (`tests/golden/`); `./flow test` is still to
    run (item 1).
-6. Slides: v2-beforeafter, v2-baselines, v2-next and the groups slide.
-7. Claude.ai project doc 13.
-8. Independent review at the milestone (queue done and write-up done).
+6. ~~Slides~~: **done**, deck version 7 (section "Plan v2", 15 slides); titles in `docs/slides_v2.md`.
+7. ~~Claude.ai project doc 13~~: **done** (`claude/13_plan_v2_results_and_review.md`; copy in `docs/context/project_docs/`).
+8. ~~Independent review~~: **done**, review C (flow record 7.9): 14 findings, all checked; write-up corrected,
+   technical items 1d–1i open.
 9. Imasha commits after each step (GitHub Desktop).
 
 ## Open questions for Imasha
+
+**FEEDBACK NEEDED (Cowork, 2026-10-27): which technical items to do, and in what order.** None was done in the
+documentation pass. Suggested order (each is a run or a code change):
+
+1. Fix the S3 saturation check (1d) and re-run iadc S3 (about 10 min with the cache).
+2. Fix the snapshot / resume-script problems (1f), then re-run TTSKY25a S2 at eta 0.9 (about 25 min, PC awake), so
+   the PREREG headline has all five designs.
+3. Explain the 5T binding corner (1e) and the ota5t_stress drift (1b); both are diffs of existing outputs first.
+4. Decide how near-zero-margin PVT points should count (1h). This is a methodology decision for you (and your
+   supervisor), to be written into PREREG before any re-run.
+5. Fair re-scoring of the baselines (1i), G2.0 route lengths (1g), `./flow test` on the golden snapshots (1),
+   TTSKY25a tile R+C (1a: its unmapped ports include sub-cell copies of bias nets, as iadc's first run did).
+
 
 - **Resolved 2026-10-27:** how to restart lane A. Imasha chose to run its iadc and loadbench steps now
   (`scripts/plan_v2_laneA_now.sh`) and to keep the no-PVT ablation for the restart of the resume script after lane B.
@@ -182,9 +208,10 @@ SPICE worst use and verification are all identical, so the standby did not chang
   awake, so those budget scenarios really do not converge.
 - No standby occurred during the re-run (Windows event log).
 
-**TTSKY S2 at eta 0.9** (12:36): every rule's outcome is the same as at eta 0.5. 'Ours' is "unsafe + infeasible",
-unverified because of failed runs (SPICE worst use 1.04). The PREREG headline table (eta 0.9, all five designs) is
-complete in `docs/before_after.md`.
+**TTSKY S2 at eta 0.9** (12:36): **not a valid result (Cowork, 2026-10-27; flow record row 40).** The run crashed
+(`OSError: [Errno 22] Invalid argument` writing an ngspice log; traceback in `runs/logs/plan_v2_resume.log`), and the
+snapshot mixed that run's `budgets.json` with the eta 0.5 report, which is why every rule looked unchanged. Also,
+`docs/before_after.md` shows the budget-rule tables of the 'after' runs only; the eta 0.9 table is in flow record 7.6.
 
 Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part of the before picture: v1 rules, mode A-free.
 
@@ -250,6 +277,19 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-10-27 14:20 CET (Cowork): **documentation pass** (no runs, no flow code changed).
+  - Flow record section 7 completed: 7.5 for LOADBench, iadc and TTSKY25a (post-hoc column labelled), 7.6 (held-out
+    designs at eta 0.5, eta 0.9 headline, binding-margin table, H1/H1b/H1c), 7.7 and 7.8 against the 'after' G2.0,
+    7.9 review C, 7.10 limitations, new 7.11 assessment, journey rows 40–44. Header, status at a glance, problems
+    log and changelog of `docs/flow_record.md` updated.
+  - Figures `docs/flow_record/img/v2_*.png`, drawn from the snapshots by the new `scripts/make_v2_figures.py`
+    (documentation only).
+  - Review C (independent agent, 14 findings): every finding checked against the files; the write-up corrected;
+    the code-level findings are pending tasks 1d–1i.
+  - Slide deck version 7 (section "Plan v2"); `docs/slides_v2.md`; claude.ai project doc 13 and its copy in
+    `docs/context/project_docs/`.
+  - Deploy incident, fixed: a stale archive with a reused name overwrote `PREREG.md` and the section 7 draft for
+    about 5 minutes; both restored (md5 checked). `.incoming/apply.sh` now checks the archive md5 (row 45).
 - 2026-10-27 13:30 (Claude Code): **S3 default for relaxed types is now 'least-bad'** (Imasha's decision; PREREG
   amendment).
   - `src/s3/options.py`, `src/s3/run.py`, `src/flow.py`: the v1 variant pins the old rule, and `./flow run` and
