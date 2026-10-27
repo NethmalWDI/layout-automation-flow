@@ -85,6 +85,11 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 43 | infra | Variant S2 runs (no-PVT ablation, eta 0.9) reuse the 'after' S2 folder without clearing it, so files the variant does not write stay behind: the `after_nopvt` snapshots carry the 'after' run's `baseline_budget_over_need` (from a stale `baselines.json`), and the TTSKY25a eta 0.9 snapshot mixed files (row 40) | review C (finding 9), confirmed in both `after_nopvt.json` files (ours' geomean 3.1935 = 'after') | nothing yet; clearing the folder and an identity check in `snap` are open | the stale field is not shown in any table; row 40 as above |
 | 44 | S2 | G2.0's route part still uses route lengths from S0's as-sized PCells (single 484 and 887 um fingers on LOADBench; m unconnected copies for m > 1), while v2 changed only the cell part to the representative cell | review C (finding 7), confirmed in `src/s2/run.py` (`unit` = half-perimeter of `device_sizes(s0)`) | nothing yet; route stubs from the representative cells is open | LOADBench's G2.0 is mostly this route R; the claim that G2.0 "flagged" LOADBench's problem is withdrawn (7.8) |
 | 45 | infra | A Cowork deploy reused an archive name from 2026-10-26 (`docs_c`); the bridge delivered the old archive, which had no `__prev_md5.txt`, and `apply.sh` extracted it anyway, overwriting `PREREG.md` and `docs/flow_record_section7_draft.md` with their 2026-10-26 18:22 versions for about 5 minutes (no run used them) | the archive's md5 printed by `apply.sh` differed from the one built; then its file list | both files restored from Cowork's copy (md5 checked); `apply.sh` now refuses an archive whose md5 differs from the expected one or that has no `__prev_md5.txt`; archive names carry a timestamp | no lasting change |
+| 46 | S0 / S1 (bench) | PM is measured as 180 + phase at the unity-gain frequency − phase at 1 Hz (`scripts/benchlib.py`, `src/s1/linear.py`). When the dominant pole is near 1 Hz, the 1 Hz phase is already part of the roll-off: TTSKY25a's pole is at about 25 Hz, so its PM reads 2.3 deg high (78.2 instead of about 75.9 deg; margin about 16 instead of 18.2 deg). LOADBench and iadc: under 0.01 deg | Plan v3 review pack, independent reviewer (a re-built linear model whose absolute phase gave 75.97 deg); confirmed in the bench template | nothing yet (documentation pass); fix A6: round the 1 Hz phase to the nearest 180 deg | TTSKY25a PM and its PM margins in 7.5–7.7 are 2.3 deg optimistic; no outcome in 7.6 binds on PM |
+| 47 | S1 | S1's node tagger reads every device with gate = drain as diode-connected, including dummies whose drain, gate and source share one net: iadc's outputs `op`/`on`, its fold nodes, VDD, VSS and some tail and bias nodes are tagged "mirror node (diode-connected)". `primitives.json` already marks them as dummies (24 shorted, 14 off to a rail) | Plan v3 review pack (reading `node_classes.json` against the netlist); counts confirmed by the reviewer | nothing yet; fix A3: skip devices of category dummy when tagging (their capacitance still counts) | tags only; no budget uses them yet, the planned suspect list would |
+| 48 | S0 (recognition) | Rule-based structure recognition pairs TTSKY25a's NMOS cascodes across functions: (x1_M19, x1_M4) and (x1_M3, x1_M8) instead of (x1_M4, x1_M8) output cascodes and (x1_M19, x1_M3) tail cascodes; the second-stage input devices (x2_M9, x2_M4) are not grouped at all; iadc's `cm` devices (5 parallel stacks of 4 series units) are read as 10 cascode pairs. The groups figure (G16, G17) has the same pairing | Plan v3 review pack (netlist and xschem sheets read against `primitives.json`) | nothing yet; fix A3 | S3/S4 matching groups; no Plan v2 number depends on the pairing |
+| 49 | S1 (hand models) | The PREDICTED textbook models miss the element that matters most in each circuit: LOADBench's mirror pole-zero doublet (pole about 33 MHz; it accounts for the whole 17 deg PM gap), iadc's fold-node current split (M11/M12 in triode, ro = 2.19 kOhm, about 1/gm of the cascode, so about half the signal current is lost: the factor 2 in GBW and 20 deg in PM), TTSKY25a's fold-node pole (about the fT of the L = 5 um cascode, about 10 deg) | Plan v3 review pack (hand recomputation from `symbolic_check.json` level-0 values), checked by the independent reviewer's re-built model | nothing yet; fix A5 (post hoc on these circuits; judge it on held-out designs too) | G1.5 is reported, not gated; budgets use S1's SPICE-linearised model, not these equations |
+| 50 | S0 (provenance) | iadc's `SOURCE.md` and `config.yaml` say upstream gives no OTA figures, but `folded_cascode_3_core.sch` carries a designer "Performance Summary" (A0 53.7 dB, PM 70 deg, fu 344 MHz, f3dB 750 kHz, C_load 0.3 pF). Our operating point reproduces it without the CMFB capacitors C3/C4 (about 53.6 dB, 330–343 MHz, 70 deg); saturated fold sources would give about 70 dB, so M11/M12 in triode look intended | Plan v3 review pack (rendering the upstream schematic); the C3/C4 reading by the independent reviewer | nothing yet; correct the provenance note (a logged decision for Imasha) | iadc's specs stay ASSUMPTION; the reference question is FEEDBACK NEEDED (D6) |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -866,3 +871,27 @@ Written as a supervisor would read the results above, after review C; every poin
 4. Give S3 options that can lower the floors (nf / m choices beyond A-bin's), so that "infeasible" can be tested
    rather than assumed.
 5. Test G2.0 on layouts of the flow's own circuits (S5–S7), with route lengths from the representative cells.
+
+### 7.12 After plan v2: the Plan v3 review pack (2026-10-27, evening)
+
+Imasha's decisions on the 7.11 questions (middle corners for budgets, extremes reported; a realistic, released
+schematic-to-layout allowance; sizing owns robustness; predict, then diagnose after one extraction; critical nets
+only; S3 gives good candidates and the combination search moves to S4; LLM decisions only with guardrails) were
+assessed and turned into Plan v3 in `docs/plan_v3_review_pack.md` (mirror of the Claude Doc). Nothing was run and
+no code changed. The pack gives, for LOADBench, iadc and TTSKY25a, the schematic, the hierarchy as the flow reads
+it, the nodal analysis the flow assumes (PREDICTED), S1's critical items and questions. An independent reviewer
+checked it against the files (12 findings, all checked and applied; rows 46–50).
+
+What it adds to the reading of plan v2:
+
+- **Couplings beat ground capacitance by 4–10 x** in all three circuits (LOADBench in2 ↔ outFirstStage 59 fF, iadc
+  op ↔ on 27 fF, TTSKY25a fold ↔ fold 108 fF, against at least 109–613 fF to ground), so a suspect list must hold net
+  pairs.
+- **With specs derived from the schematic's own nominal performance, the schematic misses a spec at some middle
+  corners before any layout** (2 of 9 for LOADBench and iadc, 6 of 9 for TTSKY25a). Dropping the extreme corners is
+  therefore not enough; Option B (layout judged on the degradation it adds at each corner) is needed.
+- **The hand models miss the decisive element in each circuit** (row 49), and TTSKY25a's PM is read 2.3 deg high
+  (row 46).
+- Plan v3: Phase A (fix the defects, rows 40–49), B (the sizing–layout contract in S2, PREREG amendment v3), C (a
+  frozen suspect list), D (S3 candidates, S4 blocks), E (one extraction, then attribution). Decisions D1–D10 wait
+  for Imasha (`docs/STATUS.md`).

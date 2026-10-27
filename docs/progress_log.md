@@ -615,3 +615,42 @@ changed in this pass.
   5 minutes. Found from the archive md5 that `apply.sh` prints. Both files were restored from Cowork's copy, with the
   md5s checked. `apply.sh` now requires the expected archive md5 and the `__prev_md5.txt` file, and archive names
   carry a timestamp (flow record row 45).
+
+## 2026-10-27 (evening): Plan v3 review pack (Cowork)
+
+Imasha answered the FEEDBACK NEEDED questions of the documentation pass with a direction for Plan v3: budget at
+the middle corners and only report the extremes; release the schematic-to-layout allowance to a realistic level
+(sizing owns robustness); predict the layout's problems, then diagnose after one extraction; budget only the
+critical nets; let S3 find a good candidate primitive (a "suspect" when it is only the least bad) and move the
+combination search into S4; guard any LLM decision against invented values and endless searches. She asked for a
+supervisor-level assessment, an implementation plan, and per circuit the inputs the flow is fed (schematic,
+hierarchy, nodal analysis) for her to check. No run was started and no flow code was changed.
+
+- **Written:** the Claude Doc "Plan v3: circuit review pack and implementation plan", mirrored as
+  `docs/plan_v3_review_pack.md` with its figures in `docs/plan_v3/img/`.
+  - The assessment of the six proposals; Plan v3 as five phases with gates (A clean the evidence, B the
+    sizing–layout contract, C a frozen suspect list, D S3 candidates and S4 blocks, E one extraction, then
+    attribution).
+  - Per circuit (LOADBench, iadc, TTSKY25a): inputs and their labels, the schematic, the hierarchy as the flow
+    reads it (recognition errors marked), the nodal analysis the flow assumes (PREDICTED), S1's critical items,
+    feedback and questions. Decisions D1–D10.
+- **Figures:** the iadc and TTSKY25a schematics rendered from the upstream xschem sources (TTSKY25a with the
+  recognised groups); the LOADBench schematic drawn from its netlist and the three hierarchy pictures drawn by
+  `docs/plan_v3/src/*.py` (documentation scripts, not flow code).
+- **Findings (flow record rows 46–50):**
+  - PM is measured from the phase at 1 Hz; with TTSKY25a's dominant pole at about 25 Hz it reads 2.3° high (row 46).
+  - S1's node tagger reads shorted dummies as diodes (row 47). Recognition mispairs TTSKY25a's cascodes, misses its
+    second-stage pair, and reads iadc's `cm` stacks as pairs (row 48).
+  - The textbook hand models miss the decisive element of each circuit (row 49).
+  - iadc's upstream schematic carries a Performance Summary that the package notes missed; our operating point
+    reproduces it without C3/C4, so M11/M12 in triode look intended (row 50).
+  - In all three circuits couplings between nets are 4–10 x more critical than capacitance to ground, and with
+    specs from the package rule the schematic already misses some middle corners (2, 2 and 6 of 9).
+- **Independent review:** a reviewer agent checked the pack against the netlists, S0–S2 outputs and xschem
+  sources and rebuilt the linear model. Its 12 findings were checked against the files and applied. The main
+  ones: the iadc Performance Summary matches our operating point without C3/C4 (my first reading, that our bias
+  put M11/M12 into triode, was wrong); the PM measurement (row 46); the mirror pole is about 33 MHz, not 43 MHz;
+  the "exactly the top-ranked node" claim held for TTSKY25a only. After the review I also corrected a claim it
+  could not see: the TTSKY25a tile's own extraction loses about 3° of PM (7.8), so the paper's 52° remains
+  unexplained rather than "26° lost in layout".
+- **FEEDBACK NEEDED:** decisions D1–D10 (STATUS, Open questions).

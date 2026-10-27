@@ -2,7 +2,7 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-10-27 14:20 CET (18:50 Sri Lanka time), by Cowork (documentation pass finished; nothing running).
+**Last updated:** 2026-10-27 17:15 CET (21:45 Sri Lanka time), by Cowork (Plan v3 review pack finished; nothing running; decisions D1–D10 wait for Imasha).
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -80,7 +80,7 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
-| Cowork | **released 2026-10-27 14:20 CET**: documentation pass done (flow record section 7, figures, slides, project doc 13, review C). No runs, no flow code changed | 2026-10-27 |
+| Cowork | **released 2026-10-27 17:15 CET**: Plan v3 review pack done (`docs/plan_v3_review_pack.md`, `docs/plan_v3/`, flow record 7.12 and rows 46–50, project doc 14). Earlier: the documentation pass (released 14:20). No runs, no flow code changed | 2026-10-27 |
 | Claude Code | **released 2026-10-27 13:35 CET**: the runs are finished; the write-up goes to Cowork (Imasha's decision) | 2026-10-27 |
 
 ## Pending tasks (plan v2)
@@ -113,6 +113,21 @@ Earlier history of this run:
 1h. Near-zero-margin PVT points bind every design (7.6 table): decide how they count, amend PREREG, re-run.
 1i. Fair re-scoring: LP with floors with ours' upper bound (10 x need); phase 2 above 200 elements on an iteration
    cap instead of 300 s wall clock (budgets.py).
+1j. **(Plan v3 A6, row 46)** PM is measured as 180 + phase at the UGB − phase at 1 Hz (`scripts/benchlib.py` AC
+   template, `src/s1/linear.py`). TTSKY25a's dominant pole is at about 25 Hz, so its PM reads 2.3° high. Fix: round
+   the 1 Hz phase to the nearest 180°. Changing the bench template changes testbench files and golden snapshots:
+   a logged decision.
+1k. **(A3, row 47)** S1 node tagger: skip devices of category dummy (`primitives.json`) when tagging diode-connected
+   nodes; keep their capacitance.
+1l. **(A3, row 48)** Structure recognition (`scripts/recognize_structures.py`, `scripts/schematic_groups.py`):
+   TTSKY25a cascode pairs (x1_M4, x1_M8) and (x1_M19, x1_M3); add the second-stage pair (x2_M9, x2_M4); iadc's `cm`
+   devices as one composite of 5 parallel stacks × 4 series units. Regenerating `upstream/primitives.json` touches
+   hash-frozen files: update `SOURCE.md` and `circuits/SOURCE_SHA256.txt`.
+1m. **(A5, row 49)** Correct the PREDICTED hand models (LOADBench mirror doublet; iadc fold-node current split,
+   with gmb; TTSKY25a fold-node pole and CMFB-sense load). Post hoc on these circuits: also judge on held-out designs.
+1n. **(row 50)** iadc provenance: `circuits/iadc_ota/SOURCE.md` and `config.yaml` say upstream gives no figures;
+   `folded_cascode_3_core.sch` has a Performance Summary (53.7 dB, 70°, 344 MHz, CL 0.3 pF). Correct the note
+   (logged decision); see D6.
 2. ~~Fill flow record 7.5 and 7.6~~: **done 2026-10-27 (Cowork)**, with the post-hoc column labelled, the eta 0.9
    table and the hypothesis reading; corrected after review C.
 3. ~~G2.0 vs the hand layouts~~: **done** (7.7, 7.8; like-for-like after review C).
@@ -127,6 +142,27 @@ Earlier history of this run:
 9. Imasha commits after each step (GitHub Desktop).
 
 ## Open questions for Imasha
+
+**FEEDBACK NEEDED (Cowork, 2026-10-27 evening): Plan v3 decisions D1–D10.** Full reasoning and the per-circuit
+questions are in the Claude Doc "Plan v3: circuit review pack and implementation plan" (copy:
+`docs/plan_v3_review_pack.md`, section "Decisions needed from you").
+
+| # | Decision | Cowork's recommendation |
+|---|---|---|
+| D1 | Corner set for budgets | middle 9 (nominal; ss, ff, sf, fs at nominal V and T; tt at 0.9 and 1.1 VDD; tt at −40 and 85 °C); the other 36 reported with a do-no-harm check |
+| D2 | Allowance rule | Option B: eta × nominal margin per corner, applied with that corner's own sensitivities |
+| D3 | Allowance values (ΔPM, ΔGBW %, Δgain dB, Δpower) and eta | Imasha's numbers; one table for every design, in PREREG before any re-run |
+| D4 | Specs for designs without upstream specs | judge layout on degradation; report the derived absolute specs, do not gate on them |
+| D5 | Suspect selection rule | topology tags plus the top S1 nets and pairs covering a fixed share of predicted loss per spec, capped at k; Imasha's share and k |
+| D6 | iadc reference | include C3/C4 (our bench) or not (the upstream Performance Summary, which our operating point reproduces without them) |
+| D7 | TTSKY25a calibration | attribute the tile's extracted 3° PM loss to S1's suspects now (C3), labelled post hoc |
+| D8 | CMFB loop stability | add as a reported check for fully differential designs |
+| D9 | Phase A fixes A1–A6 (pending tasks 1d, 1f, 1i–1m) | approve as the first technical work, before any re-run |
+| D10 | LLM | defer until a deterministic S4 works |
+
+Per-circuit questions (in the doc): LOADBench (keep PM ≥ 60° with 65.3° in the schematic? N1/N4 layout?); iadc
+(C3/C4 in the reference? allowance for a 0.3 pF load? keep the 38 upstream dummies?); TTSKY25a (how the paper's 52°
+run was set up; 4.9× supply-power change between 0.9 and 1.1 VDD; CMFB loop check; the corrected pairings).
 
 **FEEDBACK NEEDED (Cowork, 2026-10-27): which technical items to do, and in what order.** None was done in the
 documentation pass. Suggested order (each is a run or a code change):
@@ -174,7 +210,7 @@ documentation pass. Suggested order (each is a run or a code change):
     labelled post-hoc run after the queue, a fallback that keeps the option that breaks its allowances least,
     gate resistance included? That would be an S3-only run, about 30 min for LOADBench. It may also change the
     relaxed types of the other designs.
-- **iadc G1.1** (not blocking): 21 functional devices sit below vdsat at the operating point: 15 MOS-resistor stacks with the gate at cm, plus some current sources. Is that the design intent? Until answered, it is reported as a FAIL, with that explanation.
+- **iadc G1.1** (not blocking): 21 functional devices sit below vdsat at the operating point: 15 MOS-resistor stacks with the gate at cm, plus some current sources. Is that the design intent? Until answered, it is reported as a FAIL, with that explanation. (Cowork, Plan v3 review: the upstream schematic's Performance Summary is reproduced by our operating point without C3/C4, which suggests the fold sources M11/M12 in triode are intended; flow record row 50, D6.)
 - **TTSKY paper numbers** (information only): the paper's post-layout 2.3 MHz / 52° is not reproduced by the tile's PEX, even at the bench conditions (ff, 20 °C, MIM MF=100). How was that run set up?
 
 ## Recent results
@@ -277,6 +313,15 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-10-27 17:15 CET (Cowork): **Plan v3 review pack** (no runs, no flow code changed).
+  - Claude Doc "Plan v3: circuit review pack and implementation plan" (https://claude.ai/artifact/R15Aj6FzDVKxcYwLT1WAr5),
+    mirrored as `docs/plan_v3_review_pack.md`; figures in `docs/plan_v3/img/` (drawn by `docs/plan_v3/src/*.py` or
+    rendered from the upstream xschem sources).
+  - Flow record 7.12 and journey rows 46–50; changelog line. Progress-log entry.
+  - Independent review of the pack (12 findings, checked and applied), plus one correction found afterwards (the
+    TTSKY25a tile loses about 3° of PM in our extraction, so the paper's 52° stays unexplained).
+  - New pending tasks 1j–1n; FEEDBACK NEEDED D1–D10 under *Open questions*.
+  - claude.ai project doc 14 and its copy in `docs/context/project_docs/`.
 - 2026-10-27 14:20 CET (Cowork): **documentation pass** (no runs, no flow code changed).
   - Flow record section 7 completed: 7.5 for LOADBench, iadc and TTSKY25a (post-hoc column labelled), 7.6 (held-out
     designs at eta 0.5, eta 0.9 headline, binding-margin table, H1/H1b/H1c), 7.7 and 7.8 against the 'after' G2.0,
