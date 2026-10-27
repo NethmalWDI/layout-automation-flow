@@ -208,6 +208,71 @@
         "XX2_X2_R20": true,
         "XX2_X2_R15": true
       }
+    },
+    "G0.9_pvt (info)": {
+      "pass": null,
+      "points": 45,
+      "meeting_all_specs": 5,
+      "worst_margin": {
+        "pm_deg": {
+          "margin": -3.488199999999999,
+          "point": "sf_v0.9_t-40",
+          "nominal_margin": 18.234099999999998
+        },
+        "gain_db": {
+          "margin": -18.408299999999997,
+          "point": "fs_v0.9_t85",
+          "nominal_margin": 1.0
+        },
+        "gbw_mhz": {
+          "margin": -0.29525,
+          "point": "sf_v0.9_t-40",
+          "nominal_margin": 0.2052099999999999
+        },
+        "power_uw": {
+          "margin": -875.7876000000001,
+          "point": "fs_v1.1_t85",
+          "nominal_margin": 45.19839999999999
+        }
+      },
+      "failed_runs": [],
+      "detail": "outputs/S0/ttsky25a_fd/pvt.json"
+    },
+    "G0.10_mismatch_mc (info)": {
+      "pass": null,
+      "runs": 200,
+      "summary": {
+        "gain_db": {
+          "mean": 98.19269249999999,
+          "std": 0.9983299655395615,
+          "min": 94.3607,
+          "max": 100.132,
+          "n": 200
+        },
+        "gbw_mhz": {
+          "mean": 2.05658565,
+          "std": 0.2571207217795166,
+          "min": 1.30601,
+          "max": 2.87346,
+          "n": 200
+        },
+        "pm_deg": {
+          "mean": 78.220302,
+          "std": 1.349236840050235,
+          "min": 74.3551,
+          "max": 82.3457,
+          "n": 200
+        },
+        "offset_v": {
+          "mean": 0.00018860292149999998,
+          "std": 0.002442056129941162,
+          "min": -0.00519355,
+          "max": 0.00616593,
+          "n": 200,
+          "definition": "follower output - VCM (single-ended) or v(OUTP) - v(OUTN) (differential)"
+        }
+      },
+      "detail": "outputs/S0/ttsky25a_fd/mc.json"
     }
   },
   "notes": [

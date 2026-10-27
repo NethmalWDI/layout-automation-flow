@@ -8,7 +8,11 @@ label D c metal1
 box 0.945um 1.385um 1.175um 1.585um
 paint metal1
 label S c metal1
-box 0.670um 2.145um 0.960um 2.375um
+box 0.630um 2.145um 1.000um 2.375um
+paint metal1
+box 0.630um 0.395um 1.000um 0.625um
+paint metal1
+box 0.630um 2.145um 1.000um 2.375um
 paint metal1
 label G c metal1
 box 0.730um -0.085um 0.900um 0.085um

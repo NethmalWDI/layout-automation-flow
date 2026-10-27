@@ -1,0 +1,386 @@
+{
+ "created": "2026-10-27T13:04:38",
+ "designs": {
+  "example_ota_5t": {
+   "design": "example_ota_5t",
+   "first": "after_eta0.9",
+   "rerun": "after_eta0.9_rerun",
+   "s2": {
+    "failed": {
+     "first": [],
+     "rerun": []
+    },
+    "eta": {
+     "first": 0.9,
+     "rerun": 0.9
+    },
+    "t_round1": {
+     "first": 1.8883757858212504,
+     "rerun": 1.8883757858212504
+    },
+    "starved": {
+     "first": 0,
+     "rerun": 0
+    },
+    "n_budgeted": {
+     "first": 21,
+     "rerun": 21
+    },
+    "floors_pass": {
+     "first": true,
+     "rerun": true
+    },
+    "verify_max_abs_change": 0.0
+   },
+   "rules": {
+    "per_net": {
+     "outcome": {
+      "first": "unsafe",
+      "rerun": "unsafe"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 3.546881395738969,
+      "rerun": 3.546881395738969
+     },
+     "spice_specs_violated": {
+      "first": [
+       "gbw_mhz@tt_v0.9_t27",
+       "sat_XM5"
+      ],
+      "rerun": [
+       "gbw_mhz@tt_v0.9_t27",
+       "sat_XM5"
+      ]
+     },
+     "worst_use_of_allowed": {
+      "first": 3.1261823523546455,
+      "rerun": 3.1261823523546455
+     }
+    },
+    "equal": {
+     "outcome": {
+      "first": "unsafe + infeasible",
+      "rerun": "unsafe + infeasible"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 1.1048929150589946,
+      "rerun": 1.1048929150589946
+     },
+     "spice_specs_violated": {
+      "first": [],
+      "rerun": []
+     },
+     "worst_use_of_allowed": {
+      "first": 0.5400341025807575,
+      "rerun": 0.5400341025807575
+     }
+    },
+    "lp_sum": {
+     "outcome": {
+      "first": "infeasible (unverified: failed runs)",
+      "rerun": "infeasible (unverified: failed runs)"
+     },
+     "spice_failed_runs": {
+      "first": [
+       "gbw_mhz",
+       "gbw_mhz@ss_v0.9_t27",
+       "gbw_mhz@ss_v0.9_t85",
+       "gbw_mhz@tt_v0.9_t-40",
+       "gbw_mhz@tt_v0.9_t27",
+       "sat_XM3",
+       "sat_XM4",
+       "vnoise_nv_rthz"
+      ],
+      "rerun": [
+       "gbw_mhz",
+       "gbw_mhz@ss_v0.9_t27",
+       "gbw_mhz@ss_v0.9_t85",
+       "gbw_mhz@tt_v0.9_t-40",
+       "gbw_mhz@tt_v0.9_t27",
+       "sat_XM3",
+       "sat_XM4",
+       "vnoise_nv_rthz"
+      ]
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 0.8154730114122976,
+      "rerun": 0.8154730114122976
+     },
+     "spice_specs_violated": {
+      "first": [],
+      "rerun": []
+     },
+     "worst_use_of_allowed": {
+      "first": 1.0,
+      "rerun": 1.0
+     }
+    },
+    "lp_floor": {
+     "outcome": {
+      "first": "ok",
+      "rerun": "ok"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 0.16273734895975328,
+      "rerun": 0.16273734895975328
+     },
+     "spice_specs_violated": {
+      "first": [],
+      "rerun": []
+     },
+     "worst_use_of_allowed": {
+      "first": 0.529555614676081,
+      "rerun": 0.529555614676081
+     }
+    },
+    "ours": {
+     "outcome": {
+      "first": "ok",
+      "rerun": "ok"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 0.41036760729250404,
+      "rerun": 0.41036760729250404
+     },
+     "spice_specs_violated": {
+      "first": [],
+      "rerun": []
+     },
+     "worst_use_of_allowed": {
+      "first": 1.0000000000007454,
+      "rerun": 1.0000000000007454
+     }
+    }
+   },
+   "same_gates_outcomes_and_failed_run_counts": true,
+   "rerun_timed_out_runs": [
+    "work/baselines/lp_sum/gbw_mhz/ac.log",
+    "work/baselines/lp_sum/sat_XM3/op.log",
+    "work/baselines/lp_sum/sat_XM4/op.log",
+    "work/baselines/lp_sum/vnoise_nv_rthz/noise.log"
+   ],
+   "rerun_clock": {
+    "wall_s": 676.7,
+    "uptime_s": 644.9,
+    "jump_s": 31.8,
+    "note": "wall-clock time minus container uptime over the S2 run; a standby or a paused VM shows as a jump"
+   }
+  },
+  "loadbench_miller": {
+   "design": "loadbench_miller",
+   "first": "after_eta0.9",
+   "rerun": "after_eta0.9_rerun",
+   "s2": {
+    "failed": {
+     "first": [
+      "G2.3_allocation",
+      "G2.7_library_floors_feasible"
+     ],
+     "rerun": [
+      "G2.3_allocation",
+      "G2.7_library_floors_feasible"
+     ]
+    },
+    "eta": {
+     "first": 0.9,
+     "rerun": 0.9
+    },
+    "t_round1": {
+     "first": 0.0016955714328429807,
+     "rerun": 0.0016955714328429807
+    },
+    "starved": {
+     "first": 39,
+     "rerun": 39
+    },
+    "n_budgeted": {
+     "first": 42,
+     "rerun": 42
+    },
+    "floors_pass": {
+     "first": false,
+     "rerun": false
+    },
+    "verify_max_abs_change": 0.0
+   },
+   "rules": {
+    "per_net": {
+     "outcome": {
+      "first": "unsafe + infeasible",
+      "rerun": "unsafe + infeasible"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 10.155821159805317,
+      "rerun": 10.155821159805317
+     },
+     "spice_specs_violated": {
+      "first": [
+       "gain_db@sf_v0.9_t-40",
+       "gbw_mhz",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t27",
+       "gbw_mhz@sf_v1_t85",
+       "pm_deg",
+       "pm_deg@sf_v1.1_t85",
+       "pm_deg@ss_v1.1_t-40",
+       "pm_deg@ss_v1.1_t27",
+       "pm_deg@ss_v1.1_t85",
+       "pm_deg@ss_v1_t85",
+       "pm_deg@tt_v1.1_t85"
+      ],
+      "rerun": [
+       "gain_db@sf_v0.9_t-40",
+       "gbw_mhz",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t27",
+       "gbw_mhz@sf_v1_t85",
+       "pm_deg",
+       "pm_deg@sf_v1.1_t85",
+       "pm_deg@ss_v1.1_t-40",
+       "pm_deg@ss_v1.1_t27",
+       "pm_deg@ss_v1.1_t85",
+       "pm_deg@ss_v1_t85",
+       "pm_deg@tt_v1.1_t85"
+      ]
+     },
+     "worst_use_of_allowed": {
+      "first": 11.79200570010939,
+      "rerun": 11.79200570010939
+     }
+    },
+    "equal": {
+     "outcome": {
+      "first": "infeasible",
+      "rerun": "infeasible"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 0.7383798140770255,
+      "rerun": 0.7383798140770255
+     },
+     "spice_specs_violated": {
+      "first": [],
+      "rerun": []
+     },
+     "worst_use_of_allowed": {
+      "first": 0.704360475953035,
+      "rerun": 0.704360475953035
+     }
+    },
+    "lp_sum": {
+     "outcome": {
+      "first": "unsafe + infeasible (unverified: failed runs)",
+      "rerun": "unsafe + infeasible (unverified: failed runs)"
+     },
+     "spice_failed_runs": {
+      "first": [
+       "gbw_mhz",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t27",
+       "gbw_mhz@sf_v1_t85"
+      ],
+      "rerun": [
+       "gbw_mhz",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t27",
+       "gbw_mhz@sf_v1_t85"
+      ]
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 19905.373015868896,
+      "rerun": 19905.373015868896
+     },
+     "spice_specs_violated": {
+      "first": [
+       "gain_db@sf_v0.9_t-40",
+       "sat_XDiodeTransistorNmos1"
+      ],
+      "rerun": [
+       "gain_db@sf_v0.9_t-40",
+       "sat_XDiodeTransistorNmos1"
+      ]
+     },
+     "worst_use_of_allowed": {
+      "first": 0.9999999999999999,
+      "rerun": 0.9999999999999999
+     }
+    },
+    "lp_floor": {
+     "outcome": {
+      "first": "infeasible",
+      "rerun": "infeasible"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 0.6203720939852739,
+      "rerun": 0.6203720939852739
+     },
+     "spice_specs_violated": {
+      "first": [],
+      "rerun": []
+     },
+     "worst_use_of_allowed": {
+      "first": 1.0000000000000002,
+      "rerun": 1.0000000000000002
+     }
+    },
+    "ours": {
+     "outcome": {
+      "first": "infeasible",
+      "rerun": "infeasible"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 1.0079365079364877,
+      "rerun": 1.0079365079364877
+     },
+     "spice_specs_violated": {
+      "first": [],
+      "rerun": []
+     },
+     "worst_use_of_allowed": {
+      "first": 1.0000000000000002,
+      "rerun": 1.0000000000000002
+     }
+    }
+   },
+   "same_gates_outcomes_and_failed_run_counts": true,
+   "rerun_timed_out_runs": [],
+   "rerun_clock": {
+    "wall_s": 513.4,
+    "uptime_s": 488.8,
+    "jump_s": 24.6,
+    "note": "wall-clock time minus container uptime over the S2 run; a standby or a paused VM shows as a jump"
+   }
+  }
+ }
+}

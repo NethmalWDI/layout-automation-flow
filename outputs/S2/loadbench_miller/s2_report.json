@@ -2,113 +2,949 @@
   "design": "loadbench_miller",
   "eta": 0.5,
   "gates": {
+    "G2.9_pvt_constraints (info)": {
+      "pass": null,
+      "points": 45,
+      "constraints_added": 122,
+      "skipped_spec_not_met_before_layout": {
+        "ff_v0.9_t27": [
+          "gain_db"
+        ],
+        "ff_v0.9_t85": [
+          "gain_db"
+        ],
+        "ff_v1_t85": [
+          "gain_db"
+        ],
+        "sf_v0.9_t-40": [
+          "gbw_mhz"
+        ],
+        "sf_v0.9_t27": [
+          "gbw_mhz"
+        ],
+        "sf_v0.9_t85": [
+          "gbw_mhz"
+        ],
+        "sf_v1_t-40": [
+          "gbw_mhz"
+        ],
+        "ss_v0.9_t-40": [
+          "gbw_mhz"
+        ],
+        "ss_v0.9_t27": [
+          "gbw_mhz"
+        ],
+        "ss_v0.9_t85": [
+          "gbw_mhz"
+        ],
+        "tt_v0.9_t-40": [
+          "gbw_mhz"
+        ],
+        "tt_v0.9_t27": [
+          "gbw_mhz"
+        ],
+        "tt_v0.9_t85": [
+          "gbw_mhz"
+        ]
+      },
+      "op_failed": []
+    },
     "G2.0_expected_layout_use (info)": {
       "pass": null,
       "checks": {
         "gain_db": {
-          "use_at_expected_need": 6.573105109672744,
+          "use_at_expected_need": 6.63675127992618,
           "margin": 1.0,
-          "fraction_of_margin": 6.573105109672744
+          "fraction_of_margin": 6.63675127992618
         },
         "gbw_mhz": {
-          "use_at_expected_need": 2.2633309229851815,
+          "use_at_expected_need": 2.135654666142674,
           "margin": 2.3386999999999993,
-          "fraction_of_margin": 0.9677730888892043
+          "fraction_of_margin": 0.9131802566137918
         },
         "pm_deg": {
-          "use_at_expected_need": 33.315554150317844,
+          "use_at_expected_need": 19.926056474481154,
           "margin": 5.323300000000003,
-          "fraction_of_margin": 6.258440093610697
+          "fraction_of_margin": 3.743177441527087
         },
         "sat_XDiodeTransistorNmos1": {
-          "use_at_expected_need": 0.0014741408800509391,
+          "use_at_expected_need": 0.0012885670832386517,
           "margin": 0.3998864,
-          "fraction_of_margin": 0.003686399137482393
+          "fraction_of_margin": 0.003222332850626207
         },
         "sat_XDiodeTransistorPmos2": {
-          "use_at_expected_need": 0.0003058436780470305,
+          "use_at_expected_need": 0.0003235274922847987,
           "margin": 0.40325500000000003,
-          "fraction_of_margin": 0.0007584374106881017
+          "fraction_of_margin": 0.0008022900950634181
         },
         "sat_XNormalTransistorNmos3": {
-          "use_at_expected_need": 0.11941554945164169,
+          "use_at_expected_need": 0.12078951276955191,
           "margin": 0.8507284,
-          "fraction_of_margin": 0.1403685940796636
+          "fraction_of_margin": 0.14198363751527737
         },
         "sat_XNormalTransistorNmos4": {
-          "use_at_expected_need": 0.12004993291852423,
+          "use_at_expected_need": 0.08636918009919611,
           "margin": 0.45785349999999997,
-          "fraction_of_margin": 0.2622016276353118
+          "fraction_of_margin": 0.18863933572462832
         },
         "sat_XNormalTransistorPmos5": {
-          "use_at_expected_need": 0.20870145447309602,
+          "use_at_expected_need": 0.15098260028214994,
           "margin": 0.8032874,
-          "fraction_of_margin": 0.25980919714798967
+          "fraction_of_margin": 0.1879558926010167
         },
         "sat_XNormalTransistorPmos6": {
-          "use_at_expected_need": 0.07415436961279302,
+          "use_at_expected_need": 0.07496350199740805,
           "margin": 0.830561,
-          "fraction_of_margin": 0.08928226778381482
+          "fraction_of_margin": 0.09025646761334574
         },
         "sat_XNormalTransistorPmos7": {
-          "use_at_expected_need": 0.005509863603527936,
+          "use_at_expected_need": 0.00431424641463846,
           "margin": 0.889961,
-          "fraction_of_margin": 0.0061911292781682975
+          "fraction_of_margin": 0.004847680308056712
         },
         "sat_XNormalTransistorPmos8": {
-          "use_at_expected_need": 0.004165144937080187,
+          "use_at_expected_need": 0.003989173280474796,
           "margin": 0.20451740000000002,
-          "fraction_of_margin": 0.02036572407570303
+          "fraction_of_margin": 0.019505300187049098
+        },
+        "gain_db@ff_v0.9_t-40": {
+          "use_at_expected_need": 7.3312772261709185,
+          "margin": 0.3850000000000051,
+          "fraction_of_margin": 19.0422785095346
+        },
+        "gbw_mhz@ff_v0.9_t-40": {
+          "use_at_expected_need": 2.167167259082134,
+          "margin": 1.4540000000000006,
+          "fraction_of_margin": 1.4904864230276018
+        },
+        "pm_deg@ff_v0.9_t-40": {
+          "use_at_expected_need": 19.256491640069537,
+          "margin": 8.447500000000005,
+          "fraction_of_margin": 2.279549173136375
+        },
+        "gbw_mhz@ff_v0.9_t27": {
+          "use_at_expected_need": 2.0468151144236106,
+          "margin": 1.1114999999999995,
+          "fraction_of_margin": 1.8414890818026195
+        },
+        "pm_deg@ff_v0.9_t27": {
+          "use_at_expected_need": 19.337844894211333,
+          "margin": 6.586200000000005,
+          "fraction_of_margin": 2.93611565002753
+        },
+        "gbw_mhz@ff_v0.9_t85": {
+          "use_at_expected_need": 1.9443104125400463,
+          "margin": 0.4728999999999992,
+          "fraction_of_margin": 4.111462069232501
+        },
+        "pm_deg@ff_v0.9_t85": {
+          "use_at_expected_need": 19.2522275752266,
+          "margin": 5.750200000000007,
+          "fraction_of_margin": 3.348097035794681
+        },
+        "gain_db@ff_v1.1_t-40": {
+          "use_at_expected_need": 7.690760537848319,
+          "margin": 0.8541000000000025,
+          "fraction_of_margin": 9.00452000684732
+        },
+        "gbw_mhz@ff_v1.1_t-40": {
+          "use_at_expected_need": 2.6618546805283496,
+          "margin": 6.478300000000001,
+          "fraction_of_margin": 0.4108878379402543
+        },
+        "pm_deg@ff_v1.1_t-40": {
+          "use_at_expected_need": 21.127429666487398,
+          "margin": 5.489999999999995,
+          "fraction_of_margin": 3.8483478445332273
+        },
+        "gain_db@ff_v1.1_t27": {
+          "use_at_expected_need": 6.535798675026224,
+          "margin": 0.4532000000000025,
+          "fraction_of_margin": 14.421444560958049
+        },
+        "gbw_mhz@ff_v1.1_t27": {
+          "use_at_expected_need": 2.3319615445177826,
+          "margin": 4.153399999999998,
+          "fraction_of_margin": 0.5614584544030875
+        },
+        "pm_deg@ff_v1.1_t27": {
+          "use_at_expected_need": 20.346786338017925,
+          "margin": 5.663200000000003,
+          "fraction_of_margin": 3.5928073064730035
+        },
+        "gain_db@ff_v1.1_t85": {
+          "use_at_expected_need": 5.768480608523381,
+          "margin": 0.1226000000000056,
+          "fraction_of_margin": 47.051228454511566
+        },
+        "gbw_mhz@ff_v1.1_t85": {
+          "use_at_expected_need": 2.145657666293717,
+          "margin": 2.7497000000000007,
+          "fraction_of_margin": 0.7803242776643694
+        },
+        "pm_deg@ff_v1.1_t85": {
+          "use_at_expected_need": 19.940140842235607,
+          "margin": 5.3966000000000065,
+          "fraction_of_margin": 3.69494512141637
+        },
+        "gain_db@ff_v1_t-40": {
+          "use_at_expected_need": 7.512946362760141,
+          "margin": 0.6360000000000028,
+          "fraction_of_margin": 11.812808746478158
+        },
+        "gbw_mhz@ff_v1_t-40": {
+          "use_at_expected_need": 2.45653441549527,
+          "margin": 4.599,
+          "fraction_of_margin": 0.5341453393118656
+        },
+        "pm_deg@ff_v1_t-40": {
+          "use_at_expected_need": 20.509932352957183,
+          "margin": 5.714100000000002,
+          "fraction_of_margin": 3.589354815799019
+        },
+        "gain_db@ff_v1_t27": {
+          "use_at_expected_need": 6.401491346111469,
+          "margin": 0.2401000000000053,
+          "fraction_of_margin": 26.661771537323315
+        },
+        "gbw_mhz@ff_v1_t27": {
+          "use_at_expected_need": 2.2006508620590624,
+          "margin": 2.8246,
+          "fraction_of_margin": 0.7791017708911216
+        },
+        "pm_deg@ff_v1_t27": {
+          "use_at_expected_need": 19.939705987749672,
+          "margin": 5.756299999999996,
+          "fraction_of_margin": 3.463979637570955
+        },
+        "gbw_mhz@ff_v1_t85": {
+          "use_at_expected_need": 2.0488631372072197,
+          "margin": 1.7017999999999986,
+          "fraction_of_margin": 1.203938851338125
+        },
+        "pm_deg@ff_v1_t85": {
+          "use_at_expected_need": 19.638636920438227,
+          "margin": 5.418899999999994,
+          "fraction_of_margin": 3.62410026397207
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "use_at_expected_need": 7.580689817222763,
+          "margin": 1.027000000000001,
+          "fraction_of_margin": 7.381392227091291
+        },
+        "gbw_mhz@fs_v0.9_t-40": {
+          "use_at_expected_need": 2.2595300051245806,
+          "margin": 2.8363999999999976,
+          "fraction_of_margin": 0.7966189554098796
+        },
+        "pm_deg@fs_v0.9_t-40": {
+          "use_at_expected_need": 20.065424356688514,
+          "margin": 6.717799999999997,
+          "fraction_of_margin": 2.986904099063462
+        },
+        "gain_db@fs_v0.9_t27": {
+          "use_at_expected_need": 6.5078515479994605,
+          "margin": 0.6756000000000029,
+          "fraction_of_margin": 9.632699153344335
+        },
+        "gbw_mhz@fs_v0.9_t27": {
+          "use_at_expected_need": 2.0737899394064088,
+          "margin": 1.7163000000000004,
+          "fraction_of_margin": 1.2082910559962758
+        },
+        "pm_deg@fs_v0.9_t27": {
+          "use_at_expected_need": 19.749786204604682,
+          "margin": 5.962999999999994,
+          "fraction_of_margin": 3.312055375583549
+        },
+        "gain_db@fs_v0.9_t85": {
+          "use_at_expected_need": 5.809609150455703,
+          "margin": 0.3603000000000023,
+          "fraction_of_margin": 16.12436622385697
+        },
+        "gbw_mhz@fs_v0.9_t85": {
+          "use_at_expected_need": 1.962887579057038,
+          "margin": 0.9201999999999977,
+          "fraction_of_margin": 2.133109735988962
+        },
+        "pm_deg@fs_v0.9_t85": {
+          "use_at_expected_need": 19.5663494784037,
+          "margin": 5.424300000000002,
+          "fraction_of_margin": 3.6071658054317965
+        },
+        "gain_db@fs_v1.1_t-40": {
+          "use_at_expected_need": 7.9314293671179446,
+          "margin": 1.4650000000000034,
+          "fraction_of_margin": 5.413944960490052
+        },
+        "gbw_mhz@fs_v1.1_t-40": {
+          "use_at_expected_need": 2.6580350273417634,
+          "margin": 6.790800000000001,
+          "fraction_of_margin": 0.39141706828971007
+        },
+        "pm_deg@fs_v1.1_t-40": {
+          "use_at_expected_need": 21.474161716763316,
+          "margin": 5.303600000000003,
+          "fraction_of_margin": 4.048978376341222
+        },
+        "gain_db@fs_v1.1_t27": {
+          "use_at_expected_need": 6.76455104294151,
+          "margin": 1.121300000000005,
+          "fraction_of_margin": 6.032775388336288
+        },
+        "gbw_mhz@fs_v1.1_t27": {
+          "use_at_expected_need": 2.3173964692715465,
+          "margin": 4.3445,
+          "fraction_of_margin": 0.53340924600565
+        },
+        "pm_deg@fs_v1.1_t27": {
+          "use_at_expected_need": 20.59517563430663,
+          "margin": 5.486900000000006,
+          "fraction_of_margin": 3.7535175844842463
+        },
+        "gain_db@fs_v1.1_t85": {
+          "use_at_expected_need": 6.002889339826731,
+          "margin": 0.7859000000000052,
+          "fraction_of_margin": 7.638235576824903
+        },
+        "gbw_mhz@fs_v1.1_t85": {
+          "use_at_expected_need": 2.1389884713822087,
+          "margin": 2.9610999999999983,
+          "fraction_of_margin": 0.7223627946986626
+        },
+        "pm_deg@fs_v1.1_t85": {
+          "use_at_expected_need": 20.16960536835636,
+          "margin": 5.2547,
+          "fraction_of_margin": 3.838393318049815
+        },
+        "gain_db@fs_v1_t-40": {
+          "use_at_expected_need": 7.756074971157875,
+          "margin": 1.2614000000000019,
+          "fraction_of_margin": 6.14878307527974
+        },
+        "gbw_mhz@fs_v1_t-40": {
+          "use_at_expected_need": 2.4797516710035903,
+          "margin": 5.1416,
+          "fraction_of_margin": 0.4822918295868193
+        },
+        "pm_deg@fs_v1_t-40": {
+          "use_at_expected_need": 20.93524084885988,
+          "margin": 5.416799999999995,
+          "fraction_of_margin": 3.864872406007218
+        },
+        "gain_db@fs_v1_t27": {
+          "use_at_expected_need": 6.631740711288631,
+          "margin": 0.9191000000000003,
+          "fraction_of_margin": 7.215472430952703
+        },
+        "gbw_mhz@fs_v1_t27": {
+          "use_at_expected_need": 2.201662278717946,
+          "margin": 3.1494999999999997,
+          "fraction_of_margin": 0.6990513664765664
+        },
+        "pm_deg@fs_v1_t27": {
+          "use_at_expected_need": 20.23017117299506,
+          "margin": 5.526700000000005,
+          "fraction_of_margin": 3.660443152875141
+        },
+        "gain_db@fs_v1_t85": {
+          "use_at_expected_need": 5.898831915720505,
+          "margin": 0.5960000000000036,
+          "fraction_of_margin": 9.89736898610817
+        },
+        "gbw_mhz@fs_v1_t85": {
+          "use_at_expected_need": 2.0527087631666046,
+          "margin": 2.003399999999999,
+          "fraction_of_margin": 1.0246125402648525
+        },
+        "pm_deg@fs_v1_t85": {
+          "use_at_expected_need": 19.894572464881474,
+          "margin": 5.246399999999994,
+          "fraction_of_margin": 3.7920426320679885
+        },
+        "gain_db@sf_v0.9_t-40": {
+          "use_at_expected_need": 7.431123075054451,
+          "margin": 0.014000000000002899,
+          "fraction_of_margin": 530.7945053609224
+        },
+        "pm_deg@sf_v0.9_t-40": {
+          "use_at_expected_need": 12.222275068066617,
+          "margin": 25.651399999999995,
+          "fraction_of_margin": 0.4764759454870541
+        },
+        "gain_db@sf_v0.9_t27": {
+          "use_at_expected_need": 6.408726023345555,
+          "margin": 0.44839999999999947,
+          "fraction_of_margin": 14.292430917362987
+        },
+        "pm_deg@sf_v0.9_t27": {
+          "use_at_expected_need": 16.192443908077372,
+          "margin": 16.419799999999995,
+          "fraction_of_margin": 0.9861535407299344
+        },
+        "gain_db@sf_v0.9_t85": {
+          "use_at_expected_need": 5.677212498529059,
+          "margin": 0.35079999999999956,
+          "fraction_of_margin": 16.18361601633143
+        },
+        "pm_deg@sf_v0.9_t85": {
+          "use_at_expected_need": 17.868342419763906,
+          "margin": 9.9037,
+          "fraction_of_margin": 1.8042087724551334
+        },
+        "gain_db@sf_v1.1_t-40": {
+          "use_at_expected_need": 7.908999324355525,
+          "margin": 1.5820000000000007,
+          "fraction_of_margin": 4.999367461665943
+        },
+        "gbw_mhz@sf_v1.1_t-40": {
+          "use_at_expected_need": 2.3700002384837866,
+          "margin": 3.877299999999998,
+          "fraction_of_margin": 0.6112501582244829
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "use_at_expected_need": 20.200944604609408,
+          "margin": 5.150300000000001,
+          "fraction_of_margin": 3.922285032834864
+        },
+        "gain_db@sf_v1.1_t27": {
+          "use_at_expected_need": 6.757793218506932,
+          "margin": 1.1818000000000026,
+          "fraction_of_margin": 5.718220695978099
+        },
+        "gbw_mhz@sf_v1.1_t27": {
+          "use_at_expected_need": 2.1757838908077067,
+          "margin": 2.5946,
+          "fraction_of_margin": 0.8385816275370797
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "use_at_expected_need": 19.8911537783703,
+          "margin": 5.113500000000002,
+          "fraction_of_margin": 3.8899293592197695
+        },
+        "gain_db@sf_v1.1_t85": {
+          "use_at_expected_need": 5.942901258882265,
+          "margin": 0.8959000000000046,
+          "fraction_of_margin": 6.633442637439708
+        },
+        "gbw_mhz@sf_v1.1_t85": {
+          "use_at_expected_need": 2.042427455934803,
+          "margin": 1.6523000000000003,
+          "fraction_of_margin": 1.236111756905406
+        },
+        "pm_deg@sf_v1.1_t85": {
+          "use_at_expected_need": 19.70085243145257,
+          "margin": 4.670199999999994,
+          "fraction_of_margin": 4.2184172907911
+        },
+        "gain_db@sf_v1_t-40": {
+          "use_at_expected_need": 7.679976192159812,
+          "margin": 1.2538000000000054,
+          "fraction_of_margin": 6.125359859754171
+        },
+        "pm_deg@sf_v1_t-40": {
+          "use_at_expected_need": 18.57810823773916,
+          "margin": 9.143100000000004,
+          "fraction_of_margin": 2.031926615451997
+        },
+        "gain_db@sf_v1_t27": {
+          "use_at_expected_need": 6.585715482789847,
+          "margin": 0.9055000000000035,
+          "fraction_of_margin": 7.27301544206496
+        },
+        "gbw_mhz@sf_v1_t27": {
+          "use_at_expected_need": 1.9884848730837268,
+          "margin": 0.5916999999999994,
+          "fraction_of_margin": 3.3606301725261596
+        },
+        "pm_deg@sf_v1_t27": {
+          "use_at_expected_need": 19.1594513855038,
+          "margin": 6.2149,
+          "fraction_of_margin": 3.082825368952646
+        },
+        "gain_db@sf_v1_t85": {
+          "use_at_expected_need": 5.80814086867526,
+          "margin": 0.6500000000000057,
+          "fraction_of_margin": 8.935601336423398
+        },
+        "gbw_mhz@sf_v1_t85": {
+          "use_at_expected_need": 1.9149751683846827,
+          "margin": 0.25099999999999767,
+          "fraction_of_margin": 7.629383140974903
+        },
+        "pm_deg@sf_v1_t85": {
+          "use_at_expected_need": 19.23756230799581,
+          "margin": 5.102500000000006,
+          "fraction_of_margin": 3.770222892306866
+        },
+        "gain_db@ss_v0.9_t-40": {
+          "use_at_expected_need": 7.690771197454286,
+          "margin": 1.2027,
+          "fraction_of_margin": 6.394588174485977
+        },
+        "pm_deg@ss_v0.9_t-40": {
+          "use_at_expected_need": 14.55204266816799,
+          "margin": 21.399,
+          "fraction_of_margin": 0.6800337711186499
+        },
+        "gain_db@ss_v0.9_t27": {
+          "use_at_expected_need": 6.635392571775971,
+          "margin": 1.273300000000006,
+          "fraction_of_margin": 5.211177704999559
+        },
+        "pm_deg@ss_v0.9_t27": {
+          "use_at_expected_need": 17.726945028391306,
+          "margin": 12.198300000000003,
+          "fraction_of_margin": 1.453230780386718
+        },
+        "gain_db@ss_v0.9_t85": {
+          "use_at_expected_need": 5.8684670545591775,
+          "margin": 1.103500000000004,
+          "fraction_of_margin": 5.3180489846480805
+        },
+        "pm_deg@ss_v0.9_t85": {
+          "use_at_expected_need": 18.707737852245963,
+          "margin": 7.290300000000002,
+          "fraction_of_margin": 2.5661135827395247
+        },
+        "gain_db@ss_v1.1_t-40": {
+          "use_at_expected_need": 8.164061098133907,
+          "margin": 2.218600000000002,
+          "fraction_of_margin": 3.6798256099043987
+        },
+        "gbw_mhz@ss_v1.1_t-40": {
+          "use_at_expected_need": 2.469472277881649,
+          "margin": 4.981199999999998,
+          "fraction_of_margin": 0.4957585075647736
+        },
+        "pm_deg@ss_v1.1_t-40": {
+          "use_at_expected_need": 20.883866728580358,
+          "margin": 4.566199999999995,
+          "fraction_of_margin": 4.5735768754282295
+        },
+        "gain_db@ss_v1.1_t27": {
+          "use_at_expected_need": 6.979892275789338,
+          "margin": 1.8855000000000004,
+          "fraction_of_margin": 3.701878693073103
+        },
+        "gbw_mhz@ss_v1.1_t27": {
+          "use_at_expected_need": 2.2214125176312334,
+          "margin": 3.264199999999999,
+          "fraction_of_margin": 0.6805381158112965
+        },
+        "pm_deg@ss_v1.1_t27": {
+          "use_at_expected_need": 20.349582411831513,
+          "margin": 4.668400000000005,
+          "fraction_of_margin": 4.359005743259251
+        },
+        "gain_db@ss_v1.1_t85": {
+          "use_at_expected_need": 6.12972787379533,
+          "margin": 1.6275000000000048,
+          "fraction_of_margin": 3.7663458517943544
+        },
+        "gbw_mhz@ss_v1.1_t85": {
+          "use_at_expected_need": 2.063793497715063,
+          "margin": 2.0914,
+          "fraction_of_margin": 0.9867999893444883
+        },
+        "pm_deg@ss_v1.1_t85": {
+          "use_at_expected_need": 20.04002731040269,
+          "margin": 4.297600000000003,
+          "fraction_of_margin": 4.663074113552373
+        },
+        "gain_db@ss_v1_t-40": {
+          "use_at_expected_need": 7.9355763374175785,
+          "margin": 1.9318000000000026,
+          "fraction_of_margin": 4.107866413405926
+        },
+        "gbw_mhz@ss_v1_t-40": {
+          "use_at_expected_need": 2.1831762957599827,
+          "margin": 2.0625,
+          "fraction_of_margin": 1.0585097191563553
+        },
+        "pm_deg@ss_v1_t-40": {
+          "use_at_expected_need": 19.743441435310096,
+          "margin": 6.489099999999993,
+          "fraction_of_margin": 3.0425546586291037
+        },
+        "gain_db@ss_v1_t27": {
+          "use_at_expected_need": 6.808170498006323,
+          "margin": 1.6238000000000028,
+          "fraction_of_margin": 4.192739560294563
+        },
+        "gbw_mhz@ss_v1_t27": {
+          "use_at_expected_need": 2.059218410971393,
+          "margin": 1.5566999999999993,
+          "fraction_of_margin": 1.3228100539419245
+        },
+        "pm_deg@ss_v1_t27": {
+          "use_at_expected_need": 19.752101750181648,
+          "margin": 5.2708999999999975,
+          "fraction_of_margin": 3.747386926365831
+        },
+        "gain_db@ss_v1_t85": {
+          "use_at_expected_need": 5.9957592325762015,
+          "margin": 1.3896000000000015,
+          "fraction_of_margin": 4.314737501853911
+        },
+        "gbw_mhz@ss_v1_t85": {
+          "use_at_expected_need": 1.9502634739172215,
+          "margin": 0.8414999999999999,
+          "fraction_of_margin": 2.3176036529022244
+        },
+        "pm_deg@ss_v1_t85": {
+          "use_at_expected_need": 19.636538024481347,
+          "margin": 4.549300000000002,
+          "fraction_of_margin": 4.3163867022358025
+        },
+        "gain_db@tt_v0.9_t-40": {
+          "use_at_expected_need": 7.559364848186678,
+          "margin": 1.0359000000000052,
+          "fraction_of_margin": 7.297388597535129
+        },
+        "pm_deg@tt_v0.9_t-40": {
+          "use_at_expected_need": 17.70503362072819,
+          "margin": 13.517300000000006,
+          "fraction_of_margin": 1.3098054804382668
+        },
+        "gain_db@tt_v0.9_t27": {
+          "use_at_expected_need": 6.485447727180968,
+          "margin": 0.7150999999999996,
+          "fraction_of_margin": 9.069287829927243
+        },
+        "pm_deg@tt_v0.9_t27": {
+          "use_at_expected_need": 18.92815256808006,
+          "margin": 7.842699999999994,
+          "fraction_of_margin": 2.4134740036059106
+        },
+        "gain_db@tt_v0.9_t85": {
+          "use_at_expected_need": 5.7353929465858915,
+          "margin": 0.45589999999999975,
+          "fraction_of_margin": 12.580374965092991
+        },
+        "pm_deg@tt_v0.9_t85": {
+          "use_at_expected_need": 19.14316194960122,
+          "margin": 5.7958,
+          "fraction_of_margin": 3.3029369456505093
+        },
+        "gain_db@tt_v1.1_t-40": {
+          "use_at_expected_need": 7.97837949717488,
+          "margin": 1.6143,
+          "fraction_of_margin": 4.942315243247773
+        },
+        "gbw_mhz@tt_v1.1_t-40": {
+          "use_at_expected_need": 2.585538949173003,
+          "margin": 5.899999999999999,
+          "fraction_of_margin": 0.4382269405377972
+        },
+        "pm_deg@tt_v1.1_t-40": {
+          "use_at_expected_need": 21.09277750419545,
+          "margin": 4.9180999999999955,
+          "fraction_of_margin": 4.288806145502424
+        },
+        "gain_db@tt_v1.1_t27": {
+          "use_at_expected_need": 6.790809587976426,
+          "margin": 1.2376000000000005,
+          "fraction_of_margin": 5.487079499011331
+        },
+        "gbw_mhz@tt_v1.1_t27": {
+          "use_at_expected_need": 2.2878776722642074,
+          "margin": 3.8122000000000007,
+          "fraction_of_margin": 0.6001462862032965
+        },
+        "pm_deg@tt_v1.1_t27": {
+          "use_at_expected_need": 20.405111560446887,
+          "margin": 5.087800000000001,
+          "fraction_of_margin": 4.010596242078478
+        },
+        "gain_db@tt_v1.1_t85": {
+          "use_at_expected_need": 5.967126584400744,
+          "margin": 0.9393000000000029,
+          "fraction_of_margin": 6.352737766848425
+        },
+        "gbw_mhz@tt_v1.1_t85": {
+          "use_at_expected_need": 2.1094562918671844,
+          "margin": 2.4711999999999996,
+          "fraction_of_margin": 0.8536161750838397
+        },
+        "pm_deg@tt_v1.1_t85": {
+          "use_at_expected_need": 20.02499077072727,
+          "margin": 4.779499999999999,
+          "fraction_of_margin": 4.189766873256047
+        },
+        "gain_db@tt_v1_t-40": {
+          "use_at_expected_need": 7.773634431336069,
+          "margin": 1.3643,
+          "fraction_of_margin": 5.697892275405753
+        },
+        "gbw_mhz@tt_v1_t-40": {
+          "use_at_expected_need": 2.3513081800345885,
+          "margin": 3.694099999999999,
+          "fraction_of_margin": 0.6365036626064777
+        },
+        "pm_deg@tt_v1_t-40": {
+          "use_at_expected_need": 20.31800239499372,
+          "margin": 5.521000000000001,
+          "fraction_of_margin": 3.680130844954486
+        },
+        "gain_db@tt_v1_t27": {
+          "use_at_expected_need": 6.63675127992598,
+          "margin": 1.0,
+          "fraction_of_margin": 6.63675127992598
+        },
+        "gbw_mhz@tt_v1_t27": {
+          "use_at_expected_need": 2.1436035751498626,
+          "margin": 2.3386999999999993,
+          "fraction_of_margin": 0.9165791145293809
+        },
+        "pm_deg@tt_v1_t27": {
+          "use_at_expected_need": 19.927056796995156,
+          "margin": 5.323300000000003,
+          "fraction_of_margin": 3.7433653555116457
+        },
+        "gain_db@tt_v1_t85": {
+          "use_at_expected_need": 5.84671211602347,
+          "margin": 0.7199000000000026,
+          "fraction_of_margin": 8.121561489128279
+        },
+        "gbw_mhz@tt_v1_t85": {
+          "use_at_expected_need": 2.005203243582787,
+          "margin": 1.3322000000000003,
+          "fraction_of_margin": 1.5051818372487515
+        },
+        "pm_deg@tt_v1_t85": {
+          "use_at_expected_need": 19.68287847290999,
+          "margin": 4.873500000000007,
+          "fraction_of_margin": 4.0387562271283395
         }
       },
       "default_cells_used": [
+        "nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gboth_sdfull",
         "nfet_01v8_lvt_W66p13_L2p03_m1__nf1_gboth_sdfull",
         "pfet_01v8_lvt_W14p21_L0p89_m1__nf1_gboth_sdfull",
         "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdfull",
         "pfet_01v8_lvt_W887p03_L0p74_m1__nf1_gboth_sdfull",
         "pfet_01v8_lvt_W90p63_L0p74_m1__nf1_gboth_sdfull"
       ],
+      "saturation_not_constrained": {},
       "note": "fraction of each margin that a compact layout with the default device cells would use (sum of rate x expected need); above eta the budgets fall below the expected need"
     },
+    "G2.7_library_floors_feasible": {
+      "pass": false,
+      "alloc": "v2",
+      "n_floors": 33,
+      "representative_option": {
+        "nfet_01v8_lvt_W66p13_L2p03_m1": {
+          "option": "nf4_gboth_sdhalf_outS",
+          "score_vs_default": 0.40825856158676843
+        },
+        "pfet_01v8_lvt_W37p3_L0p74_m1": {
+          "option": "nf4_gboth_sdfull_outS",
+          "score_vs_default": 0.726630592567027
+        },
+        "nfet_01v8_lvt_W484p2_L0p24_m1": {
+          "option": "nf8_gtop_sdhalf_outS",
+          "score_vs_default": 0.2687994842852916
+        },
+        "pfet_01v8_lvt_W887p03_L0p74_m1": {
+          "option": "nf8_gboth_sdhalf_outS",
+          "score_vs_default": 0.23809399219567473
+        },
+        "pfet_01v8_lvt_W14p21_L0p89_m1": {
+          "option": "nf2_gboth_sdfull_outS",
+          "score_vs_default": 0.9794586228351991
+        },
+        "pfet_01v8_lvt_W90p63_L0p74_m1": {
+          "option": "nf4_gboth_sdhalf_outS",
+          "score_vs_default": 0.4960035153381542
+        }
+      },
+      "floor_use_of_allowed": {
+        "gain_db": 0.04917655744538856,
+        "gbw_mhz": 0.3130692320654051,
+        "pm_deg": 0.27791857825663907,
+        "sat_XDiodeTransistorNmos1": 0.00046487435137357015,
+        "sat_XDiodeTransistorPmos2": 0.00044710889049523326,
+        "sat_XNormalTransistorNmos3": 0.0006026226494032766,
+        "sat_XNormalTransistorNmos4": 0.0008804175562392789,
+        "sat_XNormalTransistorPmos5": 0.0007826931710234339,
+        "sat_XNormalTransistorPmos6": 0.0010091911131489117,
+        "sat_XNormalTransistorPmos7": 0.0005959604731715216,
+        "sat_XNormalTransistorPmos8": 0.005288715826080113,
+        "gain_db@ff_v0.9_t-40": 0.1338922033544045,
+        "gbw_mhz@ff_v0.9_t-40": 0.4743115783457172,
+        "pm_deg@ff_v0.9_t-40": 0.1597165124183661,
+        "gbw_mhz@ff_v0.9_t27": 0.6290991709551849,
+        "pm_deg@ff_v0.9_t27": 0.20961513266060672,
+        "gbw_mhz@ff_v0.9_t85": 1.4820123961841671,
+        "pm_deg@ff_v0.9_t85": 0.24110147217708477,
+        "gain_db@ff_v1.1_t-40": 0.06844184922819146,
+        "gbw_mhz@ff_v1.1_t-40": 0.1281160570730601,
+        "pm_deg@ff_v1.1_t-40": 0.27849695448353695,
+        "gain_db@ff_v1.1_t27": 0.11211681617390878,
+        "gbw_mhz@ff_v1.1_t27": 0.19111184365938932,
+        "pm_deg@ff_v1.1_t27": 0.25470208592722093,
+        "gain_db@ff_v1.1_t85": 0.37652780235765015,
+        "gbw_mhz@ff_v1.1_t85": 0.2815682572352217,
+        "pm_deg@ff_v1.1_t85": 0.26191457751180197,
+        "gain_db@ff_v1_t-40": 0.08779333029731527,
+        "gbw_mhz@ff_v1_t-40": 0.16676588539317447,
+        "pm_deg@ff_v1_t-40": 0.2637958218081169,
+        "gain_db@ff_v1_t27": 0.20395801101924707,
+        "gbw_mhz@ff_v1_t27": 0.2653305460641419,
+        "pm_deg@ff_v1_t27": 0.2490183564170294,
+        "gbw_mhz@ff_v1_t85": 0.4343991541160034,
+        "pm_deg@ff_v1_t85": 0.26013837704786025,
+        "gain_db@fs_v0.9_t-40": 0.0525527354137465,
+        "gbw_mhz@fs_v0.9_t-40": 0.255675734576095,
+        "pm_deg@fs_v0.9_t-40": 0.2114852347295377,
+        "gain_db@fs_v0.9_t27": 0.07098548924382368,
+        "gbw_mhz@fs_v0.9_t27": 0.4170201571423,
+        "pm_deg@fs_v0.9_t27": 0.23402169980254095,
+        "gain_db@fs_v0.9_t85": 0.12223533373224585,
+        "gbw_mhz@fs_v0.9_t85": 0.7736590108260536,
+        "pm_deg@fs_v0.9_t85": 0.25535337350237614,
+        "gain_db@fs_v1.1_t-40": 0.04061404615219238,
+        "gbw_mhz@fs_v1.1_t-40": 0.12422490398085305,
+        "pm_deg@fs_v1.1_t-40": 0.2866274821003205,
+        "gain_db@fs_v1.1_t27": 0.045977464731974546,
+        "gbw_mhz@fs_v1.1_t27": 0.18382313993686297,
+        "pm_deg@fs_v1.1_t27": 0.26108925746711154,
+        "gain_db@fs_v1.1_t85": 0.05944679590925307,
+        "gbw_mhz@fs_v1.1_t85": 0.2624986320758315,
+        "pm_deg@fs_v1.1_t85": 0.26689054782533644,
+        "gain_db@fs_v1_t-40": 0.04530759066235396,
+        "gbw_mhz@fs_v1_t-40": 0.1532886463014524,
+        "pm_deg@fs_v1_t-40": 0.2780842463594741,
+        "gain_db@fs_v1_t27": 0.05426915086947372,
+        "gbw_mhz@fs_v1_t27": 0.24104698134334177,
+        "pm_deg@fs_v1_t27": 0.2581412649041022,
+        "gain_db@fs_v1_t85": 0.07620728878958435,
+        "gbw_mhz@fs_v1_t85": 0.37230579740373726,
+        "pm_deg@fs_v1_t85": 0.26684807601153004,
+        "gain_db@sf_v0.9_t-40": 2.4307712248792854,
+        "pm_deg@sf_v0.9_t-40": 0.0268402802470025,
+        "gain_db@sf_v0.9_t27": 0.08592006532377199,
+        "pm_deg@sf_v0.9_t27": 0.06616559804276057,
+        "gain_db@sf_v0.9_t85": 0.11306597995665539,
+        "pm_deg@sf_v0.9_t85": 0.12655782462459278,
+        "gain_db@sf_v1.1_t-40": 0.03568073931612786,
+        "gbw_mhz@sf_v1.1_t-40": 0.19335662603813106,
+        "pm_deg@sf_v1.1_t-40": 0.3115753208469207,
+        "gain_db@sf_v1.1_t27": 0.04228594752439931,
+        "gbw_mhz@sf_v1.1_t27": 0.2891732535087901,
+        "pm_deg@sf_v1.1_t27": 0.30022869460213364,
+        "gain_db@sf_v1.1_t85": 0.05103436814639191,
+        "gbw_mhz@sf_v1.1_t85": 0.4533279494985252,
+        "pm_deg@sf_v1.1_t85": 0.3239822812425824,
+        "gain_db@sf_v1_t-40": 0.04063561429452887,
+        "pm_deg@sf_v1_t-40": 0.1523697352075177,
+        "gain_db@sf_v1_t27": 0.05210255152341407,
+        "gbw_mhz@sf_v1_t27": 1.1623601766027587,
+        "pm_deg@sf_v1_t27": 0.23642945344128735,
+        "gain_db@sf_v1_t85": 0.06734361386031758,
+        "gbw_mhz@sf_v1_t85": 2.797938056614563,
+        "pm_deg@sf_v1_t85": 0.2912433939391367,
+        "gain_db@ss_v0.9_t-40": 0.03291747170271675,
+        "pm_deg@ss_v0.9_t-40": 0.04610265908724797,
+        "gain_db@ss_v0.9_t27": 0.03368160024043564,
+        "pm_deg@ss_v0.9_t27": 0.09756382167549289,
+        "gain_db@ss_v0.9_t85": 0.03793394515088084,
+        "pm_deg@ss_v0.9_t85": 0.18504146234227078,
+        "gain_db@ss_v1.1_t-40": 0.02630815150945164,
+        "gbw_mhz@ss_v1.1_t-40": 0.1595161972045771,
+        "pm_deg@ss_v1.1_t-40": 0.3579043514144977,
+        "gain_db@ss_v1.1_t27": 0.0271885070495136,
+        "gbw_mhz@ss_v1.1_t27": 0.23774344236342354,
+        "pm_deg@ss_v1.1_t27": 0.3309947998591708,
+        "gain_db@ss_v1.1_t85": 0.028587062448946942,
+        "gbw_mhz@ss_v1.1_t85": 0.3655896900116955,
+        "pm_deg@ss_v1.1_t85": 0.35272491905931336,
+        "gain_db@ss_v1_t-40": 0.02809121091264253,
+        "gbw_mhz@ss_v1_t-40": 0.3435209058331502,
+        "pm_deg@ss_v1_t-40": 0.23369033782500728,
+        "gain_db@ss_v1_t27": 0.030086181784536075,
+        "gbw_mhz@ss_v1_t27": 0.4627155283103534,
+        "pm_deg@ss_v1_t27": 0.2857404168977759,
+        "gain_db@ss_v1_t85": 0.03222056184089306,
+        "gbw_mhz@ss_v1_t85": 0.8583379355115315,
+        "pm_deg@ss_v1_t85": 0.3294378591940457,
+        "gain_db@tt_v0.9_t-40": 0.04590872682898716,
+        "pm_deg@tt_v0.9_t-40": 0.08776208585197104,
+        "gain_db@tt_v0.9_t27": 0.06413512067399711,
+        "pm_deg@tt_v0.9_t27": 0.17083454865029316,
+        "gain_db@tt_v0.9_t85": 0.09405442667600313,
+        "pm_deg@tt_v0.9_t85": 0.24215283596797732,
+        "gain_db@tt_v1.1_t-40": 0.036404136782856915,
+        "gbw_mhz@tt_v1.1_t-40": 0.13883159337961049,
+        "pm_deg@tt_v1.1_t-40": 0.3231696603972441,
+        "gain_db@tt_v1.1_t27": 0.04141027891498992,
+        "gbw_mhz@tt_v1.1_t27": 0.20703188929710484,
+        "pm_deg@tt_v1.1_t27": 0.29446324409136826,
+        "gain_db@tt_v1.1_t85": 0.04944625508200463,
+        "gbw_mhz@tt_v1.1_t85": 0.3123779311347447,
+        "pm_deg@tt_v1.1_t85": 0.30710320733320534,
+        "gain_db@tt_v1_t-40": 0.04080007442646688,
+        "gbw_mhz@tt_v1_t-40": 0.20207203405151036,
+        "pm_deg@tt_v1_t-40": 0.2797113453305066,
+        "gain_db@tt_v1_t27": 0.04917655744525398,
+        "gbw_mhz@tt_v1_t27": 0.31629297766595316,
+        "pm_deg@tt_v1_t27": 0.2780998306655263,
+        "gain_db@tt_v1_t85": 0.06233038363077474,
+        "gbw_mhz@tt_v1_t85": 0.5506188766264869,
+        "pm_deg@tt_v1_t85": 0.2995701976672248
+      },
+      "note": "the cheapest cell of the S3 unit library for every element, all at once, as a fraction of eta*margin; > 1 means no layout built from library cells can meet the budgets at this eta"
+    },
     "G2.3_allocation": {
-      "pass": true,
-      "t_round1": 0.07606754975882221,
+      "pass": false,
+      "t_round1": 0.0009419841293572113,
       "lp_round1": {
         "status": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
         "success": true,
-        "t": 0.07606754975958037
+        "t": 0.0009419841296355586
       },
       "rounds": [
         {
-          "t": 0.07606754975882221,
+          "t": 0.0009419841293572113,
           "binding": [
-            "gain_db"
+            "gain_db@sf_v0.9_t-40"
           ],
           "frozen": [
+            "FirstStageYsourceTransconductance",
+            "ibias",
             "out",
             "outFirstStage",
             "FirstStageYout1~FirstStageYsourceTransconductance",
             "FirstStageYout1~outFirstStage",
             "FirstStageYsourceTransconductance~out",
             "FirstStageYsourceTransconductance~outFirstStage",
+            "FirstStageYsourceTransconductance~in1",
+            "ibias~out",
             "ibias~outFirstStage",
+            "ibias~in1",
             "out~outFirstStage",
             "out~in1",
             "out~in2",
             "outFirstStage~in1",
             "outFirstStage~in2",
             "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+            "XDiodeTransistorPmos2.s",
             "XNormalTransistorNmos3.d",
             "XNormalTransistorNmos3.s",
             "XNormalTransistorPmos5.d",
+            "XNormalTransistorPmos5.g",
             "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
-            "XNormalTransistorPmos7+XNormalTransistorPmos6.s"
-          ]
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+            "XNormalTransistorPmos8.d",
+            "XNormalTransistorPmos8.s"
+          ],
+          "at_floor": []
         },
         {
-          "t": 0.08098157412125867,
+          "t": 0.17562691405553604,
           "binding": [
-            "pm_deg"
+            "pm_deg@ss_v1.1_t85"
           ],
           "frozen": [
             "FirstStageYout1",
@@ -116,30 +952,15 @@
             "FirstStageYout1~out",
             "FirstStageYout1~in1",
             "FirstStageYsourceTransconductance~in2",
-            "ibias~out",
+            "ibias~in2",
             "XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
             "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
             "XNormalTransistorNmos3.g",
             "XNormalTransistorPmos5.s",
             "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
             "XNormalTransistorPmos8.g"
-          ]
-        },
-        {
-          "t": 1.5530961962256606,
-          "binding": [
-            "gbw_mhz"
           ],
-          "frozen": [
-            "FirstStageYsourceTransconductance",
-            "ibias",
-            "FirstStageYsourceTransconductance~ibias",
-            "FirstStageYsourceTransconductance~in1",
-            "ibias~in1",
-            "XNormalTransistorPmos5.g",
-            "XNormalTransistorPmos8.d",
-            "XNormalTransistorPmos8.s"
-          ]
+          "at_floor": []
         },
         {
           "t": 10.0,
@@ -147,8 +968,9 @@
             "cap_kappa"
           ],
           "frozen": [
+            "FirstStageYsourceTransconductance~ibias",
             "XDiodeTransistorPmos2.d",
-            "XDiodeTransistorPmos2.s"
+            "XDiodeTransistorPmos2.g"
           ]
         }
       ],
@@ -156,140 +978,1604 @@
         {
           "constraint": "gain_db",
           "allowed": 0.5,
-          "used": 0.49999999999999994,
+          "used": 0.006251714376181622,
           "ok": true
         },
         {
           "constraint": "gbw_mhz",
           "allowed": 1.1693499999999997,
-          "used": 1.1693499999999997,
+          "used": 0.05932387612808302,
           "ok": true
         },
         {
           "constraint": "pm_deg",
           "allowed": 2.6616500000000016,
-          "used": 2.6616500000000016,
+          "used": 2.1365465697247696,
           "ok": true
         },
         {
           "constraint": "sat_XDiodeTransistorNmos1",
           "allowed": 0.1999432,
-          "used": 0.0011981419528118104,
+          "used": 1.2138097420229225e-06,
           "ok": true
         },
         {
           "constraint": "sat_XDiodeTransistorPmos2",
           "allowed": 0.20162750000000002,
-          "used": 0.003058436780470305,
+          "used": 0.0032352749228479866,
           "ok": true
         },
         {
           "constraint": "sat_XNormalTransistorNmos3",
           "allowed": 0.4253642,
-          "used": 0.009506884038609494,
+          "used": 0.00012888579633959577,
           "ok": true
         },
         {
           "constraint": "sat_XNormalTransistorNmos4",
           "allowed": 0.22892674999999998,
-          "used": 0.009707380326652902,
+          "used": 0.01478576325108465,
           "ok": true
         },
         {
           "constraint": "sat_XNormalTransistorPmos5",
           "allowed": 0.4016437,
-          "used": 0.018209064437528847,
+          "used": 0.006532321536673055,
           "ok": true
         },
         {
           "constraint": "sat_XNormalTransistorPmos6",
           "allowed": 0.4152805,
-          "used": 0.007547305779710978,
+          "used": 0.00010694970635221041,
           "ok": true
         },
         {
           "constraint": "sat_XNormalTransistorPmos7",
           "allowed": 0.4449805,
-          "used": 0.0014779395308144028,
+          "used": 0.0007724750036128033,
           "ok": true
         },
         {
           "constraint": "sat_XNormalTransistorPmos8",
           "allowed": 0.10225870000000001,
-          "used": 0.009303796321458058,
+          "used": 0.00018528914664089593,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ff_v0.9_t-40",
+          "allowed": 0.19250000000000256,
+          "used": 0.006905946801875365,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ff_v0.9_t-40",
+          "allowed": 0.7270000000000003,
+          "used": 0.041038857642872954,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ff_v0.9_t-40",
+          "allowed": 4.223750000000003,
+          "used": 2.0617791978533533,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ff_v0.9_t27",
+          "allowed": 0.5557499999999997,
+          "used": 0.05304145823667518,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ff_v0.9_t27",
+          "allowed": 3.2931000000000026,
+          "used": 2.123014580403819,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ff_v0.9_t85",
+          "allowed": 0.2364499999999996,
+          "used": 0.05288424593566888,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ff_v0.9_t85",
+          "allowed": 2.8751000000000033,
+          "used": 2.1475583937597813,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ff_v1.1_t-40",
+          "allowed": 0.42705000000000126,
+          "used": 0.007244574369490385,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ff_v1.1_t-40",
+          "allowed": 3.2391500000000004,
+          "used": 0.07769993773504937,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ff_v1.1_t-40",
+          "allowed": 2.7449999999999974,
+          "used": 2.167355254639135,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ff_v1.1_t27",
+          "allowed": 0.22660000000000124,
+          "used": 0.0061566186245485925,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ff_v1.1_t27",
+          "allowed": 2.076699999999999,
+          "used": 0.06982861710267618,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ff_v1.1_t27",
+          "allowed": 2.8316000000000017,
+          "used": 2.1649024391853375,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ff_v1.1_t85",
+          "allowed": 0.0613000000000028,
+          "used": 0.005433817183733854,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ff_v1.1_t85",
+          "allowed": 1.3748500000000003,
+          "used": 0.06369575543529676,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ff_v1.1_t85",
+          "allowed": 2.6983000000000033,
+          "used": 2.1685815829243436,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ff_v1_t-40",
+          "allowed": 0.3180000000000014,
+          "used": 0.007077076238575558,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ff_v1_t-40",
+          "allowed": 2.2995,
+          "used": 0.07096732780286025,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ff_v1_t-40",
+          "allowed": 2.857050000000001,
+          "used": 2.144153183811649,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ff_v1_t27",
+          "allowed": 0.12005000000000265,
+          "used": 0.006030103278344103,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ff_v1_t27",
+          "allowed": 1.4123,
+          "used": 0.06476790756091427,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ff_v1_t27",
+          "allowed": 2.878149999999998,
+          "used": 2.1524401792658403,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ff_v1_t85",
+          "allowed": 0.8508999999999993,
+          "used": 0.059621267172478384,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ff_v1_t85",
+          "allowed": 2.709449999999997,
+          "used": 2.1609892724505375,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@fs_v0.9_t-40",
+          "allowed": 0.5135000000000005,
+          "used": 0.007140889497403697,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@fs_v0.9_t-40",
+          "allowed": 1.4181999999999988,
+          "used": 0.057391016999144534,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@fs_v0.9_t-40",
+          "allowed": 3.3588999999999984,
+          "used": 2.1144404835120705,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@fs_v0.9_t27",
+          "allowed": 0.33780000000000143,
+          "used": 0.006130292874428252,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@fs_v0.9_t27",
+          "allowed": 0.8581500000000002,
+          "used": 0.06073319159374415,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@fs_v0.9_t27",
+          "allowed": 2.981499999999997,
+          "used": 2.136805773718015,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@fs_v0.9_t85",
+          "allowed": 0.18015000000000114,
+          "used": 0.005472559817293246,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@fs_v0.9_t85",
+          "allowed": 0.46009999999999884,
+          "used": 0.05864270625193963,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@fs_v0.9_t85",
+          "allowed": 2.712150000000001,
+          "used": 2.1505320870965265,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@fs_v1.1_t-40",
+          "allowed": 0.7325000000000017,
+          "used": 0.007471280587039292,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@fs_v1.1_t-40",
+          "allowed": 3.3954000000000004,
+          "used": 0.0813383931562323,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@fs_v1.1_t-40",
+          "allowed": 2.6518000000000015,
+          "used": 2.1797540610570905,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@fs_v1.1_t27",
+          "allowed": 0.5606500000000025,
+          "used": 0.006372099724889355,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@fs_v1.1_t27",
+          "allowed": 2.17225,
+          "used": 0.07391788780377241,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@fs_v1.1_t27",
+          "allowed": 2.743450000000003,
+          "used": 2.1648255964790795,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@fs_v1.1_t85",
+          "allowed": 0.3929500000000026,
+          "used": 0.005654626488614059,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@fs_v1.1_t85",
+          "allowed": 1.4805499999999991,
+          "used": 0.0681142923363349,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@fs_v1.1_t85",
+          "allowed": 2.62735,
+          "used": 2.1646934675090375,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@fs_v1_t-40",
+          "allowed": 0.6307000000000009,
+          "used": 0.007306099528984182,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@fs_v1_t-40",
+          "allowed": 2.5708,
+          "used": 0.07550040834537565,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@fs_v1_t-40",
+          "allowed": 2.7083999999999975,
+          "used": 2.16183269129949,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@fs_v1_t27",
+          "allowed": 0.4595500000000001,
+          "used": 0.006246994500347603,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@fs_v1_t27",
+          "allowed": 1.5747499999999999,
+          "used": 0.06924566428140734,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@fs_v1_t27",
+          "allowed": 2.7633500000000026,
+          "used": 2.1550748961950843,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@fs_v1_t85",
+          "allowed": 0.2980000000000018,
+          "used": 0.005556606046354512,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@fs_v1_t85",
+          "allowed": 1.0016999999999996,
+          "used": 0.06424446566492112,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@fs_v1_t85",
+          "allowed": 2.623199999999997,
+          "used": 2.1588361106010856,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@sf_v0.9_t-40",
+          "allowed": 0.0070000000000014495,
+          "used": 0.00700000000000145,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@sf_v0.9_t-40",
+          "allowed": 12.825699999999998,
+          "used": 1.6898433844596739,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@sf_v0.9_t27",
+          "allowed": 0.22419999999999973,
+          "used": 0.006036918203390077,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@sf_v0.9_t27",
+          "allowed": 8.209899999999998,
+          "used": 1.882049874678864,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@sf_v0.9_t85",
+          "allowed": 0.17539999999999978,
+          "used": 0.005347844072635093,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@sf_v0.9_t85",
+          "allowed": 4.95185,
+          "used": 2.016264780650856,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@sf_v1.1_t-40",
+          "allowed": 0.7910000000000004,
+          "used": 0.007450151842745258,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@sf_v1.1_t-40",
+          "allowed": 1.938649999999999,
+          "used": 0.06265439313461042,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@sf_v1.1_t-40",
+          "allowed": 2.5751500000000007,
+          "used": 2.0863467652631287,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@sf_v1.1_t27",
+          "allowed": 0.5909000000000013,
+          "used": 0.006365733961575473,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@sf_v1.1_t27",
+          "allowed": 1.2973,
+          "used": 0.05785975297345392,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@sf_v1.1_t27",
+          "allowed": 2.556750000000001,
+          "used": 2.1232125262576256,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@sf_v1.1_t85",
+          "allowed": 0.4479500000000023,
+          "used": 0.0055981186684109325,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@sf_v1.1_t85",
+          "allowed": 0.8261500000000002,
+          "used": 0.05311871023457144,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@sf_v1.1_t85",
+          "allowed": 2.335099999999997,
+          "used": 2.1448243466385737,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@sf_v1_t-40",
+          "allowed": 0.6269000000000027,
+          "used": 0.007234415686857179,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@sf_v1_t-40",
+          "allowed": 4.571550000000002,
+          "used": 1.979675815673088,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@sf_v1_t27",
+          "allowed": 0.45275000000000176,
+          "used": 0.006203639465252914,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@sf_v1_t27",
+          "allowed": 0.2958499999999997,
+          "used": 0.04550638561772349,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@sf_v1_t27",
+          "allowed": 3.10745,
+          "used": 2.0846139280101172,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@sf_v1_t85",
+          "allowed": 0.32500000000000284,
+          "used": 0.005471177756832527,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@sf_v1_t85",
+          "allowed": 0.12549999999999883,
+          "used": 0.04647635248652322,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@sf_v1_t85",
+          "allowed": 2.551250000000003,
+          "used": 2.1250848002820413,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ss_v0.9_t-40",
+          "allowed": 0.60135,
+          "used": 0.007244585389872817,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ss_v0.9_t-40",
+          "allowed": 10.6995,
+          "used": 1.7605675815326423,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ss_v0.9_t27",
+          "allowed": 0.636650000000003,
+          "used": 0.0062504344948112025,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ss_v0.9_t27",
+          "allowed": 6.099150000000002,
+          "used": 1.9597660802689225,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ss_v0.9_t85",
+          "allowed": 0.551750000000002,
+          "used": 0.005528002915775506,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ss_v0.9_t85",
+          "allowed": 3.645150000000001,
+          "used": 2.068194264567123,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ss_v1.1_t-40",
+          "allowed": 1.109300000000001,
+          "used": 0.007690415985704705,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ss_v1.1_t-40",
+          "allowed": 2.490599999999999,
+          "used": 0.06616694350643197,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ss_v1.1_t-40",
+          "allowed": 2.2830999999999975,
+          "used": 2.118730897481209,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ss_v1.1_t27",
+          "allowed": 0.9427500000000002,
+          "used": 0.006574947748416854,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ss_v1.1_t27",
+          "allowed": 1.6320999999999994,
+          "used": 0.061853924010938054,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ss_v1.1_t27",
+          "allowed": 2.3342000000000027,
+          "used": 2.136810742123586,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ss_v1.1_t85",
+          "allowed": 0.8137500000000024,
+          "used": 0.005774106374672492,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ss_v1.1_t85",
+          "allowed": 1.0457,
+          "used": 0.05701622423301445,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ss_v1.1_t85",
+          "allowed": 2.1488000000000014,
+          "used": 2.148800000000001,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ss_v1_t-40",
+          "allowed": 0.9659000000000013,
+          "used": 0.007475187156730979,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ss_v1_t-40",
+          "allowed": 1.03125,
+          "used": 0.04553882683567332,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ss_v1_t-40",
+          "allowed": 3.2445499999999967,
+          "used": 2.0543066499653633,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ss_v1_t27",
+          "allowed": 0.8119000000000014,
+          "used": 0.006413188650195218,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ss_v1_t27",
+          "allowed": 0.7783499999999997,
+          "used": 0.05311046008920365,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ss_v1_t27",
+          "allowed": 2.6354499999999987,
+          "used": 2.110636570074798,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@ss_v1_t85",
+          "allowed": 0.6948000000000008,
+          "used": 0.0056479100405663505,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@ss_v1_t85",
+          "allowed": 0.42074999999999996,
+          "used": 0.051521402911319965,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@ss_v1_t85",
+          "allowed": 2.274650000000001,
+          "used": 2.134477351806722,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@tt_v0.9_t-40",
+          "allowed": 0.5179500000000026,
+          "used": 0.007120801715158955,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@tt_v0.9_t-40",
+          "allowed": 6.758650000000003,
+          "used": 1.9254496718701113,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@tt_v0.9_t27",
+          "allowed": 0.3575499999999998,
+          "used": 0.006109189124696297,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@tt_v0.9_t27",
+          "allowed": 3.921349999999997,
+          "used": 2.069950189450727,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@tt_v0.9_t85",
+          "allowed": 0.22794999999999987,
+          "used": 0.005402649131343499,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@tt_v0.9_t85",
+          "allowed": 2.8979,
+          "used": 2.1223809393593163,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@tt_v1.1_t-40",
+          "allowed": 0.80715,
+          "used": 0.007515506864329111,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@tt_v1.1_t-40",
+          "allowed": 2.9499999999999993,
+          "used": 0.07230038867194812,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@tt_v1.1_t-40",
+          "allowed": 2.4590499999999977,
+          "used": 2.1469292512965215,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@tt_v1.1_t27",
+          "allowed": 0.6188000000000002,
+          "used": 0.006396834857360888,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@tt_v1.1_t27",
+          "allowed": 1.9061000000000003,
+          "used": 0.0661233365467176,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@tt_v1.1_t27",
+          "allowed": 2.5439000000000007,
+          "used": 2.15347819514757,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@tt_v1.1_t85",
+          "allowed": 0.46965000000000146,
+          "used": 0.0056209385404194685,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@tt_v1.1_t85",
+          "allowed": 1.2355999999999998,
+          "used": 0.06050322753053818,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@tt_v1.1_t85",
+          "allowed": 2.3897499999999994,
+          "used": 2.160218887756216,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@tt_v1_t-40",
+          "allowed": 0.68215,
+          "used": 0.007322640261776275,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@tt_v1_t-40",
+          "allowed": 1.8470499999999994,
+          "used": 0.0625250622127764,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@tt_v1_t-40",
+          "allowed": 2.7605000000000004,
+          "used": 2.1127188733461044,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@tt_v1_t27",
+          "allowed": 0.5,
+          "used": 0.006251714376181433,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@tt_v1_t27",
+          "allowed": 1.1693499999999997,
+          "used": 0.06008607559235368,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@tt_v1_t27",
+          "allowed": 2.6616500000000016,
+          "used": 2.136618859137714,
+          "ok": true
+        },
+        {
+          "constraint": "gain_db@tt_v1_t85",
+          "allowed": 0.3599500000000013,
+          "used": 0.005507510022214628,
+          "ok": true
+        },
+        {
+          "constraint": "gbw_mhz@tt_v1_t85",
+          "allowed": 0.6661000000000001,
+          "used": 0.055997278346449915,
+          "ok": true
+        },
+        {
+          "constraint": "pm_deg@tt_v1_t85",
+          "allowed": 2.4367500000000035,
+          "used": 2.1502248733561573,
           "ok": true
         }
       ],
       "reproducible": true,
       "phase2_refine": {
-        "success": true,
-        "message": "Optimization terminated successfully",
+        "success": false,
+        "message": "Positive directional derivative for linesearch",
         "delta": 0.05,
         "constraint_use": [
           {
             "constraint": "gain_db",
             "allowed": 0.5,
-            "used": 0.47970538260394724,
+            "used": 0.006251714376181622,
             "ok": true
           },
           {
             "constraint": "gbw_mhz",
             "allowed": 1.1693499999999997,
-            "used": 1.1693500000000001,
+            "used": 0.05932387612808302,
             "ok": true
           },
           {
             "constraint": "pm_deg",
             "allowed": 2.6616500000000016,
-            "used": 2.6616500000000136,
+            "used": 2.1365465697247696,
             "ok": true
           },
           {
             "constraint": "sat_XDiodeTransistorNmos1",
             "allowed": 0.1999432,
-            "used": 0.0019661557913115474,
+            "used": 1.2138097420229225e-06,
             "ok": true
           },
           {
             "constraint": "sat_XDiodeTransistorPmos2",
             "allowed": 0.20162750000000002,
-            "used": 0.003058436780470075,
+            "used": 0.0032352749228479866,
             "ok": true
           },
           {
             "constraint": "sat_XNormalTransistorNmos3",
             "allowed": 0.4253642,
-            "used": 0.00905923887737749,
+            "used": 0.00012888579633959577,
             "ok": true
           },
           {
             "constraint": "sat_XNormalTransistorNmos4",
             "allowed": 0.22892674999999998,
-            "used": 0.010192207367327007,
+            "used": 0.01478576325108465,
             "ok": true
           },
           {
             "constraint": "sat_XNormalTransistorPmos5",
             "allowed": 0.4016437,
-            "used": 0.01965477630506841,
+            "used": 0.006532321536673055,
             "ok": true
           },
           {
             "constraint": "sat_XNormalTransistorPmos6",
             "allowed": 0.4152805,
-            "used": 0.009318785447651752,
+            "used": 0.00010694970635221041,
             "ok": true
           },
           {
             "constraint": "sat_XNormalTransistorPmos7",
             "allowed": 0.4449805,
-            "used": 0.0036887989497429437,
+            "used": 0.0007724750036128033,
             "ok": true
           },
           {
             "constraint": "sat_XNormalTransistorPmos8",
             "allowed": 0.10225870000000001,
-            "used": 0.009253117298996512,
+            "used": 0.00018528914664089593,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ff_v0.9_t-40",
+            "allowed": 0.19250000000000256,
+            "used": 0.006905946801875365,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ff_v0.9_t-40",
+            "allowed": 0.7270000000000003,
+            "used": 0.041038857642872954,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ff_v0.9_t-40",
+            "allowed": 4.223750000000003,
+            "used": 2.0617791978533533,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ff_v0.9_t27",
+            "allowed": 0.5557499999999997,
+            "used": 0.05304145823667518,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ff_v0.9_t27",
+            "allowed": 3.2931000000000026,
+            "used": 2.123014580403819,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ff_v0.9_t85",
+            "allowed": 0.2364499999999996,
+            "used": 0.05288424593566888,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ff_v0.9_t85",
+            "allowed": 2.8751000000000033,
+            "used": 2.1475583937597813,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ff_v1.1_t-40",
+            "allowed": 0.42705000000000126,
+            "used": 0.007244574369490385,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ff_v1.1_t-40",
+            "allowed": 3.2391500000000004,
+            "used": 0.07769993773504937,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ff_v1.1_t-40",
+            "allowed": 2.7449999999999974,
+            "used": 2.167355254639135,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ff_v1.1_t27",
+            "allowed": 0.22660000000000124,
+            "used": 0.0061566186245485925,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ff_v1.1_t27",
+            "allowed": 2.076699999999999,
+            "used": 0.06982861710267618,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ff_v1.1_t27",
+            "allowed": 2.8316000000000017,
+            "used": 2.1649024391853375,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ff_v1.1_t85",
+            "allowed": 0.0613000000000028,
+            "used": 0.005433817183733854,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ff_v1.1_t85",
+            "allowed": 1.3748500000000003,
+            "used": 0.06369575543529676,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ff_v1.1_t85",
+            "allowed": 2.6983000000000033,
+            "used": 2.1685815829243436,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ff_v1_t-40",
+            "allowed": 0.3180000000000014,
+            "used": 0.007077076238575558,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ff_v1_t-40",
+            "allowed": 2.2995,
+            "used": 0.07096732780286025,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ff_v1_t-40",
+            "allowed": 2.857050000000001,
+            "used": 2.144153183811649,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ff_v1_t27",
+            "allowed": 0.12005000000000265,
+            "used": 0.006030103278344103,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ff_v1_t27",
+            "allowed": 1.4123,
+            "used": 0.06476790756091427,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ff_v1_t27",
+            "allowed": 2.878149999999998,
+            "used": 2.1524401792658403,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ff_v1_t85",
+            "allowed": 0.8508999999999993,
+            "used": 0.059621267172478384,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ff_v1_t85",
+            "allowed": 2.709449999999997,
+            "used": 2.1609892724505375,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@fs_v0.9_t-40",
+            "allowed": 0.5135000000000005,
+            "used": 0.007140889497403697,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@fs_v0.9_t-40",
+            "allowed": 1.4181999999999988,
+            "used": 0.057391016999144534,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@fs_v0.9_t-40",
+            "allowed": 3.3588999999999984,
+            "used": 2.1144404835120705,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@fs_v0.9_t27",
+            "allowed": 0.33780000000000143,
+            "used": 0.006130292874428252,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@fs_v0.9_t27",
+            "allowed": 0.8581500000000002,
+            "used": 0.06073319159374415,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@fs_v0.9_t27",
+            "allowed": 2.981499999999997,
+            "used": 2.136805773718015,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@fs_v0.9_t85",
+            "allowed": 0.18015000000000114,
+            "used": 0.005472559817293246,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@fs_v0.9_t85",
+            "allowed": 0.46009999999999884,
+            "used": 0.05864270625193963,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@fs_v0.9_t85",
+            "allowed": 2.712150000000001,
+            "used": 2.1505320870965265,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@fs_v1.1_t-40",
+            "allowed": 0.7325000000000017,
+            "used": 0.007471280587039292,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@fs_v1.1_t-40",
+            "allowed": 3.3954000000000004,
+            "used": 0.0813383931562323,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@fs_v1.1_t-40",
+            "allowed": 2.6518000000000015,
+            "used": 2.1797540610570905,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@fs_v1.1_t27",
+            "allowed": 0.5606500000000025,
+            "used": 0.006372099724889355,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@fs_v1.1_t27",
+            "allowed": 2.17225,
+            "used": 0.07391788780377241,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@fs_v1.1_t27",
+            "allowed": 2.743450000000003,
+            "used": 2.1648255964790795,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@fs_v1.1_t85",
+            "allowed": 0.3929500000000026,
+            "used": 0.005654626488614059,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@fs_v1.1_t85",
+            "allowed": 1.4805499999999991,
+            "used": 0.0681142923363349,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@fs_v1.1_t85",
+            "allowed": 2.62735,
+            "used": 2.1646934675090375,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@fs_v1_t-40",
+            "allowed": 0.6307000000000009,
+            "used": 0.007306099528984182,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@fs_v1_t-40",
+            "allowed": 2.5708,
+            "used": 0.07550040834537565,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@fs_v1_t-40",
+            "allowed": 2.7083999999999975,
+            "used": 2.16183269129949,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@fs_v1_t27",
+            "allowed": 0.4595500000000001,
+            "used": 0.006246994500347603,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@fs_v1_t27",
+            "allowed": 1.5747499999999999,
+            "used": 0.06924566428140734,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@fs_v1_t27",
+            "allowed": 2.7633500000000026,
+            "used": 2.1550748961950843,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@fs_v1_t85",
+            "allowed": 0.2980000000000018,
+            "used": 0.005556606046354512,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@fs_v1_t85",
+            "allowed": 1.0016999999999996,
+            "used": 0.06424446566492112,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@fs_v1_t85",
+            "allowed": 2.623199999999997,
+            "used": 2.1588361106010856,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@sf_v0.9_t-40",
+            "allowed": 0.0070000000000014495,
+            "used": 0.00700000000000145,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@sf_v0.9_t-40",
+            "allowed": 12.825699999999998,
+            "used": 1.6898433844596739,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@sf_v0.9_t27",
+            "allowed": 0.22419999999999973,
+            "used": 0.006036918203390077,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@sf_v0.9_t27",
+            "allowed": 8.209899999999998,
+            "used": 1.882049874678864,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@sf_v0.9_t85",
+            "allowed": 0.17539999999999978,
+            "used": 0.005347844072635093,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@sf_v0.9_t85",
+            "allowed": 4.95185,
+            "used": 2.016264780650856,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@sf_v1.1_t-40",
+            "allowed": 0.7910000000000004,
+            "used": 0.007450151842745258,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@sf_v1.1_t-40",
+            "allowed": 1.938649999999999,
+            "used": 0.06265439313461042,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@sf_v1.1_t-40",
+            "allowed": 2.5751500000000007,
+            "used": 2.0863467652631287,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@sf_v1.1_t27",
+            "allowed": 0.5909000000000013,
+            "used": 0.006365733961575473,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@sf_v1.1_t27",
+            "allowed": 1.2973,
+            "used": 0.05785975297345392,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@sf_v1.1_t27",
+            "allowed": 2.556750000000001,
+            "used": 2.1232125262576256,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@sf_v1.1_t85",
+            "allowed": 0.4479500000000023,
+            "used": 0.0055981186684109325,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@sf_v1.1_t85",
+            "allowed": 0.8261500000000002,
+            "used": 0.05311871023457144,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@sf_v1.1_t85",
+            "allowed": 2.335099999999997,
+            "used": 2.1448243466385737,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@sf_v1_t-40",
+            "allowed": 0.6269000000000027,
+            "used": 0.007234415686857179,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@sf_v1_t-40",
+            "allowed": 4.571550000000002,
+            "used": 1.979675815673088,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@sf_v1_t27",
+            "allowed": 0.45275000000000176,
+            "used": 0.006203639465252914,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@sf_v1_t27",
+            "allowed": 0.2958499999999997,
+            "used": 0.04550638561772349,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@sf_v1_t27",
+            "allowed": 3.10745,
+            "used": 2.0846139280101172,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@sf_v1_t85",
+            "allowed": 0.32500000000000284,
+            "used": 0.005471177756832527,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@sf_v1_t85",
+            "allowed": 0.12549999999999883,
+            "used": 0.04647635248652322,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@sf_v1_t85",
+            "allowed": 2.551250000000003,
+            "used": 2.1250848002820413,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ss_v0.9_t-40",
+            "allowed": 0.60135,
+            "used": 0.007244585389872817,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ss_v0.9_t-40",
+            "allowed": 10.6995,
+            "used": 1.7605675815326423,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ss_v0.9_t27",
+            "allowed": 0.636650000000003,
+            "used": 0.0062504344948112025,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ss_v0.9_t27",
+            "allowed": 6.099150000000002,
+            "used": 1.9597660802689225,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ss_v0.9_t85",
+            "allowed": 0.551750000000002,
+            "used": 0.005528002915775506,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ss_v0.9_t85",
+            "allowed": 3.645150000000001,
+            "used": 2.068194264567123,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ss_v1.1_t-40",
+            "allowed": 1.109300000000001,
+            "used": 0.007690415985704705,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ss_v1.1_t-40",
+            "allowed": 2.490599999999999,
+            "used": 0.06616694350643197,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ss_v1.1_t-40",
+            "allowed": 2.2830999999999975,
+            "used": 2.118730897481209,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ss_v1.1_t27",
+            "allowed": 0.9427500000000002,
+            "used": 0.006574947748416854,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ss_v1.1_t27",
+            "allowed": 1.6320999999999994,
+            "used": 0.061853924010938054,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ss_v1.1_t27",
+            "allowed": 2.3342000000000027,
+            "used": 2.136810742123586,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ss_v1.1_t85",
+            "allowed": 0.8137500000000024,
+            "used": 0.005774106374672492,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ss_v1.1_t85",
+            "allowed": 1.0457,
+            "used": 0.05701622423301445,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ss_v1.1_t85",
+            "allowed": 2.1488000000000014,
+            "used": 2.148800000000001,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ss_v1_t-40",
+            "allowed": 0.9659000000000013,
+            "used": 0.007475187156730979,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ss_v1_t-40",
+            "allowed": 1.03125,
+            "used": 0.04553882683567332,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ss_v1_t-40",
+            "allowed": 3.2445499999999967,
+            "used": 2.0543066499653633,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ss_v1_t27",
+            "allowed": 0.8119000000000014,
+            "used": 0.006413188650195218,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ss_v1_t27",
+            "allowed": 0.7783499999999997,
+            "used": 0.05311046008920365,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ss_v1_t27",
+            "allowed": 2.6354499999999987,
+            "used": 2.110636570074798,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@ss_v1_t85",
+            "allowed": 0.6948000000000008,
+            "used": 0.0056479100405663505,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@ss_v1_t85",
+            "allowed": 0.42074999999999996,
+            "used": 0.051521402911319965,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@ss_v1_t85",
+            "allowed": 2.274650000000001,
+            "used": 2.134477351806722,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@tt_v0.9_t-40",
+            "allowed": 0.5179500000000026,
+            "used": 0.007120801715158955,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@tt_v0.9_t-40",
+            "allowed": 6.758650000000003,
+            "used": 1.9254496718701113,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@tt_v0.9_t27",
+            "allowed": 0.3575499999999998,
+            "used": 0.006109189124696297,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@tt_v0.9_t27",
+            "allowed": 3.921349999999997,
+            "used": 2.069950189450727,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@tt_v0.9_t85",
+            "allowed": 0.22794999999999987,
+            "used": 0.005402649131343499,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@tt_v0.9_t85",
+            "allowed": 2.8979,
+            "used": 2.1223809393593163,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@tt_v1.1_t-40",
+            "allowed": 0.80715,
+            "used": 0.007515506864329111,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@tt_v1.1_t-40",
+            "allowed": 2.9499999999999993,
+            "used": 0.07230038867194812,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@tt_v1.1_t-40",
+            "allowed": 2.4590499999999977,
+            "used": 2.1469292512965215,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@tt_v1.1_t27",
+            "allowed": 0.6188000000000002,
+            "used": 0.006396834857360888,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@tt_v1.1_t27",
+            "allowed": 1.9061000000000003,
+            "used": 0.0661233365467176,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@tt_v1.1_t27",
+            "allowed": 2.5439000000000007,
+            "used": 2.15347819514757,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@tt_v1.1_t85",
+            "allowed": 0.46965000000000146,
+            "used": 0.0056209385404194685,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@tt_v1.1_t85",
+            "allowed": 1.2355999999999998,
+            "used": 0.06050322753053818,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@tt_v1.1_t85",
+            "allowed": 2.3897499999999994,
+            "used": 2.160218887756216,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@tt_v1_t-40",
+            "allowed": 0.68215,
+            "used": 0.007322640261776275,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@tt_v1_t-40",
+            "allowed": 1.8470499999999994,
+            "used": 0.0625250622127764,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@tt_v1_t-40",
+            "allowed": 2.7605000000000004,
+            "used": 2.1127188733461044,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@tt_v1_t27",
+            "allowed": 0.5,
+            "used": 0.006251714376181433,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@tt_v1_t27",
+            "allowed": 1.1693499999999997,
+            "used": 0.06008607559235368,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@tt_v1_t27",
+            "allowed": 2.6616500000000016,
+            "used": 2.136618859137714,
+            "ok": true
+          },
+          {
+            "constraint": "gain_db@tt_v1_t85",
+            "allowed": 0.3599500000000013,
+            "used": 0.005507510022214628,
+            "ok": true
+          },
+          {
+            "constraint": "gbw_mhz@tt_v1_t85",
+            "allowed": 0.6661000000000001,
+            "used": 0.055997278346449915,
+            "ok": true
+          },
+          {
+            "constraint": "pm_deg@tt_v1_t85",
+            "allowed": 2.4367500000000035,
+            "used": 2.1502248733561573,
             "ok": true
           }
         ]
@@ -303,10 +2589,10 @@
           "check": "gain_db",
           "margin": 1.0,
           "allowed_eta_margin": 0.5,
-          "first_order_predicted_use": 0.47970538260394724,
-          "spice_use": 0.46770000000000067,
-          "value_now": 57.532,
-          "spice_use_frac_of_margin": 0.46770000000000067,
+          "first_order_predicted_use": 0.006251714376181622,
+          "spice_use": 0.0062999999999959755,
+          "value_now": 57.9934,
+          "spice_use_frac_of_margin": 0.0062999999999959755,
           "meets_spec": true,
           "ok": true,
           "n_elements": 21
@@ -315,10 +2601,10 @@
           "check": "gbw_mhz",
           "margin": 2.3386999999999993,
           "allowed_eta_margin": 1.1693499999999997,
-          "first_order_predicted_use": 1.1693500000000001,
-          "spice_use": 1.0840999999999994,
-          "value_now": 22.303,
-          "spice_use_frac_of_margin": 0.4635481250267241,
+          "first_order_predicted_use": 0.05932387612808302,
+          "spice_use": 0.05549999999999855,
+          "value_now": 23.3316,
+          "spice_use_frac_of_margin": 0.02373113268054841,
           "meets_spec": true,
           "ok": true,
           "n_elements": 36
@@ -327,10 +2613,10 @@
           "check": "pm_deg",
           "margin": 5.323300000000003,
           "allowed_eta_margin": 2.6616500000000016,
-          "first_order_predicted_use": 2.6616500000000136,
-          "spice_use": 2.6299000000000063,
-          "value_now": 62.6934,
-          "spice_use_frac_of_margin": 0.4940356545751704,
+          "first_order_predicted_use": 2.1365465697247696,
+          "spice_use": 1.892700000000005,
+          "value_now": 63.4306,
+          "spice_use_frac_of_margin": 0.3555501286795792,
           "meets_spec": true,
           "ok": true,
           "n_elements": 32
@@ -339,10 +2625,10 @@
           "check": "sat_XDiodeTransistorNmos1",
           "margin": 0.3998864,
           "allowed_eta_margin": 0.1999432,
-          "first_order_predicted_use": 0.0019661557913115474,
-          "spice_use": 0.0019083999999999768,
-          "value_now": 0.397978,
-          "spice_use_frac_of_margin": 0.004772355348919035,
+          "first_order_predicted_use": 1.2138097420229225e-06,
+          "spice_use": 4.999999999588667e-07,
+          "value_now": 0.3998859,
+          "spice_use_frac_of_margin": 1.2503551007457785e-06,
           "meets_spec": true,
           "ok": true,
           "n_elements": 7
@@ -351,10 +2637,10 @@
           "check": "sat_XDiodeTransistorPmos2",
           "margin": 0.40325500000000003,
           "allowed_eta_margin": 0.20162750000000002,
-          "first_order_predicted_use": 0.003058436780470075,
-          "spice_use": 0.0030593000000000425,
-          "value_now": 0.4001957,
-          "spice_use_frac_of_margin": 0.007586514736333194,
+          "first_order_predicted_use": 0.0032352749228479866,
+          "spice_use": 0.003236000000000072,
+          "value_now": 0.40001899999999996,
+          "spice_use_frac_of_margin": 0.008024699011791725,
           "meets_spec": true,
           "ok": true,
           "n_elements": 1
@@ -363,10 +2649,10 @@
           "check": "sat_XNormalTransistorNmos3",
           "margin": 0.8507284,
           "allowed_eta_margin": 0.4253642,
-          "first_order_predicted_use": 0.00905923887737749,
-          "spice_use": 0.009535000000000071,
-          "value_now": 0.8411934,
-          "spice_use_frac_of_margin": 0.011208042425761348,
+          "first_order_predicted_use": 0.00012888579633959577,
+          "spice_use": 0.00012970000000001036,
+          "value_now": 0.8505987,
+          "spice_use_frac_of_margin": 0.00015245758810921364,
           "meets_spec": true,
           "ok": true,
           "n_elements": 7
@@ -375,10 +2661,10 @@
           "check": "sat_XNormalTransistorNmos4",
           "margin": 0.45785349999999997,
           "allowed_eta_margin": 0.22892674999999998,
-          "first_order_predicted_use": 0.010192207367327007,
-          "spice_use": 0.008997100000000036,
-          "value_now": 0.44885639999999993,
-          "spice_use_frac_of_margin": 0.019650608764593996,
+          "first_order_predicted_use": 0.01478576325108465,
+          "spice_use": 0.011864700000000006,
+          "value_now": 0.44598879999999996,
+          "spice_use_frac_of_margin": 0.025913747519676067,
           "meets_spec": true,
           "ok": true,
           "n_elements": 6
@@ -387,10 +2673,10 @@
           "check": "sat_XNormalTransistorPmos5",
           "margin": 0.8032874,
           "allowed_eta_margin": 0.4016437,
-          "first_order_predicted_use": 0.01965477630506841,
-          "spice_use": 0.017591199999999918,
-          "value_now": 0.7856962000000001,
-          "spice_use_frac_of_margin": 0.02189901148704675,
+          "first_order_predicted_use": 0.006532321536673055,
+          "spice_use": 0.005569700000000011,
+          "value_now": 0.7977177,
+          "spice_use_frac_of_margin": 0.006933632968723288,
           "meets_spec": true,
           "ok": true,
           "n_elements": 12
@@ -399,10 +2685,10 @@
           "check": "sat_XNormalTransistorPmos6",
           "margin": 0.830561,
           "allowed_eta_margin": 0.4152805,
-          "first_order_predicted_use": 0.009318785447651752,
-          "spice_use": 0.009603000000000028,
-          "value_now": 0.820958,
-          "spice_use_frac_of_margin": 0.011562064676766702,
+          "first_order_predicted_use": 0.00010694970635221041,
+          "spice_use": 9.199999999998099e-05,
+          "value_now": 0.830469,
+          "spice_use_frac_of_margin": 0.00011076850466128434,
           "meets_spec": true,
           "ok": true,
           "n_elements": 10
@@ -411,10 +2697,10 @@
           "check": "sat_XNormalTransistorPmos7",
           "margin": 0.889961,
           "allowed_eta_margin": 0.4449805,
-          "first_order_predicted_use": 0.0036887989497429437,
-          "spice_use": 0.00365099999999996,
-          "value_now": 0.88631,
-          "spice_use_frac_of_margin": 0.004102426960282484,
+          "first_order_predicted_use": 0.0007724750036128033,
+          "spice_use": 0.0005589999999999762,
+          "value_now": 0.889402,
+          "spice_use_frac_of_margin": 0.0006281174118865615,
           "meets_spec": true,
           "ok": true,
           "n_elements": 9
@@ -423,32 +2709,1162 @@
           "check": "sat_XNormalTransistorPmos8",
           "margin": 0.20451740000000002,
           "allowed_eta_margin": 0.10225870000000001,
-          "first_order_predicted_use": 0.009253117298996512,
-          "spice_use": 0.00936229999999999,
-          "value_now": 0.19515510000000003,
-          "spice_use_frac_of_margin": 0.04577752308605522,
+          "first_order_predicted_use": 0.00018528914664089593,
+          "spice_use": 0.00017810000000001436,
+          "value_now": 0.2043393,
+          "spice_use_frac_of_margin": 0.0008708305503591105,
           "meets_spec": true,
           "ok": true,
           "n_elements": 9
+        },
+        {
+          "check": "gain_db@sf_v0.9_t-40",
+          "margin": 0.014000000000002899,
+          "allowed_eta_margin": 0.0070000000000014495,
+          "first_order_predicted_use": 0.00700000000000145,
+          "spice_use": 0.006999999999997897,
+          "value_now": 57.0067,
+          "spice_use_frac_of_margin": 0.49999999999974626,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 30
+        },
+        {
+          "check": "pm_deg@sf_v1.1_t85",
+          "margin": 4.670199999999994,
+          "allowed_eta_margin": 2.335099999999997,
+          "first_order_predicted_use": 2.1448243466385737,
+          "spice_use": 1.9769999999999968,
+          "value_now": 62.6932,
+          "spice_use_frac_of_margin": 0.42332234165560345,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 34
+        },
+        {
+          "check": "pm_deg@ss_v1.1_t-40",
+          "margin": 4.566199999999995,
+          "allowed_eta_margin": 2.2830999999999975,
+          "first_order_predicted_use": 2.118730897481209,
+          "spice_use": 1.990399999999994,
+          "value_now": 62.5758,
+          "spice_use_frac_of_margin": 0.4358985589768289,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 37
+        },
+        {
+          "check": "pm_deg@ss_v1.1_t27",
+          "margin": 4.668400000000005,
+          "allowed_eta_margin": 2.3342000000000027,
+          "first_order_predicted_use": 2.136810742123586,
+          "spice_use": 1.9825000000000088,
+          "value_now": 62.6859,
+          "spice_use_frac_of_margin": 0.4246636963413603,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 35
+        },
+        {
+          "check": "pm_deg@ss_v1.1_t85",
+          "margin": 4.297600000000003,
+          "allowed_eta_margin": 2.1488000000000014,
+          "first_order_predicted_use": 2.148800000000001,
+          "spice_use": 2.0297000000000054,
+          "value_now": 62.2679,
+          "spice_use_frac_of_margin": 0.4722868577810881,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 33
+        },
+        {
+          "check": "pm_deg@ss_v1_t85",
+          "margin": 4.549300000000002,
+          "allowed_eta_margin": 2.274650000000001,
+          "first_order_predicted_use": 2.134477351806722,
+          "spice_use": 1.9658000000000015,
+          "value_now": 62.5835,
+          "spice_use_frac_of_margin": 0.43211043457235193,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 33
+        },
+        {
+          "check": "pm_deg@tt_v1.1_t85",
+          "margin": 4.779499999999999,
+          "allowed_eta_margin": 2.3897499999999994,
+          "first_order_predicted_use": 2.160218887756216,
+          "spice_use": 2.0004999999999953,
+          "value_now": 62.779,
+          "spice_use_frac_of_margin": 0.41855842661366166,
+          "meets_spec": true,
+          "ok": true,
+          "n_elements": 33
         }
       ],
+      "pvt_checks": [
+        "gain_db@sf_v0.9_t-40",
+        "pm_deg@sf_v1.1_t85",
+        "pm_deg@ss_v1.1_t-40",
+        "pm_deg@ss_v1.1_t27",
+        "pm_deg@ss_v1.1_t85",
+        "pm_deg@ss_v1_t85",
+        "pm_deg@tt_v1.1_t85"
+      ],
       "closure_scaled_elements": []
+    },
+    "G2.8_baselines (info)": {
+      "pass": null,
+      "eta": 0.5,
+      "scores": {
+        "per_net": {
+          "worst_use_of_allowed": 14.584533150538086,
+          "use_of_allowed": {
+            "gain_db": 0.13176642463015092,
+            "gbw_mhz": 1.6598874319189045,
+            "pm_deg": 4.626534835702465,
+            "sat_XDiodeTransistorNmos1": 0.023440630222036057,
+            "sat_XDiodeTransistorPmos2": 0.01604580190126836,
+            "sat_XNormalTransistorNmos3": 0.006430636599620297,
+            "sat_XNormalTransistorNmos4": 0.11330376543454446,
+            "sat_XNormalTransistorPmos5": 0.21607638744283314,
+            "sat_XNormalTransistorPmos6": 0.014742618717276675,
+            "sat_XNormalTransistorPmos7": 0.025827977999118974,
+            "sat_XNormalTransistorPmos8": 0.1843499226395407,
+            "gain_db@ff_v0.9_t-40": 0.3459848768456904,
+            "gbw_mhz@ff_v0.9_t-40": 2.461116430134036,
+            "pm_deg@ff_v0.9_t-40": 2.6992446936119485,
+            "gbw_mhz@ff_v0.9_t27": 3.2763010086346016,
+            "pm_deg@ff_v0.9_t27": 3.61641450634844,
+            "gbw_mhz@ff_v0.9_t85": 7.679871652460937,
+            "pm_deg@ff_v0.9_t85": 4.222016474888944,
+            "gain_db@ff_v1.1_t-40": 0.17932106197529996,
+            "gbw_mhz@ff_v1.1_t-40": 0.709141477219172,
+            "pm_deg@ff_v1.1_t-40": 4.6114477336505155,
+            "gain_db@ff_v1.1_t27": 0.3077503045310031,
+            "gbw_mhz@ff_v1.1_t27": 1.0129067632844946,
+            "pm_deg@ff_v1.1_t27": 4.415124000533131,
+            "gain_db@ff_v1.1_t85": 1.0754207833959546,
+            "gbw_mhz@ff_v1.1_t85": 1.4662240964896462,
+            "pm_deg@ff_v1.1_t85": 4.634025337390479,
+            "gain_db@ff_v1_t-40": 0.22945800203114664,
+            "gbw_mhz@ff_v1_t-40": 0.9204294041693081,
+            "pm_deg@ff_v1_t-40": 4.322625798982442,
+            "gain_db@ff_v1_t27": 0.5601495354666435,
+            "gbw_mhz@ff_v1_t27": 1.4054977033491087,
+            "pm_deg@ff_v1_t27": 4.27767432909131,
+            "gbw_mhz@ff_v1_t85": 2.2633148832259007,
+            "pm_deg@ff_v1_t85": 4.565647215729926,
+            "gain_db@fs_v0.9_t-40": 0.13431256401143307,
+            "gbw_mhz@fs_v0.9_t-40": 1.3545421922247332,
+            "pm_deg@fs_v0.9_t-40": 3.5604406372985826,
+            "gain_db@fs_v0.9_t27": 0.1910785951625132,
+            "gbw_mhz@fs_v0.9_t27": 2.1718169315040186,
+            "pm_deg@fs_v0.9_t27": 4.072758719523412,
+            "gain_db@fs_v0.9_t85": 0.342465212009075,
+            "gbw_mhz@fs_v0.9_t85": 3.9919185927474126,
+            "pm_deg@fs_v0.9_t85": 4.525256882380075,
+            "gain_db@fs_v1.1_t-40": 0.10466629700969879,
+            "gbw_mhz@fs_v1.1_t-40": 0.6793602768436904,
+            "pm_deg@fs_v1.1_t-40": 4.826864084588599,
+            "gain_db@fs_v1.1_t27": 0.12383389289495172,
+            "gbw_mhz@fs_v1.1_t27": 0.9656734650839481,
+            "pm_deg@fs_v1.1_t27": 4.587585411947282,
+            "gain_db@fs_v1.1_t85": 0.16626255081632993,
+            "gbw_mhz@fs_v1.1_t85": 1.3568744585695909,
+            "pm_deg@fs_v1.1_t85": 4.781704992414182,
+            "gain_db@fs_v1_t-40": 0.11657204357781441,
+            "gbw_mhz@fs_v1_t-40": 0.8373812040956721,
+            "pm_deg@fs_v1_t-40": 4.633819194398812,
+            "gain_db@fs_v1_t27": 0.1462804001198815,
+            "gbw_mhz@fs_v1_t27": 1.2663532041799623,
+            "pm_deg@fs_v1_t27": 4.497228002190089,
+            "gain_db@fs_v1_t85": 0.21350288219348304,
+            "gbw_mhz@fs_v1_t85": 1.9259829032156863,
+            "pm_deg@fs_v1_t85": 4.745992187367026,
+            "gain_db@sf_v0.9_t-40": 5.134973142335385,
+            "pm_deg@sf_v0.9_t-40": 0.5005834586480012,
+            "gain_db@sf_v0.9_t27": 0.2207038561615035,
+            "pm_deg@sf_v0.9_t27": 1.1582865525173425,
+            "gain_db@sf_v0.9_t85": 0.3131510544449541,
+            "pm_deg@sf_v0.9_t85": 2.2170934385662364,
+            "gain_db@sf_v1.1_t-40": 0.09019235721446237,
+            "gbw_mhz@sf_v1.1_t-40": 1.075322482267628,
+            "pm_deg@sf_v1.1_t-40": 4.753941640801471,
+            "gain_db@sf_v1.1_t27": 0.1126668293206806,
+            "gbw_mhz@sf_v1.1_t27": 1.543417022844689,
+            "pm_deg@sf_v1.1_t27": 4.826606630651274,
+            "gain_db@sf_v1.1_t85": 0.14228546196545316,
+            "gbw_mhz@sf_v1.1_t85": 2.377166569486975,
+            "pm_deg@sf_v1.1_t85": 5.3395894605723715,
+            "gain_db@sf_v1_t-40": 0.10089813839497874,
+            "pm_deg@sf_v1_t-40": 2.420836250960294,
+            "gain_db@sf_v1_t27": 0.13843684327586017,
+            "gbw_mhz@sf_v1_t27": 6.080302360508297,
+            "pm_deg@sf_v1_t27": 3.814238059506813,
+            "gain_db@sf_v1_t85": 0.1879483493982175,
+            "gbw_mhz@sf_v1_t85": 14.584533150538086,
+            "pm_deg@sf_v1_t85": 4.779924395916035,
+            "gain_db@ss_v0.9_t-40": 0.0737042098026824,
+            "pm_deg@ss_v0.9_t-40": 0.7733297886353981,
+            "gain_db@ss_v0.9_t27": 0.08657667709202534,
+            "pm_deg@ss_v0.9_t27": 1.7241992517112388,
+            "gain_db@ss_v0.9_t85": 0.10375175625306284,
+            "pm_deg@ss_v0.9_t85": 3.1843449842972618,
+            "gain_db@ss_v1.1_t-40": 0.06572569641085092,
+            "gbw_mhz@ss_v1.1_t-40": 0.8827200665814778,
+            "pm_deg@ss_v1.1_t-40": 5.514672271986481,
+            "gain_db@ss_v1.1_t27": 0.07134938544049453,
+            "gbw_mhz@ss_v1.1_t27": 1.2624895483182959,
+            "pm_deg@ss_v1.1_t27": 5.378773098722609,
+            "gain_db@ss_v1.1_t85": 0.07842123718929878,
+            "gbw_mhz@ss_v1.1_t85": 1.90807897437738,
+            "pm_deg@ss_v1.1_t85": 5.871281031937857,
+            "gain_db@ss_v1_t-40": 0.06947674287951455,
+            "gbw_mhz@ss_v1_t-40": 1.8282102250007737,
+            "pm_deg@ss_v1_t-40": 3.6435070459010586,
+            "gain_db@ss_v1_t27": 0.07885962082761788,
+            "gbw_mhz@ss_v1_t27": 2.432645572210255,
+            "pm_deg@ss_v1_t27": 4.630628440478306,
+            "gain_db@ss_v1_t85": 0.08851863356057274,
+            "gbw_mhz@ss_v1_t85": 4.467149670280647,
+            "pm_deg@ss_v1_t85": 5.4520038570393226,
+            "gain_db@tt_v0.9_t-40": 0.1129976953076969,
+            "pm_deg@tt_v0.9_t-40": 1.5185876800131826,
+            "gain_db@tt_v0.9_t27": 0.17072797993336186,
+            "pm_deg@tt_v0.9_t27": 2.936686747082745,
+            "gain_db@tt_v0.9_t85": 0.26313207099814284,
+            "pm_deg@tt_v0.9_t85": 4.152370795503683,
+            "gain_db@tt_v1.1_t-40": 0.09296980607605984,
+            "gbw_mhz@tt_v1.1_t-40": 0.7694265917833528,
+            "pm_deg@tt_v1.1_t-40": 5.153358302338166,
+            "gain_db@tt_v1.1_t27": 0.11094867160344334,
+            "gbw_mhz@tt_v1.1_t27": 1.099055253748035,
+            "pm_deg@tt_v1.1_t27": 4.937361667929626,
+            "gain_db@tt_v1.1_t85": 0.13822141055132595,
+            "gbw_mhz@tt_v1.1_t85": 1.6291255686070638,
+            "pm_deg@tt_v1.1_t85": 5.265244390701964,
+            "gain_db@tt_v1_t-40": 0.10373603135216736,
+            "gbw_mhz@tt_v1_t-40": 1.1080247735950515,
+            "pm_deg@tt_v1_t-40": 4.433635438345564,
+            "gain_db@tt_v1_t27": 0.13176642462866664,
+            "gbw_mhz@tt_v1_t27": 1.6741954109946535,
+            "pm_deg@tt_v1_t27": 4.6272981360528265,
+            "gain_db@tt_v1_t85": 0.17454802633834934,
+            "gbw_mhz@tt_v1_t85": 2.8706532099626756,
+            "pm_deg@tt_v1_t85": 5.097065395773286
+          },
+          "unsafe_checks": [
+            "gain_db@ff_v1.1_t85",
+            "gain_db@sf_v0.9_t-40",
+            "gbw_mhz",
+            "gbw_mhz@ff_v0.9_t-40",
+            "gbw_mhz@ff_v0.9_t27",
+            "gbw_mhz@ff_v0.9_t85",
+            "gbw_mhz@ff_v1.1_t27",
+            "gbw_mhz@ff_v1.1_t85",
+            "gbw_mhz@ff_v1_t27",
+            "gbw_mhz@ff_v1_t85",
+            "gbw_mhz@fs_v0.9_t-40",
+            "gbw_mhz@fs_v0.9_t27",
+            "gbw_mhz@fs_v0.9_t85",
+            "gbw_mhz@fs_v1.1_t85",
+            "gbw_mhz@fs_v1_t27",
+            "gbw_mhz@fs_v1_t85",
+            "gbw_mhz@sf_v1.1_t-40",
+            "gbw_mhz@sf_v1.1_t27",
+            "gbw_mhz@sf_v1.1_t85",
+            "gbw_mhz@sf_v1_t27",
+            "gbw_mhz@sf_v1_t85",
+            "gbw_mhz@ss_v1.1_t27",
+            "gbw_mhz@ss_v1.1_t85",
+            "gbw_mhz@ss_v1_t-40",
+            "gbw_mhz@ss_v1_t27",
+            "gbw_mhz@ss_v1_t85",
+            "gbw_mhz@tt_v1.1_t27",
+            "gbw_mhz@tt_v1.1_t85",
+            "gbw_mhz@tt_v1_t-40",
+            "gbw_mhz@tt_v1_t27",
+            "gbw_mhz@tt_v1_t85",
+            "pm_deg",
+            "pm_deg@ff_v0.9_t-40",
+            "pm_deg@ff_v0.9_t27",
+            "pm_deg@ff_v0.9_t85",
+            "pm_deg@ff_v1.1_t-40",
+            "pm_deg@ff_v1.1_t27",
+            "pm_deg@ff_v1.1_t85",
+            "pm_deg@ff_v1_t-40",
+            "pm_deg@ff_v1_t27",
+            "pm_deg@ff_v1_t85",
+            "pm_deg@fs_v0.9_t-40",
+            "pm_deg@fs_v0.9_t27",
+            "pm_deg@fs_v0.9_t85",
+            "pm_deg@fs_v1.1_t-40",
+            "pm_deg@fs_v1.1_t27",
+            "pm_deg@fs_v1.1_t85",
+            "pm_deg@fs_v1_t-40",
+            "pm_deg@fs_v1_t27",
+            "pm_deg@fs_v1_t85",
+            "pm_deg@sf_v0.9_t27",
+            "pm_deg@sf_v0.9_t85",
+            "pm_deg@sf_v1.1_t-40",
+            "pm_deg@sf_v1.1_t27",
+            "pm_deg@sf_v1.1_t85",
+            "pm_deg@sf_v1_t-40",
+            "pm_deg@sf_v1_t27",
+            "pm_deg@sf_v1_t85",
+            "pm_deg@ss_v0.9_t27",
+            "pm_deg@ss_v0.9_t85",
+            "pm_deg@ss_v1.1_t-40",
+            "pm_deg@ss_v1.1_t27",
+            "pm_deg@ss_v1.1_t85",
+            "pm_deg@ss_v1_t-40",
+            "pm_deg@ss_v1_t27",
+            "pm_deg@ss_v1_t85",
+            "pm_deg@tt_v0.9_t-40",
+            "pm_deg@tt_v0.9_t27",
+            "pm_deg@tt_v0.9_t85",
+            "pm_deg@tt_v1.1_t-40",
+            "pm_deg@tt_v1.1_t27",
+            "pm_deg@tt_v1.1_t85",
+            "pm_deg@tt_v1_t-40",
+            "pm_deg@tt_v1_t27",
+            "pm_deg@tt_v1_t85"
+          ],
+          "n_elements": 42,
+          "starved": [
+            "XNormalTransistorNmos3.d",
+            "XNormalTransistorNmos3.s",
+            "XNormalTransistorPmos5.d",
+            "XNormalTransistorPmos5.s",
+            "XNormalTransistorPmos8.s",
+            "out~outFirstStage"
+          ],
+          "below_floor": [
+            "XNormalTransistorNmos3.s"
+          ],
+          "min_ratio_to_need": 0.000972199997857113,
+          "geo_mean_ratio_to_need": 4.026382581483697,
+          "spice_worst_use_of_allowed": 13.1992031872511,
+          "spice_specs_violated": [
+            "gbw_mhz@ff_v0.9_t85",
+            "gbw_mhz@sf_v1_t27",
+            "gbw_mhz@sf_v1_t85",
+            "pm_deg",
+            "pm_deg@sf_v1.1_t85",
+            "pm_deg@ss_v1.1_t-40",
+            "pm_deg@ss_v1.1_t27",
+            "pm_deg@ss_v1.1_t85",
+            "pm_deg@ss_v1_t85",
+            "pm_deg@tt_v1.1_t85"
+          ],
+          "spice_failed_runs": [],
+          "spice_checks": 21,
+          "outcome": "unsafe + infeasible"
+        },
+        "equal": {
+          "worst_use_of_allowed": 0.724463282429966,
+          "use_of_allowed": {
+            "gain_db": 0.005284664328042977,
+            "gbw_mhz": 0.08566422037136918,
+            "pm_deg": 0.2703869595856,
+            "sat_XDiodeTransistorNmos1": 0.0013856320095734225,
+            "sat_XDiodeTransistorPmos2": 0.01604580190126836,
+            "sat_XNormalTransistorNmos3": 0.0011139434971755553,
+            "sat_XNormalTransistorNmos4": 0.00438490692824467,
+            "sat_XNormalTransistorPmos5": 0.012394979790174936,
+            "sat_XNormalTransistorPmos6": 0.002858652605201383,
+            "sat_XNormalTransistorPmos7": 0.0034656735952503866,
+            "sat_XNormalTransistorPmos8": 0.06828714651975157,
+            "gain_db@ff_v0.9_t-40": 0.013874851945874449,
+            "gbw_mhz@ff_v0.9_t-40": 0.12810659211238645,
+            "pm_deg@ff_v0.9_t-40": 0.15596719388127278,
+            "gbw_mhz@ff_v0.9_t27": 0.16649377127719622,
+            "pm_deg@ff_v0.9_t27": 0.21086070238950813,
+            "gbw_mhz@ff_v0.9_t85": 0.3789247126399035,
+            "pm_deg@ff_v0.9_t85": 0.2472153087457737,
+            "gain_db@ff_v1.1_t-40": 0.007112671607867498,
+            "gbw_mhz@ff_v1.1_t-40": 0.04013438394819638,
+            "pm_deg@ff_v1.1_t-40": 0.2714427983265419,
+            "gain_db@ff_v1.1_t27": 0.01230798081221729,
+            "gbw_mhz@ff_v1.1_t27": 0.053086866639818146,
+            "pm_deg@ff_v1.1_t27": 0.26014517049091923,
+            "gain_db@ff_v1.1_t85": 0.04321577586320501,
+            "gbw_mhz@ff_v1.1_t85": 0.07364213734991559,
+            "pm_deg@ff_v1.1_t85": 0.2736544182141149,
+            "gain_db@ff_v1_t-40": 0.009133807183634822,
+            "gbw_mhz@ff_v1_t-40": 0.05180652731571267,
+            "pm_deg@ff_v1_t-40": 0.25313861490056616,
+            "gain_db@ff_v1_t27": 0.022466801886321996,
+            "gbw_mhz@ff_v1_t27": 0.07326328721498385,
+            "pm_deg@ff_v1_t27": 0.2507893894591449,
+            "gbw_mhz@ff_v1_t85": 0.11306516106767253,
+            "pm_deg@ff_v1_t85": 0.2684621704441561,
+            "gain_db@fs_v0.9_t-40": 0.005367770851141144,
+            "gbw_mhz@fs_v0.9_t-40": 0.07165856900486106,
+            "pm_deg@fs_v0.9_t-40": 0.20924822736417278,
+            "gain_db@fs_v0.9_t27": 0.007688081287694139,
+            "gbw_mhz@fs_v0.9_t27": 0.10986561029349207,
+            "pm_deg@fs_v0.9_t27": 0.2404043768335815,
+            "gain_db@fs_v0.9_t85": 0.013843498295708478,
+            "gbw_mhz@fs_v0.9_t85": 0.1956146508897204,
+            "pm_deg@fs_v0.9_t85": 0.2679910155695457,
+            "gain_db@fs_v1.1_t-40": 0.004149678220821279,
+            "gbw_mhz@fs_v1.1_t-40": 0.03748986314362754,
+            "pm_deg@fs_v1.1_t-40": 0.28788446818132585,
+            "gain_db@fs_v1.1_t27": 0.004953631243841163,
+            "gbw_mhz@fs_v1.1_t27": 0.049826551396543024,
+            "pm_deg@fs_v1.1_t27": 0.27366892271143595,
+            "gain_db@fs_v1.1_t85": 0.006689983677625201,
+            "gbw_mhz@fs_v1.1_t85": 0.06739577373761804,
+            "pm_deg@fs_v1.1_t85": 0.28558905483918384,
+            "gain_db@fs_v1_t-40": 0.0046357080564597905,
+            "gbw_mhz@fs_v1_t-40": 0.046054615144538354,
+            "pm_deg@fs_v1_t-40": 0.27488523040202595,
+            "gain_db@fs_v1_t27": 0.005866197118219175,
+            "gbw_mhz@fs_v1_t27": 0.06505387290124508,
+            "pm_deg@fs_v1_t27": 0.2669572394492241,
+            "gain_db@fs_v1_t85": 0.008608739238267105,
+            "gbw_mhz@fs_v1_t85": 0.09521574139072682,
+            "pm_deg@fs_v1_t85": 0.28226921506397296,
+            "gain_db@sf_v0.9_t-40": 0.22089948739306617,
+            "pm_deg@sf_v0.9_t-40": 0.026725267703394368,
+            "gain_db@sf_v0.9_t27": 0.009113592748845108,
+            "pm_deg@sf_v0.9_t27": 0.06528596165365341,
+            "gain_db@sf_v0.9_t85": 0.012763983904923157,
+            "pm_deg@sf_v0.9_t85": 0.12784736007706418,
+            "gain_db@sf_v1.1_t-40": 0.0035886596858740716,
+            "gbw_mhz@sf_v1.1_t-40": 0.06151827743206391,
+            "pm_deg@sf_v1.1_t-40": 0.2751476151149713,
+            "gain_db@sf_v1.1_t27": 0.004512075866553496,
+            "gbw_mhz@sf_v1.1_t27": 0.08136644094632885,
+            "pm_deg@sf_v1.1_t27": 0.2797373300424517,
+            "gain_db@sf_v1.1_t85": 0.0057166019475962,
+            "gbw_mhz@sf_v1.1_t85": 0.11916545130424708,
+            "pm_deg@sf_v1.1_t85": 0.31032969287955514,
+            "gain_db@sf_v1_t-40": 0.004057820520932316,
+            "pm_deg@sf_v1_t-40": 0.13829068335395797,
+            "gain_db@sf_v1_t27": 0.005573853598690414,
+            "gbw_mhz@sf_v1_t27": 0.31310816419736737,
+            "pm_deg@sf_v1_t27": 0.21974463481510575,
+            "gain_db@sf_v1_t85": 0.007580046921686156,
+            "gbw_mhz@sf_v1_t85": 0.724463282429966,
+            "pm_deg@sf_v1_t85": 0.2767355672310857,
+            "gain_db@ss_v0.9_t-40": 0.0030847317149361123,
+            "pm_deg@ss_v0.9_t-40": 0.04260571385706475,
+            "gain_db@ss_v0.9_t27": 0.003528628883998784,
+            "pm_deg@ss_v0.9_t27": 0.09938613152894135,
+            "gain_db@ss_v0.9_t85": 0.0042071915196747805,
+            "pm_deg@ss_v0.9_t85": 0.18567075424038565,
+            "gain_db@ss_v1.1_t-40": 0.002608268732807856,
+            "gbw_mhz@ss_v1.1_t-40": 0.049431260053323024,
+            "pm_deg@ss_v1.1_t-40": 0.32217656491463187,
+            "gain_db@ss_v1.1_t27": 0.0028521521942491365,
+            "gbw_mhz@ss_v1.1_t27": 0.06538012917468444,
+            "pm_deg@ss_v1.1_t27": 0.31495506237785886,
+            "gain_db@ss_v1.1_t85": 0.0031477984260284727,
+            "gbw_mhz@ss_v1.1_t85": 0.09435005659663447,
+            "pm_deg@ss_v1.1_t85": 0.34471128649806065,
+            "gain_db@ss_v1_t-40": 0.002776515600632256,
+            "gbw_mhz@ss_v1_t-40": 0.09836186372234572,
+            "pm_deg@ss_v1_t-40": 0.21123641313276031,
+            "gain_db@ss_v1_t27": 0.0031659530046440317,
+            "gbw_mhz@ss_v1_t27": 0.12445033143930245,
+            "pm_deg@ss_v1_t27": 0.2697078093287019,
+            "gain_db@ss_v1_t85": 0.003564786732889088,
+            "gbw_mhz@ss_v1_t85": 0.21976640592641575,
+            "pm_deg@ss_v1_t85": 0.3187893923465027,
+            "gain_db@tt_v0.9_t-40": 0.004582383746036735,
+            "pm_deg@tt_v0.9_t-40": 0.08644811074671334,
+            "gain_db@tt_v0.9_t27": 0.0068943874736958856,
+            "pm_deg@tt_v0.9_t27": 0.17071049732538998,
+            "gain_db@tt_v0.9_t85": 0.010638734201463806,
+            "pm_deg@tt_v0.9_t85": 0.24253053384312556,
+            "gain_db@tt_v1.1_t-40": 0.0036866322164965225,
+            "gbw_mhz@tt_v1.1_t-40": 0.04332014170923453,
+            "pm_deg@tt_v1.1_t-40": 0.3020367342740818,
+            "gain_db@tt_v1.1_t27": 0.0044345581392187,
+            "gbw_mhz@tt_v1.1_t27": 0.05720636084230559,
+            "pm_deg@tt_v1.1_t27": 0.28993230138777537,
+            "gain_db@tt_v1.1_t85": 0.00554984713516672,
+            "gbw_mhz@tt_v1.1_t85": 0.08111700214297396,
+            "pm_deg@tt_v1.1_t85": 0.30998127831660505,
+            "gain_db@tt_v1_t-40": 0.004132511194739341,
+            "gbw_mhz@tt_v1_t-40": 0.06162346023995639,
+            "pm_deg@tt_v1_t-40": 0.25848609174523157,
+            "gain_db@tt_v1_t27": 0.005284664327970442,
+            "gbw_mhz@tt_v1_t27": 0.0864846905009799,
+            "pm_deg@tt_v1_t27": 0.27035298223136095,
+            "gain_db@tt_v1_t85": 0.0070279416968293965,
+            "gbw_mhz@tt_v1_t85": 0.14225757048881413,
+            "pm_deg@tt_v1_t85": 0.29879720966959267
+          },
+          "unsafe_checks": [],
+          "n_elements": 42,
+          "starved": [
+            "FirstStageYout1",
+            "FirstStageYout1~out",
+            "FirstStageYout1~outFirstStage",
+            "FirstStageYsourceTransconductance",
+            "FirstStageYsourceTransconductance~in1",
+            "FirstStageYsourceTransconductance~out",
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+            "XNormalTransistorNmos3.d",
+            "XNormalTransistorNmos3.g",
+            "XNormalTransistorNmos3.s",
+            "XNormalTransistorPmos5.d",
+            "XNormalTransistorPmos5.g",
+            "XNormalTransistorPmos5.s",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+            "XNormalTransistorPmos8.d",
+            "XNormalTransistorPmos8.s",
+            "ibias~out",
+            "ibias~outFirstStage",
+            "out",
+            "outFirstStage",
+            "outFirstStage~in2",
+            "out~outFirstStage"
+          ],
+          "below_floor": [
+            "FirstStageYout1",
+            "FirstStageYout1~outFirstStage",
+            "FirstStageYsourceTransconductance",
+            "XNormalTransistorNmos3.d",
+            "XNormalTransistorNmos3.s",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+            "XNormalTransistorPmos8.s",
+            "ibias~out",
+            "out",
+            "outFirstStage",
+            "out~outFirstStage"
+          ],
+          "min_ratio_to_need": 3.6007407328041226e-05,
+          "geo_mean_ratio_to_need": 0.47214655166523384,
+          "spice_worst_use_of_allowed": 0.7609561752987936,
+          "spice_specs_violated": [],
+          "spice_failed_runs": [],
+          "spice_checks": 21,
+          "outcome": "infeasible"
+        },
+        "lp_sum": {
+          "worst_use_of_allowed": 1.000000011879873,
+          "use_of_allowed": {
+            "gain_db": 0.01991626036661041,
+            "gbw_mhz": 0.12802682699347423,
+            "pm_deg": 0.7914786145519537,
+            "sat_XDiodeTransistorNmos1": 0.019149265396753188,
+            "sat_XDiodeTransistorPmos2": 0.01604580190126836,
+            "sat_XNormalTransistorNmos3": 0.0009117283543611604,
+            "sat_XNormalTransistorNmos4": 0.01711694609983433,
+            "sat_XNormalTransistorPmos5": 0.004678566893457306,
+            "sat_XNormalTransistorPmos6": 0.01327937255182538,
+            "sat_XNormalTransistorPmos7": 0.012886411636024817,
+            "sat_XNormalTransistorPmos8": 0.06445025717492044,
+            "gain_db@ff_v0.9_t-40": 0.05155626043921996,
+            "gbw_mhz@ff_v0.9_t-40": 0.16478554211301685,
+            "pm_deg@ff_v0.9_t-40": 0.46974100472883873,
+            "gbw_mhz@ff_v0.9_t27": 0.23826446199773169,
+            "pm_deg@ff_v0.9_t27": 0.6243509479553412,
+            "gbw_mhz@ff_v0.9_t85": 0.5398419021314792,
+            "pm_deg@ff_v0.9_t85": 0.7241821527463765,
+            "gain_db@ff_v1.1_t-40": 0.025329487761723182,
+            "gbw_mhz@ff_v1.1_t-40": 0.06449789553410114,
+            "pm_deg@ff_v1.1_t-40": 0.7759324878578254,
+            "gain_db@ff_v1.1_t27": 0.04590944201696704,
+            "gbw_mhz@ff_v1.1_t27": 0.08291768337401129,
+            "pm_deg@ff_v1.1_t27": 0.7527669435144811,
+            "gain_db@ff_v1.1_t85": 0.16572953855307135,
+            "gbw_mhz@ff_v1.1_t85": 0.11115929934644746,
+            "pm_deg@ff_v1.1_t85": 0.7910275817181595,
+            "gain_db@ff_v1_t-40": 0.03302962651719524,
+            "gbw_mhz@ff_v1_t-40": 0.08222847420245573,
+            "pm_deg@ff_v1_t-40": 0.732161245836942,
+            "gain_db@ff_v1_t27": 0.08483633882710763,
+            "gbw_mhz@ff_v1_t27": 0.11274947778547759,
+            "pm_deg@ff_v1_t27": 0.7311773136042535,
+            "gbw_mhz@ff_v1_t85": 0.1680509907514268,
+            "pm_deg@ff_v1_t85": 0.7798981753446953,
+            "gain_db@fs_v0.9_t-40": 0.0197205368031402,
+            "gbw_mhz@fs_v0.9_t-40": 0.103644768383835,
+            "pm_deg@fs_v0.9_t-40": 0.6204895561958305,
+            "gain_db@fs_v0.9_t27": 0.02939852752725308,
+            "gbw_mhz@fs_v0.9_t27": 0.1633110535390526,
+            "pm_deg@fs_v0.9_t27": 0.7110289548118718,
+            "gain_db@fs_v0.9_t85": 0.05435436427592392,
+            "gbw_mhz@fs_v0.9_t85": 0.2857905036158906,
+            "pm_deg@fs_v0.9_t85": 0.7873066921088882,
+            "gain_db@fs_v1.1_t-40": 0.014751303968289964,
+            "gbw_mhz@fs_v1.1_t-40": 0.060176882374696324,
+            "pm_deg@fs_v1.1_t-40": 0.8259750463636467,
+            "gain_db@fs_v1.1_t27": 0.01848939110969189,
+            "gbw_mhz@fs_v1.1_t27": 0.07832940410064085,
+            "pm_deg@fs_v1.1_t27": 0.7956200376493701,
+            "gain_db@fs_v1.1_t85": 0.025774543103769212,
+            "gbw_mhz@fs_v1.1_t85": 0.10291862982663603,
+            "pm_deg@fs_v1.1_t85": 0.8302728180845038,
+            "gain_db@fs_v1_t-40": 0.016699650459171437,
+            "gbw_mhz@fs_v1_t-40": 0.0732713789996504,
+            "pm_deg@fs_v1_t-40": 0.7960114338494504,
+            "gain_db@fs_v1_t27": 0.022132939661984208,
+            "gbw_mhz@fs_v1_t27": 0.10099300456178673,
+            "pm_deg@fs_v1_t27": 0.7809047114297111,
+            "gain_db@fs_v1_t85": 0.0334607492128243,
+            "gbw_mhz@fs_v1_t85": 0.14341712250438707,
+            "pm_deg@fs_v1_t85": 0.8240627420583074,
+            "gain_db@sf_v0.9_t-40": 1.000000011879873,
+            "pm_deg@sf_v0.9_t-40": 0.12006411541384121,
+            "gain_db@sf_v0.9_t27": 0.0374967294899981,
+            "pm_deg@sf_v0.9_t27": 0.2177527301752882,
+            "gain_db@sf_v0.9_t85": 0.05135639323412472,
+            "pm_deg@sf_v0.9_t85": 0.3913736424891625,
+            "gain_db@sf_v1.1_t-40": 0.012899824625132507,
+            "gbw_mhz@sf_v1.1_t-40": 0.09561184050553259,
+            "pm_deg@sf_v1.1_t-40": 0.7969975171628337,
+            "gain_db@sf_v1.1_t27": 0.016877074512472695,
+            "gbw_mhz@sf_v1.1_t27": 0.12186932002312173,
+            "pm_deg@sf_v1.1_t27": 0.8146973475390572,
+            "gain_db@sf_v1.1_t85": 0.021862458197327263,
+            "gbw_mhz@sf_v1.1_t85": 0.1715155234566482,
+            "pm_deg@sf_v1.1_t85": 0.8991653429383961,
+            "gain_db@sf_v1_t-40": 0.015160681646095842,
+            "pm_deg@sf_v1_t-40": 0.42190249617822617,
+            "gain_db@sf_v1_t27": 0.021300178809300872,
+            "gbw_mhz@sf_v1_t27": 0.43253189121132146,
+            "pm_deg@sf_v1_t27": 0.6530907612487307,
+            "gain_db@sf_v1_t85": 0.02944979172801446,
+            "gbw_mhz@sf_v1_t85": 1.0,
+            "pm_deg@sf_v1_t85": 0.8100490066388847,
+            "gain_db@ss_v0.9_t-40": 0.01286365073108388,
+            "pm_deg@ss_v0.9_t-40": 0.15685633137821822,
+            "gain_db@ss_v0.9_t27": 0.013983240466623888,
+            "pm_deg@ss_v0.9_t27": 0.31339423374590814,
+            "gain_db@ss_v0.9_t85": 0.01665561449355455,
+            "pm_deg@ss_v0.9_t85": 0.5579591444321935,
+            "gain_db@ss_v1.1_t-40": 0.009271825280448821,
+            "gbw_mhz@ss_v1.1_t-40": 0.07605211619025003,
+            "pm_deg@ss_v1.1_t-40": 0.9270860255491846,
+            "gain_db@ss_v1.1_t27": 0.010583513843084317,
+            "gbw_mhz@ss_v1.1_t27": 0.09787582115657663,
+            "pm_deg@ss_v1.1_t27": 0.9158722769490978,
+            "gain_db@ss_v1.1_t85": 0.01198712553886243,
+            "gbw_mhz@ss_v1.1_t85": 0.13624806880710882,
+            "pm_deg@ss_v1.1_t85": 0.9999999999999998,
+            "gain_db@ss_v1_t-40": 0.010149341286680907,
+            "gbw_mhz@ss_v1_t-40": 0.13422821051937067,
+            "pm_deg@ss_v1_t-40": 0.6271642382089362,
+            "gain_db@ss_v1_t27": 0.011961243146907637,
+            "gbw_mhz@ss_v1_t27": 0.17812953805572465,
+            "pm_deg@ss_v1_t27": 0.7952727766373644,
+            "gain_db@ss_v1_t85": 0.01376514683849059,
+            "gbw_mhz@ss_v1_t85": 0.30828468973261575,
+            "pm_deg@ss_v1_t85": 0.9320988717918257,
+            "gain_db@tt_v0.9_t-40": 0.01752791433993373,
+            "pm_deg@tt_v0.9_t-40": 0.2745634252541629,
+            "gain_db@tt_v0.9_t27": 0.02664370897318789,
+            "pm_deg@tt_v0.9_t27": 0.5145004348383323,
+            "gain_db@tt_v0.9_t85": 0.04176332704536627,
+            "pm_deg@tt_v0.9_t85": 0.7157111903699009,
+            "gain_db@tt_v1.1_t-40": 0.013084571864328915,
+            "gbw_mhz@tt_v1.1_t-40": 0.06808707797844937,
+            "pm_deg@tt_v1.1_t-40": 0.8647983425304778,
+            "gain_db@tt_v1.1_t27": 0.016470268621764973,
+            "gbw_mhz@tt_v1.1_t27": 0.08747209874426173,
+            "pm_deg@tt_v1.1_t27": 0.84024209297023,
+            "gain_db@tt_v1.1_t85": 0.021184482423200864,
+            "gbw_mhz@tt_v1.1_t85": 0.11972098065092164,
+            "pm_deg@tt_v1.1_t85": 0.8971163925071549,
+            "gain_db@tt_v1_t-40": 0.01495560949973865,
+            "gbw_mhz@tt_v1_t-40": 0.09398104027523606,
+            "pm_deg@tt_v1_t-40": 0.7525675769341919,
+            "gain_db@tt_v1_t27": 0.019916260366386943,
+            "gbw_mhz@tt_v1_t27": 0.12945714073446063,
+            "pm_deg@tt_v1_t27": 0.791098471481531,
+            "gain_db@tt_v1_t85": 0.027145314238432725,
+            "gbw_mhz@tt_v1_t85": 0.20599924273178044,
+            "pm_deg@tt_v1_t85": 0.8699510707225752
+          },
+          "unsafe_checks": [
+            "gain_db@sf_v0.9_t-40"
+          ],
+          "n_elements": 42,
+          "starved": [
+            "FirstStageYout1",
+            "FirstStageYout1~ibias",
+            "FirstStageYout1~outFirstStage",
+            "FirstStageYsourceTransconductance",
+            "FirstStageYsourceTransconductance~in1",
+            "FirstStageYsourceTransconductance~out",
+            "FirstStageYsourceTransconductance~outFirstStage",
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+            "XNormalTransistorNmos3.d",
+            "XNormalTransistorNmos3.g",
+            "XNormalTransistorNmos3.s",
+            "XNormalTransistorPmos5.d",
+            "XNormalTransistorPmos5.g",
+            "XNormalTransistorPmos5.s",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+            "XNormalTransistorPmos8.d",
+            "XNormalTransistorPmos8.s",
+            "ibias~out",
+            "ibias~outFirstStage",
+            "out",
+            "outFirstStage",
+            "out~outFirstStage"
+          ],
+          "below_floor": [
+            "FirstStageYout1",
+            "FirstStageYout1~outFirstStage",
+            "FirstStageYsourceTransconductance",
+            "FirstStageYsourceTransconductance~in1",
+            "FirstStageYsourceTransconductance~outFirstStage",
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+            "XNormalTransistorNmos3.d",
+            "XNormalTransistorNmos3.g",
+            "XNormalTransistorNmos3.s",
+            "XNormalTransistorPmos5.d",
+            "XNormalTransistorPmos5.g",
+            "XNormalTransistorPmos5.s",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+            "XNormalTransistorPmos8.d",
+            "XNormalTransistorPmos8.s",
+            "ibias~out",
+            "out",
+            "outFirstStage",
+            "out~outFirstStage"
+          ],
+          "min_ratio_to_need": 0.0,
+          "geo_mean_ratio_to_need": 5.651937261420315e-16,
+          "spice_worst_use_of_allowed": 35824.52857142116,
+          "spice_specs_violated": [
+            "gain_db@sf_v0.9_t-40",
+            "sat_XDiodeTransistorNmos1"
+          ],
+          "spice_failed_runs": [
+            "gbw_mhz",
+            "gbw_mhz@ff_v0.9_t85",
+            "gbw_mhz@sf_v1_t27",
+            "gbw_mhz@sf_v1_t85",
+            "pm_deg",
+            "pm_deg@sf_v1.1_t85",
+            "pm_deg@ss_v1.1_t-40",
+            "pm_deg@ss_v1.1_t27",
+            "pm_deg@ss_v1.1_t85",
+            "pm_deg@ss_v1_t85",
+            "pm_deg@tt_v1.1_t85"
+          ],
+          "spice_checks": 21,
+          "outcome": "unsafe + infeasible (unverified: failed runs)"
+        },
+        "lp_floor": {
+          "worst_use_of_allowed": 1.0000000171322923,
+          "use_of_allowed": {
+            "gain_db": 0.014359991763299546,
+            "gbw_mhz": 0.11621768513891038,
+            "pm_deg": 0.7983912220064802,
+            "sat_XDiodeTransistorNmos1": 0.0022267119500612004,
+            "sat_XDiodeTransistorPmos2": 0.0016045801901268361,
+            "sat_XNormalTransistorNmos3": 0.00016249443787102886,
+            "sat_XNormalTransistorNmos4": 0.025497126152918388,
+            "sat_XNormalTransistorPmos5": 0.1747026249892504,
+            "sat_XNormalTransistorPmos6": 0.0013963907936862978,
+            "sat_XNormalTransistorPmos7": 0.0027936874924373413,
+            "sat_XNormalTransistorPmos8": 0.01773780880829043,
+            "gain_db@ff_v0.9_t-40": 0.03735931762591673,
+            "gbw_mhz@ff_v0.9_t-40": 0.16972485047638683,
+            "pm_deg@ff_v0.9_t-40": 0.47329948130011634,
+            "gbw_mhz@ff_v0.9_t27": 0.22553257678187869,
+            "pm_deg@ff_v0.9_t27": 0.6293953709802944,
+            "gbw_mhz@ff_v0.9_t85": 0.5221951332359844,
+            "pm_deg@ff_v0.9_t85": 0.7298736191862337,
+            "gain_db@ff_v1.1_t-40": 0.017014116932722596,
+            "gbw_mhz@ff_v1.1_t-40": 0.051250430761707065,
+            "pm_deg@ff_v1.1_t-40": 0.8232693941284623,
+            "gain_db@ff_v1.1_t27": 0.03188213070650157,
+            "gbw_mhz@ff_v1.1_t27": 0.0704941828119176,
+            "pm_deg@ff_v1.1_t27": 0.7811000628550983,
+            "gain_db@ff_v1.1_t85": 0.1174568504683773,
+            "gbw_mhz@ff_v1.1_t85": 0.09993593610679358,
+            "pm_deg@ff_v1.1_t85": 0.8130205948888337,
+            "gain_db@ff_v1_t-40": 0.022750854494322837,
+            "gbw_mhz@ff_v1_t-40": 0.06674965314325108,
+            "pm_deg@ff_v1_t-40": 0.7628130911218731,
+            "gain_db@ff_v1_t27": 0.059997028396079455,
+            "gbw_mhz@ff_v1_t27": 0.09803177638069757,
+            "pm_deg@ff_v1_t27": 0.749825208469041,
+            "gbw_mhz@ff_v1_t85": 0.15454407271905982,
+            "pm_deg@ff_v1_t85": 0.7947324009369879,
+            "gain_db@fs_v0.9_t-40": 0.014024355983606183,
+            "gbw_mhz@fs_v0.9_t-40": 0.09567511296008431,
+            "pm_deg@fs_v0.9_t-40": 0.6233318056065572,
+            "gain_db@fs_v0.9_t27": 0.021249030444786324,
+            "gbw_mhz@fs_v0.9_t27": 0.15052068953269793,
+            "pm_deg@fs_v0.9_t27": 0.7075945091603848,
+            "gain_db@fs_v0.9_t85": 0.03976340760413054,
+            "gbw_mhz@fs_v0.9_t85": 0.2725133303841359,
+            "pm_deg@fs_v0.9_t85": 0.7815328919478698,
+            "gain_db@fs_v1.1_t-40": 0.009917700856138502,
+            "gbw_mhz@fs_v1.1_t-40": 0.04885161287210993,
+            "pm_deg@fs_v1.1_t-40": 0.8602887796827903,
+            "gain_db@fs_v1.1_t27": 0.012879319673788511,
+            "gbw_mhz@fs_v1.1_t27": 0.06717708739816391,
+            "pm_deg@fs_v1.1_t27": 0.809607519154392,
+            "gain_db@fs_v1.1_t85": 0.018315290835815456,
+            "gbw_mhz@fs_v1.1_t85": 0.09264079145886774,
+            "pm_deg@fs_v1.1_t85": 0.8372426181031974,
+            "gain_db@fs_v1_t-40": 0.011475233575768497,
+            "gbw_mhz@fs_v1_t-40": 0.0604464419416084,
+            "pm_deg@fs_v1_t-40": 0.8172324958461618,
+            "gain_db@fs_v1_t27": 0.015670334250795847,
+            "gbw_mhz@fs_v1_t27": 0.08828941140764722,
+            "pm_deg@fs_v1_t27": 0.7869854694689674,
+            "gain_db@fs_v1_t85": 0.024098366408468627,
+            "gbw_mhz@fs_v1_t85": 0.13172114345526578,
+            "pm_deg@fs_v1_t85": 0.8250277300264222,
+            "gain_db@sf_v0.9_t-40": 1.0000000171322923,
+            "pm_deg@sf_v0.9_t-40": 0.07894162088679867,
+            "gain_db@sf_v0.9_t27": 0.03177198671167341,
+            "pm_deg@sf_v0.9_t27": 0.19118384205517452,
+            "gain_db@sf_v0.9_t85": 0.04056796146422108,
+            "pm_deg@sf_v0.9_t85": 0.3741162786891372,
+            "gain_db@sf_v1.1_t-40": 0.009108703341345522,
+            "gbw_mhz@sf_v1.1_t-40": 0.07892360264499591,
+            "pm_deg@sf_v1.1_t-40": 0.8171258830710117,
+            "gain_db@sf_v1.1_t27": 0.012153408692203225,
+            "gbw_mhz@sf_v1.1_t27": 0.10868131841979363,
+            "pm_deg@sf_v1.1_t27": 0.8274188738119566,
+            "gain_db@sf_v1.1_t85": 0.015991766221099917,
+            "gbw_mhz@sf_v1.1_t85": 0.16348444156288777,
+            "pm_deg@sf_v1.1_t85": 0.9105173940380158,
+            "gain_db@sf_v1_t-40": 0.011418864062040271,
+            "pm_deg@sf_v1_t-40": 0.41109844154495345,
+            "gain_db@sf_v1_t27": 0.015795682190459064,
+            "gbw_mhz@sf_v1_t27": 0.4224507030183983,
+            "pm_deg@sf_v1_t27": 0.6480135376037965,
+            "gain_db@sf_v1_t85": 0.021974652509246836,
+            "gbw_mhz@sf_v1_t85": 1.0,
+            "pm_deg@sf_v1_t85": 0.8082182945153956,
+            "gain_db@ss_v0.9_t-40": 0.011826334864540128,
+            "pm_deg@ss_v0.9_t-40": 0.12195280140122387,
+            "gain_db@ss_v0.9_t27": 0.011199358974865958,
+            "pm_deg@ss_v0.9_t27": 0.29101094690720397,
+            "gain_db@ss_v0.9_t85": 0.012895493579152062,
+            "pm_deg@ss_v0.9_t85": 0.5371090553446553,
+            "gain_db@ss_v1.1_t-40": 0.00650203411255709,
+            "gbw_mhz@ss_v1.1_t-40": 0.06442615788676694,
+            "pm_deg@ss_v1.1_t-40": 0.949172747734321,
+            "gain_db@ss_v1.1_t27": 0.0076180786330694444,
+            "gbw_mhz@ss_v1.1_t27": 0.08877553962604307,
+            "pm_deg@ss_v1.1_t27": 0.9219884187209975,
+            "gain_db@ss_v1.1_t85": 0.008798322834614125,
+            "gbw_mhz@ss_v1.1_t85": 0.1313394199908409,
+            "pm_deg@ss_v1.1_t85": 1.0,
+            "gain_db@ss_v1_t-40": 0.0074250873881902485,
+            "gbw_mhz@ss_v1_t-40": 0.13019139142068117,
+            "pm_deg@ss_v1_t-40": 0.6206567293085554,
+            "gain_db@ss_v1_t27": 0.00881424107524759,
+            "gbw_mhz@ss_v1_t27": 0.17023576868393023,
+            "pm_deg@ss_v1_t27": 0.7865219613636502,
+            "gain_db@ss_v1_t85": 0.010277180868240586,
+            "gbw_mhz@ss_v1_t85": 0.30733778488395647,
+            "pm_deg@ss_v1_t85": 0.9211014382462701,
+            "gain_db@tt_v0.9_t-40": 0.013838785719758832,
+            "pm_deg@tt_v0.9_t-40": 0.2587158658382386,
+            "gain_db@tt_v0.9_t27": 0.019992924698823453,
+            "pm_deg@tt_v0.9_t27": 0.5047908497905254,
+            "gain_db@tt_v0.9_t85": 0.031315734585576724,
+            "pm_deg@tt_v0.9_t85": 0.7079637651445134,
+            "gain_db@tt_v1.1_t-40": 0.008970208858478887,
+            "gbw_mhz@tt_v1.1_t-40": 0.05590520915063099,
+            "pm_deg@tt_v1.1_t-40": 0.9037737083654547,
+            "gain_db@tt_v1.1_t27": 0.011640858249974708,
+            "gbw_mhz@tt_v1.1_t27": 0.07690891528349739,
+            "pm_deg@tt_v1.1_t27": 0.8600179758543147,
+            "gain_db@tt_v1.1_t85": 0.01528608981281699,
+            "gbw_mhz@tt_v1.1_t85": 0.11162038931056698,
+            "pm_deg@tt_v1.1_t85": 0.9101071124062818,
+            "gain_db@tt_v1_t-40": 0.010563237729440468,
+            "gbw_mhz@tt_v1_t-40": 0.08038764172276186,
+            "pm_deg@tt_v1_t-40": 0.768382436657775,
+            "gain_db@tt_v1_t27": 0.014359991763197211,
+            "gbw_mhz@tt_v1_t27": 0.11725021317935588,
+            "pm_deg@tt_v1_t27": 0.7984347914740735,
+            "gain_db@tt_v1_t85": 0.019895203361123773,
+            "gbw_mhz@tt_v1_t85": 0.19695916624048151,
+            "pm_deg@tt_v1_t85": 0.8738806620455519
+          },
+          "unsafe_checks": [
+            "gain_db@sf_v0.9_t-40"
+          ],
+          "n_elements": 42,
+          "starved": [
+            "FirstStageYout1",
+            "FirstStageYsourceTransconductance",
+            "XNormalTransistorNmos3.d",
+            "XNormalTransistorNmos3.s",
+            "XNormalTransistorPmos5.d",
+            "XNormalTransistorPmos5.s",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+            "XNormalTransistorPmos8.s",
+            "ibias~out",
+            "outFirstStage",
+            "out~outFirstStage"
+          ],
+          "below_floor": [
+            "FirstStageYout1",
+            "FirstStageYsourceTransconductance",
+            "XNormalTransistorNmos3.d",
+            "XNormalTransistorNmos3.s",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+            "XNormalTransistorPmos8.s",
+            "ibias~out",
+            "outFirstStage",
+            "out~outFirstStage"
+          ],
+          "min_ratio_to_need": 0.0,
+          "geo_mean_ratio_to_need": 1.5543702317101761e-06,
+          "floors_applied": false,
+          "spice_worst_use_of_allowed": 43777.95714284808,
+          "spice_specs_violated": [
+            "gain_db@sf_v0.9_t-40"
+          ],
+          "spice_failed_runs": [],
+          "spice_checks": 21,
+          "outcome": "unsafe + infeasible"
+        },
+        "ours": {
+          "worst_use_of_allowed": 1.0000000000000002,
+          "use_of_allowed": {
+            "gain_db": 0.012503428752363243,
+            "gbw_mhz": 0.05073235227099075,
+            "pm_deg": 0.802715071374812,
+            "sat_XDiodeTransistorNmos1": 6.070772809592537e-06,
+            "sat_XDiodeTransistorPmos2": 0.01604580190126836,
+            "sat_XNormalTransistorNmos3": 0.00030300104319920616,
+            "sat_XNormalTransistorNmos4": 0.06458731122983509,
+            "sat_XNormalTransistorPmos5": 0.016263971118364497,
+            "sat_XNormalTransistorPmos6": 0.00025753606623044045,
+            "sat_XNormalTransistorPmos7": 0.001735974955335803,
+            "sat_XNormalTransistorPmos8": 0.0018119646215030694,
+            "gain_db@ff_v0.9_t-40": 0.03587504832142999,
+            "gbw_mhz@ff_v0.9_t-40": 0.05644959785814709,
+            "pm_deg@ff_v0.9_t-40": 0.48813949638433907,
+            "gbw_mhz@ff_v0.9_t27": 0.09544122039887576,
+            "pm_deg@ff_v0.9_t27": 0.6446857308930241,
+            "gbw_mhz@ff_v0.9_t85": 0.22365931882287574,
+            "pm_deg@ff_v0.9_t85": 0.746950851712907,
+            "gain_db@ff_v1.1_t-40": 0.016964229878211834,
+            "gbw_mhz@ff_v1.1_t-40": 0.02398775534786884,
+            "pm_deg@ff_v1.1_t-40": 0.7895647557883922,
+            "gain_db@ff_v1.1_t27": 0.027169543797654717,
+            "gbw_mhz@ff_v1.1_t27": 0.03362479756473069,
+            "pm_deg@ff_v1.1_t27": 0.7645509391105157,
+            "gain_db@ff_v1.1_t85": 0.08864302094182065,
+            "gbw_mhz@ff_v1.1_t85": 0.04632923987001982,
+            "pm_deg@ff_v1.1_t85": 0.803684387549324,
+            "gain_db@ff_v1_t-40": 0.022254956725080273,
+            "gbw_mhz@ff_v1_t-40": 0.03086206905973483,
+            "pm_deg@ff_v1_t-40": 0.7504780048692352,
+            "gain_db@ff_v1_t27": 0.050229931514735274,
+            "gbw_mhz@ff_v1_t27": 0.04585987931807284,
+            "pm_deg@ff_v1_t27": 0.7478554555064336,
+            "gbw_mhz@ff_v1_t85": 0.07006847710950574,
+            "pm_deg@ff_v1_t85": 0.7975748851060326,
+            "gain_db@fs_v0.9_t-40": 0.013906308660961422,
+            "gbw_mhz@fs_v0.9_t-40": 0.040467505992909734,
+            "pm_deg@fs_v0.9_t-40": 0.629503850520132,
+            "gain_db@fs_v0.9_t27": 0.01814769945064602,
+            "gbw_mhz@fs_v0.9_t27": 0.07077223281913901,
+            "pm_deg@fs_v0.9_t27": 0.7166881682770475,
+            "gain_db@fs_v0.9_t85": 0.030377795266684493,
+            "gbw_mhz@fs_v0.9_t85": 0.12745643610506363,
+            "pm_deg@fs_v0.9_t85": 0.7929252021814891,
+            "gain_db@fs_v1.1_t-40": 0.010199700460121875,
+            "gbw_mhz@fs_v1.1_t-40": 0.023955467148563437,
+            "pm_deg@fs_v1.1_t-40": 0.8219903692047248,
+            "gain_db@fs_v1.1_t27": 0.011365557343956705,
+            "gbw_mhz@fs_v1.1_t27": 0.03402826000864192,
+            "pm_deg@fs_v1.1_t27": 0.7890887737990768,
+            "gain_db@fs_v1.1_t85": 0.014390193379854999,
+            "gbw_mhz@fs_v1.1_t85": 0.0460060736458309,
+            "pm_deg@fs_v1.1_t85": 0.8239075370654986,
+            "gain_db@fs_v1_t-40": 0.011584112143624816,
+            "gbw_mhz@fs_v1_t-40": 0.029368448866257835,
+            "pm_deg@fs_v1_t-40": 0.7981954996675129,
+            "gain_db@fs_v1_t27": 0.013593721032200199,
+            "gbw_mhz@fs_v1_t27": 0.0439724808899237,
+            "pm_deg@fs_v1_t27": 0.7798776471294198,
+            "gain_db@fs_v1_t85": 0.018646329014612342,
+            "gbw_mhz@fs_v1_t85": 0.06413543542469916,
+            "pm_deg@fs_v1_t85": 0.8229780842486611,
+            "gain_db@sf_v0.9_t-40": 1.0000000000000002,
+            "pm_deg@sf_v0.9_t-40": 0.13175447612681368,
+            "gain_db@sf_v0.9_t27": 0.02692648618818057,
+            "pm_deg@sf_v0.9_t27": 0.2292415102107047,
+            "gain_db@sf_v0.9_t85": 0.03048941888617503,
+            "pm_deg@sf_v0.9_t85": 0.40717404215613473,
+            "gain_db@sf_v1.1_t-40": 0.009418649611561636,
+            "gbw_mhz@sf_v1.1_t-40": 0.03231856866098081,
+            "pm_deg@sf_v1.1_t-40": 0.8101845582832565,
+            "gain_db@sf_v1.1_t27": 0.010772946287993669,
+            "gbw_mhz@sf_v1.1_t27": 0.044600133333426294,
+            "pm_deg@sf_v1.1_t27": 0.8304341551804536,
+            "gain_db@sf_v1.1_t85": 0.012497195375401058,
+            "gbw_mhz@sf_v1.1_t85": 0.06429668974710577,
+            "pm_deg@sf_v1.1_t85": 0.9185149872119294,
+            "gain_db@sf_v1_t-40": 0.01153998354898253,
+            "pm_deg@sf_v1_t-40": 0.43304258198490386,
+            "gain_db@sf_v1_t27": 0.013702130237996444,
+            "gbw_mhz@sf_v1_t27": 0.15381573641278867,
+            "pm_deg@sf_v1_t27": 0.6708439163977271,
+            "gain_db@sf_v1_t85": 0.01683439309794609,
+            "gbw_mhz@sf_v1_t85": 0.37032950188465064,
+            "pm_deg@sf_v1_t85": 0.8329582754657673,
+            "gain_db@ss_v0.9_t-40": 0.012047202776873395,
+            "pm_deg@ss_v0.9_t-40": 0.16454671541031282,
+            "gain_db@ss_v0.9_t27": 0.009817693386964851,
+            "pm_deg@ss_v0.9_t27": 0.3213179017189153,
+            "gain_db@ss_v0.9_t85": 0.010019035642547325,
+            "pm_deg@ss_v0.9_t85": 0.5673824848269954,
+            "gain_db@ss_v1.1_t-40": 0.006932674646808526,
+            "gbw_mhz@ss_v1.1_t-40": 0.026566668074533045,
+            "pm_deg@ss_v1.1_t-40": 0.928006174710355,
+            "gain_db@ss_v1.1_t27": 0.006974221955361286,
+            "gbw_mhz@ss_v1.1_t27": 0.03789836652836105,
+            "pm_deg@ss_v1.1_t27": 0.9154360132480436,
+            "gain_db@ss_v1.1_t85": 0.0070956760364638705,
+            "gbw_mhz@ss_v1.1_t85": 0.0545244565678631,
+            "pm_deg@ss_v1.1_t85": 0.9999999999999998,
+            "gain_db@ss_v1_t-40": 0.0077390901301697575,
+            "gbw_mhz@ss_v1_t-40": 0.04415886238610746,
+            "pm_deg@ss_v1_t-40": 0.6331561079241699,
+            "gain_db@ss_v1_t27": 0.00789898836087598,
+            "gbw_mhz@ss_v1_t27": 0.06823467603161004,
+            "pm_deg@ss_v1_t27": 0.8008638259404652,
+            "gain_db@ss_v1_t85": 0.008128828498224445,
+            "gbw_mhz@ss_v1_t85": 0.12245134381775394,
+            "pm_deg@ss_v1_t85": 0.9383761685563585,
+            "gain_db@tt_v0.9_t-40": 0.013748048489543236,
+            "pm_deg@tt_v0.9_t-40": 0.2848867261761018,
+            "gain_db@tt_v0.9_t27": 0.0170862512227557,
+            "pm_deg@tt_v0.9_t27": 0.5278667268799594,
+            "gain_db@tt_v0.9_t85": 0.023701027117102445,
+            "pm_deg@tt_v0.9_t85": 0.7323858447010996,
+            "gain_db@tt_v1.1_t-40": 0.009311165042840996,
+            "gbw_mhz@tt_v1.1_t-40": 0.024508606329473943,
+            "pm_deg@tt_v1.1_t-40": 0.8730726302013068,
+            "gain_db@tt_v1.1_t27": 0.010337483609180487,
+            "gbw_mhz@tt_v1.1_t27": 0.03469038169388678,
+            "pm_deg@tt_v1.1_t27": 0.846526276641208,
+            "gain_db@tt_v1.1_t85": 0.011968356308781968,
+            "gbw_mhz@tt_v1.1_t85": 0.04896667815679685,
+            "pm_deg@tt_v1.1_t85": 0.9039518308426474,
+            "gain_db@tt_v1_t-40": 0.010734648188486805,
+            "gbw_mhz@tt_v1_t-40": 0.03385131004183775,
+            "pm_deg@tt_v1_t-40": 0.765339204255064,
+            "gain_db@tt_v1_t27": 0.012503428752362865,
+            "gbw_mhz@tt_v1_t27": 0.051384166923806984,
+            "pm_deg@tt_v1_t27": 0.8027422309987087,
+            "gain_db@tt_v1_t85": 0.01530076405671512,
+            "gbw_mhz@tt_v1_t85": 0.08406737478824486,
+            "pm_deg@tt_v1_t85": 0.882415050110251
+          },
+          "unsafe_checks": [],
+          "n_elements": 42,
+          "starved": [
+            "FirstStageYout1",
+            "FirstStageYout1~FirstStageYsourceTransconductance",
+            "FirstStageYout1~ibias",
+            "FirstStageYout1~in1",
+            "FirstStageYout1~out",
+            "FirstStageYout1~outFirstStage",
+            "FirstStageYsourceTransconductance",
+            "FirstStageYsourceTransconductance~in1",
+            "FirstStageYsourceTransconductance~in2",
+            "FirstStageYsourceTransconductance~out",
+            "FirstStageYsourceTransconductance~outFirstStage",
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+            "XDiodeTransistorPmos2.s",
+            "XNormalTransistorNmos3.d",
+            "XNormalTransistorNmos3.g",
+            "XNormalTransistorNmos3.s",
+            "XNormalTransistorPmos5.d",
+            "XNormalTransistorPmos5.g",
+            "XNormalTransistorPmos5.s",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+            "XNormalTransistorPmos8.d",
+            "XNormalTransistorPmos8.g",
+            "XNormalTransistorPmos8.s",
+            "ibias",
+            "ibias~in1",
+            "ibias~in2",
+            "ibias~out",
+            "ibias~outFirstStage",
+            "out",
+            "outFirstStage",
+            "outFirstStage~in1",
+            "outFirstStage~in2",
+            "out~in1",
+            "out~in2",
+            "out~outFirstStage"
+          ],
+          "below_floor": [
+            "FirstStageYout1",
+            "FirstStageYout1~FirstStageYsourceTransconductance",
+            "FirstStageYout1~in1",
+            "FirstStageYout1~outFirstStage",
+            "FirstStageYsourceTransconductance",
+            "FirstStageYsourceTransconductance~in1",
+            "FirstStageYsourceTransconductance~in2",
+            "FirstStageYsourceTransconductance~outFirstStage",
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+            "XDiodeTransistorPmos2.s",
+            "XNormalTransistorNmos3.d",
+            "XNormalTransistorNmos3.s",
+            "XNormalTransistorPmos5.d",
+            "XNormalTransistorPmos5.g",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+            "XNormalTransistorPmos8.d",
+            "XNormalTransistorPmos8.s",
+            "ibias",
+            "ibias~out",
+            "out",
+            "outFirstStage",
+            "outFirstStage~in2",
+            "out~outFirstStage"
+          ],
+          "min_ratio_to_need": 0.0009419841293572112,
+          "geo_mean_ratio_to_need": 0.008134666521557431,
+          "spice_worst_use_of_allowed": 0.9999999999994925,
+          "spice_specs_violated": [],
+          "spice_failed_runs": [],
+          "spice_checks": 21,
+          "outcome": "infeasible"
+        }
+      }
     },
     "G2.4_linear_all_budgets_at_once": {
       "pass": null,
       "note": "reported: first-order sum vs exact linear model with every budget inserted",
       "compare": {
         "gain_db": {
-          "first_order_use": 0.47970538260394724,
-          "linear_model_use": -0.31291412715351896
+          "first_order_use": 0.006251714376181622,
+          "linear_model_use": -1.0478086142621663
         },
         "gbw_mhz": {
-          "first_order_use": 1.1693500000000001,
-          "linear_model_use": 0.372274614735737
+          "first_order_use": 0.05932387612808302,
+          "linear_model_use": -0.12134666474436173
         },
         "pm_deg": {
-          "first_order_use": 2.6616500000000136,
-          "linear_model_use": 0.7278002184577446
+          "first_order_use": 2.1365465697247696,
+          "linear_model_use": 0.07136512124083083
         }
       }
     },
@@ -483,10 +3899,10 @@
       ]
     }
   },
-  "all_pass": true,
+  "all_pass": false,
   "provenance": {
-    "created": "2026-10-26T05:23:56+00:00",
-    "git_commit": "43f7d57f1a558f0d6ffe5585f29f43e27f23ef04",
+    "created": "2026-10-27T05:57:05+00:00",
+    "git_commit": "073f0df7ea5ad098120c19e92cd73f4a4a8f8ed4",
     "inputs": [
       {
         "path": "outputs/S0/loadbench_miller/circuit_ir.json",

@@ -64,30 +64,34 @@
     {
      "step": "cells",
      "rc": 0,
-     "seconds": 28.7,
+     "seconds": 5.8,
      "log": "runs/logs/flow/iadc_ota/S2_cells.log"
     },
     {
      "step": "run",
-     "rc": 0,
-     "seconds": 109.5,
+     "rc": 1,
+     "seconds": 4538.8,
      "log": "runs/logs/flow/iadc_ota/S2_run.log"
     }
    ],
-   "started": "2026-10-26T19:42:57",
+   "started": "2026-10-27T08:06:10",
    "gates": {
+    "G2.9_pvt_constraints (info)": null,
     "G2.0_expected_layout_use (info)": null,
-    "G2.7_library_floors_feasible": null,
+    "G2.7_library_floors_feasible": false,
     "G2.3_allocation": true,
     "G2.5_spice_budget_verification": true,
+    "G2.8_baselines (info)": null,
     "G2.4_linear_all_budgets_at_once": null,
     "G2.6_hierarchy_sums": true,
     "G2.1_names_resolve": true,
     "G2.2_units_and_provenance": true
    },
-   "status": "PASS",
-   "failed_gates": [],
-   "seconds": 138.2
+   "status": "FAIL",
+   "failed_gates": [
+    "G2.7_library_floors_feasible"
+   ],
+   "seconds": 4544.6
   },
   "S3": {
    "stage": "S3",
@@ -95,14 +99,26 @@
     {
      "step": "run",
      "rc": 1,
-     "seconds": 28.2,
+     "seconds": 41.9,
      "log": "runs/logs/flow/iadc_ota/S3_run.log"
     }
    ],
-   "started": "2026-10-26T19:45:15",
-   "status": "ERROR",
-   "reason": "no fresh report at outputs/S3/iadc_ota/s3_report.json",
-   "seconds": 28.3
+   "started": "2026-10-27T09:21:54",
+   "gates": {
+    "G3.4_option_table_complete": true,
+    "G3.7_modes (info)": null,
+    "G3.3_all_chosen_devices_in_circuit": false,
+    "G3.1_chosen_DRC": true,
+    "G3.2_chosen_LVS_W_L_nf": true,
+    "G3.5_no_relaxation": false,
+    "G3.6_model_has_no_gate_resistance": true
+   },
+   "status": "FAIL",
+   "failed_gates": [
+    "G3.3_all_chosen_devices_in_circuit",
+    "G3.5_no_relaxation"
+   ],
+   "seconds": 41.9
   }
  }
 }

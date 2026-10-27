@@ -1,0 +1,1330 @@
+{
+  "design": "ota5t_stress",
+  "mode": "A-bin",
+  "rules": "v2",
+  "relax_fallback": "least-bad",
+  "decisions": {
+    "pfet_01v8_W8_L1_m1": {
+      "devices": [
+        "XM3",
+        "XM4"
+      ],
+      "model": "sky130_fd_pr__pfet_01v8",
+      "W_um": 8.0,
+      "L_um": 1.0,
+      "chosen": {
+        "id": "nf1_gboth_sdfull",
+        "nf": 1,
+        "gate_contacts": "both",
+        "sd_cov": "full",
+        "outer": "D",
+        "magic": {
+          "topc": 1,
+          "botc": 1,
+          "diffcov": 100,
+          "viasrc": 100,
+          "viadrn": 100,
+          "guard": 1,
+          "conn_gates": 0
+        }
+      },
+      "cell": "pfet_01v8_W8_L1_m1__nf1_gboth_sdfull",
+      "gds": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull.gds",
+      "png": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull.png",
+      "reason": "no option met the allowance: the option whose worst check is broken least (largest min_slack, access R of d, g and s included) is kept and the type is flagged (relaxation; post-hoc fallback 'least-bad'); see budget_check for what does not fit",
+      "relaxed": true,
+      "area_um2": 30.162,
+      "bbox_um": [
+        2.96,
+        10.19
+      ],
+      "access_resistance_ohm": {
+        "d": 27.306785243741768,
+        "g": 72.45833333333333,
+        "s": 27.306785243741768
+      },
+      "budget_check": {
+        "capacitance": {
+          "gain_db": {
+            "used_harmful": 0.0,
+            "signed": -0.08269999999999911,
+            "allowed": 0.1375600876300457,
+            "ok": true,
+            "slack_frac_of_margin": 0.2851201752600914
+          },
+          "gbw_mhz": {
+            "used_harmful": 4.476999999999975,
+            "signed": 4.476999999999975,
+            "allowed": 9.973046404583707,
+            "ok": true,
+            "slack_frac_of_margin": 0.1570891895867227
+          },
+          "pm_deg": {
+            "used_harmful": 0.0,
+            "signed": -0.011799999999993815,
+            "allowed": 1.1582973584037053,
+            "ok": true,
+            "slack_frac_of_margin": 0.24165947168074106
+          },
+          "power_uw": {
+            "used_harmful": 0.005000000000023874,
+            "signed": 0.005000000000023874,
+            "allowed": 0.0,
+            "ok": true,
+            "slack_frac_of_margin": 0.009994099605735628
+          },
+          "vnoise_nv_rthz": {
+            "used_harmful": 0.2629999999999768,
+            "signed": 0.2629999999999768,
+            "allowed": 18.201129553808652,
+            "ok": true,
+            "slack_frac_of_margin": 0.3043765516904405
+          },
+          "sat_XM3": {
+            "used_harmful": 0.0,
+            "signed": -0.000952000000000286,
+            "allowed": 0.3144926670405666,
+            "ok": true,
+            "slack_frac_of_margin": 0.30982150150730947
+          },
+          "sat_XM4": {
+            "used_harmful": 0.0,
+            "signed": -0.000952000000000286,
+            "allowed": 0.3144926670405666,
+            "ok": true,
+            "slack_frac_of_margin": 0.30982150150730947
+          },
+          "sat_XM1": {
+            "used_harmful": 0.0,
+            "signed": -0.001521400000000006,
+            "allowed": 0.03879359379397652,
+            "ok": true,
+            "slack_frac_of_margin": 0.3082755121035012
+          },
+          "sat_XM2": {
+            "used_harmful": 0.0,
+            "signed": -0.001521400000000006,
+            "allowed": 0.03879359379397652,
+            "ok": true,
+            "slack_frac_of_margin": 0.3082755121035012
+          },
+          "sat_XM5": {
+            "used_harmful": 0.0,
+            "signed": -2.899999999997349e-05,
+            "allowed": 0.005624208358461738,
+            "ok": true,
+            "slack_frac_of_margin": 0.297418661000702
+          }
+        },
+        "resistance": {
+          "d": {
+            "group": "XM3+XM4.d",
+            "R_access_ohm": 27.306785243741768,
+            "allowed_ohm": 8.517991600321748,
+            "ok": false,
+            "remaining_for_routing_ohm": -18.78879364342002,
+            "slack_frac": -2.205777432641553
+          },
+          "g": {
+            "group": "XM3+XM4.g",
+            "R_access_ohm": 72.45833333333333,
+            "allowed_ohm": 20.110262955058946,
+            "ok": false,
+            "remaining_for_routing_ohm": -52.348070378274386,
+            "slack_frac": -2.6030525058403415
+          },
+          "s": {
+            "group": "XM3+XM4.s",
+            "R_access_ohm": 27.306785243741768,
+            "allowed_ohm": 8.517991600321748,
+            "ok": false,
+            "remaining_for_routing_ohm": -18.78879364342002,
+            "slack_frac": -2.205777432641553
+          }
+        }
+      },
+      "allowance_capacitance": {
+        "gbw_mhz": 9.973046404583707,
+        "pm_deg": 1.1582973584037053,
+        "gain_db": 0.1375600876300457,
+        "vnoise_nv_rthz": 18.201129553808652,
+        "sat_XM3": 0.3144926670405666,
+        "sat_XM4": 0.3144926670405666,
+        "sat_XM1": 0.03879359379397652,
+        "sat_XM2": 0.03879359379397652,
+        "sat_XM5": 0.005624208358461738,
+        "pm_deg@ff_v0.9_t-40": 27.65178,
+        "gain_db@ff_v1.1_t-40": 1.9099499999999996,
+        "gbw_mhz@ff_v1.1_t-40": 24.732720000000004,
+        "pm_deg@ff_v1.1_t-40": 0.9986099999999993,
+        "gain_db@ff_v1.1_t27": 1.4897999999999991,
+        "gbw_mhz@ff_v1.1_t27": 30.48732000000001,
+        "pm_deg@ff_v1.1_t27": 1.0736099999999993,
+        "gain_db@ff_v1.1_t85": 1.1697300000000002,
+        "gbw_mhz@ff_v1.1_t85": 28.153320000000004,
+        "pm_deg@ff_v1.1_t85": 1.1612699999999998,
+        "gain_db@ff_v1_t-40": 0.43280999999999953,
+        "gbw_mhz@ff_v1_t-40": 21.497820000000004,
+        "pm_deg@ff_v1_t-40": 1.317150000000001,
+        "gbw_mhz@ff_v1_t27": 24.64182000000001,
+        "pm_deg@ff_v1_t27": 1.6821300000000008,
+        "gbw_mhz@ff_v1_t85": 20.662920000000014,
+        "pm_deg@ff_v1_t85": 2.033189999999999,
+        "gain_db@fs_v0.9_t-40": 0.06945000000000015,
+        "pm_deg@fs_v0.9_t-40": 1.760279999999999,
+        "pm_deg@fs_v0.9_t27": 2.11746,
+        "pm_deg@fs_v0.9_t85": 2.592660000000001,
+        "gain_db@fs_v1.1_t-40": 2.466510000000001,
+        "pm_deg@fs_v1.1_t-40": 1.3242000000000005,
+        "gain_db@fs_v1.1_t27": 2.2618200000000015,
+        "pm_deg@fs_v1.1_t27": 1.2024299999999997,
+        "gain_db@fs_v1.1_t85": 2.03421,
+        "pm_deg@fs_v1.1_t85": 1.2073799999999977,
+        "gain_db@fs_v1_t-40": 1.8866100000000008,
+        "pm_deg@fs_v1_t-40": 1.4024100000000006,
+        "gain_db@fs_v1_t27": 1.5095100000000015,
+        "pm_deg@fs_v1_t27": 1.329929999999999,
+        "gain_db@fs_v1_t85": 1.1826000000000012,
+        "pm_deg@fs_v1_t85": 1.3725299999999976,
+        "gain_db@sf_v1.1_t-40": 1.3731600000000004,
+        "gbw_mhz@sf_v1.1_t-40": 36.62862000000001,
+        "pm_deg@sf_v1.1_t-40": 1.03311,
+        "gain_db@sf_v1.1_t27": 0.7454400000000011,
+        "gbw_mhz@sf_v1.1_t27": 38.03202000000001,
+        "pm_deg@sf_v1.1_t27": 1.2079199999999986,
+        "gain_db@sf_v1.1_t85": 0.31560000000000094,
+        "gbw_mhz@sf_v1.1_t85": 33.22902000000001,
+        "pm_deg@sf_v1.1_t85": 1.3622999999999992,
+        "gbw_mhz@sf_v1_t-40": 21.379020000000015,
+        "pm_deg@sf_v1_t-40": 2.743170000000001,
+        "gbw_mhz@sf_v1_t27": 6.633120000000009,
+        "pm_deg@sf_v1_t27": 6.237269999999999,
+        "pm_deg@sf_v1_t85": 8.73201,
+        "pm_deg@ss_v0.9_t-40": 4.954890000000001,
+        "pm_deg@ss_v0.9_t27": 12.164579999999999,
+        "pm_deg@ss_v0.9_t85": 15.488579999999999,
+        "gain_db@ss_v1.1_t-40": 2.2928100000000007,
+        "pm_deg@ss_v1.1_t-40": 1.2080099999999974,
+        "gain_db@ss_v1.1_t27": 1.9892700000000003,
+        "pm_deg@ss_v1.1_t27": 1.1654699999999985,
+        "gain_db@ss_v1.1_t85": 1.7114400000000007,
+        "gbw_mhz@ss_v1.1_t85": 2.3350200000000085,
+        "pm_deg@ss_v1.1_t85": 1.2069899999999976,
+        "gain_db@ss_v1_t-40": 1.3329900000000012,
+        "pm_deg@ss_v1_t-40": 1.3597800000000007,
+        "gain_db@ss_v1_t27": 0.6939900000000004,
+        "pm_deg@ss_v1_t27": 1.4333999999999973,
+        "gain_db@ss_v1_t85": 0.21866999999999984,
+        "pm_deg@ss_v1_t85": 1.5710699999999973,
+        "pm_deg@tt_v0.9_t-40": 11.649690000000001,
+        "pm_deg@tt_v0.9_t27": 24.004980000000003,
+        "pm_deg@tt_v0.9_t85": 27.219479999999994,
+        "gain_db@tt_v1.1_t-40": 2.1197399999999997,
+        "gbw_mhz@tt_v1.1_t-40": 5.134020000000004,
+        "pm_deg@tt_v1.1_t-40": 1.0877699999999983,
+        "gain_db@tt_v1.1_t27": 1.75707,
+        "gbw_mhz@tt_v1.1_t27": 14.796420000000012,
+        "pm_deg@tt_v1.1_t27": 1.1106599999999993,
+        "gain_db@tt_v1.1_t85": 1.45752,
+        "gbw_mhz@tt_v1.1_t85": 14.923320000000013,
+        "pm_deg@tt_v1.1_t85": 1.1756699999999982,
+        "gain_db@tt_v1_t-40": 0.9406200000000001,
+        "gbw_mhz@tt_v1_t-40": 3.164520000000005,
+        "pm_deg@tt_v1_t-40": 1.3035899999999985,
+        "gain_db@tt_v1_t27": 0.15,
+        "gbw_mhz@tt_v1_t27": 11.209620000000008,
+        "pm_deg@tt_v1_t27": 1.5,
+        "gbw_mhz@tt_v1_t85": 10.306020000000007,
+        "pm_deg@tt_v1_t85": 1.719929999999998
+      },
+      "allowance_resistance_margin": {
+        "gain_db": 0.020352300387255075,
+        "gbw_mhz": 0.15528235959588366,
+        "pm_deg": 0.011482134155420638,
+        "sat_XM3": 0.00029515392569871314,
+        "sat_XM4": 0.00029515392569871314,
+        "sat_XM1": 0.00037100532975138775,
+        "sat_XM2": 0.00037100532975138775,
+        "sat_XM5": 6.940674262282922e-06
+      },
+      "pex": {
+        "n_devices": 1,
+        "n_caps": 10,
+        "sum_caps_F": 7.66669e-15
+      },
+      "drc": {
+        "errors": 0,
+        "neg_control_flagged": true,
+        "pass": true,
+        "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull/drc/drc_report.txt"
+      },
+      "lvs": {
+        "match": true,
+        "neg_control_rejected": true,
+        "pass": true,
+        "pcell_instance": "pfet_01v8_W8_L1_m1__nf1_gboth_sdfull",
+        "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull/lvs/lvs/extracted.spice"
+      },
+      "device_model_change": {
+        "per_device": {
+          "XM3": {
+            "id_rel": 3.066855081645947e-05,
+            "gm_rel": 2.3752969121160206e-05,
+            "vth_shift_V": -0.00031999999999987594
+          },
+          "XM4": {
+            "id_rel": 3.066855081645947e-05,
+            "gm_rel": 2.3752969121160206e-05,
+            "vth_shift_V": -0.00031999999999987594
+          }
+        },
+        "note": "cell only, vs the sized netlist device; nf > 1 changes the SKY130 W bin"
+      },
+      "finger_in_sized_bin": true,
+      "vs_default": {
+        "default_cell": "pfet_01v8_W8_L1_m1__nf1_gboth_sdfull",
+        "default_area_um2": 30.162,
+        "default_feasible": false,
+        "default_budget_check": {
+          "capacitance": {
+            "gain_db": {
+              "used_harmful": 0.0,
+              "signed": -0.08269999999999911,
+              "allowed": 0.1375600876300457,
+              "ok": true,
+              "slack_frac_of_margin": 0.2851201752600914
+            },
+            "gbw_mhz": {
+              "used_harmful": 4.476999999999975,
+              "signed": 4.476999999999975,
+              "allowed": 9.973046404583707,
+              "ok": true,
+              "slack_frac_of_margin": 0.1570891895867227
+            },
+            "pm_deg": {
+              "used_harmful": 0.0,
+              "signed": -0.011799999999993815,
+              "allowed": 1.1582973584037053,
+              "ok": true,
+              "slack_frac_of_margin": 0.24165947168074106
+            },
+            "power_uw": {
+              "used_harmful": 0.005000000000023874,
+              "signed": 0.005000000000023874,
+              "allowed": 0.0,
+              "ok": true,
+              "slack_frac_of_margin": 0.009994099605735628
+            },
+            "vnoise_nv_rthz": {
+              "used_harmful": 0.2629999999999768,
+              "signed": 0.2629999999999768,
+              "allowed": 18.201129553808652,
+              "ok": true,
+              "slack_frac_of_margin": 0.3043765516904405
+            },
+            "sat_XM3": {
+              "used_harmful": 0.0,
+              "signed": -0.000952000000000286,
+              "allowed": 0.3144926670405666,
+              "ok": true,
+              "slack_frac_of_margin": 0.30982150150730947
+            },
+            "sat_XM4": {
+              "used_harmful": 0.0,
+              "signed": -0.000952000000000286,
+              "allowed": 0.3144926670405666,
+              "ok": true,
+              "slack_frac_of_margin": 0.30982150150730947
+            },
+            "sat_XM1": {
+              "used_harmful": 0.0,
+              "signed": -0.001521400000000006,
+              "allowed": 0.03879359379397652,
+              "ok": true,
+              "slack_frac_of_margin": 0.3082755121035012
+            },
+            "sat_XM2": {
+              "used_harmful": 0.0,
+              "signed": -0.001521400000000006,
+              "allowed": 0.03879359379397652,
+              "ok": true,
+              "slack_frac_of_margin": 0.3082755121035012
+            },
+            "sat_XM5": {
+              "used_harmful": 0.0,
+              "signed": -2.899999999997349e-05,
+              "allowed": 0.005624208358461738,
+              "ok": true,
+              "slack_frac_of_margin": 0.297418661000702
+            }
+          },
+          "resistance": {
+            "d": {
+              "group": "XM3+XM4.d",
+              "R_access_ohm": 27.306785243741768,
+              "allowed_ohm": 8.517991600321748,
+              "ok": false,
+              "remaining_for_routing_ohm": -18.78879364342002,
+              "slack_frac": -2.205777432641553
+            },
+            "g": {
+              "group": "XM3+XM4.g",
+              "R_access_ohm": 72.45833333333333,
+              "allowed_ohm": 20.110262955058946,
+              "ok": false,
+              "remaining_for_routing_ohm": -52.348070378274386,
+              "slack_frac": -2.6030525058403415
+            },
+            "s": {
+              "group": "XM3+XM4.s",
+              "R_access_ohm": 27.306785243741768,
+              "allowed_ohm": 8.517991600321748,
+              "ok": false,
+              "remaining_for_routing_ohm": -18.78879364342002,
+              "slack_frac": -2.205777432641553
+            }
+          }
+        },
+        "default_access_resistance_ohm": {
+          "d": 27.306785243741768,
+          "g": 72.45833333333333,
+          "s": 27.306785243741768
+        },
+        "magic_extresist_cross_check": {
+          "largest_resistor_on_net_ohm": {
+            "G": null,
+            "D": null,
+            "S": null
+          },
+          "file": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull/rx/rx.spice",
+          "note": "Magic lumps each net to a point; None = net below extresist tolerance"
+        }
+      },
+      "n_options": 4,
+      "n_feasible": 0
+    },
+    "nfet_01v8_W24_L0p5_m1": {
+      "devices": [
+        "XM1",
+        "XM2"
+      ],
+      "model": "sky130_fd_pr__nfet_01v8",
+      "W_um": 24.0,
+      "L_um": 0.5,
+      "chosen": {
+        "id": "nf2_gboth_sdfull_outS",
+        "nf": 2,
+        "gate_contacts": "both",
+        "sd_cov": "full",
+        "outer": "S",
+        "magic": {
+          "topc": 1,
+          "botc": 1,
+          "diffcov": 100,
+          "viasrc": 100,
+          "viadrn": 100,
+          "guard": 1,
+          "conn_gates": 1
+        }
+      },
+      "cell": "nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS",
+      "gds": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS/nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS.gds",
+      "png": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS/nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS.png",
+      "reason": "no option met the allowance: the option whose worst check is broken least (largest min_slack, access R of d, g and s included) is kept and the type is flagged (relaxation; post-hoc fallback 'least-bad'); see budget_check for what does not fit",
+      "relaxed": true,
+      "area_um2": 43.929,
+      "bbox_um": [
+        3.14,
+        13.99
+      ],
+      "access_resistance_ohm": {
+        "d": 11.990609390609391,
+        "g": 88.52500000000002,
+        "s": 5.995304695304695
+      },
+      "budget_check": {
+        "capacitance": {
+          "gain_db": {
+            "used_harmful": 0.0,
+            "signed": -0.02120000000000033,
+            "allowed": 0.1375600876300457,
+            "ok": true,
+            "slack_frac_of_margin": 0.2851201752600914
+          },
+          "gbw_mhz": {
+            "used_harmful": 0.0,
+            "signed": -6.3659999999999854,
+            "allowed": 9.698351725868074,
+            "ok": true,
+            "slack_frac_of_margin": 0.26955433973323095
+          },
+          "pm_deg": {
+            "used_harmful": 0.39570000000000505,
+            "signed": 0.39570000000000505,
+            "allowed": 1.3467915359477967,
+            "ok": true,
+            "slack_frac_of_margin": 0.20021830718955833
+          },
+          "power_uw": {
+            "used_harmful": 0.0,
+            "signed": -0.027999999999991587,
+            "allowed": 0.0,
+            "ok": true,
+            "slack_frac_of_margin": 0.010000000000000002
+          },
+          "vnoise_nv_rthz": {
+            "used_harmful": 0.27899999999999636,
+            "signed": 0.27899999999999636,
+            "allowed": 18.201129553808652,
+            "ok": true,
+            "slack_frac_of_margin": 0.3041139811246006
+          },
+          "sat_XM3": {
+            "used_harmful": 9.999999999843467e-06,
+            "signed": 9.999999999843467e-06,
+            "allowed": 0.3144926670405666,
+            "ok": true,
+            "slack_frac_of_margin": 0.3098119680099366
+          },
+          "sat_XM4": {
+            "used_harmful": 9.999999999843467e-06,
+            "signed": 9.999999999843467e-06,
+            "allowed": 0.3144926670405666,
+            "ok": true,
+            "slack_frac_of_margin": 0.3098119680099366
+          },
+          "sat_XM1": {
+            "used_harmful": 0.0,
+            "signed": -0.00040200000000001346,
+            "allowed": 0.03879359379397652,
+            "ok": true,
+            "slack_frac_of_margin": 0.3082755121035012
+          },
+          "sat_XM2": {
+            "used_harmful": 0.0,
+            "signed": -0.00040200000000001346,
+            "allowed": 0.03879359379397652,
+            "ok": true,
+            "slack_frac_of_margin": 0.3082755121035012
+          },
+          "sat_XM5": {
+            "used_harmful": 0.00017500000000000848,
+            "signed": 0.00017500000000000848,
+            "allowed": 0.005624208358461738,
+            "ok": true,
+            "slack_frac_of_margin": 0.28847548847412763
+          }
+        },
+        "resistance": {
+          "d": {
+            "group": "XM1+XM2.d",
+            "R_access_ohm": 11.990609390609391,
+            "allowed_ohm": 5.303014316331735,
+            "ok": false,
+            "remaining_for_routing_ohm": -6.687595074277656,
+            "slack_frac": -1.26109315859884
+          },
+          "g": {
+            "group": "XM1+XM2.g",
+            "R_access_ohm": 88.52500000000002,
+            "allowed_ohm": 73.45417101743674,
+            "ok": false,
+            "remaining_for_routing_ohm": -15.070828982563285,
+            "slack_frac": -0.20517322262047902
+          },
+          "s": {
+            "group": "XM1+XM2.s",
+            "R_access_ohm": 5.995304695304695,
+            "allowed_ohm": 5.303014316331735,
+            "ok": false,
+            "remaining_for_routing_ohm": -0.6922903789729595,
+            "slack_frac": -0.13054657929941985
+          }
+        }
+      },
+      "allowance_capacitance": {
+        "gbw_mhz": 9.698351725868074,
+        "pm_deg": 1.3467915359477967,
+        "gain_db": 0.1375600876300457,
+        "vnoise_nv_rthz": 18.201129553808652,
+        "sat_XM3": 0.3144926670405666,
+        "sat_XM4": 0.3144926670405666,
+        "sat_XM1": 0.03879359379397652,
+        "sat_XM2": 0.03879359379397652,
+        "sat_XM5": 0.005624208358461738,
+        "pm_deg@ff_v0.9_t-40": 27.65178,
+        "gain_db@ff_v1.1_t-40": 1.9099499999999996,
+        "gbw_mhz@ff_v1.1_t-40": 24.732720000000004,
+        "pm_deg@ff_v1.1_t-40": 0.9986099999999993,
+        "gain_db@ff_v1.1_t27": 1.4897999999999991,
+        "gbw_mhz@ff_v1.1_t27": 30.48732000000001,
+        "pm_deg@ff_v1.1_t27": 1.0736099999999993,
+        "gain_db@ff_v1.1_t85": 1.1697300000000002,
+        "gbw_mhz@ff_v1.1_t85": 28.153320000000004,
+        "pm_deg@ff_v1.1_t85": 1.1612699999999998,
+        "gain_db@ff_v1_t-40": 0.43280999999999953,
+        "gbw_mhz@ff_v1_t-40": 21.497820000000004,
+        "pm_deg@ff_v1_t-40": 1.317150000000001,
+        "gbw_mhz@ff_v1_t27": 24.64182000000001,
+        "pm_deg@ff_v1_t27": 1.6821300000000008,
+        "gbw_mhz@ff_v1_t85": 20.662920000000014,
+        "pm_deg@ff_v1_t85": 2.033189999999999,
+        "gain_db@fs_v0.9_t-40": 0.06945000000000015,
+        "pm_deg@fs_v0.9_t-40": 1.760279999999999,
+        "pm_deg@fs_v0.9_t27": 2.11746,
+        "pm_deg@fs_v0.9_t85": 2.592660000000001,
+        "gain_db@fs_v1.1_t-40": 2.466510000000001,
+        "pm_deg@fs_v1.1_t-40": 1.3242000000000005,
+        "gain_db@fs_v1.1_t27": 2.2618200000000015,
+        "pm_deg@fs_v1.1_t27": 1.2024299999999997,
+        "gain_db@fs_v1.1_t85": 2.03421,
+        "pm_deg@fs_v1.1_t85": 1.2073799999999977,
+        "gain_db@fs_v1_t-40": 1.8866100000000008,
+        "pm_deg@fs_v1_t-40": 1.4024100000000006,
+        "gain_db@fs_v1_t27": 1.5095100000000015,
+        "pm_deg@fs_v1_t27": 1.329929999999999,
+        "gain_db@fs_v1_t85": 1.1826000000000012,
+        "pm_deg@fs_v1_t85": 1.3725299999999976,
+        "gain_db@sf_v1.1_t-40": 1.3731600000000004,
+        "gbw_mhz@sf_v1.1_t-40": 36.62862000000001,
+        "pm_deg@sf_v1.1_t-40": 1.03311,
+        "gain_db@sf_v1.1_t27": 0.7454400000000011,
+        "gbw_mhz@sf_v1.1_t27": 38.03202000000001,
+        "pm_deg@sf_v1.1_t27": 1.2079199999999986,
+        "gain_db@sf_v1.1_t85": 0.31560000000000094,
+        "gbw_mhz@sf_v1.1_t85": 33.22902000000001,
+        "pm_deg@sf_v1.1_t85": 1.3622999999999992,
+        "gbw_mhz@sf_v1_t-40": 21.379020000000015,
+        "pm_deg@sf_v1_t-40": 2.743170000000001,
+        "gbw_mhz@sf_v1_t27": 6.633120000000009,
+        "pm_deg@sf_v1_t27": 6.237269999999999,
+        "pm_deg@sf_v1_t85": 8.73201,
+        "pm_deg@ss_v0.9_t-40": 4.954890000000001,
+        "pm_deg@ss_v0.9_t27": 12.164579999999999,
+        "pm_deg@ss_v0.9_t85": 15.488579999999999,
+        "gain_db@ss_v1.1_t-40": 2.2928100000000007,
+        "pm_deg@ss_v1.1_t-40": 1.2080099999999974,
+        "gain_db@ss_v1.1_t27": 1.9892700000000003,
+        "pm_deg@ss_v1.1_t27": 1.1654699999999985,
+        "gain_db@ss_v1.1_t85": 1.7114400000000007,
+        "gbw_mhz@ss_v1.1_t85": 2.3350200000000085,
+        "pm_deg@ss_v1.1_t85": 1.2069899999999976,
+        "gain_db@ss_v1_t-40": 1.3329900000000012,
+        "pm_deg@ss_v1_t-40": 1.3597800000000007,
+        "gain_db@ss_v1_t27": 0.6939900000000004,
+        "pm_deg@ss_v1_t27": 1.4333999999999973,
+        "gain_db@ss_v1_t85": 0.21866999999999984,
+        "pm_deg@ss_v1_t85": 1.5710699999999973,
+        "pm_deg@tt_v0.9_t-40": 11.649690000000001,
+        "pm_deg@tt_v0.9_t27": 24.004980000000003,
+        "pm_deg@tt_v0.9_t85": 27.219479999999994,
+        "gain_db@tt_v1.1_t-40": 2.1197399999999997,
+        "gbw_mhz@tt_v1.1_t-40": 5.134020000000004,
+        "pm_deg@tt_v1.1_t-40": 1.0877699999999983,
+        "gain_db@tt_v1.1_t27": 1.75707,
+        "gbw_mhz@tt_v1.1_t27": 14.796420000000012,
+        "pm_deg@tt_v1.1_t27": 1.1106599999999993,
+        "gain_db@tt_v1.1_t85": 1.45752,
+        "gbw_mhz@tt_v1.1_t85": 14.923320000000013,
+        "pm_deg@tt_v1.1_t85": 1.1756699999999982,
+        "gain_db@tt_v1_t-40": 0.9406200000000001,
+        "gbw_mhz@tt_v1_t-40": 3.164520000000005,
+        "pm_deg@tt_v1_t-40": 1.3035899999999985,
+        "gain_db@tt_v1_t27": 0.15,
+        "gbw_mhz@tt_v1_t27": 11.209620000000008,
+        "pm_deg@tt_v1_t27": 1.5,
+        "gbw_mhz@tt_v1_t85": 10.306020000000007,
+        "pm_deg@tt_v1_t85": 1.719929999999998
+      },
+      "allowance_resistance_margin": {
+        "gain_db": 0.004879068526740339,
+        "gbw_mhz": 1.1376792880404345,
+        "pm_deg": 0.67698865231116,
+        "sat_XM1": 8.605509767704868e-05,
+        "sat_XM2": 8.605509767704868e-05,
+        "sat_XM5": 8.412257969457428e-05,
+        "vnoise_nv_rthz": 0.04102539192772958,
+        "sat_XM3": 3.1283983288936374e-06,
+        "sat_XM4": 3.1283983288936374e-06
+      },
+      "pex": {
+        "n_devices": 2,
+        "n_caps": 6,
+        "sum_caps_F": 6.03102e-15
+      },
+      "drc": {
+        "errors": 0,
+        "neg_control_flagged": true,
+        "pass": true,
+        "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS/drc/drc_report.txt"
+      },
+      "lvs": {
+        "match": true,
+        "neg_control_rejected": true,
+        "pass": true,
+        "pcell_instance": "nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS",
+        "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS/lvs/lvs/extracted.spice"
+      },
+      "device_model_change": {
+        "per_device": {
+          "XM1": {
+            "id_rel": -0.0001816521856061737,
+            "gm_rel": -0.000507740991714356,
+            "vth_shift_V": 0.00020699999999995722
+          },
+          "XM2": {
+            "id_rel": -0.0001816521856061737,
+            "gm_rel": -0.000507740991714356,
+            "vth_shift_V": 0.00020699999999995722
+          }
+        },
+        "note": "cell only, vs the sized netlist device; nf > 1 changes the SKY130 W bin"
+      },
+      "finger_in_sized_bin": true,
+      "vs_default": {
+        "default_cell": "nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull",
+        "default_area_um2": 61.077,
+        "default_feasible": false,
+        "default_budget_check": {
+          "capacitance": {
+            "gain_db": {
+              "used_harmful": 0.0,
+              "signed": -0.006299999999999528,
+              "allowed": 0.1375600876300457,
+              "ok": true,
+              "slack_frac_of_margin": 0.2851201752600914
+            },
+            "gbw_mhz": {
+              "used_harmful": 6.648000000000025,
+              "signed": 6.648000000000025,
+              "allowed": 9.698351725868074,
+              "ok": true,
+              "slack_frac_of_margin": 0.0916357305386279
+            },
+            "pm_deg": {
+              "used_harmful": 0.08830000000000382,
+              "signed": 0.08830000000000382,
+              "allowed": 1.3467915359477967,
+              "ok": true,
+              "slack_frac_of_margin": 0.26169830718955855
+            },
+            "power_uw": {
+              "used_harmful": 0.019000000000005457,
+              "signed": 0.019000000000005457,
+              "allowed": 0.0,
+              "ok": true,
+              "slack_frac_of_margin": 0.009977578501795484
+            },
+            "vnoise_nv_rthz": {
+              "used_harmful": 0.0,
+              "signed": -0.04200000000003001,
+              "allowed": 18.201129553808652,
+              "ok": true,
+              "slack_frac_of_margin": 0.30869255536642803
+            },
+            "sat_XM3": {
+              "used_harmful": 0.0,
+              "signed": -2.220446049250313e-16,
+              "allowed": 0.3144926670405666,
+              "ok": true,
+              "slack_frac_of_margin": 0.30982150150730947
+            },
+            "sat_XM4": {
+              "used_harmful": 0.0,
+              "signed": -2.220446049250313e-16,
+              "allowed": 0.3144926670405666,
+              "ok": true,
+              "slack_frac_of_margin": 0.30982150150730947
+            },
+            "sat_XM1": {
+              "used_harmful": 0.0,
+              "signed": -9.5600000000029e-05,
+              "allowed": 0.03879359379397652,
+              "ok": true,
+              "slack_frac_of_margin": 0.3082755121035012
+            },
+            "sat_XM2": {
+              "used_harmful": 0.0,
+              "signed": -9.5600000000029e-05,
+              "allowed": 0.03879359379397652,
+              "ok": true,
+              "slack_frac_of_margin": 0.3082755121035012
+            },
+            "sat_XM5": {
+              "used_harmful": 0.0,
+              "signed": -0.00011499999999997623,
+              "allowed": 0.005624208358461738,
+              "ok": true,
+              "slack_frac_of_margin": 0.297418661000702
+            }
+          },
+          "resistance": {
+            "d": {
+              "group": "XM1+XM2.d",
+              "R_access_ohm": 7.1315923207227545,
+              "allowed_ohm": 5.303014316331735,
+              "ok": false,
+              "remaining_for_routing_ohm": -1.8285780043910194,
+              "slack_frac": -0.34481860604440256
+            },
+            "g": {
+              "group": "XM1+XM2.g",
+              "R_access_ohm": 273.45000000000005,
+              "allowed_ohm": 73.45417101743674,
+              "ok": false,
+              "remaining_for_routing_ohm": -199.9958289825633,
+              "slack_frac": -2.7227293727824904
+            },
+            "s": {
+              "group": "XM1+XM2.s",
+              "R_access_ohm": 7.131592320722755,
+              "allowed_ohm": 5.303014316331735,
+              "ok": false,
+              "remaining_for_routing_ohm": -1.8285780043910203,
+              "slack_frac": -0.34481860604440273
+            }
+          }
+        },
+        "default_access_resistance_ohm": {
+          "d": 7.1315923207227545,
+          "g": 273.45000000000005,
+          "s": 7.131592320722755
+        },
+        "magic_extresist_cross_check": {
+          "largest_resistor_on_net_ohm": {
+            "G": null,
+            "D": null,
+            "S": null
+          },
+          "file": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/rx/rx.spice",
+          "note": "Magic lumps each net to a point; None = net below extresist tolerance"
+        }
+      },
+      "n_options": 12,
+      "n_feasible": 0
+    },
+    "nfet_01v8_W24_L1_m1": {
+      "devices": [
+        "XM5"
+      ],
+      "model": "sky130_fd_pr__nfet_01v8",
+      "W_um": 24.0,
+      "L_um": 1.0,
+      "chosen": {
+        "id": "nf2_gboth_sdfull_outS",
+        "nf": 2,
+        "gate_contacts": "both",
+        "sd_cov": "full",
+        "outer": "S",
+        "magic": {
+          "topc": 1,
+          "botc": 1,
+          "diffcov": 100,
+          "viasrc": 100,
+          "viadrn": 100,
+          "guard": 1,
+          "conn_gates": 1
+        }
+      },
+      "cell": "nfet_01v8_W24_L1_m1__nf2_gboth_sdfull_outS",
+      "gds": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gboth_sdfull_outS/nfet_01v8_W24_L1_m1__nf2_gboth_sdfull_outS.gds",
+      "png": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gboth_sdfull_outS/nfet_01v8_W24_L1_m1__nf2_gboth_sdfull_outS.png",
+      "reason": "no option met the allowance: the option whose worst check is broken least (largest min_slack, access R of d, g and s included) is kept and the type is flagged (relaxation; post-hoc fallback 'least-bad'); see budget_check for what does not fit",
+      "relaxed": true,
+      "area_um2": 57.919,
+      "bbox_um": [
+        4.14,
+        13.99
+      ],
+      "access_resistance_ohm": {
+        "d": 11.990609390609391,
+        "g": 44.26250000000001,
+        "s": 5.995304695304695
+      },
+      "budget_check": {
+        "capacitance": {
+          "gain_db": {
+            "used_harmful": 0.0,
+            "signed": -0.01389999999999958,
+            "allowed": 0.1375600876300457,
+            "ok": true,
+            "slack_frac_of_margin": 0.2851201752600914
+          },
+          "gbw_mhz": {
+            "used_harmful": 0.24799999999999045,
+            "signed": 0.24799999999999045,
+            "allowed": 8.633389027100895,
+            "ok": true,
+            "slack_frac_of_margin": 0.23441587744546827
+          },
+          "pm_deg": {
+            "used_harmful": 0.006000000000000227,
+            "signed": 0.006000000000000227,
+            "allowed": 1.1520722567738388,
+            "ok": true,
+            "slack_frac_of_margin": 0.23921445135476774
+          },
+          "power_uw": {
+            "used_harmful": 0.0,
+            "signed": -0.1769999999999925,
+            "allowed": 0.0,
+            "ok": true,
+            "slack_frac_of_margin": 0.010000000000000002
+          },
+          "vnoise_nv_rthz": {
+            "used_harmful": 0.022999999999967713,
+            "signed": 0.022999999999967713,
+            "allowed": 18.201129553808652,
+            "ok": true,
+            "slack_frac_of_margin": 0.30831511017803415
+          },
+          "sat_XM3": {
+            "used_harmful": 3.6999999999842714e-05,
+            "signed": 3.6999999999842714e-05,
+            "allowed": 0.3144926670405666,
+            "ok": true,
+            "slack_frac_of_margin": 0.3097862275670294
+          },
+          "sat_XM4": {
+            "used_harmful": 3.6999999999842714e-05,
+            "signed": 3.6999999999842714e-05,
+            "allowed": 0.3144926670405666,
+            "ok": true,
+            "slack_frac_of_margin": 0.3097862275670294
+          },
+          "sat_XM1": {
+            "used_harmful": 0.0,
+            "signed": -0.00021460000000000923,
+            "allowed": 0.03879359379397652,
+            "ok": true,
+            "slack_frac_of_margin": 0.3082755121035012
+          },
+          "sat_XM2": {
+            "used_harmful": 0.0,
+            "signed": -0.00021460000000000923,
+            "allowed": 0.03879359379397652,
+            "ok": true,
+            "slack_frac_of_margin": 0.3082755121035012
+          },
+          "sat_XM5": {
+            "used_harmful": 0.0,
+            "signed": -0.0005229999999999957,
+            "allowed": 0.005624208358461738,
+            "ok": true,
+            "slack_frac_of_margin": 0.297418661000702
+          }
+        },
+        "resistance": {
+          "d": {
+            "group": "XM5.d",
+            "R_access_ohm": 11.990609390609391,
+            "allowed_ohm": 5.995304695304695,
+            "ok": false,
+            "remaining_for_routing_ohm": -5.60657819670901,
+            "slack_frac": -1.0000000000000002
+          },
+          "g": {
+            "group": "XM5.g",
+            "R_access_ohm": 44.26250000000001,
+            "allowed_ohm": 14.66992958775665,
+            "ok": false,
+            "remaining_for_routing_ohm": -29.59257041224336,
+            "slack_frac": -2.0172264791878054
+          },
+          "s": {
+            "group": "XM5.s",
+            "R_access_ohm": 5.995304695304695,
+            "allowed_ohm": 4.84478831468838,
+            "ok": false,
+            "remaining_for_routing_ohm": -1.150516380616315,
+            "slack_frac": -0.2374750568829171
+          }
+        }
+      },
+      "allowance_capacitance": {
+        "gbw_mhz": 8.633389027100895,
+        "gain_db": 0.1375600876300457,
+        "pm_deg": 1.1520722567738388,
+        "vnoise_nv_rthz": 18.201129553808652,
+        "sat_XM3": 0.3144926670405666,
+        "sat_XM4": 0.3144926670405666,
+        "sat_XM1": 0.03879359379397652,
+        "sat_XM2": 0.03879359379397652,
+        "sat_XM5": 0.005624208358461738,
+        "pm_deg@ff_v0.9_t-40": 27.65178,
+        "gain_db@ff_v1.1_t-40": 1.9099499999999996,
+        "gbw_mhz@ff_v1.1_t-40": 24.732720000000004,
+        "pm_deg@ff_v1.1_t-40": 0.9986099999999993,
+        "gain_db@ff_v1.1_t27": 1.4897999999999991,
+        "gbw_mhz@ff_v1.1_t27": 30.48732000000001,
+        "pm_deg@ff_v1.1_t27": 1.0736099999999993,
+        "gain_db@ff_v1.1_t85": 1.1697300000000002,
+        "gbw_mhz@ff_v1.1_t85": 28.153320000000004,
+        "pm_deg@ff_v1.1_t85": 1.1612699999999998,
+        "gain_db@ff_v1_t-40": 0.43280999999999953,
+        "gbw_mhz@ff_v1_t-40": 21.497820000000004,
+        "pm_deg@ff_v1_t-40": 1.317150000000001,
+        "gbw_mhz@ff_v1_t27": 24.64182000000001,
+        "pm_deg@ff_v1_t27": 1.6821300000000008,
+        "gbw_mhz@ff_v1_t85": 20.662920000000014,
+        "pm_deg@ff_v1_t85": 2.033189999999999,
+        "gain_db@fs_v0.9_t-40": 0.06945000000000015,
+        "pm_deg@fs_v0.9_t-40": 1.760279999999999,
+        "pm_deg@fs_v0.9_t27": 2.11746,
+        "pm_deg@fs_v0.9_t85": 2.592660000000001,
+        "gain_db@fs_v1.1_t-40": 2.466510000000001,
+        "pm_deg@fs_v1.1_t-40": 1.3242000000000005,
+        "gain_db@fs_v1.1_t27": 2.2618200000000015,
+        "pm_deg@fs_v1.1_t27": 1.2024299999999997,
+        "gain_db@fs_v1.1_t85": 2.03421,
+        "pm_deg@fs_v1.1_t85": 1.2073799999999977,
+        "gain_db@fs_v1_t-40": 1.8866100000000008,
+        "pm_deg@fs_v1_t-40": 1.4024100000000006,
+        "gain_db@fs_v1_t27": 1.5095100000000015,
+        "pm_deg@fs_v1_t27": 1.329929999999999,
+        "gain_db@fs_v1_t85": 1.1826000000000012,
+        "pm_deg@fs_v1_t85": 1.3725299999999976,
+        "gain_db@sf_v1.1_t-40": 1.3731600000000004,
+        "gbw_mhz@sf_v1.1_t-40": 36.62862000000001,
+        "pm_deg@sf_v1.1_t-40": 1.03311,
+        "gain_db@sf_v1.1_t27": 0.7454400000000011,
+        "gbw_mhz@sf_v1.1_t27": 38.03202000000001,
+        "pm_deg@sf_v1.1_t27": 1.2079199999999986,
+        "gain_db@sf_v1.1_t85": 0.31560000000000094,
+        "gbw_mhz@sf_v1.1_t85": 33.22902000000001,
+        "pm_deg@sf_v1.1_t85": 1.3622999999999992,
+        "gbw_mhz@sf_v1_t-40": 21.379020000000015,
+        "pm_deg@sf_v1_t-40": 2.743170000000001,
+        "gbw_mhz@sf_v1_t27": 6.633120000000009,
+        "pm_deg@sf_v1_t27": 6.237269999999999,
+        "pm_deg@sf_v1_t85": 8.73201,
+        "pm_deg@ss_v0.9_t-40": 4.954890000000001,
+        "pm_deg@ss_v0.9_t27": 12.164579999999999,
+        "pm_deg@ss_v0.9_t85": 15.488579999999999,
+        "gain_db@ss_v1.1_t-40": 2.2928100000000007,
+        "pm_deg@ss_v1.1_t-40": 1.2080099999999974,
+        "gain_db@ss_v1.1_t27": 1.9892700000000003,
+        "pm_deg@ss_v1.1_t27": 1.1654699999999985,
+        "gain_db@ss_v1.1_t85": 1.7114400000000007,
+        "gbw_mhz@ss_v1.1_t85": 2.3350200000000085,
+        "pm_deg@ss_v1.1_t85": 1.2069899999999976,
+        "gain_db@ss_v1_t-40": 1.3329900000000012,
+        "pm_deg@ss_v1_t-40": 1.3597800000000007,
+        "gain_db@ss_v1_t27": 0.6939900000000004,
+        "pm_deg@ss_v1_t27": 1.4333999999999973,
+        "gain_db@ss_v1_t85": 0.21866999999999984,
+        "pm_deg@ss_v1_t85": 1.5710699999999973,
+        "pm_deg@tt_v0.9_t-40": 11.649690000000001,
+        "pm_deg@tt_v0.9_t27": 24.004980000000003,
+        "pm_deg@tt_v0.9_t85": 27.219479999999994,
+        "gain_db@tt_v1.1_t-40": 2.1197399999999997,
+        "gbw_mhz@tt_v1.1_t-40": 5.134020000000004,
+        "pm_deg@tt_v1.1_t-40": 1.0877699999999983,
+        "gain_db@tt_v1.1_t27": 1.75707,
+        "gbw_mhz@tt_v1.1_t27": 14.796420000000012,
+        "pm_deg@tt_v1.1_t27": 1.1106599999999993,
+        "gain_db@tt_v1.1_t85": 1.45752,
+        "gbw_mhz@tt_v1.1_t85": 14.923320000000013,
+        "pm_deg@tt_v1.1_t85": 1.1756699999999982,
+        "gain_db@tt_v1_t-40": 0.9406200000000001,
+        "gbw_mhz@tt_v1_t-40": 3.164520000000005,
+        "pm_deg@tt_v1_t-40": 1.3035899999999985,
+        "gain_db@tt_v1_t27": 0.15,
+        "gbw_mhz@tt_v1_t27": 11.209620000000008,
+        "pm_deg@tt_v1_t27": 1.5,
+        "gbw_mhz@tt_v1_t85": 10.306020000000007,
+        "pm_deg@tt_v1_t85": 1.719929999999998
+      },
+      "allowance_resistance_margin": {
+        "gbw_mhz": 0.4311175370175102,
+        "pm_deg": 0.00490518224532883,
+        "vnoise_nv_rthz": 0.04717009803344757,
+        "sat_XM3": 6.500222678911906e-05,
+        "sat_XM4": 6.500222678911906e-05,
+        "sat_XM5": 0.00024739481176135313
+      },
+      "pex": {
+        "n_devices": 2,
+        "n_caps": 6,
+        "sum_caps_F": 7.114e-15
+      },
+      "drc": {
+        "errors": 0,
+        "neg_control_flagged": true,
+        "pass": true,
+        "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gboth_sdfull_outS/drc/drc_report.txt"
+      },
+      "lvs": {
+        "match": true,
+        "neg_control_rejected": true,
+        "pass": true,
+        "pcell_instance": "nfet_01v8_W24_L1_m1__nf2_gboth_sdfull_outS",
+        "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gboth_sdfull_outS/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gboth_sdfull_outS/lvs/lvs/extracted.spice"
+      },
+      "device_model_change": {
+        "per_device": {
+          "XM5": {
+            "id_rel": -0.0011630458117375397,
+            "gm_rel": -0.0005998705005459959,
+            "vth_shift_V": 0.00022199999999994446
+          }
+        },
+        "note": "cell only, vs the sized netlist device; nf > 1 changes the SKY130 W bin"
+      },
+      "finger_in_sized_bin": true,
+      "vs_default": {
+        "default_cell": "nfet_01v8_W24_L1_m1__nf1_gboth_sdfull",
+        "default_area_um2": 74.072,
+        "default_feasible": false,
+        "default_budget_check": {
+          "capacitance": {
+            "gain_db": {
+              "used_harmful": 0.03989999999999938,
+              "signed": 0.03989999999999938,
+              "allowed": 0.1375600876300457,
+              "ok": true,
+              "slack_frac_of_margin": 0.20532017526009266
+            },
+            "gbw_mhz": {
+              "used_harmful": 0.0,
+              "signed": -0.7189999999999941,
+              "allowed": 8.633389027100895,
+              "ok": true,
+              "slack_frac_of_margin": 0.2410530337451463
+            },
+            "pm_deg": {
+              "used_harmful": 0.0,
+              "signed": -0.012399999999999523,
+              "allowed": 1.1520722567738388,
+              "ok": true,
+              "slack_frac_of_margin": 0.24041445135476777
+            },
+            "power_uw": {
+              "used_harmful": 0.5110000000000241,
+              "signed": 0.5110000000000241,
+              "allowed": 0.0,
+              "ok": true,
+              "slack_frac_of_margin": 0.00939697970618394
+            },
+            "vnoise_nv_rthz": {
+              "used_harmful": 0.0,
+              "signed": -0.07800000000003138,
+              "allowed": 18.201129553808652,
+              "ok": true,
+              "slack_frac_of_margin": 0.30869255536642803
+            },
+            "sat_XM3": {
+              "used_harmful": 0.0,
+              "signed": -0.00011600000000022703,
+              "allowed": 0.3144926670405666,
+              "ok": true,
+              "slack_frac_of_margin": 0.30982150150730947
+            },
+            "sat_XM4": {
+              "used_harmful": 0.0,
+              "signed": -0.00011600000000022703,
+              "allowed": 0.3144926670405666,
+              "ok": true,
+              "slack_frac_of_margin": 0.30982150150730947
+            },
+            "sat_XM1": {
+              "used_harmful": 0.0006159000000000026,
+              "signed": 0.0006159000000000026,
+              "allowed": 0.03879359379397652,
+              "ok": true,
+              "slack_frac_of_margin": 0.30353999085016803
+            },
+            "sat_XM2": {
+              "used_harmful": 0.0006159000000000026,
+              "signed": 0.0006159000000000026,
+              "allowed": 0.03879359379397652,
+              "ok": true,
+              "slack_frac_of_margin": 0.30353999085016803
+            },
+            "sat_XM5": {
+              "used_harmful": 0.0,
+              "signed": -9.000000000000674e-05,
+              "allowed": 0.005624208358461738,
+              "ok": true,
+              "slack_frac_of_margin": 0.297418661000702
+            }
+          },
+          "resistance": {
+            "d": {
+              "group": "XM5.d",
+              "R_access_ohm": 7.1315923207227545,
+              "allowed_ohm": 5.995304695304695,
+              "ok": false,
+              "remaining_for_routing_ohm": -0.7475611268223732,
+              "slack_frac": -0.18952958742996984
+            },
+            "g": {
+              "group": "XM5.g",
+              "R_access_ohm": 136.72500000000002,
+              "allowed_ohm": 14.66992958775665,
+              "ok": false,
+              "remaining_for_routing_ohm": -122.05507041224337,
+              "slack_frac": -8.320085633819884
+            },
+            "s": {
+              "group": "XM5.s",
+              "R_access_ohm": 7.131592320722755,
+              "allowed_ohm": 4.84478831468838,
+              "ok": false,
+              "remaining_for_routing_ohm": -2.2868040060343757,
+              "slack_frac": -0.472013193868815
+            }
+          }
+        },
+        "default_access_resistance_ohm": {
+          "d": 7.1315923207227545,
+          "g": 136.72500000000002,
+          "s": 7.131592320722755
+        },
+        "magic_extresist_cross_check": {
+          "largest_resistor_on_net_ohm": {
+            "G": null,
+            "D": null,
+            "S": null
+          },
+          "file": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf1_gboth_sdfull/rx/rx.spice",
+          "note": "Magic lumps each net to a point; None = net below extresist tolerance"
+        }
+      },
+      "n_options": 12,
+      "n_feasible": 0
+    }
+  },
+  "final_in_circuit": {
+    "gain_db": 31.7981,
+    "gbw_mhz": 370.226,
+    "pm_deg": 63.7604,
+    "vnoise_nv_rthz": 339.639,
+    "vnoise_rms_uv_rms": 411.02,
+    "sat_V": {
+      "XM3": 1.04868,
+      "XM4": 1.04868,
+      "XM1": 0.1316996,
+      "XM2": 0.1316996,
+      "XM5": 0.019001000000000018
+    },
+    "vout_V": 0.402725,
+    "op_params": {
+      "XM3": {
+        "id": 4.19994e-05,
+        "gm": 0.000209566,
+        "gds": 9.22854e-07,
+        "vth": 1.0296,
+        "vdsat": 0.34405
+      },
+      "XM4": {
+        "id": 4.19994e-05,
+        "gm": 0.000209566,
+        "gds": 9.22854e-07,
+        "vth": 1.0296,
+        "vdsat": 0.34405
+      },
+      "XM1": {
+        "id": 2.09997e-05,
+        "gm": 0.000361736,
+        "gds": 8.80263e-06,
+        "vth": 0.665053,
+        "vdsat": 0.0891354
+      },
+      "XM2": {
+        "id": 2.09997e-05,
+        "gm": 0.000361736,
+        "gds": 8.80263e-06,
+        "vth": 0.665053,
+        "vdsat": 0.0891354
+      },
+      "XM5": {
+        "id": 4.19994e-05,
+        "gm": 0.000437901,
+        "gds": 4.46631e-05,
+        "vth": 0.587202,
+        "vdsat": 0.15996
+      }
+    },
+    "isup_ua": 83.9988,
+    "power_uw": 151.198,
+    "vout_v": 0.402725
+  },
+  "by_mode": {
+    "B": {
+      "complete": true,
+      "total_area_um2": 256.55,
+      "relaxed": [
+        "nfet_01v8_W24_L0p5_m1",
+        "nfet_01v8_W24_L1_m1",
+        "pfet_01v8_W8_L1_m1"
+      ],
+      "fingers_outside_sized_bin": [],
+      "chosen": {
+        "pfet_01v8_W8_L1_m1": "nf1_gboth_sdfull",
+        "nfet_01v8_W24_L0p5_m1": "nf1_gboth_sdfull",
+        "nfet_01v8_W24_L1_m1": "nf1_gboth_sdfull"
+      },
+      "missing": []
+    },
+    "A-bin": {
+      "complete": true,
+      "total_area_um2": 206.101,
+      "relaxed": [
+        "nfet_01v8_W24_L0p5_m1",
+        "nfet_01v8_W24_L1_m1",
+        "pfet_01v8_W8_L1_m1"
+      ],
+      "fingers_outside_sized_bin": [],
+      "chosen": {
+        "pfet_01v8_W8_L1_m1": "nf1_gboth_sdfull",
+        "nfet_01v8_W24_L0p5_m1": "nf2_gboth_sdfull_outS",
+        "nfet_01v8_W24_L1_m1": "nf2_gboth_sdfull_outS"
+      },
+      "missing": []
+    },
+    "A-free": {
+      "complete": true,
+      "total_area_um2": 194.564,
+      "relaxed": [
+        "nfet_01v8_W24_L0p5_m1",
+        "nfet_01v8_W24_L1_m1",
+        "pfet_01v8_W8_L1_m1"
+      ],
+      "fingers_outside_sized_bin": [
+        "nfet_01v8_W24_L0p5_m1",
+        "nfet_01v8_W24_L1_m1"
+      ],
+      "chosen": {
+        "pfet_01v8_W8_L1_m1": "nf1_gboth_sdfull",
+        "nfet_01v8_W24_L0p5_m1": "nf8_gboth_sdfull_outS",
+        "nfet_01v8_W24_L1_m1": "nf8_gtop_sdfull_outS"
+      },
+      "missing": []
+    },
+    "RoT": {
+      "complete": true,
+      "total_area_um2": 190.53699999999998,
+      "relaxed": [
+        "nfet_01v8_W24_L0p5_m1",
+        "nfet_01v8_W24_L1_m1",
+        "pfet_01v8_W8_L1_m1"
+      ],
+      "fingers_outside_sized_bin": [
+        "nfet_01v8_W24_L0p5_m1",
+        "nfet_01v8_W24_L1_m1",
+        "pfet_01v8_W8_L1_m1"
+      ],
+      "chosen": {
+        "pfet_01v8_W8_L1_m1": "nf2_gboth_sdfull_outD",
+        "nfet_01v8_W24_L0p5_m1": "nf8_gboth_sdfull_outD",
+        "nfet_01v8_W24_L1_m1": "nf8_gboth_sdfull_outD"
+      },
+      "missing": []
+    }
+  },
+  "f_device_note": "ASSUMPTION: share of each terminal-R budget given to the PCell"
+}

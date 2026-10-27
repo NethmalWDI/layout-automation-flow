@@ -1,0 +1,27 @@
+* NGSPICE file created from nfet_01v8_lvt_W484p2_L0p24_m1__nf16_gtop_sdhalf_outD.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_lvt_XSEP3B D10 S15 G a_819_n3057# S13 S11 B D8 D6
++ D4 D2 D0 S9 S7 S5 S3 D14 S1 D12
+X0 S5 G D4 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X1 S7 G D6 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X2 a_819_n3057# G S15 B sky130_fd_pr__nfet_01v8_lvt ad=8.7754 pd=61.1 as=4.3877 ps=30.55 w=30.26 l=0.24
+X3 D6 G S5 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X4 D2 G S1 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X5 S15 G D14 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X6 D4 G S3 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X7 S11 G D10 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X8 S13 G D12 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X9 S1 G D0 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=8.7754 ps=61.1 w=30.26 l=0.24
+X10 D14 G S13 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X11 S3 G D2 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X12 D12 G S11 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X13 D10 G S9 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X14 D8 G S7 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+X15 S9 G D8 B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.55 as=4.3877 ps=30.55 w=30.26 l=0.24
+.ends
+
+.subckt nfet_01v8_lvt_W484p2_L0p24_m1__nf16_gtop_sdhalf_outD S D G B
+Xnfet_01v8_lvt_W484p2_L0p24_m1__nf16_gtop_sdhalf_outD_pc D S G D S S B D D D D D S
++ S S S D S D sky130_fd_pr__nfet_01v8_lvt_XSEP3B
+.ends
+

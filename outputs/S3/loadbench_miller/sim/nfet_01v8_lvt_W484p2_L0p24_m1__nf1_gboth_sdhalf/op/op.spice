@@ -1,0 +1,565 @@
+* loadbench_miller on diso_amp_OP
+.lib $PDK_ROOT/sky130A/libs.tech/combined/sky130.lib.spice tt
+.param VDD_V=1.8 VCM_V=0.9 CL_F=1p
+.temp 27
+
+**.subckt diso_amp_OP
+x1 INP INN net1 VDD 0 OUT dut_amp
+Vsup VDD 0 'VDD_V'
+Vinp INP 0 dc 'VCM_V' ac 0
+* DC unity feedback, AC open loop: a 1 GH choke from OUT to INN and a 1 F capacitor from INN to
+* ground. At DC the amplifier is a follower, so OUT sits at VCM as in LOADBench's offset-corrected
+* open-loop bench; from 1 Hz up INN is an AC ground and the loop is open (corner ~5 uHz).
+Lfb OUT INN 1G
+Cfb INN 0 1
+Cload OUT 0 'CL_F'
+* noconn #net1
+.control
+set numdgt=12
+op
+let s1_xdiodetransistornmos1_id = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[id]
+echo OPV XDiodeTransistorNmos1 id $&s1_xdiodetransistornmos1_id
+let s1_xdiodetransistornmos1_vgs = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[vgs]
+echo OPV XDiodeTransistorNmos1 vgs $&s1_xdiodetransistornmos1_vgs
+let s1_xdiodetransistornmos1_vds = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[vds]
+echo OPV XDiodeTransistorNmos1 vds $&s1_xdiodetransistornmos1_vds
+let s1_xdiodetransistornmos1_vbs = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[vbs]
+echo OPV XDiodeTransistorNmos1 vbs $&s1_xdiodetransistornmos1_vbs
+let s1_xdiodetransistornmos1_vth = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[vth]
+echo OPV XDiodeTransistorNmos1 vth $&s1_xdiodetransistornmos1_vth
+let s1_xdiodetransistornmos1_vdsat = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[vdsat]
+echo OPV XDiodeTransistorNmos1 vdsat $&s1_xdiodetransistornmos1_vdsat
+let s1_xdiodetransistornmos1_gm = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[gm]
+echo OPV XDiodeTransistorNmos1 gm $&s1_xdiodetransistornmos1_gm
+let s1_xdiodetransistornmos1_gds = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[gds]
+echo OPV XDiodeTransistorNmos1 gds $&s1_xdiodetransistornmos1_gds
+let s1_xdiodetransistornmos1_gmbs = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[gmbs]
+echo OPV XDiodeTransistorNmos1 gmbs $&s1_xdiodetransistornmos1_gmbs
+let s1_xdiodetransistornmos1_cgg = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cgg]
+echo OPV XDiodeTransistorNmos1 cgg $&s1_xdiodetransistornmos1_cgg
+let s1_xdiodetransistornmos1_cgd = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cgd]
+echo OPV XDiodeTransistorNmos1 cgd $&s1_xdiodetransistornmos1_cgd
+let s1_xdiodetransistornmos1_cgs = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cgs]
+echo OPV XDiodeTransistorNmos1 cgs $&s1_xdiodetransistornmos1_cgs
+let s1_xdiodetransistornmos1_cgb = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cgb]
+echo OPV XDiodeTransistorNmos1 cgb $&s1_xdiodetransistornmos1_cgb
+let s1_xdiodetransistornmos1_cdg = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cdg]
+echo OPV XDiodeTransistorNmos1 cdg $&s1_xdiodetransistornmos1_cdg
+let s1_xdiodetransistornmos1_cdd = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cdd]
+echo OPV XDiodeTransistorNmos1 cdd $&s1_xdiodetransistornmos1_cdd
+let s1_xdiodetransistornmos1_cds = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cds]
+echo OPV XDiodeTransistorNmos1 cds $&s1_xdiodetransistornmos1_cds
+let s1_xdiodetransistornmos1_cdb = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cdb]
+echo OPV XDiodeTransistorNmos1 cdb $&s1_xdiodetransistornmos1_cdb
+let s1_xdiodetransistornmos1_csg = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[csg]
+echo OPV XDiodeTransistorNmos1 csg $&s1_xdiodetransistornmos1_csg
+let s1_xdiodetransistornmos1_csd = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[csd]
+echo OPV XDiodeTransistorNmos1 csd $&s1_xdiodetransistornmos1_csd
+let s1_xdiodetransistornmos1_css = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[css]
+echo OPV XDiodeTransistorNmos1 css $&s1_xdiodetransistornmos1_css
+let s1_xdiodetransistornmos1_csb = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[csb]
+echo OPV XDiodeTransistorNmos1 csb $&s1_xdiodetransistornmos1_csb
+let s1_xdiodetransistornmos1_cbg = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cbg]
+echo OPV XDiodeTransistorNmos1 cbg $&s1_xdiodetransistornmos1_cbg
+let s1_xdiodetransistornmos1_cbd = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cbd]
+echo OPV XDiodeTransistorNmos1 cbd $&s1_xdiodetransistornmos1_cbd
+let s1_xdiodetransistornmos1_cbs = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cbs]
+echo OPV XDiodeTransistorNmos1 cbs $&s1_xdiodetransistornmos1_cbs
+let s1_xdiodetransistornmos1_cbb = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cbb]
+echo OPV XDiodeTransistorNmos1 cbb $&s1_xdiodetransistornmos1_cbb
+let s1_xdiodetransistornmos1_capbd = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[capbd]
+echo OPV XDiodeTransistorNmos1 capbd $&s1_xdiodetransistornmos1_capbd
+let s1_xdiodetransistornmos1_capbs = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[capbs]
+echo OPV XDiodeTransistorNmos1 capbs $&s1_xdiodetransistornmos1_capbs
+let s1_xdiodetransistornmos1_cgso = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cgso]
+echo OPV XDiodeTransistorNmos1 cgso $&s1_xdiodetransistornmos1_cgso
+let s1_xdiodetransistornmos1_cgdo = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cgdo]
+echo OPV XDiodeTransistorNmos1 cgdo $&s1_xdiodetransistornmos1_cgdo
+let s1_xdiodetransistornmos1_cgbo = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[cgbo]
+echo OPV XDiodeTransistorNmos1 cgbo $&s1_xdiodetransistornmos1_cgbo
+let s1_xdiodetransistornmos1_weff = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[weff]
+echo OPV XDiodeTransistorNmos1 weff $&s1_xdiodetransistornmos1_weff
+let s1_xdiodetransistornmos1_leff = @m.x1.xdut.xdiodetransistornmos1.msky130_fd_pr__nfet_01v8_lvt[leff]
+echo OPV XDiodeTransistorNmos1 leff $&s1_xdiodetransistornmos1_leff
+let s1_xdiodetransistorpmos2_id = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[id]
+echo OPV XDiodeTransistorPmos2 id $&s1_xdiodetransistorpmos2_id
+let s1_xdiodetransistorpmos2_vgs = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[vgs]
+echo OPV XDiodeTransistorPmos2 vgs $&s1_xdiodetransistorpmos2_vgs
+let s1_xdiodetransistorpmos2_vds = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[vds]
+echo OPV XDiodeTransistorPmos2 vds $&s1_xdiodetransistorpmos2_vds
+let s1_xdiodetransistorpmos2_vbs = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[vbs]
+echo OPV XDiodeTransistorPmos2 vbs $&s1_xdiodetransistorpmos2_vbs
+let s1_xdiodetransistorpmos2_vth = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[vth]
+echo OPV XDiodeTransistorPmos2 vth $&s1_xdiodetransistorpmos2_vth
+let s1_xdiodetransistorpmos2_vdsat = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[vdsat]
+echo OPV XDiodeTransistorPmos2 vdsat $&s1_xdiodetransistorpmos2_vdsat
+let s1_xdiodetransistorpmos2_gm = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[gm]
+echo OPV XDiodeTransistorPmos2 gm $&s1_xdiodetransistorpmos2_gm
+let s1_xdiodetransistorpmos2_gds = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[gds]
+echo OPV XDiodeTransistorPmos2 gds $&s1_xdiodetransistorpmos2_gds
+let s1_xdiodetransistorpmos2_gmbs = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[gmbs]
+echo OPV XDiodeTransistorPmos2 gmbs $&s1_xdiodetransistorpmos2_gmbs
+let s1_xdiodetransistorpmos2_cgg = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cgg]
+echo OPV XDiodeTransistorPmos2 cgg $&s1_xdiodetransistorpmos2_cgg
+let s1_xdiodetransistorpmos2_cgd = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cgd]
+echo OPV XDiodeTransistorPmos2 cgd $&s1_xdiodetransistorpmos2_cgd
+let s1_xdiodetransistorpmos2_cgs = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cgs]
+echo OPV XDiodeTransistorPmos2 cgs $&s1_xdiodetransistorpmos2_cgs
+let s1_xdiodetransistorpmos2_cgb = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cgb]
+echo OPV XDiodeTransistorPmos2 cgb $&s1_xdiodetransistorpmos2_cgb
+let s1_xdiodetransistorpmos2_cdg = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cdg]
+echo OPV XDiodeTransistorPmos2 cdg $&s1_xdiodetransistorpmos2_cdg
+let s1_xdiodetransistorpmos2_cdd = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cdd]
+echo OPV XDiodeTransistorPmos2 cdd $&s1_xdiodetransistorpmos2_cdd
+let s1_xdiodetransistorpmos2_cds = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cds]
+echo OPV XDiodeTransistorPmos2 cds $&s1_xdiodetransistorpmos2_cds
+let s1_xdiodetransistorpmos2_cdb = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cdb]
+echo OPV XDiodeTransistorPmos2 cdb $&s1_xdiodetransistorpmos2_cdb
+let s1_xdiodetransistorpmos2_csg = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[csg]
+echo OPV XDiodeTransistorPmos2 csg $&s1_xdiodetransistorpmos2_csg
+let s1_xdiodetransistorpmos2_csd = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[csd]
+echo OPV XDiodeTransistorPmos2 csd $&s1_xdiodetransistorpmos2_csd
+let s1_xdiodetransistorpmos2_css = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[css]
+echo OPV XDiodeTransistorPmos2 css $&s1_xdiodetransistorpmos2_css
+let s1_xdiodetransistorpmos2_csb = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[csb]
+echo OPV XDiodeTransistorPmos2 csb $&s1_xdiodetransistorpmos2_csb
+let s1_xdiodetransistorpmos2_cbg = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cbg]
+echo OPV XDiodeTransistorPmos2 cbg $&s1_xdiodetransistorpmos2_cbg
+let s1_xdiodetransistorpmos2_cbd = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cbd]
+echo OPV XDiodeTransistorPmos2 cbd $&s1_xdiodetransistorpmos2_cbd
+let s1_xdiodetransistorpmos2_cbs = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cbs]
+echo OPV XDiodeTransistorPmos2 cbs $&s1_xdiodetransistorpmos2_cbs
+let s1_xdiodetransistorpmos2_cbb = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cbb]
+echo OPV XDiodeTransistorPmos2 cbb $&s1_xdiodetransistorpmos2_cbb
+let s1_xdiodetransistorpmos2_capbd = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[capbd]
+echo OPV XDiodeTransistorPmos2 capbd $&s1_xdiodetransistorpmos2_capbd
+let s1_xdiodetransistorpmos2_capbs = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[capbs]
+echo OPV XDiodeTransistorPmos2 capbs $&s1_xdiodetransistorpmos2_capbs
+let s1_xdiodetransistorpmos2_cgso = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cgso]
+echo OPV XDiodeTransistorPmos2 cgso $&s1_xdiodetransistorpmos2_cgso
+let s1_xdiodetransistorpmos2_cgdo = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cgdo]
+echo OPV XDiodeTransistorPmos2 cgdo $&s1_xdiodetransistorpmos2_cgdo
+let s1_xdiodetransistorpmos2_cgbo = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[cgbo]
+echo OPV XDiodeTransistorPmos2 cgbo $&s1_xdiodetransistorpmos2_cgbo
+let s1_xdiodetransistorpmos2_weff = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[weff]
+echo OPV XDiodeTransistorPmos2 weff $&s1_xdiodetransistorpmos2_weff
+let s1_xdiodetransistorpmos2_leff = @m.x1.xdut.xdiodetransistorpmos2.msky130_fd_pr__pfet_01v8_lvt[leff]
+echo OPV XDiodeTransistorPmos2 leff $&s1_xdiodetransistorpmos2_leff
+let s1_xnormaltransistornmos3_id = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[id]
+echo OPV XNormalTransistorNmos3 id $&s1_xnormaltransistornmos3_id
+let s1_xnormaltransistornmos3_vgs = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[vgs]
+echo OPV XNormalTransistorNmos3 vgs $&s1_xnormaltransistornmos3_vgs
+let s1_xnormaltransistornmos3_vds = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[vds]
+echo OPV XNormalTransistorNmos3 vds $&s1_xnormaltransistornmos3_vds
+let s1_xnormaltransistornmos3_vbs = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[vbs]
+echo OPV XNormalTransistorNmos3 vbs $&s1_xnormaltransistornmos3_vbs
+let s1_xnormaltransistornmos3_vth = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[vth]
+echo OPV XNormalTransistorNmos3 vth $&s1_xnormaltransistornmos3_vth
+let s1_xnormaltransistornmos3_vdsat = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[vdsat]
+echo OPV XNormalTransistorNmos3 vdsat $&s1_xnormaltransistornmos3_vdsat
+let s1_xnormaltransistornmos3_gm = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[gm]
+echo OPV XNormalTransistorNmos3 gm $&s1_xnormaltransistornmos3_gm
+let s1_xnormaltransistornmos3_gds = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[gds]
+echo OPV XNormalTransistorNmos3 gds $&s1_xnormaltransistornmos3_gds
+let s1_xnormaltransistornmos3_gmbs = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[gmbs]
+echo OPV XNormalTransistorNmos3 gmbs $&s1_xnormaltransistornmos3_gmbs
+let s1_xnormaltransistornmos3_cgg = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cgg]
+echo OPV XNormalTransistorNmos3 cgg $&s1_xnormaltransistornmos3_cgg
+let s1_xnormaltransistornmos3_cgd = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cgd]
+echo OPV XNormalTransistorNmos3 cgd $&s1_xnormaltransistornmos3_cgd
+let s1_xnormaltransistornmos3_cgs = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cgs]
+echo OPV XNormalTransistorNmos3 cgs $&s1_xnormaltransistornmos3_cgs
+let s1_xnormaltransistornmos3_cgb = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cgb]
+echo OPV XNormalTransistorNmos3 cgb $&s1_xnormaltransistornmos3_cgb
+let s1_xnormaltransistornmos3_cdg = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cdg]
+echo OPV XNormalTransistorNmos3 cdg $&s1_xnormaltransistornmos3_cdg
+let s1_xnormaltransistornmos3_cdd = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cdd]
+echo OPV XNormalTransistorNmos3 cdd $&s1_xnormaltransistornmos3_cdd
+let s1_xnormaltransistornmos3_cds = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cds]
+echo OPV XNormalTransistorNmos3 cds $&s1_xnormaltransistornmos3_cds
+let s1_xnormaltransistornmos3_cdb = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cdb]
+echo OPV XNormalTransistorNmos3 cdb $&s1_xnormaltransistornmos3_cdb
+let s1_xnormaltransistornmos3_csg = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[csg]
+echo OPV XNormalTransistorNmos3 csg $&s1_xnormaltransistornmos3_csg
+let s1_xnormaltransistornmos3_csd = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[csd]
+echo OPV XNormalTransistorNmos3 csd $&s1_xnormaltransistornmos3_csd
+let s1_xnormaltransistornmos3_css = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[css]
+echo OPV XNormalTransistorNmos3 css $&s1_xnormaltransistornmos3_css
+let s1_xnormaltransistornmos3_csb = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[csb]
+echo OPV XNormalTransistorNmos3 csb $&s1_xnormaltransistornmos3_csb
+let s1_xnormaltransistornmos3_cbg = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cbg]
+echo OPV XNormalTransistorNmos3 cbg $&s1_xnormaltransistornmos3_cbg
+let s1_xnormaltransistornmos3_cbd = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cbd]
+echo OPV XNormalTransistorNmos3 cbd $&s1_xnormaltransistornmos3_cbd
+let s1_xnormaltransistornmos3_cbs = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cbs]
+echo OPV XNormalTransistorNmos3 cbs $&s1_xnormaltransistornmos3_cbs
+let s1_xnormaltransistornmos3_cbb = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cbb]
+echo OPV XNormalTransistorNmos3 cbb $&s1_xnormaltransistornmos3_cbb
+let s1_xnormaltransistornmos3_capbd = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[capbd]
+echo OPV XNormalTransistorNmos3 capbd $&s1_xnormaltransistornmos3_capbd
+let s1_xnormaltransistornmos3_capbs = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[capbs]
+echo OPV XNormalTransistorNmos3 capbs $&s1_xnormaltransistornmos3_capbs
+let s1_xnormaltransistornmos3_cgso = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cgso]
+echo OPV XNormalTransistorNmos3 cgso $&s1_xnormaltransistornmos3_cgso
+let s1_xnormaltransistornmos3_cgdo = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cgdo]
+echo OPV XNormalTransistorNmos3 cgdo $&s1_xnormaltransistornmos3_cgdo
+let s1_xnormaltransistornmos3_cgbo = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[cgbo]
+echo OPV XNormalTransistorNmos3 cgbo $&s1_xnormaltransistornmos3_cgbo
+let s1_xnormaltransistornmos3_weff = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[weff]
+echo OPV XNormalTransistorNmos3 weff $&s1_xnormaltransistornmos3_weff
+let s1_xnormaltransistornmos3_leff = @m.x1.xdut.xnormaltransistornmos3.x0.msky130_fd_pr__nfet_01v8_lvt[leff]
+echo OPV XNormalTransistorNmos3 leff $&s1_xnormaltransistornmos3_leff
+let s1_xnormaltransistornmos4_id = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[id]
+echo OPV XNormalTransistorNmos4 id $&s1_xnormaltransistornmos4_id
+let s1_xnormaltransistornmos4_vgs = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[vgs]
+echo OPV XNormalTransistorNmos4 vgs $&s1_xnormaltransistornmos4_vgs
+let s1_xnormaltransistornmos4_vds = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[vds]
+echo OPV XNormalTransistorNmos4 vds $&s1_xnormaltransistornmos4_vds
+let s1_xnormaltransistornmos4_vbs = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[vbs]
+echo OPV XNormalTransistorNmos4 vbs $&s1_xnormaltransistornmos4_vbs
+let s1_xnormaltransistornmos4_vth = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[vth]
+echo OPV XNormalTransistorNmos4 vth $&s1_xnormaltransistornmos4_vth
+let s1_xnormaltransistornmos4_vdsat = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[vdsat]
+echo OPV XNormalTransistorNmos4 vdsat $&s1_xnormaltransistornmos4_vdsat
+let s1_xnormaltransistornmos4_gm = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[gm]
+echo OPV XNormalTransistorNmos4 gm $&s1_xnormaltransistornmos4_gm
+let s1_xnormaltransistornmos4_gds = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[gds]
+echo OPV XNormalTransistorNmos4 gds $&s1_xnormaltransistornmos4_gds
+let s1_xnormaltransistornmos4_gmbs = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[gmbs]
+echo OPV XNormalTransistorNmos4 gmbs $&s1_xnormaltransistornmos4_gmbs
+let s1_xnormaltransistornmos4_cgg = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cgg]
+echo OPV XNormalTransistorNmos4 cgg $&s1_xnormaltransistornmos4_cgg
+let s1_xnormaltransistornmos4_cgd = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cgd]
+echo OPV XNormalTransistorNmos4 cgd $&s1_xnormaltransistornmos4_cgd
+let s1_xnormaltransistornmos4_cgs = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cgs]
+echo OPV XNormalTransistorNmos4 cgs $&s1_xnormaltransistornmos4_cgs
+let s1_xnormaltransistornmos4_cgb = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cgb]
+echo OPV XNormalTransistorNmos4 cgb $&s1_xnormaltransistornmos4_cgb
+let s1_xnormaltransistornmos4_cdg = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cdg]
+echo OPV XNormalTransistorNmos4 cdg $&s1_xnormaltransistornmos4_cdg
+let s1_xnormaltransistornmos4_cdd = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cdd]
+echo OPV XNormalTransistorNmos4 cdd $&s1_xnormaltransistornmos4_cdd
+let s1_xnormaltransistornmos4_cds = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cds]
+echo OPV XNormalTransistorNmos4 cds $&s1_xnormaltransistornmos4_cds
+let s1_xnormaltransistornmos4_cdb = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cdb]
+echo OPV XNormalTransistorNmos4 cdb $&s1_xnormaltransistornmos4_cdb
+let s1_xnormaltransistornmos4_csg = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[csg]
+echo OPV XNormalTransistorNmos4 csg $&s1_xnormaltransistornmos4_csg
+let s1_xnormaltransistornmos4_csd = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[csd]
+echo OPV XNormalTransistorNmos4 csd $&s1_xnormaltransistornmos4_csd
+let s1_xnormaltransistornmos4_css = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[css]
+echo OPV XNormalTransistorNmos4 css $&s1_xnormaltransistornmos4_css
+let s1_xnormaltransistornmos4_csb = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[csb]
+echo OPV XNormalTransistorNmos4 csb $&s1_xnormaltransistornmos4_csb
+let s1_xnormaltransistornmos4_cbg = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cbg]
+echo OPV XNormalTransistorNmos4 cbg $&s1_xnormaltransistornmos4_cbg
+let s1_xnormaltransistornmos4_cbd = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cbd]
+echo OPV XNormalTransistorNmos4 cbd $&s1_xnormaltransistornmos4_cbd
+let s1_xnormaltransistornmos4_cbs = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cbs]
+echo OPV XNormalTransistorNmos4 cbs $&s1_xnormaltransistornmos4_cbs
+let s1_xnormaltransistornmos4_cbb = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cbb]
+echo OPV XNormalTransistorNmos4 cbb $&s1_xnormaltransistornmos4_cbb
+let s1_xnormaltransistornmos4_capbd = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[capbd]
+echo OPV XNormalTransistorNmos4 capbd $&s1_xnormaltransistornmos4_capbd
+let s1_xnormaltransistornmos4_capbs = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[capbs]
+echo OPV XNormalTransistorNmos4 capbs $&s1_xnormaltransistornmos4_capbs
+let s1_xnormaltransistornmos4_cgso = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cgso]
+echo OPV XNormalTransistorNmos4 cgso $&s1_xnormaltransistornmos4_cgso
+let s1_xnormaltransistornmos4_cgdo = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cgdo]
+echo OPV XNormalTransistorNmos4 cgdo $&s1_xnormaltransistornmos4_cgdo
+let s1_xnormaltransistornmos4_cgbo = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[cgbo]
+echo OPV XNormalTransistorNmos4 cgbo $&s1_xnormaltransistornmos4_cgbo
+let s1_xnormaltransistornmos4_weff = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[weff]
+echo OPV XNormalTransistorNmos4 weff $&s1_xnormaltransistornmos4_weff
+let s1_xnormaltransistornmos4_leff = @m.x1.xdut.xnormaltransistornmos4.msky130_fd_pr__nfet_01v8_lvt[leff]
+echo OPV XNormalTransistorNmos4 leff $&s1_xnormaltransistornmos4_leff
+let s1_xnormaltransistorpmos5_id = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[id]
+echo OPV XNormalTransistorPmos5 id $&s1_xnormaltransistorpmos5_id
+let s1_xnormaltransistorpmos5_vgs = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[vgs]
+echo OPV XNormalTransistorPmos5 vgs $&s1_xnormaltransistorpmos5_vgs
+let s1_xnormaltransistorpmos5_vds = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[vds]
+echo OPV XNormalTransistorPmos5 vds $&s1_xnormaltransistorpmos5_vds
+let s1_xnormaltransistorpmos5_vbs = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[vbs]
+echo OPV XNormalTransistorPmos5 vbs $&s1_xnormaltransistorpmos5_vbs
+let s1_xnormaltransistorpmos5_vth = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[vth]
+echo OPV XNormalTransistorPmos5 vth $&s1_xnormaltransistorpmos5_vth
+let s1_xnormaltransistorpmos5_vdsat = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[vdsat]
+echo OPV XNormalTransistorPmos5 vdsat $&s1_xnormaltransistorpmos5_vdsat
+let s1_xnormaltransistorpmos5_gm = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[gm]
+echo OPV XNormalTransistorPmos5 gm $&s1_xnormaltransistorpmos5_gm
+let s1_xnormaltransistorpmos5_gds = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[gds]
+echo OPV XNormalTransistorPmos5 gds $&s1_xnormaltransistorpmos5_gds
+let s1_xnormaltransistorpmos5_gmbs = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[gmbs]
+echo OPV XNormalTransistorPmos5 gmbs $&s1_xnormaltransistorpmos5_gmbs
+let s1_xnormaltransistorpmos5_cgg = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cgg]
+echo OPV XNormalTransistorPmos5 cgg $&s1_xnormaltransistorpmos5_cgg
+let s1_xnormaltransistorpmos5_cgd = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cgd]
+echo OPV XNormalTransistorPmos5 cgd $&s1_xnormaltransistorpmos5_cgd
+let s1_xnormaltransistorpmos5_cgs = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cgs]
+echo OPV XNormalTransistorPmos5 cgs $&s1_xnormaltransistorpmos5_cgs
+let s1_xnormaltransistorpmos5_cgb = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cgb]
+echo OPV XNormalTransistorPmos5 cgb $&s1_xnormaltransistorpmos5_cgb
+let s1_xnormaltransistorpmos5_cdg = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cdg]
+echo OPV XNormalTransistorPmos5 cdg $&s1_xnormaltransistorpmos5_cdg
+let s1_xnormaltransistorpmos5_cdd = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cdd]
+echo OPV XNormalTransistorPmos5 cdd $&s1_xnormaltransistorpmos5_cdd
+let s1_xnormaltransistorpmos5_cds = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cds]
+echo OPV XNormalTransistorPmos5 cds $&s1_xnormaltransistorpmos5_cds
+let s1_xnormaltransistorpmos5_cdb = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cdb]
+echo OPV XNormalTransistorPmos5 cdb $&s1_xnormaltransistorpmos5_cdb
+let s1_xnormaltransistorpmos5_csg = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[csg]
+echo OPV XNormalTransistorPmos5 csg $&s1_xnormaltransistorpmos5_csg
+let s1_xnormaltransistorpmos5_csd = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[csd]
+echo OPV XNormalTransistorPmos5 csd $&s1_xnormaltransistorpmos5_csd
+let s1_xnormaltransistorpmos5_css = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[css]
+echo OPV XNormalTransistorPmos5 css $&s1_xnormaltransistorpmos5_css
+let s1_xnormaltransistorpmos5_csb = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[csb]
+echo OPV XNormalTransistorPmos5 csb $&s1_xnormaltransistorpmos5_csb
+let s1_xnormaltransistorpmos5_cbg = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cbg]
+echo OPV XNormalTransistorPmos5 cbg $&s1_xnormaltransistorpmos5_cbg
+let s1_xnormaltransistorpmos5_cbd = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cbd]
+echo OPV XNormalTransistorPmos5 cbd $&s1_xnormaltransistorpmos5_cbd
+let s1_xnormaltransistorpmos5_cbs = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cbs]
+echo OPV XNormalTransistorPmos5 cbs $&s1_xnormaltransistorpmos5_cbs
+let s1_xnormaltransistorpmos5_cbb = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cbb]
+echo OPV XNormalTransistorPmos5 cbb $&s1_xnormaltransistorpmos5_cbb
+let s1_xnormaltransistorpmos5_capbd = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[capbd]
+echo OPV XNormalTransistorPmos5 capbd $&s1_xnormaltransistorpmos5_capbd
+let s1_xnormaltransistorpmos5_capbs = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[capbs]
+echo OPV XNormalTransistorPmos5 capbs $&s1_xnormaltransistorpmos5_capbs
+let s1_xnormaltransistorpmos5_cgso = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cgso]
+echo OPV XNormalTransistorPmos5 cgso $&s1_xnormaltransistorpmos5_cgso
+let s1_xnormaltransistorpmos5_cgdo = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cgdo]
+echo OPV XNormalTransistorPmos5 cgdo $&s1_xnormaltransistorpmos5_cgdo
+let s1_xnormaltransistorpmos5_cgbo = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[cgbo]
+echo OPV XNormalTransistorPmos5 cgbo $&s1_xnormaltransistorpmos5_cgbo
+let s1_xnormaltransistorpmos5_weff = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[weff]
+echo OPV XNormalTransistorPmos5 weff $&s1_xnormaltransistorpmos5_weff
+let s1_xnormaltransistorpmos5_leff = @m.x1.xdut.xnormaltransistorpmos5.msky130_fd_pr__pfet_01v8_lvt[leff]
+echo OPV XNormalTransistorPmos5 leff $&s1_xnormaltransistorpmos5_leff
+let s1_xnormaltransistorpmos6_id = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[id]
+echo OPV XNormalTransistorPmos6 id $&s1_xnormaltransistorpmos6_id
+let s1_xnormaltransistorpmos6_vgs = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[vgs]
+echo OPV XNormalTransistorPmos6 vgs $&s1_xnormaltransistorpmos6_vgs
+let s1_xnormaltransistorpmos6_vds = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[vds]
+echo OPV XNormalTransistorPmos6 vds $&s1_xnormaltransistorpmos6_vds
+let s1_xnormaltransistorpmos6_vbs = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[vbs]
+echo OPV XNormalTransistorPmos6 vbs $&s1_xnormaltransistorpmos6_vbs
+let s1_xnormaltransistorpmos6_vth = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[vth]
+echo OPV XNormalTransistorPmos6 vth $&s1_xnormaltransistorpmos6_vth
+let s1_xnormaltransistorpmos6_vdsat = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[vdsat]
+echo OPV XNormalTransistorPmos6 vdsat $&s1_xnormaltransistorpmos6_vdsat
+let s1_xnormaltransistorpmos6_gm = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[gm]
+echo OPV XNormalTransistorPmos6 gm $&s1_xnormaltransistorpmos6_gm
+let s1_xnormaltransistorpmos6_gds = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[gds]
+echo OPV XNormalTransistorPmos6 gds $&s1_xnormaltransistorpmos6_gds
+let s1_xnormaltransistorpmos6_gmbs = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[gmbs]
+echo OPV XNormalTransistorPmos6 gmbs $&s1_xnormaltransistorpmos6_gmbs
+let s1_xnormaltransistorpmos6_cgg = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cgg]
+echo OPV XNormalTransistorPmos6 cgg $&s1_xnormaltransistorpmos6_cgg
+let s1_xnormaltransistorpmos6_cgd = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cgd]
+echo OPV XNormalTransistorPmos6 cgd $&s1_xnormaltransistorpmos6_cgd
+let s1_xnormaltransistorpmos6_cgs = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cgs]
+echo OPV XNormalTransistorPmos6 cgs $&s1_xnormaltransistorpmos6_cgs
+let s1_xnormaltransistorpmos6_cgb = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cgb]
+echo OPV XNormalTransistorPmos6 cgb $&s1_xnormaltransistorpmos6_cgb
+let s1_xnormaltransistorpmos6_cdg = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cdg]
+echo OPV XNormalTransistorPmos6 cdg $&s1_xnormaltransistorpmos6_cdg
+let s1_xnormaltransistorpmos6_cdd = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cdd]
+echo OPV XNormalTransistorPmos6 cdd $&s1_xnormaltransistorpmos6_cdd
+let s1_xnormaltransistorpmos6_cds = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cds]
+echo OPV XNormalTransistorPmos6 cds $&s1_xnormaltransistorpmos6_cds
+let s1_xnormaltransistorpmos6_cdb = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cdb]
+echo OPV XNormalTransistorPmos6 cdb $&s1_xnormaltransistorpmos6_cdb
+let s1_xnormaltransistorpmos6_csg = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[csg]
+echo OPV XNormalTransistorPmos6 csg $&s1_xnormaltransistorpmos6_csg
+let s1_xnormaltransistorpmos6_csd = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[csd]
+echo OPV XNormalTransistorPmos6 csd $&s1_xnormaltransistorpmos6_csd
+let s1_xnormaltransistorpmos6_css = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[css]
+echo OPV XNormalTransistorPmos6 css $&s1_xnormaltransistorpmos6_css
+let s1_xnormaltransistorpmos6_csb = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[csb]
+echo OPV XNormalTransistorPmos6 csb $&s1_xnormaltransistorpmos6_csb
+let s1_xnormaltransistorpmos6_cbg = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cbg]
+echo OPV XNormalTransistorPmos6 cbg $&s1_xnormaltransistorpmos6_cbg
+let s1_xnormaltransistorpmos6_cbd = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cbd]
+echo OPV XNormalTransistorPmos6 cbd $&s1_xnormaltransistorpmos6_cbd
+let s1_xnormaltransistorpmos6_cbs = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cbs]
+echo OPV XNormalTransistorPmos6 cbs $&s1_xnormaltransistorpmos6_cbs
+let s1_xnormaltransistorpmos6_cbb = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cbb]
+echo OPV XNormalTransistorPmos6 cbb $&s1_xnormaltransistorpmos6_cbb
+let s1_xnormaltransistorpmos6_capbd = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[capbd]
+echo OPV XNormalTransistorPmos6 capbd $&s1_xnormaltransistorpmos6_capbd
+let s1_xnormaltransistorpmos6_capbs = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[capbs]
+echo OPV XNormalTransistorPmos6 capbs $&s1_xnormaltransistorpmos6_capbs
+let s1_xnormaltransistorpmos6_cgso = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cgso]
+echo OPV XNormalTransistorPmos6 cgso $&s1_xnormaltransistorpmos6_cgso
+let s1_xnormaltransistorpmos6_cgdo = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cgdo]
+echo OPV XNormalTransistorPmos6 cgdo $&s1_xnormaltransistorpmos6_cgdo
+let s1_xnormaltransistorpmos6_cgbo = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[cgbo]
+echo OPV XNormalTransistorPmos6 cgbo $&s1_xnormaltransistorpmos6_cgbo
+let s1_xnormaltransistorpmos6_weff = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[weff]
+echo OPV XNormalTransistorPmos6 weff $&s1_xnormaltransistorpmos6_weff
+let s1_xnormaltransistorpmos6_leff = @m.x1.xdut.xnormaltransistorpmos6.msky130_fd_pr__pfet_01v8_lvt[leff]
+echo OPV XNormalTransistorPmos6 leff $&s1_xnormaltransistorpmos6_leff
+let s1_xnormaltransistorpmos7_id = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[id]
+echo OPV XNormalTransistorPmos7 id $&s1_xnormaltransistorpmos7_id
+let s1_xnormaltransistorpmos7_vgs = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[vgs]
+echo OPV XNormalTransistorPmos7 vgs $&s1_xnormaltransistorpmos7_vgs
+let s1_xnormaltransistorpmos7_vds = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[vds]
+echo OPV XNormalTransistorPmos7 vds $&s1_xnormaltransistorpmos7_vds
+let s1_xnormaltransistorpmos7_vbs = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[vbs]
+echo OPV XNormalTransistorPmos7 vbs $&s1_xnormaltransistorpmos7_vbs
+let s1_xnormaltransistorpmos7_vth = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[vth]
+echo OPV XNormalTransistorPmos7 vth $&s1_xnormaltransistorpmos7_vth
+let s1_xnormaltransistorpmos7_vdsat = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[vdsat]
+echo OPV XNormalTransistorPmos7 vdsat $&s1_xnormaltransistorpmos7_vdsat
+let s1_xnormaltransistorpmos7_gm = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[gm]
+echo OPV XNormalTransistorPmos7 gm $&s1_xnormaltransistorpmos7_gm
+let s1_xnormaltransistorpmos7_gds = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[gds]
+echo OPV XNormalTransistorPmos7 gds $&s1_xnormaltransistorpmos7_gds
+let s1_xnormaltransistorpmos7_gmbs = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[gmbs]
+echo OPV XNormalTransistorPmos7 gmbs $&s1_xnormaltransistorpmos7_gmbs
+let s1_xnormaltransistorpmos7_cgg = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cgg]
+echo OPV XNormalTransistorPmos7 cgg $&s1_xnormaltransistorpmos7_cgg
+let s1_xnormaltransistorpmos7_cgd = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cgd]
+echo OPV XNormalTransistorPmos7 cgd $&s1_xnormaltransistorpmos7_cgd
+let s1_xnormaltransistorpmos7_cgs = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cgs]
+echo OPV XNormalTransistorPmos7 cgs $&s1_xnormaltransistorpmos7_cgs
+let s1_xnormaltransistorpmos7_cgb = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cgb]
+echo OPV XNormalTransistorPmos7 cgb $&s1_xnormaltransistorpmos7_cgb
+let s1_xnormaltransistorpmos7_cdg = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cdg]
+echo OPV XNormalTransistorPmos7 cdg $&s1_xnormaltransistorpmos7_cdg
+let s1_xnormaltransistorpmos7_cdd = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cdd]
+echo OPV XNormalTransistorPmos7 cdd $&s1_xnormaltransistorpmos7_cdd
+let s1_xnormaltransistorpmos7_cds = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cds]
+echo OPV XNormalTransistorPmos7 cds $&s1_xnormaltransistorpmos7_cds
+let s1_xnormaltransistorpmos7_cdb = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cdb]
+echo OPV XNormalTransistorPmos7 cdb $&s1_xnormaltransistorpmos7_cdb
+let s1_xnormaltransistorpmos7_csg = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[csg]
+echo OPV XNormalTransistorPmos7 csg $&s1_xnormaltransistorpmos7_csg
+let s1_xnormaltransistorpmos7_csd = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[csd]
+echo OPV XNormalTransistorPmos7 csd $&s1_xnormaltransistorpmos7_csd
+let s1_xnormaltransistorpmos7_css = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[css]
+echo OPV XNormalTransistorPmos7 css $&s1_xnormaltransistorpmos7_css
+let s1_xnormaltransistorpmos7_csb = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[csb]
+echo OPV XNormalTransistorPmos7 csb $&s1_xnormaltransistorpmos7_csb
+let s1_xnormaltransistorpmos7_cbg = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cbg]
+echo OPV XNormalTransistorPmos7 cbg $&s1_xnormaltransistorpmos7_cbg
+let s1_xnormaltransistorpmos7_cbd = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cbd]
+echo OPV XNormalTransistorPmos7 cbd $&s1_xnormaltransistorpmos7_cbd
+let s1_xnormaltransistorpmos7_cbs = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cbs]
+echo OPV XNormalTransistorPmos7 cbs $&s1_xnormaltransistorpmos7_cbs
+let s1_xnormaltransistorpmos7_cbb = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cbb]
+echo OPV XNormalTransistorPmos7 cbb $&s1_xnormaltransistorpmos7_cbb
+let s1_xnormaltransistorpmos7_capbd = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[capbd]
+echo OPV XNormalTransistorPmos7 capbd $&s1_xnormaltransistorpmos7_capbd
+let s1_xnormaltransistorpmos7_capbs = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[capbs]
+echo OPV XNormalTransistorPmos7 capbs $&s1_xnormaltransistorpmos7_capbs
+let s1_xnormaltransistorpmos7_cgso = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cgso]
+echo OPV XNormalTransistorPmos7 cgso $&s1_xnormaltransistorpmos7_cgso
+let s1_xnormaltransistorpmos7_cgdo = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cgdo]
+echo OPV XNormalTransistorPmos7 cgdo $&s1_xnormaltransistorpmos7_cgdo
+let s1_xnormaltransistorpmos7_cgbo = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[cgbo]
+echo OPV XNormalTransistorPmos7 cgbo $&s1_xnormaltransistorpmos7_cgbo
+let s1_xnormaltransistorpmos7_weff = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[weff]
+echo OPV XNormalTransistorPmos7 weff $&s1_xnormaltransistorpmos7_weff
+let s1_xnormaltransistorpmos7_leff = @m.x1.xdut.xnormaltransistorpmos7.msky130_fd_pr__pfet_01v8_lvt[leff]
+echo OPV XNormalTransistorPmos7 leff $&s1_xnormaltransistorpmos7_leff
+let s1_xnormaltransistorpmos8_id = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[id]
+echo OPV XNormalTransistorPmos8 id $&s1_xnormaltransistorpmos8_id
+let s1_xnormaltransistorpmos8_vgs = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[vgs]
+echo OPV XNormalTransistorPmos8 vgs $&s1_xnormaltransistorpmos8_vgs
+let s1_xnormaltransistorpmos8_vds = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[vds]
+echo OPV XNormalTransistorPmos8 vds $&s1_xnormaltransistorpmos8_vds
+let s1_xnormaltransistorpmos8_vbs = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[vbs]
+echo OPV XNormalTransistorPmos8 vbs $&s1_xnormaltransistorpmos8_vbs
+let s1_xnormaltransistorpmos8_vth = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[vth]
+echo OPV XNormalTransistorPmos8 vth $&s1_xnormaltransistorpmos8_vth
+let s1_xnormaltransistorpmos8_vdsat = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[vdsat]
+echo OPV XNormalTransistorPmos8 vdsat $&s1_xnormaltransistorpmos8_vdsat
+let s1_xnormaltransistorpmos8_gm = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[gm]
+echo OPV XNormalTransistorPmos8 gm $&s1_xnormaltransistorpmos8_gm
+let s1_xnormaltransistorpmos8_gds = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[gds]
+echo OPV XNormalTransistorPmos8 gds $&s1_xnormaltransistorpmos8_gds
+let s1_xnormaltransistorpmos8_gmbs = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[gmbs]
+echo OPV XNormalTransistorPmos8 gmbs $&s1_xnormaltransistorpmos8_gmbs
+let s1_xnormaltransistorpmos8_cgg = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cgg]
+echo OPV XNormalTransistorPmos8 cgg $&s1_xnormaltransistorpmos8_cgg
+let s1_xnormaltransistorpmos8_cgd = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cgd]
+echo OPV XNormalTransistorPmos8 cgd $&s1_xnormaltransistorpmos8_cgd
+let s1_xnormaltransistorpmos8_cgs = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cgs]
+echo OPV XNormalTransistorPmos8 cgs $&s1_xnormaltransistorpmos8_cgs
+let s1_xnormaltransistorpmos8_cgb = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cgb]
+echo OPV XNormalTransistorPmos8 cgb $&s1_xnormaltransistorpmos8_cgb
+let s1_xnormaltransistorpmos8_cdg = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cdg]
+echo OPV XNormalTransistorPmos8 cdg $&s1_xnormaltransistorpmos8_cdg
+let s1_xnormaltransistorpmos8_cdd = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cdd]
+echo OPV XNormalTransistorPmos8 cdd $&s1_xnormaltransistorpmos8_cdd
+let s1_xnormaltransistorpmos8_cds = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cds]
+echo OPV XNormalTransistorPmos8 cds $&s1_xnormaltransistorpmos8_cds
+let s1_xnormaltransistorpmos8_cdb = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cdb]
+echo OPV XNormalTransistorPmos8 cdb $&s1_xnormaltransistorpmos8_cdb
+let s1_xnormaltransistorpmos8_csg = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[csg]
+echo OPV XNormalTransistorPmos8 csg $&s1_xnormaltransistorpmos8_csg
+let s1_xnormaltransistorpmos8_csd = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[csd]
+echo OPV XNormalTransistorPmos8 csd $&s1_xnormaltransistorpmos8_csd
+let s1_xnormaltransistorpmos8_css = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[css]
+echo OPV XNormalTransistorPmos8 css $&s1_xnormaltransistorpmos8_css
+let s1_xnormaltransistorpmos8_csb = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[csb]
+echo OPV XNormalTransistorPmos8 csb $&s1_xnormaltransistorpmos8_csb
+let s1_xnormaltransistorpmos8_cbg = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cbg]
+echo OPV XNormalTransistorPmos8 cbg $&s1_xnormaltransistorpmos8_cbg
+let s1_xnormaltransistorpmos8_cbd = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cbd]
+echo OPV XNormalTransistorPmos8 cbd $&s1_xnormaltransistorpmos8_cbd
+let s1_xnormaltransistorpmos8_cbs = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cbs]
+echo OPV XNormalTransistorPmos8 cbs $&s1_xnormaltransistorpmos8_cbs
+let s1_xnormaltransistorpmos8_cbb = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cbb]
+echo OPV XNormalTransistorPmos8 cbb $&s1_xnormaltransistorpmos8_cbb
+let s1_xnormaltransistorpmos8_capbd = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[capbd]
+echo OPV XNormalTransistorPmos8 capbd $&s1_xnormaltransistorpmos8_capbd
+let s1_xnormaltransistorpmos8_capbs = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[capbs]
+echo OPV XNormalTransistorPmos8 capbs $&s1_xnormaltransistorpmos8_capbs
+let s1_xnormaltransistorpmos8_cgso = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cgso]
+echo OPV XNormalTransistorPmos8 cgso $&s1_xnormaltransistorpmos8_cgso
+let s1_xnormaltransistorpmos8_cgdo = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cgdo]
+echo OPV XNormalTransistorPmos8 cgdo $&s1_xnormaltransistorpmos8_cgdo
+let s1_xnormaltransistorpmos8_cgbo = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[cgbo]
+echo OPV XNormalTransistorPmos8 cgbo $&s1_xnormaltransistorpmos8_cgbo
+let s1_xnormaltransistorpmos8_weff = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[weff]
+echo OPV XNormalTransistorPmos8 weff $&s1_xnormaltransistorpmos8_weff
+let s1_xnormaltransistorpmos8_leff = @m.x1.xdut.xnormaltransistorpmos8.msky130_fd_pr__pfet_01v8_lvt[leff]
+echo OPV XNormalTransistorPmos8 leff $&s1_xnormaltransistorpmos8_leff
+let s1i = i(vsup)
+echo OPI isup $&s1i
+let s1o = v(OUT)
+echo OPI vout $&s1o
+quit 0
+.endc
+**.ends
+
+.subckt dut_amp INP INN OUTN VDD VSS OUTP
+XDUT INN INP OUTP VSS VDD loadbench_miller
+.ends
+
+.subckt loadbench_miller in1 in2 out sourceNmos sourcePmos
+XDiodeTransistorNmos1 FirstStageYout1 FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt L=2.03 W=66.13 NF=1 AD=19.1777 AS=19.1777 PD=132.84 PS=132.84 NRD=0.0043853 NRS=0.0043853 SA=0 SB=0 SD=0 MULT=1
+XDiodeTransistorPmos2 ibias ibias sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=37.3 NF=1 AD=10.817 AS=10.817 PD=75.18 PS=75.18 NRD=0.0077748 NRS=0.0077748 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorNmos3 out sourceNmos outFirstStage sourceNmos s3c_nfet_01v8_lvt_w484p2_l0p24_m1__nf1_gboth_sdhalf
+XNormalTransistorNmos4 outFirstStage FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt L=2.03 W=66.13 NF=1 AD=19.1777 AS=19.1777 PD=132.84 PS=132.84 NRD=0.0043853 NRS=0.0043853 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorPmos5 out ibias sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=887.03 NF=1 AD=257.239 AS=257.239 PD=1774.64 PS=1774.64 NRD=0.000326934 NRS=0.000326934 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorPmos6 outFirstStage in2 FirstStageYsourceTransconductance FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt L=0.89 W=14.21 NF=1 AD=4.1209 AS=4.1209 PD=29 PS=29 NRD=0.0204082 NRS=0.0204082 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorPmos7 FirstStageYout1 in1 FirstStageYsourceTransconductance FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt L=0.89 W=14.21 NF=1 AD=4.1209 AS=4.1209 PD=29 PS=29 NRD=0.0204082 NRS=0.0204082 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorPmos8 FirstStageYsourceTransconductance ibias sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=90.63 NF=1 AD=26.2827 AS=26.2827 PD=181.84 PS=181.84 NRD=0.00319982 NRS=0.00319982 SA=0 SB=0 SD=0 MULT=1
+Ibias ibias sourceNmos 1e-05
+Capacitor2 outFirstStage out 5e-13
+.ends loadbench_miller
+.subckt s3c_nfet_01v8_lvt_w484p2_l0p24_m1__nf1_gboth_sdhalf D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8_lvt ad=140.418 pd=968.97998 as=140.418 ps=968.97998 w=484.20001 l=0.24
+C0 S G 4.73576f
+C1 D G 4.73576f
+C2 S D 17.3725f
+C3 G B 2.74129f
+C4 S B 21.0063f
+C5 D B 21.0063f
+.ends
+.end

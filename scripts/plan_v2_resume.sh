@@ -41,8 +41,9 @@ fstep() {     # fstep <name> <flow args...>   done when the flow finished (PASS 
 }
 snap() { step "snap_$1_$2" python3 scripts/compare_before_after.py snap "$1" "$2"; }
 after() {     # the v2 'after' run of a design: PVT points, then S2 and S3
+  # plan v2 ran S3 with the old relaxed-type rule; the S3 default changed on 2026-10-27 (PREREG amendment)
   step "$1_after_pvt" python3 -m src.s0.pvt "inputs/$1/package.yaml" --workers $W || return 1
-  fstep "$1_after_S2S3" "$1" --from S2 --workers $W || return 1
+  fstep "$1_after_S2S3" "$1" --from S2 --workers $W --relax-fallback default || return 1
   snap "$1" after
 }
 restore_aside() {   # put back outputs set aside by an interrupted ablation / eta step
@@ -72,7 +73,7 @@ lane_A() {
     if [ ! -f "$ST/snap_${d}_after_nopvt.done" ]; then
       aside $d
       step abl_nopvt_${d}_S2 python3 -m src.s2.run inputs/$d/package.yaml --workers $W --no-pvt --no-baselines
-      step abl_nopvt_${d}_S3 python3 -m src.s3.run inputs/$d/package.yaml --workers $W
+      step abl_nopvt_${d}_S3 python3 -m src.s3.run inputs/$d/package.yaml --workers $W --relax-fallback default
       snap $d after_nopvt
       rm -f "$ST/abl_nopvt_${d}_S2.done" "$ST/abl_nopvt_${d}_S3.done"
       restore_aside $d

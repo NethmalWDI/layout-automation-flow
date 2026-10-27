@@ -1,0 +1,57 @@
+##### plan v2 eta 0.9 re-run 2026-10-27 11:59:41: waiting for scripts/plan_v2_after_queue.sh
+the after-queue script has ended; starting 2026-10-27 12:40:35
+=== eta 0.9 re-run of example_ota_5t 2026-10-27 12:41:47
+G2.0_expected_layout_use (info)        INFO
+G2.1_names_resolve                     PASS
+G2.2_units_and_provenance              PASS
+G2.3_allocation                        PASS
+G2.4_linear_all_budgets_at_once        INFO
+G2.5_spice_budget_verification         PASS
+G2.6_hierarchy_sums                    PASS
+G2.7_library_floors_feasible           PASS
+G2.8_baselines (info)                  INFO
+G2.9_pvt_constraints (info)            INFO
+S2 PASS -> outputs/S2/example_ota_5t
+    S2 rc=0 12:53:04
+    clock: {"wall_s":676.7,"uptime_s":644.9,"jump_s":31.8,"note":"wall-clocktimeminuscontaineruptimeo
+=== snap_example_ota_5t_after_eta0.9_rerun 2026-10-27 12:53:04
+/foss/designs/outputs/compare/example_ota_5t/after_eta0.9_rerun.json
+    snap_example_ota_5t_after_eta0.9_rerun rc=0 12:53:04
+    restoring the after outputs of example_ota_5t set aside by an interrupted step
+=== eta 0.9 re-run of loadbench_miller 2026-10-27 12:55:36
+G2.0_expected_layout_use (info)        INFO
+G2.1_names_resolve                     PASS
+G2.2_units_and_provenance              PASS
+G2.3_allocation                        FAIL
+G2.4_linear_all_budgets_at_once        INFO
+G2.5_spice_budget_verification         PASS
+G2.6_hierarchy_sums                    PASS
+G2.7_library_floors_feasible           FAIL
+G2.8_baselines (info)                  INFO
+G2.9_pvt_constraints (info)            INFO
+S2 FAIL -> outputs/S2/loadbench_miller
+    S2 rc=1 13:04:09
+    clock: {"wall_s":513.4,"uptime_s":488.8,"jump_s":24.6,"note":"wall-clocktimeminuscontaineruptimeo
+=== snap_loadbench_miller_after_eta0.9_rerun 2026-10-27 13:04:09
+/foss/designs/outputs/compare/loadbench_miller/after_eta0.9_rerun.json
+    snap_loadbench_miller_after_eta0.9_rerun rc=0 13:04:10
+    restoring the after outputs of loadbench_miller set aside by an interrupted step
+== example_ota_5t (after_eta0.9 -> after_eta0.9_rerun): same gates, outcomes and failed-run counts: yes; re-run timed-out SPICE runs: 4; re-run clock jump: 31.8 s
+   S2 failed 0 -> 0; eta 0.9 -> 0.9; t_round1 1.89 -> 1.89; starved 0 -> 0; n_budgeted 21 -> 21; floors_pass True -> True; verify max change 0
+   | rule | outcome | failed SPICE runs | SPICE worst use / allowed | specs violated (SPICE) |
+   | per_net | unsafe -> unsafe | 0 -> 0 | 3.55 -> 3.55 | 2 -> 2 |
+   | equal | unsafe + infeasible -> unsafe + infeasible | 0 -> 0 | 1.1 -> 1.1 | 0 -> 0 |
+   | lp_sum | infeasible (unverified: failed runs) -> infeasible (unverified: failed runs) | 8 -> 8 | 0.815 -> 0.815 | 0 -> 0 |
+   | lp_floor | ok -> ok | 0 -> 0 | 0.163 -> 0.163 | 0 -> 0 |
+   | ours | ok -> ok | 0 -> 0 | 0.41 -> 0.41 | 0 -> 0 |
+== loadbench_miller (after_eta0.9 -> after_eta0.9_rerun): same gates, outcomes and failed-run counts: yes; re-run timed-out SPICE runs: 0; re-run clock jump: 24.6 s
+   S2 failed 2 -> 2; eta 0.9 -> 0.9; t_round1 0.0017 -> 0.0017; starved 39 -> 39; n_budgeted 42 -> 42; floors_pass False -> False; verify max change 0
+   | rule | outcome | failed SPICE runs | SPICE worst use / allowed | specs violated (SPICE) |
+   | per_net | unsafe + infeasible -> unsafe + infeasible | 0 -> 0 | 10.2 -> 10.2 | 12 -> 12 |
+   | equal | infeasible -> infeasible | 0 -> 0 | 0.738 -> 0.738 | 0 -> 0 |
+   | lp_sum | unsafe + infeasible (unverified: failed runs) -> unsafe + infeasible (unverified: failed runs) | 4 -> 4 | 1.99e+04 -> 1.99e+04 | 2 -> 2 |
+   | lp_floor | infeasible -> infeasible | 0 -> 0 | 0.62 -> 0.62 | 0 -> 0 |
+   | ours | infeasible -> infeasible | 0 -> 0 | 1.01 -> 1.01 | 0 -> 0 |
+outputs/posthoc/eta09_rerun/compare.json
+/foss/designs/docs/before_after.md
+##### plan v2 eta 0.9 re-run ended 2026-10-27 13:04:39

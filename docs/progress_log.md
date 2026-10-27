@@ -403,3 +403,161 @@ runs finish). Log of the day:
   `docs/HANDOFF.md` is the plan for continuing with Claude Code: setup, first prompt, daily routine, remaining
   work in order, and what each agent can and cannot do. Copies of the claude.ai project docs 08–12 are in
   `docs/context/project_docs/`.
+
+## 2026-10-27: plan-v2 runs resumed; S3 gate-pad met1.6 patch for short-L devices (Claude Code)
+
+- **Runs resumed (05:30 CET):** `scripts/plan_v2_resume.sh` was started with the command in its header (two lanes,
+  logs `runs/logs/plan_v2_resume.log`, `plan_v2_lane_A.log`, `plan_v2_lane_B.log`).
+- **Lane A stopped at 05:55:** iadc 'before' S3 (v1) raised `mode A-free: no built option for
+  ['nfet_01v8_lvt_W1p2_L0p2_m6', 'nfet_01v8_lvt_W1p2_L0p2_m2']`. Lane B (TTSKY) was not affected and kept running.
+  - **Why no option:** every built option of these two types failed DRC with met1.6 (Metal1 minimum area
+    < 0.083 um2); LVS passed. iadc builds only the options in the sized W bin (`s3_build_mode: A-bin`), so for
+    W = 1.2 um only the 4 nf = 1 options exist per type, and all of them failed.
+  - **Which shape:** measuring every merged met1 island of the failing cells (KLayout) showed that only the gate
+    contact pad is too small: 0.290 x 0.230 um = 0.0667 um2. The PCell's pad does not grow at short L
+    (here L = 0.2 um). gtop cells have one pad (3 errors), gboth cells two (6 errors). The S/D strips
+    (0.28 um2) are fine, and there is no met2 error. LOADBench's 484/0.24 um nf = 1 cells fail for the same
+    reason (same pad, L = 0.24 um). This is journey row 7 (S0 G0.7, open since 2026-10-26).
+- **Fix (Imasha's suggestion: a small met1 stripe on the gate):**
+  - `src/s3/strap.py` (`pad_patch`): a gate pad below 0.083 um2 is widened symmetrically along the gate (x) to
+    the minimum area, on the 5 nm grid. 0.290 x 0.230 becomes 0.370 x 0.230 = 0.0851 um2. Widening in x keeps
+    the pad's 0.16 um gap to the S/D strips and leaves the cell's bounding box unchanged. The PCell itself is
+    not changed; the patch is drawn in the wrapper, next to the straps and labels. The record keeps the patch
+    (`strap.gate_pad_patch`).
+  - `src/s3/run.py`: a cached cell that failed DRC before this patch is rebuilt. Signed-off cells are never
+    rebuilt, so no earlier result changes.
+- **Check:** `src.s3.run inputs/iadc_ota/package.yaml --cells-only --rules v1` (log
+  `runs/logs/s3_cells_iadc_gatepad.log`, 65 s): 88 of 88 iadc options signed off (was 80). All 8 rebuilt cells
+  have DRC 0 with the negative control still flagged, an LVS match and 1 device. `tests/test_v2.py`: 24 passed.
+- **Not covered by this patch (different cause):** `nfet_01v8_lvt_W0p5_L20_m2` (TTSKY), sdhalf options only:
+  the S/D strip is 0.230 x 0.355 um = 0.0817 um2 (narrow W with 50 % via coverage). The sdfull options of that
+  type pass, so nothing is blocked. These 2 cells are rebuilt once by the cache rule above and still fail.
+- **Before/after caveat:** LOADBench 'before' ran with its 4 nf = 1 options unsigned; its 'after' run will have
+  them signed off. Check in 7.5 whether S3 picks any of them (unlikely for a 484 um finger).
+- **Lane A restarted as a side run (06:27 CET):** `scripts/plan_v2_laneA_now.sh` runs lane A's steps (iadc 'before'
+  S3, loadbench 'after', iadc 'after', iadc hand layout) with the same `.done` markers, next to the resume
+  script's lane B. The main resume script is paused (`kill -STOP`), so that its final part (eta 0.9 sets
+  `outputs/S2/<design>` aside and overwrites it) cannot run while the side lane uses iadc's S2 outputs. After both
+  have ended, the resume script is restarted: it runs the no-PVT ablation, eta 0.9, the golden snapshots and the report.
+- **Run check (08:16 CET):** 8 steps finished today. Details are in `docs/STATUS.md`, *Recent results*.
+  - iadc 'before' S3 (v1) and TTSKY 'before' S3 (v1): FAIL G3.3, G3.5, with every spec met. iadc's G3.3
+    failure is the 45 devices that S1 G1.1 already flags below vdsat.
+  - **LOADBench 'after' (v2): PM 48.1°, below the ≥ 60° spec ('before' 64.9°).**
+    - S2 fails G2.7: the cheapest cells use up to 2.8 × eta × margin at the sf/ss PVT points. It also fails
+      G2.3: t = 0.00094, and phase 2 did not converge, so the max-min budgets are kept.
+    - So S3 relaxes all 6 types, and each one keeps its nf = 1 default PCell. Two of them have kΩ gate
+      resistance: 8.2 kΩ for 484.2/0.24 and 4.9 kΩ for 887.03/0.74. 'Before' had nf = 8 for both.
+    - The cells alone, without their access resistance, cost about 1° of PM. All cells together, with access
+      resistance, cost 17.3°.
+  - **Correction to the caveat above:** I wrote that S3 was unlikely to pick a 484 µm nf = 1 cell. It did, through
+    the relaxation fallback. Before the gate-pad patch that cell was not DRC-clean, so the fallback took the
+    option with the most slack (nf = 8).
+  - Whether to change the fallback is a FEEDBACK NEEDED question in STATUS.md. Nothing is changed until Imasha
+    decides.
+- **Post-hoc 'least-bad' fallback test (08:40 CET; Imasha's decision):** keep LOADBench's 'after' result as it is.
+  After the queue, test a fallback for relaxed types that keeps the least-bad option, gate R included, as a
+  separately labelled post-hoc S3 run. Not pre-registered, and reported as such.
+  - `src/s3/options.py` `relaxed_pick`: 'default' is the rule every run used, unchanged. 'least-bad' always keeps
+    the option with the largest min_slack: the option whose worst check (cell margin use, or the access R of d,
+    g or s, each as a fraction of what it may use) is broken least.
+  - `src/s3/run.py`: `--relax-fallback` (default 'default') and `--out` (default `outputs/S3/<design>`). Both are
+    opt-in, so the queued runs behave exactly as before. The fallback is recorded in G3.5 and
+    `device_decisions.json`; the golden comparison does not read those fields.
+  - `scripts/compare_before_after.py`: `snap` takes an optional S3 folder. Its record of LOADBench 'after' without
+    the folder is identical to the 07:27 snapshot (checked). The report's intro explains the new tag.
+  - `scripts/plan_v2_after_queue.sh` (started 08:40:33) waits for both lanes and stops the paused first pass of
+    the resume script. It keeps that pass's logs as `*_pass1.log`, because the second pass would overwrite them.
+    Then it runs the resume script again. Last, it re-runs S3 with `--relax-fallback least-bad --out
+    outputs/posthoc/least_bad/<design>` for every design whose 'after' S3 relaxed a type, snaps it as
+    `after_posthoc_leastbad` and writes the report again. Its pieces were dry-checked before launch: syntax, the
+    lane and PID detection, the relaxed-type counts and the input-hash check.
+  - Before any run, a dry check on LOADBench's existing option table: least-bad keeps nf = 64 for the 484 and 887 um
+    devices (gate R 3 and 2 ohm), nf = 8 for 66.13 and 90.63 um, nf = 2 for 37.3 um, and nf = 1 for 14.21 um.
+    For ota5t_stress it changes 2 of its 3 relaxed types (nf = 1 to nf = 2). Whether PM recovers is for the
+    SPICE run to show.
+  - Also: `.gitignore` ignores `outputs/posthoc/*/*/sim/`; README, S3 section; `tests/test_s3.py` covers
+    `relaxed_pick` (5 passed); flow record 7.1, row 38.
+- **Run check (11:50 CET):** details are in `docs/STATUS.md`, *Recent results*.
+  - The side lane ended at 09:25 (exit 0) and lane B at 10:08. The after-queue script stopped the paused first
+    pass at 10:08:47, kept its logs (`*_pass1.log`) and started the second pass. By 11:20 that pass had run the
+    no-PVT ablation and S2 at eta 0.9 for the 5T designs and LOADBench.
+  - iadc 'after' relaxes all 22 types on saturation checks (G1.1's devices), exactly as 'before', so the final
+    specs are identical. TTSKY 'after' relaxes 10 of 22 types, mostly on S/D access R; its final specs equal
+    'before'.
+  - The no-PVT ablation of ota5t_stress passes S2 and S3 with no relaxed type ('after' relaxed 3 of 3).
+  - The TTSKY tile's R+C runs warn "Dynamic gmin stepping failed", so they are not trusted yet.
+  - **Standby:** the Windows event log shows the PC in Modern Standby (idle timeout) five times between 06:59 and
+    11:16 CET. The container's processes slowed or paused then; their run times are 28–32 min shorter than the
+    wall clock.
+    - Of the logs still on disk, 8 SPICE runs timed out today. 7 are TTSKY 'after' S2 baseline runs at
+      08:26–08:43, before any standby.
+    - The eighth, an iadc 'after' lp_floor check (started 08:51:13, 28 s into a standby; 180 s limit), may be a
+      standby artefact. It changes no outcome: 8 other failed runs already mark lp_floor "unverified".
+    - No timeout appears in today's PVT sweeps or S3 simulations.
+    - The eta 0.9 S2 runs of example_ota_5t and LOADBench ran almost entirely in standby, and their logs were
+      removed when the 'after' outputs were put back. Whether to re-run them is a FEEDBACK NEEDED question in
+      STATUS.md.
+  - The post-hoc folders of TTSKY, LOADBench and ota5t_stress were seeded with copies of the 'after' `sim/`
+    folders (11:41–11:48; file counts checked). S3's cache reuses a run only for identical deck text with exit
+    code 0, so the post-hoc results equal a fresh run's, but take minutes instead of about an hour.
+- **eta 0.9 re-run queued (12:00 CET; Imasha's decision):** after the post-hoc test, re-run S2 at eta 0.9 for
+  example_ota_5t and loadbench_miller with the PC awake, and compare with the first runs.
+  - `scripts/plan_v2_eta09_rerun.sh` (started 11:59:41) waits for `scripts/plan_v2_after_queue.sh` to finish. It
+    then repeats the resume script's eta 0.9 step for the two designs, with snapshot tag `after_eta0.9_rerun`.
+  - It keeps the re-run's S2 folder in `outputs/posthoc/eta09_rerun/<design>/S2/`, so failed runs can be traced
+    this time.
+  - It records wall-clock time against container uptime over each run (`clock.json`), so a standby shows as a
+    jump.
+  - The S2 run carries no `.done` marker. That avoids a latent problem of the resume script's eta step: after
+    an interruption between S2 and its snapshot, the restored 'after' S2 would be snapped as eta 0.9. That
+    problem is noted in STATUS.md, not fixed, because that script is running.
+  - `scripts/compare_eta09_rerun.py` compares any two snapshot tags of a design rule by rule: outcome, failed
+    SPICE runs, worst use, gates. Tried on ota5t_stress 'after' against 'after_eta0.9', both at eta 0.9 and
+    neither in standby: the same gates and failed-run counts, but 'ours' SPICE worst use 0.984 → 1.11, which turns
+    "infeasible" into "unsafe + infeasible". So some drift exists without standby; its source is still to be found.
+  - Keep-awake: since 12:00 the Claude Code session holds the PC awake (app keep-awake). A background watcher
+    waits for the re-run. The Windows sleep setting is the sure way.
+- **All runs finished (13:04 CET).**
+  - The resume script's second pass ended at 12:36 with 33 steps done: eta 0.9 for all 5 designs, golden
+    snapshots, report. The post-hoc test ran 12:36–12:40 and the eta 0.9 re-run 12:41–13:04.
+  - No standby after 11:16 (Windows event log).
+  - **Post-hoc 'least-bad' fallback** (not pre-registered; same inputs as 'after', checked by hash):
+    - LOADBench PM 48.1° → 64.7° (spec ≥ 60°; 'before' 64.9°). G3.3 now passes. Area 4396 → 2142 µm²
+      ('before' 2342). Power 361 → 555 µW ('before' 551, limit 614).
+    - 5 of 6 types change. The 484/0.24 and 887/0.74 devices go to nf = 64, gate R 3 and 2 Ω instead of 8184
+      and 4855 Ω.
+    - ota5t_stress: area 257 → 206 µm², GBW 356.3 → 370.2 MHz, PM 62.4 → 63.8°.
+    - iadc and TTSKY: no type changes. iadc's relaxed types have only nf = 1 options under A-bin. For TTSKY's 10,
+      the least-bad option is the default cell itself.
+    - The power numbers suggest that LOADBench's nf = 1 fallback also moved the bias point: 88–161 Ω of S/D
+      access R in the sources of large, weakly inverted devices. That is an inference, not a separate run.
+  - **eta 0.9 re-run with the PC awake:** example_ota_5t and loadbench_miller reproduce their first runs exactly:
+    gates, outcomes, failed-run counts, worst use and verification. So the morning's standby changed nothing
+    there.
+    - The 5T re-run again has 4 ngspice timeouts in lp_sum, with the PC awake, so those runs really hang.
+    - The re-runs are bit-for-bit reproductions on the same day. So the ota5t_stress 'after' (2026-10-26) vs
+      'after_eta0.9' (today) difference comes from something that changed in between, not from noise. It is
+      still to be found.
+  - TTSKY at eta 0.9: every budget rule's outcome is as at eta 0.5. The eta 0.9 table (PREREG headline) is
+    complete in `docs/before_after.md`.
+  - `clock.json`: with the PC awake, the wall clock still ran 5 % ahead of container uptime (25–32 s per run).
+    That is the VM's normal drift, so the measure needs that baseline.
+- **S3 relaxed-type rule: 'least-bad' is now the default for future runs (13:30 CET; Imasha's decision).**
+  - Plan v2's 'after' results and the post-hoc label stay as they are. PREREG.md has a dated amendment saying the
+    change was decided after seeing plan v2's results.
+  - `src/s3/options.py` (`relaxed_pick`) and `src/s3/run.py`: the default is `least-bad`; `--relax-fallback
+    default` is the old rule, kept for reproducing plan v2.
+  - `src/flow.py`: the v1 variant pins `--relax-fallback default`, so 'before' stays reproducible. `./flow run`
+    and `./flow test` take `--relax-fallback`.
+  - Golden S3 re-runs (`./flow test --rerun`) use the rule recorded in the snapshot. `src/golden.py` now records
+    it; snapshots taken before today count as 'default'.
+  - `scripts/plan_v2_resume.sh` and `scripts/plan_v2_laneA_now.sh`: their 'after' S3 and ablation S3 pin
+    `--relax-fallback default`, so plan v2's scripts still reproduce plan v2.
+  - Tests: `tests/test_s3.py` covers the default and the flow's pass-through. `tests/test_s3.py`,
+    `tests/test_v2.py` and `tests/test_golden.py`: 51 passed (the golden comparison of every committed output
+    included).
+  - Docs: README (S3, "Relaxed types"), the report intro (`docs/before_after.md` regenerated) and flow record
+    7.1 row 38.
+- **Work stopped here for a handoff to Cowork (13:35 CET).** Imasha will run Cowork on this folder for the
+  documentation. Nothing is running in the container, nothing is set aside, and nothing is committed.
+  STATUS.md has the handoff notes.

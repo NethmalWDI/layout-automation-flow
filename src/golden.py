@@ -67,6 +67,8 @@ def extract(design: str, stage: str) -> dict:
             out[f"verify.{row['check']}"] = row.get("spice_use_frac_of_margin")
     elif stage == "S3":
         d = _load("S3", design, "device_decisions.json") or {}
+        if d:   # the relaxed-type rule (recorded since 2026-10-27; the runs before used 'default')
+            out["relax_fallback"] = d.get("relax_fallback") or "default"
         for t, dec in (d.get("decisions") or {}).items():
             out[f"chosen.{t}"] = (dec.get("chosen") or {}).get("id")
             out[f"area.{t}"] = dec.get("area_um2")

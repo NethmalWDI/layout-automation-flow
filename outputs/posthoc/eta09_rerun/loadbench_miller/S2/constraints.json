@@ -1,0 +1,3716 @@
+{
+  "design": "loadbench_miller",
+  "constraints": [
+    {
+      "id": "budget.FirstStageYout1",
+      "class": "budget",
+      "type": "net_capacitance",
+      "targets": [
+        "FirstStageYout1"
+      ],
+      "value": 7.98131213490775,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "pm_deg@ss_v1.1_t85"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.FirstStageYsourceTransconductance",
+      "class": "budget",
+      "type": "net_capacitance",
+      "targets": [
+        "FirstStageYsourceTransconductance"
+      ],
+      "value": 0.033992500526227855,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.ibias",
+      "class": "budget",
+      "type": "net_capacitance",
+      "targets": [
+        "ibias"
+      ],
+      "value": 0.14007704609572608,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.out",
+      "class": "budget",
+      "type": "net_capacitance",
+      "targets": [
+        "out"
+      ],
+      "value": 0.1700528340432314,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.outFirstStage",
+      "class": "budget",
+      "type": "net_capacitance",
+      "targets": [
+        "outFirstStage"
+      ],
+      "value": 0.05768733047939026,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.FirstStageYout1~FirstStageYsourceTransconductance",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "FirstStageYout1",
+        "FirstStageYsourceTransconductance"
+      ],
+      "value": 0.0030028997800498843,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.FirstStageYout1~ibias",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "FirstStageYout1",
+        "ibias"
+      ],
+      "value": 0.5243996581173418,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "pm_deg@ss_v1.1_t85"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.FirstStageYout1~out",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "FirstStageYout1",
+        "out"
+      ],
+      "value": 0.5243996581173418,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "pm_deg@ss_v1.1_t85"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.FirstStageYout1~outFirstStage",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "FirstStageYout1",
+        "outFirstStage"
+      ],
+      "value": 0.007978389847160197,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.FirstStageYout1~in1",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "FirstStageYout1",
+        "in1"
+      ],
+      "value": 0.3324809873574299,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "pm_deg@ss_v1.1_t85"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.FirstStageYsourceTransconductance~ibias",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "ibias"
+      ],
+      "value": 33.483152260000004,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "cap_kappa"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.FirstStageYsourceTransconductance~out",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "out"
+      ],
+      "value": 0.0016023408208072536,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.FirstStageYsourceTransconductance~outFirstStage",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "outFirstStage"
+      ],
+      "value": 0.0030028997800498843,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.FirstStageYsourceTransconductance~in1",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "in1"
+      ],
+      "value": 0.003119558992748205,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.FirstStageYsourceTransconductance~in2",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "in2"
+      ],
+      "value": 0.5816218150983322,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "pm_deg@ss_v1.1_t85"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.ibias~out",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "ibias",
+        "out"
+      ],
+      "value": 0.04847151142211911,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.ibias~outFirstStage",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "ibias",
+        "outFirstStage"
+      ],
+      "value": 0.007333919436586907,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.ibias~in1",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "ibias",
+        "in1"
+      ],
+      "value": 0.00023015266975481,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.ibias~in2",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "ibias",
+        "in2"
+      ],
+      "value": 0.04291049274711513,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "pm_deg@ss_v1.1_t85"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.out~outFirstStage",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "out",
+        "outFirstStage"
+      ],
+      "value": 0.01575985820352816,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.out~in1",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "out",
+        "in1"
+      ],
+      "value": 0.00023015266975481,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.out~in2",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "out",
+        "in2"
+      ],
+      "value": 0.00023015266975481,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.outFirstStage~in1",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "outFirstStage",
+        "in1"
+      ],
+      "value": 0.00023015266975481,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.outFirstStage~in2",
+      "class": "budget",
+      "type": "coupling",
+      "targets": [
+        "outFirstStage",
+        "in2"
+      ],
+      "value": 0.0017832791465246518,
+      "units": "fF",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XDiodeTransistorNmos1.d",
+        "XNormalTransistorNmos4.d"
+      ],
+      "value": 0.0665378784518734,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XDiodeTransistorNmos1.g",
+        "XNormalTransistorNmos4.g"
+      ],
+      "value": 13.821150228042415,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "pm_deg@ss_v1.1_t85"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XDiodeTransistorNmos1.s",
+        "XNormalTransistorNmos4.s"
+      ],
+      "value": 11.657464968402477,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "pm_deg@ss_v1.1_t85"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XDiodeTransistorPmos2.d",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XDiodeTransistorPmos2.d"
+      ],
+      "value": 328.4459706959707,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "cap_kappa"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XDiodeTransistorPmos2.g",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XDiodeTransistorPmos2.g"
+      ],
+      "value": 415.69928410553416,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "cap_kappa"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XDiodeTransistorPmos2.s",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XDiodeTransistorPmos2.s"
+      ],
+      "value": 0.047772168728626226,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XNormalTransistorNmos3.d",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorNmos3.d"
+      ],
+      "value": 0.3746059420843641,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XNormalTransistorNmos3.g",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorNmos3.g"
+      ],
+      "value": 235.39594398693941,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "pm_deg@ss_v1.1_t85"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XNormalTransistorNmos3.s",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorNmos3.s"
+      ],
+      "value": 0.37360561252718505,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XNormalTransistorPmos5.d",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos5.d"
+      ],
+      "value": 0.6824712504332886,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XNormalTransistorPmos5.g",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos5.g"
+      ],
+      "value": 0.8112451845437361,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XNormalTransistorPmos5.s",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos5.s"
+      ],
+      "value": 126.96903307307477,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "pm_deg@ss_v1.1_t85"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos7.d",
+        "XNormalTransistorPmos6.d"
+      ],
+      "value": 0.0721970748932137,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos7.g",
+        "XNormalTransistorPmos6.g"
+      ],
+      "value": 14.159098544570565,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "pm_deg@ss_v1.1_t85"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos7.s",
+        "XNormalTransistorPmos6.s"
+      ],
+      "value": 0.043384195947104034,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XNormalTransistorPmos8.d",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos8.d"
+      ],
+      "value": 0.09316256868457887,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XNormalTransistorPmos8.g",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos8.g"
+      ],
+      "value": 26.38721806201244,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "pm_deg@ss_v1.1_t85"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "budget.XNormalTransistorPmos8.s",
+      "class": "budget",
+      "type": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos8.s"
+      ],
+      "value": 0.08620971591846352,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "progressive-filling max-min allocation of eta*margin (budgets.py)",
+        "binding": [
+          "gain_db@sf_v0.9_t-40"
+        ],
+        "inputs": [
+          "outputs/S1/<design>/sensitivity.json",
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "default_limit.FirstStageYout1~in2",
+      "class": "soft",
+      "type": "coupling",
+      "targets": [
+        "FirstStageYout1",
+        "in2"
+      ],
+      "value": 1.357,
+      "units": "fF",
+      "derived_from": {
+        "equation": "KAPPA x expected need",
+        "kappa": 10.0,
+        "w": 0.13573752500000005
+      },
+      "status": "assumption",
+      "note": "consumes no margin in any modelled check (gain, GBW, PM, noise, DC headroom); unmodelled effects (CMRR, PSRR, slew) are not covered"
+    },
+    {
+      "id": "route.max_length.FirstStageYout1.metal1",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "FirstStageYout1"
+      ],
+      "value": 10.08,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 1.59626242698155,
+        "C_per_um_fF": 0.1584366,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.FirstStageYout1.metal2",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "FirstStageYout1"
+      ],
+      "value": 8.71,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 1.59626242698155,
+        "C_per_um_fF": 0.18323300000000003,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.FirstStageYout1.metal3",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "FirstStageYout1"
+      ],
+      "value": 8.04,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 1.59626242698155,
+        "C_per_um_fF": 0.19844700000000007,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.FirstStageYout1.metal4",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "FirstStageYout1"
+      ],
+      "value": 8.04,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 1.59626242698155,
+        "C_per_um_fF": 0.1984688,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.FirstStageYsourceTransconductance.metal1",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "FirstStageYsourceTransconductance"
+      ],
+      "value": 0.05,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.008498125131556964,
+        "C_per_um_fF": 0.1584366,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.FirstStageYsourceTransconductance.metal2",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "FirstStageYsourceTransconductance"
+      ],
+      "value": 0.05,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.008498125131556964,
+        "C_per_um_fF": 0.18323300000000003,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.FirstStageYsourceTransconductance.metal3",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "FirstStageYsourceTransconductance"
+      ],
+      "value": 0.04,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.008498125131556964,
+        "C_per_um_fF": 0.19844700000000007,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.FirstStageYsourceTransconductance.metal4",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "FirstStageYsourceTransconductance"
+      ],
+      "value": 0.04,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.008498125131556964,
+        "C_per_um_fF": 0.1984688,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.ibias.metal1",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "ibias"
+      ],
+      "value": 0.88,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.14007704609572608,
+        "C_per_um_fF": 0.1584366,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.ibias.metal2",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "ibias"
+      ],
+      "value": 0.76,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.14007704609572608,
+        "C_per_um_fF": 0.18323300000000003,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.ibias.metal3",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "ibias"
+      ],
+      "value": 0.71,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.14007704609572608,
+        "C_per_um_fF": 0.19844700000000007,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.ibias.metal4",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "ibias"
+      ],
+      "value": 0.71,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.14007704609572608,
+        "C_per_um_fF": 0.1984688,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.out.metal1",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "out"
+      ],
+      "value": 0.43,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.06802113361729256,
+        "C_per_um_fF": 0.1584366,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.out.metal2",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "out"
+      ],
+      "value": 0.37,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.06802113361729256,
+        "C_per_um_fF": 0.18323300000000003,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.out.metal3",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "out"
+      ],
+      "value": 0.34,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.06802113361729256,
+        "C_per_um_fF": 0.19844700000000007,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.out.metal4",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "out"
+      ],
+      "value": 0.34,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.06802113361729256,
+        "C_per_um_fF": 0.1984688,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.outFirstStage.metal1",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "outFirstStage"
+      ],
+      "value": 0.16,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.024723141634024396,
+        "C_per_um_fF": 0.1584366,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.outFirstStage.metal2",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "outFirstStage"
+      ],
+      "value": 0.13,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.024723141634024396,
+        "C_per_um_fF": 0.18323300000000003,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.outFirstStage.metal3",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "outFirstStage"
+      ],
+      "value": 0.12,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.024723141634024396,
+        "C_per_um_fF": 0.19844700000000007,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_length.outFirstStage.metal4",
+      "class": "budget_derived",
+      "type": "max_route_length",
+      "targets": [
+        "outFirstStage"
+      ],
+      "value": 0.12,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_max = C_route_share / C_per_um(layer, min width, worst measured environment)",
+        "C_route_share_fF": 0.024723141634024396,
+        "C_per_um_fF": 0.1984688,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~FirstStageYsourceTransconductance.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "FirstStageYsourceTransconductance"
+      ],
+      "value": 0.05,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0030028997800498843,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~FirstStageYsourceTransconductance.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "FirstStageYsourceTransconductance"
+      ],
+      "value": 0.05,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0030028997800498843,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~FirstStageYsourceTransconductance.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "FirstStageYsourceTransconductance"
+      ],
+      "value": 0.06,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0030028997800498843,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~FirstStageYsourceTransconductance.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "FirstStageYsourceTransconductance"
+      ],
+      "value": 0.06,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0030028997800498843,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~ibias.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "ibias"
+      ],
+      "value": 9.3,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.5243996581173418,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~ibias.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "ibias"
+      ],
+      "value": 9.23,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.5243996581173418,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~ibias.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "ibias"
+      ],
+      "value": 9.92,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.5243996581173418,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~ibias.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "ibias"
+      ],
+      "value": 9.71,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.5243996581173418,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~out.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "out"
+      ],
+      "value": 9.3,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.5243996581173418,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~out.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "out"
+      ],
+      "value": 9.23,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.5243996581173418,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~out.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "out"
+      ],
+      "value": 9.92,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.5243996581173418,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~out.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "out"
+      ],
+      "value": 9.71,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.5243996581173418,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~outFirstStage.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "outFirstStage"
+      ],
+      "value": 0.14,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.007978389847160197,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~outFirstStage.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "outFirstStage"
+      ],
+      "value": 0.14,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.007978389847160197,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~outFirstStage.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "outFirstStage"
+      ],
+      "value": 0.15,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.007978389847160197,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~outFirstStage.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "outFirstStage"
+      ],
+      "value": 0.15,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.007978389847160197,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~in1.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "in1"
+      ],
+      "value": 5.89,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.3324809873574299,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~in1.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "in1"
+      ],
+      "value": 5.85,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.3324809873574299,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~in1.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "in1"
+      ],
+      "value": 6.29,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.3324809873574299,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYout1~in1.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYout1",
+        "in1"
+      ],
+      "value": 6.15,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.3324809873574299,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~ibias.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "ibias"
+      ],
+      "value": 593.56,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 33.483152260000004,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~ibias.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "ibias"
+      ],
+      "value": 589.3,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 33.483152260000004,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~ibias.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "ibias"
+      ],
+      "value": 633.47,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 33.483152260000004,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~ibias.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "ibias"
+      ],
+      "value": 619.79,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 33.483152260000004,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~out.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "out"
+      ],
+      "value": 0.03,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0016023408208072536,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~out.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "out"
+      ],
+      "value": 0.03,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0016023408208072536,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~out.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "out"
+      ],
+      "value": 0.03,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0016023408208072536,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~out.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "out"
+      ],
+      "value": 0.03,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0016023408208072536,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~outFirstStage.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "outFirstStage"
+      ],
+      "value": 0.05,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0030028997800498843,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~outFirstStage.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "outFirstStage"
+      ],
+      "value": 0.05,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0030028997800498843,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~outFirstStage.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "outFirstStage"
+      ],
+      "value": 0.06,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0030028997800498843,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~outFirstStage.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "outFirstStage"
+      ],
+      "value": 0.06,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0030028997800498843,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~in1.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "in1"
+      ],
+      "value": 0.06,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.003119558992748205,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~in1.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "in1"
+      ],
+      "value": 0.05,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.003119558992748205,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~in1.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "in1"
+      ],
+      "value": 0.06,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.003119558992748205,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~in1.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "in1"
+      ],
+      "value": 0.06,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.003119558992748205,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~in2.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "in2"
+      ],
+      "value": 10.31,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.5816218150983322,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~in2.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "in2"
+      ],
+      "value": 10.24,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.5816218150983322,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~in2.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "in2"
+      ],
+      "value": 11.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.5816218150983322,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.FirstStageYsourceTransconductance~in2.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "in2"
+      ],
+      "value": 10.77,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.5816218150983322,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~out.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "out"
+      ],
+      "value": 0.86,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.04847151142211911,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~out.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "out"
+      ],
+      "value": 0.85,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.04847151142211911,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~out.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "out"
+      ],
+      "value": 0.92,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.04847151142211911,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~out.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "out"
+      ],
+      "value": 0.9,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.04847151142211911,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~outFirstStage.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "outFirstStage"
+      ],
+      "value": 0.13,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.007333919436586907,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~outFirstStage.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "outFirstStage"
+      ],
+      "value": 0.13,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.007333919436586907,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~outFirstStage.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "outFirstStage"
+      ],
+      "value": 0.14,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.007333919436586907,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~outFirstStage.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "outFirstStage"
+      ],
+      "value": 0.14,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.007333919436586907,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~in1.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "in1"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~in1.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "in1"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~in1.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "in1"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~in1.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "in1"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~in2.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "in2"
+      ],
+      "value": 0.76,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.04291049274711513,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~in2.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "in2"
+      ],
+      "value": 0.76,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.04291049274711513,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~in2.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "in2"
+      ],
+      "value": 0.81,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.04291049274711513,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.ibias~in2.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "ibias",
+        "in2"
+      ],
+      "value": 0.79,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.04291049274711513,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.out~outFirstStage.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "out",
+        "outFirstStage"
+      ],
+      "value": 0.28,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.01575985820352816,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.out~outFirstStage.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "out",
+        "outFirstStage"
+      ],
+      "value": 0.28,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.01575985820352816,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.out~outFirstStage.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "out",
+        "outFirstStage"
+      ],
+      "value": 0.3,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.01575985820352816,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.out~outFirstStage.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "out",
+        "outFirstStage"
+      ],
+      "value": 0.29,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.01575985820352816,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.out~in1.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "out",
+        "in1"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.out~in1.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "out",
+        "in1"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.out~in1.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "out",
+        "in1"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.out~in1.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "out",
+        "in1"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.out~in2.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "out",
+        "in2"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.out~in2.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "out",
+        "in2"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.out~in2.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "out",
+        "in2"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.out~in2.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "out",
+        "in2"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.outFirstStage~in1.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "outFirstStage",
+        "in1"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.outFirstStage~in1.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "outFirstStage",
+        "in1"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.outFirstStage~in1.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "outFirstStage",
+        "in1"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.outFirstStage~in1.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "outFirstStage",
+        "in1"
+      ],
+      "value": 0.0,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.00023015266975481,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.outFirstStage~in2.metal1",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "outFirstStage",
+        "in2"
+      ],
+      "value": 0.03,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0017832791465246518,
+        "Cc_per_um_fF": 0.056410400000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.outFirstStage~in2.metal2",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "outFirstStage",
+        "in2"
+      ],
+      "value": 0.03,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0017832791465246518,
+        "Cc_per_um_fF": 0.056818200000000006,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.outFirstStage~in2.metal3",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "outFirstStage",
+        "in2"
+      ],
+      "value": 0.03,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0017832791465246518,
+        "Cc_per_um_fF": 0.052857,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_parallel.outFirstStage~in2.metal4",
+      "class": "budget_derived",
+      "type": "max_parallel_run_at_min_spacing",
+      "targets": [
+        "outFirstStage",
+        "in2"
+      ],
+      "value": 0.03,
+      "units": "um",
+      "derived_from": {
+        "equation": "L_par = C_coupling_budget / C_coupling_per_um(layer, min spacing)",
+        "C_budget_fF": 0.0017832791465246518,
+        "Cc_per_um_fF": 0.05402300000000001,
+        "inputs": [
+          "outputs/S2/pdk/parasitics.json"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.max_series_R.XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XDiodeTransistorNmos1.d",
+        "XNormalTransistorNmos4.d"
+      ],
+      "value": 0.067,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XDiodeTransistorNmos1.g",
+        "XNormalTransistorNmos4.g"
+      ],
+      "value": 13.821,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XDiodeTransistorNmos1.s",
+        "XNormalTransistorNmos4.s"
+      ],
+      "value": 11.657,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XDiodeTransistorPmos2.d",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XDiodeTransistorPmos2.d"
+      ],
+      "value": 328.446,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XDiodeTransistorPmos2.g",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XDiodeTransistorPmos2.g"
+      ],
+      "value": 415.699,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XDiodeTransistorPmos2.s",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XDiodeTransistorPmos2.s"
+      ],
+      "value": 0.048,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XNormalTransistorNmos3.d",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XNormalTransistorNmos3.d"
+      ],
+      "value": 0.375,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XNormalTransistorNmos3.g",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XNormalTransistorNmos3.g"
+      ],
+      "value": 235.396,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XNormalTransistorNmos3.s",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XNormalTransistorNmos3.s"
+      ],
+      "value": 0.374,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XNormalTransistorPmos5.d",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XNormalTransistorPmos5.d"
+      ],
+      "value": 0.682,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XNormalTransistorPmos5.g",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XNormalTransistorPmos5.g"
+      ],
+      "value": 0.811,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XNormalTransistorPmos5.s",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XNormalTransistorPmos5.s"
+      ],
+      "value": 126.969,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XNormalTransistorPmos7.d",
+        "XNormalTransistorPmos6.d"
+      ],
+      "value": 0.072,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XNormalTransistorPmos7.g",
+        "XNormalTransistorPmos6.g"
+      ],
+      "value": 14.159,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XNormalTransistorPmos7.s",
+        "XNormalTransistorPmos6.s"
+      ],
+      "value": 0.043,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XNormalTransistorPmos8.d",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XNormalTransistorPmos8.d"
+      ],
+      "value": 0.093,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XNormalTransistorPmos8.g",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XNormalTransistorPmos8.g"
+      ],
+      "value": 26.387,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "route.max_series_R.XNormalTransistorPmos8.s",
+      "class": "budget_derived",
+      "type": "max_series_resistance_device_to_net",
+      "targets": [
+        "XNormalTransistorPmos8.s"
+      ],
+      "value": 0.086,
+      "units": "ohm",
+      "derived_from": {
+        "equation": "R_access(PCell option, S3) + R_wire <= R_budget; met1 at min width = 0.8929 ohm/um",
+        "met1_ohm_per_um": 0.8928571428571428
+      },
+      "status": "evaluated",
+      "note": "S3 reports how much of this the chosen PCell option uses; S5 gets the rest"
+    },
+    {
+      "id": "place.proximity.FirstStageYout1",
+      "class": "hard",
+      "type": "max_pin_distance",
+      "targets": [
+        "XDiodeTransistorNmos1",
+        "XNormalTransistorNmos4",
+        "XNormalTransistorPmos7"
+      ],
+      "value": 10.08,
+      "units": "um",
+      "derived_from": {
+        "equation": "the route of the net must fit its met1 length budget",
+        "net": "FirstStageYout1",
+        "hard_if_below_um": 50
+      },
+      "status": "evaluated",
+      "note": "ASSUMPTION: hard below 50 um (a few device pitches), soft above"
+    },
+    {
+      "id": "place.proximity.FirstStageYsourceTransconductance",
+      "class": "hard",
+      "type": "max_pin_distance",
+      "targets": [
+        "XNormalTransistorPmos6",
+        "XNormalTransistorPmos7",
+        "XNormalTransistorPmos8"
+      ],
+      "value": 0.05,
+      "units": "um",
+      "derived_from": {
+        "equation": "the route of the net must fit its met1 length budget",
+        "net": "FirstStageYsourceTransconductance",
+        "hard_if_below_um": 50
+      },
+      "status": "evaluated",
+      "note": "ASSUMPTION: hard below 50 um (a few device pitches), soft above"
+    },
+    {
+      "id": "place.proximity.ibias",
+      "class": "hard",
+      "type": "max_pin_distance",
+      "targets": [
+        "XDiodeTransistorPmos2",
+        "XNormalTransistorPmos5",
+        "XNormalTransistorPmos8"
+      ],
+      "value": 0.88,
+      "units": "um",
+      "derived_from": {
+        "equation": "the route of the net must fit its met1 length budget",
+        "net": "ibias",
+        "hard_if_below_um": 50
+      },
+      "status": "evaluated",
+      "note": "ASSUMPTION: hard below 50 um (a few device pitches), soft above"
+    },
+    {
+      "id": "place.proximity.out",
+      "class": "hard",
+      "type": "max_pin_distance",
+      "targets": [
+        "Capacitor2",
+        "XNormalTransistorNmos3",
+        "XNormalTransistorPmos5"
+      ],
+      "value": 0.43,
+      "units": "um",
+      "derived_from": {
+        "equation": "the route of the net must fit its met1 length budget",
+        "net": "out",
+        "hard_if_below_um": 50
+      },
+      "status": "evaluated",
+      "note": "ASSUMPTION: hard below 50 um (a few device pitches), soft above"
+    },
+    {
+      "id": "place.proximity.outFirstStage",
+      "class": "hard",
+      "type": "max_pin_distance",
+      "targets": [
+        "Capacitor2",
+        "XNormalTransistorNmos3",
+        "XNormalTransistorNmos4",
+        "XNormalTransistorPmos6"
+      ],
+      "value": 0.16,
+      "units": "um",
+      "derived_from": {
+        "equation": "the route of the net must fit its met1 length budget",
+        "net": "outFirstStage",
+        "hard_if_below_um": 50
+      },
+      "status": "evaluated",
+      "note": "ASSUMPTION: hard below 50 um (a few device pitches), soft above"
+    },
+    {
+      "id": "match.same_pcell_options.XNormalTransistorPmos7_XNormalTransistorPmos6",
+      "class": "hard",
+      "type": "identical_device_options",
+      "targets": [
+        "XNormalTransistorPmos7",
+        "XNormalTransistorPmos6"
+      ],
+      "value": null,
+      "units": null,
+      "derived_from": {
+        "rule": "diff_pair from hierarchy",
+        "evidence": [
+          "hierarchy block p_differential_pair (name_map)",
+          "sizes [(14.21, 0.89, 1, 1)]",
+          "gm spread 0.86%"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "place.symmetry.XNormalTransistorPmos7_XNormalTransistorPmos6",
+      "class": "hard",
+      "type": "symmetric_placement_common_axis",
+      "targets": [
+        "XNormalTransistorPmos7",
+        "XNormalTransistorPmos6"
+      ],
+      "value": null,
+      "units": null,
+      "derived_from": {
+        "rule": "diff_pair matching (offset, CMRR)"
+      },
+      "status": "evaluated",
+      "note": "pattern (side-by-side / ABAB / ABBA / common centroid) chosen in S4"
+    },
+    {
+      "id": "match.same_pcell_options.XDiodeTransistorNmos1_XNormalTransistorNmos4",
+      "class": "hard",
+      "type": "identical_device_options",
+      "targets": [
+        "XDiodeTransistorNmos1",
+        "XNormalTransistorNmos4"
+      ],
+      "value": null,
+      "units": null,
+      "derived_from": {
+        "rule": "mirror from hierarchy",
+        "evidence": [
+          "hierarchy block n_current_mirror_load (name_map)",
+          "sizes [(66.13, 2.03, 1, 1)]",
+          "gm spread 0.88%"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "place.symmetry.XDiodeTransistorNmos1_XNormalTransistorNmos4",
+      "class": "hard",
+      "type": "symmetric_placement_common_axis",
+      "targets": [
+        "XDiodeTransistorNmos1",
+        "XNormalTransistorNmos4"
+      ],
+      "value": null,
+      "units": null,
+      "derived_from": {
+        "rule": "mirror matching (offset, CMRR)"
+      },
+      "status": "evaluated",
+      "note": "pattern (side-by-side / ABAB / ABBA / common centroid) chosen in S4"
+    },
+    {
+      "id": "match.same_pcell_options.XDiodeTransistorPmos2_XNormalTransistorPmos8",
+      "class": "hard",
+      "type": "identical_device_options",
+      "targets": [
+        "XDiodeTransistorPmos2",
+        "XNormalTransistorPmos8"
+      ],
+      "value": null,
+      "units": null,
+      "derived_from": {
+        "rule": "mirror from hierarchy",
+        "evidence": [
+          "hierarchy block p_current_mirror (name_map)",
+          "sizes [(37.3, 0.74, 1, 1), (90.63, 0.74, 1, 1)]",
+          "gm spread 125.84%"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "place.symmetry.XDiodeTransistorPmos2_XNormalTransistorPmos8",
+      "class": "hard",
+      "type": "symmetric_placement_common_axis",
+      "targets": [
+        "XDiodeTransistorPmos2",
+        "XNormalTransistorPmos8"
+      ],
+      "value": null,
+      "units": null,
+      "derived_from": {
+        "rule": "mirror matching (offset, CMRR)"
+      },
+      "status": "evaluated",
+      "note": "pattern (side-by-side / ABAB / ABBA / common centroid) chosen in S4"
+    },
+    {
+      "id": "match.same_pcell_options.XDiodeTransistorPmos2_XNormalTransistorPmos5",
+      "class": "hard",
+      "type": "identical_device_options",
+      "targets": [
+        "XDiodeTransistorPmos2",
+        "XNormalTransistorPmos5"
+      ],
+      "value": null,
+      "units": null,
+      "derived_from": {
+        "rule": "mirror from hierarchy",
+        "evidence": [
+          "hierarchy block p_current_mirror (name_map)",
+          "sizes [(37.3, 0.74, 1, 1), (887.03, 0.74, 1, 1)]",
+          "gm spread 2565.07%"
+        ]
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "place.symmetry.XDiodeTransistorPmos2_XNormalTransistorPmos5",
+      "class": "hard",
+      "type": "symmetric_placement_common_axis",
+      "targets": [
+        "XDiodeTransistorPmos2",
+        "XNormalTransistorPmos5"
+      ],
+      "value": null,
+      "units": null,
+      "derived_from": {
+        "rule": "mirror matching (offset, CMRR)"
+      },
+      "status": "evaluated",
+      "note": "pattern (side-by-side / ABAB / ABBA / common centroid) chosen in S4"
+    },
+    {
+      "id": "match.max_R_difference.XDiodeTransistorNmos1.d",
+      "class": "hard",
+      "type": "max_resistance_mismatch_in_pair",
+      "targets": [
+        "XDiodeTransistorNmos1.d"
+      ],
+      "value": 5000.0,
+      "units": "ohm per mV of allowed systematic offset",
+      "derived_from": {
+        "equation": "systematic input offset per ohm, measured in a unity-gain follower (S1)",
+        "offset_uV_per_ohm": 0.19999999998354667,
+        "inputs": [
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "not_evaluated",
+      "note": "absolute limit needs an offset spec (not in the design package): requested"
+    },
+    {
+      "id": "match.max_R_difference.XDiodeTransistorNmos1.s",
+      "class": "hard",
+      "type": "max_resistance_mismatch_in_pair",
+      "targets": [
+        "XDiodeTransistorNmos1.s"
+      ],
+      "value": 37.88,
+      "units": "ohm per mV of allowed systematic offset",
+      "derived_from": {
+        "equation": "systematic input offset per ohm, measured in a unity-gain follower (S1)",
+        "offset_uV_per_ohm": 26.399999999981993,
+        "inputs": [
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "not_evaluated",
+      "note": "absolute limit needs an offset spec (not in the design package): requested"
+    },
+    {
+      "id": "match.max_R_difference.XNormalTransistorNmos4.d",
+      "class": "hard",
+      "type": "max_resistance_mismatch_in_pair",
+      "targets": [
+        "XNormalTransistorNmos4.d"
+      ],
+      "value": 5000.0,
+      "units": "ohm per mV of allowed systematic offset",
+      "derived_from": {
+        "equation": "systematic input offset per ohm, measured in a unity-gain follower (S1)",
+        "offset_uV_per_ohm": -0.20000000000575113,
+        "inputs": [
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "not_evaluated",
+      "note": "absolute limit needs an offset spec (not in the design package): requested"
+    },
+    {
+      "id": "match.max_R_difference.XNormalTransistorNmos4.s",
+      "class": "hard",
+      "type": "max_resistance_mismatch_in_pair",
+      "targets": [
+        "XNormalTransistorNmos4.s"
+      ],
+      "value": 36.76,
+      "units": "ohm per mV of allowed systematic offset",
+      "derived_from": {
+        "equation": "systematic input offset per ohm, measured in a unity-gain follower (S1)",
+        "offset_uV_per_ohm": -27.200000000004998,
+        "inputs": [
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "not_evaluated",
+      "note": "absolute limit needs an offset spec (not in the design package): requested"
+    },
+    {
+      "id": "match.max_R_difference.XNormalTransistorPmos6.d",
+      "class": "hard",
+      "type": "max_resistance_mismatch_in_pair",
+      "targets": [
+        "XNormalTransistorPmos6.d"
+      ],
+      "value": 5000.0,
+      "units": "ohm per mV of allowed systematic offset",
+      "derived_from": {
+        "equation": "systematic input offset per ohm, measured in a unity-gain follower (S1)",
+        "offset_uV_per_ohm": 0.19999999998354667,
+        "inputs": [
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "not_evaluated",
+      "note": "absolute limit needs an offset spec (not in the design package): requested"
+    },
+    {
+      "id": "match.max_R_difference.XNormalTransistorPmos6.s",
+      "class": "hard",
+      "type": "max_resistance_mismatch_in_pair",
+      "targets": [
+        "XNormalTransistorPmos6.s"
+      ],
+      "value": 72.46,
+      "units": "ohm per mV of allowed systematic offset",
+      "derived_from": {
+        "equation": "systematic input offset per ohm, measured in a unity-gain follower (S1)",
+        "offset_uV_per_ohm": 13.799999999997148,
+        "inputs": [
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "not_evaluated",
+      "note": "absolute limit needs an offset spec (not in the design package): requested"
+    },
+    {
+      "id": "match.max_R_difference.XNormalTransistorPmos7.d",
+      "class": "hard",
+      "type": "max_resistance_mismatch_in_pair",
+      "targets": [
+        "XNormalTransistorPmos7.d"
+      ],
+      "value": 5000.0,
+      "units": "ohm per mV of allowed systematic offset",
+      "derived_from": {
+        "equation": "systematic input offset per ohm, measured in a unity-gain follower (S1)",
+        "offset_uV_per_ohm": -0.20000000000575113,
+        "inputs": [
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "not_evaluated",
+      "note": "absolute limit needs an offset spec (not in the design package): requested"
+    },
+    {
+      "id": "match.max_R_difference.XNormalTransistorPmos7.s",
+      "class": "hard",
+      "type": "max_resistance_mismatch_in_pair",
+      "targets": [
+        "XNormalTransistorPmos7.s"
+      ],
+      "value": 72.46,
+      "units": "ohm per mV of allowed systematic offset",
+      "derived_from": {
+        "equation": "systematic input offset per ohm, measured in a unity-gain follower (S1)",
+        "offset_uV_per_ohm": -13.800000000019352,
+        "inputs": [
+          "outputs/S1/<design>/sensitivity_r.json"
+        ]
+      },
+      "status": "not_evaluated",
+      "note": "absolute limit needs an offset spec (not in the design package): requested"
+    },
+    {
+      "id": "route.symmetric.inputs",
+      "class": "hard",
+      "type": "mirrored_routing",
+      "targets": [
+        "in1",
+        "in2"
+      ],
+      "value": null,
+      "units": null,
+      "derived_from": {
+        "rule": "differential inputs of the diff pair"
+      },
+      "status": "evaluated"
+    },
+    {
+      "id": "route.symmetric.pair_drains",
+      "class": "soft",
+      "type": "matched_routing_capacitance",
+      "targets": [
+        "FirstStageYout1",
+        "outFirstStage"
+      ],
+      "value": null,
+      "units": null,
+      "derived_from": {
+        "rule": "pair drains should see equal capacitance up to the load"
+      },
+      "status": "assumption",
+      "note": "not quantified: no mismatch/offset symbols upstream (request B3d); the per-net C budgets still apply"
+    },
+    {
+      "id": "route.em_width.FirstStageYout1",
+      "class": "hard",
+      "type": "min_width_from_current",
+      "targets": [
+        "FirstStageYout1"
+      ],
+      "value": null,
+      "units": "um",
+      "derived_from": {
+        "trunk_current_A": 1.09847e-05,
+        "max_branch_A": 1.09847e-05,
+        "equation": "W >= I / J_max(layer, T)"
+      },
+      "status": "not_evaluated",
+      "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+    },
+    {
+      "id": "route.em_width.sourceNmos",
+      "class": "hard",
+      "type": "min_width_from_current",
+      "targets": [
+        "sourceNmos"
+      ],
+      "value": null,
+      "units": "um",
+      "derived_from": {
+        "trunk_current_A": 0.0003002479,
+        "max_branch_A": 0.000278152,
+        "equation": "W >= I / J_max(layer, T)"
+      },
+      "status": "not_evaluated",
+      "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+    },
+    {
+      "id": "route.em_width.ibias",
+      "class": "hard",
+      "type": "min_width_from_current",
+      "targets": [
+        "ibias"
+      ],
+      "value": null,
+      "units": "um",
+      "derived_from": {
+        "trunk_current_A": 5e-06,
+        "max_branch_A": 1e-05,
+        "equation": "W >= I / J_max(layer, T)"
+      },
+      "status": "not_evaluated",
+      "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+    },
+    {
+      "id": "route.em_width.sourcePmos",
+      "class": "hard",
+      "type": "min_width_from_current",
+      "targets": [
+        "sourcePmos"
+      ],
+      "value": null,
+      "units": "um",
+      "derived_from": {
+        "trunk_current_A": 0.00031024789999999997,
+        "max_branch_A": 0.000278152,
+        "equation": "W >= I / J_max(layer, T)"
+      },
+      "status": "not_evaluated",
+      "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+    },
+    {
+      "id": "route.em_width.out",
+      "class": "hard",
+      "type": "min_width_from_current",
+      "targets": [
+        "out"
+      ],
+      "value": null,
+      "units": "um",
+      "derived_from": {
+        "trunk_current_A": 0.000278152,
+        "max_branch_A": 0.000278152,
+        "equation": "W >= I / J_max(layer, T)"
+      },
+      "status": "not_evaluated",
+      "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+    },
+    {
+      "id": "route.em_width.outFirstStage",
+      "class": "hard",
+      "type": "min_width_from_current",
+      "targets": [
+        "outFirstStage"
+      ],
+      "value": null,
+      "units": "um",
+      "derived_from": {
+        "trunk_current_A": 1.11112e-05,
+        "max_branch_A": 1.11112e-05,
+        "equation": "W >= I / J_max(layer, T)"
+      },
+      "status": "not_evaluated",
+      "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+    },
+    {
+      "id": "route.em_width.FirstStageYsourceTransconductance",
+      "class": "hard",
+      "type": "min_width_from_current",
+      "targets": [
+        "FirstStageYsourceTransconductance"
+      ],
+      "value": null,
+      "units": "um",
+      "derived_from": {
+        "trunk_current_A": 2.20959e-05,
+        "max_branch_A": 2.20959e-05,
+        "equation": "W >= I / J_max(layer, T)"
+      },
+      "status": "not_evaluated",
+      "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+    },
+    {
+      "id": "place.latchup_tap_distance",
+      "class": "hard",
+      "type": "max_diff_to_tap_distance",
+      "targets": [
+        "all devices"
+      ],
+      "value": 15.0,
+      "units": "um",
+      "derived_from": {
+        "rule": "LU.2 / LU.3 (text of the latch-up rules in sky130A.tech)",
+        "pdk_file": "/foss/pdks/sky130A/libs.tech/magic/sky130A.tech"
+      },
+      "status": "assumption",
+      "note": "our Magic drc(full) run does not check it (the deck applies it with a chip-level marker); it is met by construction while every PCell keeps its own guard ring (S3)"
+    },
+    {
+      "id": "route.bias_net.IBIAS",
+      "class": "soft",
+      "type": "coupling_to_bias_net",
+      "targets": [
+        "IBIAS"
+      ],
+      "value": null,
+      "units": null,
+      "derived_from": {
+        "rule": "the testbench holds the bias node with an ideal source (AC ground)"
+      },
+      "status": "not_evaluated",
+      "note": "couplings onto the bias net consume no margin in this model; the impedance of the real bias generator is needed to budget them (ASSUMPTION)"
+    },
+    {
+      "id": "route.no_cross_digital",
+      "class": "hard",
+      "type": "no_crossing_over_high_impedance",
+      "targets": [],
+      "value": null,
+      "units": null,
+      "derived_from": {
+        "rule": "digital/clock nets must not cross high-impedance analog nets"
+      },
+      "status": "not_applicable",
+      "note": "no digital or clock nets in this circuit"
+    }
+  ],
+  "counts": {
+    "budget": 42,
+    "budget_derived": 114,
+    "hard": 31,
+    "soft": 3
+  }
+}

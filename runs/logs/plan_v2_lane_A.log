@@ -1,0 +1,65 @@
+--- skip iadc_before_S3 (done 2026-10-27 06:31:58)
+--- skip snap_iadc_ota_before (done 2026-10-27 06:31:59)
+--- skip loadbench_miller_after_pvt (done 2026-10-26 (marked at the overnight stop; done by queue_v2h or earlier))
+--- skip loadbench_miller_after_S2S3 (done 2026-10-27 07:27:15)
+--- skip snap_loadbench_miller_after (done 2026-10-27 07:27:15)
+--- skip iadc_ota_after_pvt (done 2026-10-27 08:06:09)
+--- skip iadc_ota_after_S2S3 (done 2026-10-27 09:22:36)
+--- skip snap_iadc_ota_after (done 2026-10-27 09:22:37)
+--- skip ref_iadc_final (done 2026-10-27 09:25:03)
+=== abl_nopvt_example_ota_5t_S2 2026-10-27 10:10:18
+G2.0_expected_layout_use (info)        INFO
+G2.1_names_resolve                     PASS
+G2.2_units_and_provenance              PASS
+G2.3_allocation                        PASS
+G2.4_linear_all_budgets_at_once        INFO
+G2.5_spice_budget_verification         PASS
+G2.6_hierarchy_sums                    PASS
+G2.7_library_floors_feasible           PASS
+S2 PASS -> outputs/S2/example_ota_5t
+    abl_nopvt_example_ota_5t_S2 rc=0 10:11:27
+=== abl_nopvt_example_ota_5t_S3 2026-10-27 10:11:27
+G3.1_chosen_DRC                          PASS
+G3.2_chosen_LVS_W_L_nf                   PASS
+G3.3_all_chosen_devices_in_circuit       PASS
+G3.4_option_table_complete               PASS
+G3.5_no_relaxation                       PASS
+G3.6_model_has_no_gate_resistance        PASS
+G3.7_modes (info)                        FAIL
+  pfet_01v8_W8_L1_m1           -> nf1_gtop_sdfull          area 29.1 um2  R(d,g,s)=27.3, 209.2, 27.3 ohm
+  nfet_01v8_W24_L0p5_m1        -> nf2_gtop_sdfull_outS     area 43.0 um2  R(d,g,s)=12.0, 273.5, 6.0 ohm
+  nfet_01v8_W24_L1_m1          -> nf2_gtop_sdfull_outD     area 56.6 um2  R(d,g,s)=6.0, 136.7, 12.0 ohm
+S3 PASS -> outputs/S3/example_ota_5t
+    abl_nopvt_example_ota_5t_S3 rc=0 10:12:02
+=== snap_example_ota_5t_after_nopvt 2026-10-27 10:12:02
+/foss/designs/outputs/compare/example_ota_5t/after_nopvt.json
+    snap_example_ota_5t_after_nopvt rc=0 10:12:02
+    restoring the after outputs of example_ota_5t set aside by an interrupted step
+=== abl_nopvt_ota5t_stress_S2 2026-10-27 10:13:26
+G2.0_expected_layout_use (info)        INFO
+G2.1_names_resolve                     PASS
+G2.2_units_and_provenance              PASS
+G2.3_allocation                        PASS
+G2.4_linear_all_budgets_at_once        INFO
+G2.5_spice_budget_verification         PASS
+G2.6_hierarchy_sums                    PASS
+G2.7_library_floors_feasible           PASS
+S2 PASS -> outputs/S2/ota5t_stress
+    abl_nopvt_ota5t_stress_S2 rc=0 10:14:27
+=== abl_nopvt_ota5t_stress_S3 2026-10-27 10:14:27
+G3.1_chosen_DRC                          PASS
+G3.2_chosen_LVS_W_L_nf                   PASS
+G3.3_all_chosen_devices_in_circuit       PASS
+G3.4_option_table_complete               PASS
+G3.5_no_relaxation                       PASS
+G3.6_model_has_no_gate_resistance        PASS
+G3.7_modes (info)                        FAIL
+  pfet_01v8_W8_L1_m1           -> nf1_gtop_sdfull          area 29.1 um2  R(d,g,s)=27.3, 209.2, 27.3 ohm
+  nfet_01v8_W24_L0p5_m1        -> nf2_gtop_sdfull_outS     area 43.0 um2  R(d,g,s)=12.0, 273.5, 6.0 ohm
+  nfet_01v8_W24_L1_m1          -> nf2_gtop_sdfull_outS     area 56.6 um2  R(d,g,s)=12.0, 136.7, 6.0 ohm
+S3 PASS -> outputs/S3/ota5t_stress
+    abl_nopvt_ota5t_stress_S3 rc=0 10:14:59
+=== snap_ota5t_stress_after_nopvt 2026-10-27 10:14:59
+/foss/designs/outputs/compare/ota5t_stress/after_nopvt.json
+    snap_ota5t_stress_after_nopvt rc=0 10:15:00
+    restoring the after outputs of ota5t_stress set aside by an interrupted step

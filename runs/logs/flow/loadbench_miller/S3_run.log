@@ -1,14 +1,15 @@
-$ /usr/bin/python3 -m src.s3.run inputs/loadbench_miller/package.yaml --workers 6
+$ /usr/bin/python3 -m src.s3.run inputs/loadbench_miller/package.yaml --workers 2
 G3.1_chosen_DRC                          PASS
 G3.2_chosen_LVS_W_L_nf                   PASS
-G3.3_all_chosen_devices_in_circuit       PASS
+G3.3_all_chosen_devices_in_circuit       FAIL
 G3.4_option_table_complete               PASS
 G3.5_no_relaxation                       FAIL
 G3.6_model_has_no_gate_resistance        PASS
+G3.7_modes (info)                        FAIL
   nfet_01v8_lvt_W66p13_L2p03_m1 -> nf1_gboth_sdfull         area 264.3 um2  R(d,g,s)=13.0, 144.4, 13.0 ohm
-  pfet_01v8_lvt_W37p3_L0p74_m1 -> nf1_gboth_sdhalf         area 106.6 um2  R(d,g,s)=14.5, 242.8, 14.5 ohm
-  nfet_01v8_lvt_W484p2_L0p24_m1 -> nf8_gboth_sdhalf_outS    area 362.6 um2  R(d,g,s)=2.9, 136.7, 2.4 ohm
-  pfet_01v8_lvt_W887p03_L0p74_m1 -> nf8_gboth_sdhalf_outS    area 1120.5 um2  R(d,g,s)=4.3, 80.3, 3.5 ohm
+  pfet_01v8_lvt_W37p3_L0p74_m1 -> nf1_gboth_sdfull         area 106.6 um2  R(d,g,s)=12.2, 242.8, 12.2 ohm
+  nfet_01v8_lvt_W484p2_L0p24_m1 -> nf1_gboth_sdfull         area 1016.1 um2  R(d,g,s)=87.9, 8184.3, 87.9 ohm
+  pfet_01v8_lvt_W887p03_L0p74_m1 -> nf1_gboth_sdfull         area 2400.9 um2  R(d,g,s)=160.9, 4855.1, 160.9 ohm
   pfet_01v8_lvt_W14p21_L0p89_m1 -> nf1_gboth_sdfull         area 46.7 um2  R(d,g,s)=17.1, 104.5, 17.1 ohm
-  pfet_01v8_lvt_W90p63_L0p74_m1 -> nf8_gtop_sdfull_outS     area 130.5 um2  R(d,g,s)=6.1, 40.8, 4.9 ohm
+  pfet_01v8_lvt_W90p63_L0p74_m1 -> nf1_gboth_sdfull         area 250.6 um2  R(d,g,s)=18.7, 532.3, 18.7 ohm
 S3 FAIL -> outputs/S3/loadbench_miller

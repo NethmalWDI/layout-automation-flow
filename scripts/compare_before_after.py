@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Before/after record of the flow on every design (plan v2, item 4).
 
-  snap <design> <tag>     keep the key results of the current outputs/S0..S3/<design> in
-                          outputs/compare/<design>/<tag>.json (gates, specs, budgets, decisions)
+  snap <design> <tag> [<S3 folder>]
+                          keep the key results of the current outputs/S0..S3/<design> in
+                          outputs/compare/<design>/<tag>.json (gates, specs, budgets, decisions); an S3 folder
+                          (relative to the repo) replaces outputs/S3/<design>, for post-hoc S3 variants
+                          (src.s3.run --out)
   report                  docs/before_after.md: one table per design, every tag side by side
 
 Run inside the EDA image from the repository root.
@@ -66,8 +69,11 @@ def budget_over_need(b: dict, bl: dict | None) -> dict | None:
     return out
 
 
-def snap(design: str, tag: str) -> Path:
+def snap(design: str, tag: str, s3_dir: str | None = None) -> Path:
     rec: dict = {"design": design, "tag": tag}
+    s3 = REPO / s3_dir if s3_dir else REPO / "outputs" / "S3" / design
+    if s3_dir:
+        rec["s3_folder"] = s3_dir
     # a report older than the start of a stage that ended in ERROR in the last flow run is stale: that run
     # crashed there (or stopped before this stage), so the file is from an earlier run (review B, item 10)
     summ = _j(REPO / "outputs" / "flow" / design / "flow_summary.json") or {"stages": {}}
@@ -76,7 +82,7 @@ def snap(design: str, tag: str) -> Path:
             if k in order_ and v.get("status") == "ERROR" and v.get("started")]
     err_idx, err_start = min(errs) if errs else (None, None)
     for i_st, st in enumerate(order_):
-        f_ = REPO / "outputs" / st / design / f"{st.lower()}_report.json"
+        f_ = s3 / "s3_report.json" if st == "S3" else REPO / "outputs" / st / design / f"{st.lower()}_report.json"
         rep = _j(f_)
         if rep is None:
             rec[st] = None
@@ -115,7 +121,6 @@ def snap(design: str, tag: str) -> Path:
             "g20_by_part": g20_by_part(b),
             "baseline_budget_over_need": budget_over_need(b, _j(s2 / "baselines.json")),
         })
-    s3 = REPO / "outputs" / "S3" / design
     d = _j(s3 / "device_decisions.json")
     if d and fresh("S3"):
         dec = d["decisions"]
@@ -198,7 +203,12 @@ def report() -> Path:
              "it was (v1: allocation without floors and without the R19 fix, S3 rules v1, A-free options, nominal",
              "only), run after the generality fixes that let it ingest the new circuits; 'after' is v2;",
              "'after_nopvt' is v2 with nominal constraints only in S2 (ablation of the PVT constraints, G2.9);",
-             "'after_eta0.9' is v2's S2 at eta = 0.9 (PREREG's headline eta; S3 not re-run).", ""]
+             "'after_eta0.9' is v2's S2 at eta = 0.9 (PREREG's headline eta; S3 not re-run);",
+             "'after_posthoc_leastbad' is v2 with S3 re-run on the same budgets, a relaxed type keeping the option that",
+             "breaks its allowances least instead of the default PCell (post-hoc test of 2026-10-27, not pre-registered;",
+             "this rule is the S3 default for later runs, see PREREG.md);",
+             "'after_eta0.9_rerun' is the same eta 0.9 S2 run again with the PC awake, because the first run overlapped a",
+             "Windows standby (2026-10-27; scripts/compare_eta09_rerun.py compares the two).", ""]
     for dd in sorted(p for p in OUT.glob("*") if p.is_dir()):
         order = {"before": 0, "after": 1}          # then ablations (after_*) by name
         tags = sorted(dd.glob("*.json"), key=lambda f: (order.get(f.stem, 2), f.stem))
@@ -262,6 +272,6 @@ def report() -> Path:
 
 if __name__ == "__main__":
     if sys.argv[1] == "snap":
-        print(snap(sys.argv[2], sys.argv[3]))
+        print(snap(sys.argv[2], sys.argv[3], *sys.argv[4:5]))
     elif sys.argv[1] == "report":
         print(report())

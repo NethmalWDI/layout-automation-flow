@@ -70,11 +70,16 @@ def main(argv=None) -> int:
                     help="options to build: default the package key s3_build_mode, else A-free")
     ap.add_argument("--rules", choices=["v2", "v1"], default="v2",
                     help="v2: a cell may always use the library's lowest access R of its terminal (R19 b)")
+    ap.add_argument("--relax-fallback", choices=list(O.RELAX_FALLBACKS), default="least-bad",
+                    help="what a relaxed type keeps (options.relaxed_pick): least-bad (default since 2026-10-27) or "
+                         "default, the default PCell (the rule of every plan-v2 run)")
+    ap.add_argument("--out", default=None,
+                    help="output folder, relative to the repo (default outputs/S3/<design>), for post-hoc variants")
     a = ap.parse_args(argv)
     pkg = load_package(REPO / a.package)
     design = pkg["design"]
     s0, s1, s2 = (REPO / "outputs" / s / design for s in ("S0", "S1", "S2"))
-    out = REPO / "outputs" / "S3" / design
+    out = REPO / a.out if a.out else REPO / "outputs" / "S3" / design
     cells_dir = REPO / "outputs" / "S3" / "_cells"
     (out / "plots").mkdir(parents=True, exist_ok=True)
     ir = json.loads((s0 / "circuit_ir.json").read_text())
@@ -93,7 +98,10 @@ def main(argv=None) -> int:
         cache = cells_dir / f"{tid}__{opt['id']}" / "record.json"
         if cache.exists():
             cr = json.loads(cache.read_text())
-            if t.get("m", 1) == 1 or cr.get("cell_format") == 2:   # m > 1 cells of the old format drew m copies
+            # a DRC failure from before the gate-pad met1.6 patch (strap.pad_patch) is rebuilt; signed-off
+            # cells are never rebuilt, so earlier results do not move
+            stale_drc = "strap" in cr and "gate_pad_patch" not in cr["strap"] and not (cr.get("drc") or {}).get("pass", True)
+            if (t.get("m", 1) == 1 or cr.get("cell_format") == 2) and not stale_drc:   # m > 1 cells of the old format drew m copies
                 return cr
         try:
             rec = O.build_one(t, tid, opt, cells_dir, rules, cross_check=(opt["id"] == O.default_option_id()))
@@ -242,10 +250,13 @@ def main(argv=None) -> int:
             relaxed = not feas
             pool = feas or cand
             if relaxed:
-                dflt_ = next((r for r in pool if r["option"]["id"] == O.default_option_id()), None)
-                pick = dflt_ or max(pool, key=lambda r: r["min_slack"])
+                pick = O.relaxed_pick(pool, a.relax_fallback)
                 why = ("no option met the allowance: the default PCell (the device exactly as sized) is kept and the "
                        "type is flagged (relaxation); see budget_check for what does not fit")
+                if a.relax_fallback == "least-bad":
+                    why = ("no option met the allowance: the option whose worst check is broken least (largest "
+                           "min_slack, access R of d, g and s included) is kept and the type is flagged (relaxation; "
+                           "fallback 'least-bad'); see budget_check for what does not fit")
             else:
                 amin = min(r["geometry"]["area_um2"] for r in pool)
                 near = [r for r in pool if r["geometry"]["area_um2"] <= amin * (1 + AREA_TIE)]
@@ -321,7 +332,8 @@ def main(argv=None) -> int:
     gates["G3.2_chosen_LVS_W_L_nf"] = {"pass": all(d["lvs"]["pass"] for d in decisions.values()),
                                        "detail": {k: d["lvs"] for k, d in decisions.items()}}
     gates["G3.5_no_relaxation"] = {"pass": not any(d["relaxed"] for d in decisions.values()),
-                                   "relaxed": [k for k, d in decisions.items() if d["relaxed"]]}
+                                   "relaxed": [k for k, d in decisions.items() if d["relaxed"]],
+                                   "fallback": a.relax_fallback}
     allow = {"cell_margin": allow_c, "resistance_margin": allow_r, "resistance_ohm_budget": r_budget,
              "unallocated_slack_from_S2": slack, "slack_share_per_type": slack_share}
 
@@ -344,6 +356,7 @@ def main(argv=None) -> int:
     write_json(out / "option_table.json", {"design": design, "f_device": F_DEVICE, "tolerance": TOL,
                                            "baseline_S0": base, "allowance": allow, "options": slim})
     write_json(out / "device_decisions.json", {"design": design, "mode": a.mode, "rules": a.rules,
+                                               "relax_fallback": a.relax_fallback,
                                                "decisions": decisions, "final_in_circuit": final,
                                                "by_mode": mode_summary,
                                                "f_device_note": "ASSUMPTION: share of each terminal-R budget given to the PCell"})

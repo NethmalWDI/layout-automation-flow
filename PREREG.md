@@ -59,3 +59,18 @@ After the tag, changes are allowed only as dated amendments at the end, with the
   design's own eta (0.5 unless the package sets it; ota5t_stress 0.9), not at 0.9 as written above; the
   eta sweep (first order) covers 0.3 to 1.0 for every design. A SPICE-scored run at eta = 0.9 for every design
   is still to do.
+- **2026-10-27, after all plan-v2 runs: the S3 rule for relaxed device types (decided post hoc).**
+  - When no option of a device type stays within its allowance, S3 still keeps one and flags the type (G3.5).
+    It now keeps the option whose worst check, the access R of d, g and s included, is broken least
+    (`--relax-fallback least-bad`, the largest min_slack). Until now it kept the default PCell, the device as
+    sized, when that cell was built (`--relax-fallback default`).
+  - Reason: in plan v2's LOADBench 'after' run all six types were relaxed. The old rule drew the 484 um and 887 um
+    devices as single fingers with 8.2 and 4.9 kohm of gate resistance, and PM fell to 48.1 deg (spec >= 60).
+  - On the same inputs the least-bad rule gave 64.7 deg and half the device area. ota5t_stress improved
+    slightly, and iadc_ota and ttsky25a_fd did not change.
+  - This was decided after seeing plan v2's results, so it is not part of plan v2. Every plan-v2 result
+    ('before', 'after', the no-PVT ablation, eta 0.9 and its re-run) used the old rule and stands as recorded.
+    The least-bad results for plan v2 are reported only as post hoc (snapshot tag 'after_posthoc_leastbad';
+    flow record 7.1, row 38).
+  - Runs from now on use least-bad. The v1 variant, plan v2's scripts and golden re-runs of plan-v2 snapshots
+    keep the old rule, and `--relax-fallback default` reproduces plan v2's S3.

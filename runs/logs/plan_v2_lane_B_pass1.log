@@ -1,0 +1,436 @@
+=== ttsky_before_S2S3 2026-10-27 05:30:29
+== ttsky25a_fd
+  S2/cells           rc=0     67.8 s  log: runs/logs/flow/ttsky25a_fd/S2_cells.log
+  S2/run             rc=0    442.8 s  log: runs/logs/flow/ttsky25a_fd/S2_run.log
+  S2: PASS
+  S3/run             rc=1   4364.4 s  log: runs/logs/flow/ttsky25a_fd/S3_run.log
+  S3: FAIL  failed: ['G3.3_all_chosen_devices_in_circuit', 'G3.5_no_relaxation']
+    ttsky_before_S2S3 rc=1 06:51:45
+=== snap_ttsky25a_fd_before 2026-10-27 06:51:45
+/foss/designs/outputs/compare/ttsky25a_fd/before.json
+    snap_ttsky25a_fd_before rc=0 06:51:45
+=== ttsky25a_fd_after_pvt 2026-10-27 06:51:45
+PVT: 5/45 points meet every spec; worst {'pm_deg': {'margin': -3.488199999999999, 'point': 'sf_v0.9_t-40', 'nominal_margin': 18.234099999999998}, 'gain_db': {'margin': -18.408299999999997, 'point': 'fs_v0.9_t85', 'nominal_margin': 1.0}, 'gbw_mhz': {'margin': -0.29525, 'point': 'sf_v0.9_t-40', 'nominal_margin': 0.2052099999999999}, 'power_uw': {'margin': -875.7876000000001, 'point': 'fs_v1.1_t85', 'nominal_margin': 45.19839999999999}}
+MC (200 runs): {"gain_db": {"mean": 98.192692, "std": 0.99833, "min": 94.3607, "max": 100.132}, "gbw_mhz": {"mean": 2.056586, "std": 0.257121, "min": 1.30601, "max": 2.87346}, "pm_deg": {"mean": 78.220302, "std": 1.349237, "min": 74.3551, "max": 82.3457}, "offset_v": {"mean": 0.000189, "std": 0.002442, "min": -0.005194, "max": 0.006166}}
+    ttsky25a_fd_after_pvt rc=0 07:22:18
+=== ttsky25a_fd_after_S2S3 2026-10-27 07:22:18
+== ttsky25a_fd
+  S2/cells           rc=0     72.5 s  log: runs/logs/flow/ttsky25a_fd/S2_cells.log
+  S2/run             rc=1   7223.9 s  log: runs/logs/flow/ttsky25a_fd/S2_run.log
+  S2: FAIL  failed: ['G2.7_library_floors_feasible']
+  S3/run             rc=1    139.9 s  log: runs/logs/flow/ttsky25a_fd/S3_run.log
+  S3: FAIL  failed: ['G3.3_all_chosen_devices_in_circuit', 'G3.5_no_relaxation']
+    ttsky25a_fd_after_S2S3 rc=1 09:26:15
+=== snap_ttsky25a_fd_after 2026-10-27 09:26:15
+/foss/designs/outputs/compare/ttsky25a_fd/after.json
+    snap_ttsky25a_fd_after rc=0 09:26:15
+=== ref_ttsky_final 2026-10-27 09:26:15
+{
+ "lvs_match": false,
+ "unmapped": [
+  "ua[6]",
+  "ua[7]",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4"
+ ],
+ "runs": {
+  "schematic.AC": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "schematic.OP": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "drawn_devices_only.AC": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "drawn_devices_only.OP": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "pex.AC": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "pex.OP": {
+   "rc": 0,
+   "numerical_warnings": []
+  }
+ },
+ "schematic": {
+  "gain_db": 98.3916,
+  "gbw_mhz": 2.05172,
+  "pm_deg": 78.2315,
+  "isup_ua": 251.102,
+  "power_uw": 451.984,
+  "vout_v": -5.32907e-14,
+  "voutcm_v": 0.902367
+ },
+ "drawn": {
+  "gain_db": 108.122,
+  "gbw_mhz": 1.53019,
+  "pm_deg": 80.556,
+  "isup_ua": 267.336,
+  "power_uw": 481.206,
+  "vout_v": -8.95284e-12,
+  "voutcm_v": 0.902093
+ },
+ "pex": {
+  "gain_db": 108.108,
+  "gbw_mhz": 1.42578,
+  "pm_deg": 77.5961,
+  "isup_ua": 267.336,
+  "power_uw": 481.206,
+  "vout_v": 6.6428e-12,
+  "voutcm_v": 0.902093
+ },
+ "compare": {
+  "pm_deg": {
+   "schematic": 78.2341,
+   "hand_layout_drawn_devices_only": 80.556,
+   "hand_layout_pex": 77.5961,
+   "lost_to_parasitics": 2.9598999999999904,
+   "lost_to_parasitics_frac_of_margin": 0.16232772662209766,
+   "limit": 60,
+   "margin": 18.234099999999998,
+   "lost": 0.637999999999991,
+   "lost_frac_of_margin": 0.03498938801476306,
+   "meets_spec": true,
+   "S2_G2.0_predicted_frac": 0.20713817717619198,
+   "eta": 0.5
+  },
+  "gain_db": {
+   "schematic": 98.401,
+   "hand_layout_drawn_devices_only": 108.122,
+   "hand_layout_pex": 108.108,
+   "lost_to_parasitics": 0.013999999999995794,
+   "lost_to_parasitics_frac_of_margin": 0.013999999999995794,
+   "limit": 97.401,
+   "margin": 1.0,
+   "lost": -9.707000000000008,
+   "lost_frac_of_margin": -9.707000000000008,
+   "meets_spec": true,
+   "S2_G2.0_predicted_frac": 0.19594629688151546,
+   "eta": 0.5
+  },
+  "gbw_mhz": {
+   "schematic": 2.05171,
+   "hand_layout_drawn_devices_only": 1.53019,
+   "hand_layout_pex": 1.42578,
+   "lost_to_parasitics": 0.10440999999999989,
+   "lost_to_parasitics_frac_of_margin": 0.5087958676477752,
+   "limit": 1.8465,
+   "margin": 0.2052099999999999,
+   "lost": 0.6259299999999999,
+   "lost_frac_of_margin": 3.05019248574631,
+   "meets_spec": false,
+   "S2_G2.0_predicted_frac": 0.3079249135633688,
+   "eta": 0.5
+  },
+  "power_uw": {
+   "schematic": 451.984,
+   "hand_layout_drawn_devices_only": 481.206,
+   "hand_layout_pex": 481.206,
+   "lost_to_parasitics": 0.0,
+   "lost_to_parasitics_frac_of_margin": 0.0,
+   "limit": 497.1824,
+   "margin": 45.19839999999999,
+   "lost": 29.222000000000037,
+   "lost_frac_of_margin": 0.6465273107012647,
+   "meets_spec": true,
+   "S2_G2.0_predicted_frac": null,
+   "eta": 0.5
+  }
+ }
+}
+{
+ "lvs_match": false,
+ "unmapped": [
+  "ua[6]",
+  "ua[7]",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4"
+ ],
+ "runs": {
+  "schematic.AC": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "schematic.OP": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "drawn_devices_only.AC": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "drawn_devices_only.OP": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "pex.AC": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "pex.OP": {
+   "rc": 0,
+   "numerical_warnings": []
+  }
+ },
+ "schematic": {
+  "gain_db": 97.3846,
+  "gbw_mhz": 2.08121,
+  "pm_deg": 78.5803,
+  "isup_ua": 326.342,
+  "power_uw": 587.415,
+  "vout_v": 1.35003e-13,
+  "voutcm_v": 0.902865
+ },
+ "drawn": {
+  "gain_db": 108.439,
+  "gbw_mhz": 1.53479,
+  "pm_deg": 80.8218,
+  "isup_ua": 343.034,
+  "power_uw": 617.461,
+  "vout_v": 2.44957e-11,
+  "voutcm_v": 0.902544
+ },
+ "pex": {
+  "gain_db": 108.424,
+  "gbw_mhz": 1.42822,
+  "pm_deg": 77.9369,
+  "isup_ua": 343.034,
+  "power_uw": 617.461,
+  "vout_v": 1.68228e-11,
+  "voutcm_v": 0.902544
+ },
+ "compare": "n/a (conditions differ)"
+}
+{
+ "lvs_match": false,
+ "unmapped": [
+  "ua[6]",
+  "ua[7]",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4"
+ ],
+ "runs": {
+  "schematic.AC": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "schematic.OP": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "drawn_devices_only.AC": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "drawn_devices_only.OP": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "pex.AC": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "pex.OP": {
+   "rc": 0,
+   "numerical_warnings": []
+  }
+ },
+ "schematic": {
+  "gain_db": 98.3916,
+  "gbw_mhz": 2.05241,
+  "pm_deg": 78.8428,
+  "isup_ua": 251.102,
+  "power_uw": 451.984,
+  "vout_v": -5.32907e-14,
+  "voutcm_v": 0.902367
+ },
+ "drawn": {
+  "gain_db": 108.122,
+  "gbw_mhz": 1.52866,
+  "pm_deg": 81.1641,
+  "isup_ua": 267.336,
+  "power_uw": 481.206,
+  "vout_v": -8.95284e-12,
+  "voutcm_v": 0.902093
+ },
+ "pex": {
+  "gain_db": 108.108,
+  "gbw_mhz": 1.42439,
+  "pm_deg": 78.1842,
+  "isup_ua": 267.336,
+  "power_uw": 481.206,
+  "vout_v": 6.6428e-12,
+  "voutcm_v": 0.902093
+ },
+ "compare": "n/a (conditions differ)"
+}
+    ref_ttsky_final rc=0 09:30:22
+=== ref_ttsky_rc 2026-10-27 09:30:22
+{
+ "lvs_match": false,
+ "unmapped": [
+  "ua[6]",
+  "ua[7]",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias3",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.Vbias2",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/Diff_opamp_ly_0.nmos_cload_01_1.Vbias1",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/switchblock_1.beta",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.PBias",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias1",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias2",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias3",
+  "tt_um_Fully_Diff_Opamp_0.Diff_Opamp_0.2stage_op_amp_1/bias_dummy_0.Vbias4"
+ ],
+ "runs": {
+  "schematic.AC": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "schematic.OP": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "drawn_devices_only.AC": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "drawn_devices_only.OP": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "pex.AC": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "pex.OP": {
+   "rc": 0,
+   "numerical_warnings": []
+  },
+  "pex_rc.AC": {
+   "rc": 0,
+   "numerical_warnings": [
+    "Warning: Dynamic gmin stepping failed"
+   ]
+  },
+  "pex_rc.OP": {
+   "rc": 0,
+   "numerical_warnings": [
+    "Warning: Dynamic gmin stepping failed"
+   ]
+  }
+ },
+ "schematic": {
+  "gain_db": 98.3916,
+  "gbw_mhz": 2.05172,
+  "pm_deg": 78.2315,
+  "isup_ua": 251.102,
+  "power_uw": 451.984,
+  "vout_v": -5.32907e-14,
+  "voutcm_v": 0.902367
+ },
+ "drawn": {
+  "gain_db": 108.122,
+  "gbw_mhz": 1.53019,
+  "pm_deg": 80.556,
+  "isup_ua": 267.336,
+  "power_uw": 481.206,
+  "vout_v": -8.95284e-12,
+  "voutcm_v": 0.902093
+ },
+ "pex": {
+  "gain_db": 108.108,
+  "gbw_mhz": 1.42578,
+  "pm_deg": 77.5961,
+  "isup_ua": 267.336,
+  "power_uw": 481.206,
+  "vout_v": 6.6428e-12,
+  "voutcm_v": 0.902093
+ },
+ "compare": {
+  "pm_deg": {
+   "schematic": 78.2341,
+   "hand_layout_drawn_devices_only": 80.556,
+   "hand_layout_pex": 77.5961,
+   "lost_to_parasitics": 2.9598999999999904,
+   "lost_to_parasitics_frac_of_margin": 0.16232772662209766,
+   "limit": 60,
+   "margin": 18.234099999999998,
+   "lost": 0.637999999999991,
+   "lost_frac_of_margin": 0.03498938801476306,
+   "meets_spec": true,
+   "S2_G2.0_predicted_frac": 0.20713817717619198,
+   "eta": 0.5
+  },
+  "gain_db": {
+   "schematic": 98.401,
+   "hand_layout_drawn_devices_only": 108.122,
+   "hand_layout_pex": 108.108,
+   "lost_to_parasitics": 0.013999999999995794,
+   "lost_to_parasitics_frac_of_margin": 0.013999999999995794,
+   "limit": 97.401,
+   "margin": 1.0,
+   "lost": -9.707000000000008,
+   "lost_frac_of_margin": -9.707000000000008,
+   "meets_spec": true,
+   "S2_G2.0_predicted_frac": 0.19594629688151546,
+   "eta": 0.5
+  },
+  "gbw_mhz": {
+   "schematic": 2.05171,
+   "hand_layout_drawn_devices_only": 1.53019,
+   "hand_layout_pex": 1.42578,
+   "lost_to_parasitics": 0.10440999999999989,
+   "lost_to_parasitics_frac_of_margin": 0.5087958676477752,
+   "limit": 1.8465,
+   "margin": 0.2052099999999999,
+   "lost": 0.6259299999999999,
+   "lost_frac_of_margin": 3.05019248574631,
+   "meets_spec": false,
+   "S2_G2.0_predicted_frac": 0.3079249135633688,
+   "eta": 0.5
+  },
+  "power_uw": {
+   "schematic": 451.984,
+   "hand_layout_drawn_devices_only": 481.206,
+   "hand_layout_pex": 481.206,
+   "lost_to_parasitics": 0.0,
+   "lost_to_parasitics_frac_of_margin": 0.0,
+   "limit": 497.1824,
+   "margin": 45.19839999999999,
+   "lost": 29.222000000000037,
+   "lost_frac_of_margin": 0.6465273107012647,
+   "meets_spec": true,
+   "S2_G2.0_predicted_frac": null,
+   "eta": 0.5
+  }
+ }
+}
+    ref_ttsky_rc rc=0 10:08:35

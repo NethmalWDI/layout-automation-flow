@@ -1,0 +1,3460 @@
+{
+  "design": "loadbench_miller",
+  "eta": 0.9,
+  "eta_source": "command line",
+  "eta_note": "ASSUMPTION (accepted): fraction of each margin given to layout",
+  "expected_layout_use": {
+    "gain_db": {
+      "use_at_expected_need": 6.63675127992618,
+      "margin": 1.0,
+      "fraction_of_margin": 6.63675127992618
+    },
+    "gbw_mhz": {
+      "use_at_expected_need": 2.135654666142674,
+      "margin": 2.3386999999999993,
+      "fraction_of_margin": 0.9131802566137918
+    },
+    "pm_deg": {
+      "use_at_expected_need": 19.926056474481154,
+      "margin": 5.323300000000003,
+      "fraction_of_margin": 3.743177441527087
+    },
+    "sat_XDiodeTransistorNmos1": {
+      "use_at_expected_need": 0.0012885670832386517,
+      "margin": 0.3998864,
+      "fraction_of_margin": 0.003222332850626207
+    },
+    "sat_XDiodeTransistorPmos2": {
+      "use_at_expected_need": 0.0003235274922847987,
+      "margin": 0.40325500000000003,
+      "fraction_of_margin": 0.0008022900950634181
+    },
+    "sat_XNormalTransistorNmos3": {
+      "use_at_expected_need": 0.12078951276955191,
+      "margin": 0.8507284,
+      "fraction_of_margin": 0.14198363751527737
+    },
+    "sat_XNormalTransistorNmos4": {
+      "use_at_expected_need": 0.08636918009919611,
+      "margin": 0.45785349999999997,
+      "fraction_of_margin": 0.18863933572462832
+    },
+    "sat_XNormalTransistorPmos5": {
+      "use_at_expected_need": 0.15098260028214994,
+      "margin": 0.8032874,
+      "fraction_of_margin": 0.1879558926010167
+    },
+    "sat_XNormalTransistorPmos6": {
+      "use_at_expected_need": 0.07496350199740805,
+      "margin": 0.830561,
+      "fraction_of_margin": 0.09025646761334574
+    },
+    "sat_XNormalTransistorPmos7": {
+      "use_at_expected_need": 0.00431424641463846,
+      "margin": 0.889961,
+      "fraction_of_margin": 0.004847680308056712
+    },
+    "sat_XNormalTransistorPmos8": {
+      "use_at_expected_need": 0.003989173280474796,
+      "margin": 0.20451740000000002,
+      "fraction_of_margin": 0.019505300187049098
+    },
+    "gain_db@ff_v0.9_t-40": {
+      "use_at_expected_need": 7.3312772261709185,
+      "margin": 0.3850000000000051,
+      "fraction_of_margin": 19.0422785095346
+    },
+    "gbw_mhz@ff_v0.9_t-40": {
+      "use_at_expected_need": 2.167167259082134,
+      "margin": 1.4540000000000006,
+      "fraction_of_margin": 1.4904864230276018
+    },
+    "pm_deg@ff_v0.9_t-40": {
+      "use_at_expected_need": 19.256491640069537,
+      "margin": 8.447500000000005,
+      "fraction_of_margin": 2.279549173136375
+    },
+    "gbw_mhz@ff_v0.9_t27": {
+      "use_at_expected_need": 2.0468151144236106,
+      "margin": 1.1114999999999995,
+      "fraction_of_margin": 1.8414890818026195
+    },
+    "pm_deg@ff_v0.9_t27": {
+      "use_at_expected_need": 19.337844894211333,
+      "margin": 6.586200000000005,
+      "fraction_of_margin": 2.93611565002753
+    },
+    "gbw_mhz@ff_v0.9_t85": {
+      "use_at_expected_need": 1.9443104125400463,
+      "margin": 0.4728999999999992,
+      "fraction_of_margin": 4.111462069232501
+    },
+    "pm_deg@ff_v0.9_t85": {
+      "use_at_expected_need": 19.2522275752266,
+      "margin": 5.750200000000007,
+      "fraction_of_margin": 3.348097035794681
+    },
+    "gain_db@ff_v1.1_t-40": {
+      "use_at_expected_need": 7.690760537848319,
+      "margin": 0.8541000000000025,
+      "fraction_of_margin": 9.00452000684732
+    },
+    "gbw_mhz@ff_v1.1_t-40": {
+      "use_at_expected_need": 2.6618546805283496,
+      "margin": 6.478300000000001,
+      "fraction_of_margin": 0.4108878379402543
+    },
+    "pm_deg@ff_v1.1_t-40": {
+      "use_at_expected_need": 21.127429666487398,
+      "margin": 5.489999999999995,
+      "fraction_of_margin": 3.8483478445332273
+    },
+    "gain_db@ff_v1.1_t27": {
+      "use_at_expected_need": 6.535798675026224,
+      "margin": 0.4532000000000025,
+      "fraction_of_margin": 14.421444560958049
+    },
+    "gbw_mhz@ff_v1.1_t27": {
+      "use_at_expected_need": 2.3319615445177826,
+      "margin": 4.153399999999998,
+      "fraction_of_margin": 0.5614584544030875
+    },
+    "pm_deg@ff_v1.1_t27": {
+      "use_at_expected_need": 20.346786338017925,
+      "margin": 5.663200000000003,
+      "fraction_of_margin": 3.5928073064730035
+    },
+    "gain_db@ff_v1.1_t85": {
+      "use_at_expected_need": 5.768480608523381,
+      "margin": 0.1226000000000056,
+      "fraction_of_margin": 47.051228454511566
+    },
+    "gbw_mhz@ff_v1.1_t85": {
+      "use_at_expected_need": 2.145657666293717,
+      "margin": 2.7497000000000007,
+      "fraction_of_margin": 0.7803242776643694
+    },
+    "pm_deg@ff_v1.1_t85": {
+      "use_at_expected_need": 19.940140842235607,
+      "margin": 5.3966000000000065,
+      "fraction_of_margin": 3.69494512141637
+    },
+    "gain_db@ff_v1_t-40": {
+      "use_at_expected_need": 7.512946362760141,
+      "margin": 0.6360000000000028,
+      "fraction_of_margin": 11.812808746478158
+    },
+    "gbw_mhz@ff_v1_t-40": {
+      "use_at_expected_need": 2.45653441549527,
+      "margin": 4.599,
+      "fraction_of_margin": 0.5341453393118656
+    },
+    "pm_deg@ff_v1_t-40": {
+      "use_at_expected_need": 20.509932352957183,
+      "margin": 5.714100000000002,
+      "fraction_of_margin": 3.589354815799019
+    },
+    "gain_db@ff_v1_t27": {
+      "use_at_expected_need": 6.401491346111469,
+      "margin": 0.2401000000000053,
+      "fraction_of_margin": 26.661771537323315
+    },
+    "gbw_mhz@ff_v1_t27": {
+      "use_at_expected_need": 2.2006508620590624,
+      "margin": 2.8246,
+      "fraction_of_margin": 0.7791017708911216
+    },
+    "pm_deg@ff_v1_t27": {
+      "use_at_expected_need": 19.939705987749672,
+      "margin": 5.756299999999996,
+      "fraction_of_margin": 3.463979637570955
+    },
+    "gbw_mhz@ff_v1_t85": {
+      "use_at_expected_need": 2.0488631372072197,
+      "margin": 1.7017999999999986,
+      "fraction_of_margin": 1.203938851338125
+    },
+    "pm_deg@ff_v1_t85": {
+      "use_at_expected_need": 19.638636920438227,
+      "margin": 5.418899999999994,
+      "fraction_of_margin": 3.62410026397207
+    },
+    "gain_db@fs_v0.9_t-40": {
+      "use_at_expected_need": 7.580689817222763,
+      "margin": 1.027000000000001,
+      "fraction_of_margin": 7.381392227091291
+    },
+    "gbw_mhz@fs_v0.9_t-40": {
+      "use_at_expected_need": 2.2595300051245806,
+      "margin": 2.8363999999999976,
+      "fraction_of_margin": 0.7966189554098796
+    },
+    "pm_deg@fs_v0.9_t-40": {
+      "use_at_expected_need": 20.065424356688514,
+      "margin": 6.717799999999997,
+      "fraction_of_margin": 2.986904099063462
+    },
+    "gain_db@fs_v0.9_t27": {
+      "use_at_expected_need": 6.5078515479994605,
+      "margin": 0.6756000000000029,
+      "fraction_of_margin": 9.632699153344335
+    },
+    "gbw_mhz@fs_v0.9_t27": {
+      "use_at_expected_need": 2.0737899394064088,
+      "margin": 1.7163000000000004,
+      "fraction_of_margin": 1.2082910559962758
+    },
+    "pm_deg@fs_v0.9_t27": {
+      "use_at_expected_need": 19.749786204604682,
+      "margin": 5.962999999999994,
+      "fraction_of_margin": 3.312055375583549
+    },
+    "gain_db@fs_v0.9_t85": {
+      "use_at_expected_need": 5.809609150455703,
+      "margin": 0.3603000000000023,
+      "fraction_of_margin": 16.12436622385697
+    },
+    "gbw_mhz@fs_v0.9_t85": {
+      "use_at_expected_need": 1.962887579057038,
+      "margin": 0.9201999999999977,
+      "fraction_of_margin": 2.133109735988962
+    },
+    "pm_deg@fs_v0.9_t85": {
+      "use_at_expected_need": 19.5663494784037,
+      "margin": 5.424300000000002,
+      "fraction_of_margin": 3.6071658054317965
+    },
+    "gain_db@fs_v1.1_t-40": {
+      "use_at_expected_need": 7.9314293671179446,
+      "margin": 1.4650000000000034,
+      "fraction_of_margin": 5.413944960490052
+    },
+    "gbw_mhz@fs_v1.1_t-40": {
+      "use_at_expected_need": 2.6580350273417634,
+      "margin": 6.790800000000001,
+      "fraction_of_margin": 0.39141706828971007
+    },
+    "pm_deg@fs_v1.1_t-40": {
+      "use_at_expected_need": 21.474161716763316,
+      "margin": 5.303600000000003,
+      "fraction_of_margin": 4.048978376341222
+    },
+    "gain_db@fs_v1.1_t27": {
+      "use_at_expected_need": 6.76455104294151,
+      "margin": 1.121300000000005,
+      "fraction_of_margin": 6.032775388336288
+    },
+    "gbw_mhz@fs_v1.1_t27": {
+      "use_at_expected_need": 2.3173964692715465,
+      "margin": 4.3445,
+      "fraction_of_margin": 0.53340924600565
+    },
+    "pm_deg@fs_v1.1_t27": {
+      "use_at_expected_need": 20.59517563430663,
+      "margin": 5.486900000000006,
+      "fraction_of_margin": 3.7535175844842463
+    },
+    "gain_db@fs_v1.1_t85": {
+      "use_at_expected_need": 6.002889339826731,
+      "margin": 0.7859000000000052,
+      "fraction_of_margin": 7.638235576824903
+    },
+    "gbw_mhz@fs_v1.1_t85": {
+      "use_at_expected_need": 2.1389884713822087,
+      "margin": 2.9610999999999983,
+      "fraction_of_margin": 0.7223627946986626
+    },
+    "pm_deg@fs_v1.1_t85": {
+      "use_at_expected_need": 20.16960536835636,
+      "margin": 5.2547,
+      "fraction_of_margin": 3.838393318049815
+    },
+    "gain_db@fs_v1_t-40": {
+      "use_at_expected_need": 7.756074971157875,
+      "margin": 1.2614000000000019,
+      "fraction_of_margin": 6.14878307527974
+    },
+    "gbw_mhz@fs_v1_t-40": {
+      "use_at_expected_need": 2.4797516710035903,
+      "margin": 5.1416,
+      "fraction_of_margin": 0.4822918295868193
+    },
+    "pm_deg@fs_v1_t-40": {
+      "use_at_expected_need": 20.93524084885988,
+      "margin": 5.416799999999995,
+      "fraction_of_margin": 3.864872406007218
+    },
+    "gain_db@fs_v1_t27": {
+      "use_at_expected_need": 6.631740711288631,
+      "margin": 0.9191000000000003,
+      "fraction_of_margin": 7.215472430952703
+    },
+    "gbw_mhz@fs_v1_t27": {
+      "use_at_expected_need": 2.201662278717946,
+      "margin": 3.1494999999999997,
+      "fraction_of_margin": 0.6990513664765664
+    },
+    "pm_deg@fs_v1_t27": {
+      "use_at_expected_need": 20.23017117299506,
+      "margin": 5.526700000000005,
+      "fraction_of_margin": 3.660443152875141
+    },
+    "gain_db@fs_v1_t85": {
+      "use_at_expected_need": 5.898831915720505,
+      "margin": 0.5960000000000036,
+      "fraction_of_margin": 9.89736898610817
+    },
+    "gbw_mhz@fs_v1_t85": {
+      "use_at_expected_need": 2.0527087631666046,
+      "margin": 2.003399999999999,
+      "fraction_of_margin": 1.0246125402648525
+    },
+    "pm_deg@fs_v1_t85": {
+      "use_at_expected_need": 19.894572464881474,
+      "margin": 5.246399999999994,
+      "fraction_of_margin": 3.7920426320679885
+    },
+    "gain_db@sf_v0.9_t-40": {
+      "use_at_expected_need": 7.431123075054451,
+      "margin": 0.014000000000002899,
+      "fraction_of_margin": 530.7945053609224
+    },
+    "pm_deg@sf_v0.9_t-40": {
+      "use_at_expected_need": 12.222275068066617,
+      "margin": 25.651399999999995,
+      "fraction_of_margin": 0.4764759454870541
+    },
+    "gain_db@sf_v0.9_t27": {
+      "use_at_expected_need": 6.408726023345555,
+      "margin": 0.44839999999999947,
+      "fraction_of_margin": 14.292430917362987
+    },
+    "pm_deg@sf_v0.9_t27": {
+      "use_at_expected_need": 16.192443908077372,
+      "margin": 16.419799999999995,
+      "fraction_of_margin": 0.9861535407299344
+    },
+    "gain_db@sf_v0.9_t85": {
+      "use_at_expected_need": 5.677212498529059,
+      "margin": 0.35079999999999956,
+      "fraction_of_margin": 16.18361601633143
+    },
+    "pm_deg@sf_v0.9_t85": {
+      "use_at_expected_need": 17.868342419763906,
+      "margin": 9.9037,
+      "fraction_of_margin": 1.8042087724551334
+    },
+    "gain_db@sf_v1.1_t-40": {
+      "use_at_expected_need": 7.908999324355525,
+      "margin": 1.5820000000000007,
+      "fraction_of_margin": 4.999367461665943
+    },
+    "gbw_mhz@sf_v1.1_t-40": {
+      "use_at_expected_need": 2.3700002384837866,
+      "margin": 3.877299999999998,
+      "fraction_of_margin": 0.6112501582244829
+    },
+    "pm_deg@sf_v1.1_t-40": {
+      "use_at_expected_need": 20.200944604609408,
+      "margin": 5.150300000000001,
+      "fraction_of_margin": 3.922285032834864
+    },
+    "gain_db@sf_v1.1_t27": {
+      "use_at_expected_need": 6.757793218506932,
+      "margin": 1.1818000000000026,
+      "fraction_of_margin": 5.718220695978099
+    },
+    "gbw_mhz@sf_v1.1_t27": {
+      "use_at_expected_need": 2.1757838908077067,
+      "margin": 2.5946,
+      "fraction_of_margin": 0.8385816275370797
+    },
+    "pm_deg@sf_v1.1_t27": {
+      "use_at_expected_need": 19.8911537783703,
+      "margin": 5.113500000000002,
+      "fraction_of_margin": 3.8899293592197695
+    },
+    "gain_db@sf_v1.1_t85": {
+      "use_at_expected_need": 5.942901258882265,
+      "margin": 0.8959000000000046,
+      "fraction_of_margin": 6.633442637439708
+    },
+    "gbw_mhz@sf_v1.1_t85": {
+      "use_at_expected_need": 2.042427455934803,
+      "margin": 1.6523000000000003,
+      "fraction_of_margin": 1.236111756905406
+    },
+    "pm_deg@sf_v1.1_t85": {
+      "use_at_expected_need": 19.70085243145257,
+      "margin": 4.670199999999994,
+      "fraction_of_margin": 4.2184172907911
+    },
+    "gain_db@sf_v1_t-40": {
+      "use_at_expected_need": 7.679976192159812,
+      "margin": 1.2538000000000054,
+      "fraction_of_margin": 6.125359859754171
+    },
+    "pm_deg@sf_v1_t-40": {
+      "use_at_expected_need": 18.57810823773916,
+      "margin": 9.143100000000004,
+      "fraction_of_margin": 2.031926615451997
+    },
+    "gain_db@sf_v1_t27": {
+      "use_at_expected_need": 6.585715482789847,
+      "margin": 0.9055000000000035,
+      "fraction_of_margin": 7.27301544206496
+    },
+    "gbw_mhz@sf_v1_t27": {
+      "use_at_expected_need": 1.9884848730837268,
+      "margin": 0.5916999999999994,
+      "fraction_of_margin": 3.3606301725261596
+    },
+    "pm_deg@sf_v1_t27": {
+      "use_at_expected_need": 19.1594513855038,
+      "margin": 6.2149,
+      "fraction_of_margin": 3.082825368952646
+    },
+    "gain_db@sf_v1_t85": {
+      "use_at_expected_need": 5.80814086867526,
+      "margin": 0.6500000000000057,
+      "fraction_of_margin": 8.935601336423398
+    },
+    "gbw_mhz@sf_v1_t85": {
+      "use_at_expected_need": 1.9149751683846827,
+      "margin": 0.25099999999999767,
+      "fraction_of_margin": 7.629383140974903
+    },
+    "pm_deg@sf_v1_t85": {
+      "use_at_expected_need": 19.23756230799581,
+      "margin": 5.102500000000006,
+      "fraction_of_margin": 3.770222892306866
+    },
+    "gain_db@ss_v0.9_t-40": {
+      "use_at_expected_need": 7.690771197454286,
+      "margin": 1.2027,
+      "fraction_of_margin": 6.394588174485977
+    },
+    "pm_deg@ss_v0.9_t-40": {
+      "use_at_expected_need": 14.55204266816799,
+      "margin": 21.399,
+      "fraction_of_margin": 0.6800337711186499
+    },
+    "gain_db@ss_v0.9_t27": {
+      "use_at_expected_need": 6.635392571775971,
+      "margin": 1.273300000000006,
+      "fraction_of_margin": 5.211177704999559
+    },
+    "pm_deg@ss_v0.9_t27": {
+      "use_at_expected_need": 17.726945028391306,
+      "margin": 12.198300000000003,
+      "fraction_of_margin": 1.453230780386718
+    },
+    "gain_db@ss_v0.9_t85": {
+      "use_at_expected_need": 5.8684670545591775,
+      "margin": 1.103500000000004,
+      "fraction_of_margin": 5.3180489846480805
+    },
+    "pm_deg@ss_v0.9_t85": {
+      "use_at_expected_need": 18.707737852245963,
+      "margin": 7.290300000000002,
+      "fraction_of_margin": 2.5661135827395247
+    },
+    "gain_db@ss_v1.1_t-40": {
+      "use_at_expected_need": 8.164061098133907,
+      "margin": 2.218600000000002,
+      "fraction_of_margin": 3.6798256099043987
+    },
+    "gbw_mhz@ss_v1.1_t-40": {
+      "use_at_expected_need": 2.469472277881649,
+      "margin": 4.981199999999998,
+      "fraction_of_margin": 0.4957585075647736
+    },
+    "pm_deg@ss_v1.1_t-40": {
+      "use_at_expected_need": 20.883866728580358,
+      "margin": 4.566199999999995,
+      "fraction_of_margin": 4.5735768754282295
+    },
+    "gain_db@ss_v1.1_t27": {
+      "use_at_expected_need": 6.979892275789338,
+      "margin": 1.8855000000000004,
+      "fraction_of_margin": 3.701878693073103
+    },
+    "gbw_mhz@ss_v1.1_t27": {
+      "use_at_expected_need": 2.2214125176312334,
+      "margin": 3.264199999999999,
+      "fraction_of_margin": 0.6805381158112965
+    },
+    "pm_deg@ss_v1.1_t27": {
+      "use_at_expected_need": 20.349582411831513,
+      "margin": 4.668400000000005,
+      "fraction_of_margin": 4.359005743259251
+    },
+    "gain_db@ss_v1.1_t85": {
+      "use_at_expected_need": 6.12972787379533,
+      "margin": 1.6275000000000048,
+      "fraction_of_margin": 3.7663458517943544
+    },
+    "gbw_mhz@ss_v1.1_t85": {
+      "use_at_expected_need": 2.063793497715063,
+      "margin": 2.0914,
+      "fraction_of_margin": 0.9867999893444883
+    },
+    "pm_deg@ss_v1.1_t85": {
+      "use_at_expected_need": 20.04002731040269,
+      "margin": 4.297600000000003,
+      "fraction_of_margin": 4.663074113552373
+    },
+    "gain_db@ss_v1_t-40": {
+      "use_at_expected_need": 7.9355763374175785,
+      "margin": 1.9318000000000026,
+      "fraction_of_margin": 4.107866413405926
+    },
+    "gbw_mhz@ss_v1_t-40": {
+      "use_at_expected_need": 2.1831762957599827,
+      "margin": 2.0625,
+      "fraction_of_margin": 1.0585097191563553
+    },
+    "pm_deg@ss_v1_t-40": {
+      "use_at_expected_need": 19.743441435310096,
+      "margin": 6.489099999999993,
+      "fraction_of_margin": 3.0425546586291037
+    },
+    "gain_db@ss_v1_t27": {
+      "use_at_expected_need": 6.808170498006323,
+      "margin": 1.6238000000000028,
+      "fraction_of_margin": 4.192739560294563
+    },
+    "gbw_mhz@ss_v1_t27": {
+      "use_at_expected_need": 2.059218410971393,
+      "margin": 1.5566999999999993,
+      "fraction_of_margin": 1.3228100539419245
+    },
+    "pm_deg@ss_v1_t27": {
+      "use_at_expected_need": 19.752101750181648,
+      "margin": 5.2708999999999975,
+      "fraction_of_margin": 3.747386926365831
+    },
+    "gain_db@ss_v1_t85": {
+      "use_at_expected_need": 5.9957592325762015,
+      "margin": 1.3896000000000015,
+      "fraction_of_margin": 4.314737501853911
+    },
+    "gbw_mhz@ss_v1_t85": {
+      "use_at_expected_need": 1.9502634739172215,
+      "margin": 0.8414999999999999,
+      "fraction_of_margin": 2.3176036529022244
+    },
+    "pm_deg@ss_v1_t85": {
+      "use_at_expected_need": 19.636538024481347,
+      "margin": 4.549300000000002,
+      "fraction_of_margin": 4.3163867022358025
+    },
+    "gain_db@tt_v0.9_t-40": {
+      "use_at_expected_need": 7.559364848186678,
+      "margin": 1.0359000000000052,
+      "fraction_of_margin": 7.297388597535129
+    },
+    "pm_deg@tt_v0.9_t-40": {
+      "use_at_expected_need": 17.70503362072819,
+      "margin": 13.517300000000006,
+      "fraction_of_margin": 1.3098054804382668
+    },
+    "gain_db@tt_v0.9_t27": {
+      "use_at_expected_need": 6.485447727180968,
+      "margin": 0.7150999999999996,
+      "fraction_of_margin": 9.069287829927243
+    },
+    "pm_deg@tt_v0.9_t27": {
+      "use_at_expected_need": 18.92815256808006,
+      "margin": 7.842699999999994,
+      "fraction_of_margin": 2.4134740036059106
+    },
+    "gain_db@tt_v0.9_t85": {
+      "use_at_expected_need": 5.7353929465858915,
+      "margin": 0.45589999999999975,
+      "fraction_of_margin": 12.580374965092991
+    },
+    "pm_deg@tt_v0.9_t85": {
+      "use_at_expected_need": 19.14316194960122,
+      "margin": 5.7958,
+      "fraction_of_margin": 3.3029369456505093
+    },
+    "gain_db@tt_v1.1_t-40": {
+      "use_at_expected_need": 7.97837949717488,
+      "margin": 1.6143,
+      "fraction_of_margin": 4.942315243247773
+    },
+    "gbw_mhz@tt_v1.1_t-40": {
+      "use_at_expected_need": 2.585538949173003,
+      "margin": 5.899999999999999,
+      "fraction_of_margin": 0.4382269405377972
+    },
+    "pm_deg@tt_v1.1_t-40": {
+      "use_at_expected_need": 21.09277750419545,
+      "margin": 4.9180999999999955,
+      "fraction_of_margin": 4.288806145502424
+    },
+    "gain_db@tt_v1.1_t27": {
+      "use_at_expected_need": 6.790809587976426,
+      "margin": 1.2376000000000005,
+      "fraction_of_margin": 5.487079499011331
+    },
+    "gbw_mhz@tt_v1.1_t27": {
+      "use_at_expected_need": 2.2878776722642074,
+      "margin": 3.8122000000000007,
+      "fraction_of_margin": 0.6001462862032965
+    },
+    "pm_deg@tt_v1.1_t27": {
+      "use_at_expected_need": 20.405111560446887,
+      "margin": 5.087800000000001,
+      "fraction_of_margin": 4.010596242078478
+    },
+    "gain_db@tt_v1.1_t85": {
+      "use_at_expected_need": 5.967126584400744,
+      "margin": 0.9393000000000029,
+      "fraction_of_margin": 6.352737766848425
+    },
+    "gbw_mhz@tt_v1.1_t85": {
+      "use_at_expected_need": 2.1094562918671844,
+      "margin": 2.4711999999999996,
+      "fraction_of_margin": 0.8536161750838397
+    },
+    "pm_deg@tt_v1.1_t85": {
+      "use_at_expected_need": 20.02499077072727,
+      "margin": 4.779499999999999,
+      "fraction_of_margin": 4.189766873256047
+    },
+    "gain_db@tt_v1_t-40": {
+      "use_at_expected_need": 7.773634431336069,
+      "margin": 1.3643,
+      "fraction_of_margin": 5.697892275405753
+    },
+    "gbw_mhz@tt_v1_t-40": {
+      "use_at_expected_need": 2.3513081800345885,
+      "margin": 3.694099999999999,
+      "fraction_of_margin": 0.6365036626064777
+    },
+    "pm_deg@tt_v1_t-40": {
+      "use_at_expected_need": 20.31800239499372,
+      "margin": 5.521000000000001,
+      "fraction_of_margin": 3.680130844954486
+    },
+    "gain_db@tt_v1_t27": {
+      "use_at_expected_need": 6.63675127992598,
+      "margin": 1.0,
+      "fraction_of_margin": 6.63675127992598
+    },
+    "gbw_mhz@tt_v1_t27": {
+      "use_at_expected_need": 2.1436035751498626,
+      "margin": 2.3386999999999993,
+      "fraction_of_margin": 0.9165791145293809
+    },
+    "pm_deg@tt_v1_t27": {
+      "use_at_expected_need": 19.927056796995156,
+      "margin": 5.323300000000003,
+      "fraction_of_margin": 3.7433653555116457
+    },
+    "gain_db@tt_v1_t85": {
+      "use_at_expected_need": 5.84671211602347,
+      "margin": 0.7199000000000026,
+      "fraction_of_margin": 8.121561489128279
+    },
+    "gbw_mhz@tt_v1_t85": {
+      "use_at_expected_need": 2.005203243582787,
+      "margin": 1.3322000000000003,
+      "fraction_of_margin": 1.5051818372487515
+    },
+    "pm_deg@tt_v1_t85": {
+      "use_at_expected_need": 19.68287847290999,
+      "margin": 4.873500000000007,
+      "fraction_of_margin": 4.0387562271283395
+    }
+  },
+  "default_cells_used": [
+    "nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gboth_sdfull",
+    "nfet_01v8_lvt_W66p13_L2p03_m1__nf1_gboth_sdfull",
+    "pfet_01v8_lvt_W14p21_L0p89_m1__nf1_gboth_sdfull",
+    "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdfull",
+    "pfet_01v8_lvt_W887p03_L0p74_m1__nf1_gboth_sdfull",
+    "pfet_01v8_lvt_W90p63_L0p74_m1__nf1_gboth_sdfull"
+  ],
+  "elements": [
+    {
+      "id": "FirstStageYout1",
+      "kind": "net_capacitance",
+      "targets": [
+        "FirstStageYout1"
+      ],
+      "units": "fF",
+      "w": 25.247054650000003,
+      "w_basis": "route estimate 117.6 um of met1 + 17.8 fF inside the default device cells (v2: cells of the library's representative option, 15.3)",
+      "w_parts": {
+        "wiring": 9.96862465,
+        "device_cells": 15.278430000000002,
+        "device_cells_by_device": {
+          "XDiodeTransistorNmos1": 8.106950000000001,
+          "XNormalTransistorNmos4": 7.0894200000000005,
+          "XNormalTransistorPmos7": 0.08206
+        },
+        "device_cells_default_option": 17.76216,
+        "device_cells_by_device_default_option": {
+          "XDiodeTransistorNmos1": 11.698440000000002,
+          "XNormalTransistorNmos4": 5.67608,
+          "XNormalTransistorPmos7": 0.38764
+        }
+      },
+      "budget": 7.98131213490775,
+      "budget_maxmin": 7.98131213490775,
+      "multiple_of_expected": 0.31612844529996487,
+      "binding": [
+        "pm_deg@ss_v1.1_t85"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.029227620842460406,
+        "pm_deg": 0.03007855074510801
+      },
+      "floor": 10.37437,
+      "floor_source": {
+        "floor": 10.37437,
+        "per_type_option": {
+          "nfet_01v8_lvt_W66p13_L2p03_m1": "nf2_gtop_sdhalf_outS",
+          "pfet_01v8_lvt_W14p21_L0p89_m1": "nf2_gboth_sdhalf_outS"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "FirstStageYsourceTransconductance",
+      "kind": "net_capacitance",
+      "targets": [
+        "FirstStageYsourceTransconductance"
+      ],
+      "units": "fF",
+      "w": 20.047813892,
+      "w_basis": "route estimate 67.0 um of met1 + 25.7 fF inside the default device cells (v2: cells of the library's representative option, 14.4)",
+      "w_parts": {
+        "wiring": 5.679043892000001,
+        "device_cells": 14.368769999999998,
+        "device_cells_by_device": {
+          "XNormalTransistorPmos6": 5.8614999999999995,
+          "XNormalTransistorPmos7": 5.8614999999999995,
+          "XNormalTransistorPmos8": 2.6457699999999997
+        },
+        "device_cells_default_option": 25.72478,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorPmos6": 7.32899,
+          "XNormalTransistorPmos7": 7.32899,
+          "XNormalTransistorPmos8": 11.066799999999999
+        }
+      },
+      "budget": 0.033992500526227855,
+      "budget_maxmin": 0.033992500526227855,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.00012962339510174883
+      },
+      "floor": 12.54249,
+      "floor_source": {
+        "floor": 12.54249,
+        "per_type_option": {
+          "pfet_01v8_lvt_W14p21_L0p89_m1": "nf2_gtop_sdhalf_outD",
+          "pfet_01v8_lvt_W90p63_L0p74_m1": "nf2_gboth_sdhalf_outS"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "ibias",
+      "kind": "net_capacitance",
+      "targets": [
+        "ibias"
+      ],
+      "units": "fF",
+      "w": 82.61347377200002,
+      "w_basis": "route estimate 535.9 um of met1 + 52.7 fF inside the default device cells (v2: cells of the library's representative option, 37.2)",
+      "w_parts": {
+        "wiring": 45.417943772000015,
+        "device_cells": 37.19553,
+        "device_cells_by_device": {
+          "XDiodeTransistorPmos2": 6.11964,
+          "XNormalTransistorPmos5": 26.479159999999997,
+          "XNormalTransistorPmos8": 4.596729999999999
+        },
+        "device_cells_default_option": 52.730709999999995,
+        "device_cells_by_device_default_option": {
+          "XDiodeTransistorPmos2": 6.79017,
+          "XNormalTransistorPmos5": 41.270759999999996,
+          "XNormalTransistorPmos8": 4.66978
+        }
+      },
+      "budget": 0.14007704609572608,
+      "budget_maxmin": 0.14007704609572608,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gbw_mhz": 1.9308724321296735e-06
+      },
+      "floor": 31.84309,
+      "floor_source": {
+        "floor": 31.84309,
+        "per_type_option": {
+          "pfet_01v8_lvt_W37p3_L0p74_m1": "nf2_gtop_sdhalf_outS",
+          "pfet_01v8_lvt_W887p03_L0p74_m1": "nf8_gtop_sdhalf_outD",
+          "pfet_01v8_lvt_W90p63_L0p74_m1": "nf1_gtop_sdhalf"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "out",
+      "kind": "net_capacitance",
+      "targets": [
+        "out"
+      ],
+      "units": "fF",
+      "w": 100.292344368,
+      "w_basis": "route estimate 707.0 um of met1 + 179 fF inside the default device cells (v2: cells of the library's representative option, 40.4)",
+      "w_parts": {
+        "wiring": 59.921074368000006,
+        "device_cells": 40.371269999999996,
+        "device_cells_by_device": {
+          "XNormalTransistorNmos3": 18.11042,
+          "XNormalTransistorPmos5": 22.260849999999998
+        },
+        "device_cells_default_option": 179.33886,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorNmos3": 71.39946,
+          "XNormalTransistorPmos5": 107.93939999999999
+        }
+      },
+      "budget": 0.1700528340432314,
+      "budget_maxmin": 0.1700528340432314,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 1.2082980592483594e-15,
+        "gbw_mhz": 1.594505388419091e-05,
+        "pm_deg": 0.0004259066749276459
+      },
+      "floor": 40.336909999999996,
+      "floor_source": {
+        "floor": 40.336909999999996,
+        "per_type_option": {
+          "nfet_01v8_lvt_W484p2_L0p24_m1": "nf8_gboth_sdhalf_outS",
+          "pfet_01v8_lvt_W887p03_L0p74_m1": "nf8_gboth_sdhalf_outS"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "outFirstStage",
+      "kind": "net_capacitance",
+      "targets": [
+        "outFirstStage"
+      ],
+      "units": "fF",
+      "w": 34.022353386,
+      "w_basis": "route estimate 306.7 um of met1 + 16.2 fF inside the default device cells (v2: cells of the library's representative option, 8.03)",
+      "w_parts": {
+        "wiring": 25.993003386,
+        "device_cells": 8.029349999999999,
+        "device_cells_by_device": {
+          "XNormalTransistorNmos4": 1.01753,
+          "XNormalTransistorNmos3": 6.92976,
+          "XNormalTransistorPmos6": 0.08206
+        },
+        "device_cells_default_option": 16.18037,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorNmos4": 6.022360000000001,
+          "XNormalTransistorNmos3": 9.77037,
+          "XNormalTransistorPmos6": 0.38764
+        }
+      },
+      "budget": 0.05768733047939026,
+      "budget_maxmin": 0.05768733047939026,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 2.1724336217287173e-14,
+        "gbw_mhz": 6.808355588128521e-05,
+        "pm_deg": 0.0001941700468722774
+      },
+      "floor": 7.53815,
+      "floor_source": {
+        "floor": 7.53815,
+        "per_type_option": {
+          "nfet_01v8_lvt_W66p13_L2p03_m1": "nf2_gboth_sdhalf_outS",
+          "nfet_01v8_lvt_W484p2_L0p24_m1": "nf4_gtop_sdhalf_outD",
+          "pfet_01v8_lvt_W14p21_L0p89_m1": "nf2_gboth_sdhalf_outS"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "FirstStageYout1~FirstStageYsourceTransconductance",
+      "kind": "coupling",
+      "targets": [
+        "FirstStageYout1",
+        "FirstStageYsourceTransconductance"
+      ],
+      "units": "fF",
+      "w": 1.7710252260000003,
+      "w_basis": "coupling estimate 16.8 um of met1 + 1.32 fF inside the default device cells (v2: cells of the library's representative option, 0.826)",
+      "w_parts": {
+        "wiring": 0.9450152260000002,
+        "device_cells": 0.82601,
+        "device_cells_by_device": {
+          "XNormalTransistorPmos7": 0.82601
+        },
+        "device_cells_default_option": 1.31785,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorPmos7": 1.31785
+        }
+      },
+      "budget": 0.0030028997800498843,
+      "budget_maxmin": 0.0030028997800498843,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 2.133688624930048e-17,
+        "gbw_mhz": 6.754455726613422e-06
+      },
+      "floor": 0.5187900000000001,
+      "floor_source": {
+        "floor": 0.5187900000000001,
+        "per_type_option": {
+          "pfet_01v8_lvt_W14p21_L0p89_m1": "nf2_gboth_sdhalf_outS"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "FirstStageYout1~ibias",
+      "kind": "coupling",
+      "targets": [
+        "FirstStageYout1",
+        "ibias"
+      ],
+      "units": "fF",
+      "w": 1.658818325,
+      "w_basis": "coupling estimate 29.4 um of met1",
+      "w_parts": {
+        "wiring": 1.658818325,
+        "device_cells": 0,
+        "device_cells_by_device": {}
+      },
+      "budget": 0.5243996581173418,
+      "budget_maxmin": 0.5243996581173418,
+      "multiple_of_expected": 0.31612844529996487,
+      "binding": [
+        "pm_deg@ss_v1.1_t85"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.0012883403487519813,
+        "pm_deg": 0.003169634569266273
+      }
+    },
+    {
+      "id": "FirstStageYout1~out",
+      "kind": "coupling",
+      "targets": [
+        "FirstStageYout1",
+        "out"
+      ],
+      "units": "fF",
+      "w": 1.658818325,
+      "w_basis": "coupling estimate 29.4 um of met1",
+      "w_parts": {
+        "wiring": 1.658818325,
+        "device_cells": 0,
+        "device_cells_by_device": {}
+      },
+      "budget": 0.5243996581173418,
+      "budget_maxmin": 0.5243996581173418,
+      "multiple_of_expected": 0.31612844529996487,
+      "binding": [
+        "pm_deg@ss_v1.1_t85"
+      ],
+      "margin_used": {
+        "pm_deg": 0.03634828720740543
+      }
+    },
+    {
+      "id": "FirstStageYout1~outFirstStage",
+      "kind": "coupling",
+      "targets": [
+        "FirstStageYout1",
+        "outFirstStage"
+      ],
+      "units": "fF",
+      "w": 4.705428325,
+      "w_basis": "coupling estimate 29.4 um of met1 + 4.7 fF inside the default device cells (v2: cells of the library's representative option, 3.05)",
+      "w_parts": {
+        "wiring": 1.658818325,
+        "device_cells": 3.04661,
+        "device_cells_by_device": {
+          "XNormalTransistorNmos4": 3.04661
+        },
+        "device_cells_default_option": 4.70208,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorNmos4": 4.70208
+        }
+      },
+      "budget": 0.007978389847160197,
+      "budget_maxmin": 0.007978389847160197,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 5.924091361665095e-15,
+        "gbw_mhz": 6.267370508509831e-05,
+        "pm_deg": 0.0001661140865460355
+      },
+      "floor": 2.35636,
+      "floor_source": {
+        "floor": 2.35636,
+        "per_type_option": {
+          "nfet_01v8_lvt_W66p13_L2p03_m1": "nf1_gboth_sdhalf"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "FirstStageYout1~in1",
+      "kind": "coupling",
+      "targets": [
+        "FirstStageYout1",
+        "in1"
+      ],
+      "units": "fF",
+      "w": 1.051727525,
+      "w_basis": "coupling estimate 2.4 um of met1 + 0.726 fF inside the default device cells (v2: cells of the library's representative option, 0.916)",
+      "w_parts": {
+        "wiring": 0.13573752500000005,
+        "device_cells": 0.91599,
+        "device_cells_by_device": {
+          "XNormalTransistorPmos7": 0.91599
+        },
+        "device_cells_default_option": 0.72641,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorPmos7": 0.72641
+        }
+      },
+      "budget": 0.3324809873574299,
+      "budget_maxmin": 0.3324809873574299,
+      "multiple_of_expected": 0.31612844529996487,
+      "binding": [
+        "pm_deg@ss_v1.1_t85"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.0012175477003722212,
+        "pm_deg": 0.0012529952570423633
+      },
+      "floor": 0.36705,
+      "floor_source": {
+        "floor": 0.36705,
+        "per_type_option": {
+          "pfet_01v8_lvt_W14p21_L0p89_m1": "nf1_gboth_sdhalf"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "FirstStageYout1~in2",
+      "kind": "coupling",
+      "targets": [
+        "FirstStageYout1",
+        "in2"
+      ],
+      "units": "fF",
+      "w": 0.13573752500000005,
+      "w_basis": "coupling estimate 2.4 um of met1",
+      "w_parts": {
+        "wiring": 0.13573752500000005,
+        "device_cells": 0,
+        "device_cells_by_device": {}
+      },
+      "budget": null,
+      "status": "unconstrained by the specs (consumes no margin in any check)"
+    },
+    {
+      "id": "FirstStageYsourceTransconductance~ibias",
+      "kind": "coupling",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "ibias"
+      ],
+      "units": "fF",
+      "w": 3.3483152260000004,
+      "w_basis": "coupling estimate 16.8 um of met1 + 4.17 fF inside the default device cells (v2: cells of the library's representative option, 2.4)",
+      "w_parts": {
+        "wiring": 0.9450152260000002,
+        "device_cells": 2.4033,
+        "device_cells_by_device": {
+          "XNormalTransistorPmos8": 2.4033
+        },
+        "device_cells_default_option": 4.16652,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorPmos8": 4.16652
+        }
+      },
+      "budget": 33.483152260000004,
+      "budget_maxmin": 33.483152260000004,
+      "multiple_of_expected": 10.0,
+      "binding": [
+        "cap_kappa"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.03706788401720264
+      },
+      "floor": 2.08673,
+      "floor_source": {
+        "floor": 2.08673,
+        "per_type_option": {
+          "pfet_01v8_lvt_W90p63_L0p74_m1": "nf1_gboth_sdhalf"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "FirstStageYsourceTransconductance~out",
+      "kind": "coupling",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "out"
+      ],
+      "units": "fF",
+      "w": 0.9450152260000002,
+      "w_basis": "coupling estimate 16.8 um of met1",
+      "w_parts": {
+        "wiring": 0.9450152260000002,
+        "device_cells": 0,
+        "device_cells_by_device": {}
+      },
+      "budget": 0.0016023408208072536,
+      "budget_maxmin": 0.0016023408208072536,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 1.4231645380455881e-16,
+        "gbw_mhz": 1.7213154277657096e-05,
+        "pm_deg": 1.4122419865240208e-05
+      }
+    },
+    {
+      "id": "FirstStageYsourceTransconductance~outFirstStage",
+      "kind": "coupling",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "outFirstStage"
+      ],
+      "units": "fF",
+      "w": 1.7710252260000003,
+      "w_basis": "coupling estimate 16.8 um of met1 + 1.32 fF inside the default device cells (v2: cells of the library's representative option, 0.826)",
+      "w_parts": {
+        "wiring": 0.9450152260000002,
+        "device_cells": 0.82601,
+        "device_cells_by_device": {
+          "XNormalTransistorPmos6": 0.82601
+        },
+        "device_cells_default_option": 1.31785,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorPmos6": 1.31785
+        }
+      },
+      "budget": 0.0030028997800498843,
+      "budget_maxmin": 0.0030028997800498843,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 1.109518084963625e-15,
+        "gbw_mhz": 3.3297773114977287e-06,
+        "pm_deg": 0.00010365728393912822
+      },
+      "floor": 0.5187900000000001,
+      "floor_source": {
+        "floor": 0.5187900000000001,
+        "per_type_option": {
+          "pfet_01v8_lvt_W14p21_L0p89_m1": "nf2_gboth_sdhalf_outS"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "FirstStageYsourceTransconductance~in1",
+      "kind": "coupling",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "in1"
+      ],
+      "units": "fF",
+      "w": 1.839827525,
+      "w_basis": "coupling estimate 2.4 um of met1 + 1.12 fF inside the default device cells (v2: cells of the library's representative option, 1.7)",
+      "w_parts": {
+        "wiring": 0.13573752500000005,
+        "device_cells": 1.7040899999999999,
+        "device_cells_by_device": {
+          "XNormalTransistorPmos7": 1.7040899999999999
+        },
+        "device_cells_default_option": 1.1244100000000001,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorPmos7": 1.1244100000000001
+        }
+      },
+      "budget": 0.003119558992748205,
+      "budget_maxmin": 0.003119558992748205,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gbw_mhz": 1.1895795296030458e-05
+      },
+      "floor": 0.8235,
+      "floor_source": {
+        "floor": 0.8235,
+        "per_type_option": {
+          "pfet_01v8_lvt_W14p21_L0p89_m1": "nf1_gtop_sdhalf"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "FirstStageYsourceTransconductance~in2",
+      "kind": "coupling",
+      "targets": [
+        "FirstStageYsourceTransconductance",
+        "in2"
+      ],
+      "units": "fF",
+      "w": 1.839827525,
+      "w_basis": "coupling estimate 2.4 um of met1 + 1.12 fF inside the default device cells (v2: cells of the library's representative option, 1.7)",
+      "w_parts": {
+        "wiring": 0.13573752500000005,
+        "device_cells": 1.7040899999999999,
+        "device_cells_by_device": {
+          "XNormalTransistorPmos6": 1.7040899999999999
+        },
+        "device_cells_default_option": 1.1244100000000001,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorPmos6": 1.1244100000000001
+        }
+      },
+      "budget": 0.5816218150983322,
+      "budget_maxmin": 0.5816218150983322,
+      "multiple_of_expected": 0.31612844529996487,
+      "binding": [
+        "pm_deg@ss_v1.1_t85"
+      ],
+      "margin_used": {
+        "pm_deg": 0.005087345427790474
+      },
+      "floor": 0.8235,
+      "floor_source": {
+        "floor": 0.8235,
+        "per_type_option": {
+          "pfet_01v8_lvt_W14p21_L0p89_m1": "nf1_gtop_sdhalf"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "ibias~out",
+      "kind": "coupling",
+      "targets": [
+        "ibias",
+        "out"
+      ],
+      "units": "fF",
+      "w": 28.587124366,
+      "w_basis": "coupling estimate 134.0 um of met1 + 40.8 fF inside the default device cells (v2: cells of the library's representative option, 21)",
+      "w_parts": {
+        "wiring": 7.557724366000002,
+        "device_cells": 21.0294,
+        "device_cells_by_device": {
+          "XNormalTransistorPmos5": 21.0294
+        },
+        "device_cells_default_option": 40.7675,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorPmos5": 40.7675
+        }
+      },
+      "budget": 0.04847151142211911,
+      "budget_maxmin": 0.04847151142211911,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gbw_mhz": 5.5350322206832e-05,
+        "pm_deg": 0.0009835903511798201
+      },
+      "floor": 20.3872,
+      "floor_source": {
+        "floor": 20.3872,
+        "per_type_option": {
+          "pfet_01v8_lvt_W887p03_L0p74_m1": "nf1_gboth_sdhalf"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "ibias~outFirstStage",
+      "kind": "coupling",
+      "targets": [
+        "ibias",
+        "outFirstStage"
+      ],
+      "units": "fF",
+      "w": 4.325337933,
+      "w_basis": "coupling estimate 76.7 um of met1",
+      "w_parts": {
+        "wiring": 4.325337933,
+        "device_cells": 0,
+        "device_cells_by_device": {}
+      },
+      "budget": 0.007333919436586907,
+      "budget_maxmin": 0.007333919436586907,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 2.7358081696662327e-15,
+        "gbw_mhz": 1.2186333355988153e-05,
+        "pm_deg": 1.6277115439022264e-05
+      }
+    },
+    {
+      "id": "ibias~in1",
+      "kind": "coupling",
+      "targets": [
+        "ibias",
+        "in1"
+      ],
+      "units": "fF",
+      "w": 0.13573752500000005,
+      "w_basis": "coupling estimate 2.4 um of met1",
+      "w_parts": {
+        "wiring": 0.13573752500000005,
+        "device_cells": 0,
+        "device_cells_by_device": {}
+      },
+      "budget": 0.00023015266975481,
+      "budget_maxmin": 0.00023015266975481,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gbw_mhz": 3.1725072565202146e-09
+      }
+    },
+    {
+      "id": "ibias~in2",
+      "kind": "coupling",
+      "targets": [
+        "ibias",
+        "in2"
+      ],
+      "units": "fF",
+      "w": 0.13573752500000005,
+      "w_basis": "coupling estimate 2.4 um of met1",
+      "w_parts": {
+        "wiring": 0.13573752500000005,
+        "device_cells": 0,
+        "device_cells_by_device": {}
+      },
+      "budget": 0.04291049274711513,
+      "budget_maxmin": 0.04291049274711513,
+      "multiple_of_expected": 0.31612844529996487,
+      "binding": [
+        "pm_deg@ss_v1.1_t85"
+      ],
+      "margin_used": {}
+    },
+    {
+      "id": "out~outFirstStage",
+      "kind": "coupling",
+      "targets": [
+        "out",
+        "outFirstStage"
+      ],
+      "units": "fF",
+      "w": 9.294717933000001,
+      "w_basis": "coupling estimate 76.7 um of met1 + 9.46 fF inside the default device cells (v2: cells of the library's representative option, 4.97)",
+      "w_parts": {
+        "wiring": 4.325337933,
+        "device_cells": 4.96938,
+        "device_cells_by_device": {
+          "XNormalTransistorNmos3": 4.96938
+        },
+        "device_cells_default_option": 9.46369,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorNmos3": 9.46369
+        }
+      },
+      "budget": 0.01575985820352816,
+      "budget_maxmin": 0.01575985820352816,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 1.7396174967516485e-13,
+        "gbw_mhz": 0.00044394439626402375
+      },
+      "floor": 4.73188,
+      "floor_source": {
+        "floor": 4.73188,
+        "per_type_option": {
+          "nfet_01v8_lvt_W484p2_L0p24_m1": "nf1_gtop_sdhalf"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "out~in1",
+      "kind": "coupling",
+      "targets": [
+        "out",
+        "in1"
+      ],
+      "units": "fF",
+      "w": 0.13573752500000005,
+      "w_basis": "coupling estimate 2.4 um of met1",
+      "w_parts": {
+        "wiring": 0.13573752500000005,
+        "device_cells": 0,
+        "device_cells_by_device": {}
+      },
+      "budget": 0.00023015266975481,
+      "budget_maxmin": 0.00023015266975481,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 1.6353330761007357e-18,
+        "gbw_mhz": 2.1580332615320555e-08,
+        "pm_deg": 5.764300186615639e-07
+      }
+    },
+    {
+      "id": "out~in2",
+      "kind": "coupling",
+      "targets": [
+        "out",
+        "in2"
+      ],
+      "units": "fF",
+      "w": 0.13573752500000005,
+      "w_basis": "coupling estimate 2.4 um of met1",
+      "w_parts": {
+        "wiring": 0.13573752500000005,
+        "device_cells": 0,
+        "device_cells_by_device": {}
+      },
+      "budget": 0.00023015266975481,
+      "budget_maxmin": 0.00023015266975481,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 1.6353330761007357e-18,
+        "gbw_mhz": 2.0153839551705312e-07,
+        "pm_deg": 6.290370593482861e-07
+      }
+    },
+    {
+      "id": "outFirstStage~in1",
+      "kind": "coupling",
+      "targets": [
+        "outFirstStage",
+        "in1"
+      ],
+      "units": "fF",
+      "w": 0.13573752500000005,
+      "w_basis": "coupling estimate 2.4 um of met1",
+      "w_parts": {
+        "wiring": 0.13573752500000005,
+        "device_cells": 0,
+        "device_cells_by_device": {}
+      },
+      "budget": 0.00023015266975481,
+      "budget_maxmin": 0.00023015266975481,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 8.667265303333899e-17,
+        "gbw_mhz": 2.7163004462612136e-07,
+        "pm_deg": 7.746719132728291e-07
+      }
+    },
+    {
+      "id": "outFirstStage~in2",
+      "kind": "coupling",
+      "targets": [
+        "outFirstStage",
+        "in2"
+      ],
+      "units": "fF",
+      "w": 1.051727525,
+      "w_basis": "coupling estimate 2.4 um of met1 + 0.726 fF inside the default device cells (v2: cells of the library's representative option, 0.916)",
+      "w_parts": {
+        "wiring": 0.13573752500000005,
+        "device_cells": 0.91599,
+        "device_cells_by_device": {
+          "XNormalTransistorPmos6": 0.91599
+        },
+        "device_cells_default_option": 0.72641,
+        "device_cells_by_device_default_option": {
+          "XNormalTransistorPmos6": 0.72641
+        }
+      },
+      "budget": 0.0017832791465246518,
+      "budget_maxmin": 0.0017832791465246518,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 6.715609029996482e-16,
+        "pm_deg": 0.00016169794895903503
+      },
+      "floor": 0.36705,
+      "floor_source": {
+        "floor": 0.36705,
+        "per_type_option": {
+          "pfet_01v8_lvt_W14p21_L0p89_m1": "nf1_gboth_sdhalf"
+        },
+        "kind": "cell capacitance"
+      }
+    },
+    {
+      "id": "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XDiodeTransistorNmos1.d",
+        "XNormalTransistorNmos4.d"
+      ],
+      "units": "ohm",
+      "w": 39.242155867363664,
+      "w_basis": "per member: measured default-cell access 13 ohm + 36.0 um met1 (v2: cells of the library's representative option, 7.1)",
+      "w_parts": {
+        "device_cells": 7.099298724506529,
+        "wiring": 32.14285714285713,
+        "device_cells_default_option": 12.984500383321942
+      },
+      "budget": 0.0665378784518734,
+      "budget_maxmin": 0.0665378784518734,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 7.152821933565629e-07,
+        "gbw_mhz": 1.6634469612917762e-06,
+        "pm_deg": 9.647992375508613e-06,
+        "sat_XDiodeTransistorNmos1": 7.237325039209787e-07,
+        "sat_XNormalTransistorNmos4": 7.406996629261126e-07
+      },
+      "floor": 2.78760033444816,
+      "floor_source": {
+        "floor": 2.78760033444816,
+        "option": "nf8_gboth_sdfull_outD",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XDiodeTransistorNmos1.g",
+        "XNormalTransistorNmos4.g"
+      ],
+      "units": "ohm",
+      "w": 43.720046182265996,
+      "w_basis": "per member: measured default-cell access 144 ohm + 36.0 um met1 (v2: cells of the library's representative option, 11.6)",
+      "w_parts": {
+        "device_cells": 11.577189039408866,
+        "wiring": 32.14285714285713,
+        "device_cells_default_option": 144.44502463054187
+      },
+      "budget": 13.821150228042415,
+      "budget_maxmin": 13.821150228042415,
+      "multiple_of_expected": 0.31612844529996487,
+      "binding": [
+        "pm_deg@ss_v1.1_t85"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.0001934961031920201,
+        "pm_deg": 0.0013130092716693168
+      },
+      "floor": 3.7440889265188835,
+      "floor_source": {
+        "floor": 3.7440889265188835,
+        "option": "nf8_gboth_sdfull_outD",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XDiodeTransistorNmos1.s",
+        "XNormalTransistorNmos4.s"
+      ],
+      "units": "ohm",
+      "w": 36.87572295919482,
+      "w_basis": "per member: measured default-cell access 13 ohm + 36.0 um met1 (v2: cells of the library's representative option, 4.73)",
+      "w_parts": {
+        "device_cells": 4.732865816337686,
+        "wiring": 32.14285714285713,
+        "device_cells_default_option": 12.984500383321947
+      },
+      "budget": 11.657464968402477,
+      "budget_maxmin": 11.657464968402477,
+      "multiple_of_expected": 0.31612844529996487,
+      "binding": [
+        "pm_deg@ss_v1.1_t85"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.0047154445797179595,
+        "pm_deg": 0.0074607775797763485,
+        "sat_XNormalTransistorNmos3": 9.503748315545004e-06,
+        "sat_XNormalTransistorNmos4": 0.0001305344639836094,
+        "sat_XNormalTransistorPmos6": 1.8651943949236127e-06,
+        "sat_XNormalTransistorPmos7": 0.0001621553377104821
+      },
+      "floor": 2.78760033444816,
+      "floor_source": {
+        "floor": 2.78760033444816,
+        "option": "nf8_gboth_sdfull_outS",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XDiodeTransistorPmos2.d",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XDiodeTransistorPmos2.d"
+      ],
+      "units": "ohm",
+      "w": 32.84459706959707,
+      "w_basis": "per member: measured default-cell access 12.2 ohm + 21.1 um met1 (v2: cells of the library's representative option, 14)",
+      "w_parts": {
+        "device_cells": 14.00977564102564,
+        "wiring": 18.83482142857143,
+        "device_cells_default_option": 12.214510116011736
+      },
+      "budget": 328.4459706959707,
+      "budget_maxmin": 328.4459706959707,
+      "multiple_of_expected": 10.0,
+      "binding": [
+        "cap_kappa"
+      ],
+      "margin_used": {
+        "sat_XDiodeTransistorPmos2": 0.0032352749228479866,
+        "sat_XNormalTransistorNmos3": 9.85337912116246e-06,
+        "sat_XNormalTransistorPmos5": 6.905576533894476e-05,
+        "sat_XNormalTransistorPmos6": 3.530794184873542e-05,
+        "sat_XNormalTransistorPmos7": 0.0001182405494494826,
+        "sat_XNormalTransistorPmos8": 0.0001815485103029742
+      },
+      "floor": 9.15199592074593,
+      "floor_source": {
+        "floor": 9.15199592074593,
+        "option": "nf2_gboth_sdfull_outD",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XDiodeTransistorPmos2.g",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XDiodeTransistorPmos2.g"
+      ],
+      "units": "ohm",
+      "w": 41.569928410553416,
+      "w_basis": "per member: measured default-cell access 243 ohm + 21.1 um met1 (v2: cells of the library's representative option, 22.7)",
+      "w_parts": {
+        "device_cells": 22.735106981981982,
+        "wiring": 18.83482142857143,
+        "device_cells_default_option": 242.78671171171172
+      },
+      "budget": 415.69928410553416,
+      "budget_maxmin": 415.69928410553416,
+      "multiple_of_expected": 10.0,
+      "binding": [
+        "cap_kappa"
+      ],
+      "margin_used": {},
+      "floor": 22.735106981981982,
+      "floor_source": {
+        "floor": 22.735106981981982,
+        "option": "nf4_gboth_sdfull_outD",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XDiodeTransistorPmos2.s",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XDiodeTransistorPmos2.s"
+      ],
+      "units": "ohm",
+      "w": 28.174671855921858,
+      "w_basis": "per member: measured default-cell access 12.2 ohm + 21.1 um met1 (v2: cells of the library's representative option, 9.34)",
+      "w_parts": {
+        "device_cells": 9.339850427350429,
+        "wiring": 18.83482142857143,
+        "device_cells_default_option": 12.214510116011738
+      },
+      "budget": 0.047772168728626226,
+      "budget_maxmin": 0.047772168728626226,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "sat_XNormalTransistorNmos3": 6.408636434975682e-08,
+        "sat_XNormalTransistorPmos5": 3.025769736850384e-07,
+        "sat_XNormalTransistorPmos6": 1.269545383962357e-07,
+        "sat_XNormalTransistorPmos7": 1.430776453420803e-07,
+        "sat_XNormalTransistorPmos8": 1.071899978890801e-06
+      },
+      "floor": 9.15199592074593,
+      "floor_source": {
+        "floor": 9.15199592074593,
+        "option": "nf2_gboth_sdfull_outS",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XNormalTransistorNmos3.d",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorNmos3.d"
+      ],
+      "units": "ohm",
+      "w": 220.93197303770253,
+      "w_basis": "per member: measured default-cell access 87.9 ohm + 244.1 um met1 (v2: cells of the library's representative option, 2.95)",
+      "w_parts": {
+        "device_cells": 2.9498301805596903,
+        "wiring": 217.98214285714283,
+        "device_cells_default_option": 87.85422153282616
+      },
+      "budget": 0.3746059420843641,
+      "budget_maxmin": 0.3746059420843641,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 0.0003533470548709616,
+        "gbw_mhz": 0.00023927954550635557,
+        "pm_deg": 0.0011734531135793507,
+        "sat_XNormalTransistorNmos3": 0.00010442000158373352,
+        "sat_XNormalTransistorPmos5": 7.492118841694775e-08,
+        "sat_XNormalTransistorPmos6": 2.0219355723976726e-06,
+        "sat_XNormalTransistorPmos7": 1.3111207972913869e-08,
+        "sat_XNormalTransistorPmos8": 5.7127406168572483e-08
+      },
+      "floor": 0.4413663356845178,
+      "floor_source": {
+        "floor": 0.4413663356845178,
+        "option": "nf64_gboth_sdfull_outD",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XNormalTransistorNmos3.g",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorNmos3.g"
+      ],
+      "units": "ohm",
+      "w": 744.6212053571428,
+      "w_basis": "per member: measured default-cell access 8.18e+03 ohm + 244.1 um met1 (v2: cells of the library's representative option, 527)",
+      "w_parts": {
+        "device_cells": 526.6390625,
+        "wiring": 217.98214285714283,
+        "device_cells_default_option": 8184.275000000001
+      },
+      "budget": 235.39594398693941,
+      "budget_maxmin": 235.39594398693941,
+      "multiple_of_expected": 0.31612844529996487,
+      "binding": [
+        "pm_deg@ss_v1.1_t85"
+      ],
+      "margin_used": {
+        "pm_deg": 0.2601125181056978
+      },
+      "floor": 3.238580322265625,
+      "floor_source": {
+        "floor": 3.238580322265625,
+        "option": "nf64_gboth_sdfull_outD",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XNormalTransistorNmos3.s",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorNmos3.s"
+      ],
+      "units": "ohm",
+      "w": 220.3420070015906,
+      "w_basis": "per member: measured default-cell access 87.9 ohm + 244.1 um met1 (v2: cells of the library's representative option, 2.36)",
+      "w_parts": {
+        "device_cells": 2.3598641444477515,
+        "wiring": 217.98214285714283,
+        "device_cells_default_option": 87.85422153282614
+      },
+      "budget": 0.37360561252718505,
+      "budget_maxmin": 0.37360561252718505,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 0.010852682635495874,
+        "gbw_mhz": 0.0016047295072074343,
+        "pm_deg": 0.009797526984316058,
+        "sat_XDiodeTransistorNmos1": 4.151692369202256e-07,
+        "sat_XNormalTransistorNmos3": 0.00010027004891670833,
+        "sat_XNormalTransistorPmos5": 4.448615429763404e-06,
+        "sat_XNormalTransistorPmos6": 0.00012313200376267984,
+        "sat_XNormalTransistorPmos8": 3.067302078848146e-06
+      },
+      "floor": 0.4413663356845178,
+      "floor_source": {
+        "floor": 0.4413663356845178,
+        "option": "nf64_gboth_sdfull_outS",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XNormalTransistorPmos5.d",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos5.d"
+      ],
+      "units": "ohm",
+      "w": 402.5022108853194,
+      "w_basis": "per member: measured default-cell access 161 ohm + 446.0 um met1 (v2: cells of the library's representative option, 4.32)",
+      "w_parts": {
+        "device_cells": 4.32363945674799,
+        "wiring": 398.17857142857144,
+        "device_cells_default_option": 160.9218387709114
+      },
+      "budget": 0.6824712504332886,
+      "budget_maxmin": 0.6824712504332886,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 1.7061781260634848e-05,
+        "gbw_mhz": 1.672054563556448e-05,
+        "pm_deg": 0.00018034302792721264,
+        "sat_XNormalTransistorNmos4": 2.9767689765752926e-06,
+        "sat_XNormalTransistorPmos5": 0.00018972888441639435,
+        "sat_XNormalTransistorPmos7": 1.876795938347722e-08
+      },
+      "floor": 0.6542694147957305,
+      "floor_source": {
+        "floor": 0.6542694147957305,
+        "option": "nf64_gboth_sdfull_outD",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XNormalTransistorPmos5.g",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos5.g"
+      ],
+      "units": "ohm",
+      "w": 478.4494293959138,
+      "w_basis": "per member: measured default-cell access 4.86e+03 ohm + 446.0 um met1 (v2: cells of the library's representative option, 80.3)",
+      "w_parts": {
+        "device_cells": 80.27085796734235,
+        "wiring": 398.17857142857144,
+        "device_cells_default_option": 4855.05990990991
+      },
+      "budget": 0.8112451845437361,
+      "budget_maxmin": 0.8112451845437361,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gbw_mhz": 1.9672695725125338e-05
+      },
+      "floor": 1.8055505151147242,
+      "floor_source": {
+        "floor": 1.8055505151147242,
+        "option": "nf64_gboth_sdfull_outD",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XNormalTransistorPmos5.s",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos5.s"
+      ],
+      "units": "ohm",
+      "w": 401.63748299396985,
+      "w_basis": "per member: measured default-cell access 161 ohm + 446.0 um met1 (v2: cells of the library's representative option, 3.46)",
+      "w_parts": {
+        "device_cells": 3.458911565398392,
+        "wiring": 398.17857142857144,
+        "device_cells_default_option": 160.92183877091145
+      },
+      "budget": 126.96903307307477,
+      "budget_maxmin": 126.96903307307477,
+      "multiple_of_expected": 0.31612844529996487,
+      "binding": [
+        "pm_deg@ss_v1.1_t85"
+      ],
+      "margin_used": {
+        "pm_deg": 3.4820939897708687,
+        "sat_XNormalTransistorNmos4": 0.02648012191932926,
+        "sat_XNormalTransistorPmos5": 0.011439243292459825,
+        "sat_XNormalTransistorPmos7": 0.0010144825742539306
+      },
+      "floor": 0.6542694147957305,
+      "floor_source": {
+        "floor": 0.6542694147957305,
+        "option": "nf64_gboth_sdfull_outS",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos7.d",
+        "XNormalTransistorPmos6.d"
+      ],
+      "units": "ohm",
+      "w": 42.579789618276465,
+      "w_basis": "per member: measured default-cell access 17.1 ohm + 9.6 um met1 (v2: cells of the library's representative option, 34)",
+      "w_parts": {
+        "device_cells": 33.986039618276465,
+        "wiring": 8.593750000000002,
+        "device_cells_default_option": 17.081029583707206
+      },
+      "budget": 0.0721970748932137,
+      "budget_maxmin": 0.0721970748932137,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 1.0468575859324866e-06,
+        "gbw_mhz": 2.5088483525480774e-06,
+        "pm_deg": 1.4619907665822463e-06,
+        "sat_XNormalTransistorPmos5": 4.331824493717386e-09,
+        "sat_XNormalTransistorPmos6": 8.021095020633444e-07,
+        "sat_XNormalTransistorPmos7": 8.09148716866096e-07,
+        "sat_XNormalTransistorPmos8": 1.480040035312361e-08
+      },
+      "floor": 16.993019809138232,
+      "floor_source": {
+        "floor": 16.993019809138232,
+        "option": "nf2_gboth_sdfull_outD",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos7.g",
+        "XNormalTransistorPmos6.g"
+      ],
+      "units": "ohm",
+      "w": 44.78906835205993,
+      "w_basis": "per member: measured default-cell access 104 ohm + 9.6 um met1 (v2: cells of the library's representative option, 36.2)",
+      "w_parts": {
+        "device_cells": 36.19531835205993,
+        "wiring": 8.593750000000002,
+        "device_cells_default_option": 104.45627340823971
+      },
+      "budget": 14.159098544570565,
+      "budget_maxmin": 14.159098544570565,
+      "multiple_of_expected": 0.31612844529996487,
+      "binding": [
+        "pm_deg@ss_v1.1_t85"
+      ],
+      "margin_used": {
+        "pm_deg": 0.005511429108476967
+      },
+      "floor": 36.19531835205993,
+      "floor_source": {
+        "floor": 36.19531835205993,
+        "option": "nf2_gboth_sdfull_outD",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos7.s",
+        "XNormalTransistorPmos6.s"
+      ],
+      "units": "ohm",
+      "w": 25.586769809138232,
+      "w_basis": "per member: measured default-cell access 17.1 ohm + 9.6 um met1 (v2: cells of the library's representative option, 17)",
+      "w_parts": {
+        "device_cells": 16.993019809138232,
+        "wiring": 8.593750000000002,
+        "device_cells_default_option": 17.081029583707206
+      },
+      "budget": 0.043384195947104034,
+      "budget_maxmin": 0.043384195947104034,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gain_db": 2.8232265512573418e-05,
+        "gbw_mhz": 0.00011857985357242394,
+        "sat_XDiodeTransistorNmos1": 9.544523108258039e-09,
+        "sat_XNormalTransistorPmos5": 9.002220659030081e-09,
+        "sat_XNormalTransistorPmos8": 5.639945473123024e-07
+      },
+      "floor": 16.993019809138232,
+      "floor_source": {
+        "floor": 16.993019809138232,
+        "option": "nf2_gboth_sdfull_outS",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XNormalTransistorPmos8.d",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos8.d"
+      ],
+      "units": "ohm",
+      "w": 54.9446439589822,
+      "w_basis": "per member: measured default-cell access 18.7 ohm + 47.8 um met1 (v2: cells of the library's representative option, 12.3)",
+      "w_parts": {
+        "device_cells": 12.301786816125052,
+        "wiring": 42.642857142857146,
+        "device_cells_default_option": 18.654778173999002
+      },
+      "budget": 0.09316256868457887,
+      "budget_maxmin": 0.09316256868457887,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gbw_mhz": 1.7631016123566764e-05,
+        "sat_XDiodeTransistorNmos1": 3.11628792248405e-08,
+        "sat_XNormalTransistorNmos3": 4.658128434104313e-10,
+        "sat_XNormalTransistorPmos5": 5.1239412778250385e-09,
+        "sat_XNormalTransistorPmos6": 3.8196653160715535e-08,
+        "sat_XNormalTransistorPmos8": 1.9580209966861455e-06
+      },
+      "floor": 4.868595571095572,
+      "floor_source": {
+        "floor": 4.868595571095572,
+        "option": "nf8_gboth_sdfull_outD",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XNormalTransistorPmos8.g",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos8.g"
+      ],
+      "units": "ohm",
+      "w": 83.46992639961391,
+      "w_basis": "per member: measured default-cell access 532 ohm + 47.8 um met1 (v2: cells of the library's representative option, 40.8)",
+      "w_parts": {
+        "device_cells": 40.82706925675676,
+        "wiring": 42.642857142857146,
+        "device_cells_default_option": 532.2581081081082
+      },
+      "budget": 26.38721806201244,
+      "budget_maxmin": 26.38721806201244,
+      "multiple_of_expected": 0.31612844529996487,
+      "binding": [
+        "pm_deg@ss_v1.1_t85"
+      ],
+      "margin_used": {
+        "pm_deg": 0.00012533928579965738
+      },
+      "floor": 12.72707981418919,
+      "floor_source": {
+        "floor": 12.72707981418919,
+        "option": "nf8_gboth_sdfull_outD",
+        "kind": "access resistance"
+      }
+    },
+    {
+      "id": "XNormalTransistorPmos8.s",
+      "kind": "terminal_resistance",
+      "targets": [
+        "XNormalTransistorPmos8.s"
+      ],
+      "units": "ohm",
+      "w": 50.84404835360718,
+      "w_basis": "per member: measured default-cell access 18.7 ohm + 47.8 um met1 (v2: cells of the library's representative option, 8.2)",
+      "w_parts": {
+        "device_cells": 8.201191210750032,
+        "wiring": 42.642857142857146,
+        "device_cells_default_option": 18.654778173999002
+      },
+      "budget": 0.08620971591846352,
+      "budget_maxmin": 0.08620971591846352,
+      "multiple_of_expected": 0.0016955714328429807,
+      "binding": [
+        "gain_db@sf_v0.9_t-40"
+      ],
+      "margin_used": {
+        "gbw_mhz": 0.0005681220279026767,
+        "sat_XDiodeTransistorNmos1": 1.0052483924669582e-06,
+        "sat_XNormalTransistorPmos5": 6.163994688146395e-08,
+        "sat_XNormalTransistorPmos6": 9.68781682633596e-07
+      },
+      "floor": 4.868595571095572,
+      "floor_source": {
+        "floor": 4.868595571095572,
+        "option": "nf8_gboth_sdfull_outS",
+        "kind": "access resistance"
+      }
+    }
+  ],
+  "constraints": [
+    {
+      "id": "gain_db",
+      "b": 0.9,
+      "margin": 1.0,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz",
+      "b": 2.1048299999999993,
+      "margin": 2.3386999999999993,
+      "units": null
+    },
+    {
+      "id": "pm_deg",
+      "b": 4.790970000000003,
+      "margin": 5.323300000000003,
+      "units": null
+    },
+    {
+      "id": "sat_XDiodeTransistorNmos1",
+      "b": 0.35989776,
+      "margin": 0.3998864,
+      "units": "V"
+    },
+    {
+      "id": "sat_XDiodeTransistorPmos2",
+      "b": 0.3629295,
+      "margin": 0.40325500000000003,
+      "units": "V"
+    },
+    {
+      "id": "sat_XNormalTransistorNmos3",
+      "b": 0.76565556,
+      "margin": 0.8507284,
+      "units": "V"
+    },
+    {
+      "id": "sat_XNormalTransistorNmos4",
+      "b": 0.41206814999999997,
+      "margin": 0.45785349999999997,
+      "units": "V"
+    },
+    {
+      "id": "sat_XNormalTransistorPmos5",
+      "b": 0.72295866,
+      "margin": 0.8032874,
+      "units": "V"
+    },
+    {
+      "id": "sat_XNormalTransistorPmos6",
+      "b": 0.7475049,
+      "margin": 0.830561,
+      "units": "V"
+    },
+    {
+      "id": "sat_XNormalTransistorPmos7",
+      "b": 0.8009649,
+      "margin": 0.889961,
+      "units": "V"
+    },
+    {
+      "id": "sat_XNormalTransistorPmos8",
+      "b": 0.18406566000000002,
+      "margin": 0.20451740000000002,
+      "units": "V"
+    },
+    {
+      "id": "gain_db@ff_v0.9_t-40",
+      "b": 0.34650000000000464,
+      "margin": 0.3850000000000051,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ff_v0.9_t-40",
+      "b": 1.3086000000000007,
+      "margin": 1.4540000000000006,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ff_v0.9_t-40",
+      "b": 7.602750000000005,
+      "margin": 8.447500000000005,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ff_v0.9_t27",
+      "b": 1.0003499999999996,
+      "margin": 1.1114999999999995,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ff_v0.9_t27",
+      "b": 5.927580000000005,
+      "margin": 6.586200000000005,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ff_v0.9_t85",
+      "b": 0.4256099999999993,
+      "margin": 0.4728999999999992,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ff_v0.9_t85",
+      "b": 5.175180000000006,
+      "margin": 5.750200000000007,
+      "units": null
+    },
+    {
+      "id": "gain_db@ff_v1.1_t-40",
+      "b": 0.7686900000000023,
+      "margin": 0.8541000000000025,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ff_v1.1_t-40",
+      "b": 5.830470000000001,
+      "margin": 6.478300000000001,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ff_v1.1_t-40",
+      "b": 4.940999999999995,
+      "margin": 5.489999999999995,
+      "units": null
+    },
+    {
+      "id": "gain_db@ff_v1.1_t27",
+      "b": 0.40788000000000224,
+      "margin": 0.4532000000000025,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ff_v1.1_t27",
+      "b": 3.738059999999998,
+      "margin": 4.153399999999998,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ff_v1.1_t27",
+      "b": 5.096880000000003,
+      "margin": 5.663200000000003,
+      "units": null
+    },
+    {
+      "id": "gain_db@ff_v1.1_t85",
+      "b": 0.11034000000000503,
+      "margin": 0.1226000000000056,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ff_v1.1_t85",
+      "b": 2.4747300000000005,
+      "margin": 2.7497000000000007,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ff_v1.1_t85",
+      "b": 4.856940000000006,
+      "margin": 5.3966000000000065,
+      "units": null
+    },
+    {
+      "id": "gain_db@ff_v1_t-40",
+      "b": 0.5724000000000026,
+      "margin": 0.6360000000000028,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ff_v1_t-40",
+      "b": 4.1391,
+      "margin": 4.599,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ff_v1_t-40",
+      "b": 5.142690000000002,
+      "margin": 5.714100000000002,
+      "units": null
+    },
+    {
+      "id": "gain_db@ff_v1_t27",
+      "b": 0.21609000000000478,
+      "margin": 0.2401000000000053,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ff_v1_t27",
+      "b": 2.5421400000000003,
+      "margin": 2.8246,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ff_v1_t27",
+      "b": 5.1806699999999966,
+      "margin": 5.756299999999996,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ff_v1_t85",
+      "b": 1.5316199999999989,
+      "margin": 1.7017999999999986,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ff_v1_t85",
+      "b": 4.877009999999994,
+      "margin": 5.418899999999994,
+      "units": null
+    },
+    {
+      "id": "gain_db@fs_v0.9_t-40",
+      "b": 0.9243000000000009,
+      "margin": 1.027000000000001,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@fs_v0.9_t-40",
+      "b": 2.552759999999998,
+      "margin": 2.8363999999999976,
+      "units": null
+    },
+    {
+      "id": "pm_deg@fs_v0.9_t-40",
+      "b": 6.046019999999998,
+      "margin": 6.717799999999997,
+      "units": null
+    },
+    {
+      "id": "gain_db@fs_v0.9_t27",
+      "b": 0.6080400000000026,
+      "margin": 0.6756000000000029,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@fs_v0.9_t27",
+      "b": 1.5446700000000004,
+      "margin": 1.7163000000000004,
+      "units": null
+    },
+    {
+      "id": "pm_deg@fs_v0.9_t27",
+      "b": 5.3666999999999945,
+      "margin": 5.962999999999994,
+      "units": null
+    },
+    {
+      "id": "gain_db@fs_v0.9_t85",
+      "b": 0.32427000000000206,
+      "margin": 0.3603000000000023,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@fs_v0.9_t85",
+      "b": 0.8281799999999979,
+      "margin": 0.9201999999999977,
+      "units": null
+    },
+    {
+      "id": "pm_deg@fs_v0.9_t85",
+      "b": 4.881870000000002,
+      "margin": 5.424300000000002,
+      "units": null
+    },
+    {
+      "id": "gain_db@fs_v1.1_t-40",
+      "b": 1.3185000000000031,
+      "margin": 1.4650000000000034,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@fs_v1.1_t-40",
+      "b": 6.111720000000001,
+      "margin": 6.790800000000001,
+      "units": null
+    },
+    {
+      "id": "pm_deg@fs_v1.1_t-40",
+      "b": 4.773240000000003,
+      "margin": 5.303600000000003,
+      "units": null
+    },
+    {
+      "id": "gain_db@fs_v1.1_t27",
+      "b": 1.0091700000000046,
+      "margin": 1.121300000000005,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@fs_v1.1_t27",
+      "b": 3.91005,
+      "margin": 4.3445,
+      "units": null
+    },
+    {
+      "id": "pm_deg@fs_v1.1_t27",
+      "b": 4.938210000000005,
+      "margin": 5.486900000000006,
+      "units": null
+    },
+    {
+      "id": "gain_db@fs_v1.1_t85",
+      "b": 0.7073100000000047,
+      "margin": 0.7859000000000052,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@fs_v1.1_t85",
+      "b": 2.6649899999999986,
+      "margin": 2.9610999999999983,
+      "units": null
+    },
+    {
+      "id": "pm_deg@fs_v1.1_t85",
+      "b": 4.72923,
+      "margin": 5.2547,
+      "units": null
+    },
+    {
+      "id": "gain_db@fs_v1_t-40",
+      "b": 1.1352600000000017,
+      "margin": 1.2614000000000019,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@fs_v1_t-40",
+      "b": 4.627440000000001,
+      "margin": 5.1416,
+      "units": null
+    },
+    {
+      "id": "pm_deg@fs_v1_t-40",
+      "b": 4.8751199999999955,
+      "margin": 5.416799999999995,
+      "units": null
+    },
+    {
+      "id": "gain_db@fs_v1_t27",
+      "b": 0.8271900000000002,
+      "margin": 0.9191000000000003,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@fs_v1_t27",
+      "b": 2.8345499999999997,
+      "margin": 3.1494999999999997,
+      "units": null
+    },
+    {
+      "id": "pm_deg@fs_v1_t27",
+      "b": 4.974030000000005,
+      "margin": 5.526700000000005,
+      "units": null
+    },
+    {
+      "id": "gain_db@fs_v1_t85",
+      "b": 0.5364000000000033,
+      "margin": 0.5960000000000036,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@fs_v1_t85",
+      "b": 1.8030599999999992,
+      "margin": 2.003399999999999,
+      "units": null
+    },
+    {
+      "id": "pm_deg@fs_v1_t85",
+      "b": 4.721759999999995,
+      "margin": 5.246399999999994,
+      "units": null
+    },
+    {
+      "id": "gain_db@sf_v0.9_t-40",
+      "b": 0.012600000000002609,
+      "margin": 0.014000000000002899,
+      "units": null
+    },
+    {
+      "id": "pm_deg@sf_v0.9_t-40",
+      "b": 23.086259999999996,
+      "margin": 25.651399999999995,
+      "units": null
+    },
+    {
+      "id": "gain_db@sf_v0.9_t27",
+      "b": 0.40355999999999953,
+      "margin": 0.44839999999999947,
+      "units": null
+    },
+    {
+      "id": "pm_deg@sf_v0.9_t27",
+      "b": 14.777819999999997,
+      "margin": 16.419799999999995,
+      "units": null
+    },
+    {
+      "id": "gain_db@sf_v0.9_t85",
+      "b": 0.3157199999999996,
+      "margin": 0.35079999999999956,
+      "units": null
+    },
+    {
+      "id": "pm_deg@sf_v0.9_t85",
+      "b": 8.91333,
+      "margin": 9.9037,
+      "units": null
+    },
+    {
+      "id": "gain_db@sf_v1.1_t-40",
+      "b": 1.4238000000000006,
+      "margin": 1.5820000000000007,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@sf_v1.1_t-40",
+      "b": 3.4895699999999983,
+      "margin": 3.877299999999998,
+      "units": null
+    },
+    {
+      "id": "pm_deg@sf_v1.1_t-40",
+      "b": 4.635270000000001,
+      "margin": 5.150300000000001,
+      "units": null
+    },
+    {
+      "id": "gain_db@sf_v1.1_t27",
+      "b": 1.0636200000000025,
+      "margin": 1.1818000000000026,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@sf_v1.1_t27",
+      "b": 2.33514,
+      "margin": 2.5946,
+      "units": null
+    },
+    {
+      "id": "pm_deg@sf_v1.1_t27",
+      "b": 4.602150000000002,
+      "margin": 5.113500000000002,
+      "units": null
+    },
+    {
+      "id": "gain_db@sf_v1.1_t85",
+      "b": 0.8063100000000042,
+      "margin": 0.8959000000000046,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@sf_v1.1_t85",
+      "b": 1.4870700000000003,
+      "margin": 1.6523000000000003,
+      "units": null
+    },
+    {
+      "id": "pm_deg@sf_v1.1_t85",
+      "b": 4.203179999999995,
+      "margin": 4.670199999999994,
+      "units": null
+    },
+    {
+      "id": "gain_db@sf_v1_t-40",
+      "b": 1.1284200000000049,
+      "margin": 1.2538000000000054,
+      "units": null
+    },
+    {
+      "id": "pm_deg@sf_v1_t-40",
+      "b": 8.228790000000004,
+      "margin": 9.143100000000004,
+      "units": null
+    },
+    {
+      "id": "gain_db@sf_v1_t27",
+      "b": 0.8149500000000032,
+      "margin": 0.9055000000000035,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@sf_v1_t27",
+      "b": 0.5325299999999995,
+      "margin": 0.5916999999999994,
+      "units": null
+    },
+    {
+      "id": "pm_deg@sf_v1_t27",
+      "b": 5.59341,
+      "margin": 6.2149,
+      "units": null
+    },
+    {
+      "id": "gain_db@sf_v1_t85",
+      "b": 0.5850000000000052,
+      "margin": 0.6500000000000057,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@sf_v1_t85",
+      "b": 0.2258999999999979,
+      "margin": 0.25099999999999767,
+      "units": null
+    },
+    {
+      "id": "pm_deg@sf_v1_t85",
+      "b": 4.592250000000006,
+      "margin": 5.102500000000006,
+      "units": null
+    },
+    {
+      "id": "gain_db@ss_v0.9_t-40",
+      "b": 1.0824300000000002,
+      "margin": 1.2027,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ss_v0.9_t-40",
+      "b": 19.2591,
+      "margin": 21.399,
+      "units": null
+    },
+    {
+      "id": "gain_db@ss_v0.9_t27",
+      "b": 1.1459700000000055,
+      "margin": 1.273300000000006,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ss_v0.9_t27",
+      "b": 10.978470000000003,
+      "margin": 12.198300000000003,
+      "units": null
+    },
+    {
+      "id": "gain_db@ss_v0.9_t85",
+      "b": 0.9931500000000035,
+      "margin": 1.103500000000004,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ss_v0.9_t85",
+      "b": 6.561270000000002,
+      "margin": 7.290300000000002,
+      "units": null
+    },
+    {
+      "id": "gain_db@ss_v1.1_t-40",
+      "b": 1.996740000000002,
+      "margin": 2.218600000000002,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ss_v1.1_t-40",
+      "b": 4.483079999999998,
+      "margin": 4.981199999999998,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ss_v1.1_t-40",
+      "b": 4.109579999999996,
+      "margin": 4.566199999999995,
+      "units": null
+    },
+    {
+      "id": "gain_db@ss_v1.1_t27",
+      "b": 1.6969500000000004,
+      "margin": 1.8855000000000004,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ss_v1.1_t27",
+      "b": 2.937779999999999,
+      "margin": 3.264199999999999,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ss_v1.1_t27",
+      "b": 4.201560000000005,
+      "margin": 4.668400000000005,
+      "units": null
+    },
+    {
+      "id": "gain_db@ss_v1.1_t85",
+      "b": 1.4647500000000044,
+      "margin": 1.6275000000000048,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ss_v1.1_t85",
+      "b": 1.8822600000000003,
+      "margin": 2.0914,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ss_v1.1_t85",
+      "b": 3.8678400000000024,
+      "margin": 4.297600000000003,
+      "units": null
+    },
+    {
+      "id": "gain_db@ss_v1_t-40",
+      "b": 1.7386200000000025,
+      "margin": 1.9318000000000026,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ss_v1_t-40",
+      "b": 1.85625,
+      "margin": 2.0625,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ss_v1_t-40",
+      "b": 5.840189999999994,
+      "margin": 6.489099999999993,
+      "units": null
+    },
+    {
+      "id": "gain_db@ss_v1_t27",
+      "b": 1.4614200000000026,
+      "margin": 1.6238000000000028,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ss_v1_t27",
+      "b": 1.4010299999999993,
+      "margin": 1.5566999999999993,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ss_v1_t27",
+      "b": 4.743809999999998,
+      "margin": 5.2708999999999975,
+      "units": null
+    },
+    {
+      "id": "gain_db@ss_v1_t85",
+      "b": 1.2506400000000013,
+      "margin": 1.3896000000000015,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@ss_v1_t85",
+      "b": 0.75735,
+      "margin": 0.8414999999999999,
+      "units": null
+    },
+    {
+      "id": "pm_deg@ss_v1_t85",
+      "b": 4.094370000000002,
+      "margin": 4.549300000000002,
+      "units": null
+    },
+    {
+      "id": "gain_db@tt_v0.9_t-40",
+      "b": 0.9323100000000046,
+      "margin": 1.0359000000000052,
+      "units": null
+    },
+    {
+      "id": "pm_deg@tt_v0.9_t-40",
+      "b": 12.165570000000006,
+      "margin": 13.517300000000006,
+      "units": null
+    },
+    {
+      "id": "gain_db@tt_v0.9_t27",
+      "b": 0.6435899999999997,
+      "margin": 0.7150999999999996,
+      "units": null
+    },
+    {
+      "id": "pm_deg@tt_v0.9_t27",
+      "b": 7.058429999999994,
+      "margin": 7.842699999999994,
+      "units": null
+    },
+    {
+      "id": "gain_db@tt_v0.9_t85",
+      "b": 0.4103099999999998,
+      "margin": 0.45589999999999975,
+      "units": null
+    },
+    {
+      "id": "pm_deg@tt_v0.9_t85",
+      "b": 5.21622,
+      "margin": 5.7958,
+      "units": null
+    },
+    {
+      "id": "gain_db@tt_v1.1_t-40",
+      "b": 1.45287,
+      "margin": 1.6143,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@tt_v1.1_t-40",
+      "b": 5.309999999999999,
+      "margin": 5.899999999999999,
+      "units": null
+    },
+    {
+      "id": "pm_deg@tt_v1.1_t-40",
+      "b": 4.426289999999996,
+      "margin": 4.9180999999999955,
+      "units": null
+    },
+    {
+      "id": "gain_db@tt_v1.1_t27",
+      "b": 1.1138400000000004,
+      "margin": 1.2376000000000005,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@tt_v1.1_t27",
+      "b": 3.430980000000001,
+      "margin": 3.8122000000000007,
+      "units": null
+    },
+    {
+      "id": "pm_deg@tt_v1.1_t27",
+      "b": 4.579020000000002,
+      "margin": 5.087800000000001,
+      "units": null
+    },
+    {
+      "id": "gain_db@tt_v1.1_t85",
+      "b": 0.8453700000000026,
+      "margin": 0.9393000000000029,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@tt_v1.1_t85",
+      "b": 2.22408,
+      "margin": 2.4711999999999996,
+      "units": null
+    },
+    {
+      "id": "pm_deg@tt_v1.1_t85",
+      "b": 4.301549999999999,
+      "margin": 4.779499999999999,
+      "units": null
+    },
+    {
+      "id": "gain_db@tt_v1_t-40",
+      "b": 1.22787,
+      "margin": 1.3643,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@tt_v1_t-40",
+      "b": 3.324689999999999,
+      "margin": 3.694099999999999,
+      "units": null
+    },
+    {
+      "id": "pm_deg@tt_v1_t-40",
+      "b": 4.9689000000000005,
+      "margin": 5.521000000000001,
+      "units": null
+    },
+    {
+      "id": "gain_db@tt_v1_t27",
+      "b": 0.9,
+      "margin": 1.0,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@tt_v1_t27",
+      "b": 2.1048299999999993,
+      "margin": 2.3386999999999993,
+      "units": null
+    },
+    {
+      "id": "pm_deg@tt_v1_t27",
+      "b": 4.790970000000003,
+      "margin": 5.323300000000003,
+      "units": null
+    },
+    {
+      "id": "gain_db@tt_v1_t85",
+      "b": 0.6479100000000024,
+      "margin": 0.7199000000000026,
+      "units": null
+    },
+    {
+      "id": "gbw_mhz@tt_v1_t85",
+      "b": 1.1989800000000004,
+      "margin": 1.3322000000000003,
+      "units": null
+    },
+    {
+      "id": "pm_deg@tt_v1_t85",
+      "b": 4.386150000000007,
+      "margin": 4.873500000000007,
+      "units": null
+    }
+  ],
+  "method": "v2: max-min fair progressive filling of max(t*w, floor) with library floors, then proportional-fairness refinement keeping >= max(95 % of, min(need, )) every max-min budget and the floors (budgets.allocate/refine)",
+  "alloc": "v2",
+  "rates": {
+    "gain_db": {
+      "FirstStageYout1": 0.0,
+      "FirstStageYsourceTransconductance": 0.0,
+      "ibias": 0.0,
+      "out": 7.105427357601002e-15,
+      "outFirstStage": 3.765876499528531e-13,
+      "FirstStageYout1~FirstStageYsourceTransconductance": 7.105427357601002e-15,
+      "FirstStageYout1~ibias": 0.0,
+      "FirstStageYout1~out": 0.0,
+      "FirstStageYout1~outFirstStage": 7.425171588693047e-13,
+      "FirstStageYout1~in1": 0.0,
+      "FirstStageYout1~in2": 0.0,
+      "FirstStageYsourceTransconductance~ibias": 0.0,
+      "FirstStageYsourceTransconductance~out": 8.881784197001252e-14,
+      "FirstStageYsourceTransconductance~outFirstStage": 3.694822225952521e-13,
+      "FirstStageYsourceTransconductance~in1": 0.0,
+      "FirstStageYsourceTransconductance~in2": 0.0,
+      "ibias~out": 0.0,
+      "ibias~outFirstStage": 3.730349362740526e-13,
+      "ibias~in1": 0.0,
+      "ibias~in2": 0.0,
+      "out~outFirstStage": 1.1038281400033156e-11,
+      "out~in1": 7.105427357601002e-15,
+      "out~in2": 7.105427357601002e-15,
+      "outFirstStage~in1": 3.765876499528531e-13,
+      "outFirstStage~in2": 3.765876499528531e-13,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": 1.0749999999983827e-05,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": 0.0,
+      "XDiodeTransistorPmos2.d": 0.0,
+      "XDiodeTransistorPmos2.g": 0.0,
+      "XDiodeTransistorPmos2.s": 0.0,
+      "XNormalTransistorNmos3.d": 0.0009432499999996935,
+      "XNormalTransistorNmos3.g": 0.0,
+      "XNormalTransistorNmos3.s": 0.029048499999999835,
+      "XNormalTransistorPmos5.d": 2.4999999999710807e-05,
+      "XNormalTransistorPmos5.g": 0.0,
+      "XNormalTransistorPmos5.s": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.d": 1.449999999973528e-05,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.g": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.s": 0.0006507499999998956,
+      "XNormalTransistorPmos8.d": 0.0,
+      "XNormalTransistorPmos8.g": 0.0,
+      "XNormalTransistorPmos8.s": 0.0
+    },
+    "gbw_mhz": {
+      "FirstStageYout1": 0.0036620069918864573,
+      "FirstStageYsourceTransconductance": 0.003813293905864157,
+      "ibias": 1.3784360007207397e-05,
+      "out": 9.376529343896323e-05,
+      "outFirstStage": 0.001180216787906474,
+      "FirstStageYout1~FirstStageYsourceTransconductance": 0.002249311073079241,
+      "FirstStageYout1~ibias": 0.002456790977662493,
+      "FirstStageYout1~out": 0.0,
+      "FirstStageYout1~outFirstStage": 0.007855432773494542,
+      "FirstStageYout1~in1": 0.0036620069918864573,
+      "FirstStageYout1~in2": 0.0,
+      "FirstStageYsourceTransconductance~ibias": 0.0011070607608676397,
+      "FirstStageYsourceTransconductance~out": 0.010742504999020852,
+      "FirstStageYsourceTransconductance~outFirstStage": 0.0011088539596357805,
+      "FirstStageYsourceTransconductance~in1": 0.003813293905864157,
+      "FirstStageYsourceTransconductance~in2": 0.0,
+      "ibias~out": 0.0011419145098408023,
+      "ibias~outFirstStage": 0.0016616399268301052,
+      "ibias~in1": 1.3784360007207397e-05,
+      "ibias~in2": 0.0,
+      "out~outFirstStage": 0.028169314122676425,
+      "out~in1": 9.376529343896323e-05,
+      "out~in2": 0.0008756726382177504,
+      "outFirstStage~in1": 0.001180216787906474,
+      "outFirstStage~in2": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": 2.499999999992397e-05,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": 1.399999999995849e-05,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": 0.0004044999999999277,
+      "XDiodeTransistorPmos2.d": 0.0,
+      "XDiodeTransistorPmos2.g": 0.0,
+      "XDiodeTransistorPmos2.s": 0.0,
+      "XNormalTransistorNmos3.d": 0.0006387499999999146,
+      "XNormalTransistorNmos3.g": 0.0,
+      "XNormalTransistorNmos3.s": 0.004295250000000114,
+      "XNormalTransistorPmos5.d": 2.449999999992514e-05,
+      "XNormalTransistorPmos5.g": 2.424999999992572e-05,
+      "XNormalTransistorPmos5.s": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.d": 3.475000000012329e-05,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.g": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.s": 0.0027332500000000425,
+      "XNormalTransistorPmos8.d": 0.00018925000000010963,
+      "XNormalTransistorPmos8.g": 0.0,
+      "XNormalTransistorPmos8.s": 0.006590000000000025
+    },
+    "pm_deg": {
+      "FirstStageYout1": 0.003768622281235423,
+      "FirstStageYsourceTransconductance": 0.0,
+      "ibias": 0.0,
+      "out": 0.0025045549950633017,
+      "outFirstStage": 0.003365904528060071,
+      "FirstStageYout1~FirstStageYsourceTransconductance": 0.0,
+      "FirstStageYout1~ibias": 0.00604431089952584,
+      "FirstStageYout1~out": 0.06931409402115207,
+      "FirstStageYout1~outFirstStage": 0.020820502598674295,
+      "FirstStageYout1~in1": 0.003768622281235423,
+      "FirstStageYout1~in2": 0.0,
+      "FirstStageYsourceTransconductance~ibias": 0.0,
+      "FirstStageYsourceTransconductance~out": 0.008813617978056243,
+      "FirstStageYsourceTransconductance~outFirstStage": 0.03451906208385225,
+      "FirstStageYsourceTransconductance~in1": 0.0,
+      "FirstStageYsourceTransconductance~in2": 0.008746827054501694,
+      "ibias~out": 0.020292132890475045,
+      "ibias~outFirstStage": 0.0022194292669510673,
+      "ibias~in1": 0.0,
+      "ibias~in2": 0.0,
+      "out~outFirstStage": 0.0,
+      "out~in1": 0.0025045549950633017,
+      "out~in2": 0.002733129535357648,
+      "outFirstStage~in1": 0.003365904528060071,
+      "outFirstStage~in2": 0.09067450223604112,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": 0.00014499999999980417,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": 9.500000000038255e-05,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": 0.0006399999999998939,
+      "XDiodeTransistorPmos2.d": 0.0,
+      "XDiodeTransistorPmos2.g": 0.0,
+      "XDiodeTransistorPmos2.s": 0.0,
+      "XNormalTransistorNmos3.d": 0.0031325000000002137,
+      "XNormalTransistorNmos3.g": 0.0011050000000005513,
+      "XNormalTransistorNmos3.s": 0.02622425000000007,
+      "XNormalTransistorPmos5.d": 0.0002642500000003167,
+      "XNormalTransistorPmos5.g": 0.0,
+      "XNormalTransistorPmos5.s": 0.027424750000000483,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.d": 2.024999999992616e-05,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.g": 0.000389250000000203,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.s": 0.0,
+      "XNormalTransistorPmos8.d": 0.0,
+      "XNormalTransistorPmos8.g": 4.75000000019321e-06,
+      "XNormalTransistorPmos8.s": 0.0
+    },
+    "sat_XDiodeTransistorNmos1": {
+      "FirstStageYout1": 0.0,
+      "FirstStageYsourceTransconductance": 0.0,
+      "ibias": 0.0,
+      "out": 0.0,
+      "outFirstStage": 0.0,
+      "FirstStageYout1~FirstStageYsourceTransconductance": 0.0,
+      "FirstStageYout1~ibias": 0.0,
+      "FirstStageYout1~out": 0.0,
+      "FirstStageYout1~outFirstStage": 0.0,
+      "FirstStageYout1~in1": 0.0,
+      "FirstStageYout1~in2": 0.0,
+      "FirstStageYsourceTransconductance~ibias": 0.0,
+      "FirstStageYsourceTransconductance~out": 0.0,
+      "FirstStageYsourceTransconductance~outFirstStage": 0.0,
+      "FirstStageYsourceTransconductance~in1": 0.0,
+      "FirstStageYsourceTransconductance~in2": 0.0,
+      "ibias~out": 0.0,
+      "ibias~outFirstStage": 0.0,
+      "ibias~in1": 0.0,
+      "ibias~in2": 0.0,
+      "out~outFirstStage": 0.0,
+      "out~in1": 0.0,
+      "out~in2": 0.0,
+      "outFirstStage~in1": 0.0,
+      "outFirstStage~in2": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": 1.0876999999999276e-05,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": 0.0,
+      "XDiodeTransistorPmos2.d": 0.0,
+      "XDiodeTransistorPmos2.g": 0.0,
+      "XDiodeTransistorPmos2.s": 0.0,
+      "XNormalTransistorNmos3.d": 0.0,
+      "XNormalTransistorNmos3.g": 0.0,
+      "XNormalTransistorNmos3.s": 1.1112499999983705e-06,
+      "XNormalTransistorPmos5.d": 0.0,
+      "XNormalTransistorPmos5.g": 0.0,
+      "XNormalTransistorPmos5.s": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.d": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.g": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.s": 2.1999999999758327e-07,
+      "XNormalTransistorPmos8.d": 3.3449999999837776e-07,
+      "XNormalTransistorPmos8.g": 0.0,
+      "XNormalTransistorPmos8.s": 1.1660499999996686e-05
+    },
+    "sat_XDiodeTransistorPmos2": {
+      "FirstStageYout1": 0.0,
+      "FirstStageYsourceTransconductance": 0.0,
+      "ibias": 0.0,
+      "out": 0.0,
+      "outFirstStage": 0.0,
+      "FirstStageYout1~FirstStageYsourceTransconductance": 0.0,
+      "FirstStageYout1~ibias": 0.0,
+      "FirstStageYout1~out": 0.0,
+      "FirstStageYout1~outFirstStage": 0.0,
+      "FirstStageYout1~in1": 0.0,
+      "FirstStageYout1~in2": 0.0,
+      "FirstStageYsourceTransconductance~ibias": 0.0,
+      "FirstStageYsourceTransconductance~out": 0.0,
+      "FirstStageYsourceTransconductance~outFirstStage": 0.0,
+      "FirstStageYsourceTransconductance~in1": 0.0,
+      "FirstStageYsourceTransconductance~in2": 0.0,
+      "ibias~out": 0.0,
+      "ibias~outFirstStage": 0.0,
+      "ibias~in1": 0.0,
+      "ibias~in2": 0.0,
+      "out~outFirstStage": 0.0,
+      "out~in1": 0.0,
+      "out~in2": 0.0,
+      "outFirstStage~in1": 0.0,
+      "outFirstStage~in2": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": 0.0,
+      "XDiodeTransistorPmos2.d": 9.850250000000004e-06,
+      "XDiodeTransistorPmos2.g": 0.0,
+      "XDiodeTransistorPmos2.s": 0.0,
+      "XNormalTransistorNmos3.d": 0.0,
+      "XNormalTransistorNmos3.g": 0.0,
+      "XNormalTransistorNmos3.s": 0.0,
+      "XNormalTransistorPmos5.d": 0.0,
+      "XNormalTransistorPmos5.g": 0.0,
+      "XNormalTransistorPmos5.s": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.d": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.g": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.s": 0.0,
+      "XNormalTransistorPmos8.d": 0.0,
+      "XNormalTransistorPmos8.g": 0.0,
+      "XNormalTransistorPmos8.s": 0.0
+    },
+    "sat_XNormalTransistorNmos3": {
+      "FirstStageYout1": 0.0,
+      "FirstStageYsourceTransconductance": 0.0,
+      "ibias": 0.0,
+      "out": 0.0,
+      "outFirstStage": 0.0,
+      "FirstStageYout1~FirstStageYsourceTransconductance": 0.0,
+      "FirstStageYout1~ibias": 0.0,
+      "FirstStageYout1~out": 0.0,
+      "FirstStageYout1~outFirstStage": 0.0,
+      "FirstStageYout1~in1": 0.0,
+      "FirstStageYout1~in2": 0.0,
+      "FirstStageYsourceTransconductance~ibias": 0.0,
+      "FirstStageYsourceTransconductance~out": 0.0,
+      "FirstStageYsourceTransconductance~outFirstStage": 0.0,
+      "FirstStageYsourceTransconductance~in1": 0.0,
+      "FirstStageYsourceTransconductance~in2": 0.0,
+      "ibias~out": 0.0,
+      "ibias~outFirstStage": 0.0,
+      "ibias~in1": 0.0,
+      "ibias~in2": 0.0,
+      "out~outFirstStage": 0.0,
+      "out~in1": 0.0,
+      "out~in2": 0.0,
+      "outFirstStage~in1": 0.0,
+      "outFirstStage~in2": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": 8.152500000047081e-07,
+      "XDiodeTransistorPmos2.d": 3.000000000086267e-08,
+      "XDiodeTransistorPmos2.g": 0.0,
+      "XDiodeTransistorPmos2.s": 1.3415000000063792e-06,
+      "XNormalTransistorNmos3.d": 0.00027874624999999956,
+      "XNormalTransistorNmos3.g": 0.0,
+      "XNormalTransistorNmos3.s": 0.0002683847500000078,
+      "XNormalTransistorPmos5.d": 0.0,
+      "XNormalTransistorPmos5.g": 0.0,
+      "XNormalTransistorPmos5.s": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.d": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.g": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.s": 0.0,
+      "XNormalTransistorPmos8.d": 4.999999999866223e-09,
+      "XNormalTransistorPmos8.g": 0.0,
+      "XNormalTransistorPmos8.s": 0.0
+    },
+    "sat_XNormalTransistorNmos4": {
+      "FirstStageYout1": 0.0,
+      "FirstStageYsourceTransconductance": 0.0,
+      "ibias": 0.0,
+      "out": 0.0,
+      "outFirstStage": 0.0,
+      "FirstStageYout1~FirstStageYsourceTransconductance": 0.0,
+      "FirstStageYout1~ibias": 0.0,
+      "FirstStageYout1~out": 0.0,
+      "FirstStageYout1~outFirstStage": 0.0,
+      "FirstStageYout1~in1": 0.0,
+      "FirstStageYout1~in2": 0.0,
+      "FirstStageYsourceTransconductance~ibias": 0.0,
+      "FirstStageYsourceTransconductance~out": 0.0,
+      "FirstStageYsourceTransconductance~outFirstStage": 0.0,
+      "FirstStageYsourceTransconductance~in1": 0.0,
+      "FirstStageYsourceTransconductance~in2": 0.0,
+      "ibias~out": 0.0,
+      "ibias~outFirstStage": 0.0,
+      "ibias~in1": 0.0,
+      "ibias~in2": 0.0,
+      "out~outFirstStage": 0.0,
+      "out~in1": 0.0,
+      "out~in2": 0.0,
+      "outFirstStage~in1": 0.0,
+      "outFirstStage~in2": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": 1.1131999999997865e-05,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": 1.1197499999993365e-05,
+      "XDiodeTransistorPmos2.d": 0.0,
+      "XDiodeTransistorPmos2.g": 0.0,
+      "XDiodeTransistorPmos2.s": 0.0,
+      "XNormalTransistorNmos3.d": 0.0,
+      "XNormalTransistorNmos3.g": 0.0,
+      "XNormalTransistorNmos3.s": 0.0,
+      "XNormalTransistorPmos5.d": 4.361749999996917e-06,
+      "XNormalTransistorPmos5.g": 0.0,
+      "XNormalTransistorPmos5.s": 0.00020855574999999486,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.d": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.g": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.s": 0.0,
+      "XNormalTransistorPmos8.d": 0.0,
+      "XNormalTransistorPmos8.g": 0.0,
+      "XNormalTransistorPmos8.s": 0.0
+    },
+    "sat_XNormalTransistorPmos5": {
+      "FirstStageYout1": 0.0,
+      "FirstStageYsourceTransconductance": 0.0,
+      "ibias": 0.0,
+      "out": 0.0,
+      "outFirstStage": 0.0,
+      "FirstStageYout1~FirstStageYsourceTransconductance": 0.0,
+      "FirstStageYout1~ibias": 0.0,
+      "FirstStageYout1~out": 0.0,
+      "FirstStageYout1~outFirstStage": 0.0,
+      "FirstStageYout1~in1": 0.0,
+      "FirstStageYout1~in2": 0.0,
+      "FirstStageYsourceTransconductance~ibias": 0.0,
+      "FirstStageYsourceTransconductance~out": 0.0,
+      "FirstStageYsourceTransconductance~outFirstStage": 0.0,
+      "FirstStageYsourceTransconductance~in1": 0.0,
+      "FirstStageYsourceTransconductance~in2": 0.0,
+      "ibias~out": 0.0,
+      "ibias~outFirstStage": 0.0,
+      "ibias~in1": 0.0,
+      "ibias~in2": 0.0,
+      "out~outFirstStage": 0.0,
+      "out~in1": 0.0,
+      "out~in2": 0.0,
+      "outFirstStage~in1": 0.0,
+      "outFirstStage~in2": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": 0.0,
+      "XDiodeTransistorPmos2.d": 2.1025000000035599e-07,
+      "XDiodeTransistorPmos2.g": 0.0,
+      "XDiodeTransistorPmos2.s": 6.333750000002136e-06,
+      "XNormalTransistorNmos3.d": 2.0000000000020002e-07,
+      "XNormalTransistorNmos3.g": 0.0,
+      "XNormalTransistorNmos3.s": 1.1907249999997537e-05,
+      "XNormalTransistorPmos5.d": 0.0002780027500000021,
+      "XNormalTransistorPmos5.g": 0.0,
+      "XNormalTransistorPmos5.s": 9.009474999999545e-05,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.d": 6.000000000172533e-08,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.g": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.s": 2.0750000000013814e-07,
+      "XNormalTransistorPmos8.d": 5.500000000185912e-08,
+      "XNormalTransistorPmos8.g": 0.0,
+      "XNormalTransistorPmos8.s": 7.149999999972456e-07
+    },
+    "sat_XNormalTransistorPmos6": {
+      "FirstStageYout1": 0.0,
+      "FirstStageYsourceTransconductance": 0.0,
+      "ibias": 0.0,
+      "out": 0.0,
+      "outFirstStage": 0.0,
+      "FirstStageYout1~FirstStageYsourceTransconductance": 0.0,
+      "FirstStageYout1~ibias": 0.0,
+      "FirstStageYout1~out": 0.0,
+      "FirstStageYout1~outFirstStage": 0.0,
+      "FirstStageYout1~in1": 0.0,
+      "FirstStageYout1~in2": 0.0,
+      "FirstStageYsourceTransconductance~ibias": 0.0,
+      "FirstStageYsourceTransconductance~out": 0.0,
+      "FirstStageYsourceTransconductance~outFirstStage": 0.0,
+      "FirstStageYsourceTransconductance~in1": 0.0,
+      "FirstStageYsourceTransconductance~in2": 0.0,
+      "ibias~out": 0.0,
+      "ibias~outFirstStage": 0.0,
+      "ibias~in1": 0.0,
+      "ibias~in2": 0.0,
+      "out~outFirstStage": 0.0,
+      "out~in1": 0.0,
+      "out~in2": 0.0,
+      "outFirstStage~in1": 0.0,
+      "outFirstStage~in2": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": 1.5999999999821713e-07,
+      "XDiodeTransistorPmos2.d": 1.0749999999670745e-07,
+      "XDiodeTransistorPmos2.g": 0.0,
+      "XDiodeTransistorPmos2.s": 2.6574999999981475e-06,
+      "XNormalTransistorNmos3.d": 5.397499999992839e-06,
+      "XNormalTransistorNmos3.g": 0.0,
+      "XNormalTransistorNmos3.s": 0.000329577500000004,
+      "XNormalTransistorPmos5.d": 0.0,
+      "XNormalTransistorPmos5.g": 0.0,
+      "XNormalTransistorPmos5.s": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.d": 1.1109999999996402e-05,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.g": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.s": 0.0,
+      "XNormalTransistorPmos8.d": 4.1000000000041006e-07,
+      "XNormalTransistorPmos8.g": 0.0,
+      "XNormalTransistorPmos8.s": 1.1237499999998403e-05
+    },
+    "sat_XNormalTransistorPmos7": {
+      "FirstStageYout1": 0.0,
+      "FirstStageYsourceTransconductance": 0.0,
+      "ibias": 0.0,
+      "out": 0.0,
+      "outFirstStage": 0.0,
+      "FirstStageYout1~FirstStageYsourceTransconductance": 0.0,
+      "FirstStageYout1~ibias": 0.0,
+      "FirstStageYout1~out": 0.0,
+      "FirstStageYout1~outFirstStage": 0.0,
+      "FirstStageYout1~in1": 0.0,
+      "FirstStageYout1~in2": 0.0,
+      "FirstStageYsourceTransconductance~ibias": 0.0,
+      "FirstStageYsourceTransconductance~out": 0.0,
+      "FirstStageYsourceTransconductance~outFirstStage": 0.0,
+      "FirstStageYsourceTransconductance~in1": 0.0,
+      "FirstStageYsourceTransconductance~in2": 0.0,
+      "ibias~out": 0.0,
+      "ibias~outFirstStage": 0.0,
+      "ibias~in1": 0.0,
+      "ibias~in2": 0.0,
+      "out~outFirstStage": 0.0,
+      "out~in1": 0.0,
+      "out~in2": 0.0,
+      "outFirstStage~in1": 0.0,
+      "outFirstStage~in2": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": 1.391000000000031e-05,
+      "XDiodeTransistorPmos2.d": 3.5999999999675183e-07,
+      "XDiodeTransistorPmos2.g": 0.0,
+      "XDiodeTransistorPmos2.s": 2.9949999999967505e-06,
+      "XNormalTransistorNmos3.d": 3.499999999989623e-08,
+      "XNormalTransistorNmos3.g": 0.0,
+      "XNormalTransistorNmos3.s": 0.0,
+      "XNormalTransistorPmos5.d": 2.7499999994962108e-08,
+      "XNormalTransistorPmos5.g": 0.0,
+      "XNormalTransistorPmos5.s": 7.990000000000498e-06,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.d": 1.1207500000005588e-05,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.g": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.s": 0.0,
+      "XNormalTransistorPmos8.d": 0.0,
+      "XNormalTransistorPmos8.g": 0.0,
+      "XNormalTransistorPmos8.s": 0.0
+    },
+    "sat_XNormalTransistorPmos8": {
+      "FirstStageYout1": 0.0,
+      "FirstStageYsourceTransconductance": 0.0,
+      "ibias": 0.0,
+      "out": 0.0,
+      "outFirstStage": 0.0,
+      "FirstStageYout1~FirstStageYsourceTransconductance": 0.0,
+      "FirstStageYout1~ibias": 0.0,
+      "FirstStageYout1~out": 0.0,
+      "FirstStageYout1~outFirstStage": 0.0,
+      "FirstStageYout1~in1": 0.0,
+      "FirstStageYout1~in2": 0.0,
+      "FirstStageYsourceTransconductance~ibias": 0.0,
+      "FirstStageYsourceTransconductance~out": 0.0,
+      "FirstStageYsourceTransconductance~outFirstStage": 0.0,
+      "FirstStageYsourceTransconductance~in1": 0.0,
+      "FirstStageYsourceTransconductance~in2": 0.0,
+      "ibias~out": 0.0,
+      "ibias~outFirstStage": 0.0,
+      "ibias~in1": 0.0,
+      "ibias~in2": 0.0,
+      "out~outFirstStage": 0.0,
+      "out~in1": 0.0,
+      "out~in2": 0.0,
+      "outFirstStage~in1": 0.0,
+      "outFirstStage~in2": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": 0.0,
+      "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": 0.0,
+      "XDiodeTransistorPmos2.d": 5.527500000023639e-07,
+      "XDiodeTransistorPmos2.g": 0.0,
+      "XDiodeTransistorPmos2.s": 2.2437750000001423e-05,
+      "XNormalTransistorNmos3.d": 1.525000000018872e-07,
+      "XNormalTransistorNmos3.g": 0.0,
+      "XNormalTransistorNmos3.s": 8.209999999999884e-06,
+      "XNormalTransistorPmos5.d": 0.0,
+      "XNormalTransistorPmos5.g": 0.0,
+      "XNormalTransistorPmos5.s": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.d": 2.0500000000020503e-07,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.g": 0.0,
+      "XNormalTransistorPmos7+XNormalTransistorPmos6.s": 1.2999999999998846e-05,
+      "XNormalTransistorPmos8.d": 2.1017250000001934e-05,
+      "XNormalTransistorPmos8.g": 0.0,
+      "XNormalTransistorPmos8.s": 0.0
+    }
+  },
+  "pvt_binding": [
+    "gain_db@sf_v0.9_t-40",
+    "pm_deg@ss_v1.1_t85"
+  ]
+}

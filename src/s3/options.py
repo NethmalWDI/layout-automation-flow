@@ -93,6 +93,26 @@ def default_option_id() -> str:
     return "nf1_gboth_sdfull"
 
 
+RELAX_FALLBACKS = ("least-bad", "default")
+
+
+def relaxed_pick(pool: list, fallback: str = "least-bad") -> dict:
+    """The option a relaxed type keeps (no option met the allowance; every option has a min_slack).
+    'least-bad' (the S3 default since 2026-10-27, PREREG amendment): the largest min_slack, i.e. the option whose
+    worst check (cell margin use, or the access R of d, g or s, each as a fraction of what it may use) is broken
+    least. 'default' (every plan-v2 run, kept to reproduce them): the default PCell, the device exactly as sized,
+    when it was built; else the largest min_slack. Why the change: LOADBench 'after' relaxed its 484 and 887 um
+    devices to single fingers with 8.2 and 4.9 kohm of gate R and lost 17 deg of PM; least-bad, tested post hoc on
+    the same inputs, kept the PM spec."""
+    if fallback not in RELAX_FALLBACKS:
+        raise ValueError(fallback)
+    if fallback == "default":
+        dflt = next((r for r in pool if r["option"]["id"] == default_option_id()), None)
+        if dflt:
+            return dflt
+    return max(pool, key=lambda r: r["min_slack"])
+
+
 def magic_params(t: dict, opt: dict) -> dict:
     """One unit of the device: m = 1. A device with m > 1 is m copies of this cell, connected in parallel by
     the block / routing stages; the PDK PCell draws its m copies unconnected, which is not a device cell
@@ -243,7 +263,7 @@ def build_one(t: dict, tid: str, opt: dict, out: Path, rules: dict, cross_check:
     except strap.StrapDoesNotFit as e:
         rec.update({"ok": False, "error": f"strap does not fit: {e}"})
         return rec
-    rec["strap"] = {k: st[k] for k in ("rc", "strapped", "roles")}
+    rec["strap"] = {k: st[k] for k in ("rc", "strapped", "roles", "gate_pad_patch")}
     rec["drc"] = pcell.drc(gds, cell, d / "drc")
     rec["lvs"] = pcell.lvs_device(gds, cell, t["model"], t["W"], t["L"], opt["nf"], 1, d / "lvs", mode="top")
     geo = device_geometry(gds, st["plan"], t)

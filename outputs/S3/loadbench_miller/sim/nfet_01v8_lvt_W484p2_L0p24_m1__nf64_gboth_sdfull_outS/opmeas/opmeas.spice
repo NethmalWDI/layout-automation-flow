@@ -1,0 +1,120 @@
+* loadbench_miller on diso_amp_OP
+.lib $PDK_ROOT/sky130A/libs.tech/combined/sky130.lib.spice tt
+.param VDD_V=1.8 VCM_V=0.9 CL_F=1p
+.temp 27
+
+**.subckt diso_amp_OP
+x1 INP INN net1 VDD 0 OUT dut_amp
+Vsup VDD 0 'VDD_V'
+Vinp INP 0 dc 'VCM_V' ac 0
+* DC unity feedback, AC open loop: a 1 GH choke from OUT to INN and a 1 F capacitor from INN to
+* ground. At DC the amplifier is a follower, so OUT sits at VCM as in LOADBench's offset-corrected
+* open-loop bench; from 1 Hz up INN is an AC ground and the loop is open (corner ~5 uHz).
+Lfb OUT INN 1G
+Cfb INN 0 1
+Cload OUT 0 'CL_F'
+* noconn #net1
+.control
+  save all
+  op
+  let isup    = abs(i(vsup))
+  let isup_ua = isup * 1e6
+  let power_uw = isup * v(VDD) * 1e6
+  let vout_v  = v(OUT)
+  echo MEAS isup_ua $&isup_ua
+  echo MEAS power_uw $&power_uw
+  echo MEAS vout_v $&vout_v
+  write
+  quit 0
+.endc
+**.ends
+
+.subckt dut_amp INP INN OUTN VDD VSS OUTP
+XDUT INN INP OUTP VSS VDD loadbench_miller
+.ends
+
+.subckt loadbench_miller in1 in2 out sourceNmos sourcePmos
+XDiodeTransistorNmos1 FirstStageYout1 FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt L=2.03 W=66.13 NF=1 AD=19.1777 AS=19.1777 PD=132.84 PS=132.84 NRD=0.0043853 NRS=0.0043853 SA=0 SB=0 SD=0 MULT=1
+XDiodeTransistorPmos2 ibias ibias sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=37.3 NF=1 AD=10.817 AS=10.817 PD=75.18 PS=75.18 NRD=0.0077748 NRS=0.0077748 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorNmos3 sourceNmos out outFirstStage sourceNmos s3c_nfet_01v8_lvt_w484p2_l0p24_m1__nf64_gboth_sdfull_outs
+XNormalTransistorNmos4 outFirstStage FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt L=2.03 W=66.13 NF=1 AD=19.1777 AS=19.1777 PD=132.84 PS=132.84 NRD=0.0043853 NRS=0.0043853 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorPmos5 out ibias sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=887.03 NF=1 AD=257.239 AS=257.239 PD=1774.64 PS=1774.64 NRD=0.000326934 NRS=0.000326934 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorPmos6 outFirstStage in2 FirstStageYsourceTransconductance FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt L=0.89 W=14.21 NF=1 AD=4.1209 AS=4.1209 PD=29 PS=29 NRD=0.0204082 NRS=0.0204082 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorPmos7 FirstStageYout1 in1 FirstStageYsourceTransconductance FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt L=0.89 W=14.21 NF=1 AD=4.1209 AS=4.1209 PD=29 PS=29 NRD=0.0204082 NRS=0.0204082 SA=0 SB=0 SD=0 MULT=1
+XNormalTransistorPmos8 FirstStageYsourceTransconductance ibias sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=90.63 NF=1 AD=26.2827 AS=26.2827 PD=181.84 PS=181.84 NRD=0.00319982 NRS=0.00319982 SA=0 SB=0 SD=0 MULT=1
+Ibias ibias sourceNmos 1e-05
+Capacitor2 outFirstStage out 5e-13
+.ends loadbench_miller
+.subckt s3c_nfet_01v8_lvt_w484p2_l0p24_m1__nf64_gboth_sdfull_outs S D G B
+X0 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X1 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X2 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X3 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.1953 pd=15.72 as=1.09765 ps=7.86 w=7.57 l=0.24
+X4 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X5 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X6 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X7 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X8 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X9 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X10 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X11 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X12 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X13 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X14 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X15 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=2.1953 ps=15.72 w=7.57 l=0.24
+X16 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X17 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X18 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X19 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X20 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X21 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X22 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X23 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X24 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X25 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X26 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X27 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X28 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X29 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X30 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X31 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X32 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X33 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X34 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X35 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X36 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X37 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X38 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X39 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X40 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X41 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X42 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X43 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X44 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X45 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X46 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X47 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X48 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X49 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X50 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X51 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X52 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X53 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X54 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X55 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X56 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X57 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X58 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X59 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X60 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X61 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X62 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+X63 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.09765 pd=7.86 as=1.09765 ps=7.86 w=7.57 l=0.24
+C0 G S 13.16226f
+C1 D G 13.11135f
+C2 D S 37.79915f
+C3 D B 0.89921f
+C4 S B 2.07573f
+C5 G B 15.0015f
+.ends
+.end

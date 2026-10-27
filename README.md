@@ -40,7 +40,8 @@ git clone <this repo> && cd layout-automation-flow
 
 Inside the container you can also call the stages directly, e.g. `python3 -m src.s2.run inputs/<d>/package.yaml
 --alloc v1|v2 --no-pvt --no-baselines --eta 0.9` or `python3 -m src.s3.run inputs/<d>/package.yaml --mode B|A-bin|A-free
---rules v1|v2`; `python3 scripts/compare_before_after.py snap <design> <tag>` and `... report` keep and compare runs.
+--rules v1|v2`; `python3 scripts/compare_before_after.py snap <design> <tag> [<S3 folder>]` and `... report` keep and
+compare runs.
 
 **Hand-drawn reference layouts** (plan v2, baseline 8): `python3 scripts/reference_layout.py <design> <gds> <cell>
 --ports "<pin>=<bench node>,..." [--bias "<off-chip element>;..."] [--corner ff --temp 20 --mim-load 1,1,100 --tag <name>]`
@@ -242,7 +243,28 @@ Run after S2:
 python3 -m src.s3.run inputs/ota5t_stress/package.yaml --workers 4   # builds/uses outputs/S3/_cells (cached)
 python3 -m src.s3.run inputs/example_ota_5t/package.yaml
 python3 -m src.s3.run inputs/ota5t_stress/package.yaml --cells-only   # only build/measure the option cells
+python3 -m src.s3.run inputs/loadbench_miller/package.yaml --relax-fallback default \
+    --out runs/tmp/s3_planv2_rule                                     # plan v2's relaxed-type rule, beside the results
 ```
+
+**Relaxed types.** When no option of a device type stays within its allowance, S3 still keeps one and flags the
+type (G3.5).
+- **The rule since 2026-10-27** (PREREG amendment): S3 keeps the option whose worst check, access resistance of d, g
+  and s included, is broken least (`--relax-fallback least-bad`, the default).
+- **Plan v2's rule** (`--relax-fallback default`) kept the default PCell, i.e. the device as sized, or the option
+  with the largest slack if that cell was not built. Every plan-v2 result used it, and so do the v1 variant
+  (`--variant v1`) and plan v2's scripts.
+- `./flow run <design> --relax-fallback default` reproduces plan v2's S3.
+- `./flow test --rerun` re-runs S3 with the rule recorded in each golden snapshot; plan v2's snapshots record the
+  old rule.
+- `--out <folder>` writes S3 beside the main results.
+
+Plan v2 tested the new rule post hoc on its 'after' runs (`scripts/plan_v2_after_queue.sh`): every design whose
+'after' S3 relaxed a type, in `outputs/posthoc/least_bad/<design>/`, snapshot tag `after_posthoc_leastbad`.
+`scripts/plan_v2_eta09_rerun.sh` then runs S2 at eta 0.9 again for example_ota_5t and loadbench_miller, because
+their first runs overlapped a Windows standby. It uses snapshot tag `after_eta0.9_rerun` and keeps the S2 folder
+and a clock record in `outputs/posthoc/eta09_rerun/<design>/`. `python3 scripts/compare_eta09_rerun.py <design>...`
+compares each first run with its re-run.
 
 Each option cell is a SKY130 Magic PCell (exact W/L), plus met2 finger straps and D/G/S/B labels. Each cell gets:
 

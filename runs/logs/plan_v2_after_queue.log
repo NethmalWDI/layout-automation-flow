@@ -1,0 +1,28 @@
+##### plan v2 after-queue 2026-10-27 08:40:33: waiting for the side lane and lane B
+both lanes ended 2026-10-27 10:08:47: side lane exit 0; lane B:     ref_ttsky_rc rc=0 10:08:35
+stopped the paused resume script, PID 49
+scripts/plan_v2_after_queue.sh: line 42: /proc/31/cmdline: No such file or directory
+=== resume script, pass 2 2026-10-27 10:08:52 (log runs/logs/plan_v2_resume.log)
+    resume script rc=0 2026-10-27 12:36:21
+    golden_ttsky25a_fd rc=0 12:36:20
+/foss/designs/docs/before_after.md
+##### plan v2 resume ended 2026-10-27 12:36:21; done: 33 steps
+=== posthoc_leastbad_loadbench_miller: 6 relaxed types in 'after' 2026-10-27 12:36:21
+    posthoc_leastbad_loadbench_miller rc=1 12:37:43  log: runs/logs/posthoc_leastbad_loadbench_miller.log
+    same inputs as the 'after' S3 (S0 circuit, S2 budgets, PDK rules, package): yes
+/foss/designs/outputs/compare/loadbench_miller/after_posthoc_leastbad.json
+=== posthoc_leastbad_ota5t_stress: 3 relaxed types in 'after' 2026-10-27 12:37:43
+    posthoc_leastbad_ota5t_stress rc=1 12:38:20  log: runs/logs/posthoc_leastbad_ota5t_stress.log
+    same inputs as the 'after' S3 (S0 circuit, S2 budgets, PDK rules, package): yes
+/foss/designs/outputs/compare/ota5t_stress/after_posthoc_leastbad.json
+=== posthoc_leastbad_iadc_ota: 22 relaxed types in 'after' 2026-10-27 12:38:21
+    posthoc_leastbad_iadc_ota rc=1 12:38:56  log: runs/logs/posthoc_leastbad_iadc_ota.log
+    same inputs as the 'after' S3 (S0 circuit, S2 budgets, PDK rules, package): yes
+/foss/designs/outputs/compare/iadc_ota/after_posthoc_leastbad.json
+=== posthoc_leastbad_ttsky25a_fd: 10 relaxed types in 'after' 2026-10-27 12:38:56
+    posthoc_leastbad_ttsky25a_fd rc=1 12:40:26  log: runs/logs/posthoc_leastbad_ttsky25a_fd.log
+    same inputs as the 'after' S3 (S0 circuit, S2 budgets, PDK rules, package): yes
+/foss/designs/outputs/compare/ttsky25a_fd/after_posthoc_leastbad.json
+--- example_ota_5t: no relaxed type in its 'after' S3: nothing to test
+/foss/designs/docs/before_after.md
+##### plan v2 after-queue ended 2026-10-27 12:40:26

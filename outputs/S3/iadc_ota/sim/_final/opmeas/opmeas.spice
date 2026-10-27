@@ -1,0 +1,608 @@
+* iadc_ota on dido_amp_OP
+.lib $PDK_ROOT/sky130A/libs.tech/combined/sky130.lib.spice tt
+.param VDD_V=1.8 VCM_V=0.9 CL_F=0.3p
+.temp 27
+
+**.subckt dido_amp_OP
+x1 INP INN OUTN VDD 0 OUTP dut_amp
+Vsup VDD 0 'VDD_V'
+* AC drive through 1 F couplers; DC set by unity feedback through 1 GH chokes (OUTP->INN, OUTN->INP)
+Vacp ACP 0 dc 0 ac 0
+Vacn ACN 0 dc 0 ac 0
+Cinp ACP INP 1
+Cinn ACN INN 1
+Lfbp OUTP INN 1G
+Lfbn OUTN INP 1G
+Cloadp OUTP 0 'CL_F'
+Cloadn OUTN 0 'CL_F'
+.control
+  save all
+  op
+  let isup    = abs(i(vsup))
+  let isup_ua = isup * 1e6
+  let power_uw = isup * v(VDD) * 1e6
+  let vout_v  = v(OUTP) - v(OUTN)
+  echo MEAS isup_ua $&isup_ua
+  echo MEAS power_uw $&power_uw
+  echo MEAS vout_v $&vout_v
+  let voutcm_v = (v(OUTP) + v(OUTN)) / 2
+  echo MEAS voutcm_v $&voutcm_v
+  write
+  quit 0
+.endc
+**.ends
+
+.subckt dut_amp INP INN OUTN VDD VSS OUTP
+XDUT INP INN OUTP OUTN VDD VSS cmc_w cm_w bias_a_w iadc_ota
+* ideal CMFB: the steady-state law of the upstream switched-capacitor CMFB (ASSUMPTION)
+Bcmfb cmc_w VSS V = v(bias_a_w) + (v(OUTP) + v(OUTN))/2 - v(cm_w)
+.ends
+
+.subckt iadc_ota ip in op on VDD VSS cmc cm bias_a
+XX1_M22 s3_XX1_M22_d s3_XX1_M22_s s3_XX1_M22_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m6__nf1_gboth_sdfull m=6
+Rs3_XX1_M22_d s3_XX1_M22_d bias_b 24.8048
+Rs3_XX1_M22_g s3_XX1_M22_g bias_c 15.0037
+Rs3_XX1_M22_s s3_XX1_M22_s x1_m21d 24.8048
+XX1_M26 s3_XX1_M26_d s3_XX1_M26_s s3_XX1_M26_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m6__nf1_gboth_sdfull m=6
+Rs3_XX1_M26_d s3_XX1_M26_d x1_m2d 24.8048
+Rs3_XX1_M26_g s3_XX1_M26_g bias_c 15.0037
+Rs3_XX1_M26_s s3_XX1_M26_s x1_m25d 24.8048
+XX1_M32 s3_XX1_M32_d s3_XX1_M32_s s3_XX1_M32_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m6__nf1_gboth_sdfull m=6
+Rs3_XX1_M32_d s3_XX1_M32_d cm 24.8048
+Rs3_XX1_M32_g s3_XX1_M32_g bias_c 15.0037
+Rs3_XX1_M32_s s3_XX1_M32_s x1_m31d 24.8048
+XX1_M21 s3_XX1_M21_d s3_XX1_M21_s s3_XX1_M21_g VDD VSS s3c_pfet_01v8_lvt_w1p4_l0p6_m6__nf1_gboth_sdfull m=6
+Rs3_XX1_M21_d s3_XX1_M21_d x1_m21d 24.8048
+Rs3_XX1_M21_g s3_XX1_M21_g bias_b 15.0037
+Rs3_XX1_M21_s s3_XX1_M21_s VDD 24.8048
+XX1_M25 s3_XX1_M25_d s3_XX1_M25_s s3_XX1_M25_g VDD VSS s3c_pfet_01v8_lvt_w1p4_l0p6_m6__nf1_gboth_sdfull m=6
+Rs3_XX1_M25_d s3_XX1_M25_d x1_m25d 24.8048
+Rs3_XX1_M25_g s3_XX1_M25_g bias_b 15.0037
+Rs3_XX1_M25_s s3_XX1_M25_s VDD 24.8048
+XX1_M31 s3_XX1_M31_d s3_XX1_M31_s s3_XX1_M31_g VDD VSS s3c_pfet_01v8_lvt_w1p4_l0p6_m6__nf1_gboth_sdfull m=6
+Rs3_XX1_M31_d s3_XX1_M31_d x1_m31d 24.8048
+Rs3_XX1_M31_g s3_XX1_M31_g bias_b 15.0037
+Rs3_XX1_M31_s s3_XX1_M31_s VDD 24.8048
+XX1_M1 s3_XX1_M1_d s3_XX1_M1_s s3_XX1_M1_g VSS s3c_nfet_01v8_lvt_w1p4_l0p6_m56__nf1_gboth_sdfull m=56
+Rs3_XX1_M1_d s3_XX1_M1_d bias_b 0.87194
+Rs3_XX1_M1_g s3_XX1_M1_g bias_b 1.60754
+Rs3_XX1_M1_s s3_XX1_M1_s bias_c 0.87194
+XX1_M2 s3_XX1_M2_d s3_XX1_M2_s s3_XX1_M2_g VSS s3c_nfet_01v8_w1p4_l0p6_m50__nf1_gboth_sdfull m=50
+Rs3_XX1_M2_d s3_XX1_M2_d x1_m2d 0.976572
+Rs3_XX1_M2_g s3_XX1_M2_g x1_m2d 1.80044
+Rs3_XX1_M2_s s3_XX1_M2_s bias_d 0.976572
+XX1_M3 s3_XX1_M3_d s3_XX1_M3_s s3_XX1_M3_g VSS s3c_nfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M3_d s3_XX1_M3_d bias_d 24.4143
+Rs3_XX1_M3_g s3_XX1_M3_g x1_m2d 45.0111
+Rs3_XX1_M3_s s3_XX1_M3_s bias_a 24.4143
+XX1_M4 s3_XX1_M4_d s3_XX1_M4_s s3_XX1_M4_g VSS s3c_nfet_01v8_w1p4_l0p6_m18__nf1_gboth_sdfull m=18
+Rs3_XX1_M4_d s3_XX1_M4_d bias_a 2.7127
+Rs3_XX1_M4_g s3_XX1_M4_g bias_d 5.00123
+Rs3_XX1_M4_s s3_XX1_M4_s x1_m5d 2.7127
+XX1_M5 s3_XX1_M5_d s3_XX1_M5_s s3_XX1_M5_g VSS s3c_nfet_01v8_w1p4_l0p6_m18__nf1_gboth_sdfull m=18
+Rs3_XX1_M5_d s3_XX1_M5_d x1_m5d 2.7127
+Rs3_XX1_M5_g s3_XX1_M5_g bias_a 5.00123
+Rs3_XX1_M5_s s3_XX1_M5_s VSS 2.7127
+XX1_M6 s3_XX1_M6_d s3_XX1_M6_s s3_XX1_M6_g VSS s3c_nfet_01v8_w1p4_l0p6_m18__nf1_gboth_sdfull m=18
+Rs3_XX1_M6_d s3_XX1_M6_d bias_c 2.7127
+Rs3_XX1_M6_g s3_XX1_M6_g i_bias 5.00123
+Rs3_XX1_M6_s s3_XX1_M6_s VSS 2.7127
+XX1_M7 s3_XX1_M7_d s3_XX1_M7_s s3_XX1_M7_g VSS s3c_nfet_01v8_w1p4_l0p6_m18__nf1_gboth_sdfull m=18
+Rs3_XX1_M7_d s3_XX1_M7_d i_bias 2.7127
+Rs3_XX1_M7_g s3_XX1_M7_g i_bias 5.00123
+Rs3_XX1_M7_s s3_XX1_M7_s VSS 2.7127
+XX1_M33 s3_XX1_M33_d s3_XX1_M33_s s3_XX1_M33_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M33_d s3_XX1_M33_d cm 48.8286
+Rs3_XX1_M33_g s3_XX1_M33_g cm 90.0222
+Rs3_XX1_M33_s s3_XX1_M33_s x1_net1 48.8286
+XX1_M49 s3_XX1_M49_d s3_XX1_M49_s s3_XX1_M49_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M49_d s3_XX1_M49_d x1_net1 48.8286
+Rs3_XX1_M49_g s3_XX1_M49_g cm 90.0222
+Rs3_XX1_M49_s s3_XX1_M49_s x1_net2 48.8286
+XX1_M50 s3_XX1_M50_d s3_XX1_M50_s s3_XX1_M50_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M50_d s3_XX1_M50_d x1_net2 48.8286
+Rs3_XX1_M50_g s3_XX1_M50_g cm 90.0222
+Rs3_XX1_M50_s s3_XX1_M50_s x1_net3 48.8286
+XX1_M63 s3_XX1_M63_d s3_XX1_M63_s s3_XX1_M63_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M63_d s3_XX1_M63_d x1_net3 48.8286
+Rs3_XX1_M63_g s3_XX1_M63_g cm 90.0222
+Rs3_XX1_M63_s s3_XX1_M63_s VSS 48.8286
+XX1_M68 s3_XX1_M68_d s3_XX1_M68_s s3_XX1_M68_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M68_d s3_XX1_M68_d cm 48.8286
+Rs3_XX1_M68_g s3_XX1_M68_g cm 90.0222
+Rs3_XX1_M68_s s3_XX1_M68_s x1_net4 48.8286
+XX1_M69 s3_XX1_M69_d s3_XX1_M69_s s3_XX1_M69_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M69_d s3_XX1_M69_d x1_net4 48.8286
+Rs3_XX1_M69_g s3_XX1_M69_g cm 90.0222
+Rs3_XX1_M69_s s3_XX1_M69_s x1_net5 48.8286
+XX1_M70 s3_XX1_M70_d s3_XX1_M70_s s3_XX1_M70_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M70_d s3_XX1_M70_d x1_net5 48.8286
+Rs3_XX1_M70_g s3_XX1_M70_g cm 90.0222
+Rs3_XX1_M70_s s3_XX1_M70_s x1_net6 48.8286
+XX1_M71 s3_XX1_M71_d s3_XX1_M71_s s3_XX1_M71_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M71_d s3_XX1_M71_d x1_net6 48.8286
+Rs3_XX1_M71_g s3_XX1_M71_g cm 90.0222
+Rs3_XX1_M71_s s3_XX1_M71_s VSS 48.8286
+XX1_M72 s3_XX1_M72_d s3_XX1_M72_s s3_XX1_M72_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M72_d s3_XX1_M72_d cm 48.8286
+Rs3_XX1_M72_g s3_XX1_M72_g cm 90.0222
+Rs3_XX1_M72_s s3_XX1_M72_s x1_net7 48.8286
+XX1_M73 s3_XX1_M73_d s3_XX1_M73_s s3_XX1_M73_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M73_d s3_XX1_M73_d x1_net7 48.8286
+Rs3_XX1_M73_g s3_XX1_M73_g cm 90.0222
+Rs3_XX1_M73_s s3_XX1_M73_s x1_net8 48.8286
+XX1_M74 s3_XX1_M74_d s3_XX1_M74_s s3_XX1_M74_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M74_d s3_XX1_M74_d x1_net8 48.8286
+Rs3_XX1_M74_g s3_XX1_M74_g cm 90.0222
+Rs3_XX1_M74_s s3_XX1_M74_s x1_net9 48.8286
+XX1_M75 s3_XX1_M75_d s3_XX1_M75_s s3_XX1_M75_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M75_d s3_XX1_M75_d x1_net9 48.8286
+Rs3_XX1_M75_g s3_XX1_M75_g cm 90.0222
+Rs3_XX1_M75_s s3_XX1_M75_s VSS 48.8286
+XX1_M76 s3_XX1_M76_d s3_XX1_M76_s s3_XX1_M76_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M76_d s3_XX1_M76_d cm 48.8286
+Rs3_XX1_M76_g s3_XX1_M76_g cm 90.0222
+Rs3_XX1_M76_s s3_XX1_M76_s x1_net10 48.8286
+XX1_M77 s3_XX1_M77_d s3_XX1_M77_s s3_XX1_M77_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M77_d s3_XX1_M77_d x1_net10 48.8286
+Rs3_XX1_M77_g s3_XX1_M77_g cm 90.0222
+Rs3_XX1_M77_s s3_XX1_M77_s x1_net11 48.8286
+XX1_M78 s3_XX1_M78_d s3_XX1_M78_s s3_XX1_M78_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M78_d s3_XX1_M78_d x1_net11 48.8286
+Rs3_XX1_M78_g s3_XX1_M78_g cm 90.0222
+Rs3_XX1_M78_s s3_XX1_M78_s x1_net12 48.8286
+XX1_M79 s3_XX1_M79_d s3_XX1_M79_s s3_XX1_M79_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M79_d s3_XX1_M79_d x1_net12 48.8286
+Rs3_XX1_M79_g s3_XX1_M79_g cm 90.0222
+Rs3_XX1_M79_s s3_XX1_M79_s VSS 48.8286
+XX1_M64 s3_XX1_M64_d s3_XX1_M64_s s3_XX1_M64_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M64_d s3_XX1_M64_d cm 48.8286
+Rs3_XX1_M64_g s3_XX1_M64_g cm 90.0222
+Rs3_XX1_M64_s s3_XX1_M64_s x1_net13 48.8286
+XX1_M65 s3_XX1_M65_d s3_XX1_M65_s s3_XX1_M65_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M65_d s3_XX1_M65_d x1_net13 48.8286
+Rs3_XX1_M65_g s3_XX1_M65_g cm 90.0222
+Rs3_XX1_M65_s s3_XX1_M65_s x1_net14 48.8286
+XX1_M66 s3_XX1_M66_d s3_XX1_M66_s s3_XX1_M66_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M66_d s3_XX1_M66_d x1_net14 48.8286
+Rs3_XX1_M66_g s3_XX1_M66_g cm 90.0222
+Rs3_XX1_M66_s s3_XX1_M66_s x1_net15 48.8286
+XX1_M67 s3_XX1_M67_d s3_XX1_M67_s s3_XX1_M67_g VSS s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull
+Rs3_XX1_M67_d s3_XX1_M67_d x1_net15 48.8286
+Rs3_XX1_M67_g s3_XX1_M67_g cm 90.0222
+Rs3_XX1_M67_s s3_XX1_M67_s VSS 48.8286
+XX1_M57 s3_XX1_M57_d s3_XX1_M57_s s3_XX1_M57_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M57_d s3_XX1_M57_d bias_b 74.4143
+Rs3_XX1_M57_g s3_XX1_M57_g VDD 45.0111
+Rs3_XX1_M57_s s3_XX1_M57_s VDD 74.4143
+XX1_M58 s3_XX1_M58_d s3_XX1_M58_s s3_XX1_M58_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M58_d s3_XX1_M58_d x1_m2d 74.4143
+Rs3_XX1_M58_g s3_XX1_M58_g VDD 45.0111
+Rs3_XX1_M58_s s3_XX1_M58_s VDD 74.4143
+XX1_M59 s3_XX1_M59_d s3_XX1_M59_s s3_XX1_M59_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M59_d s3_XX1_M59_d cm 74.4143
+Rs3_XX1_M59_g s3_XX1_M59_g VDD 45.0111
+Rs3_XX1_M59_s s3_XX1_M59_s VDD 74.4143
+XX1_M60 s3_XX1_M60_d s3_XX1_M60_s s3_XX1_M60_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M60_d s3_XX1_M60_d x1_m31d 74.4143
+Rs3_XX1_M60_g s3_XX1_M60_g VDD 45.0111
+Rs3_XX1_M60_s s3_XX1_M60_s VDD 74.4143
+XX1_M42 s3_XX1_M42_d s3_XX1_M42_s s3_XX1_M42_g VSS s3c_nfet_01v8_w1p4_l0p6_m6__nf1_gboth_sdfull m=6
+Rs3_XX1_M42_d s3_XX1_M42_d x1_m5d 8.1381
+Rs3_XX1_M42_g s3_XX1_M42_g VSS 15.0037
+Rs3_XX1_M42_s s3_XX1_M42_s VSS 8.1381
+XX1_M44 s3_XX1_M44_d s3_XX1_M44_s s3_XX1_M44_g VSS s3c_nfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M44_d s3_XX1_M44_d bias_c 24.4143
+Rs3_XX1_M44_g s3_XX1_M44_g bias_c 45.0111
+Rs3_XX1_M44_s s3_XX1_M44_s bias_c 24.4143
+XX1_M34 s3_XX1_M34_d s3_XX1_M34_s s3_XX1_M34_g VSS s3c_nfet_01v8_w1p4_l0p6_m8__nf1_gboth_sdfull m=8
+Rs3_XX1_M34_d s3_XX1_M34_d bias_d 6.10358
+Rs3_XX1_M34_g s3_XX1_M34_g bias_d 11.2528
+Rs3_XX1_M34_s s3_XX1_M34_s bias_d 6.10358
+XX1_M35 s3_XX1_M35_d s3_XX1_M35_s s3_XX1_M35_g VSS s3c_nfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M35_d s3_XX1_M35_d x1_m2d 24.4143
+Rs3_XX1_M35_g s3_XX1_M35_g x1_m2d 45.0111
+Rs3_XX1_M35_s s3_XX1_M35_s x1_m2d 24.4143
+XX1_M36 s3_XX1_M36_d s3_XX1_M36_s s3_XX1_M36_g VSS s3c_nfet_01v8_w1p4_l0p6_m4__nf1_gboth_sdfull m=4
+Rs3_XX1_M36_d s3_XX1_M36_d bias_a 12.2072
+Rs3_XX1_M36_g s3_XX1_M36_g bias_a 22.5056
+Rs3_XX1_M36_s s3_XX1_M36_s bias_a 12.2072
+XX1_M37 s3_XX1_M37_d s3_XX1_M37_s s3_XX1_M37_g VSS s3c_nfet_01v8_w1p4_l0p6_m8__nf1_gboth_sdfull m=8
+Rs3_XX1_M37_d s3_XX1_M37_d cm 6.10358
+Rs3_XX1_M37_g s3_XX1_M37_g cm 11.2528
+Rs3_XX1_M37_s s3_XX1_M37_s cm 6.10358
+XX1_M54 s3_XX1_M54_d s3_XX1_M54_s s3_XX1_M54_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M54_d s3_XX1_M54_d x1_m25d 74.4143
+Rs3_XX1_M54_g s3_XX1_M54_g x1_m25d 45.0111
+Rs3_XX1_M54_s s3_XX1_M54_s x1_m25d 74.4143
+XX1_M29 s3_XX1_M29_d s3_XX1_M29_s s3_XX1_M29_g VSS s3c_nfet_01v8_w1p4_l0p6_m6__nf1_gboth_sdfull m=6
+Rs3_XX1_M29_d s3_XX1_M29_d x1_m5d 8.1381
+Rs3_XX1_M29_g s3_XX1_M29_g x1_m5d 15.0037
+Rs3_XX1_M29_s s3_XX1_M29_s x1_m5d 8.1381
+XX1_M8 s3_XX1_M8_d s3_XX1_M8_s s3_XX1_M8_g VSS s3c_nfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M8_d s3_XX1_M8_d i_bias 24.4143
+Rs3_XX1_M8_g s3_XX1_M8_g i_bias 45.0111
+Rs3_XX1_M8_s s3_XX1_M8_s i_bias 24.4143
+XX1_M10 s3_XX1_M10_d s3_XX1_M10_s s3_XX1_M10_g VSS s3c_nfet_01v8_lvt_w1p4_l0p6_m8__nf1_gboth_sdfull m=8
+Rs3_XX1_M10_d s3_XX1_M10_d bias_c 6.10358
+Rs3_XX1_M10_g s3_XX1_M10_g bias_c 11.2528
+Rs3_XX1_M10_s s3_XX1_M10_s bias_c 6.10358
+XX1_M27 s3_XX1_M27_d s3_XX1_M27_s s3_XX1_M27_g VSS s3c_nfet_01v8_lvt_w1p4_l0p6_m8__nf1_gboth_sdfull m=8
+Rs3_XX1_M27_d s3_XX1_M27_d bias_b 6.10358
+Rs3_XX1_M27_g s3_XX1_M27_g bias_b 11.2528
+Rs3_XX1_M27_s s3_XX1_M27_s bias_b 6.10358
+XX1_M46 s3_XX1_M46_d s3_XX1_M46_s s3_XX1_M46_g VDD VSS s3c_pfet_01v8_lvt_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M46_d s3_XX1_M46_d x1_m21d 74.4143
+Rs3_XX1_M46_g s3_XX1_M46_g x1_m21d 45.0111
+Rs3_XX1_M46_s s3_XX1_M46_s x1_m21d 74.4143
+XX1_M47 s3_XX1_M47_d s3_XX1_M47_s s3_XX1_M47_g VDD VSS s3c_pfet_01v8_lvt_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M47_d s3_XX1_M47_d x1_m25d 74.4143
+Rs3_XX1_M47_g s3_XX1_M47_g x1_m25d 45.0111
+Rs3_XX1_M47_s s3_XX1_M47_s x1_m25d 74.4143
+XX1_M48 s3_XX1_M48_d s3_XX1_M48_s s3_XX1_M48_g VDD VSS s3c_pfet_01v8_lvt_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M48_d s3_XX1_M48_d x1_m31d 74.4143
+Rs3_XX1_M48_g s3_XX1_M48_g x1_m31d 45.0111
+Rs3_XX1_M48_s s3_XX1_M48_s x1_m31d 74.4143
+XX1_M51 s3_XX1_M51_d s3_XX1_M51_s s3_XX1_M51_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX1_M51_d s3_XX1_M51_d x1_m21d 74.4143
+Rs3_XX1_M51_g s3_XX1_M51_g x1_m21d 45.0111
+Rs3_XX1_M51_s s3_XX1_M51_s x1_m21d 74.4143
+XX2_M1 s3_XX2_M1_d s3_XX2_M1_s s3_XX2_M1_g VSS s3c_nfet_01v8_lvt_w1p2_l0p2_m6__nf1_gboth_sdfull m=6
+Rs3_XX2_M1_d s3_XX2_M1_d x2_foldp 10.8307
+Rs3_XX2_M1_g s3_XX2_M1_g ip 17.4583
+Rs3_XX2_M1_s s3_XX2_M1_s x2_tail 10.8307
+XX2_M2 s3_XX2_M2_d s3_XX2_M2_s s3_XX2_M2_g VSS s3c_nfet_01v8_lvt_w1p2_l0p2_m6__nf1_gboth_sdfull m=6
+Rs3_XX2_M2_d s3_XX2_M2_d x2_foldn 10.8307
+Rs3_XX2_M2_g s3_XX2_M2_g in 17.4583
+Rs3_XX2_M2_s s3_XX2_M2_s x2_tail 10.8307
+XX2_M6 s3_XX2_M6_d s3_XX2_M6_s s3_XX2_M6_g VSS s3c_nfet_01v8_w1p4_l0p6_m96__nf1_gboth_sdfull m=96
+Rs3_XX2_M6_d s3_XX2_M6_d x2_tail 0.508631
+Rs3_XX2_M6_g s3_XX2_M6_g cmc 0.937731
+Rs3_XX2_M6_s s3_XX2_M6_s VSS 0.508631
+XX2_M5 s3_XX2_M5_d s3_XX2_M5_s s3_XX2_M5_g VSS s3c_nfet_01v8_w1p4_l0p6_m96__nf1_gboth_sdfull m=96
+Rs3_XX2_M5_d s3_XX2_M5_d x2_tail 0.508631
+Rs3_XX2_M5_g s3_XX2_M5_g bias_a 0.937731
+Rs3_XX2_M5_s s3_XX2_M5_s VSS 0.508631
+XX2_M11 s3_XX2_M11_d s3_XX2_M11_s s3_XX2_M11_g VDD VSS s3c_pfet_01v8_lvt_w1p4_l0p6_m24__nf1_gboth_sdfull m=24
+Rs3_XX2_M11_d s3_XX2_M11_d x2_foldp 6.20119
+Rs3_XX2_M11_g s3_XX2_M11_g bias_b 3.75093
+Rs3_XX2_M11_s s3_XX2_M11_s VDD 6.20119
+XX2_M12 s3_XX2_M12_d s3_XX2_M12_s s3_XX2_M12_g VDD VSS s3c_pfet_01v8_lvt_w1p4_l0p6_m24__nf1_gboth_sdfull m=24
+Rs3_XX2_M12_d s3_XX2_M12_d x2_foldn 6.20119
+Rs3_XX2_M12_g s3_XX2_M12_g bias_b 3.75093
+Rs3_XX2_M12_s s3_XX2_M12_s VDD 6.20119
+XX2_M1A s3_XX2_M1A_d s3_XX2_M1A_s s3_XX2_M1A_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m20__nf1_gboth_sdfull m=20
+Rs3_XX2_M1A_d s3_XX2_M1A_d on 7.44143
+Rs3_XX2_M1A_g s3_XX2_M1A_g bias_c 4.50111
+Rs3_XX2_M1A_s s3_XX2_M1A_s x2_foldp 7.44143
+XX2_M8 s3_XX2_M8_d s3_XX2_M8_s s3_XX2_M8_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m20__nf1_gboth_sdfull m=20
+Rs3_XX2_M8_d s3_XX2_M8_d op 7.44143
+Rs3_XX2_M8_g s3_XX2_M8_g bias_c 4.50111
+Rs3_XX2_M8_s s3_XX2_M8_s x2_foldn 7.44143
+XX2_M3A s3_XX2_M3A_d s3_XX2_M3A_s s3_XX2_M3A_g VSS s3c_nfet_01v8_w1p4_l0p6_m36__nf1_gboth_sdfull m=36
+Rs3_XX2_M3A_d s3_XX2_M3A_d on 1.35635
+Rs3_XX2_M3A_g s3_XX2_M3A_g bias_d 2.50062
+Rs3_XX2_M3A_s s3_XX2_M3A_s x2_m3d 1.35635
+XX2_M7 s3_XX2_M7_d s3_XX2_M7_s s3_XX2_M7_g VSS s3c_nfet_01v8_w1p4_l0p6_m36__nf1_gboth_sdfull m=36
+Rs3_XX2_M7_d s3_XX2_M7_d op 1.35635
+Rs3_XX2_M7_g s3_XX2_M7_g bias_d 2.50062
+Rs3_XX2_M7_s s3_XX2_M7_s x2_m4d 1.35635
+XX2_M3 s3_XX2_M3_d s3_XX2_M3_s s3_XX2_M3_g VSS s3c_nfet_01v8_w1p4_l0p6_m36__nf1_gboth_sdfull m=36
+Rs3_XX2_M3_d s3_XX2_M3_d x2_m3d 1.35635
+Rs3_XX2_M3_g s3_XX2_M3_g bias_a 2.50062
+Rs3_XX2_M3_s s3_XX2_M3_s VSS 1.35635
+XX2_M4 s3_XX2_M4_d s3_XX2_M4_s s3_XX2_M4_g VSS s3c_nfet_01v8_w1p4_l0p6_m36__nf1_gboth_sdfull m=36
+Rs3_XX2_M4_d s3_XX2_M4_d x2_m4d 1.35635
+Rs3_XX2_M4_g s3_XX2_M4_g bias_a 2.50062
+Rs3_XX2_M4_s s3_XX2_M4_s VSS 1.35635
+XX2_M82 s3_XX2_M82_d s3_XX2_M82_s s3_XX2_M82_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX2_M82_d s3_XX2_M82_d x2_foldn 74.4143
+Rs3_XX2_M82_g s3_XX2_M82_g x2_foldn 45.0111
+Rs3_XX2_M82_s s3_XX2_M82_s x2_foldn 74.4143
+XX2_M83 s3_XX2_M83_d s3_XX2_M83_s s3_XX2_M83_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX2_M83_d s3_XX2_M83_d x2_foldp 74.4143
+Rs3_XX2_M83_g s3_XX2_M83_g x2_foldp 45.0111
+Rs3_XX2_M83_s s3_XX2_M83_s x2_foldp 74.4143
+XX2_M55 s3_XX2_M55_d s3_XX2_M55_s s3_XX2_M55_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX2_M55_d s3_XX2_M55_d x2_foldn 74.4143
+Rs3_XX2_M55_g s3_XX2_M55_g VDD 45.0111
+Rs3_XX2_M55_s s3_XX2_M55_s VDD 74.4143
+XX2_M56 s3_XX2_M56_d s3_XX2_M56_s s3_XX2_M56_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m4__nf1_gboth_sdfull m=4
+Rs3_XX2_M56_d s3_XX2_M56_d op 37.2072
+Rs3_XX2_M56_g s3_XX2_M56_g VDD 22.5056
+Rs3_XX2_M56_s s3_XX2_M56_s VDD 37.2072
+XX2_M61 s3_XX2_M61_d s3_XX2_M61_s s3_XX2_M61_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX2_M61_d s3_XX2_M61_d x2_foldp 74.4143
+Rs3_XX2_M61_g s3_XX2_M61_g VDD 45.0111
+Rs3_XX2_M61_s s3_XX2_M61_s VDD 74.4143
+XX2_M62 s3_XX2_M62_d s3_XX2_M62_s s3_XX2_M62_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m4__nf1_gboth_sdfull m=4
+Rs3_XX2_M62_d s3_XX2_M62_d on 37.2072
+Rs3_XX2_M62_g s3_XX2_M62_g VDD 22.5056
+Rs3_XX2_M62_s s3_XX2_M62_s VDD 37.2072
+XX2_M40 s3_XX2_M40_d s3_XX2_M40_s s3_XX2_M40_g VSS s3c_nfet_01v8_w1p4_l0p6_m6__nf1_gboth_sdfull m=6
+Rs3_XX2_M40_d s3_XX2_M40_d x2_m4d 8.1381
+Rs3_XX2_M40_g s3_XX2_M40_g VSS 15.0037
+Rs3_XX2_M40_s s3_XX2_M40_s VSS 8.1381
+XX2_M41 s3_XX2_M41_d s3_XX2_M41_s s3_XX2_M41_g VSS s3c_nfet_01v8_w1p4_l0p6_m8__nf1_gboth_sdfull m=8
+Rs3_XX2_M41_d s3_XX2_M41_d x2_m3d 6.10358
+Rs3_XX2_M41_g s3_XX2_M41_g VSS 11.2528
+Rs3_XX2_M41_s s3_XX2_M41_s VSS 6.10358
+XX2_M38 s3_XX2_M38_d s3_XX2_M38_s s3_XX2_M38_g VSS s3c_nfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX2_M38_d s3_XX2_M38_d op 24.4143
+Rs3_XX2_M38_g s3_XX2_M38_g op 45.0111
+Rs3_XX2_M38_s s3_XX2_M38_s op 24.4143
+XX2_M39 s3_XX2_M39_d s3_XX2_M39_s s3_XX2_M39_g VSS s3c_nfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX2_M39_d s3_XX2_M39_d on 24.4143
+Rs3_XX2_M39_g s3_XX2_M39_g on 45.0111
+Rs3_XX2_M39_s s3_XX2_M39_s on 24.4143
+XX2_M30 s3_XX2_M30_d s3_XX2_M30_s s3_XX2_M30_g VSS s3c_nfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX2_M30_d s3_XX2_M30_d x2_tail 24.4143
+Rs3_XX2_M30_g s3_XX2_M30_g VSS 45.0111
+Rs3_XX2_M30_s s3_XX2_M30_s VSS 24.4143
+XX2_M23 s3_XX2_M23_d s3_XX2_M23_s s3_XX2_M23_g VSS s3c_nfet_01v8_lvt_w1p2_l0p2_m2__nf1_gboth_sdfull m=2
+Rs3_XX2_M23_d s3_XX2_M23_d x2_foldp 32.492
+Rs3_XX2_M23_g s3_XX2_M23_g x2_foldp 52.375
+Rs3_XX2_M23_s s3_XX2_M23_s x2_foldp 32.492
+XX2_M24 s3_XX2_M24_d s3_XX2_M24_s s3_XX2_M24_g VSS s3c_nfet_01v8_lvt_w1p2_l0p2_m2__nf1_gboth_sdfull m=2
+Rs3_XX2_M24_d s3_XX2_M24_d x2_foldn 32.492
+Rs3_XX2_M24_g s3_XX2_M24_g x2_foldn 52.375
+Rs3_XX2_M24_s s3_XX2_M24_s x2_foldn 32.492
+XX2_M80 s3_XX2_M80_d s3_XX2_M80_s s3_XX2_M80_g VSS s3c_nfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX2_M80_d s3_XX2_M80_d op 24.4143
+Rs3_XX2_M80_g s3_XX2_M80_g VSS 45.0111
+Rs3_XX2_M80_s s3_XX2_M80_s VSS 24.4143
+XX2_M81 s3_XX2_M81_d s3_XX2_M81_s s3_XX2_M81_g VSS s3c_nfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull m=2
+Rs3_XX2_M81_d s3_XX2_M81_d on 24.4143
+Rs3_XX2_M81_g s3_XX2_M81_g VSS 45.0111
+Rs3_XX2_M81_s s3_XX2_M81_s VSS 24.4143
+XX2_M28 s3_XX2_M28_d s3_XX2_M28_s s3_XX2_M28_g VSS s3c_nfet_01v8_w1p4_l0p6_m6__nf1_gboth_sdfull m=6
+Rs3_XX2_M28_d s3_XX2_M28_d x2_tail 8.1381
+Rs3_XX2_M28_g s3_XX2_M28_g x2_tail 15.0037
+Rs3_XX2_M28_s s3_XX2_M28_s x2_tail 8.1381
+XM43 s3_XM43_d s3_XM43_s s3_XM43_g VDD VSS s3c_pfet_01v8_lvt_w1p4_l0p6_m8__nf1_gboth_sdfull m=8
+Rs3_XM43_d s3_XM43_d VDD 18.6036
+Rs3_XM43_g s3_XM43_g VDD 11.2528
+Rs3_XM43_s s3_XM43_s VDD 18.6036
+XM45 s3_XM45_d s3_XM45_s s3_XM45_g VDD VSS s3c_pfet_01v8_w1p4_l0p6_m6__nf1_gboth_sdfull m=6
+Rs3_XM45_d s3_XM45_d VDD 24.8048
+Rs3_XM45_g s3_XM45_g VDD 15.0037
+Rs3_XM45_s s3_XM45_s VDD 24.8048
+XM9 s3_XM9_d s3_XM9_s s3_XM9_g VSS s3c_nfet_01v8_w1p4_l0p6_m23__nf1_gboth_sdfull m=23
+Rs3_XM9_d s3_XM9_d VSS 2.12298
+Rs3_XM9_g s3_XM9_g VSS 3.91401
+Rs3_XM9_s s3_XM9_s VSS 2.12298
+Ibias_ext VDD i_bias 3e-05
+XC3 op cmc sky130_fd_pr__cap_mim_m3_1 W=4.8 L=4.8 MF=4 M=4
+XC4 on cmc sky130_fd_pr__cap_mim_m3_1 W=4.8 L=4.8 MF=4 M=4
+.ends iadc_ota
+.subckt s3c_pfet_01v8_w1p4_l0p6_m6__nf1_gboth_sdfull D S G B SUB
+X0 S G D B sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 G D 0.05758f
+C1 S D 0.06099f
+C2 B D 0.09677f
+C3 G S 0.05758f
+C4 B G 0.29689f
+C5 B S 0.09677f
+C6 S SUB 0.0502f
+C7 D SUB 0.0502f
+C8 G SUB 0.11627f
+C9 B SUB 1.48734f
+.ends
+.subckt s3c_pfet_01v8_lvt_w1p4_l0p6_m6__nf1_gboth_sdfull D S G B SUB
+X0 S G D B sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 G S 0.05758f
+C1 B G 0.29689f
+C2 B S 0.09677f
+C3 G D 0.05758f
+C4 S D 0.06099f
+C5 B D 0.09677f
+C6 S SUB 0.0502f
+C7 D SUB 0.0502f
+C8 G SUB 0.11627f
+C9 B SUB 1.48734f
+.ends
+.subckt s3c_nfet_01v8_lvt_w1p4_l0p6_m56__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 S G 0.05758f
+C1 D G 0.05758f
+C2 D S 0.06099f
+C3 S B 0.13944f
+C4 D B 0.13944f
+C5 G B 0.38829f
+.ends
+.subckt s3c_nfet_01v8_w1p4_l0p6_m50__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 D G 0.05758f
+C1 D S 0.06099f
+C2 S G 0.05758f
+C3 S B 0.13944f
+C4 D B 0.13944f
+C5 G B 0.38829f
+.ends
+.subckt s3c_nfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 D S 0.06099f
+C1 S G 0.05758f
+C2 D G 0.05758f
+C3 S B 0.13944f
+C4 D B 0.13944f
+C5 G B 0.38829f
+.ends
+.subckt s3c_nfet_01v8_w1p4_l0p6_m18__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 S G 0.05758f
+C1 D G 0.05758f
+C2 D S 0.06099f
+C3 S B 0.13944f
+C4 D B 0.13944f
+C5 G B 0.38829f
+.ends
+.subckt s3c_nfet_01v8_w1p4_l0p6_m1__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 D S 0.06099f
+C1 S G 0.05758f
+C2 D G 0.05758f
+C3 S B 0.13944f
+C4 D B 0.13944f
+C5 G B 0.38829f
+.ends
+.subckt s3c_pfet_01v8_w1p4_l0p6_m2__nf1_gboth_sdfull D S G B SUB
+X0 S G D B sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 B S 0.09677f
+C1 G D 0.05758f
+C2 S D 0.06099f
+C3 B D 0.09677f
+C4 G S 0.05758f
+C5 B G 0.29689f
+C6 S SUB 0.0502f
+C7 D SUB 0.0502f
+C8 G SUB 0.11627f
+C9 B SUB 1.48734f
+.ends
+.subckt s3c_nfet_01v8_w1p4_l0p6_m6__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 D G 0.05758f
+C1 D S 0.06099f
+C2 S G 0.05758f
+C3 S B 0.13944f
+C4 D B 0.13944f
+C5 G B 0.38829f
+.ends
+.subckt s3c_nfet_01v8_w1p4_l0p6_m8__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 S G 0.05758f
+C1 D G 0.05758f
+C2 D S 0.06099f
+C3 S B 0.13944f
+C4 D B 0.13944f
+C5 G B 0.38829f
+.ends
+.subckt s3c_nfet_01v8_w1p4_l0p6_m4__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 S G 0.05758f
+C1 D G 0.05758f
+C2 D S 0.06099f
+C3 S B 0.13944f
+C4 D B 0.13944f
+C5 G B 0.38829f
+.ends
+.subckt s3c_nfet_01v8_lvt_w1p4_l0p6_m8__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 D S 0.06099f
+C1 S G 0.05758f
+C2 D G 0.05758f
+C3 S B 0.13944f
+C4 D B 0.13944f
+C5 G B 0.38829f
+.ends
+.subckt s3c_pfet_01v8_lvt_w1p4_l0p6_m2__nf1_gboth_sdfull D S G B SUB
+X0 S G D B sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 B S 0.09677f
+C1 G D 0.05758f
+C2 S D 0.06099f
+C3 B D 0.09677f
+C4 G S 0.05758f
+C5 B G 0.29689f
+C6 S SUB 0.0502f
+C7 D SUB 0.0502f
+C8 G SUB 0.11627f
+C9 B SUB 1.48734f
+.ends
+.subckt s3c_nfet_01v8_lvt_w1p2_l0p2_m6__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+C0 G D 0.0329f
+C1 G S 0.0329f
+C2 S D 0.09394f
+C3 G B 0.30378f
+C4 S B 0.11869f
+C5 D B 0.11869f
+.ends
+.subckt s3c_nfet_01v8_w1p4_l0p6_m96__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 D G 0.05758f
+C1 D S 0.06099f
+C2 S G 0.05758f
+C3 S B 0.13944f
+C4 D B 0.13944f
+C5 G B 0.38829f
+.ends
+.subckt s3c_pfet_01v8_lvt_w1p4_l0p6_m24__nf1_gboth_sdfull D S G B SUB
+X0 S G D B sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 G D 0.05758f
+C1 S D 0.06099f
+C2 B D 0.09677f
+C3 G S 0.05758f
+C4 B G 0.29689f
+C5 B S 0.09677f
+C6 S SUB 0.0502f
+C7 D SUB 0.0502f
+C8 G SUB 0.11627f
+C9 B SUB 1.48734f
+.ends
+.subckt s3c_pfet_01v8_w1p4_l0p6_m20__nf1_gboth_sdfull D S G B SUB
+X0 S G D B sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 B S 0.09677f
+C1 G D 0.05758f
+C2 S D 0.06099f
+C3 B D 0.09677f
+C4 G S 0.05758f
+C5 B G 0.29689f
+C6 S SUB 0.0502f
+C7 D SUB 0.0502f
+C8 G SUB 0.11627f
+C9 B SUB 1.48734f
+.ends
+.subckt s3c_nfet_01v8_w1p4_l0p6_m36__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 D G 0.05758f
+C1 D S 0.06099f
+C2 S G 0.05758f
+C3 S B 0.13944f
+C4 D B 0.13944f
+C5 G B 0.38829f
+.ends
+.subckt s3c_pfet_01v8_w1p4_l0p6_m4__nf1_gboth_sdfull D S G B SUB
+X0 S G D B sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 G S 0.05758f
+C1 B G 0.29689f
+C2 B S 0.09677f
+C3 G D 0.05758f
+C4 S D 0.06099f
+C5 B D 0.09677f
+C6 S SUB 0.0502f
+C7 D SUB 0.0502f
+C8 G SUB 0.11627f
+C9 B SUB 1.48734f
+.ends
+.subckt s3c_nfet_01v8_lvt_w1p2_l0p2_m2__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+C0 G S 0.0329f
+C1 S D 0.09394f
+C2 G D 0.0329f
+C3 G B 0.30378f
+C4 S B 0.11869f
+C5 D B 0.11869f
+.ends
+.subckt s3c_pfet_01v8_lvt_w1p4_l0p6_m8__nf1_gboth_sdfull D S G B SUB
+X0 S G D B sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 G D 0.05758f
+C1 S D 0.06099f
+C2 B D 0.09677f
+C3 G S 0.05758f
+C4 B G 0.29689f
+C5 B S 0.09677f
+C6 S SUB 0.0502f
+C7 D SUB 0.0502f
+C8 G SUB 0.11627f
+C9 B SUB 1.48734f
+.ends
+.subckt s3c_nfet_01v8_w1p4_l0p6_m23__nf1_gboth_sdfull D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+C0 S G 0.05758f
+C1 D G 0.05758f
+C2 D S 0.06099f
+C3 S B 0.13944f
+C4 D B 0.13944f
+C5 G B 0.38829f
+.ends
+.end

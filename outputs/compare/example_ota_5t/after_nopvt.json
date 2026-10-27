@@ -1,0 +1,259 @@
+{
+ "design": "example_ota_5t",
+ "tag": "after_nopvt",
+ "S0": {
+  "gates": {
+   "G0.1_inventory": true,
+   "G0.2_validation": true,
+   "G0.3_hash_freeze": true,
+   "G0.4_name_map": true,
+   "G0.5_round_trip_lvs": true,
+   "G0.6_testbench_reproduction": true,
+   "G0.7_pcell_binding_drc_lvs": true,
+   "G0.9_pvt (info)": null,
+   "G0.10_mismatch_mc (info)": null
+  },
+  "failed": []
+ },
+ "S1": {
+  "gates": {
+   "G1.1_operating_point": true,
+   "G1.2_linear_model_vs_spice": true,
+   "G1.3_sensitivity_vs_spice": true,
+   "G1.4_matching_groups": true,
+   "G1.5_symbolic_vs_spice (reported, not gated)": null,
+   "G1.6_resistance_sensitivity_vs_spice": true
+  },
+  "failed": [],
+  "linear_vs_spice": {
+   "gain_db": -0.004065111029795787,
+   "gbw_rel": 0.005281605832581526,
+   "pm_deg": 0.010945855089403267
+  },
+  "symbolic_vs_spice": {
+   "gain_db": -0.33258143917458227,
+   "gbw_mhz": 3.9778338334919567,
+   "pm_deg": 10.409408745389442
+  }
+ },
+ "S2": {
+  "gates": {
+   "G2.0_expected_layout_use (info)": null,
+   "G2.7_library_floors_feasible": true,
+   "G2.3_allocation": true,
+   "G2.5_spice_budget_verification": true,
+   "G2.4_linear_all_budgets_at_once": null,
+   "G2.6_hierarchy_sums": true,
+   "G2.1_names_resolve": true,
+   "G2.2_units_and_provenance": true
+  },
+  "failed": [],
+  "eta": 0.5,
+  "alloc": "v2",
+  "expected_use_fraction": {
+   "gain_db": 0.08565660165551096,
+   "gbw_mhz": 0.05813448592085719,
+   "pm_deg": 0.07491276508914842,
+   "vnoise_nv_rthz": 0.015277372511577325
+  },
+  "t_round1": 3.401087291014017,
+  "n_budgeted": 21,
+  "starved": 0,
+  "min_ratio_to_need": 3.2310329264633215,
+  "verify": {
+   "gain_db": 0.5430170889805531,
+   "gbw_mhz": 0.31168077674501204,
+   "pm_deg": 0.4029176299749701,
+   "vnoise_nv_rthz": 0.0850400420112899,
+   "sat_XM3": 0.01682662286342402,
+   "sat_XM4": 0.01682662286342402,
+   "sat_XM1": 0.11646429790649838,
+   "sat_XM2": 0.11646429790649838,
+   "sat_XM5": 0.49284546197874
+  },
+  "floors": {
+   "pass": true,
+   "alloc": "v2",
+   "n_floors": 19,
+   "representative_option": {
+    "pfet_01v8_W8_L1_m1": {
+     "option": "nf1_gboth_sdfull",
+     "score_vs_default": 1.0
+    },
+    "nfet_01v8_W24_L0p5_m1": {
+     "option": "nf1_gboth_sdhalf",
+     "score_vs_default": 0.7472742830201137
+    },
+    "nfet_01v8_W24_L1_m1": {
+     "option": "nf2_gboth_sdfull_outS",
+     "score_vs_default": 0.8753885359388272
+    }
+   },
+   "floor_use_of_allowed": {
+    "gain_db": 0.11020323931830453,
+    "gbw_mhz": 0.03696950325455029,
+    "pm_deg": 0.05061459260699924,
+    "vnoise_nv_rthz": 0.009175717826215382,
+    "sat_XM3": 0.002658995058956126,
+    "sat_XM4": 0.002658995058956126,
+    "sat_XM1": 0.026082518373139678,
+    "sat_XM2": 0.026082518373139678,
+    "sat_XM5": 0.07709312808601364
+   },
+   "note": "the cheapest cell of the S3 unit library for every element, all at once, as a fraction of eta*margin; > 1 means no layout built from library cells can meet the budgets at this eta"
+  },
+  "baselines": null,
+  "pvt": {},
+  "g20_by_part": {
+   "gbw_mhz": {
+    "cap_wiring": 0.5130792172235307,
+    "cap_cells": 0.6772047989871172,
+    "r_wiring": 2.1916691339285626,
+    "r_access": 1.5277948583067824,
+    "total": 4.909748008445993,
+    "margin": 84.455,
+    "residual": 8.881784197001252e-16
+   },
+   "pm_deg": {
+    "cap_wiring": 0.2829362221153813,
+    "cap_cells": 0.40260319330643646,
+    "r_wiring": 0.051383458705339974,
+    "r_access": 0.8313608804611461,
+    "total": 1.5682837545883037,
+    "margin": 20.934799999999996,
+    "residual": 2.220446049250313e-16
+   },
+   "gain_db": {
+    "cap_wiring": 0.0,
+    "cap_cells": 0.0,
+    "r_wiring": 0.04708383035714171,
+    "r_access": 0.09827542265226032,
+    "total": 0.14535925300940203,
+    "margin": 1.6969999999999992,
+    "residual": 0.0
+   },
+   "vnoise_nv_rthz": {
+    "cap_wiring": 0.0,
+    "cap_cells": 0.0,
+    "r_wiring": 0.5874231919642443,
+    "r_access": 0.34351877940123104,
+    "total": 0.9309419713654754,
+    "margin": 60.93599999999998,
+    "residual": 1.1102230246251565e-16
+   }
+  },
+  "baseline_budget_over_need": {
+   "per_net": {
+    "geomean": 8.680681529345463,
+    "median": 10.0,
+    "min": 1.7734221870718643,
+    "n": 21
+   },
+   "equal": {
+    "geomean": 3.5341637317587424,
+    "median": 7.700544915413516,
+    "min": 0.11083888669199152,
+    "n": 21
+   },
+   "lp_sum": {
+    "geomean": 0.03043089919897334,
+    "median": 10.0,
+    "min": 0.0,
+    "n": 21
+   },
+   "lp_floor": {
+    "geomean": 1.0,
+    "median": 1.0,
+    "min": 1.0,
+    "n": 21
+   },
+   "ours": {
+    "geomean": 3.193528582353364,
+    "median": 2.9924681060850418,
+    "min": 0.9999999999999998,
+    "n": 21
+   }
+  }
+ },
+ "S3": {
+  "gates": {
+   "G3.4_option_table_complete": true,
+   "G3.7_modes (info)": null,
+   "G3.3_all_chosen_devices_in_circuit": true,
+   "G3.1_chosen_DRC": true,
+   "G3.2_chosen_LVS_W_L_nf": true,
+   "G3.5_no_relaxation": true,
+   "G3.6_model_has_no_gate_resistance": true
+  },
+  "failed": [],
+  "mode": "A-bin",
+  "rules": "v2",
+  "types": {
+   "pfet_01v8_W8_L1_m1": {
+    "option": "nf1_gtop_sdfull",
+    "area_um2": 29.126,
+    "relaxed": false,
+    "devices": 2
+   },
+   "nfet_01v8_W24_L0p5_m1": {
+    "option": "nf2_gtop_sdfull_outS",
+    "area_um2": 42.955,
+    "relaxed": false,
+    "devices": 2
+   },
+   "nfet_01v8_W24_L1_m1": {
+    "option": "nf2_gtop_sdfull_outD",
+    "area_um2": 56.635,
+    "relaxed": false,
+    "devices": 1
+   }
+  },
+  "total_device_area_um2": 200.797,
+  "relaxed": [],
+  "final": {
+   "gain_db": 31.8685,
+   "gbw_mhz": 102.953,
+   "pm_deg": 79.9497,
+   "vnoise_nv_rthz": 339.775,
+   "vnoise_rms_uv_rms": 422.822,
+   "vout_V": 0.403948,
+   "isup_ua": 83.4919,
+   "power_uw": 150.285,
+   "vout_v": 0.403948
+  },
+  "by_mode": {
+   "B": {
+    "total_area_um2": 254.478,
+    "relaxed": [
+     "nfet_01v8_W24_L1_m1"
+    ],
+    "fingers_outside_sized_bin": []
+   },
+   "A-bin": {
+    "total_area_um2": 200.797,
+    "relaxed": [],
+    "fingers_outside_sized_bin": []
+   },
+   "A-free": {
+    "total_area_um2": 187.16,
+    "relaxed": [],
+    "fingers_outside_sized_bin": [
+     "nfet_01v8_W24_L1_m1",
+     "pfet_01v8_W8_L1_m1"
+    ]
+   },
+   "RoT": {
+    "total_area_um2": 190.53699999999998,
+    "relaxed": [
+     "nfet_01v8_W24_L0p5_m1",
+     "nfet_01v8_W24_L1_m1"
+    ],
+    "fingers_outside_sized_bin": [
+     "nfet_01v8_W24_L0p5_m1",
+     "nfet_01v8_W24_L1_m1",
+     "pfet_01v8_W8_L1_m1"
+    ]
+   }
+  }
+ }
+}

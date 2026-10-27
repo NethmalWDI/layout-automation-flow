@@ -1,1 +1,12 @@
-$ /usr/bin/python3 -m src.s2.run inputs/ttsky25a_fd/package.yaml --workers 1 --alloc v1 --no-pvt --no-baselines
+$ /usr/bin/python3 -m src.s2.run inputs/ttsky25a_fd/package.yaml --workers 2
+G2.0_expected_layout_use (info)        INFO
+G2.1_names_resolve                     PASS
+G2.2_units_and_provenance              PASS
+G2.3_allocation                        PASS
+G2.4_linear_all_budgets_at_once        INFO
+G2.5_spice_budget_verification         PASS
+G2.6_hierarchy_sums                    PASS
+G2.7_library_floors_feasible           FAIL
+G2.8_baselines (info)                  INFO
+G2.9_pvt_constraints (info)            INFO
+S2 FAIL -> outputs/S2/ttsky25a_fd

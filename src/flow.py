@@ -58,7 +58,8 @@ def pkg_yaml(design: str) -> dict:
 
 
 VARIANT_ARGS = {   # v1: the flow before the plan-v2 updates (ablation / "before"); v2: current
-    "v1": {"S0": ["--no-pvt"], "S2": ["--alloc", "v1", "--no-pvt", "--no-baselines"], "S3": ["--rules", "v1", "--mode", "A-free"]},
+    "v1": {"S0": ["--no-pvt"], "S2": ["--alloc", "v1", "--no-pvt", "--no-baselines"],
+           "S3": ["--rules", "v1", "--mode", "A-free", "--relax-fallback", "default"]},
     "v2": {"S0": [], "S2": [], "S3": []},
 }
 
@@ -88,7 +89,8 @@ def steps(stage: str, design: str, a) -> list[tuple[str, list[str]]]:
         s.append(("run", [PY, "-m", "src.s2.run", pkg] + w + var["S2"]))
         return s
     if stage == "S3":
-        return [("run", [PY, "-m", "src.s3.run", pkg] + w + var["S3"])]
+        rf = ["--relax-fallback", a.relax_fallback] if getattr(a, "relax_fallback", None) else []
+        return [("run", [PY, "-m", "src.s3.run", pkg] + w + var["S3"] + rf)]
     raise ValueError(stage)
 
 
@@ -197,7 +199,11 @@ def cmd_test(a) -> int:
                 continue
             if a.rerun:
                 print(f"== re-running {st} for {d}")
-                rec = run_stage(st, d, a)
+                ra = a
+                if st == "S3" and not a.relax_fallback:   # the rule the snapshot was made with (before 2026-10-27: default)
+                    ra = argparse.Namespace(**{**vars(a), "relax_fallback":
+                                               json.loads(snap.read_text())["values"].get("relax_fallback", "default")})
+                rec = run_stage(st, d, ra)
                 if rec["status"] == "ERROR":
                     print(f"  ERROR: {rec.get('reason')}")
                     rc = rc or 2
@@ -233,6 +239,8 @@ def main(argv=None) -> int:
     r.add_argument("--no-pvt", action="store_true", help="S0 without the PVT corners and Monte Carlo step")
     r.add_argument("--variant", choices=["v2", "v1"], default="v2",
                    help="v1 reproduces the flow before the plan-v2 updates (ablation, 'before')")
+    r.add_argument("--relax-fallback", choices=["least-bad", "default"], default=None,
+                   help="S3, what a relaxed device type keeps (default least-bad; 'default' reproduces plan v2)")
     s = sub.add_parser("status")
     s.add_argument("design", nargs="?", default="all")
     sub.add_parser("list")
@@ -245,6 +253,8 @@ def main(argv=None) -> int:
     t.add_argument("--skip-fd", action="store_true")
     t.add_argument("--no-pvt", action="store_true")
     t.add_argument("--variant", choices=["v2", "v1"], default="v2")
+    t.add_argument("--relax-fallback", choices=["least-bad", "default"], default=None,
+                   help="S3 re-runs: default the rule recorded in the golden snapshot (plan v2's: default)")
     n = sub.add_parser("snapshot")
     n.add_argument("design")
     n.add_argument("--stage", choices=STAGES + ["all"])

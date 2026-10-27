@@ -37,6 +37,30 @@ def test_option_grid_respects_min_finger_width_and_source_side():
     assert all(o["magic"]["conn_gates"] == (1 if o["nf"] > 1 else 0) for o in g)
 
 
+def test_relaxed_pick_default_keeps_the_pcell_least_bad_takes_the_largest_slack():
+    nf1 = {"option": {"id": O.default_option_id()}, "min_slack": -422.3}     # LOADBench 484/0.24: 8.2 kohm gate
+    nf64 = {"option": {"id": "nf64_gboth_sdfull_outS"}, "min_slack": -1.19}
+    nf8 = {"option": {"id": "nf8_gboth_sdhalf_outS"}, "min_slack": -40.0}
+    assert O.relaxed_pick([nf8, nf1, nf64]) is nf64                          # the S3 default since 2026-10-27
+    assert O.relaxed_pick([nf8, nf1, nf64], "least-bad") is nf64
+    assert O.relaxed_pick([nf8, nf1, nf64], "default") is nf1                # every plan-v2 run
+    assert O.relaxed_pick([nf8, nf64], "default") is nf64                    # default not built: largest slack
+    with pytest.raises(ValueError):
+        O.relaxed_pick([nf1], "smallest")
+
+
+def test_flow_passes_the_relaxed_type_rule_to_s3():
+    from argparse import Namespace
+    from src import flow
+
+    def s3_args(**kw):
+        return flow.steps("S3", "example_ota_5t", Namespace(workers=2, **kw))[0][1]
+    assert "--relax-fallback" not in s3_args(variant="v2")                          # S3's own default: least-bad
+    v1 = s3_args(variant="v1")                                                      # 'before' keeps the old rule
+    assert v1[v1.index("--relax-fallback") + 1] == "default"
+    assert s3_args(variant="v2", relax_fallback="default")[-2:] == ["--relax-fallback", "default"]
+
+
 def test_bsim4_gate_resistance_formula():
     t = {"W": 24.0, "L": 0.5, "type": "nmos"}
     geo = {"n_licon_poly": 1, "n_mcon_gate": 1, "strips": []}

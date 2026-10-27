@@ -25,12 +25,42 @@
     "roles": [
       "D",
       "S"
+    ],
+    "gate_pad_patch": [
+      {
+        "pad": [
+          0.6900000000000001,
+          485.145,
+          0.98,
+          485.375
+        ],
+        "patched": [
+          0.65,
+          485.145,
+          1.02,
+          485.375
+        ]
+      },
+      {
+        "pad": [
+          0.6900000000000001,
+          0.395,
+          0.98,
+          0.625
+        ],
+        "patched": [
+          0.65,
+          0.395,
+          1.02,
+          0.625
+        ]
+      }
     ]
   },
   "drc": {
-    "errors": 6,
+    "errors": 0,
     "neg_control_flagged": true,
-    "pass": false,
+    "pass": true,
     "report": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gboth_sdhalf/drc/drc_report.txt"
   },
   "lvs": {
@@ -101,8 +131,10 @@
       }
     ],
     "n_caps": 6,
-    "sum_caps_F": 7.158545e-14
+    "sum_caps_F": 7.159791e-14,
+    "mult": 1
   },
+  "cell_format": 2,
   "access_resistance_ohm": {
     "g": 8184.275000000001,
     "g_parts": {
@@ -121,5 +153,5 @@
     ]
   },
   "png": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gboth_sdhalf/nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gboth_sdhalf.png",
-  "ok": false
+  "ok": true
 }

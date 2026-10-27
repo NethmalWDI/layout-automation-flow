@@ -150,6 +150,66 @@
         "XC3": true,
         "XC4": true
       }
+    },
+    "G0.9_pvt (info)": {
+      "pass": null,
+      "points": 45,
+      "meeting_all_specs": 27,
+      "worst_margin": {
+        "pm_deg": {
+          "margin": 0.26420000000000243,
+          "point": "ss_v0.9_t-40",
+          "nominal_margin": 17.233599999999996
+        },
+        "gain_db": {
+          "margin": -4.5175999999999945,
+          "point": "fs_v0.9_t85",
+          "nominal_margin": 1.0
+        },
+        "gbw_mhz": {
+          "margin": -21.579800000000006,
+          "point": "fs_v0.9_t85",
+          "nominal_margin": 20.985199999999992
+        }
+      },
+      "failed_runs": [],
+      "detail": "outputs/S0/iadc_ota/pvt.json"
+    },
+    "G0.10_mismatch_mc (info)": {
+      "pass": null,
+      "runs": 200,
+      "summary": {
+        "gain_db": {
+          "mean": 53.4506125,
+          "std": 0.17505237233195467,
+          "min": 53.0669,
+          "max": 53.9704,
+          "n": 200
+        },
+        "gbw_mhz": {
+          "mean": 210.392415,
+          "std": 4.4400401920829005,
+          "min": 199.823,
+          "max": 222.616,
+          "n": 200
+        },
+        "pm_deg": {
+          "mean": 77.21781299999999,
+          "std": 0.21934030610082136,
+          "min": 76.5902,
+          "max": 77.7753,
+          "n": 200
+        },
+        "offset_v": {
+          "mean": -0.0003537764510000001,
+          "std": 0.006512000061735196,
+          "min": -0.0170909,
+          "max": 0.0162246,
+          "n": 200,
+          "definition": "follower output - VCM (single-ended) or v(OUTP) - v(OUTN) (differential)"
+        }
+      },
+      "detail": "outputs/S0/iadc_ota/mc.json"
     }
   },
   "notes": [
