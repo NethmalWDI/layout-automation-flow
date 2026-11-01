@@ -2,7 +2,7 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-10-27 17:15 CET (21:45 Sri Lanka time), by Cowork (Plan v3 review pack finished; nothing running; decisions D1–D10 wait for Imasha).
+**Last updated:** 2026-11-01, by Cowork. Plan v3 Phase A is planned for Claude Code (`docs/plan_v3_phaseA.md`), scoped to the 5T and LOADBench, with Imasha's decisions of 2026-11-01. Nothing is running.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -80,8 +80,49 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
-| Cowork | **released 2026-10-27 17:15 CET**: Plan v3 review pack done (`docs/plan_v3_review_pack.md`, `docs/plan_v3/`, flow record 7.12 and rows 46–50, project doc 14). Earlier: the documentation pass (released 14:20). No runs, no flow code changed | 2026-10-27 |
+| Cowork | **released 2026-11-01**: Phase A plan written (`docs/plan_v3_phaseA.md`; `docs/HANDOFF.md` rewritten; this file; progress log). No code or outputs changed. **Next: Claude Code claims Phase A at its step 0** | 2026-11-01 |
+| Cowork (earlier) | **released 2026-10-27 17:15 CET**: Plan v3 review pack done (`docs/plan_v3_review_pack.md`, `docs/plan_v3/`, flow record 7.12 and rows 46–50, project doc 14). Earlier: the documentation pass (released 14:20). No runs, no flow code changed | 2026-10-27 |
 | Claude Code | **released 2026-10-27 13:35 CET**: the runs are finished; the write-up goes to Cowork (Imasha's decision) | 2026-10-27 |
+
+## Plan v3 Phase A (decided 2026-11-01): next work, for Claude Code
+
+The plan is in **`docs/plan_v3_phaseA.md`**: steps 0–13, each with its files, change, test and "done when", plus the
+predictions to write into PREREG before the runs.
+
+- **Scope:** Phase A fixes on `example_ota_5t` and `loadbench_miller` only. `ota5t_stress`, `iadc_ota` and
+  `ttsky25a_fd` are frozen, but they must keep passing their tests.
+- **Imasha's decisions (2026-11-01):**
+  - budgets at the nominal corner only, with the 45 PVT points reported, not gated;
+  - allowance = eta × nominal margin, eta = 0.5;
+  - LOADBench's PMOS bank keeps its sizes (P2 : P8 : P5 = 1 : 2.43 : 23.8);
+  - no LLM at run time.
+- **Designer grouping (Imasha's comments on the review pack, 2026-11-01):**
+  - LOADBench: P2, P8 and P5 are one PMOS mirror bank. The CS stage (N3 with P5 as its load) is a functional
+    group with no N3–P5 matching.
+  - Floorplan rows run VDD → VSS: PMOS sources, then the diff pair, then the NMOS mirror and N3. They are recorded
+    for S4.
+  - iadc and TTSKY25a groupings are recorded in the Claude Doc and not used in Phase A.
+- **How the pending tasks below map to plan steps:**
+
+  | Pending task | Plan step |
+  |---|---|
+  | 1d | step 4 |
+  | 1e | steps 6 and 9 |
+  | 1f | step 2 (the TTSKY eta 0.9 re-run is out of scope) |
+  | 1g | step 8 |
+  | 1h | replaced by nominal-only budgets (step 3) |
+  | 1i | step 6 |
+  | 1j | step 7 |
+  | 1k | step 5a |
+  | 1l | out of scope, except the generic mirror-bank rule (step 5b) |
+  | 1m | step 10, LOADBench only |
+  | 1n | out of scope |
+
+- **Questions Claude Code asks first (plan section 2):**
+  - Q1: tag `prereg-v1` before the amendment (PREREG is still DRAFT and no tag exists);
+  - Q2: branch `plan-v3-phaseA`;
+  - Q3: one tolerance, 0.02 of the allowed use;
+  - Q4: refresh these two designs' golden snapshots after the re-run.
 
 ## Pending tasks (plan v2)
 
@@ -143,7 +184,20 @@ Earlier history of this run:
 
 ## Open questions for Imasha
 
-**FEEDBACK NEEDED (Cowork, 2026-10-27 evening): Plan v3 decisions D1–D10.** Full reasoning and the per-circuit
+**Answered 2026-11-01 (Imasha, in Cowork):**
+
+- D1: nominal only for now, not the middle 9.
+- D2/D3: share of nominal margin, eta = 0.5, the same share for every spec.
+- D9: Phase A only, on the 5T and LOADBench.
+- D10: no LLM at run time.
+- LOADBench: keep the PMOS bank sizes.
+
+Still open, and deferred with the out-of-scope designs and phases:
+
+- D4: LOADBench's specs stay ASSUMPTION.
+- D5–D8.
+
+**Was FEEDBACK NEEDED (Cowork, 2026-10-27 evening): Plan v3 decisions D1–D10.** Full reasoning and the per-circuit
 questions are in the Claude Doc "Plan v3: circuit review pack and implementation plan" (copy:
 `docs/plan_v3_review_pack.md`, section "Decisions needed from you").
 
@@ -313,6 +367,15 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-01 (Cowork): **Plan v3 Phase A planned** (no code, runs or outputs changed).
+  - `docs/plan_v3_phaseA.md`: the decisions, Q1–Q4, steps 0–13, the predictions, the open issues per stage (for
+    this version and for a new SPICE file), and how LLMs are used in each stage.
+  - `docs/HANDOFF.md` rewritten for Phase A, with a new first message for Claude Code.
+  - This file: the Phase A section, the decisions, and claims.
+  - Progress-log entry.
+  - The designer-review sections (LOADBench, iadc, TTSKY25a groupings) were added to the Claude Doc "Plan v3:
+    circuit review pack and implementation plan". The `docs/plan_v3_review_pack.md` mirror predates them; the
+    LOADBench part that Phase A needs is in the plan.
 - 2026-10-27 17:15 CET (Cowork): **Plan v3 review pack** (no runs, no flow code changed).
   - Claude Doc "Plan v3: circuit review pack and implementation plan" (https://claude.ai/artifact/R15Aj6FzDVKxcYwLT1WAr5),
     mirrored as `docs/plan_v3_review_pack.md`; figures in `docs/plan_v3/img/` (drawn by `docs/plan_v3/src/*.py` or

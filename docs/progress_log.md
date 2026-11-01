@@ -654,3 +654,48 @@ hierarchy, nodal analysis) for her to check. No run was started and no flow code
   could not see: the TTSKY25a tile's own extraction loses about 3° of PM (7.8), so the paper's 52° remains
   unexplained rather than "26° lost in layout".
 - **FEEDBACK NEEDED:** decisions D1–D10 (STATUS, Open questions).
+
+## 2026-11-01: Plan v3 Phase A planned for Claude Code (Cowork)
+
+**Context.** Imasha reviewed the Plan v3 review pack: she commented on the designer grouping of LOADBench, iadc
+and TTSKY25a, recorded in the Claude Doc. She then narrowed the next step to the 5T OTA and LOADBench, to keep
+the work manageable.
+
+**Decisions (Imasha, 2026-11-01):**
+
+- Phase A fixes only.
+- Budgets at the nominal corner only; the 45 PVT points are reported, not gated.
+- Allowance = eta × nominal margin, with eta = 0.5.
+- LOADBench's PMOS bank keeps its sizes (P2 : P8 : P5 = 1 : 2.43 : 23.8).
+- Grouping: one PMOS mirror bank; the CS stage is functional, with no N3–P5 matching; floorplan rows VDD → VSS
+  are recorded for S4.
+
+**Written:**
+
+- `docs/plan_v3_phaseA.md`: the plan Claude Code will follow, in steps 0–13. It has:
+  - run hygiene;
+  - nominal budgets with a PVT report;
+  - the S3 do-no-harm check;
+  - the dummy-aware tagger, the mirror-bank rule and a designer-groups file;
+  - one tolerance, with `lp_floor_k`;
+  - the PM reference fix;
+  - G2.0 route lengths from the representative cells;
+  - a SPICE vs first-order report;
+  - the LOADBench mirror-doublet hand model;
+  - tests, re-runs (tag `after_v3a`) and documentation.
+
+  It also holds the questions to ask Imasha first (Q1–Q4), the predictions to put in PREREG before the runs, the
+  open issues per stage (for this version and for a new SPICE file), and how LLMs are used in each stage. None runs
+  inside S0–S3 (checked: no LLM call in `src/`).
+- `docs/HANDOFF.md`, rewritten for Phase A.
+- `docs/STATUS.md`: the Phase A section, the answered decisions and the claims.
+
+**Checked:**
+
+- `PREREG.md` is still headed DRAFT, and there is no `prereg-v1` git tag. This is question Q1.
+- The frozen testbenches of the two designs measure PM with the 1 Hz reference. The error is negligible: the
+  dominant pole (GBW / A0 from S0's achieved values) is about 2.7 MHz for the 5T and 29 kHz for LOADBench, which
+  puts the 1 Hz phase about 2e-5° and 2e-3° away from 180°. The plan therefore leaves these benches unchanged, and
+  step 7 measures the error and records it.
+
+**No code, runs or outputs changed.**
