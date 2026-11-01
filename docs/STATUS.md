@@ -2,7 +2,8 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-01, by Cowork. Plan v3 Phase A is planned for Claude Code (`docs/plan_v3_phaseA.md`), scoped to the 5T and LOADBench, with Imasha's decisions of 2026-11-01. Nothing is running.
+**Last updated:** 2026-11-01 16:12 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): **step 0 done**
+(checks and baseline tests, below). Waiting for Imasha's commit before step 1. Nothing is running.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -80,6 +81,7 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
+| Claude Code | Plan v3 Phase A: `src/`, `scripts/benchlib.py`, `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`, `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`; plus the doc updates the plan's steps ask for (README, progress log, flow record section 7 draft) | 2026-11-01 16:10 CET |
 | Cowork | **released 2026-11-01**: Phase A plan written (`docs/plan_v3_phaseA.md`; `docs/HANDOFF.md` rewritten; this file; progress log). No code or outputs changed. **Next: Claude Code claims Phase A at its step 0** | 2026-11-01 |
 | Cowork (earlier) | **released 2026-10-27 17:15 CET**: Plan v3 review pack done (`docs/plan_v3_review_pack.md`, `docs/plan_v3/`, flow record 7.12 and rows 46–50, project doc 14). Earlier: the documentation pass (released 14:20). No runs, no flow code changed | 2026-10-27 |
 | Claude Code | **released 2026-10-27 13:35 CET**: the runs are finished; the write-up goes to Cowork (Imasha's decision) | 2026-10-27 |
@@ -88,6 +90,25 @@ Earlier history of this run:
 
 The plan is in **`docs/plan_v3_phaseA.md`**: steps 0–13, each with its files, change, test and "done when", plus the
 predictions to write into PREREG before the runs.
+
+**Progress (Claude Code):**
+
+| Step | State | Result |
+|---|---|---|
+| 0 setup and claim | **done** 2026-11-01 16:10 CET | see below |
+| 1 PREREG amendment | next, after Imasha's commit | |
+
+Step 0 record:
+- **Container:** `layout-s0s3` is up (image `hpretl/iic-osic-tools:2026.10`), with no python3 running and nothing in
+  `runs/tmp/aside/`.
+- **Git (read-only):** branch `plan-v3-phaseA`; HEAD `a8c6f7d3` ("status_update"), which comes after `6c0d387a`.
+  Tag `prereg-v1` points at `a8c6f7d3`. No `.git/index.lock`, and the working tree was clean.
+- **Q1–Q4:** answered with the recommended answers (plan section 2). Imasha's part, the tag and the branch, is done.
+- **Baseline tests, with nothing changed:**
+  - `python3 -m pytest -q tests/`: 87 passed (6 s).
+  - `./flow test` (`python3 -m src.flow test`): rc 0. The same 87 unit tests passed, and the golden comparison is OK
+    for all 5 designs × S0–S3 (20 of 20).
+  - No failure existed before Phase A.
 
 - **Scope:** Phase A fixes on `example_ota_5t` and `loadbench_miller` only. `ota5t_stress`, `iadc_ota` and
   `ttsky25a_fd` are frozen, but they must keep passing their tests.
