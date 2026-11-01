@@ -106,6 +106,13 @@ every PVT point, as in plan v2.
   most `TOL_USE` × |vds − vdsat|.
 - **Mirror banks and designer groups.** S0 merges mirror blocks that share their gate and source nets into one
   bank. It reads the designer's groups from `designer_groups:` (see `docs/INPUTS.md`).
+- **Route lengths from the representative cells.** The wiring part of each element's expected need (one stub
+  across each pin's device) uses the bounding box of the representative S3 cell of the device's type. Before, it
+  used S0's as-sized PCell. A type without a library cell, and every passive, keeps the as-sized PCell.
+  - This is the need both G2.0 and the allocation use (PREREG amendment 2026-11-01, step 8), so budgets move with
+    it.
+  - G2.0 lists `route_lengths` per device and keeps the as-sized route as a second column,
+    `fraction_of_margin_route_as_sized_pcell`.
 - **PM reference.** PM = 180 + phase at the UGB − the 1 Hz phase rounded to the nearest multiple of 180°. The S1
   linear model and new benches (`scripts/benchlib.py`) use it. The frozen benches keep the unrounded 1 Hz phase;
   for the 5T and LOADBench that is 0.00002° and 0.0016° away.

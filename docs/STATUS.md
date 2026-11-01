@@ -2,8 +2,8 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-01 20:40 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–6
-done and committed; **step 7 done, waiting for Imasha's commit**. Nothing is running.
+**Last updated:** 2026-11-01 20:54 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–7
+done and committed; **step 8 done, waiting for Imasha's commit** (decision (b), 20:36). Nothing is running.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -32,6 +32,7 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- Phase A step 8's 5T S2 run has ended, 20:40–20:46, PASS with rc 0 (`runs/logs/phaseA_step8_5t_S2.log`).
 - Phase A step 7's S1 re-run has ended, 20:07–20:08 (`runs/logs/phaseA_step7_S1.log`): `example_ota_5t` PASS;
   `loadbench_miller` FAIL on G1.6 only, as in plan v2.
 - Phase A step 6's two 5T S2 runs have ended, both PASS with rc 0: the tolerance run, 18:54–18:59
@@ -116,7 +117,71 @@ predictions to write into PREREG before the runs.
 | 4 S3 saturation do-no-harm | **done**, committed `81b1bdb1` | `use_check()` in S3; `TOL_USE` = 0.02 in `src/common/tolerance.py`. No change on the 5T or LOADBench: every device is saturated. Details below |
 | 5 tagging and grouping | **done**, committed `651bf5d5` | dummy-aware tagger; mirror-bank rule; LOADBench designer groups. LOADBench's IR has one bank {P2, P8, P5}, consistent in G1.4; the designer file agrees fully. Details below |
 | 6 one tolerance, lp_floor_k | **done**, committed `8e716213` | `TOL_USE` for every use check; `lp_floor_k` in G2.8 (Imasha's answer (a)). 5T S2 PASS; G2.8 outcome words unchanged; new reference budgets. Details below |
-| 7 PM reference phase | **done**, waiting for Imasha's commit | PM's reference is the 1 Hz phase rounded to the nearest multiple of 180°, in the linear model and the bench template. Both designs' G1.2 PM differences move by under 0.002°. Details below |
+| 7 PM reference phase | **done**, committed `f79e53f8` | PM's reference is the 1 Hz phase rounded to the nearest multiple of 180°, in the linear model and the bench template. Both designs' G1.2 PM differences move by under 0.002°. Details below |
+| 8 G2.0 route lengths | **done**, waiting for Imasha's commit | route stubs from the representative cells, in G2.0 and in the need the allocation uses (Imasha's answer (b), PREREG note). 5T S2 PASS: only XM5's route moves; 11 of 21 budgets move; G2.8 outcome words unchanged. Details below |
+
+Step 8 record (row 44; pending task 1g; Imasha's answer (b)):
+- **What changed** (`src/s2/run.py`):
+  - `route_sizes()` gives each device the bounding box of its type's representative S3 cell. That is the cell
+    G2.7 already picks, and whose capacitance plan v2 already put in the need. Devices of a type with no
+    representative cell, and passives, keep S0's as-sized PCell, marked `route_from: as-sized PCell`.
+    - m > 1 is scaled as √m × the unit cell's sides, marked ASSUMPTION in the code. Neither design has m > 1.
+  - S2 builds the problem once with the as-sized PCells to find the representative cells, then again with their
+    route lengths. The element set is the same; the floors are recomputed if it ever differs.
+  - The need's wiring part is now the representative route. Each element keeps the as-sized wiring as
+    `w_parts.wiring_as_sized_pcell`.
+  - G2.0 records `route_lengths` (per device: source, half-perimeter, as-sized half-perimeter) and a second column,
+    `fraction_of_margin_route_as_sized_pcell`. Its note no longer says "default device cells".
+  - The `v1` variant keeps the as-sized route.
+- **PREREG:** a dated amendment at the end, "Plan v3 Phase A step 8: G2.0's route part is part of the expected
+  need". Item 6's "no budget changes" was written assuming G2.0 is information only.
+- **5T S2 run** (20:40–20:46, PASS; reference budgets `outputs/phaseA/example_ota_5t/budgets_step8.json`, run_id
+  `2026-11-01T20:40:25-6fd258ff`). The results match the probe exactly.
+  - **Route:** only XM5 moves, from 14.42 to 9.06 µm; its representative cell is the nf = 2 one. The other four
+    devices move by ≤ 0.01 µm.
+  - **G2.0:** small change, as predicted. GBW 0.058 → 0.054 of margin, noise 0.015 → 0.013, sat_XM5 0.147 → 0.127;
+    gain and PM unchanged. The as-sized column reproduces step 6's G2.0 exactly.
+  - **'Ours':**
+    - round-1 t goes from 3.401 to 3.925;
+    - 11 of 21 final budgets change: XM5.s −25.3 %, XM5.g −8.4 %, XM5.d −6.8 %, net1 −5.5 %,
+      XM1+XM2.s +14.4 %, and 6 more by +0.3 % to +1.8 %;
+    - min budget / need goes from 3.23 to 3.73.
+  - **G2.5:** passes after 2 iterations, with the same closure (the 3 gain-harmful budgets) and gain at 0.972 of
+    its allowed use. sat_XM5 is at 0.983.
+  - **G2.8 outcome words are unchanged** (per_net unsafe, equal ok, lp_sum unsafe, lp_floor ok, lp_floor_k unsafe,
+    ours unsafe 1.086). Two details changed:
+    - lp_floor's SPICE use went from 0.293 to 0.254;
+    - lp_sum and lp_floor_k now starve one element, XM5.d at 0.75 × its need. `lp_floor_k` is now below `lp_floor`
+      on the 5T too (1 of 21), the starving that answer (a) expected.
+- **LOADBench** (probe on its current S0/S1 and the nominal problem; its S2 runs in step 12):
+  - the N3 route goes from 244 to 34 µm, P5 from 446 to 61, and the rest 2–3× shorter;
+  - G2.0 gain goes from 6.64 to 1.00 of margin, PM from 3.74 to 0.79, GBW from 0.91 to 0.34;
+  - round-1 t goes from 0.074 to 0.50.
+- **Predictions (section 4), step 8:** both hold. On the 5T, G2.0 changes little. On LOADBench, G2.0's route part
+  drops a lot (probe; confirmed in step 12).
+- **Tests.** 4 new:
+  - LOADBench's N3 and P5 routes equal their representative cells, and the need's wiring moved with them;
+  - on the 5T only XM5 moves;
+  - m > 1 scaling and the fallback;
+  - G2.0 = rate × the need the allocation uses (replaces "budgets identical").
+
+  `tests/test_phaseA.py` has 32 tests, all passing. The full suite is 118 passed plus the expected 5T S2 golden
+  failure.
+- **Found on the way: ngspice's init depends on the launching shell** (not caused by step 8; question under *Open
+  questions*).
+  - This run was started with `bash -c`. Step 6's 5T S2 was started with `bash -lc`, as in `CLAUDE.md`, `./flow`
+    and `flow.ps1`. The image's login profile sets `SPICE_USERINIT_DIR` to the IHP PDK's folder, so ngspice skips
+    `/headless/.spiceinit` and its sky130 settings: `ngbehavior=hsa` (the nf vs W compatibility) and
+    `enable_noisy_r`.
+  - That is why many S2 `work/` logs changed: the header says "hs a" instead of "No compatibility mode", the IHP
+    init's OSDI load errors are gone, and so are 9 `bsim4v5.out` files.
+  - **Numbers:** `runs/tmp/envcheck.py` ran every design's S0 benches under both inits.
+    - All 15 decks give identical measurements except TTSKY's: noise 139.742 vs 139.741 nV/√Hz (7 × 10⁻⁶), and
+      a DC differential output of 10⁻¹⁴ vs 10⁻¹³ V, zero either way.
+    - The OP values in the 5T's S2 logs are identical, and so are G2.8's SPICE uses for unchanged budget sets.
+    - Not checked: S3's extracted-cell decks and the hand-layout PEX runs.
+  - The committed outputs already mix both inits. S0 of the 5T, iadc and TTSKY used the sky130 one; LOADBench's
+    S0 (step 5), both S1 runs (step 7) and the step 6 S2 used the IHP one.
 
 Step 7 record (A6, row 46; pending task 1j):
 - **What changed.**
@@ -472,6 +537,48 @@ Step 0 record:
 
 ## Open questions for Imasha
 
+**FEEDBACK NEEDED (Claude Code, 2026-11-01 20:54; not blocking): pin ngspice's init so it does not depend on the
+launching shell?**
+- A login shell (`bash -lc`, used by `./flow`, `flow.ps1`, `CLAUDE.md` and the plan-v2 scripts) sets
+  `SPICE_USERINIT_DIR` to the IHP PDK. Then ngspice runs without sky130's `ngbehavior=hsa` and `enable_noisy_r`.
+  A plain shell reads `/headless/.spiceinit`, which has them. Details are in the step 8 record.
+- On every design's S0 benches the two inits agree to 7 × 10⁻⁶. So far it is log noise, not a numerical change,
+  but S3's extracted-cell and PEX decks were not checked.
+- **Suggestion:** in `src/common/tools.py`'s `TOOL_ENV`, set `SPICE_USERINIT_DIR` to a repo folder holding the three
+  sky130 lines, so every run uses them whatever shell started it. That changes no rule, but it touches every
+  SPICE run, so it needs your OK. It could go before step 12's re-run.
+
+**Resolved 2026-11-01 20:36 CET (Imasha): (b), the route lengths set the need everywhere**, done in step 8,
+with a dated PREREG amendment. The question as it was asked:
+
+**Was FEEDBACK NEEDED (Claude Code, 2026-11-01 20:30, Phase A step 8): should the new route lengths also set the
+allocation's expected need?**
+- **The conflict.** The plan changes G2.0's route lengths to the representative cells, and its test says "G2.0
+  is info only, so no budget changes; 'ours' budgets identical". In the code, though, those lengths are the wiring
+  part of every element's expected need (`build_problem()`: `unit` → `L_est` → `w`). G2.0 is rate × that need, and
+  the allocation shares the budgets in units of the same need (`budgets.allocate`, max-min of x / w). Moving the
+  lengths therefore moves 'ours' budgets.
+- **Probe** (`runs/tmp/step8_probe.py`, read-only). It rebuilds the nominal problem at eta 0.5 and runs S2's own
+  allocate + refine; it reproduces the committed 5T max-min budgets to 3 × 10⁻⁸.
+
+  | | 5T: as-sized → representative | LOADBench: as-sized → representative |
+  |---|---|---|
+  | Route half-perimeters that change | XM5 14.4 → 9.1 µm | N3 244 → 34 µm, P5 446 → 61 µm, P8 48 → 15, N1/N4 36 → 15, P2 21 → 8.7, P6/P7 9.6 → 6.7 |
+  | G2.0, fraction of margin at expected need | gain 0.086 → 0.086, GBW 0.058 → 0.054, PM 0.075 → 0.075, sat_XM5 0.147 → 0.127 | gain 6.64 → 1.00, GBW 0.91 → 0.34, PM 3.74 → 0.79 |
+  | 'ours' if the need changes too | 11 of 21 budgets change (XM5.s −25 %, XM5.g −8 %, XM1+XM2.s +14 %); round-1 t 3.40 → 3.93 | 33 of 40 change, mostly up (N3.g +285 %, N1+N4.d +247 %); round-1 t 0.074 → 0.50 |
+
+  The section 4 predictions for step 8 (5T "small change", LOADBench "route part of G2.0 drops a lot") hold
+  either way. Capacitor2 has no library cell, so it keeps its as-sized length and is listed as such.
+- **(b) The route lengths set the need everywhere (recommended).** G2.0 and the allocation use the same need, as
+  plan v2 already did for the cell part. The artefact (single 244 and 446 µm stubs) leaves the budgets too, which
+  is what row 44 asks. 'Ours' budgets change as in the table, the step 6 reference budgets are superseded, and the
+  plan's "budgets identical" test is replaced by "the need's wiring part uses the representative cells; G2.0 =
+  rate × the need the allocation uses". It needs a dated note under PREREG item 6.
+- **(a) G2.0 only.** G2.0 reports the representative-cell route, with the as-sized one as a second column. The
+  allocation keeps the as-sized need, so budgets are identical and the plan's test holds. But the budgets keep the
+  artefact, and G2.0 is no longer rate × the need the allocation uses.
+- Either way: m > 1 (not in these two designs) is scaled as √m × the unit cell's sides, marked ASSUMPTION.
+
 **Resolved 2026-11-01 19:18 CET (Imasha): `lp_floor_k` is (a), the literal definition**, done in step 6. There
 was no separate answer on the closure, so it uses the 2 %, as the plan says. If it should stay at 10 %, say so: the
 5T's G2.5 would then fail on gain (1.086 > 1.02). The question as it was asked:
@@ -678,8 +785,8 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
-- 2026-11-01 (Claude Code): **Plan v3 Phase A, steps 0–7** (branch `plan-v3-phaseA`). Each step's change and
-  result is in the progress table under *Plan v3 Phase A*. Steps 0–6 are committed; step 7 waits for Imasha's
+- 2026-11-01 (Claude Code): **Plan v3 Phase A, steps 0–8** (branch `plan-v3-phaseA`). Each step's change and
+  result is in the progress table under *Plan v3 Phase A*. Steps 0–7 are committed; step 8 waits for Imasha's
   commit.
 - 2026-11-01 (Cowork): **Plan v3 Phase A planned** (no code, runs or outputs changed).
   - `docs/plan_v3_phaseA.md`: the decisions, Q1–Q4, steps 0–13, the predictions, the open issues per stage (for

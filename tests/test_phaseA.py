@@ -408,3 +408,69 @@ def test_frozen_benches_1hz_phase_is_near_a_multiple_of_180_deg():
         log = (REPO / "outputs" / "S0" / d / "tb" / "diso_amp_AC.log").read_text(errors="replace")
         p = float(re.search(r"^ph_dc\s*=\s*(\S+)", log, re.M).group(1))
         assert abs(p - linear.pm_reference(p)) < 0.01, (d, p)
+
+
+# ------------------------------------------------------------------ step 8: route lengths (row 44; decision (b))
+def _route(design):
+    """S2's own path: as-sized problem -> library representatives -> route sizes -> problem with those routes."""
+    from src.s1 import op as opmod
+    from src.s2 import run as S2
+    s0, s1 = REPO / "outputs" / "S0" / design, REPO / "outputs" / "S1" / design
+    ir = json.loads((s0 / "circuit_ir.json").read_text())
+    opmod.apply_passives(ir, json.loads((s1 / "operating_point.json").read_text()))
+    pdk = json.loads((REPO / "outputs" / "S2" / "pdk" / "parasitics.json").read_text())
+    sizes = S2.device_sizes(s0)
+    els, _, _ = S2.build_problem(ir, s1, pdk, sizes, 0.5)
+    lib = S2.library_floors(ir, els, json.loads((s1 / "sensitivity.json").read_text())["table"])
+    sizes2, route = S2.route_sizes(ir, sizes, lib["representative_option"])
+    els2, _, _ = S2.build_problem(ir, s1, pdk, sizes2, 0.5)
+    return lib, route, {e["id"]: e for e in els2}, pdk["layers"]["metal1"]["res_ohm_per_um_at_min_width"]
+
+
+def test_loadbench_route_lengths_drop_to_the_representative_cells():
+    pytest.importorskip("klayout.db")
+    lib, route, els, r1 = _route("loadbench_miller")
+    for dev in ("XNormalTransistorNmos3", "XNormalTransistorPmos5"):        # N3 and P5: 484 and 887 um single fingers
+        r = route[dev]
+        tid, opt = r["route_from"].removeprefix("representative cell ").split("__")
+        w, h = json.loads((REPO / "outputs/S3/_cells" / f"{tid}__{opt}" / "record.json").read_text())["geometry"]["bbox_um"]
+        assert r["half_perimeter_um"] == pytest.approx((w + h) / 2)
+        assert r["half_perimeter_um"] < 0.2 * r["half_perimeter_as_sized_um"]       # 244 -> 34 and 446 -> 61 um
+        assert els[f"{dev}.g"]["w_parts"]["wiring"] == pytest.approx(r["half_perimeter_um"] * r1)   # the need moved
+    assert route["Capacitor2"]["route_from"] == "as-sized PCell"              # no library cell: listed as such
+
+
+def test_5t_route_lengths_change_little():
+    pytest.importorskip("klayout.db")
+    _, route, _, _ = _route("example_ota_5t")
+    moved = {d: (r["half_perimeter_as_sized_um"], r["half_perimeter_um"]) for d, r in route.items()
+             if abs(r["half_perimeter_um"] - r["half_perimeter_as_sized_um"]) > 0.05}
+    assert set(moved) == {"XM5"} and moved["XM5"][1] == pytest.approx(9.06, abs=0.01)   # nf2 cell instead of nf1
+
+
+def test_route_sizes_scales_m_copies_and_falls_back(monkeypatch):
+    from src.s2 import run as S2
+    from src.s3 import options as O
+    tid, opt = "nfet_01v8_W1p4_L0p6_m18", "nf1_gboth_sdfull"           # a real record: unit bbox 2.45 x 3.39 um
+    monkeypatch.setattr(O, "device_types", lambda ir: {tid: {"devices": ["D1"], "m": 4}, "T2": {"devices": ["D2"], "m": 1}})
+    sizes = {"D1": {"w_um": 100.0, "h_um": 10.0}, "D2": {"w_um": 5.0, "h_um": 5.0}, "C1": {"w_um": 8.0, "h_um": 8.0}}
+    out, route = S2.route_sizes({}, sizes, {tid: {"option": opt}})
+    assert route["D1"]["half_perimeter_um"] == pytest.approx(2 * (2.45 + 3.39) / 2)   # sqrt(4) x the unit cell
+    assert route["D1"]["half_perimeter_as_sized_um"] == 55.0
+    assert route["D2"]["route_from"] == route["C1"]["route_from"] == "as-sized PCell" and out["D2"] == sizes["D2"]
+
+
+def test_g20_is_rate_times_the_need_the_allocation_uses():
+    """Replaces the plan's "'ours' budgets identical" (Imasha's choice (b)): the route is part of the need."""
+    bj = json.loads((REPO / "outputs/S2/example_ota_5t/budgets.json").read_text())
+    rep = json.loads((REPO / "outputs/S2/example_ota_5t/s2_report.json").read_text())["gates"]
+    g20 = rep["G2.0_expected_layout_use (info)"]
+    assert g20["route_lengths"]["XM5"]["route_from"].startswith("representative cell")
+    w = {e["id"]: e["w"] for e in bj["elements"]}
+    for e in bj["elements"]:
+        assert e["w"] == pytest.approx(e["w_parts"]["wiring"] + e["w_parts"]["device_cells"])
+        assert e["w_parts"]["wiring_as_sized_pcell"] is not None
+    for cid, a in bj["rates"].items():
+        use = g20["checks"][cid]
+        assert use["use_at_expected_need"] == pytest.approx(sum(v * w[k] for k, v in a.items()))
+        assert "fraction_of_margin_route_as_sized_pcell" in use

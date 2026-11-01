@@ -60,6 +60,29 @@ def device_sizes(s0: Path) -> dict:
     return out
 
 
+def route_sizes(ir: dict, sizes: dict, rep_option: dict) -> tuple:
+    """Plan v3 Phase A step 8 (row 44; PREREG 2026-11-01, item 6): the box the route estimate crosses per pin is the
+    representative S3 cell of the device's type -- the cell the need's cell part already uses -- not S0's as-sized
+    PCell (LOADBench: single fingers of 484 and 887 um). A type with no representative cell, and every passive,
+    keeps its as-sized PCell. Returns (sizes for build_problem, per-device record for G2.0)."""
+    from src.s3 import options as O
+    out = dict(sizes)
+    src = {d: {"route_from": "as-sized PCell", "half_perimeter_um": (s["w_um"] + s["h_um"]) / 2,
+               "half_perimeter_as_sized_um": (s["w_um"] + s["h_um"]) / 2} for d, s in sizes.items()}
+    for tid, t in O.device_types(ir).items():
+        opt = (rep_option.get(tid) or {}).get("option")
+        f = REPO / "outputs" / "S3" / "_cells" / f"{tid}__{opt}" / "record.json"
+        if opt is None or not f.exists():
+            continue
+        w, h = json.loads(f.read_text())["geometry"]["bbox_um"]
+        k = math.sqrt(int(t.get("m", 1)))   # ASSUMPTION: m unit cells (S3 scales the area by m) as a square array
+        for d in t["devices"]:
+            if d in sizes:
+                out[d] = {"w_um": w * k, "h_um": h * k}
+                src[d].update({"route_from": f"representative cell {tid}__{opt}", "half_perimeter_um": (w + h) * k / 2})
+    return out, src
+
+
 def expected_access_r(dev: dict, term: str, pdk: dict) -> float:
     """Expected device-access resistance at default PCell options, for the allocation weights only.
     gate: BSIM4 distributed gate resistance with contacts on both ends (ngcon=2):
@@ -500,7 +523,20 @@ def main(argv=None) -> int:
     elements, constraints, geo = build_problem(ir, s1, pdk, sizes, eta)
     sens_tab = json.loads((s1 / "sensitivity.json").read_text())["table"]
     lib = library_floors(ir, elements, sens_tab, pkg.get("s3_mode", "A-bin")) if a.alloc == "v2" else {"floors": {}, "source": {}}
+    route = {d: {"route_from": "as-sized PCell", "half_perimeter_um": (s_["w_um"] + s_["h_um"]) / 2}
+             for d, s_ in sizes.items()}
     if a.alloc == "v2":
+        # step 8 (row 44, Imasha's choice (b)): the route part of the need also comes from the representative
+        # cells, so wiring and cells describe one compact layout. It is part of the need the allocation shares in,
+        # so budgets move with it; G2.0 keeps the as-sized route as a second column.
+        wiring_pcell = {e["id"]: e["w_parts"]["wiring"] for e in elements}
+        ids = [e["id"] for e in elements]
+        sizes, route = route_sizes(ir, sizes, lib["representative_option"])
+        elements, constraints, geo = build_problem(ir, s1, pdk, sizes, eta)
+        if [e["id"] for e in elements] != ids:     # the floors and cells are per element: recompute if the set moved
+            lib = library_floors(ir, elements, sens_tab, pkg.get("s3_mode", "A-bin"))
+        for e in elements:
+            e["w_parts"]["wiring_as_sized_pcell"] = wiring_pcell.get(e["id"])
         # v2: the device-cell part of the expected need is the library's best cell for the element, not the
         # as-sized single-finger cell (a 484 um single finger is not what a compact layout draws)
         for e in elements:
@@ -534,11 +570,20 @@ def main(argv=None) -> int:
                               "margin": c["margin"],
                               "fraction_of_margin": sum(c["a"].get(e["id"], 0.0) * e["w"] for e in elements) / c["margin"]
                               if c["margin"] else None} for c in constraints}
+    w_pcell = {e["id"]: e["w"] - e["w_parts"]["wiring"] + e["w_parts"]["wiring_as_sized_pcell"] for e in elements
+               if e["w_parts"].get("wiring_as_sized_pcell") is not None}
+    if w_pcell:     # second column (step 8): the same need with plan v2's route over the as-sized PCells
+        for c in constraints:
+            if c["margin"]:
+                expected_use[c["id"]]["fraction_of_margin_route_as_sized_pcell"] = \
+                    sum(c["a"].get(k, 0.0) * v for k, v in w_pcell.items()) / c["margin"]
     gates["G2.0_expected_layout_use (info)"] = {
         "pass": None, "checks": expected_use, "default_cells_used": geo["default_cells_used"],
-        "saturation_not_constrained": geo.get("sat_not_constrained", {}),
-        "note": "fraction of each margin that a compact layout with the default device cells would use (sum of "
-                "rate x expected need); above eta the budgets fall below the expected need"}
+        "saturation_not_constrained": geo.get("sat_not_constrained", {}), "route_lengths": route,
+        "note": "fraction of each margin that a compact layout would use: sum of rate x expected need, the need "
+                "the allocation shares in. v2: the library's representative cell of each device type, and from "
+                "step 8 the routes over those cells (route_lengths; fraction_of_margin_route_as_sized_pcell keeps "
+                "plan v2's route over the as-sized PCells). Above eta the budgets fall below the expected need"}
     floors = lib["floors"] or None
     alloc = B.allocate(elements, constraints, floors=floors)
     if not alloc["floors_feasible"]:

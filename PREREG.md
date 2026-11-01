@@ -158,3 +158,15 @@ After the tag, changes are allowed only as dated amendments at the end, with the
   | 9 model agreement | the row-42 corner appears in the PVT report, no longer binding | listed checks, if any |
   | 10 hand model | — | hand PM gap falls from about 17° to a few degrees (G1.5, report only) |
   | 12 S3 and SPICE | area and relaxed types close to `after_nopvt` | fewer relaxed types than plan-v2 'after' (all 6 were relaxed). PM after S3 at or above plan-v2 post hoc 64.7° |
+
+- **2026-11-01, Plan v3 Phase A step 8: G2.0's route part is part of the expected need (Imasha's decision (b),
+  before any step 8 run).**
+  - Item 6 assumed G2.0 is information only and said "no budget changes". In the code, the route lengths are the
+    wiring part of every element's expected need. G2.0 is rate × that need, and the allocation shares the margin
+    in units of the same need.
+  - Imasha chose (b): the representative cells' route lengths set the need everywhere, for G2.0 and the
+    allocation, as the cell part already did in plan v2. 'Ours' budgets therefore change, and so do the scores of
+    the other budget rules, which share the need. The alternative was to change G2.0 only and keep the as-sized
+    need in the allocation.
+  - G2.0 keeps the as-sized route as a second column (`fraction_of_margin_route_as_sized_pcell`).
+  - Item 6's other points, and the step 8 predictions in item 9, are unchanged.

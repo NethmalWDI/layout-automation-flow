@@ -700,7 +700,7 @@ the work manageable.
 
 **No code, runs or outputs changed.**
 
-## 2026-11-01: Plan v3 Phase A, steps 0–7 (Claude Code)
+## 2026-11-01: Plan v3 Phase A, steps 0–8 (Claude Code)
 
 - **Step 0 (setup), committed `03390202`.**
   - Container up and idle. Branch `plan-v3-phaseA`; tag `prereg-v1` on `a8c6f7d3`.
@@ -822,3 +822,26 @@ the work manageable.
   - **Found on the way.** In a login shell the image sets `USER` to "1000\ndesigner". pytest's temp folder then
     has a newline in its name, and netgen fails the S0 round-trip test. Run the tests with `bash -c`
     (README).
+- **Step 8 (G2.0 route lengths from the representative cells; row 44).**
+  - **Stopped first.** The plan said "G2.0 is info only, so 'ours' budgets identical". But the route lengths are
+    the wiring part of the expected need, and the allocation shares the margin in units of that need. A read-only
+    probe (`runs/tmp/step8_probe.py`, which reproduces the committed 5T max-min budgets to 3 × 10⁻⁸) showed 11
+    of 21 5T budgets and 33 of 40 LOADBench budgets would move. Imasha chose (b), at 20:36: the new lengths set
+    the need everywhere. There is a dated PREREG amendment.
+  - **Change.** `route_sizes()` in `src/s2/run.py` takes each device's route box from its type's representative
+    S3 cell; types without one, and passives, keep the as-sized PCell. m > 1 is scaled by √m (ASSUMPTION). S2
+    rebuilds the problem with those lengths. G2.0 lists them, and keeps the as-sized route as a second column.
+  - **5T S2, 20:40–20:46, PASS.**
+    - Only XM5's route moves (14.42 → 9.06 µm, its nf = 2 cell), and G2.0 changes little.
+    - Round-1 t goes from 3.40 to 3.93; 11 budgets change (XM5.s −25 %, XM1+XM2.s +14 %).
+    - G2.5 passes with the same closure; G2.8's outcome words are unchanged.
+    - `lp_floor_k` now starves XM5.d (0.75 × need) on the 5T too.
+    - Reference: `outputs/phaseA/example_ota_5t/budgets_step8.json`.
+  - **LOADBench (probe; S2 in step 12).** N3's route goes from 244 to 34 µm and P5's from 446 to 61. G2.0 gain
+    goes from 6.64 to 1.00 of margin.
+  - **Results.** Step 8 predictions hold. Tests: 4 new, 32 Phase A tests in all; the full suite is 118 passed plus
+    the expected 5T S2 golden failure.
+  - **Found on the way.** ngspice's init depends on the launching shell. A login shell (`bash -lc`, as `./flow`
+    uses) points `SPICE_USERINIT_DIR` at the IHP PDK and skips sky130's `ngbehavior=hsa` and `enable_noisy_r`.
+    The committed outputs mix both inits. On every design's S0 benches the two agree to 7 × 10⁻⁶
+    (`runs/tmp/envcheck.py`). Pinning the init in `TOOL_ENV` is a question for Imasha.
