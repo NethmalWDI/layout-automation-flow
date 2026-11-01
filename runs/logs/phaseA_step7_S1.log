@@ -1,0 +1,9 @@
+== example_ota_5t
+  S1/run             rc=0     21.0 s  log: runs/logs/flow/example_ota_5t/S1_run.log
+  S1/symbolic_patch  rc=0      5.3 s  log: runs/logs/flow/example_ota_5t/S1_symbolic_patch.log
+  S1: PASS
+rc_5t=0
+== loadbench_miller
+  S1/run             rc=3     20.2 s  log: runs/logs/flow/loadbench_miller/S1_run.log
+  S1: FAIL  failed: ['G1.6_resistance_sensitivity_vs_spice']
+rc_lb=1

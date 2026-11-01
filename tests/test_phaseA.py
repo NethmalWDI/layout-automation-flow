@@ -336,3 +336,75 @@ def test_lp_floor_k_has_ours_bounds_and_at_least_lp_floors_objective():
     res = BL.run_all(EL, CO, {"e1": 1.0, "e2": 1.0})
     assert list(res) == ["per_net", "equal", "lp_sum", "lp_floor", "lp_floor_k", "ours"]
     assert res["lp_floor_k"]["score"]["floors_applied"] is True
+
+
+# ------------------------------------------------------------------ step 7: PM reference phase (row 46)
+POLE_HZ = 25.0          # TTSKY25a's dominant pole is at about 25 Hz
+
+
+def test_pm_reference_is_the_1hz_phase_rounded_to_180_deg():
+    import math
+    import numpy as np
+    from src.s1 import linear
+    f = linear.FREQ
+    for sign, ref in ((1, 0.0), (-1, 180.0)):                     # non-inverting and inverting output
+        H = sign * 1e4 / (1 + 1j * f / POLE_HZ)
+        m, p1 = linear.metrics(H), linear.phase_1hz(H)
+        assert p1["pm_reference_deg"] == ref and p1["distance_deg"] == pytest.approx(-math.degrees(math.atan(1 / POLE_HZ)))
+        assert m["pm_deg"] == pytest.approx(180 - math.degrees(math.atan(m["gbw_mhz"] * 1e6 / POLE_HZ)), abs=0.01)
+        ph = np.degrees(np.unwrap(np.angle(H)))
+        k = int(np.where(20 * np.log10(abs(H)) <= 0)[0][0])
+        t = 20 * np.log10(abs(H[k - 1])) / (20 * np.log10(abs(H[k - 1])) - 20 * np.log10(abs(H[k])))
+        pm_old = 180 + (ph[k - 1] + t * (ph[k] - ph[k - 1]) - ph[0])        # plan v2: minus the 1 Hz phase itself
+        assert pm_old - m["pm_deg"] == pytest.approx(2.29, abs=0.01)       # the old formula reads ~2.3 deg high
+    assert linear.pm_reference(179.9) == linear.pm_reference(-180.1) + 360 == 180.0
+    assert linear.pm_reference(-89.0) == 0.0 and linear.pm_reference(-91.0) == -180.0
+
+
+def test_fast_model_pm_change_uses_the_same_reference():
+    import numpy as np
+    from src.s1 import linear
+    from tests.test_v2 import _ir
+    ir, op = _ir()
+    ir["passives"][2]["value"] = 1 / (2 * np.pi * 10e3 * POLE_HZ)     # Cx on o2: pole at 25 Hz
+    drive = {"i1": 0.5, "i2": -0.5}
+    fm = linear.FastModel(linear.LinearModel(ir, op, drive=drive))
+    dc = 0.1e-6                                                     # pole 25 -> 21.6 Hz: the 1 Hz phase moves 0.36 deg
+    d = fm.delta(*fm.cap_matrices("o2", None, dc))
+    f = np.logspace(0, 9, 9 * 4000 + 1)
+    H0 = linear.LinearModel(ir, op, drive=drive).response(f)
+    H1 = linear.LinearModel(ir, op, drive=drive, extra_c=[("o2", None, dc)]).response(f)
+    m0, m1 = linear.metrics(H0, f), linear.metrics(H1, f)
+    assert d["pm_deg"] == pytest.approx(m1["pm_deg"] - m0["pm_deg"], abs=0.01)
+    # one pole, same DC gain: the phase at the UGB stays at -atan(sqrt(24)), so PM does not change; plan v2's
+    # delta also subtracted the 1 Hz phase's change, -0.36 deg, and read +0.36
+    assert m0["pm_deg"] == pytest.approx(180 - np.degrees(np.arctan(np.sqrt(24))), abs=0.01)
+    assert d["pm_deg"] == pytest.approx(0.0, abs=0.01)
+    assert float(np.degrees(np.angle(H1[0] / H0[0]))) == pytest.approx(-0.36, abs=0.01)
+
+
+def test_bench_template_pm_reference_in_ngspice(tmp_path):
+    import shutil
+    import subprocess
+    import benchlib
+    assert "let ph_ref  = 180 * floor(ph_dc / 180 + 0.5)" in benchlib.AC and "(ph_ugb - ph_ref)" in benchlib.AC
+    if not shutil.which("ngspice"):
+        pytest.skip("ngspice not on PATH (source scripts/env.sh)")
+    for gain in ("1e4", "-1e4"):
+        deck = tmp_path / "onepole.spice"
+        deck.write_text(f"* one pole at 25 Hz\nVin in 0 dc 0 ac 1\nE1 a 0 in 0 {gain}\nR1 a out 1k\n"
+                        f"C1 out 0 {1 / (2 * 3.141592653589793 * 1e3 * POLE_HZ):.7e}\n"
+                        + benchlib.AC.format(sig="v(out)") + ".end\n")
+        r = subprocess.run(["ngspice", "-b", deck.name], cwd=tmp_path, capture_output=True, text=True, timeout=60)
+        pm = float(re.search(r"^MEAS pm_deg (\S+)", r.stdout, re.M).group(1))
+        assert pm == pytest.approx(90.006, abs=0.005)               # the old bench formula gave 92.296
+
+
+def test_frozen_benches_1hz_phase_is_near_a_multiple_of_180_deg():
+    """The frozen benches (S0, S2, S3) keep the unrounded 1 Hz phase; the plan asks that it be < 0.01 deg from the
+    rounded reference for the 5T and LOADBench (stop and ask above 0.05 deg)."""
+    from src.s1 import linear
+    for d in ("example_ota_5t", "loadbench_miller"):
+        log = (REPO / "outputs" / "S0" / d / "tb" / "diso_amp_AC.log").read_text(errors="replace")
+        p = float(re.search(r"^ph_dc\s*=\s*(\S+)", log, re.M).group(1))
+        assert abs(p - linear.pm_reference(p)) < 0.01, (d, p)

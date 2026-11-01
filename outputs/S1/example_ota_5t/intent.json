@@ -8,6 +8,13 @@
       ],
       "kind": "mirror",
       "equal_size": true,
+      "same_L_and_model": true,
+      "ratio_Wm": [
+        1.0,
+        1.0
+      ],
+      "consistent": true,
+      "off_members": [],
       "purpose": "current-copy accuracy (systematic offset, gain)",
       "evidence": [
         "hierarchy block pmos_current_mirror_load (name_map)",
@@ -22,7 +29,14 @@
       ],
       "kind": "diff_pair",
       "equal_size": true,
-      "purpose": "input offset, CMRR, symmetric loading of net3/OUTP",
+      "same_L_and_model": true,
+      "ratio_Wm": [
+        1.0,
+        1.0
+      ],
+      "consistent": true,
+      "off_members": [],
+      "purpose": "input offset, CMRR, symmetric loading of the pair's drains",
       "evidence": [
         "hierarchy block nmos_differential_pair (name_map)",
         "sizes [(24.0, 0.5, 1, 1)]",
@@ -30,15 +44,16 @@
       ]
     }
   ],
+  "not_matching_blocks": [],
   "critical_nets": [
     {
       "net": "net3",
       "most_limiting_spec": "pm_deg",
-      "fF_to_consume_margin": 328.5394488856981,
+      "fF_to_consume_margin": 328.53944849113896,
       "per_fF": {
         "gain_db": 0.0,
         "gbw_mhz": -0.05791153332542365,
-        "pm_deg": -0.06372081060890622
+        "pm_deg": -0.06372081068543167
       },
       "classes": [
         "mirror_node (diode-connected)",
@@ -53,7 +68,7 @@
       "per_fF": {
         "gain_db": 0.0,
         "gbw_mhz": -0.09472744985392723,
-        "pm_deg": 0.008813838873749091
+        "pm_deg": 0.00881381904173395
       },
       "classes": [
         "signal_output",
@@ -68,7 +83,7 @@
       "per_fF": {
         "gain_db": 0.0,
         "gbw_mhz": -0.00025527241121636735,
-        "pm_deg": 5.738652816944523e-05
+        "pm_deg": 5.738652045295112e-05
       },
       "classes": [
         "source_coupled (tail)"
@@ -80,44 +95,44 @@
     {
       "pair": "OUTP~net3",
       "most_limiting_spec": "pm_deg",
-      "fF_to_consume_margin": 177.98022027100225,
+      "fF_to_consume_margin": 177.98016257801817,
       "per_fF": {
         "gain_db": 0.0,
         "gbw_mhz": -0.24829761853933974,
-        "pm_deg": -0.11762430661184453
+        "pm_deg": -0.11762434474023564
       },
       "rank": 1
     },
     {
       "pair": "net3~INP",
       "most_limiting_spec": "pm_deg",
-      "fF_to_consume_margin": 239.8875456180717,
+      "fF_to_consume_margin": 239.8875447590349,
       "per_fF": {
         "gain_db": 0.0,
         "gbw_mhz": -0.06451305084206638,
-        "pm_deg": -0.0872692241944506
+        "pm_deg": -0.0872692245069615
       },
       "rank": 2
     },
     {
       "pair": "net1~net3",
       "most_limiting_spec": "pm_deg",
-      "fF_to_consume_margin": 281.41733207013885,
+      "fF_to_consume_margin": 281.41733108252794,
       "per_fF": {
         "gain_db": 0.0,
         "gbw_mhz": -0.03981873429489724,
-        "pm_deg": -0.07439058513561037
+        "pm_deg": -0.07439058539667798
       },
       "rank": 3
     },
     {
       "pair": "net3~INN",
       "most_limiting_spec": "pm_deg",
-      "fF_to_consume_margin": 521.1238441029939,
+      "fF_to_consume_margin": 521.1238461713539,
       "per_fF": {
         "gain_db": 0.0,
         "gbw_mhz": -0.05131005038947478,
-        "pm_deg": -0.04017240860670057
+        "pm_deg": -0.04017240844725478
       },
       "rank": 4
     },
@@ -128,7 +143,7 @@
       "per_fF": {
         "gain_db": 0.0,
         "gbw_mhz": -0.10338692658930171,
-        "pm_deg": 0.03733470025119345
+        "pm_deg": 0.03733468067722612
       },
       "rank": 5
     },
@@ -139,7 +154,7 @@
       "per_fF": {
         "gain_db": 0.0,
         "gbw_mhz": -0.08606801631088246,
-        "pm_deg": -0.019707022113088613
+        "pm_deg": -0.019707042203144454
       },
       "rank": 6
     },
@@ -150,18 +165,18 @@
       "per_fF": {
         "gain_db": 0.0,
         "gbw_mhz": -0.08585170289416766,
-        "pm_deg": 0.014663981817570004
+        "pm_deg": 0.014663962975070888
       },
       "rank": 7
     },
     {
       "pair": "net1~INN",
       "most_limiting_spec": "pm_deg",
-      "fF_to_consume_margin": 8092.805664330614,
+      "fF_to_consume_margin": 8092.805607291041,
       "per_fF": {
         "gain_db": 0.0,
         "gbw_mhz": 0.006794496188597066,
-        "pm_deg": -0.002586840814956304
+        "pm_deg": -0.0025868408331888304
       },
       "rank": 8
     },
@@ -172,7 +187,7 @@
       "per_fF": {
         "gain_db": 0.0,
         "gbw_mhz": -0.007305041507535748,
-        "pm_deg": 0.0027016136188962037
+        "pm_deg": 0.002701613621681531
       },
       "rank": 9
     }

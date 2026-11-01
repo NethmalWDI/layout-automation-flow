@@ -106,6 +106,12 @@ every PVT point, as in plan v2.
   most `TOL_USE` × |vds − vdsat|.
 - **Mirror banks and designer groups.** S0 merges mirror blocks that share their gate and source nets into one
   bank. It reads the designer's groups from `designer_groups:` (see `docs/INPUTS.md`).
+- **PM reference.** PM = 180 + phase at the UGB − the 1 Hz phase rounded to the nearest multiple of 180°. The S1
+  linear model and new benches (`scripts/benchlib.py`) use it. The frozen benches keep the unrounded 1 Hz phase;
+  for the 5T and LOADBench that is 0.00002° and 0.0016° away.
+- **Running the tests.** Use `bash -c` with `source scripts/env.sh`, not a login shell (`bash -lc`). The image's
+  login profile sets `USER` to a value with a newline, which ends up in pytest's temp folder name, and netgen then
+  fails the S0 round-trip test.
 
 **Repository rules:** third-party material and licences are listed in `THIRD_PARTY.md`; hypotheses and
 thresholds for the experiments are fixed in `PREREG.md` before baselines run.
@@ -192,7 +198,7 @@ python3 scripts/make_record_figures.py example_ota_5t ota5t_stress  # refresh th
 | Gate | Check |
 |---|---|
 | G1.1 | Operating point: all devices saturated, supply current within 1 %, charge-matrix conservation |
-| G1.2 | Linear model vs SPICE: within 0.2 dB / 3 % / 2° |
+| G1.2 | Linear model vs SPICE: within 0.2 dB / 3 % / 2°. PM's reference is the 1 Hz phase rounded to a multiple of 180°; the 1 Hz phases of both are recorded (`pm_reference`) |
 | G1.3 | Linear-model sensitivities vs SPICE finite differences (5 and 20 fF): derivative within 20 %, or first-order prediction at +20 fF within 5 % of the margin |
 | G1.4 | Matching groups (diff pair, mirror) present and equal-sized |
 | G1.5 | Upstream symbolic model vs SPICE; reported, not gated |

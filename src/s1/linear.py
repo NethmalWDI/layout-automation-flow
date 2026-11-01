@@ -9,9 +9,13 @@ Nodes: supplies, ground, and nodes held by ideal VOLTAGE sources are AC ground; 
 source is an open circuit in AC (its nodes are solved); inputs are driven as in the AC testbench;
 every other net is solved.
 Metrics replicate the testbench definitions (diso/dido_amp_AC): gain at 1 Hz, UGB where |H| = 1
-(linear interpolation on a 40 points/decade grid), PM = 180 + (phase(UGB) - phase(1 Hz)).
+(linear interpolation on a 40 points/decade grid), PM = 180 + (phase(UGB) - reference), the reference being
+the 1 Hz phase rounded to the nearest multiple of 180 deg (Plan v3 Phase A step 7, row 46; plan v2 used the 1 Hz
+phase itself, which already holds part of the roll-off when the dominant pole is near 1 Hz).
 """
 from __future__ import annotations
+
+import math
 
 import numpy as np
 
@@ -155,6 +159,19 @@ class LinearModel:
 FREQ = np.logspace(0, 9, 9 * 40 + 1)  # dec 40 from 1 Hz to 1 GHz, as the AC testbench
 
 
+def pm_reference(ph_1hz_deg: float) -> float:
+    """PM reference phase: the 1 Hz phase rounded to the nearest multiple of 180 deg, as floor(x / 180 + 0.5) like
+    the bench template (ngspice-47 has no round()). TTSKY25a's dominant pole at ~25 Hz made the unrounded 1 Hz
+    phase read PM 2.3 deg high."""
+    return 180.0 * math.floor(ph_1hz_deg / 180.0 + 0.5)
+
+
+def phase_1hz(H: np.ndarray) -> dict:
+    """The raw 1 Hz phase (H[0]: the grid starts at 1 Hz), the PM reference taken from it and their distance."""
+    p = float(np.degrees(np.angle(H[0])))
+    return {"phase_1hz_deg": p, "pm_reference_deg": pm_reference(p), "distance_deg": p - pm_reference(p)}
+
+
 def metrics(H: np.ndarray, f: np.ndarray = FREQ) -> dict:
     db = 20 * np.log10(np.abs(H))
     ph = np.degrees(np.unwrap(np.angle(H)))
@@ -166,7 +183,7 @@ def metrics(H: np.ndarray, f: np.ndarray = FREQ) -> dict:
     t = db[k] / (db[k] - db[k + 1])
     fu = f[k] + t * (f[k + 1] - f[k])
     ph_u = ph[k] + t * (ph[k + 1] - ph[k])
-    return {"gain_db": gain, "gbw_mhz": float(fu / 1e6), "pm_deg": float(180 + (ph_u - ph[0]))}
+    return {"gain_db": gain, "gbw_mhz": float(fu / 1e6), "pm_deg": float(180 + (ph_u - pm_reference(ph[0])))}
 
 
 def sensitivities(ir, op, nets_gnd: list, pairs: list, delta: float = 1e-15, drive: dict | None = None) -> dict:
@@ -249,7 +266,12 @@ class FastModel:
             return {**out, "gbw_mhz": None, "pm_deg": None}
         fu, hu = self._root(G, C, sys_)
         out["gbw_mhz"] = (fu - self.fu) / 1e6
-        out["pm_deg"] = float(np.degrees(np.angle(hu / self.hu)) - np.degrees(np.angle(h1 / self.h1)))
+        # both models use the rounded reference of metrics(): it moves only when the 1 Hz phase crosses a rounding
+        # boundary, so the PM change is the change of the phase at the UGB (step 7; plan v2 also subtracted the
+        # change of the 1 Hz phase)
+        p0 = float(np.degrees(np.angle(self.h1)))
+        d_ref = pm_reference(p0 + float(np.degrees(np.angle(h1 / self.h1)))) - pm_reference(p0)
+        out["pm_deg"] = float(np.degrees(np.angle(hu / self.hu)) - d_ref)
         return out
 
     def delta_lm(self, lm2: "LinearModel") -> dict:

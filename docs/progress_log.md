@@ -700,7 +700,7 @@ the work manageable.
 
 **No code, runs or outputs changed.**
 
-## 2026-11-01: Plan v3 Phase A, steps 0–6 (Claude Code)
+## 2026-11-01: Plan v3 Phase A, steps 0–7 (Claude Code)
 
 - **Step 0 (setup), committed `03390202`.**
   - Container up and idle. Branch `plan-v3-phaseA`; tag `prereg-v1` on `a8c6f7d3`.
@@ -800,3 +800,25 @@ the work manageable.
     designs.
   - Step 6 predictions hold on the 5T; LOADBench's are checked in step 12. Tests: 24 Phase A tests; 110 passed
     plus the expected 5T S2 golden failure.
+- **Step 7 (PM reference phase; A6, row 46).**
+  - **Why.** PM was 180 + phase at the UGB − phase at 1 Hz. With a dominant pole near 1 Hz (TTSKY25a: ~25 Hz),
+    the 1 Hz phase already holds part of the roll-off, and PM reads about 2.3° high.
+  - **Change.** The reference is now the 1 Hz phase rounded to the nearest multiple of 180°:
+    - in S1's linear model (`metrics()`), and in `FastModel.delta()`, which now uses the same reference for both
+      models;
+    - in the AC template of `scripts/benchlib.py`, as `180 * floor(ph_dc / 180 + 0.5)`, because ngspice-47 has
+      no `round()`.
+
+    In ngspice, a one-pole deck at 25 Hz gives 90.006° for either sign of gain; the old formula gave 92.296°.
+  - **Frozen benches unchanged.** Their 1 Hz phase is 0.00002° (5T) and 0.0016° (LOADBench) from the rounded
+    reference, below the plan's 0.01°. S1 G1.2 now records both 1 Hz phases (`pm_reference`).
+  - **S1 re-run, 20:07–20:08.** G1.2's PM difference moved by −0.00002° (5T) and −0.0016° (LOADBench) from plan
+    v2, within the 0.01° asked. Only PM values moved, at most 3 × 10⁻⁴ relative on rates; everything else is
+    identical. The 5T's S1 files also pick up fields added since 2026-10-26, with no value changes.
+  - **Not changed:**
+    - the LOADBench and TTSKY package scripts, which wrote the frozen benches;
+    - the hand models in `symbolic_patch.py` (phase at 1 rad/s), which step 10 edits.
+  - **Tests.** 4 new, 28 Phase A tests in all; full suite 114 passed plus the expected 5T S2 golden failure.
+  - **Found on the way.** In a login shell the image sets `USER` to "1000\ndesigner". pytest's temp folder then
+    has a newline in its name, and netgen fails the S0 round-trip test. Run the tests with `bash -c`
+    (README).

@@ -8,7 +8,9 @@ it open from 1 Hz up (loop corner ~5 uHz): the DC operating point is the unity-g
 an offset-corrected open-loop bench, and a one-sided parasitic cannot rail the output. The AC stimulus
 enters through 1 F couplers, so the inputs see exactly the stated AC drive.
 Measurements (echo MEAS name value): gain_db (at 1 Hz), gbw_mhz (|H| = 1), pm_deg (180 + phase at UGB
-- phase at 1 Hz, unwrapped), isup_ua, power_uw, vout_v (signal output DC: v(OUT) or v(OUTP)-v(OUTN)),
+- the 1 Hz phase rounded to the nearest multiple of 180 deg, unwrapped; Plan v3 Phase A step 7: benches made
+before it, which are hash-frozen, subtract the 1 Hz phase itself), isup_ua, power_uw, vout_v (signal output DC:
+v(OUT) or v(OUTP)-v(OUTN)),
 voutcm_v (dido), vnoise_nv_rthz (input-referred at 1 kHz), vnoise_rms_uv_rms.
 """
 from __future__ import annotations
@@ -54,7 +56,8 @@ AC = """.control
   meas ac ph_dc   find gph_deg at=1
   meas ac ph_ugb  find gph_deg when hdb=0
   let gbw_mhz = gbw_hz / 1e6
-  let pm_deg  = 180 + (ph_ugb - ph_dc)
+  let ph_ref  = 180 * floor(ph_dc / 180 + 0.5)
+  let pm_deg  = 180 + (ph_ugb - ph_ref)
   echo MEAS gain_db $&gain_db
   echo MEAS gbw_mhz $&gbw_mhz
   echo MEAS pm_deg $&pm_deg

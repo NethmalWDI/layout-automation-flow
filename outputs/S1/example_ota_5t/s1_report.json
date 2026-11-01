@@ -4,6 +4,8 @@
     "G1.1_operating_point": {
       "pass": true,
       "numerical_warnings": [],
+      "not_saturated": [],
+      "dummies_excluded": [],
       "saturation": {
         "XM3": {
           "vds": 1.39451,
@@ -47,7 +49,7 @@
       "linear": {
         "gain_db": 31.692934888970203,
         "gbw_mhz": 105.0066901372423,
-        "pm_deg": 80.9457458550894
+        "pm_deg": 80.9457255103534
       },
       "spice": {
         "gain_db": 31.697,
@@ -57,12 +59,30 @@
       "delta": {
         "gain_db": -0.004065111029795787,
         "gbw_rel": 0.005281605832581526,
-        "pm_deg": 0.010945855089403267
+        "pm_deg": 0.010925510353402501
       },
       "tolerance": {
         "gain_db": 0.2,
         "gbw_rel": 0.03,
         "pm_deg": 2.0
+      },
+      "pm_reference": {
+        "rule": "PM = 180 + phase(UGB) - reference; reference = the 1 Hz phase rounded to the nearest multiple of 180 deg (Plan v3 Phase A step 7). The frozen benches keep the unrounded 1 Hz phase.",
+        "linear_model": {
+          "phase_1hz_deg": -2.03447360008792e-05,
+          "pm_reference_deg": 0.0,
+          "distance_deg": -2.03447360008792e-05,
+          "pm_deg_plan_v2_reference": 80.9457458550894
+        },
+        "spice_bench": {
+          "source": "outputs/S0/example_ota_5t/tb/diso_amp_AC.log",
+          "phase_1hz_deg": -2.04629e-05,
+          "pm_reference_deg": 0.0,
+          "distance_deg": -2.04629e-05,
+          "distance_below_0p05_deg": true,
+          "pm_deg_bench": 80.9348,
+          "pm_deg_rounded_reference": 80.9347795371
+        }
       }
     },
     "G1.3_sensitivity_vs_spice": {
@@ -94,14 +114,14 @@
         {
           "case": "OUTP",
           "spec": "pm_deg",
-          "linear": 0.008813838873749091,
+          "linear": 0.00881381904173395,
           "spice_5fF": 0.00882000000000005,
           "spice_20fF": 0.008745000000000402,
           "spice_extrapolated_0": 0.008844999999999933,
-          "rel_err_vs_extrapolated": 0.003523021622480684,
-          "rel_err_vs_20fF": 0.007871798027294047,
+          "rel_err_vs_extrapolated": 0.0035252637949104433,
+          "rel_err_vs_20fF": 0.007869530215385388,
           "step_consistency": 0.008576329331005697,
-          "pred_err_at_20fF_frac_of_margin": 6.576501686062405e-05,
+          "pred_err_at_20fF_frac_of_margin": 6.57460704029161e-05,
           "criterion": "a_derivative",
           "pass": true
         },
@@ -124,7 +144,7 @@
           "spec": "pm_deg",
           "status": "below_resolution",
           "spice_20fF": 6.0000000000570705e-05,
-          "linear": 5.738652816944523e-05
+          "linear": 5.738652045295112e-05
         },
         {
           "case": "net3",
@@ -150,14 +170,14 @@
         {
           "case": "net3",
           "spec": "pm_deg",
-          "linear": -0.06372081060890622,
+          "linear": -0.06372081068543167,
           "spice_5fF": -0.06347999999999843,
           "spice_20fF": -0.06114499999999978,
           "spice_extrapolated_0": -0.06425833333333131,
-          "rel_err_vs_extrapolated": 0.00836502748424492,
-          "rel_err_vs_20fF": 0.04212626721574039,
+          "rel_err_vs_extrapolated": 0.008365026293341755,
+          "rel_err_vs_20fF": 0.042126268467281035,
           "step_consistency": 0.03818791397495547,
-          "pred_err_at_20fF_frac_of_margin": 0.002460793137652557,
+          "pred_err_at_20fF_frac_of_margin": 0.0024607932107609245,
           "criterion": "a_derivative",
           "pass": true
         },
@@ -185,14 +205,14 @@
         {
           "case": "OUTP~net3",
           "spec": "pm_deg",
-          "linear": -0.11762430661184453,
+          "linear": -0.11762434474023564,
           "spice_5fF": -0.11591999999999984,
           "spice_20fF": -0.10752999999999986,
           "spice_extrapolated_0": -0.11871666666666651,
-          "rel_err_vs_extrapolated": 0.009201404364638345,
-          "rel_err_vs_20fF": 0.09387432913461065,
+          "rel_err_vs_extrapolated": 0.009201083193296683,
+          "rel_err_vs_20fF": 0.09387468371836505,
           "step_consistency": 0.07802473728261873,
-          "pred_err_at_20fF_frac_of_margin": 0.009643566321956428,
+          "pred_err_at_20fF_frac_of_margin": 0.009643602747803449,
           "criterion": "a_derivative",
           "pass": true
         },
@@ -220,14 +240,14 @@
         {
           "case": "net3~INP",
           "spec": "pm_deg",
-          "linear": -0.0872692241944506,
+          "linear": -0.0872692245069615,
           "spice_5fF": -0.08685999999999865,
           "spice_20fF": -0.08402999999999991,
           "spice_extrapolated_0": -0.08780333333333157,
-          "rel_err_vs_extrapolated": 0.006083016653289296,
-          "rel_err_vs_20fF": 0.0385484254962596,
+          "rel_err_vs_extrapolated": 0.006083013094074695,
+          "rel_err_vs_20fF": 0.0385484292152993,
           "step_consistency": 0.03367844817325645,
-          "pred_err_at_20fF_frac_of_margin": 0.0030945833678379456,
+          "pred_err_at_20fF_frac_of_margin": 0.0030945836663943266,
           "criterion": "a_derivative",
           "pass": true
         },
@@ -255,14 +275,14 @@
         {
           "case": "net1~net3",
           "spec": "pm_deg",
-          "linear": -0.07439058513561037,
+          "linear": -0.07439058539667798,
           "spice_5fF": -0.0746799999999979,
           "spice_20fF": -0.07350999999999956,
           "spice_extrapolated_0": -0.07506999999999735,
-          "rel_err_vs_extrapolated": 0.009050417801878326,
-          "rel_err_vs_20fF": 0.011979120332074667,
+          "rel_err_vs_extrapolated": 0.009050414324222643,
+          "rel_err_vs_20fF": 0.011979123883531775,
           "step_consistency": 0.015916201877273106,
-          "pred_err_at_20fF_frac_of_margin": 0.000841264435877872,
+          "pred_err_at_20fF_frac_of_margin": 0.0008412646852880521,
           "criterion": "a_derivative",
           "pass": true
         }
@@ -270,6 +290,7 @@
     },
     "G1.4_matching_groups": {
       "pass": true,
+      "rule": "diff pair: identical W, L, nf, m; mirror: same L and model (ratio allowed)",
       "groups": [
         {
           "devices": [
@@ -277,7 +298,12 @@
             "XM4"
           ],
           "kind": "mirror",
-          "equal_size": true
+          "equal_size": true,
+          "ratio_Wm": [
+            1.0,
+            1.0
+          ],
+          "consistent": true
         },
         {
           "devices": [
@@ -285,9 +311,15 @@
             "XM2"
           ],
           "kind": "diff_pair",
-          "equal_size": true
+          "equal_size": true,
+          "ratio_Wm": [
+            1.0,
+            1.0
+          ],
+          "consistent": true
         }
-      ]
+      ],
+      "not_matching_blocks": []
     },
     "G1.5_symbolic_vs_spice (reported, not gated)": {
       "pass": null,
@@ -322,7 +354,7 @@
           "spec": "pm_deg",
           "status": "below_resolution",
           "spice_extrapolated_0": -3.474999999969696e-05,
-          "linear": -3.7135722917014394e-05
+          "linear": -3.7135724471681894e-05
         },
         {
           "case": "XM3+XM4.d",
@@ -357,10 +389,10 @@
           "spice_extrapolated_0": -0.00010499999999993292,
           "step_consistency": 0.0,
           "pred_err_at_100ohm_frac_of_margin": 0.0,
-          "linear": -0.00010596970153216034,
+          "linear": -0.00010596970405600814,
           "linear_agrees": true,
           "shifted_op_check": {
-            "linear_at_shifted_op_change": -0.010597066435110492,
+            "linear_at_shifted_op_change": -0.01059706668746685,
             "spice_change": -0.010499999999993292,
             "agree": true
           },
@@ -400,10 +432,10 @@
           "spice_extrapolated_0": 0.00015075000000042138,
           "step_consistency": 0.18781725888154596,
           "pred_err_at_100ohm_frac_of_margin": 0.00022092401169144848,
-          "linear": -0.0006358351449250677,
+          "linear": -0.0006358356209432258,
           "linear_agrees": false,
           "shifted_op_check": {
-            "linear_at_shifted_op_change": 0.018834961769982783,
+            "linear_at_shifted_op_change": 0.018835568960369642,
             "spice_change": 0.019700000000000273,
             "agree": true
           },
@@ -451,7 +483,7 @@
           "spec": "pm_deg",
           "status": "below_resolution",
           "spice_extrapolated_0": 4.475000000027763e-05,
-          "linear": -0.0005637820348823652
+          "linear": -0.000563782360340781
         },
         {
           "case": "XM1+XM2.d",
@@ -486,10 +518,10 @@
           "spice_extrapolated_0": -0.002986249999999515,
           "step_consistency": 0.0016750418759122225,
           "pred_err_at_100ohm_frac_of_margin": 2.985459617238606e-05,
-          "linear": -0.00300514330866406,
+          "linear": -0.0030051434363173256,
           "linear_agrees": true,
           "shifted_op_check": {
-            "linear_at_shifted_op_change": -0.29995046400038916,
+            "linear_at_shifted_op_change": -0.2999504767656873,
             "spice_change": -0.2980000000000018,
             "agree": true
           },
@@ -529,10 +561,10 @@
           "spice_extrapolated_0": 0.005268250000000023,
           "step_consistency": 0.01773117254527354,
           "pred_err_at_100ohm_frac_of_margin": 0.0005552954888508637,
-          "linear": 0.00524352240728092,
+          "linear": 0.00524350589469833,
           "linear_agrees": true,
           "shifted_op_check": {
-            "linear_at_shifted_op_change": 0.5152679415484585,
+            "linear_at_shifted_op_change": 0.5152661128187503,
             "spice_change": 0.5152000000000072,
             "agree": true
           },
@@ -580,7 +612,7 @@
           "spec": "pm_deg",
           "status": "below_resolution",
           "spice_extrapolated_0": -4.049999999988785e-05,
-          "linear": -2.008784949225628e-06
+          "linear": -2.008788131035999e-06
         },
         {
           "case": "XM5.d",
@@ -612,7 +644,7 @@
           "spec": "pm_deg",
           "status": "below_resolution",
           "spice_extrapolated_0": -5.000000000165983e-07,
-          "linear": 1.5876699180239484e-06
+          "linear": 1.5876697275984953e-06
         },
         {
           "case": "XM5.g",
@@ -647,10 +679,10 @@
           "spice_extrapolated_0": -0.0009517499999994073,
           "step_consistency": 0.6426829268291511,
           "pred_err_at_100ohm_frac_of_margin": 0.003146674436820444,
-          "linear": -2.2199428100577735e-05,
+          "linear": -2.2199471170836205e-05,
           "linear_agrees": false,
           "shifted_op_check": {
-            "linear_at_shifted_op_change": -0.028468016214958425,
+            "linear_at_shifted_op_change": -0.028472396560317748,
             "spice_change": -0.02929999999999211,
             "agree": true
           },
@@ -685,8 +717,8 @@
   },
   "all_pass": true,
   "provenance": {
-    "created": "2026-10-26T04:40:35+00:00",
-    "git_commit": "8439ab3689cf7c398d4234c137ee6bd805c8b4df",
+    "created": "2026-11-01T19:07:41+00:00",
+    "git_commit": "8e7162134945156ef9509e481f60351f5b9274fa",
     "inputs": [
       {
         "path": "outputs/S0/example_ota_5t/circuit_ir.json",
@@ -694,7 +726,7 @@
       },
       {
         "path": "inputs/example_ota_5t/package.yaml",
-        "sha256": "960f25eaa8d8327fdbd343597753cdccd481c090f52b8139a799fd7d2f111c5e"
+        "sha256": "a83a07c531161be1f5ad53cce56304639d982dd80091e8b09cbee3352c87011f"
       },
       {
         "path": "circuits/5t-ota/source/5t-ota_differential_equations.json",

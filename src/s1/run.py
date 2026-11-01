@@ -53,6 +53,26 @@ def spice_bode(s0: Path, work: Path) -> tuple:
     return d[:, 0], d[:, 1] + 1j * d[:, 2]
 
 
+def pm_reference_record(s0: Path, H: np.ndarray, pm_lin: float | None, pm_spice: float | None) -> dict:
+    """Step 7 (row 46): the 1 Hz phases behind both PMs. The frozen AC benches (S0, S2 and S3 run them) subtract
+    the 1 Hz phase itself, read here from the bench's own 'ph_dc' measurement in S0's log; the linear model
+    subtracts it rounded to the nearest multiple of 180 deg. They differ by the bench's distance_deg."""
+    lin = linear.phase_1hz(H)
+    lin["pm_deg_plan_v2_reference"] = None if pm_lin is None else pm_lin - lin["distance_deg"]
+    log = bench(s0 / "tb", "AC").with_suffix(".log")
+    m = re.search(r"^ph_dc\s*=\s*([-+0-9.eE]+)", log.read_text(errors="replace"), re.M) if log.exists() else None
+    sp = {"source": rel(log), "phase_1hz_deg": None}
+    if m:
+        p = float(m.group(1))
+        sp = {"source": rel(log), "phase_1hz_deg": p, "pm_reference_deg": linear.pm_reference(p),
+              "distance_deg": p - linear.pm_reference(p), "distance_below_0p05_deg": abs(p - linear.pm_reference(p)) < 0.05,
+              "pm_deg_bench": pm_spice,
+              "pm_deg_rounded_reference": None if pm_spice is None else pm_spice + p - linear.pm_reference(p)}
+    return {"rule": "PM = 180 + phase(UGB) - reference; reference = the 1 Hz phase rounded to the nearest multiple of "
+                    "180 deg (Plan v3 Phase A step 7). The frozen benches keep the unrounded 1 Hz phase.",
+            "linear_model": lin, "spice_bench": sp}
+
+
 def ac_drive(s0: Path, ir: dict, declared: dict | None = None) -> dict:
     """AC stimulus of each DUT input: from the package's 'ac_drive' (testbench port -> value) when it is
     declared (benches whose inputs are not driven by plain sources, e.g. a DC-feedback choke holds INN),
@@ -215,9 +235,11 @@ def main(argv=None) -> int:
     dl = {"gain_db": m_lin["gain_db"] - ach["gain_db"], "gbw_rel": m_lin["gbw_mhz"] / ach["gbw_mhz"] - 1,
           "pm_deg": m_lin["pm_deg"] - ach["pm_deg"]}
     lin_ok = abs(dl["gain_db"]) <= TOL["gain_db"] and abs(dl["gbw_rel"]) <= TOL["gbw_rel"] and abs(dl["pm_deg"]) <= TOL["pm_deg"]
+    pm_ref = pm_reference_record(s0, H, m_lin["pm_deg"], ach.get("pm_deg"))
     gates["G1.2_linear_model_vs_spice"] = {"pass": lin_ok, "linear": m_lin, "spice": {k: ach[k] for k in m_lin},
-                                           "delta": dl, "tolerance": TOL}
+                                           "delta": dl, "tolerance": TOL, "pm_reference": pm_ref}
     write_json(out / "linear_model.json", {"metrics": m_lin, "spice": {k: ach[k] for k in m_lin}, "delta": dl,
+                                           "pm_reference": pm_ref,
                                            "unknown_nodes": lm.unknown, "driven": lm.drive, "ac_ground": sorted(lm.ground)})
     try:
         fs, Hs = spice_bode(s0, work / "bode")

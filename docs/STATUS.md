@@ -2,8 +2,8 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-01 19:50 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–5
-done and committed; **step 6 done, waiting for Imasha's commit**. Nothing is running.
+**Last updated:** 2026-11-01 20:40 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–6
+done and committed; **step 7 done, waiting for Imasha's commit**. Nothing is running.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -32,6 +32,8 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- Phase A step 7's S1 re-run has ended, 20:07–20:08 (`runs/logs/phaseA_step7_S1.log`): `example_ota_5t` PASS;
+  `loadbench_miller` FAIL on G1.6 only, as in plan v2.
 - Phase A step 6's two 5T S2 runs have ended, both PASS with rc 0: the tolerance run, 18:54–18:59
   (`runs/logs/phaseA_step6_5t_S2.log`), and the final run with `lp_floor_k`, 19:33–19:38
   (`runs/logs/phaseA_step6_5t_S2_final.log`).
@@ -113,7 +115,65 @@ predictions to write into PREREG before the runs.
 | 3 nominal-only budgets | **done**, committed `47ee9df4` | `budget_corners: nominal` for the 5T and LOADBench; PVT use reported in G2.9. The 5T regression check against `after_nopvt` is exact. Details below |
 | 4 S3 saturation do-no-harm | **done**, committed `81b1bdb1` | `use_check()` in S3; `TOL_USE` = 0.02 in `src/common/tolerance.py`. No change on the 5T or LOADBench: every device is saturated. Details below |
 | 5 tagging and grouping | **done**, committed `651bf5d5` | dummy-aware tagger; mirror-bank rule; LOADBench designer groups. LOADBench's IR has one bank {P2, P8, P5}, consistent in G1.4; the designer file agrees fully. Details below |
-| 6 one tolerance, lp_floor_k | **done**, waiting for Imasha's commit | `TOL_USE` for every use check; `lp_floor_k` in G2.8 (Imasha's answer (a)). 5T S2 PASS; G2.8 outcome words unchanged; new reference budgets. Details below |
+| 6 one tolerance, lp_floor_k | **done**, committed `8e716213` | `TOL_USE` for every use check; `lp_floor_k` in G2.8 (Imasha's answer (a)). 5T S2 PASS; G2.8 outcome words unchanged; new reference budgets. Details below |
+| 7 PM reference phase | **done**, waiting for Imasha's commit | PM's reference is the 1 Hz phase rounded to the nearest multiple of 180°, in the linear model and the bench template. Both designs' G1.2 PM differences move by under 0.002°. Details below |
+
+Step 7 record (A6, row 46; pending task 1j):
+- **What changed.**
+  - `src/s1/linear.py`: `pm_reference()` rounds the 1 Hz phase to the nearest multiple of 180°, as
+    `floor(x / 180 + 0.5)`, like the bench. `metrics()` subtracts that reference instead of the 1 Hz phase.
+  - `FastModel.delta()` uses the same reference for the base and the changed model. The PM change is now the
+    change of the phase at the UGB; plan v2 also subtracted the change of the 1 Hz phase. The reference moves only
+    if a change carries the 1 Hz phase across a rounding boundary, and then exactly as in `metrics()`.
+  - `src/s1/run.py`: G1.2 and `linear_model.json` gain a `pm_reference` record:
+    - the linear model's 1 Hz phase, its reference, and its PM by plan v2's rule;
+    - the frozen AC bench's 1 Hz phase, read from that bench's own `ph_dc` measurement in S0's log, with its
+      distance from the reference and its PM by both rules.
+  - `scripts/benchlib.py`, AC template: `let ph_ref = 180 * floor(ph_dc / 180 + 0.5)`, and PM uses `ph_ref`.
+    ngspice-47 has no `round()` ("no function as round with that arity"), so it uses the plan's fallback.
+- **Checked in ngspice-47** (one pole at 25 Hz, DC gain ±10⁴): PM 90.006° for both signs (reference 0° and 180°).
+  The old formula gives 92.296°, 2.29° high.
+- **Frozen benches** (not edited): the 1 Hz phase is −0.0000205° for the 5T and −0.00160° for LOADBench (S0's AC
+  logs). Both are below the plan's 0.01°, far from its 0.05° stop.
+- **S1 re-run, done-when check** (G1.2 PM difference, linear − SPICE, against plan v2's 'after' snapshot):
+
+  | Design | Plan v2 | Now | Change |
+  |---|---|---|---|
+  | example_ota_5t | +0.010946° | +0.010926° | −0.00002° |
+  | loadbench_miller | −0.026880° | −0.028522° | −0.00164° |
+
+  - Both are within 0.01°. Gain and GBW differences are identical, and G1.2 passes for both.
+  - The PM recomputed by plan v2's rule from the record equals the committed linear PM exactly (80.945746°,
+    65.296420°).
+- **What else moved in S1:** only PM values. The PM rates per fF and per Ω moved by 10⁻⁷ to 3 × 10⁻⁴ (relative),
+  and so did the quantities built from them (`fF_to_consume_margin`, G1.3/G1.6 PM checks). Every non-PM number is
+  identical (checked file by file against `HEAD`, `runs/tmp/step7_diff.py`).
+- **The 5T's S1 had not been re-run since 2026-10-26.** Its new files also carry fields added by later commits:
+  - `not_saturated` and `dummies_excluded` in G1.1;
+  - `consistent`, `ratio_Wm` and `not_matching_blocks` in G1.4 and `intent.json`;
+  - `dummies_excluded_from_tags`;
+  - a new package hash, from step 3's `budget_corners`.
+
+  No value changed with them.
+- **S2 and S3 still use the S1 numbers from before step 7.** The differences are at most 3 × 10⁻⁴ relative on PM
+  rates. Step 12's re-run uses the new S1.
+- **Tests.**
+  - 4 new: the 25 Hz one-pole case through `metrics()`, `FastModel.delta()` against `metrics()` at a 25 Hz pole,
+    the bench template run in ngspice, and the frozen benches' 1 Hz phase for the two designs.
+  - `tests/test_phaseA.py` has 28, all passing.
+  - Full suite (tools on `PATH`): 114 passed, plus the expected 5T S2 golden failure. The S1 goldens of both
+    designs still match after the re-run.
+- **Notes.**
+  1. **Package scripts left unchanged.** `scripts/make_loadbench_package.py` and `scripts/make_ttsky25a_package.py`
+     carry their own AC control blocks with the old formula. They wrote the hash-frozen benches, so changing them
+     would make their output differ from the frozen files.
+  2. **Hand models unchanged.** `src/s1/symbolic_patch.py` (the hand models) measures PM from the phase at
+     1 rad/s, unrounded. It is not in step 7's list. On these designs the effect is negligible (dominant poles near
+     2 MHz and 28 kHz). Step 10 edits that file and can use the same reference.
+  3. **A test-environment quirk, not caused by step 7.** In a login shell (`bash -lc`), the image sets `USER` to
+     "1000\ndesigner". pytest puts that into its temp folder name, and netgen then fails
+     `test_s0_integration.py::test_round_trip_matches`. It passes with `bash -c` + `source scripts/env.sh`, or with
+     `--basetemp`. README says so.
 
 Step 6 record (A4; review C items 3, 5 and 11; pending tasks 1e and 1i):
 - **One tolerance.** `TOL_USE` = 0.02 of the allowed use (eta × margin) is now used by:
@@ -618,8 +678,8 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
-- 2026-11-01 (Claude Code): **Plan v3 Phase A, steps 0–6** (branch `plan-v3-phaseA`). Each step's change and
-  result is in the progress table under *Plan v3 Phase A*. Steps 0–5 are committed; step 6 waits for Imasha's
+- 2026-11-01 (Claude Code): **Plan v3 Phase A, steps 0–7** (branch `plan-v3-phaseA`). Each step's change and
+  result is in the progress table under *Plan v3 Phase A*. Steps 0–6 are committed; step 7 waits for Imasha's
   commit.
 - 2026-11-01 (Cowork): **Plan v3 Phase A planned** (no code, runs or outputs changed).
   - `docs/plan_v3_phaseA.md`: the decisions, Q1–Q4, steps 0–13, the predictions, the open issues per stage (for
