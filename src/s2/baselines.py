@@ -15,6 +15,9 @@ allowed use b_i = eta * m_i of every check i. They differ only in how b_i is sha
   lp_floor  the same LP made fair to the library: maximise sum_k min(x_k / w_k, 1) (a budget above its need
             earns nothing) with x_k >= f_k, the library floor ours also gets (bounds [f_k, w_k]; [0, w_k] when
             the floors alone are infeasible). It differs from ours only in max-sum vs max-min sharing.
+  lp_floor_k  lp_floor with ours' upper bound, kappa x need (Plan v3 Phase A; PREREG 2026-11-01, item 5): bounds
+            [f_k, kappa w_k]. With more room the max-sum optimum may move to a vertex that gives some elements
+            less than lp_floor does (on LOADBench 13 of 40, down to 0): that starving is a result, not an error.
   ours      max-min fair progressive filling in units of expected need, phase-2 proportional fairness,
             R19 floor and library floors (budgets.allocate/refine), i.e. what S2 outputs.
 
@@ -32,6 +35,7 @@ import math
 import numpy as np
 from scipy.optimize import linprog
 
+from src.common.tolerance import TOL_USE
 from src.s2 import budgets as B
 
 
@@ -70,7 +74,8 @@ def lp_sum(elements, constraints, kappa=B.KAPPA):
     return {k: float(v) for k, v in zip(ids, r.x)}
 
 
-def lp_floor(elements, constraints, floors: dict | None = None):
+def lp_floor(elements, constraints, floors: dict | None = None, upper: float = 1.0):
+    """upper: the budget cap in units of need; 1 is lp_floor (plan v2), B.KAPPA is lp_floor_k (ours' cap)."""
     ids = [e["id"] for e in elements if any(c["a"].get(e["id"], 0) > 0 for c in constraints)]
     if not ids:
         return {}, None
@@ -81,8 +86,8 @@ def lp_floor(elements, constraints, floors: dict | None = None):
     cobj = -np.array([1.0 / w[k] for k in ids])
 
     def solve(lo):
-        return linprog(cobj, A_ub=A, b_ub=b, bounds=[(lo(k), w[k]) for k in ids], method="highs")
-    r = solve(lambda k: min(fl.get(k, 0.0), w[k]))
+        return linprog(cobj, A_ub=A, b_ub=b, bounds=[(lo(k), upper * w[k]) for k in ids], method="highs")
+    r = solve(lambda k: min(fl.get(k, 0.0), upper * w[k]))
     floored = True
     if not r.success:
         r, floored = solve(lambda k: 0.0), False
@@ -111,14 +116,16 @@ def score(x: dict, elements: list, constraints: list, floors: dict | None = None
 
 def run_all(elements: list, constraints: list, ours: dict, floors: dict | None = None) -> dict:
     xf, floored = lp_floor(elements, constraints, floors)
+    xk, floored_k = lp_floor(elements, constraints, floors, upper=B.KAPPA)
     sets = {"per_net": per_net(elements, constraints), "equal": equal(elements, constraints),
-            "lp_sum": lp_sum(elements, constraints), "lp_floor": xf, "ours": dict(ours)}
+            "lp_sum": lp_sum(elements, constraints), "lp_floor": xf, "lp_floor_k": xk, "ours": dict(ours)}
     res = {m: {"budgets": x, "score": score(x, elements, constraints, floors)} for m, x in sets.items()}
     res["lp_floor"]["score"]["floors_applied"] = floored
+    res["lp_floor_k"]["score"]["floors_applied"] = floored_k
     return res
 
 
-def outcome(sc: dict, tol: float = 0.02) -> str:
+def outcome(sc: dict, tol: float = TOL_USE) -> str:
     """One word per method, from its scores (SPICE where available, else first order):
     'unsafe'      a spec is violated in SPICE, or the layout would use more than eta x margin (use/allowed > 1);
     'infeasible'  some budget is below what the cheapest library cell already adds (no layout can meet it);

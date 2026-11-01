@@ -28,6 +28,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from src.common.hygiene import fresh_output_dir, gate_exit, new_run_id
+from src.common.tolerance import TOL_USE
 from src.common.tools import REPO, bench, provenance, rel, run_ngspice_text, write_json
 from src.s0.ingest import load_package
 from src.s1 import linear, op as opmod, resistance
@@ -38,7 +39,7 @@ from src.s0.pvt import with_conditions
 ETA_DEFAULT = 0.5          # ASSUMPTION (accepted): half of every margin is reserved for layout
 COUPLE_FRACTION = 0.25     # ASSUMPTION: expected parallel run = 1/4 of the shorter of the two routes
 SPECS = ("gain_db", "gbw_mhz", "pm_deg", "vnoise_nv_rthz")
-TOL_VERIFY = 0.10          # ASSUMPTION: 10 % of the allowed use for first-order model error
+FIRST_ORDER_ERROR_REPORTED = 0.10   # G2.5's plan-v2 tolerance (first-order model error): a reported column only
 CLOSURE_ITERS = 2
 SCENARIO_TIMEOUT_S = 180   # a budget scenario that has not converged by then is a failed run (e.g. a baseline's
                            # huge series resistor leaves no DC solution); it is recorded, never a crash
@@ -597,7 +598,7 @@ def main(argv=None) -> int:
 
     # verification (H1): for every check, insert at their full budget all the parasitics that are
     # harmful for it (those that help it are left out: a layout may not realise them), simulate, and
-    # require the margin used to stay within eta*margin (+TOL_VERIFY for first-order model error) and
+    # require the margin used to stay within eta*margin (+ TOL_USE, the one tolerance: PREREG 2026-11-01) and
     # the spec to stay met. If a check exceeds it, the budgets of its elements are scaled down by the
     # measured ratio and the check is repeated (closure iteration, at most CLOSURE_ITERS).
     base_lin = linear.evaluate(ir, op, drive=drive)
@@ -647,7 +648,7 @@ def main(argv=None) -> int:
     ach = ir["achieved"]
     lim = {k: v["limit"] for k, v in ir["margins"].items()}
     ver = {"method": "per check: harmful elements only, at full budget; closure iteration if over eta*margin",
-           "tolerance": TOL_VERIFY, "iterations": []}
+           "tolerance": TOL_USE, "iterations": []}
     xv = dict(x)
     def measure(c, m, base):
         """(use, meets, value now) of one check from one scenario's measurements"""
@@ -683,7 +684,8 @@ def main(argv=None) -> int:
             rows.append({"check": c["id"], "margin": c["margin"], "allowed_eta_margin": c["b"],
                          "first_order_predicted_use": pred, "spice_use": use, "value_now": now,
                          "spice_use_frac_of_margin": None if use is None else use / c["margin"],
-                         "meets_spec": meets, "ok": use is not None and meets and use <= c["b"] * (1 + TOL_VERIFY),
+                         "meets_spec": meets, "ok": use is not None and meets and use <= c["b"] * (1 + TOL_USE),
+                         "within_first_order_error_10pct": use is not None and use <= c["b"] * (1 + FIRST_ORDER_ERROR_REPORTED),
                          "n_elements": len(scen[c["id"]][1]) + len(scen[c["id"]][2])})
         return rows
 
@@ -694,7 +696,7 @@ def main(argv=None) -> int:
             checks = nom_cons + top_corner_checks([xv])
             rows = spice_checks(checks, xv, f"verify/iter{it}")
             over = {r_["check"]: r_["allowed_eta_margin"] / r_["spice_use"] for r_ in rows
-                    if r_["spice_use"] is not None and r_["spice_use"] > r_["allowed_eta_margin"] * (1 + TOL_VERIFY)
+                    if r_["spice_use"] is not None and r_["spice_use"] > r_["allowed_eta_margin"] * (1 + TOL_USE)
                     and r_["spice_use"] > 0}
             ver["iterations"].append({"iteration": it, "rows": rows, "scaled": dict(over)})
             if not over:
@@ -869,7 +871,7 @@ def main(argv=None) -> int:
             axs[1].set_title("starved: budget < expected need")
             sw = json.loads((out / "eta_sweep.json").read_text())["sweep"]
             ets = sorted(sw, key=float)
-            for m_, col in zip(ms, ("#E45756", "#72B7B2", "#B279A2", "#EECA3B", "#4C78A8")):
+            for m_, col in zip(ms, ("#E45756", "#72B7B2", "#B279A2", "#EECA3B", "#9D755D", "#4C78A8")):
                 axs[2].plot([float(e_) for e_ in ets], [len(sw[e_]["methods"][m_]["starved"]) / max(1, sw[e_]["methods"][m_]["n_elements"])
                                                         for e_ in ets], "o-", color=col, label=m_)
             axs[2].set_xlabel("eta"); axs[2].set_ylabel("fraction starved"); axs[2].set_title("eta sweep (first order)")

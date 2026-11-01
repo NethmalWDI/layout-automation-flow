@@ -2,8 +2,8 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-01 18:00 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–5
-done (0–4 committed); step 5 is waiting for Imasha's commit. Nothing is running.
+**Last updated:** 2026-11-01 19:50 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–5
+done and committed; **step 6 done, waiting for Imasha's commit**. Nothing is running.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -32,6 +32,9 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- Phase A step 6's two 5T S2 runs have ended, both PASS with rc 0: the tolerance run, 18:54–18:59
+  (`runs/logs/phaseA_step6_5t_S2.log`), and the final run with `lp_floor_k`, 19:33–19:38
+  (`runs/logs/phaseA_step6_5t_S2_final.log`).
 - Phase A step 5's LOADBench S0 + S1 re-run ended at 17:54 (`runs/logs/phaseA_step5_loadbench_S0S1.log`), with
   the expected statuses: S0 FAIL on G0.7 (the known PDK finding) and S1 FAIL on G1.6, as in plan v2.
 - Phase A step 3's two 5T S2 runs have ended, both PASS with rc 0: 17:16–17:21 (`runs/logs/phaseA_step3_5t_S2.log`),
@@ -109,8 +112,61 @@ predictions to write into PREREG before the runs.
 | 2 run hygiene | **done**, committed `1e53a965` | exit code 3 for a gate FAIL; S2/S3 clean output folders with `run_id`; the snapshot identity check. Tests: 99 passed, golden 20/20 OK. 5T S2 budgets identical. Details below |
 | 3 nominal-only budgets | **done**, committed `47ee9df4` | `budget_corners: nominal` for the 5T and LOADBench; PVT use reported in G2.9. The 5T regression check against `after_nopvt` is exact. Details below |
 | 4 S3 saturation do-no-harm | **done**, committed `81b1bdb1` | `use_check()` in S3; `TOL_USE` = 0.02 in `src/common/tolerance.py`. No change on the 5T or LOADBench: every device is saturated. Details below |
-| 5 tagging and grouping | **done** 2026-11-01 18:00 CET; waiting for Imasha's commit | dummy-aware tagger; mirror-bank rule; LOADBench designer groups. LOADBench's IR has one bank {P2, P8, P5}, consistent in G1.4; the designer file agrees fully. Details below |
-| 6 one tolerance, lp_floor_k | next, after the commit | |
+| 5 tagging and grouping | **done**, committed `651bf5d5` | dummy-aware tagger; mirror-bank rule; LOADBench designer groups. LOADBench's IR has one bank {P2, P8, P5}, consistent in G1.4; the designer file agrees fully. Details below |
+| 6 one tolerance, lp_floor_k | **done**, waiting for Imasha's commit | `TOL_USE` for every use check; `lp_floor_k` in G2.8 (Imasha's answer (a)). 5T S2 PASS; G2.8 outcome words unchanged; new reference budgets. Details below |
+
+Step 6 record (A4; review C items 3, 5 and 11; pending tasks 1e and 1i):
+- **One tolerance.** `TOL_USE` = 0.02 of the allowed use (eta × margin) is now used by:
+  - G2.5's gate and its closure step, which shrinks budgets when SPICE use exceeds allowed × (1 + tol);
+  - `outcome()`'s "unsafe" line;
+  - S3, as `TOL_USE` × eta of the margin, which equals the old 1 % at eta 0.5.
+
+  `TOL_VERIFY` and S3's `TOL` are gone. The 10 % is kept only as a reported column,
+  `within_first_order_error_10pct`.
+- **Effect on the 5T** (both runs give the same budgets and G2.5):
+  - G2.5's first round found gain at 1.086 × its allowed use: first order says 1.000, SPICE says 8.6 % more.
+    With the old 10 % this would have passed without a closure.
+  - The closure shrank the 3 gain-harmful budgets (`XM1+XM2.d`, `XM3+XM4.d`, `XM3+XM4.s`) by 9.76 %. The
+    second round has gain at 0.972 (SPICE 0.8245 against 0.8485 allowed), and G2.5 passes. The other 18 budgets
+    are unchanged.
+  - New reference budgets for steps 7–10: `outputs/phaseA/example_ota_5t/budgets_step6.json` (run_id
+    `2026-11-01T19:33:06-7dfda46c`). It differs from `budgets_step3.json` only in those 3 elements.
+- **`lp_floor_k`** (Imasha's answer (a), 2026-11-01 19:18 CET). `lp_floor()` takes an `upper` cap in units of
+  need. `lp_floor_k` is the same LP with ours' bounds, [floor, 10 × need]. G2.8 now scores six rules; the plots,
+  the snapshots and `docs/before_after.md` list whatever G2.8 lists, so they need no change.
+- **G2.8 on the 5T** (final run; first order and SPICE at eta 0.5; every rule scored before the closure):
+
+  | Rule | Outcome | Worst use / allowed, first order | SPICE | Starved | Budget / need, min / geomean |
+  |---|---|---|---|---|---|
+  | per_net | unsafe | 1.894 | 1.836 | 0 of 21 | 4.896 / 9.612 |
+  | equal | ok | 0.677 | 0.714 | 1 of 21 | 0.942 / 5.632 |
+  | lp_sum | unsafe | 1.000 | 1.085 | 0 of 21 | 1.453 / 8.225 |
+  | lp_floor | ok | 0.294 | 0.293 | 0 of 21 | 1.0 / 1.0 |
+  | **lp_floor_k** | **unsafe** | 1.000 | 1.085 | 0 of 21 | 1.453 / 8.225 |
+  | ours | unsafe | 1.000 | 1.086 | 0 of 21 | 3.231 / 8.005 |
+
+  - On the 5T, `lp_floor_k` equals `lp_sum`: the plain LP's optimum already meets every floor. It is below
+    `lp_floor` for 0 of 21 elements.
+  - Like ours and `lp_sum`, it fills the gain check to first order 1.000, and SPICE finds 8.5 % more, so it is
+    "unsafe".
+  - No SPICE run failed, and no budget is below its floor.
+- **Tests.** The plan's test "`lp_floor_k` ≥ `lp_floor` element by element" was replaced, as answer (a) says, by:
+  - same bounds as ours;
+  - objective ≥ `lp_floor`'s, which holds whenever every floor is at most its need;
+  - an example where `lp_floor_k` starves an element.
+
+  `tests/test_phaseA.py` has 24 tests, all passing; the full suite is 110 passed plus the expected 5T S2 golden
+  failure (step 3).
+- **Optional phase-2 iteration cap: not done.** It matters only above 200 elements (the 5T has 21, LOADBench about
+  40), so it has no effect on Phase A's designs. It would only change the frozen iadc (750) and TTSKY (2678) runs.
+- **Predictions (section 4), step 6, on the 5T:** all hold.
+  - G2.5 had one more check over 1.02 (gain), which the closure fixed.
+  - Ours' outcome word is unchanged ("unsafe").
+  - `lp_floor_k` gets more room than `lp_floor` (budget / need geomean 8.225 against 1.0).
+  - LOADBench is checked in step 12. The probe on its plan-v2 numbers already shows 13 of 40 elements below
+    `lp_floor`, so "more room" there has to be read as the total, not element by element.
+- **Not in the plan's list:** `scripts/make_v2_figures.py` names the plan-v2 rules only. It draws plan v2's
+  snapshots, which have no `lp_floor_k`, so it is unchanged. Step 13 can extend it if v3 figures need the new rule.
 
 Step 5 record (A3, rows 47–48; D-e):
 - **(a) Dummy-aware tagger** (`src/s1/run.py`).
@@ -356,6 +412,29 @@ Step 0 record:
 
 ## Open questions for Imasha
 
+**Resolved 2026-11-01 19:18 CET (Imasha): `lp_floor_k` is (a), the literal definition**, done in step 6. There
+was no separate answer on the closure, so it uses the 2 %, as the plan says. If it should stay at 10 %, say so: the
+5T's G2.5 would then fail on gain (1.086 > 1.02). The question as it was asked:
+
+**Was FEEDBACK NEEDED (Claude Code, 2026-11-01 19:05, Phase A step 6): how to define `lp_floor_k`.**
+- PREREG item 5 says: "the `lp_floor` baseline also scored with the upper bound ours uses, KAPPA × need". Taken
+  literally, that is the same LP (maximise the sum of budget/need, each budget at least its floor), capped at
+  10 × need instead of at need.
+- The plan's test expects `lp_floor_k` ≥ `lp_floor` element by element. An LP does not guarantee that: with more
+  room it can move to a vertex that starves some elements to give others up to 10 × need.
+  - 5T: it holds (21 of 21 elements; budget/need goes from 1.0 to 1.45–10).
+  - **LOADBench: it fails.** 13 of 40 elements get less than under `lp_floor`, some down to 0 × need (e.g.
+    `FirstStageYout1~out` 1.0 → 0.0). Measured on LOADBench's nominal problem rebuilt from its plan-v2 budgets
+    file (`runs/tmp/lp_floor_k_probe.py`).
+- **(a) Literal (recommended).** The same LP with ours' bounds, as PREREG item 5 is written. It is the clean
+  max-sum counterpart to ours' max-min with identical bounds. The element-by-element test is replaced by "same
+  bounds as ours; objective ≥ `lp_floor`'s". Its starving is then a result to report.
+- **(b) Two phases.** `lp_floor` first, capped at need; then extra room up to 10 × need without lowering any
+  element. It is never below `lp_floor` by construction, but it is a different method from the one PREREG item 5
+  names, and would need a note there.
+- Also, to confirm: the closure now uses the 2 % too (literal plan; effect on the 5T in *Step 6 so far*). The
+  alternative keeps the closure at 10 %: budgets unchanged, but G2.5 then fails on the 5T's gain (1.086 > 1.02).
+
 **Answered 2026-11-01 (Imasha, in Cowork):**
 
 - D1: nominal only for now, not the middle 9.
@@ -539,6 +618,9 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-01 (Claude Code): **Plan v3 Phase A, steps 0–6** (branch `plan-v3-phaseA`). Each step's change and
+  result is in the progress table under *Plan v3 Phase A*. Steps 0–5 are committed; step 6 waits for Imasha's
+  commit.
 - 2026-11-01 (Cowork): **Plan v3 Phase A planned** (no code, runs or outputs changed).
   - `docs/plan_v3_phaseA.md`: the decisions, Q1–Q4, steps 0–13, the predictions, the open issues per stage (for
     this version and for a new SPICE file), and how LLMs are used in each stage.

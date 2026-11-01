@@ -179,7 +179,7 @@ def test_do_no_harm_below_vdsat():
     from src.common.tolerance import TOL_USE
     from src.s3.run import DO_NO_HARM, use_check
     scale = abs(-0.05)
-    none_, small, at_lim, big = (use_check(u, 0.0, scale, below_vdsat=True) for u in (0.0, 0.0005, TOL_USE * scale, 0.002))
+    none_, small, at_lim, big = (use_check(u, 0.0, scale, 0.5, below_vdsat=True) for u in (0.0, 0.0005, TOL_USE * scale, 0.002))
     assert none_["ok"] and small["ok"] and at_lim["ok"] and not big["ok"]       # 2 mV of further harm fails
     assert none_["rule"] == DO_NO_HARM
     assert none_["slack_frac_of_margin"] > small["slack_frac_of_margin"] > 0 > big["slack_frac_of_margin"]
@@ -291,8 +291,48 @@ def test_dummies_tag_no_node():
 
 
 def test_saturated_devices_and_specs_keep_the_plan_v2_rule():
-    from src.s3.run import TOL, use_check
-    c = use_check(0.004, allowed=0.003, scale=0.2)                # sat margin 0.2 V, allowance 3 mV
-    assert c["ok"] == (0.004 <= 0.003 + TOL * 0.2) and "rule" not in c
-    assert c["slack_frac_of_margin"] == pytest.approx((0.003 + TOL * 0.2 - 0.004) / 0.2)
-    assert use_check(0.0, allowed=0.0, scale=None) == {"ok": True, "slack_frac_of_margin": None}
+    """Saturated devices and specs: u <= allowed + TOL_USE x eta x margin, i.e. plan v2's 1 % of the margin at eta 0.5."""
+    from src.s3.run import use_check
+    c = use_check(0.004, allowed=0.003, scale=0.2, eta=0.5)       # sat margin 0.2 V, allowance 3 mV
+    assert c["ok"] == (0.004 <= 0.003 + 0.01 * 0.2) and "rule" not in c
+    assert c["slack_frac_of_margin"] == pytest.approx((0.003 + 0.01 * 0.2 - 0.004) / 0.2)
+    assert use_check(0.0, allowed=0.0, scale=None, eta=0.5) == {"ok": True, "slack_frac_of_margin": None}
+
+
+# ------------------------------------------------------------------ step 6: one tolerance (Q3), fair scoring
+def test_one_tolerance_for_every_use_check():
+    import inspect
+    import re as re_
+    from src.common.tolerance import TOL_USE
+    from src.s2 import baselines as BL
+    from src.s3 import run as S3
+    src = {p.relative_to(REPO).as_posix(): p.read_text() for p in (REPO / "src").rglob("*.py")}
+    assert not [f for f, t in src.items() if "TOL_VERIFY" in t] and not hasattr(S3, "TOL")
+    assert inspect.signature(BL.outcome).parameters["tol"].default == TOL_USE
+    s2 = src["src/s2/run.py"]
+    used = re_.findall(r"\(1 \+ (\w+)\)", s2)          # every '(1 + X)' tolerance in S2's use checks
+    assert sorted(set(used)) == ["FIRST_ORDER_ERROR_REPORTED", "TOL_USE"] and used.count("TOL_USE") == 2
+    assert [ln for ln in s2.splitlines() if "(1 + FIRST_ORDER_ERROR_REPORTED)" in ln][0].strip().startswith(
+        '"within_first_order_error_10pct"')            # the 10 % survives as a reported column only
+    assert BL.outcome({"spice_worst_use_of_allowed": 1.0 + TOL_USE * 0.9}) == "ok"
+    assert BL.outcome({"spice_worst_use_of_allowed": 1.0 + TOL_USE * 1.1}) == "unsafe"
+
+
+def test_lp_floor_k_has_ours_bounds_and_at_least_lp_floors_objective():
+    """Imasha's choice (a), 2026-11-01: lp_floor_k is lp_floor with ours' cap, KAPPA x need. It is not >= lp_floor
+    element by element: with more room the max-sum LP may starve an element (LOADBench: 13 of 40). Its objective
+    is >= lp_floor's when every floor is at most its need, because lp_floor's bounds then lie inside lp_floor_k's."""
+    from src.s2 import baselines as BL, budgets as B
+    EL = [{"id": "e1", "w": 1.0}, {"id": "e2", "w": 1.0}]
+    CO = [{"id": "gbw", "b": 3.0, "a": {"e1": 1.0, "e2": 2.0}}]   # one check; e2 costs twice as much margin
+    obj = lambda x: sum(x.values())                               # noqa: E731  sum of budget / need (w = 1)
+    xf, _ = BL.lp_floor(EL, CO)
+    xk, _ = BL.lp_floor(EL, CO, upper=B.KAPPA)
+    assert xf == pytest.approx({"e1": 1.0, "e2": 1.0})             # capped at need: both get their need
+    assert xk == pytest.approx({"e1": 3.0, "e2": 0.0})             # ours' cap: e2 is starved, e1 gets 3 x need
+    assert obj(xk) >= obj(xf) and all(-1e-9 <= v <= B.KAPPA + 1e-9 for v in xk.values())
+    xk2, floored = BL.lp_floor(EL, CO, {"e2": 0.5}, upper=B.KAPPA)   # floors stay lower bounds, as for ours
+    assert floored and xk2["e2"] == pytest.approx(0.5) and xk2["e1"] == pytest.approx(2.0)
+    res = BL.run_all(EL, CO, {"e1": 1.0, "e2": 1.0})
+    assert list(res) == ["per_net", "equal", "lp_sum", "lp_floor", "lp_floor_k", "ours"]
+    assert res["lp_floor_k"]["score"]["floors_applied"] is True

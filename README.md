@@ -93,6 +93,20 @@ only. S2 still computes the PVT points' constraints and reports, in G2.9, what t
 45 points as a fraction of eta × that point's margin. That is reported, not gated. Without the key, S2 budgets at
 every PVT point, as in plan v2.
 
+- **One tolerance** (`src/common/tolerance.py`, `TOL_USE` = 0.02 of the allowed use, eta × margin). It is used by:
+  - G2.5's gate and its closure step;
+  - `baselines.outcome()` (the "unsafe" line);
+  - S3, as `TOL_USE` × eta of the margin.
+
+  G2.5's old 10 % stays only as a reported column, `within_first_order_error_10pct`.
+- **`lp_floor_k`.** G2.8 also scores `lp_floor_k`: `lp_floor` with ours' upper bound, 10 × need, so six rules are
+  compared in all. With that room the max-sum LP may starve some elements to give others more; that is a result,
+  not an error.
+- **Saturation do-no-harm.** For a device already below vdsat in the schematic, S3 allows a further drop of at
+  most `TOL_USE` × |vds − vdsat|.
+- **Mirror banks and designer groups.** S0 merges mirror blocks that share their gate and source nets into one
+  bank. It reads the designer's groups from `designer_groups:` (see `docs/INPUTS.md`).
+
 **Repository rules:** third-party material and licences are listed in `THIRD_PARTY.md`; hypotheses and
 thresholds for the experiments are fixed in `PREREG.md` before baselines run.
 
@@ -245,7 +259,7 @@ python3 -m src.s2.run inputs/<design>/package.yaml --eta 0.7   # override for on
 | G2.2 | Units and provenance on every rule |
 | G2.3 | Allocation: max-min plus refinement; LP cross-check; reproducible |
 | G2.4 | Linear model at the budget point (info) |
-| G2.5 | SPICE verification: per check, its harmful budgets inserted at once; use <= eta x margin (+10 %); spec met |
+| G2.5 | SPICE verification: per check, its harmful budgets inserted at once; use <= eta x margin (+2 %, `TOL_USE`; +10 % before Phase A); spec met |
 | G2.6 | Hierarchy shares sum to the budgets |
 
 **Outputs:**

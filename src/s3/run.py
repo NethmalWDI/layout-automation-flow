@@ -33,7 +33,6 @@ from src.s0.ingest import load_package
 from src.s3 import evaluate as E, options as O, wbins
 
 F_DEVICE = 0.5   # ASSUMPTION: half of each terminal-R budget (S2) is for the PCell, half for routing (S5)
-TOL = 0.01       # consumption tolerance: 1 % of the margin (simulation resolution)
 AREA_TIE = 0.02  # options within 2 % of the smallest feasible area are compared on slack
 
 
@@ -51,14 +50,15 @@ def consumption(base: dict, now: dict, margins: dict) -> dict:
 DO_NO_HARM = "do-no-harm (below vdsat in the schematic)"
 
 
-def use_check(u: float, allowed: float, scale: float | None, below_vdsat: bool = False) -> dict:
+def use_check(u: float, allowed: float, scale: float | None, eta: float, below_vdsat: bool = False) -> dict:
     """Is a harmful use u (>= 0) of one check within what may be used? Returns ok and the slack as a fraction of
-    `scale`.
-    - A spec, or a device saturated in the schematic (scale = its margin): u <= allowed + TOL x scale (plan v2).
+    `scale`. The tolerance is TOL_USE, the one tolerance of the PREREG amendment of 2026-11-01:
+    - A spec, or a device saturated in the schematic (scale = its margin): u <= allowed + TOL_USE x eta x scale,
+      i.e. 2 % of the allowed use. At eta = 0.5 this is plan v2's 1 % of the margin.
     - A device below vdsat in the schematic (scale = |schematic vds - vdsat|; Plan v3 Phase A, A1, row 41): do no
       harm, u <= TOL_USE x scale. Plan v2 used the negative value here, so every option failed and more harm
       gave more slack."""
-    lim = TOL_USE * (scale or 0.0) if below_vdsat else allowed + TOL * (scale or 0.0)
+    lim = TOL_USE * (scale or 0.0) if below_vdsat else allowed + TOL_USE * eta * (scale or 0.0)
     out = {"ok": u <= lim, "slack_frac_of_margin": (lim - u) / scale if scale else None}
     if below_vdsat:
         out["rule"] = DO_NO_HARM
@@ -160,6 +160,7 @@ def main(argv=None) -> int:
     (out / "plots").mkdir(parents=True, exist_ok=True)
     budgets = json.loads((s2 / "budgets.json").read_text())
     ident = {"run_id": new_run_id(), "s2_run_id": budgets.get("run_id"), "eta": budgets.get("eta")}
+    eta = budgets["eta"]    # S2's eta: the tolerance of a use check is TOL_USE x eta of the margin
 
     # 2. allowances, in S2's own terms: S2's expected need of every element is split into the default device
     #    cells' part (measured) and the wiring part; the cells get the same fraction of each budget.
@@ -246,7 +247,7 @@ def main(argv=None) -> int:
         harm = {k: max(0.0, v) for k, v in signed.items()}
         al = allow_c[r["type"]]
         cc = {k: {"used_harmful": u, "signed": signed[k], "allowed": al.get(k, 0.0),
-                  **use_check(u, al.get(k, 0.0), mg_of(k), below_vdsat(k))}
+                  **use_check(u, al.get(k, 0.0), mg_of(k), eta, below_vdsat(k))}
               for k, u in harm.items()}
         rc_ = {}
         for term, rbv in r_budget[r["type"]].items():
@@ -351,7 +352,7 @@ def main(argv=None) -> int:
         for al in d_.values():
             for k, v in al.items():
                 tot_allow[k] = tot_allow.get(k, 0.0) + v
-    within = {k: use_check(max(0.0, u), tot_allow.get(k, 0.0), mg_of(k), below_vdsat(k))["ok"] for k, u in fin_use.items()}
+    within = {k: use_check(max(0.0, u), tot_allow.get(k, 0.0), mg_of(k), eta, below_vdsat(k))["ok"] for k, u in fin_use.items()}
     sat_ok = ok_runs and all(v > 0 for v in final["sat_V"].values())
     gates["G3.3_all_chosen_devices_in_circuit"] = {
         "pass": bool(ok_runs and all(spec_ok.values()) and sat_ok and all(within.values())),
@@ -385,7 +386,7 @@ def main(argv=None) -> int:
         slim.append({k: r.get(k) for k in ("type", "cell", "option", "ok", "gds", "png", "drc", "lvs", "geometry",
                                            "access_resistance_ohm", "pex", "in_circuit_cell_only", "margin_use_cell_only",
                                            "budget_check", "feasible", "min_slack", "magic_extresist", "strap", "error")})
-    write_json(out / "option_table.json", {**ident, "design": design, "f_device": F_DEVICE, "tolerance": TOL,
+    write_json(out / "option_table.json", {**ident, "design": design, "f_device": F_DEVICE, "tolerance": {"TOL_USE": TOL_USE, "of_margin": TOL_USE * eta},
                                            "baseline_S0": base, "allowance": allow, "options": slim})
     write_json(out / "device_decisions.json", {**ident, "design": design, "mode": a.mode, "rules": a.rules,
                                                "relax_fallback": a.relax_fallback,

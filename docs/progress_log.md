@@ -700,7 +700,7 @@ the work manageable.
 
 **No code, runs or outputs changed.**
 
-## 2026-11-01: Plan v3 Phase A, steps 0–2 (Claude Code)
+## 2026-11-01: Plan v3 Phase A, steps 0–6 (Claude Code)
 
 - **Step 0 (setup), committed `03390202`.**
   - Container up and idle. Branch `plan-v3-phaseA`; tag `prereg-v1` on `a8c6f7d3`.
@@ -778,3 +778,25 @@ the work manageable.
     - S1 G1.4 passes, with the bank as one consistent mirror and the CS stage not matched;
     - S0 and S1 fail only their plan-v2 gates (G0.7, G1.6).
   - All step 5 predictions hold. Tests: 108 passed plus the expected 5T S2 golden failure (step 3).
+- **Step 6 (one tolerance, `lp_floor_k`; A4, review C items 3, 5 and 11).**
+  - **One tolerance.** `TOL_USE` = 0.02 of the allowed use now sets G2.5's gate and its closure step,
+    `outcome()`'s "unsafe" line, and S3's allowance (`TOL_USE` × eta of the margin, the same 1 % at eta 0.5).
+    `TOL_VERIFY` and S3's `TOL` are gone. G2.5's 10 % survives only as the reported column
+    `within_first_order_error_10pct`.
+  - **Effect on the 5T** (S2, 18:54–18:59 and 19:33–19:38 CET, both PASS):
+    - G2.5's first round found gain at 1.086 × its allowed use, against 1.000 to first order. The old 10 % would
+      have let that pass.
+    - The closure shrank the 3 gain-harmful budgets by 9.76 %, and the second round passes, with gain at 0.972.
+    - The other 18 budgets are unchanged. New reference: `outputs/phaseA/example_ota_5t/budgets_step6.json`.
+  - **`lp_floor_k`.** Imasha chose (a), the literal PREREG item 5: the same LP as `lp_floor`, with ours' bounds,
+    [floor, 10 × need]. It is not ≥ `lp_floor` element by element: on LOADBench's plan-v2 numbers 13 of 40
+    elements get less. The test checks the bounds, the objective (≥ `lp_floor`'s when every floor is at most its
+    need) and a starving example.
+  - **G2.8 on the 5T.** Six rules. `lp_floor_k` equals `lp_sum` there, "unsafe" at SPICE 1.085, with budget / need
+    min 1.453 and geomean 8.225. It is below `lp_floor` for 0 of 21 elements. Every other outcome word is
+    unchanged: per_net unsafe, equal ok, lp_sum unsafe, lp_floor ok, ours unsafe (1.086, scored before the
+    closure).
+  - The optional phase-2 iteration cap was not done. It matters only above 200 elements, so not for these
+    designs.
+  - Step 6 predictions hold on the 5T; LOADBench's are checked in step 12. Tests: 24 Phase A tests; 110 passed
+    plus the expected 5T S2 golden failure.
