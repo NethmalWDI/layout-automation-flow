@@ -74,3 +74,87 @@ After the tag, changes are allowed only as dated amendments at the end, with the
     flow record 7.1, row 38).
   - Runs from now on use least-bad. The v1 variant, plan v2's scripts and golden re-runs of plan-v2 snapshots
     keep the old rule, and `--relax-fallback default` reproduces plan v2's S3.
+- **2026-11-01, Plan v3 Phase A (5T and LOADBench), written before any Phase A code change or run.**
+  - **Context.** This file was tagged `prereg-v1` on 2026-11-01, on commit `a8c6f7d3`, after plan v2's runs. The
+    "DRAFT" heading above predates the tag. This amendment is the first dated change on top of the tag. The plan is
+    `docs/plan_v3_phaseA.md`, and decisions D-a to D-f in it are Imasha's (2026-11-01).
+  - **Scope (D-a).** `example_ota_5t` and `loadbench_miller` only. `ota5t_stress`, `iadc_ota` and `ttsky25a_fd`
+    are frozen: their outputs, snapshots and golden files stay as they are, the rules below must leave them
+    running, and their plan-v2 results stand as recorded.
+  - **1. Budgets use nominal constraints only (D-b).** For the two designs (package key `budget_corners:
+    nominal`), S2 allocates with the nominal constraints only. S0 still simulates the 45 PVT points. In G2.9, S2
+    reports first-order use at each point, as a fraction of eta × that point's margin, plus the worst point and the
+    points where a spec was not met before layout. This is reported, not gated. Designs without the key keep the
+    plan-v2 behaviour, where all 45 points constrain the budgets.
+  - **2. Allowance = share of nominal margin, eta = 0.5 (D-c).** For each spec at nominal, allowance = 0.5 ×
+    (achieved − spec). This is S2's default (`ETA_DEFAULT`), so the packages need no `eta` key. The eta sweep
+    (0.3–1.0) stays as a report. Phase A's runs use eta = 0.5; the plan-v2 SPICE-scored comparison at eta = 0.9 is
+    not repeated in Phase A.
+  - **3. One tolerance, `TOL_USE` = 0.02 of the allowed use, eta × margin (Q3).** It has one definition and is used
+    by G2.5, `outcome()` and S3.
+    - G2.5's gate moves from 10 % (`TOL_VERIFY`) to 2 %. The 10 % figure stays only as a reported column, "within
+      first-order model error", not as a gate. More G2.5 checks may then fail.
+    - S3's tolerance, 1 % of the margin until now (`TOL`), becomes `TOL_USE` × eta × margin: the same 1 % at
+      eta = 0.5.
+    - `outcome()`'s "unsafe" threshold, use / (eta × margin) > 1.02 (amendment of 2026-10-26), is this same
+      tolerance.
+  - **4. S3 saturation check: do no harm below vdsat.**
+    - For a device already below vdsat in the schematic (its schematic vds − vdsat ≤ 0), S3's check becomes "do no
+      harm": an option may lower that value by at most `TOL_USE` × |schematic value|.
+    - Its slack is measured against |schematic value|, and the check is marked as this rule.
+    - Saturated devices keep the plan-v2 rule.
+    - ASSUMPTION: the further-drop tolerance, `TOL_USE` × |vds − vdsat|, comes from no upstream source.
+  - **5. `lp_floor_k`.** The `lp_floor` baseline is also scored with the upper bound ours uses, KAPPA × need
+    (KAPPA = 10, `src/s2/budgets.py`), as `lp_floor_k`. The plan-v2 `lp_floor`, capped at need, is kept, and both
+    are reported.
+  - **6. G2.0's route part uses the representative cells.**
+    - Route lengths use the half-perimeter of the bounding box of the representative S3 cell of the device's type,
+      instead of S0's as-sized PCell.
+    - A type with no representative cell falls back to the as-sized PCell and is listed as such.
+    - m > 1 is scaled as S3 does (ASSUMPTION; both designs have m = 1 everywhere). The as-sized value stays as a
+      second column.
+    - G2.0 is information only, so no budget changes.
+  - **7. The PM reference phase is rounded to the nearest 180°.** PM = 180 + (phase at the unity-gain frequency −
+    reference), where the reference is the 1 Hz phase rounded to the nearest multiple of 180°.
+    - This applies in the S1 linear model and in the bench template for new designs.
+    - The frozen testbenches of the two designs are not changed. Their 1 Hz phase's distance from the nearest
+      multiple of 180° is measured and recorded; it is expected below 0.01°.
+  - **8. Designer groups (D-e) and the mirror-bank rule.**
+    - Mirror blocks of the same polarity whose devices share the gate net and the source net, with at least one
+      diode-connected, are merged into one mirror bank, ratioed by W × m to the diode device.
+    - LOADBench's designer groups (Imasha's review, 2026-11-01) are read from
+      `inputs/loadbench_miller/designer_groups.yaml`, outside the hash-frozen folders:
+      - P2, P8 and P5 form one PMOS mirror bank;
+      - the input pair P6/P7;
+      - the NMOS mirror load N1/N4;
+      - the CS stage, N3 with P5 as its load: a functional group with no N3–P5 matching.
+    - Where the designer's groups and the automatic blocks disagree, the designer's groups win, and the agreement
+      is reported.
+    - The floorplan rows are recorded for S4 and not used in S0–S3.
+    - LOADBench's PMOS bank keeps its sizes (D-d): W = 37.3, 90.63 and 887.03 µm at L = 0.74 µm, ratio
+      1 : 2.43 : 23.8.
+  - **Unchanged:**
+    - S3's relaxed-type fallback stays `least-bad` (amendment of 2026-10-27).
+    - The nf grid, the representative-cell floors and the frozen constants stay as they are.
+    - No LLM runs inside the flow (D-f).
+  - **Changes that alter no rule or constant** (plan steps 2, 5a, 9 and 10):
+    - run hygiene: exit codes, clean output folders, the snapshot identity check;
+    - the dummy-aware S1 tagger;
+    - the SPICE vs first-order report;
+    - LOADBench's hand model, labelled PREDICTED (patched, post hoc) and report-only.
+  - **9. Predictions, written before the runs.** Section 4 of the plan, copied unchanged below. "Expected" means a
+    prediction, not a result. Every prediction that fails gets one line of explanation, and no rule is changed to
+    make a prediction come true.
+
+  | Step | example_ota_5t | loadbench_miller |
+  |---|---|---|
+  | 2 hygiene | no number changes | no number changes |
+  | 3 nominal budgets | allocation identical to the `after_nopvt` snapshot (t_round1 3.401, 21 elements, min ratio to need 3.23; regression check) | budgets larger than plan-v2 'after' (no longer starved at the PVT points). The PVT use table shows points above 1.0 (reported, not gated) |
+  | 4 S3 do-no-harm | no change if every functional device is saturated (check G1.1) | same |
+  | 5 grouping | blocks unchanged | one bank {P2, P8, P5}, consistent in G1.4; the CS stage is not matched; designer file and automatic rule agree |
+  | 6 tolerance, lp_floor_k | G2.5 may report more checks over 1.02. Outcome words for ours unchanged at eta 0.5; lp_floor_k gets more room than lp_floor | same |
+  | 7 PM reference | about 2e-5° (pole at about 2.7 MHz) | about 2e-3° (pole at about 29 kHz) |
+  | 8 G2.0 route | small change | route part of G2.0 drops a lot (no 484 and 887 µm single fingers) |
+  | 9 model agreement | the row-42 corner appears in the PVT report, no longer binding | listed checks, if any |
+  | 10 hand model | — | hand PM gap falls from about 17° to a few degrees (G1.5, report only) |
+  | 12 S3 and SPICE | area and relaxed types close to `after_nopvt` | fewer relaxed types than plan-v2 'after' (all 6 were relaxed). PM after S3 at or above plan-v2 post hoc 64.7° |

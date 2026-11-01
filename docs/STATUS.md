@@ -2,8 +2,8 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-01 16:12 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): **step 0 done**
-(checks and baseline tests, below). Waiting for Imasha's commit before step 1. Nothing is running.
+**Last updated:** 2026-11-01 16:35 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0 and 1
+done; the step 1 PREREG amendment is waiting for Imasha to read and commit it. Nothing is running.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -95,8 +95,9 @@ predictions to write into PREREG before the runs.
 
 | Step | State | Result |
 |---|---|---|
-| 0 setup and claim | **done** 2026-11-01 16:10 CET | see below |
-| 1 PREREG amendment | next, after Imasha's commit | |
+| 0 setup and claim | **done** 2026-11-01 16:10 CET, committed `03390202` | see below |
+| 1 PREREG amendment | **done** 2026-11-01 16:35 CET; for Imasha to read, then commit | `PREREG.md`, *Amendments*: "2026-11-01, Plan v3 Phase A (5T and LOADBench)". It has the plan's items 1–8 with Q3's tolerance and the do-no-harm ASSUMPTION, plus the section 4 predictions table, checked identical to the plan by diff. Text only: no code changed |
+| 2 run hygiene | next, after the commit | |
 
 Step 0 record:
 - **Container:** `layout-s0s3` is up (image `hpretl/iic-osic-tools:2026.10`), with no python3 running and nothing in
