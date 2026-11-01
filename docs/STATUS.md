@@ -118,11 +118,12 @@ predictions to write into PREREG before the runs.
   | 1m | step 10, LOADBench only |
   | 1n | out of scope |
 
-- **Questions Claude Code asks first (plan section 2):**
-  - Q1: tag `prereg-v1` before the amendment (PREREG is still DRAFT and no tag exists);
-  - Q2: branch `plan-v3-phaseA`;
-  - Q3: one tolerance, 0.02 of the allowed use;
+- **Questions Q1–Q4 (plan section 2): answered 2026-11-01, all with the recommended answers.**
+  - Q1: tag `prereg-v1` on Imasha's commit before the amendment.
+  - Q2: work on the branch `plan-v3-phaseA`.
+  - Q3: one tolerance, `TOL_USE` = 0.02 of the allowed use.
   - Q4: refresh these two designs' golden snapshots after the re-run.
+  - **Imasha's part:** create the tag and the branch in GitHub Desktop. At step 0, Claude Code checks that both exist.
 
 ## Pending tasks (plan v2)
 

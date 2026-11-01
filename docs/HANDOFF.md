@@ -41,9 +41,10 @@ Claude Code is the **Code** tab of the Claude desktop app, next to Home. Nothing
 5. **Power.** Long runs (plan step 12) need the PC awake. Set Windows to never sleep while plugged in (row 39).
 6. **Paste this as your first message:**
 
-   > Read CLAUDE.md, docs/STATUS.md, docs/HANDOFF.md and docs/plan_v3_phaseA.md. Do step 0 of the plan: check
-   > the container and git (read-only), then ask me questions Q1–Q4 in one message and wait for my answers. After
-   > that, work through the plan one step at a time. At the end of each step, run its tests, update
+   > Read CLAUDE.md, docs/STATUS.md, docs/HANDOFF.md and docs/plan_v3_phaseA.md. Do step 0 of the plan. Check the
+   > container and git (read-only). Questions Q1–Q4 are already answered with the recommended answers (plan section
+   > 2), so check that the tag prereg-v1 and the branch plan-v3-phaseA exist, and run the baseline tests. Then
+   > work through the plan one step at a time. At the end of each step, run its tests, update
    > docs/STATUS.md, tell me "ready to commit" with the suggested message, and wait for me. Do not run git
    > commands that change anything; I commit with GitHub Desktop. Do not install anything. If a value is
    > missing or a prediction in section 4 fails, stop and ask me.

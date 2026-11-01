@@ -47,10 +47,15 @@ package, stop and ask Imasha.
 
 ---
 
-## 2. Questions to ask Imasha before the first edit
+## 2. Questions for Imasha before the first edit (answered 2026-11-01)
 
-Ask these at the start of the session, all in one message. Each has a recommended answer; use it only if she
-agrees.
+**Answered.** Imasha accepted every recommended answer below (2026-11-01, in Cowork). Do not ask these again.
+Before step 1, check that she has done her part, with read-only git commands:
+
+- the tag `prereg-v1` exists (`git tag`);
+- the current branch is `plan-v3-phaseA` (`git branch --show-current`).
+
+If either is missing, stop and remind her.
 
 | # | Question | Recommended |
 |---|---|---|
@@ -97,7 +102,7 @@ docker exec layout-s0s3 bash -lc "cd /foss/designs && source scripts/env.sh && <
 3. Check git, read-only:
    - `git log --oneline -5` should start at Imasha's latest commit, which is at or after `6c0d387a`;
    - make sure there is no `.git/index.lock`.
-4. Ask Q1–Q4. Record the answers under *Open questions* in STATUS.md, with the date.
+4. Q1–Q4 are answered (section 2). Check the tag `prereg-v1` and the branch `plan-v3-phaseA`; if either is missing, stop and tell Imasha.
 5. Claim the work in STATUS.md, under *Claims*: "Claude Code: Plan v3 Phase A, `src/`, `scripts/benchlib.py`,
    `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`,
    `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`, since <date>".
