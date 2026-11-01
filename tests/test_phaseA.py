@@ -127,3 +127,47 @@ def test_snap_accepts_one_run_and_records_its_id(tmp_path, monkeypatch):
                    "baselines.json": {"run_id": "A", "eta": 0.5, "methods": {}}})
     rec = json.loads(CB.snap("d", "t").read_text())
     assert rec["S2"]["run_id"] == "A" and rec["S2"]["eta"] == 0.5
+
+
+# ------------------------------------------------------------------ step 3: nominal-only budgets, PVT reported
+def test_nominal_budgets_allocate_with_nominal_checks_only():
+    from src.s2 import run as S2
+    nom = [{"id": "gbw_mhz"}, {"id": "pm_deg"}]
+    pvt = [{"id": "gbw_mhz@tt_v0.9_t27"}, {"id": "pm_deg@ss_v1.1_t85"}]
+    assert [c["id"] for c in S2.allocation_constraints(nom, pvt, "nominal")] == ["gbw_mhz", "pm_deg"]
+    assert [c["id"] for c in S2.allocation_constraints(nom, pvt, "all")] == [c["id"] for c in nom + pvt]
+    with pytest.raises(ValueError):
+        S2.allocation_constraints(nom, pvt, "middle9")
+
+
+def test_pvt_use_table_lists_every_point_with_its_use():
+    from src.s2 import run as S2
+    pts = {"tt_v1_t27": {"margin": {"gbw_mhz": 10.0, "pm_deg": 5.0}},
+           "ss_v0.9_t85": {"margin": {"gbw_mhz": -1.0, "pm_deg": 2.0}},
+           "ff_v1.1_t-40": {"margin": {"gbw_mhz": 3.0, "pm_deg": 1.0}},
+           "sf_v0.9_t-40": {"margin": {"gain_db": -45.9}, "meas": {"gain_db": -15.9}}}   # no unity-gain crossing
+    eta = 0.5
+    info = {"constraints": [
+        {"id": "gbw_mhz@tt_v1_t27", "spec": "gbw_mhz", "point": "tt_v1_t27", "b": eta * 10, "a": {"e1": 1.0, "e2": 2.0}},
+        {"id": "pm_deg@tt_v1_t27", "spec": "pm_deg", "point": "tt_v1_t27", "b": eta * 5, "a": {"e1": 0.5}},
+        {"id": "pm_deg@ss_v0.9_t85", "spec": "pm_deg", "point": "ss_v0.9_t85", "b": eta * 2, "a": {"e2": 1.0}}],
+        "skipped_spec_not_met": {"ss_v0.9_t85": ["gbw_mhz"], "sf_v0.9_t-40": ["gbw_mhz", "pm_deg"]},
+        "op_failed": ["ff_v1.1_t-40"]}
+    t = S2.pvt_use_table(info, pts, ("gbw_mhz", "pm_deg"), {"e1": 2.0, "e2": 1.5})
+    tab = t["use_of_allowed"]
+    assert sorted(tab) == sorted(pts)                                       # every point is listed
+    assert tab["tt_v1_t27"]["gbw_mhz"] == pytest.approx((1.0 * 2.0 + 2.0 * 1.5) / 5.0)   # exactly 1: not "over"
+    assert tab["tt_v1_t27"]["pm_deg"] == pytest.approx(0.5 * 2.0 / 2.5)
+    assert tab["ss_v0.9_t85"] == {"gbw_mhz": "spec not met before layout", "pm_deg": pytest.approx(1.5)}
+    assert set(tab["ff_v1.1_t-40"].values()) == {"no operating point at this point"}
+    assert set(tab["sf_v0.9_t-40"].values()) == {"not defined: gain below 0 dB (no unity-gain crossing)"}
+    assert t["worst"] == {"point": "ss_v0.9_t85", "spec": "pm_deg", "use_of_allowed": pytest.approx(1.5)}
+    assert t["over_allowed"] == ["pm_deg@ss_v0.9_t85"]                     # reported, not gated
+
+
+def test_only_the_two_phase_A_packages_budget_at_nominal():
+    from src.s0.ingest import load_package
+    corners = {d: load_package(REPO / "inputs" / d / "package.yaml").get("budget_corners", "all")
+               for d in ("example_ota_5t", "loadbench_miller", "ota5t_stress", "iadc_ota", "ttsky25a_fd")}
+    assert corners == {"example_ota_5t": "nominal", "loadbench_miller": "nominal", "ota5t_stress": "all",
+                       "iadc_ota": "all", "ttsky25a_fd": "all"}   # ota5t_stress inherits the 5T package

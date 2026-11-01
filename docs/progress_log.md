@@ -728,3 +728,21 @@ the work manageable.
   - **Side effects.**
     - S2 no longer reuses its SPICE cache: 5T S2 took 10.7 min, against 3.8 with the cache.
     - `pdk_parasitics`'s exit 1 for an incomplete table is now an ERROR.
+- **Step 3 (nominal-only budgets, PVT reported; D-b).**
+  - **What changed.**
+    - The package key `budget_corners: nominal` for the 5T and LOADBench. `ota5t_stress` inherits the 5T package,
+      so it gets an explicit `budget_corners: all`; this was not in the plan, and it keeps plan v2's behaviour.
+    - S2 computes the PVT constraints but allocates with the nominal ones only.
+    - G2.9 reports the final budgets' first-order use at all 45 points (fraction of eta × the point's margin), the
+      worst point and the checks over 1. It is information only.
+  - **Regression check, 5T against `after_nopvt`: exact.** `t_round1` 3.401087, 21 elements, none starved,
+    `min_ratio_to_need` 3.231033, the expected-use fractions and the 9 SPICE-verified uses, all with difference 0.
+    The reference budgets for steps 4–10 are in `outputs/phaseA/example_ota_5t/budgets_step3.json`.
+  - **G2.9 for the 5T.** Worst is GBW at `tt_v0.9_t27`, at 7.80 × its allowed share: the row-42 corner, now
+    reported instead of binding. 19 of 103 numeric cells are above 1.
+    - A first pass labelled GBW and PM at five 0.9 V points "no margin measured". There the gain is below 0 dB,
+      so GBW and PM do not exist; the label now says so.
+    - The nominal point's binding check (1.0 to rounding) no longer counts as over 1.
+  - **Expected test failure until step 12:** the 5T's S2 golden snapshot holds plan v2's budgets set at every PVT
+    point. The plan refreshes these goldens after the step 12 re-run (Q4). 101 of 102 tests pass; the other 19
+    golden comparisons are OK.

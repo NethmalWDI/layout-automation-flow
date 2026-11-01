@@ -2,8 +2,8 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-01 16:50 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–2
-done (0 and 1 committed); step 2 is waiting for Imasha's commit. Nothing is running.
+**Last updated:** 2026-11-01 17:35 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–3
+done (0–2 committed); step 3 is waiting for Imasha's commit. Nothing is running.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -32,6 +32,8 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- Phase A step 3's two 5T S2 runs have ended, both PASS with rc 0: 17:16–17:21 (`runs/logs/phaseA_step3_5t_S2.log`),
+  and the re-run after the G2.9 label fix, 17:22–17:28 (`runs/logs/phaseA_step3_5t_S2_rerun.log`).
 - Phase A step 2's two 5T S2 runs have ended, both PASS with rc 0. The baseline with the unchanged code ran
   16:28–16:32 (`runs/logs/phaseA_step2_baseline_5t_S2.log`); the step 2 code ran 16:35–16:46
   (`runs/logs/phaseA_step2_new_5t_S2.log`).
@@ -102,8 +104,42 @@ predictions to write into PREREG before the runs.
 |---|---|---|
 | 0 setup and claim | **done** 2026-11-01 16:10 CET, committed `03390202` | see below |
 | 1 PREREG amendment | **done**, committed `02279b98` | `PREREG.md`, *Amendments*: "2026-11-01, Plan v3 Phase A (5T and LOADBench)". It has the plan's items 1–8 with Q3's tolerance and the do-no-harm ASSUMPTION, plus the section 4 predictions table, checked identical to the plan by diff. Text only: no code changed |
-| 2 run hygiene | **done** 2026-11-01 16:50 CET; waiting for Imasha's commit | exit code 3 for a gate FAIL; S2/S3 clean output folders with `run_id`; the snapshot identity check. Tests: 99 passed, golden 20/20 OK. 5T S2 budgets identical. Details below |
-| 3 nominal-only budgets | next, after the commit | |
+| 2 run hygiene | **done**, committed `1e53a965` | exit code 3 for a gate FAIL; S2/S3 clean output folders with `run_id`; the snapshot identity check. Tests: 99 passed, golden 20/20 OK. 5T S2 budgets identical. Details below |
+| 3 nominal-only budgets | **done** 2026-11-01 17:35 CET; waiting for Imasha's commit | `budget_corners: nominal` for the 5T and LOADBench; PVT use reported in G2.9. The 5T regression check against `after_nopvt` is exact. Details below |
+| 4 S3 saturation do-no-harm | next, after the commit | |
+
+Step 3 record:
+- **Packages.** `budget_corners: nominal` in `inputs/example_ota_5t/package.yaml` and
+  `inputs/loadbench_miller/package.yaml`.
+  - **Not in the plan:** `inputs/ota5t_stress/package.yaml` inherits the 5T package, so it would have switched to
+    nominal too. It now says `budget_corners: all` explicitly and keeps plan v2's behaviour.
+  - A test checks the key for all five designs. The key is in `docs/INPUTS.md`.
+- **S2 (`src/s2/run.py`).**
+  - `allocation_constraints()`: with `nominal`, the PVT points' constraints are computed but kept out of the
+    allocation. Verification and the baselines then see nominal checks only, as `--no-pvt` does.
+  - `pvt_use_table()`: the final budgets' first-order use at each of the 45 points, as a fraction of eta × that
+    point's margin, goes into G2.9 (info), with the worst point and the checks over 1. Where a spec has no
+    constraint, the row says why.
+  - `budgets.json` and `s2_report.json` record `budget_corners` and `pvt_points`. `--no-pvt` is unchanged.
+- **Regression check** (5T, `budget_corners: nominal`, against the `after_nopvt` snapshot): **exact**.
+  - `t_round1` 3.401087, `n_budgeted` 21, `starved` 0, `min_ratio_to_need` 3.231033: relative difference 0.
+  - `expected_use_fraction` identical; `verify`, 9 SPICE checks, identical.
+  - Reference budgets for steps 4–10: `outputs/phaseA/example_ota_5t/budgets_step3.json` (run_id
+    `2026-11-01T17:22:43-e3ca9f36`).
+- **G2.9 for the 5T:**
+  - All 45 points are listed: 135 point × spec cells, 103 with a number.
+  - 22 cells say "spec not met before layout". 10 say "not defined: gain below 0 dB", which covers GBW and PM at
+    five 0.9 V points where the gain is −3 to −16 dB.
+  - Worst: GBW at `tt_v0.9_t27`, at 7.80 × its allowed share. That is row 42's corner, now reported rather than
+    binding.
+  - 19 checks are over 1: reported, not gated.
+- **Tests.** `tests/test_phaseA.py` has 15 tests, all passing; the full suite has 102 tests, of which 101 pass.
+  - **Expected failure:** the 5T's S2 golden snapshot still holds plan v2's budgets, which were set at every PVT
+    point (`budget.OUTP` 3.76 → 37.6 fF; the PVT verify checks are gone). The plan replaces these two designs'
+    goldens after step 12 (Q4). Until then `./flow test` and CI report this one difference. The other 19 golden
+    comparisons are OK.
+- **LOADBench.** Its step 3 prediction (budgets larger than plan v2's 'after'; PVT points above 1.0 in G2.9) is
+  checked when LOADBench is re-run in step 12; step 3 asks only for the 5T run.
 
 Step 2 record:
 - **Exit codes.** `src/common/hygiene.py` holds `EXIT_PASS` = 0, `EXIT_GATE_FAIL` = 3, `gate_exit()`,

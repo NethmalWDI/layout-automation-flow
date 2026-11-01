@@ -10,6 +10,9 @@ description: >
 # eta = fraction of each margin given to layout (S2 budgets). The stress margins are small, so the
 # user relaxed this variant from the default 0.5 to 0.9 (decision 2026-10-25, recorded in the flow record).
 eta: 0.9
+# Plan v3 Phase A sets budget_corners: nominal in the 5T package this one inherits from. This frozen design keeps
+# plan v2's budgets at every PVT point (2026-11-01).
+budget_corners: all
 conditions_override:
   CL_F: 200f
 specs_from_achieved:

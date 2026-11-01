@@ -87,6 +87,12 @@ never invented.
 - S2 floors every budget at what the cheapest library cell already puts there (G2.7), no longer trims binding elements in phase 2 (finding R19), adds a constraint per spec and PVT point (G2.9), and scores four other budget rules on the same sensitivities (G2.8: per-net, equal split, a plain LP, the LP with floors), each in SPICE at its own worst PVT points, with outcomes unsafe / infeasible / ok, plus an eta sweep.
 - S3 decides in three option modes (B: nf as in the netlist; A-bin: the finger stays in the sized device's SKY130 model bin; A-free) plus a rule-of-thumb folding baseline, and a cell may always use the library's lowest access resistance (G3.7).
 
+**Plan v3 Phase A (from 2026-11-01; `docs/plan_v3_phaseA.md`, PREREG amendment of that date):** the package key
+`budget_corners: nominal` (set for `example_ota_5t` and `loadbench_miller`) makes S2 budget at the nominal corner
+only. S2 still computes the PVT points' constraints and reports, in G2.9, what the final budgets use at each of the
+45 points as a fraction of eta × that point's margin. That is reported, not gated. Without the key, S2 budgets at
+every PVT point, as in plan v2.
+
 **Repository rules:** third-party material and licences are listed in `THIRD_PARTY.md`; hypotheses and
 thresholds for the experiments are fixed in `PREREG.md` before baselines run.
 

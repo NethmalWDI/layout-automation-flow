@@ -3,6 +3,8 @@
 
 usage (inside layout-s0s3):  python3 -m src.s2.run inputs/<design>/package.yaml [--eta 0.5] [--no-spice]
        eta: --eta on the command line, else the package key 'eta', else ETA_DEFAULT = 0.5
+       budget_corners (package key): 'all' (default, plan v2) budgets at the nominal corner and every PVT point;
+       'nominal' budgets at the nominal corner only, the PVT points reported in G2.9 (Plan v3 Phase A, D-b)
 
 Inputs : outputs/S0/<design>/{circuit_ir.json, pcell_binding.json, tb/}, outputs/S1/<design>/{sensitivity.json,
          sensitivity_r.json, intent.json, currents.json, operating_point.json}, outputs/S2/pdk/parasitics.json
@@ -418,6 +420,48 @@ def resolve_eta(cli_eta, pkg: dict) -> tuple[float, str]:
     return eta, src
 
 
+BUDGET_CORNERS = ("all", "nominal")
+
+
+def allocation_constraints(nominal: list, pvt: list, budget_corners: str) -> list:
+    """The constraints S2 allocates with. 'all' (plan v2): nominal ones plus every PVT point's. 'nominal' (package
+    key budget_corners, Plan v3 Phase A D-b, PREREG 2026-11-01): nominal ones only; the PVT points are scored at
+    the final budgets and reported in G2.9, not gated."""
+    if budget_corners not in BUDGET_CORNERS:
+        raise ValueError(f"budget_corners must be one of {BUDGET_CORNERS}, got {budget_corners!r}")
+    return nominal + pvt if budget_corners == "all" else list(nominal)
+
+
+def pvt_use_table(pvt_info: dict, points: dict, specs, x: dict) -> dict:
+    """First-order use of each PVT point's margin by the budgets x, as a fraction of eta x that point's margin
+    (sum over elements of the rate at the point x budget). Every point is listed; where a spec has no
+    constraint, the row says why. Reported, not gated."""
+    cons = {(c["point"], c["spec"]): c for c in pvt_info["constraints"]}
+    table, worst, over = {}, None, []
+    for pid in sorted(points):
+        row = {}
+        meas = points[pid].get("meas") or {}
+        for k in specs:
+            c, m = cons.get((pid, k)), (points[pid].get("margin") or {}).get(k)
+            if pid in pvt_info.get("op_failed", []):
+                row[k] = "no operating point at this point"
+            elif c is None:
+                row[k] = ("spec not met before layout" if m is not None and m <= 0 else
+                          "no linear-model rate" if f"{k} (no linear-model rate)" in pvt_info["skipped_spec_not_met"].get(pid, [])
+                          else "not defined: gain below 0 dB (no unity-gain crossing)"
+                          if k in ("gbw_mhz", "pm_deg") and (meas.get("gain_db") or 0) < 0
+                          else "no S0 value at this point")
+            else:
+                u = sum(c["a"].get(e, 0.0) * v for e, v in x.items()) / c["b"]
+                row[k] = u
+                if worst is None or u > worst["use_of_allowed"]:
+                    worst = {"point": pid, "spec": k, "use_of_allowed": u}
+                if u > 1.0 + 1e-9:   # the nominal point's binding check sits at 1.0 to rounding
+                    over.append(c["id"])
+        table[pid] = row
+    return {"use_of_allowed": table, "worst": worst, "over_allowed": sorted(over)}
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("package")
@@ -470,16 +514,20 @@ def main(argv=None) -> int:
                 e["w"] = e["w_parts"]["wiring"] + f_
                 e["w_basis"] += f" (v2: cells of the library's representative option, {f_:.3g})"
     drive = ac_drive(s0, ir, pkg.get("ac_drive"))
+    budget_corners = pkg.get("budget_corners", "all")
     pvt_info, pvt_points = None, {}
     if not a.no_pvt and (s0 / "pvt.json").exists():
         nominal_rates = {e["id"]: {c["id"]: c["a"].get(e["id"], 0.0) for c in constraints} for e in elements}
         pvt_info = S2PVT.constraints(ir, s0, elements, nominal_rates, eta, drive, out / "work" / "pvt_op", a.workers)
         pvt_points = json.loads((s0 / "pvt.json").read_text())["points"]
-        constraints = constraints + pvt_info["constraints"]
+        constraints = allocation_constraints(constraints, pvt_info["constraints"], budget_corners)
         gates["G2.9_pvt_constraints (info)"] = {
-            "pass": None, "points": pvt_info["points"], "constraints_added": len(pvt_info["constraints"]),
+            "pass": None, "budget_corners": budget_corners, "points": pvt_info["points"],
+            "constraints_added": len(pvt_info["constraints"]) if budget_corners == "all" else 0,
             "skipped_spec_not_met_before_layout": pvt_info["skipped_spec_not_met"],
             "op_failed": pvt_info["op_failed"]}
+    pvt_mode = ("not run (--no-pvt)" if a.no_pvt else "not available (no S0 pvt.json)" if pvt_info is None else
+                "budgeted" if budget_corners == "all" else "reported at the final budgets, not budgeted")
     # D6 metric, before any layout: the fraction of each margin a compact default layout would use
     expected_use = {c["id"]: {"use_at_expected_need": sum(c["a"].get(e["id"], 0.0) * e["w"] for e in elements),
                               "margin": c["margin"],
@@ -542,7 +590,7 @@ def main(argv=None) -> int:
                               "and the floors (budgets.allocate/refine)") if a.alloc == "v2" else
                              "v1: max-min fair progressive filling (budgets.allocate), then proportional-fairness refinement "
                              "keeping >= 95 % of every max-min budget (budgets.refine)",
-                   "alloc": a.alloc,
+                   "alloc": a.alloc, "budget_corners": budget_corners, "pvt_points": pvt_mode,
                    "rates": {c["id"]: c["a"] for c in constraints if "@" not in c["id"]},
                    "pvt_binding": sorted({cid for r_ in alloc["rounds"] for cid in r_["binding"] if "@" in cid})}
     put("budgets.json", budgets_doc)
@@ -726,6 +774,12 @@ def main(argv=None) -> int:
                                   if c["a"].get(rec["id"], 0.0) > 0 and "@" not in c["id"]}
             rec["closure_note"] = "scaled down in S2 verification (closure iteration)"
     put("budgets.json", budgets_doc)
+    if pvt_info is not None and budget_corners == "nominal":   # D-b: what the final budgets use at each PVT point
+        gates["G2.9_pvt_constraints (info)"].update({
+            **pvt_use_table(pvt_info, pvt_points, S2PVT.SPECS_PVT, xv),
+            "note": "budgets at the nominal corner only (budget_corners: nominal; PREREG 2026-11-01). Per point and "
+                    "spec: first-order use of eta x that point's margin by the final budgets (sum of rate at the "
+                    "point x budget). Reported, not gated; above 1 the point would use more than its allowed share"})
     caps, res = parts(list(xv), xv)
     lin = linear.evaluate(ir, op, extra_c=[(a_, b_, c_ * 1e-15) for a_, b_, c_ in caps], extra_r=res, drive=drive)
     pred_first = {c["id"]: sum(c["a"].get(k, 0.0) * v for k, v in xv.items()) for c in constraints}
@@ -827,7 +881,7 @@ def main(argv=None) -> int:
 
     prov = provenance([s0 / "circuit_ir.json", s1 / "sensitivity.json", s1 / "sensitivity_r.json", s1 / "intent.json",
                        pdk_f, REPO / a.package])
-    report = {"design": design, "eta": eta, "gates": gates,
+    report = {"design": design, "eta": eta, "budget_corners": budget_corners, "pvt_points": pvt_mode, "gates": gates,
               "all_pass": all(g.get("pass") in (True, None) for g in gates.values()), "provenance": prov}
     put("s2_report.json", report)
     for k in sorted(gates):
