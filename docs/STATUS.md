@@ -2,8 +2,8 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-01 17:35 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–3
-done (0–2 committed); step 3 is waiting for Imasha's commit. Nothing is running.
+**Last updated:** 2026-11-01 17:55 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–4
+done (0–3 committed); step 4 is waiting for Imasha's commit. Nothing is running.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -105,8 +105,38 @@ predictions to write into PREREG before the runs.
 | 0 setup and claim | **done** 2026-11-01 16:10 CET, committed `03390202` | see below |
 | 1 PREREG amendment | **done**, committed `02279b98` | `PREREG.md`, *Amendments*: "2026-11-01, Plan v3 Phase A (5T and LOADBench)". It has the plan's items 1–8 with Q3's tolerance and the do-no-harm ASSUMPTION, plus the section 4 predictions table, checked identical to the plan by diff. Text only: no code changed |
 | 2 run hygiene | **done**, committed `1e53a965` | exit code 3 for a gate FAIL; S2/S3 clean output folders with `run_id`; the snapshot identity check. Tests: 99 passed, golden 20/20 OK. 5T S2 budgets identical. Details below |
-| 3 nominal-only budgets | **done** 2026-11-01 17:35 CET; waiting for Imasha's commit | `budget_corners: nominal` for the 5T and LOADBench; PVT use reported in G2.9. The 5T regression check against `after_nopvt` is exact. Details below |
-| 4 S3 saturation do-no-harm | next, after the commit | |
+| 3 nominal-only budgets | **done**, committed `47ee9df4` | `budget_corners: nominal` for the 5T and LOADBench; PVT use reported in G2.9. The 5T regression check against `after_nopvt` is exact. Details below |
+| 4 S3 saturation do-no-harm | **done** 2026-11-01 17:55 CET; waiting for Imasha's commit | `use_check()` in S3; `TOL_USE` = 0.02 in `src/common/tolerance.py`. No change on the 5T or LOADBench: every device is saturated. Details below |
+| 5 tagging and grouping | next, after the commit | |
+
+Step 4 record (A1, row 41):
+- **What was wrong.** For a device already below vdsat in the schematic, S3 measured its check against the negative
+  vds − vdsat. The limit `allowed + TOL × margin` was then negative, so every option failed, even one that did no
+  harm. The slack flipped sign, so more harm looked better to the least-bad pick.
+- **What changed.**
+  - `src/s3/run.py`: `use_check()` is the one allowance check, used both per option and in G3.3's `within`.
+    - For such a device the check is "do no harm": `u ≤ TOL_USE × |schematic vds − vdsat|`, with the slack
+      against that, marked `rule: do-no-harm (below vdsat in the schematic)`. G3.3 lists the checks that used it.
+    - Specs and saturated devices keep the plan-v2 formula exactly.
+  - `src/common/tolerance.py`: `TOL_USE` = 0.02, the one tolerance of Q3. Step 6 wires it into G2.5, `outcome()`
+    and S3's `TOL`.
+- **Effect on the two designs: none** (plan prediction: "no change if every functional device is saturated").
+  - S1 G1.1 passes for both.
+  - S3's baseline vds − vdsat is positive for every device: the 5T's 5 devices are at least 0.0196 V above, and
+    LOADBench's 8 at least 0.2045 V.
+  - So every check takes the unchanged formula, and their S3 results cannot move. No re-run was needed.
+  - For reference, iadc (frozen) has 45 such devices.
+- **Tests.** Two new ones in `tests/test_phaseA.py`, which now has 17 passing tests. The full suite is 103 passed
+  plus the expected 5T S2 golden failure from step 3; the other 19 golden comparisons are OK.
+- **For Imasha:**
+  1. The plan's test example ("+1 mV of harm fails" at −0.05 V) sits exactly on the limit of the committed
+     PREREG rule, `TOL_USE` × 0.05 V = 1 mV, so it passes. The test checks both sides of the limit instead:
+     0.5 mV passes, 2 mV fails.
+     - The example would hold only with `TOL_USE` × eta × |vds − vdsat| (0.5 mV). Say if that was meant; it would
+       need a PREREG amendment.
+  2. G3.3 also requires every device to end saturated (vds − vdsat > 0 after layout). The plan did not change
+     that, so a device below vdsat by design still fails G3.3. That is iadc's case, and the open G1.1 question. It
+     does not affect the 5T or LOADBench.
 
 Step 3 record:
 - **Packages.** `budget_corners: nominal` in `inputs/example_ota_5t/package.yaml` and

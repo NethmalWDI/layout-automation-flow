@@ -27,6 +27,7 @@ from pathlib import Path
 
 from src.common import pcell
 from src.common.hygiene import fresh_output_dir, gate_exit, new_run_id
+from src.common.tolerance import TOL_USE
 from src.common.tools import REPO, provenance, rel, write_json
 from src.s0.ingest import load_package
 from src.s3 import evaluate as E, options as O, wbins
@@ -44,6 +45,23 @@ def consumption(base: dict, now: dict, margins: dict) -> dict:
     for d, v in (now.get("sat_V") or {}).items():
         if d in (base.get("sat_V") or {}):
             out[f"sat_{d}"] = base["sat_V"][d] - v
+    return out
+
+
+DO_NO_HARM = "do-no-harm (below vdsat in the schematic)"
+
+
+def use_check(u: float, allowed: float, scale: float | None, below_vdsat: bool = False) -> dict:
+    """Is a harmful use u (>= 0) of one check within what may be used? Returns ok and the slack as a fraction of
+    `scale`.
+    - A spec, or a device saturated in the schematic (scale = its margin): u <= allowed + TOL x scale (plan v2).
+    - A device below vdsat in the schematic (scale = |schematic vds - vdsat|; Plan v3 Phase A, A1, row 41): do no
+      harm, u <= TOL_USE x scale. Plan v2 used the negative value here, so every option failed and more harm
+      gave more slack."""
+    lim = TOL_USE * (scale or 0.0) if below_vdsat else allowed + TOL * (scale or 0.0)
+    out = {"ok": u <= lim, "slack_frac_of_margin": (lim - u) / scale if scale else None}
+    if below_vdsat:
+        out["rule"] = DO_NO_HARM
     return out
 
 
@@ -198,8 +216,15 @@ def main(argv=None) -> int:
         raise RuntimeError(f"baseline simulation failed: {base['failed']}")
     need = [k for k in margins if k in base] + ["sat_V"]
 
-    def mg_of(k):
-        return margins[k]["margin"] if k in margins else base["sat_V"].get(k[4:])
+    def mg_of(k):   # a saturation check is measured against |schematic vds - vdsat| (positive, row 41)
+        if k in margins:
+            return margins[k]["margin"]
+        v = base["sat_V"].get(k[4:])
+        return None if v is None else abs(v)
+
+    def below_vdsat(k):   # the device is already at or below vdsat in the schematic: do no harm
+        v = None if k in margins else base["sat_V"].get(k[4:])
+        return v is not None and v <= 0.0
 
     r_floor = {}
     for r in table:
@@ -221,8 +246,7 @@ def main(argv=None) -> int:
         harm = {k: max(0.0, v) for k, v in signed.items()}
         al = allow_c[r["type"]]
         cc = {k: {"used_harmful": u, "signed": signed[k], "allowed": al.get(k, 0.0),
-                  "ok": u <= al.get(k, 0.0) + TOL * (mg_of(k) or 0),
-                  "slack_frac_of_margin": (al.get(k, 0.0) + TOL * (mg_of(k) or 0) - u) / mg_of(k) if mg_of(k) else None}
+                  **use_check(u, al.get(k, 0.0), mg_of(k), below_vdsat(k))}
               for k, u in harm.items()}
         rc_ = {}
         for term, rbv in r_budget[r["type"]].items():
@@ -327,12 +351,13 @@ def main(argv=None) -> int:
         for al in d_.values():
             for k, v in al.items():
                 tot_allow[k] = tot_allow.get(k, 0.0) + v
-    within = {k: max(0.0, u) <= tot_allow.get(k, 0.0) + TOL * (mg_of(k) or 0) for k, u in fin_use.items()}
+    within = {k: use_check(max(0.0, u), tot_allow.get(k, 0.0), mg_of(k), below_vdsat(k))["ok"] for k, u in fin_use.items()}
     sat_ok = ok_runs and all(v > 0 for v in final["sat_V"].values())
     gates["G3.3_all_chosen_devices_in_circuit"] = {
         "pass": bool(ok_runs and all(spec_ok.values()) and sat_ok and all(within.values())),
         "specs": {k: final.get(k) for k in margins}, "meets": spec_ok, "saturated": final.get("sat_V"),
         "margin_use_signed": fin_use, "allowance_total": tot_allow, "within_allowance_harmful": within,
+        "do_no_harm_checks": sorted(k for k in fin_use if below_vdsat(k)),
         "failed_runs": final.get("failed")}
     gates["G3.1_chosen_DRC"] = {"pass": all(d["drc"]["pass"] for d in decisions.values()),
                                 "detail": {k: d["drc"] for k, d in decisions.items()}}

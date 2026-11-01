@@ -746,3 +746,18 @@ the work manageable.
   - **Expected test failure until step 12:** the 5T's S2 golden snapshot holds plan v2's budgets set at every PVT
     point. The plan refreshes these goldens after the step 12 re-run (Q4). 101 of 102 tests pass; the other 19
     golden comparisons are OK.
+- **Step 4 (S3 saturation do-no-harm; A1, row 41).**
+  - **What changed.**
+    - S3's allowance check is now one function, `use_check()`, used per option and in G3.3.
+    - For a device already below vdsat in the schematic, the check is "do no harm": an option may lower its
+      vds − vdsat by at most `TOL_USE` × |schematic value| (`TOL_USE` = 0.02, new in `src/common/tolerance.py`),
+      with the slack against |schematic value|. Before, the negative value made every option fail and flipped
+      the slack's sign.
+  - **Effect on the 5T and LOADBench: none,** as predicted. S1 G1.1 passes for both, and every device has
+    positive vds − vdsat in S3's baseline (at least 0.0196 V and 0.2045 V), so only the unchanged formula applies.
+  - **Tests.** 2 new; 103 passed plus the expected 5T S2 golden failure.
+  - **Two notes for Imasha.**
+    - The plan's test example (+1 mV at −0.05 V fails) sits exactly on the PREREG rule's limit of 1 mV. The test
+      checks 0.5 mV (passes) and 2 mV (fails) instead.
+    - G3.3's "every device saturated after layout" condition was not in the plan's change list, and is
+      unchanged.

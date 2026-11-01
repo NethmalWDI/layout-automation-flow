@@ -171,3 +171,26 @@ def test_only_the_two_phase_A_packages_budget_at_nominal():
                for d in ("example_ota_5t", "loadbench_miller", "ota5t_stress", "iadc_ota", "ttsky25a_fd")}
     assert corners == {"example_ota_5t": "nominal", "loadbench_miller": "nominal", "ota5t_stress": "all",
                        "iadc_ota": "all", "ttsky25a_fd": "all"}   # ota5t_stress inherits the 5T package
+
+
+# ------------------------------------------------------------------ step 4: S3 saturation do-no-harm (row 41)
+def test_do_no_harm_below_vdsat():
+    """Schematic vds - vdsat = -0.05 V: an option may lower it by at most TOL_USE x 0.05 V = 1 mV."""
+    from src.common.tolerance import TOL_USE
+    from src.s3.run import DO_NO_HARM, use_check
+    scale = abs(-0.05)
+    none_, small, at_lim, big = (use_check(u, 0.0, scale, below_vdsat=True) for u in (0.0, 0.0005, TOL_USE * scale, 0.002))
+    assert none_["ok"] and small["ok"] and at_lim["ok"] and not big["ok"]       # 2 mV of further harm fails
+    assert none_["rule"] == DO_NO_HARM
+    assert none_["slack_frac_of_margin"] > small["slack_frac_of_margin"] > 0 > big["slack_frac_of_margin"]
+    assert none_["slack_frac_of_margin"] == pytest.approx(TOL_USE)
+    old = lambda u: u <= 0.0 + 0.01 * (-0.05)   # noqa: E731  plan v2: margin = the negative schematic value
+    assert not old(0.0)                         # ... so even an option that does no harm failed (row 41)
+
+
+def test_saturated_devices_and_specs_keep_the_plan_v2_rule():
+    from src.s3.run import TOL, use_check
+    c = use_check(0.004, allowed=0.003, scale=0.2)                # sat margin 0.2 V, allowance 3 mV
+    assert c["ok"] == (0.004 <= 0.003 + TOL * 0.2) and "rule" not in c
+    assert c["slack_frac_of_margin"] == pytest.approx((0.003 + TOL * 0.2 - 0.004) / 0.2)
+    assert use_check(0.0, allowed=0.0, scale=None) == {"ok": True, "slack_frac_of_margin": None}
