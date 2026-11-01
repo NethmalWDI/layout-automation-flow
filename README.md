@@ -279,6 +279,7 @@ python3 -m src.s2.run inputs/<design>/package.yaml --eta 0.7   # override for on
 | G2.4 | Linear model at the budget point (info) |
 | G2.5 | SPICE verification: per check, its harmful budgets inserted at once; use <= eta x margin (+2 %, `TOL_USE`; +10 % before Phase A); spec met |
 | G2.6 | Hierarchy shares sum to the budgets |
+| G2.10 | SPICE vs first order, per simulated check (G2.5, G2.8): checks with a sign disagreement or a difference above 0.25 of the margin (ASSUMPTION, for review); with nominal budgets, each spec's worst PVT point beside the nominal result (info) |
 
 **Outputs:**
 

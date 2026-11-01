@@ -700,7 +700,7 @@ the work manageable.
 
 **No code, runs or outputs changed.**
 
-## 2026-11-01: Plan v3 Phase A, steps 0–8, and the sky130A environment (Claude Code)
+## 2026-11-01: Plan v3 Phase A, steps 0–9, and the sky130A environment (Claude Code)
 
 - **Step 0 (setup), committed `03390202`.**
   - Container up and idle. Branch `plan-v3-phaseA`; tag `prereg-v1` on `a8c6f7d3`.
@@ -855,3 +855,16 @@ the work manageable.
   - Checked from a login shell, with and without `env.sh`. Tests: 118 passed plus the expected 5T S2 golden
     failure.
   - No result changes: the two inits agreed to 7 × 10⁻⁶ on every S0 bench.
+- **Step 9 (SPICE vs first order, per verified check; row 42).**
+  - Every check S2 simulates (G2.5, each iteration; G2.8, each method) now carries its first-order and SPICE use
+    as a fraction of eta × margin, their difference as a fraction of the margin, and whether they disagree in
+    sign. The names end in `_frac_of_allowed`, because `spice_use` already exists as the raw value.
+  - `G2.10_model_agreement (info)` lists the checks with a sign disagreement or a difference above 0.25 of the
+    margin (ASSUMPTION, flagging only). With nominal budgets it also sets each spec's worst G2.9 PVT point beside
+    the nominal result, with a note when they differ.
+  - **5T S2, 21:53–21:58, PASS.** Budgets are identical to step 8's. It is the first run with sky130A pinned, and
+    all 123 ngspice logs show "hs a".
+    - G2.10 compared 72 checks and flagged none; the largest gap is 0.17 of the margin (per_net, PM).
+    - Row 42's corner (GBW at `tt_v0.9_t27`) is in G2.9 at 6.34 × its allowed share, first order, not binding, as
+      predicted.
+  - Tests: 2 new, 34 Phase A tests in all; full suite 120 passed plus the expected 5T S2 golden failure.

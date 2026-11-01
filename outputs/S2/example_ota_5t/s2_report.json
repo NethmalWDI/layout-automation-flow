@@ -1,5 +1,5 @@
 {
-  "run_id": "2026-11-01T20:40:25-6fd258ff",
+  "run_id": "2026-11-01T21:52:56-832164db",
   "eta": 0.5,
   "design": "example_ota_5t",
   "budget_corners": "nominal",
@@ -652,7 +652,11 @@
           "meets_spec": true,
           "ok": true,
           "within_first_order_error_10pct": true,
-          "n_elements": 6
+          "n_elements": 6,
+          "first_order_use_frac_of_allowed": 0.9023657080846463,
+          "spice_use_frac_of_allowed": 0.971714790807308,
+          "diff_frac_of_margin": 0.03467454136133083,
+          "sign_disagrees": false
         },
         {
           "check": "gbw_mhz",
@@ -665,7 +669,11 @@
           "meets_spec": true,
           "ok": true,
           "within_first_order_error_10pct": true,
-          "n_elements": 21
+          "n_elements": 21,
+          "first_order_use_frac_of_allowed": 0.7219345532502347,
+          "spice_use_frac_of_allowed": 0.5873660529275945,
+          "diff_frac_of_margin": 0.06728425016132009,
+          "sign_disagrees": false
         },
         {
           "check": "pm_deg",
@@ -678,7 +686,11 @@
           "meets_spec": true,
           "ok": true,
           "within_first_order_error_10pct": true,
-          "n_elements": 16
+          "n_elements": 16,
+          "first_order_use_frac_of_allowed": 0.9998924625625096,
+          "spice_use_frac_of_allowed": 0.8249708619141337,
+          "diff_frac_of_margin": 0.08746080032418796,
+          "sign_disagrees": false
         },
         {
           "check": "vnoise_nv_rthz",
@@ -691,7 +703,11 @@
           "meets_spec": true,
           "ok": true,
           "within_first_order_error_10pct": true,
-          "n_elements": 6
+          "n_elements": 6,
+          "first_order_use_frac_of_allowed": 0.17620163701536554,
+          "spice_use_frac_of_allowed": 0.15133910988578153,
+          "diff_frac_of_margin": 0.012431263564792001,
+          "sign_disagrees": false
         },
         {
           "check": "sat_XM3",
@@ -704,7 +720,11 @@
           "meets_spec": true,
           "ok": true,
           "within_first_order_error_10pct": true,
-          "n_elements": 6
+          "n_elements": 6,
+          "first_order_use_frac_of_allowed": 0.034485078409030916,
+          "spice_use_frac_of_allowed": 0.02990658125924144,
+          "diff_frac_of_margin": 0.0022892485748947384,
+          "sign_disagrees": false
         },
         {
           "check": "sat_XM4",
@@ -717,7 +737,11 @@
           "meets_spec": true,
           "ok": true,
           "within_first_order_error_10pct": true,
-          "n_elements": 6
+          "n_elements": 6,
+          "first_order_use_frac_of_allowed": 0.034485078409030916,
+          "spice_use_frac_of_allowed": 0.02990658125924144,
+          "diff_frac_of_margin": 0.0022892485748947384,
+          "sign_disagrees": false
         },
         {
           "check": "sat_XM1",
@@ -730,7 +754,11 @@
           "meets_spec": true,
           "ok": true,
           "within_first_order_error_10pct": true,
-          "n_elements": 6
+          "n_elements": 6,
+          "first_order_use_frac_of_allowed": 0.21051937165693296,
+          "spice_use_frac_of_allowed": 0.2102005542074556,
+          "diff_frac_of_margin": 0.00015940872473868816,
+          "sign_disagrees": false
         },
         {
           "check": "sat_XM2",
@@ -743,7 +771,11 @@
           "meets_spec": true,
           "ok": true,
           "within_first_order_error_10pct": true,
-          "n_elements": 6
+          "n_elements": 6,
+          "first_order_use_frac_of_allowed": 0.21051937165693296,
+          "spice_use_frac_of_allowed": 0.2102005542074556,
+          "diff_frac_of_margin": 0.00015940872473868816,
+          "sign_disagrees": false
         },
         {
           "check": "sat_XM5",
@@ -756,7 +788,11 @@
           "meets_spec": true,
           "ok": true,
           "within_first_order_error_10pct": true,
-          "n_elements": 7
+          "n_elements": 7,
+          "first_order_use_frac_of_allowed": 0.9971545305629799,
+          "spice_use_frac_of_allowed": 0.9826246933769401,
+          "diff_frac_of_margin": 0.0072649185930198385,
+          "sign_disagrees": false
         }
       ],
       "pvt_checks": [],
@@ -935,6 +971,36 @@
         }
       }
     },
+    "G2.10_model_agreement (info)": {
+      "pass": null,
+      "flag_diff_frac_of_margin": 0.25,
+      "flag_note": "ASSUMPTION (plan v3 Phase A step 9): a difference above 0.25 of the margin, or a sign disagreement, lists the check for review; reported, not gated",
+      "checks_compared": 72,
+      "flagged": [],
+      "pvt_worst_points": {
+        "pm_deg": {
+          "point": "sf_v1.1_t-40",
+          "first_order_use_of_allowed": 1.2279169079498222,
+          "nominal_first_order_use_of_allowed": 0.9998924625625096,
+          "nominal_spice_use_of_allowed": 0.8249708619141337,
+          "note": "differs: the nominal check is within its allowance in SPICE (0.825), but at sf_v1.1_t-40 the final budgets use 1.23 x the point's allowed share to first order; PVT points are not SPICE-verified (budget_corners nominal)"
+        },
+        "gain_db": {
+          "point": "fs_v0.9_t-40",
+          "first_order_use_of_allowed": 1.0711271226224226,
+          "nominal_first_order_use_of_allowed": 0.9023657080846463,
+          "nominal_spice_use_of_allowed": 0.971714790807308,
+          "note": "differs: the nominal check is within its allowance in SPICE (0.972), but at fs_v0.9_t-40 the final budgets use 1.07 x the point's allowed share to first order; PVT points are not SPICE-verified (budget_corners nominal)"
+        },
+        "gbw_mhz": {
+          "point": "tt_v0.9_t27",
+          "first_order_use_of_allowed": 6.335829422681386,
+          "nominal_first_order_use_of_allowed": 0.7219345532502347,
+          "nominal_spice_use_of_allowed": 0.5873660529275945,
+          "note": "differs: the nominal check is within its allowance in SPICE (0.587), but at tt_v0.9_t27 the final budgets use 6.34 x the point's allowed share to first order; PVT points are not SPICE-verified (budget_corners nominal)"
+        }
+      }
+    },
     "G2.4_linear_all_budgets_at_once": {
       "pass": null,
       "note": "reported: first-order sum vs exact linear model with every budget inserted",
@@ -982,8 +1048,8 @@
   },
   "all_pass": true,
   "provenance": {
-    "created": "2026-11-01T19:46:02+00:00",
-    "git_commit": "f79e53f8370f548d4666fb94c567ffd68753c905",
+    "created": "2026-11-01T20:58:43+00:00",
+    "git_commit": "70279125a5e0fba4fab29ed857716eb6483e1594",
     "inputs": [
       {
         "path": "outputs/S0/example_ota_5t/circuit_ir.json",

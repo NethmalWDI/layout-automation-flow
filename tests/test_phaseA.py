@@ -474,3 +474,35 @@ def test_g20_is_rate_times_the_need_the_allocation_uses():
         use = g20["checks"][cid]
         assert use["use_at_expected_need"] == pytest.approx(sum(v * w[k] for k, v in a.items()))
         assert "fraction_of_margin_route_as_sized_pcell" in use
+
+
+# ------------------------------------------------------------------ step 9: SPICE vs first order (row 42)
+def test_agreement_fields_per_verified_check():
+    from src.s2 import run as S2
+    a = S2.agreement(pred=0.5, use=-0.16, allowed=0.5, margin=1.0)        # row 42: first order full, SPICE improves
+    assert a["first_order_use_frac_of_allowed"] == pytest.approx(1.0)
+    assert a["spice_use_frac_of_allowed"] == pytest.approx(-0.32)
+    assert a["diff_frac_of_margin"] == pytest.approx(0.66) and a["sign_disagrees"] is True
+    b = S2.agreement(pred=0.40, use=0.45, allowed=0.5, margin=1.0)
+    assert b["diff_frac_of_margin"] == pytest.approx(0.05) and b["sign_disagrees"] is False
+    c = S2.agreement(pred=0.40, use=None, allowed=0.5, margin=1.0)         # failed run: nothing to compare
+    assert c["spice_use_frac_of_allowed"] is None and c["diff_frac_of_margin"] is None and c["sign_disagrees"] is False
+
+
+def test_model_agreement_summary_on_fake_numbers():
+    from src.s2 import run as S2
+    row = lambda check, pred, use: {"check": check, **S2.agreement(pred, use, 0.5, 1.0)}   # noqa: E731
+    g25 = [row("gain_db", 0.48, 0.49), row("gbw_mhz", 0.50, -0.16), row("pm_deg", 0.10, 0.40)]
+    srcs = {"G2.5 iteration 0": g25, "G2.8 equal": [row("gain_db", 0.2, 0.21), row("pm_deg", 0.3, None)]}
+    pvt = {"use_of_allowed": {"tt_v0.9_t27": {"gbw_mhz": 7.8, "gain_db": "spec not met before layout"},
+                              "ss_v1_t27": {"gbw_mhz": 0.4, "gain_db": 0.9}}}
+    g = S2.model_agreement(srcs, g25, pvt)
+    assert g["pass"] is None and g["flag_diff_frac_of_margin"] == 0.25 and "ASSUMPTION" in g["flag_note"]
+    assert g["checks_compared"] == 4                                        # the failed run is not compared
+    assert [(f["source"], f["check"]) for f in g["flagged"]] == [("G2.5 iteration 0", "gbw_mhz"),   # sign
+                                                                ("G2.5 iteration 0", "pm_deg")]    # 0.30 > 0.25
+    w = g["pvt_worst_points"]
+    assert w["gbw_mhz"]["point"] == "tt_v0.9_t27" and w["gbw_mhz"]["first_order_use_of_allowed"] == 7.8
+    assert "differs" in w["gbw_mhz"]["note"]                               # nominal -0.32 in SPICE, corner 7.8 first order
+    assert w["gain_db"]["point"] == "ss_v1_t27" and "note" not in w["gain_db"]   # 0.9 <= 1: no note
+    assert "pvt_worst_points" not in S2.model_agreement(srcs, g25, None)

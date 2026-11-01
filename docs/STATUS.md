@@ -2,9 +2,25 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-01 21:45 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–8
-done and committed. **The sky130A environment change (Imasha's request, before step 9) is done and waits for her commit**;
-step 9 has not started (no code changed). Nothing is running.
+**Last updated:** 2026-11-01 22:05 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–8
+and the sky130A environment change done and committed (the environment change is commit `70279125`, named
+"step_9"); **step 9 done, waiting for Imasha's commit**. Nothing is running.
+
+## Stopped for the day (2026-11-01 22:05 CET, Imasha turns the PC off)
+
+- **State:** no job is running in `layout-s0s3`, and no `.git/index.lock`. Step 9's changes are on disk and not yet
+  committed: 16 files, among them `src/s2/run.py`, `tests/test_phaseA.py`, the 5T's S2 outputs, README and the
+  docs. Suggested message: `Phase A step 9: SPICE vs first-order agreement reported per verified check`.
+- **Claude Code keeps its Phase A claim** (*Claims*): the plan is paused, not finished. Cowork: don't edit the
+  claimed files or outputs.
+- **To resume:**
+  1. Start Docker Desktop, then the container. Its restart policy is "no", so it does not start by itself:
+     `docker start layout-s0s3`.
+  2. Commit step 9 in GitHub Desktop, if not done today.
+  3. In Claude Code: read `CLAUDE.md`, this file and `docs/plan_v3_phaseA.md`, check the container and git
+     (read-only), and continue Phase A at **step 10** (LOADBench hand model with the mirror doublet). Then steps
+     11–13, with the same commit-per-step routine.
+- **Open questions:** none blocking. LOADBench's predictions for steps 3, 6, 8 and 9 are read at step 12's re-run.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -33,6 +49,8 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- Phase A step 9's 5T S2 run has ended, 21:53–21:58, PASS with rc 0 (`runs/logs/phaseA_step9_5t_S2.log`). It was
+  started from a login shell + `env.sh`; all 123 ngspice logs show sky130's init ("hs a").
 - Phase A step 8's 5T S2 run has ended, 20:40–20:46, PASS with rc 0 (`runs/logs/phaseA_step8_5t_S2.log`).
 - Phase A step 7's S1 re-run has ended, 20:07–20:08 (`runs/logs/phaseA_step7_S1.log`): `example_ota_5t` PASS;
   `loadbench_miller` FAIL on G1.6 only, as in plan v2.
@@ -97,7 +115,7 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
-| Claude Code | Plan v3 Phase A: `src/`, `scripts/benchlib.py`, `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`, `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`; plus the doc updates the plan's steps ask for (README, progress log, flow record section 7 draft) | 2026-11-01 16:10 CET |
+| Claude Code | Plan v3 Phase A: `src/`, `scripts/benchlib.py`, `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`, `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`; plus the doc updates the plan's steps ask for (README, progress log, flow record section 7 draft) | 2026-11-01 16:10 CET; **paused 22:05, resumes at step 10** |
 | Cowork | **released 2026-11-01**: Phase A plan written (`docs/plan_v3_phaseA.md`; `docs/HANDOFF.md` rewritten; this file; progress log). No code or outputs changed. **Next: Claude Code claims Phase A at its step 0** | 2026-11-01 |
 | Cowork (earlier) | **released 2026-10-27 17:15 CET**: Plan v3 review pack done (`docs/plan_v3_review_pack.md`, `docs/plan_v3/`, flow record 7.12 and rows 46–50, project doc 14). Earlier: the documentation pass (released 14:20). No runs, no flow code changed | 2026-10-27 |
 | Claude Code | **released 2026-10-27 13:35 CET**: the runs are finished; the write-up goes to Cowork (Imasha's decision) | 2026-10-27 |
@@ -120,8 +138,52 @@ predictions to write into PREREG before the runs.
 | 6 one tolerance, lp_floor_k | **done**, committed `8e716213` | `TOL_USE` for every use check; `lp_floor_k` in G2.8 (Imasha's answer (a)). 5T S2 PASS; G2.8 outcome words unchanged; new reference budgets. Details below |
 | 7 PM reference phase | **done**, committed `f79e53f8` | PM's reference is the 1 Hz phase rounded to the nearest multiple of 180°, in the linear model and the bench template. Both designs' G1.2 PM differences move by under 0.002°. Details below |
 | 8 G2.0 route lengths | **done**, committed `8cc70503` | route stubs from the representative cells, in G2.0 and in the need the allocation uses (Imasha's answer (b), PREREG note). 5T S2 PASS: only XM5's route moves; 11 of 21 budgets move; G2.8 outcome words unchanged. Details below |
-| – sky130A environment (Imasha's request, before step 9) | **done**, waiting for Imasha's commit | `scripts/env.sh` selects sky130A with the image's `sak-pdk` command; `TOOL_ENV` pins the same. Not a plan step; no rule or number changes. Details below |
-| 9 SPICE vs first order | not started (no code changed) | |
+| – sky130A environment (Imasha's request, before step 9) | **done**, committed `70279125` | `scripts/env.sh` selects sky130A with the image's `sak-pdk` command; `TOOL_ENV` pins the same. Not a plan step; no rule or number changes. Details below |
+| 9 SPICE vs first order | **done**, waiting for Imasha's commit | agreement fields on every SPICE-verified check (G2.5, G2.8) and the `G2.10_model_agreement (info)` summary. 5T: 72 checks, none flagged; the row-42 corner is in G2.9 at 6.34 × allowed, not binding. Budgets identical to step 8. Details below |
+
+Step 9 record (row 42; pending task 1e):
+- **What changed** (`src/s2/run.py`):
+  - `agreement()` adds four fields to every check S2 simulates (G2.5 rows, every iteration; each G2.8 method's
+    SPICE rows):
+    - `first_order_use_frac_of_allowed` and `spice_use_frac_of_allowed`, both as a fraction of eta × margin;
+    - `diff_frac_of_margin` = |SPICE − first order| / margin;
+    - `sign_disagrees`.
+  - **Naming, not in the plan:** the plan calls the first two `first_order_use` and `spice_use`. But `spice_use`
+    already holds G2.5's raw use in the check's units, read by the closure step, the plots and the snapshots. The
+    new names follow G2.8's existing `spice_use_frac_of_allowed`.
+  - `model_agreement()` builds `G2.10_model_agreement (info)` (pass `None`):
+    - every check with a sign disagreement or a difference above `MODEL_AGREEMENT_FLAG` = 0.25 of the margin,
+      with its source ("G2.5 iteration k", "G2.8 <method>");
+    - the 0.25 is an ASSUMPTION for flagging only, and the report says so;
+    - failed runs (no SPICE value) are not compared.
+  - **PVT points.** With `budget_corners: nominal` they are not SPICE-verified. G2.10 lists each spec's worst G2.9
+    point (first order) beside the nominal check's first-order and SPICE use. When the point is over 1 while the
+    nominal check is within its allowance in SPICE, it adds a note saying so.
+  - With `--no-spice`, G2.10 says nothing was simulated.
+- **5T S2 run** (21:53–21:58, PASS; the first run with sky130A pinned, launched from a login shell):
+  - **Budgets:** identical to `budgets_step8.json` (largest relative difference 0.0). That confirms step 9 only
+    reports and the environment change moves no number. All 123 ngspice logs show "hs a".
+  - **G2.10:** 72 checks compared, none flagged, no sign disagreement. The largest differences:
+    - ours / G2.5: PM, first order 1.000 vs SPICE 0.825 of allowed, a gap of 0.088 of the margin;
+    - lp_sum and lp_floor_k: GBW 0.999 vs 0.748 (0.126);
+    - per_net: PM 1.493 vs 1.158 (0.168).
+  - **PVT worst points** (first order; all three noted as differing from the nominal SPICE result):
+
+    | Spec | Worst G2.9 point | Use of allowed | Nominal SPICE use |
+    |---|---|---|---|
+    | GBW | `tt_v0.9_t27`, row 42's corner | 6.34 | 0.587 |
+    | PM | `sf_v1.1_t-40` | 1.23 | 0.825 |
+    | gain | `fs_v0.9_t-40` | 1.07 | 0.972 |
+
+    G2.9 has 16 point × spec checks over 1 (19 in step 3, before steps 6 and 8 changed the budgets).
+  - Row 42 in plan v2: at that corner first order said full use, but SPICE measured −0.16 of the margin, i.e. the
+    GBW rose. With nominal budgets the corner is not simulated, so that sign disagreement is reported from plan v2
+    only. G2.10 says the corner's figure is first order.
+- **Predictions (section 4), step 9:** the 5T's holds: the row-42 corner appears in the PVT report and no longer
+  binds. LOADBench's ("listed checks, if any") is read in step 12.
+- **Tests.** 2 new, on fake numbers: the agreement fields, including a failed run, and the G2.10 summary (flagging,
+  failed runs not counted, the PVT note). `tests/test_phaseA.py` has 34 tests, all passing; the full suite is 120
+  passed plus the expected 5T S2 golden failure.
 
 sky130A environment record (Imasha's request, 2026-11-01 evening, while step 9 was being read):
 - **Why.** iic-osic-tools starts on its default PDK, IHP-SG13G2: the login profile sets `PDK`,
@@ -820,9 +882,9 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
-- 2026-11-01 (Claude Code): **Plan v3 Phase A, steps 0–8, and the sky130A environment** (branch
-  `plan-v3-phaseA`). Each change and its result is in the progress table under *Plan v3 Phase A*. Steps 0–8 are
-  committed; the sky130A environment change waits for Imasha's commit.
+- 2026-11-01 (Claude Code): **Plan v3 Phase A, steps 0–9, and the sky130A environment** (branch
+  `plan-v3-phaseA`). Each change and its result is in the progress table under *Plan v3 Phase A*. Steps 0–8 and
+  the sky130A environment change are committed; step 9 waits for Imasha's commit.
 - 2026-11-01 (Cowork): **Plan v3 Phase A planned** (no code, runs or outputs changed).
   - `docs/plan_v3_phaseA.md`: the decisions, Q1–Q4, steps 0–13, the predictions, the open issues per stage (for
     this version and for a new SPICE file), and how LLMs are used in each stage.

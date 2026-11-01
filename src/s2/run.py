@@ -40,6 +40,10 @@ ETA_DEFAULT = 0.5          # ASSUMPTION (accepted): half of every margin is rese
 COUPLE_FRACTION = 0.25     # ASSUMPTION: expected parallel run = 1/4 of the shorter of the two routes
 SPECS = ("gain_db", "gbw_mhz", "pm_deg", "vnoise_nv_rthz")
 FIRST_ORDER_ERROR_REPORTED = 0.10   # G2.5's plan-v2 tolerance (first-order model error): a reported column only
+MODEL_AGREEMENT_FLAG = 0.25         # ASSUMPTION (plan v3 Phase A step 9): |SPICE - first order| above this share of
+                                    # the margin lists a check in G2.10, for review only; not a gate
+AGREEMENT_KEYS = ("first_order_use_frac_of_allowed", "spice_use_frac_of_allowed", "diff_frac_of_margin",
+                  "sign_disagrees")
 CLOSURE_ITERS = 2
 SCENARIO_TIMEOUT_S = 180   # a budget scenario that has not converged by then is a failed run (e.g. a baseline's
                            # huge series resistor leaves no DC solution); it is recorded, never a crash
@@ -486,6 +490,54 @@ def pvt_use_table(pvt_info: dict, points: dict, specs, x: dict) -> dict:
     return {"use_of_allowed": table, "worst": worst, "over_allowed": sorted(over)}
 
 
+def agreement(pred: float, use: float | None, allowed: float, margin: float) -> dict:
+    """Step 9 (row 42): first order vs SPICE for one verified check. Both uses as a fraction of eta x margin, their
+    difference as a fraction of the margin, and whether they disagree in sign (e.g. first order says a budget set
+    uses the check while SPICE says it improves it)."""
+    return {"first_order_use_frac_of_allowed": pred / allowed if allowed else None,
+            "spice_use_frac_of_allowed": None if use is None or not allowed else use / allowed,
+            "diff_frac_of_margin": None if use is None or not margin else abs(use - pred) / margin,
+            "sign_disagrees": use is not None and pred * use < 0}
+
+
+def model_agreement(sources: dict, nominal_rows: list, pvt: dict | None, flag: float = MODEL_AGREEMENT_FLAG) -> dict:
+    """G2.10 (info): the SPICE-verified checks whose first-order and SPICE uses disagree in sign or differ by more
+    than `flag` of the margin. sources: {label: rows carrying 'check' and the agreement() fields}; a failed run (no
+    SPICE value) is not compared. With budget_corners nominal the PVT points are not SPICE-verified: `pvt` (G2.9's
+    first-order table) gives each spec's worst point, set beside the nominal check (nominal_rows: G2.5's final
+    rows), with a note where they differ."""
+    flagged, n = [], 0
+    for src, rows in sources.items():
+        for r in rows:
+            if r.get("diff_frac_of_margin") is None:
+                continue
+            n += 1
+            if r["sign_disagrees"] or r["diff_frac_of_margin"] > flag:
+                flagged.append({"source": src, "check": r["check"], **{k: r[k] for k in AGREEMENT_KEYS}})
+    out = {"pass": None, "flag_diff_frac_of_margin": flag,
+           "flag_note": f"ASSUMPTION (plan v3 Phase A step 9): a difference above {flag:g} of the margin, or a sign "
+                        "disagreement, lists the check for review; reported, not gated",
+           "checks_compared": n, "flagged": flagged}
+    if pvt:
+        nom = {r["check"]: r for r in nominal_rows}
+        worst: dict = {}
+        for pid, row in pvt["use_of_allowed"].items():
+            for spec, u in row.items():
+                if isinstance(u, (int, float)) and (spec not in worst or u > worst[spec]["first_order_use_of_allowed"]):
+                    worst[spec] = {"point": pid, "first_order_use_of_allowed": u}
+        for spec, w in sorted(worst.items()):
+            r = nom.get(spec) or {}
+            sp = r.get("spice_use_frac_of_allowed")
+            w.update({"nominal_first_order_use_of_allowed": r.get("first_order_use_frac_of_allowed"),
+                      "nominal_spice_use_of_allowed": sp})
+            if w["first_order_use_of_allowed"] > 1.0 + 1e-9 and sp is not None and sp <= 1.0 + TOL_USE:
+                w["note"] = (f"differs: the nominal check is within its allowance in SPICE ({sp:.3f}), but at "
+                             f"{w['point']} the final budgets use {w['first_order_use_of_allowed']:.3g} x the point's "
+                             "allowed share to first order; PVT points are not SPICE-verified (budget_corners nominal)")
+        out["pvt_worst_points"] = worst
+    return out
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("package")
@@ -731,7 +783,8 @@ def main(argv=None) -> int:
                          "spice_use_frac_of_margin": None if use is None else use / c["margin"],
                          "meets_spec": meets, "ok": use is not None and meets and use <= c["b"] * (1 + TOL_USE),
                          "within_first_order_error_10pct": use is not None and use <= c["b"] * (1 + FIRST_ORDER_ERROR_REPORTED),
-                         "n_elements": len(scen[c["id"]][1]) + len(scen[c["id"]][2])})
+                         "n_elements": len(scen[c["id"]][1]) + len(scen[c["id"]][2]),
+                         **agreement(pred, use, c["b"], c["margin"])})
         return rows
 
     if not a.no_spice:
@@ -781,8 +834,7 @@ def main(argv=None) -> int:
             for m_, v_ in bl.items():
                 rows_ = spice_checks(checks_b, v_["budgets"], f"baselines/{m_}")
                 v_["spice"] = {r_["check"]: {"spice_use_frac_of_margin": r_["spice_use_frac_of_margin"],
-                                             "spice_use_frac_of_allowed": None if r_["spice_use"] is None
-                                             else r_["spice_use"] / r_["allowed_eta_margin"],
+                                             **{k: r_[k] for k in AGREEMENT_KEYS},
                                              "meets_spec": r_["meets_spec"], "value_now": r_["value_now"]}
                                for r_ in rows_}
                 fr = [r_["spice_use_frac_of_allowed"] for r_ in v_["spice"].values() if r_["spice_use_frac_of_allowed"] is not None]
@@ -827,6 +879,16 @@ def main(argv=None) -> int:
             "note": "budgets at the nominal corner only (budget_corners: nominal; PREREG 2026-11-01). Per point and "
                     "spec: first-order use of eta x that point's margin by the final budgets (sum of rate at the "
                     "point x budget). Reported, not gated; above 1 the point would use more than its allowed share"})
+    if a.no_spice:
+        gates["G2.10_model_agreement (info)"] = {"pass": None, "note": "--no-spice: no check was simulated"}
+    else:   # step 9 (row 42): first order vs SPICE for every check simulated in G2.5 and G2.8
+        srcs = {f"G2.5 iteration {it_['iteration']}": it_["rows"] for it_ in ver["iterations"]}
+        if not a.no_baselines:
+            srcs.update({f"G2.8 {m_}": [{"check": k, **r_} for k, r_ in v_.get("spice", {}).items()]
+                         for m_, v_ in bl.items()})
+        g9 = gates.get("G2.9_pvt_constraints (info)") or {}
+        gates["G2.10_model_agreement (info)"] = model_agreement(
+            srcs, ver["iterations"][-1]["rows"], g9 if "use_of_allowed" in g9 else None)
     caps, res = parts(list(xv), xv)
     lin = linear.evaluate(ir, op, extra_c=[(a_, b_, c_ * 1e-15) for a_, b_, c_ in caps], extra_r=res, drive=drive)
     pred_first = {c["id"]: sum(c["a"].get(k, 0.0) * v for k, v in xv.items()) for c in constraints}
