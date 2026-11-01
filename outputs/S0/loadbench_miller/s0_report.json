@@ -38,6 +38,54 @@
         }
       ]
     },
+    "G0.11_designer_groups (info)": {
+      "pass": null,
+      "file": "inputs/loadbench_miller/designer_groups.yaml",
+      "groups": [
+        {
+          "name": "pmos_bias_bank",
+          "kind": "mirror_bank",
+          "devices": [
+            "XDiodeTransistorPmos2",
+            "XNormalTransistorPmos8",
+            "XNormalTransistorPmos5"
+          ],
+          "agrees_with": "pmos_current_mirror_bank_ibias"
+        },
+        {
+          "name": "input_pair",
+          "kind": "diff_pair",
+          "devices": [
+            "XNormalTransistorPmos7",
+            "XNormalTransistorPmos6"
+          ],
+          "agrees_with": "p_differential_pair"
+        },
+        {
+          "name": "nmos_mirror_load",
+          "kind": "mirror",
+          "devices": [
+            "XDiodeTransistorNmos1",
+            "XNormalTransistorNmos4"
+          ],
+          "agrees_with": "n_current_mirror_load"
+        },
+        {
+          "name": "cs_stage",
+          "kind": "functional",
+          "devices": [
+            "XNormalTransistorNmos3",
+            "XNormalTransistorPmos5"
+          ],
+          "agrees_with": "undefined_common_source_stage"
+        }
+      ],
+      "agreement": "full",
+      "automatic_blocks_replaced": [],
+      "automatic_blocks_kept": [],
+      "date": "2026-11-01",
+      "source": "designer review (Imasha)"
+    },
     "G0.5_round_trip_lvs": {
       "match_uniquely": true,
       "property_errors": false,
@@ -47,7 +95,13 @@
     },
     "G0.6_testbench_reproduction": {
       "pass": true,
-      "note": "no upstream values to compare (stress variant)",
+      "note": "no upstream measurements.json to compare: the achieved values are this run's own (specs_from_achieved); an external reference, if any, is checked in G0.8",
+      "spec_source": {
+        "pm_deg": "config.yaml",
+        "power_uw": "config.yaml",
+        "gain_db": "package rule min_delta = -1.0 on the simulated 57.9997",
+        "gbw_mhz": "package rule min_factor = 0.9 on the simulated 23.3871"
+      },
       "measured": {
         "gain_db": 57.9997,
         "gbw_mhz": 23.3871,
@@ -149,31 +203,31 @@
       "runs": 200,
       "summary": {
         "gain_db": {
-          "mean": 58.0005065,
-          "std": 0.02276830883456039,
-          "min": 57.9463,
-          "max": 58.0644,
+          "mean": 57.9968385,
+          "std": 0.02333185472642212,
+          "min": 57.9317,
+          "max": 58.0705,
           "n": 200
         },
         "gbw_mhz": {
-          "mean": 23.39704,
-          "std": 0.4698414056170026,
-          "min": 21.9949,
-          "max": 24.7869,
+          "mean": 23.335326,
+          "std": 0.5241443217033542,
+          "min": 21.7964,
+          "max": 24.8486,
           "n": 200
         },
         "pm_deg": {
-          "mean": 65.3483285,
-          "std": 0.2130255075621474,
-          "min": 64.8654,
-          "max": 65.949,
+          "mean": 65.3366175,
+          "std": 0.21620359761544042,
+          "min": 64.7896,
+          "max": 65.9402,
           "n": 200
         },
         "offset_v": {
-          "mean": 0.0016801049999999801,
-          "std": 0.004080289566773244,
-          "min": -0.010168999999999984,
-          "max": 0.011216000000000004,
+          "mean": 0.00219713999999998,
+          "std": 0.004145582456048787,
+          "min": -0.009148000000000045,
+          "max": 0.013865000000000016,
           "n": 200,
           "definition": "follower output - VCM (single-ended) or v(OUTP) - v(OUTN) (differential)"
         }
@@ -183,7 +237,7 @@
   },
   "notes": [
     "ASSUMPTION: ideal Capacitor2 bound to sky130_fd_pr__cap_mim_m3_1 {'W': 15.66, 'L': 15.66} for the layout view (-0.018% value error); predicted, not from upstream",
-    "ASSUMPTION: stress-variant specs derived from its own achieved values by {'gain_db': {'min_delta': -1.0}, 'gbw_mhz': {'min_factor': 0.9}}; this is a test case, not a design target"
+    "ASSUMPTION: specs derived from this design's own simulated values by the package rule {'gain_db': {'min_delta': -1.0}, 'gbw_mhz': {'min_factor': 0.9}} (no upstream specs, or a stress variant)"
   ],
   "testbenches": {
     "diso_amp_AC": {
@@ -194,6 +248,7 @@
         "pm_deg": 65.3233
       },
       "log": "outputs/S0/loadbench_miller/tb/diso_amp_AC.log",
+      "timed_out": false,
       "numerical_warnings": []
     },
     "diso_amp_OP": {
@@ -204,6 +259,7 @@
         "vout_v": 0.902074
       },
       "log": "outputs/S0/loadbench_miller/tb/diso_amp_OP.log",
+      "timed_out": false,
       "numerical_warnings": []
     },
     "diso_amp_NOISE": {
@@ -213,13 +269,14 @@
         "vnoise_rms_uv_rms": 3771.24
       },
       "log": "outputs/S0/loadbench_miller/tb/diso_amp_NOISE.log",
+      "timed_out": false,
       "numerical_warnings": []
     }
   },
   "all_pass": false,
   "provenance": {
-    "created": "2026-10-26T04:55:58+00:00",
-    "git_commit": "43f7d57f1a558f0d6ffe5585f29f43e27f23ef04",
+    "created": "2026-11-01T16:42:12+00:00",
+    "git_commit": "81b1bdb1ff9c03a04178106d5d015b6abe7393b6",
     "inputs": [
       {
         "path": "circuits/loadbench_miller/source/loadbench_miller.spice",
@@ -231,7 +288,7 @@
       },
       {
         "path": "inputs/loadbench_miller/package.yaml",
-        "sha256": "f45a4fbefc8eb61cb1afe9a7149b553d3bbc9d16428dcc4a78e177f28026a701"
+        "sha256": "4def9fced6fb50e7437cd182ba79853f6a02016bfffcb9d8bf74dcb6246e6c12"
       },
       {
         "path": "circuits/loadbench_miller/source/loadbench_miller.spice",
@@ -264,6 +321,10 @@
       {
         "path": "circuits/loadbench_miller/testbenches/diso_amp_NOISE.spice",
         "sha256": "e88215883b38775583dd304e9ec5015e245fd0d71bde659a5a0038099c7051d7"
+      },
+      {
+        "path": "inputs/loadbench_miller/designer_groups.yaml",
+        "sha256": "cfa71caa796e32f34d4d947344543933d8a527073b909e403fcba8b9bf988ab9"
       }
     ]
   }

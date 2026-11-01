@@ -14,9 +14,10 @@
         1.0
       ],
       "consistent": true,
+      "off_members": [],
       "purpose": "input offset, CMRR, symmetric loading of the pair's drains",
       "evidence": [
-        "hierarchy block p_differential_pair (name_map)",
+        "hierarchy block input_pair (designer)",
         "sizes [(14.21, 0.89, 1, 1)]",
         "gm spread 0.86%"
       ]
@@ -34,9 +35,10 @@
         1.0
       ],
       "consistent": true,
+      "off_members": [],
       "purpose": "current-copy accuracy (systematic offset, gain)",
       "evidence": [
-        "hierarchy block n_current_mirror_load (name_map)",
+        "hierarchy block nmos_mirror_load (designer)",
         "sizes [(66.13, 2.03, 1, 1)]",
         "gm spread 0.88%"
       ]
@@ -44,26 +46,7 @@
     {
       "devices": [
         "XDiodeTransistorPmos2",
-        "XNormalTransistorPmos8"
-      ],
-      "kind": "mirror",
-      "equal_size": false,
-      "same_L_and_model": true,
-      "ratio_Wm": [
-        1.0,
-        2.4298
-      ],
-      "consistent": true,
-      "purpose": "current-copy accuracy (systematic offset, gain)",
-      "evidence": [
-        "hierarchy block p_current_mirror (name_map)",
-        "sizes [(37.3, 0.74, 1, 1), (90.63, 0.74, 1, 1)]",
-        "gm spread 125.84%"
-      ]
-    },
-    {
-      "devices": [
-        "XDiodeTransistorPmos2",
+        "XNormalTransistorPmos8",
         "XNormalTransistorPmos5"
       ],
       "kind": "mirror",
@@ -71,13 +54,15 @@
       "same_L_and_model": true,
       "ratio_Wm": [
         1.0,
+        2.4298,
         23.781
       ],
       "consistent": true,
+      "off_members": [],
       "purpose": "current-copy accuracy (systematic offset, gain)",
       "evidence": [
-        "hierarchy block p_current_mirror (name_map)",
-        "sizes [(37.3, 0.74, 1, 1), (887.03, 0.74, 1, 1)]",
+        "hierarchy block pmos_bias_bank (designer)",
+        "sizes [(37.3, 0.74, 1, 1), (90.63, 0.74, 1, 1), (887.03, 0.74, 1, 1)]",
         "gm spread 2565.07%"
       ]
     }
@@ -85,10 +70,10 @@
   "not_matching_blocks": [
     {
       "devices": [
-        "XNormalTransistorPmos5",
-        "XNormalTransistorNmos3"
+        "XNormalTransistorNmos3",
+        "XNormalTransistorPmos5"
       ],
-      "block": "undefined_common_source_stage",
+      "block": "cs_stage",
       "kind": "gm-structure"
     }
   ],

@@ -2,8 +2,8 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-01 17:55 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–4
-done (0–3 committed); step 4 is waiting for Imasha's commit. Nothing is running.
+**Last updated:** 2026-11-01 18:00 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–5
+done (0–4 committed); step 5 is waiting for Imasha's commit. Nothing is running.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -32,6 +32,8 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- Phase A step 5's LOADBench S0 + S1 re-run ended at 17:54 (`runs/logs/phaseA_step5_loadbench_S0S1.log`), with
+  the expected statuses: S0 FAIL on G0.7 (the known PDK finding) and S1 FAIL on G1.6, as in plan v2.
 - Phase A step 3's two 5T S2 runs have ended, both PASS with rc 0: 17:16–17:21 (`runs/logs/phaseA_step3_5t_S2.log`),
   and the re-run after the G2.9 label fix, 17:22–17:28 (`runs/logs/phaseA_step3_5t_S2_rerun.log`).
 - Phase A step 2's two 5T S2 runs have ended, both PASS with rc 0. The baseline with the unchanged code ran
@@ -106,8 +108,50 @@ predictions to write into PREREG before the runs.
 | 1 PREREG amendment | **done**, committed `02279b98` | `PREREG.md`, *Amendments*: "2026-11-01, Plan v3 Phase A (5T and LOADBench)". It has the plan's items 1–8 with Q3's tolerance and the do-no-harm ASSUMPTION, plus the section 4 predictions table, checked identical to the plan by diff. Text only: no code changed |
 | 2 run hygiene | **done**, committed `1e53a965` | exit code 3 for a gate FAIL; S2/S3 clean output folders with `run_id`; the snapshot identity check. Tests: 99 passed, golden 20/20 OK. 5T S2 budgets identical. Details below |
 | 3 nominal-only budgets | **done**, committed `47ee9df4` | `budget_corners: nominal` for the 5T and LOADBench; PVT use reported in G2.9. The 5T regression check against `after_nopvt` is exact. Details below |
-| 4 S3 saturation do-no-harm | **done** 2026-11-01 17:55 CET; waiting for Imasha's commit | `use_check()` in S3; `TOL_USE` = 0.02 in `src/common/tolerance.py`. No change on the 5T or LOADBench: every device is saturated. Details below |
-| 5 tagging and grouping | next, after the commit | |
+| 4 S3 saturation do-no-harm | **done**, committed `81b1bdb1` | `use_check()` in S3; `TOL_USE` = 0.02 in `src/common/tolerance.py`. No change on the 5T or LOADBench: every device is saturated. Details below |
+| 5 tagging and grouping | **done** 2026-11-01 18:00 CET; waiting for Imasha's commit | dummy-aware tagger; mirror-bank rule; LOADBench designer groups. LOADBench's IR has one bank {P2, P8, P5}, consistent in G1.4; the designer file agrees fully. Details below |
+| 6 one tolerance, lp_floor_k | next, after the commit | |
+
+Step 5 record (A3, rows 47–48; D-e):
+- **(a) Dummy-aware tagger** (`src/s1/run.py`).
+  - `dummy_devices()`: devices in a hierarchy block of category or primitive "dummy", or with d = g = s.
+  - `classify_nodes` skips them when tagging diode-connected and tail nodes. Their capacitance stays in the linear
+    model.
+  - `node_classes.json` lists them. Neither design has dummies, so there is no change on them; a synthetic test
+    covers the rule.
+- **(b) Mirror-bank rule** (`src/s0/ingest.py`, `merge_mirror_banks()`).
+  - Mirror blocks of one polarity whose devices share the gate net and the source net, with a diode-connected
+    device, become one block `<p|n>mos-current-mirror-bank`. The bank lists the diode device first, the blocks it
+    was merged from, and the W × m ratios.
+  - LOADBench: X4 {P2, P8} and X5 {P2, P5} become `pmos_current_mirror_bank_ibias` {P2, P8, P5}, ratio
+    1 : 2.4298 : 23.781. Its name is unique; the two blocks it replaces were both `p_current_mirror`.
+  - The 5T's blocks are unchanged (test on its committed IR).
+- **(c) Designer groups.** `inputs/loadbench_miller/designer_groups.yaml` (2026-11-01, "designer review
+  (Imasha)", the plan's groups and floorplan rows), pointed to by the package key `designer_groups`
+  (documented in `docs/INPUTS.md`). S0's `apply_designer_groups()`:
+  - compares each group with the automatic blocks; the result is G0.11 (info);
+  - puts the designer's group in place of an automatic block it agrees with (`source: designer`, `agrees_with`),
+    and replaces an automatic block of the same matching class that it disagrees with. Blocks of another class
+    stay, so P5 can be in the bank and in the CS stage;
+  - copies the floorplan rows into the IR, under `hierarchy.floorplan_rows`, for S4 only;
+  - adds the file to S0's provenance.
+- **LOADBench S0 + S1 re-run, 17:42–17:54:**
+  - IR blocks: `cs_stage`, `input_pair`, `nmos_mirror_load`, `pmos_bias_bank`, all from the designer, all agreeing
+    with the automatic blocks.
+  - G0.11: full agreement.
+  - S1 G1.4 PASS: the bank is one mirror group, consistent (same L 0.74 µm and model, ratio 1 : 2.43 : 23.78);
+    `cs_stage` is in `not_matching_blocks`.
+  - Gate results are as in plan v2: S0 fails only G0.7, S1 only G1.6.
+  - The exit codes now separate them: `pcell_binding` returned 3, so S0 carried on to PVT.
+- **Predictions (section 4), step 5:** all hold.
+  - 5T: blocks unchanged.
+  - LOADBench: one bank, consistent in G1.4; the CS stage not matched; the designer file and the automatic rule
+    agree.
+- **Tests.** 5 new; `tests/test_phaseA.py` has 22, all passing, and the S0 and S1 test files pass. The full suite
+  is 108 passed plus the expected 5T S2 golden failure. LOADBench's S0 and S1 goldens are still OK after the
+  re-run.
+- **Note.** LOADBench's S2 and S3 outputs still come from plan v2. They read the new S0 IR at their next run, in
+  step 12.
 
 Step 4 record (A1, row 41):
 - **What was wrong.** For a device already below vdsat in the schematic, S3 measured its check against the negative

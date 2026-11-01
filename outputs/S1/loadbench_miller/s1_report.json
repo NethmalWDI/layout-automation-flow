@@ -4,6 +4,8 @@
     "G1.1_operating_point": {
       "pass": true,
       "numerical_warnings": [],
+      "not_saturated": [],
+      "dummies_excluded": [],
       "saturation": {
         "XDiodeTransistorNmos1": {
           "vds": 0.460093,
@@ -382,25 +384,14 @@
         {
           "devices": [
             "XDiodeTransistorPmos2",
-            "XNormalTransistorPmos8"
-          ],
-          "kind": "mirror",
-          "equal_size": false,
-          "ratio_Wm": [
-            1.0,
-            2.4298
-          ],
-          "consistent": true
-        },
-        {
-          "devices": [
-            "XDiodeTransistorPmos2",
+            "XNormalTransistorPmos8",
             "XNormalTransistorPmos5"
           ],
           "kind": "mirror",
           "equal_size": false,
           "ratio_Wm": [
             1.0,
+            2.4298,
             23.781
           ],
           "consistent": true
@@ -409,10 +400,10 @@
       "not_matching_blocks": [
         {
           "devices": [
-            "XNormalTransistorPmos5",
-            "XNormalTransistorNmos3"
+            "XNormalTransistorNmos3",
+            "XNormalTransistorPmos5"
           ],
-          "block": "undefined_common_source_stage",
+          "block": "cs_stage",
           "kind": "gm-structure"
         }
       ]
@@ -1123,16 +1114,16 @@
   },
   "all_pass": false,
   "provenance": {
-    "created": "2026-10-26T05:06:48+00:00",
-    "git_commit": "43f7d57f1a558f0d6ffe5585f29f43e27f23ef04",
+    "created": "2026-11-01T16:53:28+00:00",
+    "git_commit": "81b1bdb1ff9c03a04178106d5d015b6abe7393b6",
     "inputs": [
       {
         "path": "outputs/S0/loadbench_miller/circuit_ir.json",
-        "sha256": "90713387f941915e6876e7f4f1461950e329b03fd90b2cdfa5a53f5d75857180"
+        "sha256": "e28697cf5b2a5f7adf86f0f82f4bda78ad733e2ba0905423ba4a529521cebc09"
       },
       {
         "path": "inputs/loadbench_miller/package.yaml",
-        "sha256": "f45a4fbefc8eb61cb1afe9a7149b553d3bbc9d16428dcc4a78e177f28026a701"
+        "sha256": "4def9fced6fb50e7437cd182ba79853f6a02016bfffcb9d8bf74dcb6246e6c12"
       },
       {
         "path": "circuits/loadbench_miller/upstream/equations.predicted.json",

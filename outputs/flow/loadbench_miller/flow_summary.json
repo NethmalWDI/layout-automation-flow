@@ -7,44 +7,53 @@
     {
      "step": "ingest",
      "rc": 0,
-     "seconds": 16.1,
+     "seconds": 22.5,
      "log": "runs/logs/flow/loadbench_miller/S0_ingest.log"
     },
     {
      "step": "pcell_binding",
-     "rc": 1,
-     "seconds": 97.5,
+     "rc": 3,
+     "seconds": 76.2,
      "log": "runs/logs/flow/loadbench_miller/S0_pcell_binding.log"
+    },
+    {
+     "step": "pvt",
+     "rc": 0,
+     "seconds": 580.7,
+     "log": "runs/logs/flow/loadbench_miller/S0_pvt.log"
     }
    ],
-   "started": "2026-10-26T05:55:42",
+   "started": "2026-11-01T17:41:50",
    "gates": {
     "G0.1_inventory": true,
     "G0.2_validation": true,
     "G0.3_hash_freeze": true,
     "G0.4_name_map": true,
+    "G0.11_designer_groups (info)": null,
     "G0.5_round_trip_lvs": true,
     "G0.6_testbench_reproduction": true,
     "G0.8_external_reference": true,
-    "G0.7_pcell_binding_drc_lvs": false
+    "G0.7_pcell_binding_drc_lvs": false,
+    "G0.9_pvt (info)": null,
+    "G0.10_mismatch_mc (info)": null
    },
    "status": "FAIL",
    "failed_gates": [
     "G0.7_pcell_binding_drc_lvs"
    ],
-   "seconds": 113.6
+   "seconds": 679.5
   },
   "S1": {
    "stage": "S1",
    "steps": [
     {
      "step": "run",
-     "rc": 1,
-     "seconds": 439.9,
+     "rc": 3,
+     "seconds": 18.8,
      "log": "runs/logs/flow/loadbench_miller/S1_run.log"
     }
    ],
-   "started": "2026-10-26T05:59:28",
+   "started": "2026-11-01T17:53:09",
    "gates": {
     "G1.1_operating_point": true,
     "G1.2_linear_model_vs_spice": true,
@@ -57,7 +66,7 @@
    "failed_gates": [
     "G1.6_resistance_sensitivity_vs_spice"
    ],
-   "seconds": 440.0
+   "seconds": 18.8
   },
   "S2": {
    "stage": "S2",

@@ -761,3 +761,20 @@ the work manageable.
       checks 0.5 mV (passes) and 2 mV (fails) instead.
     - G3.3's "every device saturated after layout" condition was not in the plan's change list, and is
       unchanged.
+- **Step 5 (tagging and grouping; A3, rows 47–48; D-e).**
+  - **(a)** The S1 node tagger skips dummies, i.e. devices in a dummy block or with d = g = s, when it tags
+    diode-connected and tail nodes. Their capacitance stays in the model. This changes nothing on the two designs,
+    which have no dummies; a synthetic test covers it.
+  - **(b)** S0's mirror-bank rule merges mirror blocks of one polarity that share the gate and source nets and
+    have a diode-connected device. LOADBench's X4 {P2, P8} and X5 {P2, P5} become one bank {P2, P8, P5}, ratio
+    1 : 2.43 : 23.78, under a unique name. The 5T is unchanged.
+  - **(c)** `inputs/loadbench_miller/designer_groups.yaml` holds Imasha's groups and floorplan rows of
+    2026-11-01; the package key is `designer_groups`.
+    - S0 compares the groups with the automatic blocks (G0.11) and lets the designer win where they disagree,
+      for blocks of the same matching class.
+    - It records the groups with `source: designer`, and copies the rows into the IR for S4.
+  - **Re-run of LOADBench S0 + S1:**
+    - the IR has one bank, and the designer file agrees fully;
+    - S1 G1.4 passes, with the bank as one consistent mirror and the CS stage not matched;
+    - S0 and S1 fail only their plan-v2 gates (G0.7, G1.6).
+  - All step 5 predictions hold. Tests: 108 passed plus the expected 5T S2 golden failure (step 3).

@@ -25,6 +25,7 @@ them yet) carry `provenance: PREDICTED` inside and are listed in the design's `c
 | `conditions_override` | no | Overrides of `config.conditions` (e.g. a smaller load) |
 | `specs_from_achieved` | no | Derive specs from the achieved values: `min_delta`, `min_factor`, `max_factor` per spec (labelled ASSUMPTION) |
 | `eta` | no | Fraction of each margin given to layout in S2 (default 0.5); `--eta` on the command line wins |
+| `designer_groups` | no | Path of a YAML file with the designer's device groups (`groups`: `name`, `kind` = `mirror_bank` / `mirror` / `diff_pair` / `functional`, `devices`, optional `matching: none`) and optional `floorplan_rows`. S0 compares the groups with the automatic blocks (G0.11, info), lets the designer's groups win where they disagree, and copies the rows into the IR for S4 (Plan v3 Phase A, step 5) |
 | `budget_corners` | no | Which corners S2 budgets against. `all` (default, plan v2): the nominal corner and every PVT point of S0. `nominal` (Plan v3 Phase A): the nominal corner only; what the final budgets use at each PVT point is reported in G2.9, not gated. A package that `inherit`s another inherits this key too |
 | `mc_runs` | no | Monte Carlo runs of the S0 mismatch step (default 200) |
 | `s3_build_mode` | no | Which S3 options to build: `A-free` (default), `A-bin` or `B` (large designs) |

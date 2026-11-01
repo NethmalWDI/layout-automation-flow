@@ -74,15 +74,26 @@ def ac_drive(s0: Path, ir: dict, declared: dict | None = None) -> dict:
     return drive
 
 
+def dummy_devices(ir: dict) -> set:
+    """Dummies: devices in a hierarchy block of category or primitive 'dummy' (primitives.json, or the
+    recogniser's dummy blocks), and devices with d, g and s on one net. They keep their capacitance in the linear
+    model, but tag no node (row 47: a dummy with d = g = s looked diode-connected)."""
+    hier = {x for b in ir["hierarchy"]["blocks"] if b.get("category") == "dummy" or "dummy" in (b.get("primitive") or "")
+            for x in b["devices"]}
+    return hier | {d["name"] for d in ir["devices"] if d["terminals"]["d"] == d["terminals"]["g"] == d["terminals"]["s"]}
+
+
 def classify_nodes(ir: dict, lm: linear.LinearModel) -> dict:
     R = lm.dc_node_resistance()
     C = lm.node_capacitance()
     tau = {n: R[n] * C[n] for n in R}
     order = sorted(tau, key=tau.get, reverse=True)
     roles = {p["name"]: p["role"] for p in ir["ports"]}
-    diode = {d["terminals"]["d"] for d in ir["devices"] if d["terminals"]["d"] == d["terminals"]["g"]}
+    dummies = dummy_devices(ir)
+    active = [d for d in ir["devices"] if d["name"] not in dummies]
+    diode = {d["terminals"]["d"] for d in active if d["terminals"]["d"] == d["terminals"]["g"]}
     tails = {}
-    for d in ir["devices"]:
+    for d in active:
         tails.setdefault(d["terminals"]["s"], []).append(d["name"])
     rmax = max(R.values())
     out = {}
@@ -116,7 +127,8 @@ def classify_nodes(ir: dict, lm: linear.LinearModel) -> dict:
                 tags.append("non_dominant_pole")
         out[name] = rec
     return {"nodes": out, "method": "open-circuit time constants R_dc*C_node from the linear model; "
-                                     "structural tags from topology"}
+                                     "structural tags from topology (dummies excluded)",
+            "dummies_excluded_from_tags": sorted(dummies)}
 
 
 

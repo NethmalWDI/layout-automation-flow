@@ -105,6 +105,123 @@ def map_hierarchy(pkg: dict, nl: spice.Netlist) -> tuple[list, list, dict]:
     return blocks, findings, nmap
 
 
+def _is_diode(dev: dict) -> bool:
+    return dev["terminals"]["d"] == dev["terminals"]["g"]
+
+
+def merge_mirror_banks(blocks: list, devices: dict) -> tuple[list, list]:
+    """Plan v3 Phase A, step 5b. Mirror blocks of one polarity whose devices all share one gate net and one source
+    net, with at least one diode-connected device, are one mirror bank. On LOADBench, the PMOS mirrors X4 {P2, P8}
+    and X5 {P2, P5} share P2's gate and source, so they become one bank {P2, P8, P5}.
+    - The bank takes the place of the first merged block. It lists the diode device first, the blocks it was
+      merged from, and each member's W x m as a ratio to the diode device's.
+    - A device may also stay in one functional, non-matching block, as P5 does in the common-source stage.
+    devices: {name: {"type", "terminals", "W_um", "m"}}. Returns (blocks, info findings)."""
+    def key(b):
+        if "mirror" not in (b.get("primitive") or "") or not b["devices"] or any(x not in devices for x in b["devices"]):
+            return None
+        ds = [devices[x] for x in b["devices"]]
+        sets = [{d_["type"] for d_ in ds}, {d_["terminals"]["g"] for d_ in ds}, {d_["terminals"]["s"] for d_ in ds}]
+        return tuple(s_.pop() for s_ in sets) if all(len(s_) == 1 for s_ in sets) else None
+    groups: dict = {}
+    for i, b in enumerate(blocks):
+        k = key(b)
+        if k:
+            groups.setdefault(k, []).append(i)
+    banks, merged, notes = {}, set(), []
+    names = {b["name"] for b in blocks}
+    for (pol, gate, src), idx in groups.items():
+        members = list(dict.fromkeys(x for i in idx for x in blocks[i]["devices"]))
+        diodes = [x for x in members if _is_diode(devices[x])]
+        if len(idx) < 2 or not diodes:
+            continue
+        ref = diodes[0]
+        members = [ref] + [x for x in members if x != ref]
+        wm = {x: devices[x]["W_um"] * devices[x]["m"] for x in members}
+        name = f"{pol}_current_mirror_bank_{gate}"
+        while name in names:
+            name += "_"
+        names.add(name)
+        banks[idx[0]] = {
+            "name": name, "category": blocks[idx[0]]["category"], "primitive": f"{pol}-current-mirror-bank",
+            "devices": members, "source": "mirror-bank rule (S0)", "diode_device": ref, "gate_net": gate,
+            "source_net": src, "ratio_Wm": {x: round(wm[x] / wm[ref], 4) for x in members},
+            "merged_from": [{"name": blocks[i]["name"], "upstream_instance": blocks[i].get("upstream_instance"),
+                             "devices": blocks[i]["devices"]} for i in idx]}
+        merged |= set(idx)
+        notes.append({"level": "info", "msg": f"mirror bank {name}: {members} (gate {gate}, source {src}), merged from "
+                                              f"{[blocks[i].get('upstream_instance') or blocks[i]['name'] for i in idx]}"})
+    out = [banks[i] if i in banks else b for i, b in enumerate(blocks) if i in banks or i not in merged]
+    return out, notes
+
+
+DESIGNER_KINDS = {"mirror_bank": "mirror", "mirror": "mirror", "diff_pair": "diff_pair", "functional": "functional"}
+
+
+def _match_kind(b: dict) -> str:
+    """The matching class of a block, as S1's G1.4 reads it: a differential pair, a mirror, or neither."""
+    p_ = b.get("primitive") or ""
+    return "diff_pair" if "differential" in p_ else ("mirror" if "mirror" in p_ else "functional")
+
+
+def apply_designer_groups(blocks: list, groups_doc: dict, devices: dict) -> tuple[list, dict]:
+    """Plan v3 Phase A, step 5c (D-e). The designer's groups (inputs/<design>/designer_groups.yaml) are checked
+    against the automatic blocks:
+    - an automatic block with the same devices and matching class (pair, mirror or neither) agrees; the
+      designer's group takes its place, with source: designer;
+    - an automatic block of the same class that shares devices without agreeing is replaced, because the
+      designer's grouping wins;
+    - a block of another class stays, since a device may sit in a mirror bank and in a functional group;
+    - a designer group with no automatic counterpart is added at the end.
+    Returns (blocks, the report for the S0 info item)."""
+    groups = groups_doc.get("groups") or []
+    for g in groups:
+        unknown = [x for x in g["devices"] if x not in devices]
+        if unknown or g.get("kind") not in DESIGNER_KINDS:
+            raise ValueError(f"designer group {g.get('name')}: unknown devices {unknown} or kind {g.get('kind')!r} "
+                             f"(kinds: {sorted(DESIGNER_KINDS)})")
+
+    def block_of(g, auto=None):
+        devs = list(g["devices"])
+        if DESIGNER_KINDS[g["kind"]] == "mirror":   # the diode device first: G1.4's W x m ratios refer to it
+            devs = sorted(devs, key=lambda x: not _is_diode(devices[x]))
+        pol = devices[devs[0]]["type"]
+        base = dict(auto) if auto else {
+            "category": "functional" if g["kind"] == "functional" else "designer",
+            "primitive": {"mirror_bank": f"{pol}-current-mirror-bank", "mirror": f"{pol}-current-mirror",
+                          "diff_pair": f"{pol}-differential-pair", "functional": "functional"}[g["kind"]]}
+        base.update({"name": g["name"], "devices": devs, "source": "designer", "designer_kind": g["kind"],
+                     "agrees_with": auto["name"] if auto else None})
+        if g.get("matching"):
+            base["matching"] = g["matching"]
+        return base
+
+    agree = {}
+    for g in groups:
+        for b in blocks:
+            if set(b["devices"]) == set(g["devices"]) and _match_kind(b) == DESIGNER_KINDS[g["kind"]]:
+                agree[g["name"]] = b
+                break
+    out, placed, replaced, kept = [], set(), [], []
+    for b in blocks:
+        g = next((g_ for g_ in groups if agree.get(g_["name"]) is b), None)
+        if g:
+            out.append(block_of(g, b))
+            placed.add(g["name"])
+        elif any(set(b["devices"]) & set(g_["devices"]) and _match_kind(b) == DESIGNER_KINDS[g_["kind"]] for g_ in groups):
+            replaced.append(b["name"])
+        else:
+            out.append(b)
+            kept.append(b["name"])
+    out += [block_of(g) for g in groups if g["name"] not in placed]
+    report = {"groups": [{"name": g["name"], "kind": g["kind"], "devices": g["devices"],
+                          "agrees_with": agree[g["name"]]["name"] if g["name"] in agree else None} for g in groups],
+              "agreement": "full" if len(agree) == len(groups) and not replaced else "partial",
+              "automatic_blocks_replaced": replaced, "automatic_blocks_kept": kept,
+              "date": str(groups_doc.get("date")), "source": groups_doc.get("source")}
+    return out, report
+
+
 # ---------------------------------------------------------------- specs and margins
 def specs_and_margins(cfg: dict, achieved: dict, units: dict) -> tuple[dict, dict]:
     specs, margins = cfg.get("specs", {}), {}
@@ -315,6 +432,16 @@ def main(argv=None) -> int:
     # --- hierarchy through the name map
     blocks, findings, _nmap = map_hierarchy(pkg, nl)
     gates["G0.4_name_map"] = {"pass": not any(f["level"] == "error" for f in findings), "findings": findings}
+    devinfo = {m.name: {"type": m.polarity, "terminals": m.terminals, "W_um": m.num("W"),
+                        "m": int(m.num("MULT", m.params.get("M", 1)))} for m in nl.mosfets}
+    blocks, bank_notes = merge_mirror_banks(blocks, devinfo)
+    findings = findings + bank_notes
+    floorplan_rows, dg_file = None, pkg.get("designer_groups")
+    if dg_file:   # the designer's groups win where they disagree (D-e); the floorplan rows are kept for S4 only
+        dg = yaml.safe_load(p(dg_file).read_text())
+        blocks, dg_report = apply_designer_groups(blocks, dg, devinfo)
+        floorplan_rows = dg.get("floorplan_rows")
+        gates["G0.11_designer_groups (info)"] = {"pass": None, "file": dg_file, **dg_report}
 
     # --- reference netlists
     full_name, lay_name = design, design
@@ -449,7 +576,10 @@ def main(argv=None) -> int:
                       "params": c.params, "source_line": c.line_no, "layout_binding": bindings.get(c.name)}
                      for c in nl.passives],
         "hierarchy": {"blocks": blocks, "source": "upstream 5t-ota primitives through name map",
-                      "findings": findings},
+                      "findings": findings,
+                      **({"designer_groups_file": dg_file, "floorplan_rows": floorplan_rows,
+                          "floorplan_rows_note": "the designer's rows, top (VDD) to bottom (VSS); for S4 only, "
+                                                 "not used in S0-S3"} if dg_file else {})},
         "conditions": cond, "specs": specs, "achieved": achieved, "achieved_source": ach_source,
         "units": units, "margins": margins,
         "pending_inputs": {
@@ -462,7 +592,7 @@ def main(argv=None) -> int:
     }
     inputs = [nl_path, p(pkg["config"]), p(pkg.get("achieved")), pkg_path] + \
              [p(x) for x in (pkg.get("upstream") or {}).values() if isinstance(x, str)] + \
-             [p(x) for x in pkg.get("testbenches", [])]
+             [p(x) for x in pkg.get("testbenches", [])] + ([p(dg_file)] if dg_file else [])
     prov = provenance(inputs)
     ir["provenance"] = prov
     write_json(out / "circuit_ir.json", ir)

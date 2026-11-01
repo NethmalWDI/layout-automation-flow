@@ -188,6 +188,108 @@ def test_do_no_harm_below_vdsat():
     assert not old(0.0)                         # ... so even an option that does no harm failed (row 41)
 
 
+# ------------------------------------------------------------------ step 5: tagging and grouping (A3; D-e)
+LB_DEV = {   # LOADBench (plan-v2 circuit_ir.json): type, d, g, s, W (um); m = 1 everywhere
+    "XDiodeTransistorNmos1": ("nmos", "FirstStageYout1", "FirstStageYout1", "sourceNmos", 66.13),
+    "XDiodeTransistorPmos2": ("pmos", "ibias", "ibias", "sourcePmos", 37.3),
+    "XNormalTransistorNmos3": ("nmos", "out", "outFirstStage", "sourceNmos", 484.2),
+    "XNormalTransistorNmos4": ("nmos", "outFirstStage", "FirstStageYout1", "sourceNmos", 66.13),
+    "XNormalTransistorPmos5": ("pmos", "out", "ibias", "sourcePmos", 887.03),
+    "XNormalTransistorPmos6": ("pmos", "outFirstStage", "in2", "FirstStageYsourceTransconductance", 14.21),
+    "XNormalTransistorPmos7": ("pmos", "FirstStageYout1", "in1", "FirstStageYsourceTransconductance", 14.21),
+    "XNormalTransistorPmos8": ("pmos", "FirstStageYsourceTransconductance", "ibias", "sourcePmos", 90.63)}
+P2, P5, P8 = "XDiodeTransistorPmos2", "XNormalTransistorPmos5", "XNormalTransistorPmos8"
+
+
+def _lb_devices():
+    return {n: {"type": t, "terminals": {"d": d, "g": g, "s": s, "b": s}, "W_um": w, "m": 1}
+            for n, (t, d, g, s, w) in LB_DEV.items()}
+
+
+def _lb_blocks():   # LOADBench's blocks before Phase A: upstream primitives through the name map
+    def b(name, cat, prim, devs, inst):
+        return {"name": name, "category": cat, "primitive": prim, "devices": devs, "source": "name_map",
+                "upstream_instance": inst}
+    return [b("undefined_common_source_stage", "gm-structure", "common-source-stage", [P5, "XNormalTransistorNmos3"], "X1"),
+            b("p_differential_pair", "gm-structure", "pmos-differential-pair",
+              ["XNormalTransistorPmos7", "XNormalTransistorPmos6"], "X2"),
+            b("n_current_mirror_load", "load-structure", "nmos-current-mirror-load",
+              ["XDiodeTransistorNmos1", "XNormalTransistorNmos4"], "X3"),
+            b("p_current_mirror", "bias-structure", "pmos-current-mirror", [P2, P8], "X4"),
+            b("p_current_mirror", "bias-structure", "pmos-current-mirror", [P2, P5], "X5")]
+
+
+def test_mirror_bank_rule_merges_loadbench_pmos_mirrors():
+    from src.s0.ingest import merge_mirror_banks
+    blocks, notes = merge_mirror_banks(_lb_blocks(), _lb_devices())
+    banks = [b for b in blocks if b["primitive"] == "pmos-current-mirror-bank"]
+    assert len(banks) == 1 and banks[0]["devices"] == [P2, P8, P5] and banks[0]["gate_net"] == "ibias"
+    assert banks[0]["ratio_Wm"] == {P2: 1.0, P8: pytest.approx(2.4298), P5: pytest.approx(23.781)}   # 1 : 2.43 : 23.8
+    assert [m_["upstream_instance"] for m_ in banks[0]["merged_from"]] == ["X4", "X5"]
+    assert [b["name"] for b in blocks][:3] == ["undefined_common_source_stage", "p_differential_pair", "n_current_mirror_load"]
+    assert len({b["name"] for b in blocks}) == len(blocks) == 4 and len(notes) == 1   # names are unique now
+
+
+def test_mirror_bank_rule_leaves_the_5t_unchanged():
+    from src.s0.ingest import merge_mirror_banks
+    ir = json.loads((REPO / "outputs" / "S0" / "example_ota_5t" / "circuit_ir.json").read_text())
+    blocks, notes = merge_mirror_banks(ir["hierarchy"]["blocks"], {d["name"]: d for d in ir["devices"]})
+    assert blocks == ir["hierarchy"]["blocks"] and notes == []
+
+
+def test_designer_groups_agree_with_the_automatic_blocks():
+    import yaml
+    from src.s0.ingest import apply_designer_groups, merge_mirror_banks
+    doc = yaml.safe_load((REPO / "inputs" / "loadbench_miller" / "designer_groups.yaml").read_text())
+    auto, _ = merge_mirror_banks(_lb_blocks(), _lb_devices())
+    blocks, rep = apply_designer_groups(auto, doc, _lb_devices())
+    assert rep["agreement"] == "full" and not rep["automatic_blocks_replaced"] and rep["source"] == "designer review (Imasha)"
+    assert [b["name"] for b in blocks] == ["cs_stage", "input_pair", "nmos_mirror_load", "pmos_bias_bank"]   # in place
+    assert all(b["source"] == "designer" for b in blocks)
+    assert blocks[-1]["devices"] == [P2, P8, P5] and blocks[-1]["primitive"] == "pmos-current-mirror-bank"
+    assert blocks[0]["matching"] == "none" and doc["floorplan_rows"][0] == [P2, P8, P5]
+
+
+def test_designer_group_wins_where_it_disagrees():
+    from src.s0.ingest import apply_designer_groups
+    doc = {"groups": [{"name": "bank", "kind": "mirror_bank", "devices": [P8, P5, P2]}]}
+    blocks, rep = apply_designer_groups(_lb_blocks(), doc, _lb_devices())   # no bank rule: X4 and X5 disagree
+    assert rep["agreement"] == "partial" and rep["automatic_blocks_replaced"] == ["p_current_mirror", "p_current_mirror"]
+    assert [b["name"] for b in blocks] == ["undefined_common_source_stage", "p_differential_pair",
+                                           "n_current_mirror_load", "bank"]   # the CS stage (another class) stays
+    assert blocks[-1]["devices"][0] == P2                                    # the diode device first
+    with pytest.raises(ValueError):
+        apply_designer_groups(_lb_blocks(), {"groups": [{"name": "x", "kind": "mirror", "devices": ["XM9"]}]}, _lb_devices())
+
+
+def test_dummies_tag_no_node():
+    """Row 47: a dummy with d = g = s looked diode-connected, and dummies sharing a source net looked like a tail."""
+    from src.s1.run import classify_nodes
+
+    class LM:
+        def dc_node_resistance(self):
+            return {"bias": 1e3, "VSS": 1.0, "nx": 1e4, "ny": 1e4, "out": 1e5}
+
+        def node_capacitance(self):
+            return dict.fromkeys(("bias", "VSS", "nx", "ny", "out"), 1e-15)
+    term = lambda d, g, s: {"d": d, "g": g, "s": s, "b": "VSS"}   # noqa: E731
+    ir = {"ports": [{"name": "VSS", "role": "ground"}, {"name": "out", "role": "output"}], "internal_sources": [],
+          "nets": [{"name": n} for n in ("bias", "VSS", "nx", "ny", "out")],
+          "hierarchy": {"blocks": [{"name": "dummies", "category": "dummy", "primitive": "nmos-dummy",
+                                    "devices": ["MD4", "MD5"]}]},
+          "devices": [{"name": "M1", "terminals": term("bias", "bias", "VSS")},        # a real diode-connected device
+                      {"name": "MD1", "terminals": term("VSS", "VSS", "VSS")},         # d = g = s
+                      {"name": "MD2", "terminals": term("nx", "nx", "nx")},
+                      {"name": "MD3", "terminals": term("nx", "nx", "nx")},
+                      {"name": "MD4", "terminals": term("out", "VSS", "ny")},          # dummies by hierarchy role
+                      {"name": "MD5", "terminals": term("out", "VSS", "ny")}]}
+    res = classify_nodes(ir, LM())
+    tags = {n: v["tags"] for n, v in res["nodes"].items()}
+    assert "mirror_node (diode-connected)" in tags["bias"]
+    assert not any("mirror_node" in t or "tail" in t for n in ("VSS", "nx", "ny") for t in tags[n])
+    assert res["dummies_excluded_from_tags"] == ["MD1", "MD2", "MD3", "MD4", "MD5"]
+
+
 def test_saturated_devices_and_specs_keep_the_plan_v2_rule():
     from src.s3.run import TOL, use_check
     c = use_check(0.004, allowed=0.003, scale=0.2)                # sat margin 0.2 V, allowance 3 mV

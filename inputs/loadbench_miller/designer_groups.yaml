@@ -1,0 +1,16 @@
+# Designer groups for loadbench_miller (Plan v3 Phase A, step 5c; decision D-e).
+# From Imasha's review comments on the Plan v3 review pack, 2026-11-01. S0 reads this file after the automatic
+# (upstream / mirror-bank) blocks: each group is compared with them (S0 report, G0.11, info), and where they
+# disagree the designer's group wins (circuit_ir.json -> hierarchy.blocks, source: designer).
+# The floorplan rows are copied into the IR for S4 only; nothing in S0-S3 uses them.
+date: 2026-11-01
+source: designer review (Imasha)
+groups:
+  - {name: pmos_bias_bank, kind: mirror_bank, devices: [XDiodeTransistorPmos2, XNormalTransistorPmos8, XNormalTransistorPmos5]}
+  - {name: input_pair, kind: diff_pair, devices: [XNormalTransistorPmos7, XNormalTransistorPmos6]}
+  - {name: nmos_mirror_load, kind: mirror, devices: [XDiodeTransistorNmos1, XNormalTransistorNmos4]}
+  - {name: cs_stage, kind: functional, devices: [XNormalTransistorNmos3, XNormalTransistorPmos5], matching: none}
+floorplan_rows:          # for S4 only; top (VDD side) to bottom (VSS side)
+  - [XDiodeTransistorPmos2, XNormalTransistorPmos8, XNormalTransistorPmos5]
+  - [XNormalTransistorPmos7, XNormalTransistorPmos6]      # own n-well: body tied to the common source
+  - [XDiodeTransistorNmos1, XNormalTransistorNmos4, XNormalTransistorNmos3]   # N3 here or below, "as space allows"
