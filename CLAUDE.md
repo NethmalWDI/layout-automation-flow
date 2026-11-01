@@ -41,6 +41,8 @@ These project rules follow from the rules above:
 - **EDA container:** `layout-s0s3`, from image `hpretl/iic-osic-tools:2026.10` (Magic, Netgen, ngspice, xschem, SKY130A). It mounts the repo at `/foss/designs`.
   - The container clock is CET.
   - `magical-s0s3` is a separate experiment; leave it alone.
+  - The image starts on the IHP PDK. `scripts/env.sh` switches to sky130A with the image's `sak-pdk` command, so
+    always `source scripts/env.sh` first. `TOOL_ENV` in `src/common/tools.py` pins the same variables.
 - **Python runs inside the container only.** It uses the pinned image plus `requirements.txt`. Don't install anything on the host or in the container without asking.
 - **Run a command:**
 

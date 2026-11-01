@@ -116,6 +116,11 @@ every PVT point, as in plan v2.
 - **PM reference.** PM = 180 + phase at the UGB − the 1 Hz phase rounded to the nearest multiple of 180°. The S1
   linear model and new benches (`scripts/benchlib.py`) use it. The frozen benches keep the unrounded 1 Hz phase;
   for the 5T and LOADBench that is 0.00002° and 0.0016° away.
+- **PDK environment.** The iic-osic-tools image starts on its default PDK, IHP-SG13G2, so ngspice would read IHP's
+  init file. `scripts/env.sh` switches to sky130A with the image's own command (`sak-pdk sky130A`, sourced as
+  `sak-pdk-script.sh`), which ends up loading sky130's ngspice settings (`ngbehavior=hsa`, `enable_noisy_r`). Source
+  it before every flow command; `./flow` and `flow.ps1` already do. `TOOL_ENV` (`src/common/tools.py`) pins the
+  same variables for every tool the flow starts.
 - **Running the tests.** Use `bash -c` with `source scripts/env.sh`, not a login shell (`bash -lc`). The image's
   login profile sets `USER` to a value with a newline, which ends up in pytest's temp folder name, and netgen then
   fails the S0 round-trip test.

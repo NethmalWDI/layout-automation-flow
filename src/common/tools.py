@@ -16,6 +16,12 @@ TOOL_ENV = {
     "PATH": "/foss/tools/bin:/foss/tools/sak:/foss/tools/klayout:" + os.environ.get("PATH", ""),
     "PDK_ROOT": PDK_ROOT,
     "PDK": "sky130A",
+    # what the image's 'sak-pdk sky130A' sets (scripts/env.sh), so a tool started from a shell left on the image's
+    # default PDK (IHP-SG13G2, login profile) still reads sky130's ngspice init and KLayout tech
+    "PDKPATH": f"{PDK_ROOT}/sky130A",
+    "SPICE_USERINIT_DIR": f"{PDK_ROOT}/sky130A/libs.tech/ngspice",
+    "KLAYOUT_PATH": f"/headless/.klayout:{PDK_ROOT}/sky130A/libs.tech/klayout",
+    "STD_CELL_LIBRARY": "sky130_fd_sc_hd",
 }
 
 

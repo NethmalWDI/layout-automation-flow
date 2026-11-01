@@ -700,7 +700,7 @@ the work manageable.
 
 **No code, runs or outputs changed.**
 
-## 2026-11-01: Plan v3 Phase A, steps 0–8 (Claude Code)
+## 2026-11-01: Plan v3 Phase A, steps 0–8, and the sky130A environment (Claude Code)
 
 - **Step 0 (setup), committed `03390202`.**
   - Container up and idle. Branch `plan-v3-phaseA`; tag `prereg-v1` on `a8c6f7d3`.
@@ -845,3 +845,13 @@ the work manageable.
     uses) points `SPICE_USERINIT_DIR` at the IHP PDK and skips sky130's `ngbehavior=hsa` and `enable_noisy_r`.
     The committed outputs mix both inits. On every design's S0 benches the two agree to 7 × 10⁻⁶
     (`runs/tmp/envcheck.py`). Pinning the init in `TOOL_ENV` is a question for Imasha.
+- **sky130A environment (Imasha's request, before step 9).**
+  - iic-osic-tools starts on IHP-SG13G2. `scripts/env.sh` now switches to sky130A with the image's own command,
+    `sak-pdk sky130A` (`source /foss/tools/sak/sak-pdk-script.sh sky130A`), and checks the result. The script's own
+    exit status is 1 for non-GF180 PDKs, so it can't be used in an `&&` chain.
+  - `TOOL_ENV` pins the same variables, so a tool started from a shell left on IHP still uses sky130A.
+  - ngspice reaches sky130's settings through `$HOME/.spiceinit`, because the PDK folder's file is named
+    `spinit`.
+  - Checked from a login shell, with and without `env.sh`. Tests: 118 passed plus the expected 5T S2 golden
+    failure.
+  - No result changes: the two inits agreed to 7 × 10⁻⁶ on every S0 bench.

@@ -2,8 +2,9 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-01 20:54 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–7
-done and committed; **step 8 done, waiting for Imasha's commit** (decision (b), 20:36). Nothing is running.
+**Last updated:** 2026-11-01 21:45 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–8
+done and committed. **The sky130A environment change (Imasha's request, before step 9) is done and waits for her commit**;
+step 9 has not started (no code changed). Nothing is running.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -118,7 +119,38 @@ predictions to write into PREREG before the runs.
 | 5 tagging and grouping | **done**, committed `651bf5d5` | dummy-aware tagger; mirror-bank rule; LOADBench designer groups. LOADBench's IR has one bank {P2, P8, P5}, consistent in G1.4; the designer file agrees fully. Details below |
 | 6 one tolerance, lp_floor_k | **done**, committed `8e716213` | `TOL_USE` for every use check; `lp_floor_k` in G2.8 (Imasha's answer (a)). 5T S2 PASS; G2.8 outcome words unchanged; new reference budgets. Details below |
 | 7 PM reference phase | **done**, committed `f79e53f8` | PM's reference is the 1 Hz phase rounded to the nearest multiple of 180°, in the linear model and the bench template. Both designs' G1.2 PM differences move by under 0.002°. Details below |
-| 8 G2.0 route lengths | **done**, waiting for Imasha's commit | route stubs from the representative cells, in G2.0 and in the need the allocation uses (Imasha's answer (b), PREREG note). 5T S2 PASS: only XM5's route moves; 11 of 21 budgets move; G2.8 outcome words unchanged. Details below |
+| 8 G2.0 route lengths | **done**, committed `8cc70503` | route stubs from the representative cells, in G2.0 and in the need the allocation uses (Imasha's answer (b), PREREG note). 5T S2 PASS: only XM5's route moves; 11 of 21 budgets move; G2.8 outcome words unchanged. Details below |
+| – sky130A environment (Imasha's request, before step 9) | **done**, waiting for Imasha's commit | `scripts/env.sh` selects sky130A with the image's `sak-pdk` command; `TOOL_ENV` pins the same. Not a plan step; no rule or number changes. Details below |
+| 9 SPICE vs first order | not started (no code changed) | |
+
+sky130A environment record (Imasha's request, 2026-11-01 evening, while step 9 was being read):
+- **Why.** iic-osic-tools starts on its default PDK, IHP-SG13G2: the login profile sets `PDK`,
+  `SPICE_USERINIT_DIR`, `KLAYOUT_PATH` and so on for IHP. ngspice then reads IHP's init and not sky130's (step 8
+  record).
+- **What changed.**
+  - `scripts/env.sh` now calls the image's own switch, `source /foss/tools/sak/sak-pdk-script.sh sky130A`, which is
+    what the `sak-pdk` alias runs. It then checks that `PDK` and `SPICE_USERINIT_DIR` are sky130A's.
+    - The script returns status 1 for every PDK except GF180, because its last line is `[ -n "$GF_PDK_OPTION" ] &&
+      …`. So `env.sh` judges by the variables, and `source scripts/env.sh && …` (as in `./flow`) keeps working.
+  - `src/common/tools.py`: `TOOL_ENV` pins the same variables `sak-pdk sky130A` sets: `PDKPATH`,
+    `SPICE_USERINIT_DIR`, `KLAYOUT_PATH` and `STD_CELL_LIBRARY` (`PDK` and `PDK_ROOT` were already pinned). That
+    covers ngspice, Magic, Netgen and KLayout started from a shell that did not source `env.sh`.
+  - `CLAUDE.md` (environment) and README say so.
+- **How the sky130 init is reached.** `sky130A/libs.tech/ngspice` holds a file named `spinit`, not `.spiceinit`.
+  ngspice therefore falls back to `$HOME/.spiceinit` (`/headless/.spiceinit`: `ngbehavior=hsa`, `ng_nomodcheck`,
+  `enable_noisy_r`). Checked: with `HOME` pointed at an empty folder the same run has "No compatibility mode".
+  - So the PDK's own `spinit` (KLU solver, 8 threads) is not used; the solver stays SPARSE 1.3, as in every run so
+    far.
+- **Checked.**
+  - A login shell + `env.sh`: `PDK`, `PDKPATH`, `SPICE_USERINIT_DIR`, `KLAYOUT_PATH` and `STD_CELL_LIBRARY` are
+    sky130A's, and `./flow status` runs.
+  - A login shell left on IHP, without `env.sh`: `run_ngspice` on TTSKY's noise bench reads the sky130 init ("hs
+    a", no OSDI errors) and gives 139.742 nV/√Hz, the sky130-init value.
+  - Tests: from `bash -c` + `env.sh`, 118 passed plus the expected 5T S2 golden failure. From a login shell, the
+    `USER` newline quirk (step 7 notes) still fails the netgen round trip; `sak-pdk` does not touch `USER`.
+- **Effect on results.** None expected: the S0 benches agree to 7 × 10⁻⁶ between the two inits (step 8 record).
+  From now on every run uses the sky130 init. Step 12's re-run then has one init for all of Phase A's outputs;
+  until then the committed outputs mix both.
 
 Step 8 record (row 44; pending task 1g; Imasha's answer (b)):
 - **What changed** (`src/s2/run.py`):
@@ -537,7 +569,10 @@ Step 0 record:
 
 ## Open questions for Imasha
 
-**FEEDBACK NEEDED (Claude Code, 2026-11-01 20:54; not blocking): pin ngspice's init so it does not depend on the
+**Resolved 2026-11-01 (Imasha, during step 9): select sky130A with the image's `sak-pdk` command**, done; see
+"sky130A environment" under *Plan v3 Phase A*. The question as it was asked:
+
+**Was FEEDBACK NEEDED (Claude Code, 2026-11-01 20:54; not blocking): pin ngspice's init so it does not depend on the
 launching shell?**
 - A login shell (`bash -lc`, used by `./flow`, `flow.ps1`, `CLAUDE.md` and the plan-v2 scripts) sets
   `SPICE_USERINIT_DIR` to the IHP PDK. Then ngspice runs without sky130's `ngbehavior=hsa` and `enable_noisy_r`.
@@ -785,9 +820,9 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
-- 2026-11-01 (Claude Code): **Plan v3 Phase A, steps 0–8** (branch `plan-v3-phaseA`). Each step's change and
-  result is in the progress table under *Plan v3 Phase A*. Steps 0–7 are committed; step 8 waits for Imasha's
-  commit.
+- 2026-11-01 (Claude Code): **Plan v3 Phase A, steps 0–8, and the sky130A environment** (branch
+  `plan-v3-phaseA`). Each change and its result is in the progress table under *Plan v3 Phase A*. Steps 0–8 are
+  committed; the sky130A environment change waits for Imasha's commit.
 - 2026-11-01 (Cowork): **Plan v3 Phase A planned** (no code, runs or outputs changed).
   - `docs/plan_v3_phaseA.md`: the decisions, Q1–Q4, steps 0–13, the predictions, the open issues per stage (for
     this version and for a new SPICE file), and how LLMs are used in each stage.
