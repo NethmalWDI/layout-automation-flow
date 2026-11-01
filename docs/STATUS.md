@@ -2,8 +2,8 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-01 16:35 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0 and 1
-done; the step 1 PREREG amendment is waiting for Imasha to read and commit it. Nothing is running.
+**Last updated:** 2026-11-01 16:50 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–2
+done (0 and 1 committed); step 2 is waiting for Imasha's commit. Nothing is running.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -31,7 +31,12 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 
 ## Running (container `layout-s0s3`)
 
-**Nothing.** Every plan-v2 run had ended by 13:04:39 CET. `runs/tmp/aside/` is empty, so no design's outputs are
+**Nothing.**
+- Phase A step 2's two 5T S2 runs have ended, both PASS with rc 0. The baseline with the unchanged code ran
+  16:28–16:32 (`runs/logs/phaseA_step2_baseline_5t_S2.log`); the step 2 code ran 16:35–16:46
+  (`runs/logs/phaseA_step2_new_5t_S2.log`).
+
+**Plan v2 (finished):** every plan-v2 run had ended by 13:04:39 CET on 2026-10-27. `runs/tmp/aside/` is empty, so no design's outputs are
 left set aside. The results are under *Recent results*.
 
 | Script | Ended (CET) | What it did |
@@ -96,8 +101,42 @@ predictions to write into PREREG before the runs.
 | Step | State | Result |
 |---|---|---|
 | 0 setup and claim | **done** 2026-11-01 16:10 CET, committed `03390202` | see below |
-| 1 PREREG amendment | **done** 2026-11-01 16:35 CET; for Imasha to read, then commit | `PREREG.md`, *Amendments*: "2026-11-01, Plan v3 Phase A (5T and LOADBench)". It has the plan's items 1–8 with Q3's tolerance and the do-no-harm ASSUMPTION, plus the section 4 predictions table, checked identical to the plan by diff. Text only: no code changed |
-| 2 run hygiene | next, after the commit | |
+| 1 PREREG amendment | **done**, committed `02279b98` | `PREREG.md`, *Amendments*: "2026-11-01, Plan v3 Phase A (5T and LOADBench)". It has the plan's items 1–8 with Q3's tolerance and the do-no-harm ASSUMPTION, plus the section 4 predictions table, checked identical to the plan by diff. Text only: no code changed |
+| 2 run hygiene | **done** 2026-11-01 16:50 CET; waiting for Imasha's commit | exit code 3 for a gate FAIL; S2/S3 clean output folders with `run_id`; the snapshot identity check. Tests: 99 passed, golden 20/20 OK. 5T S2 budgets identical. Details below |
+| 3 nominal-only budgets | next, after the commit | |
+
+Step 2 record:
+- **Exit codes.** `src/common/hygiene.py` holds `EXIT_PASS` = 0, `EXIT_GATE_FAIL` = 3, `gate_exit()`,
+  `new_run_id()` and `fresh_output_dir()`.
+  - The S0 ingest and binding stages, S1, S2 and S3 return 3 on a gate FAIL; `pvt` has information-only gates.
+  - `flow.run_stage` maps 0 → PASS, 3 → FAIL, anything else → ERROR, even when a fresh report exists, and stops a
+    stage at its first erring command.
+- **Clean folders.**
+  - S2 moves the run before to `outputs/S2/<d>.prev/` and writes `run_id` and `eta` into all 7 of its JSON files.
+  - S3 moves its report files the same way and keeps `sim/` (a cache, used only for identical decks) and `_cells/`.
+    Its files carry `run_id`, `s2_run_id` and `eta`.
+  - `.prev` folders are git-ignored.
+- **Snapshot check.** `compare_before_after.py snap` refuses (exit 2) when the S2 files' `run_id`s or etas
+  disagree, when `budgets.json` has no `s2_report.json`, or when a file is older than the S2 start in
+  `flow_summary.json`.
+- **New tests** (`tests/test_phaseA.py`, 12):
+  - exit code to status, including a crash after writing a fresh report (row 40);
+  - a stage stops at a crashed command;
+  - no file from an earlier run, and caches are kept;
+  - `snap` refuses mixed `run_id`s and unfinished or stale S2 files, and accepts one run.
+- **Done-when check on the 5T:**
+  - A baseline run with the unchanged code reproduced the committed plan-v2 budgets exactly (63 values; G2.5
+    SPICE uses within 0.0021 of the margin).
+  - The step 2 run then gave the same budgets again: 63 values identical, `t_round1` 1.0491, gates equal, SPICE
+    uses within 0.0018.
+  - One `run_id` is in all 7 files. A planted stale file went to `.prev`. All 673 files in the folder are from
+    this run, and the snapshot check passes.
+- **Notes:**
+  - S2 now runs without its SPICE cache (the old `work/` goes to `.prev`): 5T S2 took 10.7 min instead of 3.8.
+    Plan step 12's times should allow for this.
+  - `pdk_parasitics` still exits 1 when its table is incomplete. That is now an ERROR that stops S2; it runs only
+    when `outputs/S2/pdk/parasitics.json` is missing.
+  - The flow's own exit code (`./flow run`: 0, 1 for FAIL, 2 for ERROR) is unchanged; the plan did not ask for it.
 
 Step 0 record:
 - **Container:** `layout-s0s3` is up (image `hpretl/iic-osic-tools:2026.10`), with no python3 running and nothing in

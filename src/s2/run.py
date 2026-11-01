@@ -12,6 +12,8 @@ Outputs: outputs/S2/<design>/
   constraints.json   typed rule IR (budgets, derived routing/placement rules, matching, EM, latch-up)
   verification.json  all budgets inserted at once: linear model and transistor-level SPICE vs specs
   plots/*.png, s2_report.json (gates G2.1-G2.6)
+Every JSON carries this run's run_id and eta. A run starts from an empty folder: the run before is moved to
+outputs/S2/<design>.prev/. Exit code: 0 PASS, 3 a gate failed, anything else an error (src/common/hygiene.py).
 """
 from __future__ import annotations
 
@@ -23,6 +25,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+from src.common.hygiene import fresh_output_dir, gate_exit, new_run_id
 from src.common.tools import REPO, bench, provenance, rel, run_ngspice_text, write_json
 from src.s0.ingest import load_package
 from src.s1 import linear, op as opmod, resistance
@@ -432,7 +435,12 @@ def main(argv=None) -> int:
     eta, eta_source = resolve_eta(a.eta, pkg)
     s0, s1 = REPO / "outputs" / "S0" / design, REPO / "outputs" / "S1" / design
     out = REPO / "outputs" / "S2" / design
+    fresh_output_dir(out)        # the run before goes to <design>.prev/, so no stale file is left (row 43)
+    run_id = new_run_id()
     (out / "plots").mkdir(parents=True, exist_ok=True)
+
+    def put(name: str, doc: dict) -> None:   # every JSON of this run carries its identity (snapshot check, row 40)
+        write_json(out / name, {"run_id": run_id, "eta": eta, **doc})
     pdk_f = REPO / "outputs" / "S2" / "pdk" / "parasitics.json"
     ir = json.loads((s0 / "circuit_ir.json").read_text())
     pdk = json.loads(pdk_f.read_text())
@@ -537,7 +545,7 @@ def main(argv=None) -> int:
                    "alloc": a.alloc,
                    "rates": {c["id"]: c["a"] for c in constraints if "@" not in c["id"]},
                    "pvt_binding": sorted({cid for r_ in alloc["rounds"] for cid in r_["binding"] if "@" in cid})}
-    write_json(out / "budgets.json", budgets_doc)
+    put("budgets.json", budgets_doc)
 
     # verification (H1): for every check, insert at their full budget all the parasitics that are
     # harmful for it (those that help it are left out: a layout may not realise them), simulate, and
@@ -692,7 +700,7 @@ def main(argv=None) -> int:
                 v_["score"]["spice_checks"] = len(v_["spice"])
             for v_ in bl.values():
                 v_["score"]["outcome"] = BL.outcome(v_["score"])
-        write_json(out / "baselines.json", {"design": design, "eta": eta, "alloc": a.alloc,
+        put("baselines.json", {"design": design, "eta": eta, "alloc": a.alloc,
                                             "methods": bl, "note": BL.__doc__})
         gates["G2.8_baselines (info)"] = {"pass": None, "eta": eta,
                                          "scores": {m_: v_["score"] for m_, v_ in bl.items()}}
@@ -706,7 +714,7 @@ def main(argv=None) -> int:
         sweep[f"{et:g}"] = {"floors_feasible": al_["floors_feasible"],
                             "t_round1": al_["rounds"][0]["t"] if al_["rounds"] else None,
                             "methods": {m_: v_["score"] for m_, v_ in BL.run_all(elements, cs, rf_["x"], lib["floors"]).items()}}
-    write_json(out / "eta_sweep.json", {"design": design, "alloc": a.alloc, "sweep": sweep,
+    put("eta_sweep.json", {"design": design, "alloc": a.alloc, "sweep": sweep,
                                         "note": "first order; eta = share of each margin given to layout"})
     # write back the verified (possibly scaled) budgets
     for rec in bud:
@@ -717,7 +725,7 @@ def main(argv=None) -> int:
             rec["margin_used"] = {c["id"]: c["a"].get(rec["id"], 0.0) * xv[rec["id"]] for c in constraints
                                   if c["a"].get(rec["id"], 0.0) > 0 and "@" not in c["id"]}
             rec["closure_note"] = "scaled down in S2 verification (closure iteration)"
-    write_json(out / "budgets.json", budgets_doc)
+    put("budgets.json", budgets_doc)
     caps, res = parts(list(xv), xv)
     lin = linear.evaluate(ir, op, extra_c=[(a_, b_, c_ * 1e-15) for a_, b_, c_ in caps], extra_r=res, drive=drive)
     pred_first = {c["id"]: sum(c["a"].get(k, 0.0) * v for k, v in xv.items()) for c in constraints}
@@ -729,10 +737,10 @@ def main(argv=None) -> int:
                         "linear_model_use": None if lin[k] is None or base_lin[k] is None else
                         ((base_lin[k] - lin[k]) if ir["margins"][k]["kind"] == "min" else (lin[k] - base_lin[k]))}
                     for k in ("gain_db", "gbw_mhz", "pm_deg")}}
-    write_json(out / "verification.json", ver)
+    put("verification.json", ver)
 
     hier = hierarchy_split(ir, elements, xv, geo, pdk)
-    write_json(out / "hierarchy.json", hier)
+    put("hierarchy.json", hier)
     gates["G2.6_hierarchy_sums"] = {"pass": hier["check_sum_equals_budget"]}
 
     offset = json.loads((s1 / "sensitivity_r.json").read_text()).get("mismatch_offset")
@@ -747,7 +755,7 @@ def main(argv=None) -> int:
     gates["G2.2_units_and_provenance"] = {"pass": not no_units and not no_deriv, "missing_units": no_units,
                                           "missing_derived_from": no_deriv,
                                           "not_evaluated": [c["id"] for c in cons if c["status"] == "not_evaluated"]}
-    write_json(out / "constraints.json", {"design": design, "constraints": cons,
+    put("constraints.json", {"design": design, "constraints": cons,
                                           "counts": {k: sum(1 for c in cons if c["class"] == k)
                                                      for k in sorted({c["class"] for c in cons})}})
 
@@ -821,12 +829,12 @@ def main(argv=None) -> int:
                        pdk_f, REPO / a.package])
     report = {"design": design, "eta": eta, "gates": gates,
               "all_pass": all(g.get("pass") in (True, None) for g in gates.values()), "provenance": prov}
-    write_json(out / "s2_report.json", report)
+    put("s2_report.json", report)
     for k in sorted(gates):
         g = gates[k]
         print(f"{k:38s} {'PASS' if g.get('pass') else ('INFO' if g.get('pass') is None else 'FAIL')}")
     print("S2", "PASS" if report["all_pass"] else "FAIL", "->", rel(out))
-    return 0 if report["all_pass"] else 1
+    return gate_exit(report["all_pass"])
 
 
 if __name__ == "__main__":

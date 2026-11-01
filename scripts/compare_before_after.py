@@ -5,7 +5,8 @@
                           keep the key results of the current outputs/S0..S3/<design> in
                           outputs/compare/<design>/<tag>.json (gates, specs, budgets, decisions); an S3 folder
                           (relative to the repo) replaces outputs/S3/<design>, for post-hoc S3 variants
-                          (src.s3.run --out)
+                          (src.s3.run --out). Refused (exit 2) when the S2 files do not come from one finished
+                          run (s2_identity)
   report                  docs/before_after.md: one table per design, every tag side by side
 
 Run inside the EDA image from the repository root.
@@ -69,7 +70,40 @@ def budget_over_need(b: dict, bl: dict | None) -> dict | None:
     return out
 
 
+class SnapRefused(RuntimeError):
+    """The S2 files on disk do not come from one finished run (Plan v3 Phase A, step 2; rows 40 and 43)."""
+
+
+def s2_identity(design: str) -> list:
+    """What is wrong with the S2 folder, if anything. Refused:
+    - budgets.json without s2_report.json (an S2 run that did not finish);
+    - budgets.json, s2_report.json and baselines.json with different run_ids or etas;
+    - any of them older than the start of S2 in the last flow run (flow_summary.json).
+    Files from before Phase A carry no run_id; they pass only if none of the three has one."""
+    s2 = REPO / "outputs" / "S2" / design
+    files = {n: s2 / n for n in ("budgets.json", "s2_report.json", "baselines.json") if (s2 / n).exists()}
+    problems = []
+    if "budgets.json" in files and "s2_report.json" not in files:
+        problems.append("budgets.json without s2_report.json: that S2 run did not finish")
+    docs = {n: _j(f) or {} for n, f in files.items()}
+    for key in ("run_id", "eta"):
+        vals = {n: d_.get(key) for n, d_ in docs.items()}
+        if len(set(vals.values())) > 1:
+            problems.append(f"{key} differs: " + ", ".join(f"{n} {v}" for n, v in vals.items()))
+    summ = _j(REPO / "outputs" / "flow" / design / "flow_summary.json") or {}
+    start = ((summ.get("stages") or {}).get("S2") or {}).get("started")
+    if start:
+        t0 = dt.datetime.fromisoformat(start).timestamp()
+        old = [n for n, f in files.items() if f.stat().st_mtime < t0 - 1]
+        if old:
+            problems.append(f"older than the S2 start in flow_summary.json ({start}): {', '.join(old)}")
+    return problems
+
+
 def snap(design: str, tag: str, s3_dir: str | None = None) -> Path:
+    problems = s2_identity(design)
+    if problems:
+        raise SnapRefused(f"{design} not snapped: " + "; ".join(problems))
     rec: dict = {"design": design, "tag": tag}
     s3 = REPO / s3_dir if s3_dir else REPO / "outputs" / "S3" / design
     if s3_dir:
@@ -107,7 +141,7 @@ def snap(design: str, tag: str, s3_dir: str | None = None) -> Path:
         g = rep2["gates"]
         el = [e for e in b["elements"] if e.get("budget") is not None]
         rec["S2"].update({
-            "eta": b.get("eta"), "alloc": b.get("alloc", "v1"),
+            "run_id": b.get("run_id"), "eta": b.get("eta"), "alloc": b.get("alloc", "v1"),
             "expected_use_fraction": {k: v["fraction_of_margin"] for k, v in (g.get("G2.0_expected_layout_use (info)") or {}).get("checks", {}).items()
                                       if not k.startswith("sat_") and "@" not in k},
             "t_round1": (g.get("G2.3_allocation") or {}).get("t_round1"),
@@ -124,7 +158,10 @@ def snap(design: str, tag: str, s3_dir: str | None = None) -> Path:
     d = _j(s3 / "device_decisions.json")
     if d and fresh("S3"):
         dec = d["decisions"]
+        if b and d.get("s2_run_id") != b.get("run_id"):
+            print(f"note: {design} S3 was made from S2 run {d.get('s2_run_id')}, S2 on disk is {b.get('run_id')}")
         rec["S3"].update({
+            "run_id": d.get("run_id"), "s2_run_id": d.get("s2_run_id"),
             "mode": d.get("mode", "A-free"), "rules": d.get("rules", "v1"),
             "types": {t: {"option": x["chosen"]["id"], "area_um2": x["area_um2"], "relaxed": x["relaxed"],
                           "devices": len(x["devices"])} for t, x in dec.items()},
@@ -272,6 +309,10 @@ def report() -> Path:
 
 if __name__ == "__main__":
     if sys.argv[1] == "snap":
-        print(snap(sys.argv[2], sys.argv[3], *sys.argv[4:5]))
+        try:
+            print(snap(sys.argv[2], sys.argv[3], *sys.argv[4:5]))
+        except SnapRefused as e:
+            print(f"REFUSED: {e}", file=sys.stderr)
+            sys.exit(2)
     elif sys.argv[1] == "report":
         print(report())

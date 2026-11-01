@@ -24,6 +24,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+from src.common.hygiene import EXIT_PASS
 from src.common.tools import REPO, bench, rel, run_ngspice_text, write_json
 from src.s0.ingest import load_package
 
@@ -235,7 +236,7 @@ def main(argv=None) -> int:
     write_json(rep_f, rep)
     print(f"PVT: {sum(1 for r in points.values() if r['meets_all'])}/{len(points)} points meet every spec; worst {worst}")
     print(f"MC ({n_mc} runs): {json.dumps({k: {kk: round(vv, 6) for kk, vv in v.items() if isinstance(vv, float)} for k, v in summ.items()})}")
-    return 0
+    return EXIT_PASS   # G0.9 and G0.10 are information only: never a gate FAIL
 
 
 if __name__ == "__main__":

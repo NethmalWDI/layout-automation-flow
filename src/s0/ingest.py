@@ -26,6 +26,7 @@ from pathlib import Path
 import yaml
 
 from src.common import spice
+from src.common.hygiene import gate_exit
 from src.common.tools import (REPO, PDK_ROOT, provenance, rel, run_netgen_compare, run_ngspice,
                               sha256, write_json)
 
@@ -506,7 +507,7 @@ def main(argv=None) -> int:
     for k, g in gates.items():
         print(f"{k:30s} {'PASS' if g.get('pass') else ('SKIP' if g.get('pass') is None else 'FAIL')}")
     print("S0", "PASS" if report["all_pass"] else "FAIL", "->", rel(out))
-    return 0 if report["all_pass"] else 1
+    return gate_exit(report["all_pass"])
 
 
 if __name__ == "__main__":

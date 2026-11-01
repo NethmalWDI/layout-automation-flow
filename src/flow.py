@@ -9,11 +9,12 @@ Run inside the EDA image (the launchers ./flow and flow.ps1 do that for you):
   python3 -m src.flow test [--stage S0..S3] [--design d] [--rerun]   unit tests + golden comparison
   python3 -m src.flow snapshot <design> [--stage Sx]         (maintainers) write tests/golden/<design>/<stage>.json
 
-A stage reads only the outputs of the stages before it (outputs/<stage>/<design>/). Exit status of a
-stage: PASS (all gates pass), FAIL (a gate failed; the stage still produced its report, e.g. S3 flags a
-device type), ERROR (no fresh report: the stage crashed). The run stops on ERROR, and on FAIL only with
---strict. A summary is written to outputs/flow/<design>/flow_summary.json and every command's log to
-runs/logs/flow/<design>/.
+A stage reads only the outputs of the stages before it (outputs/<stage>/<design>/). Status of a stage, from
+the exit codes of its commands (src/common/hygiene.py): PASS (every command exited 0 and every gate passed),
+FAIL (exit 3: a gate failed, and the stage still produced its report, e.g. S3 flags a device type), ERROR (any
+other exit code, e.g. 1 from a crash, or no fresh report). A stage stops at its first command that errs. The run
+stops on ERROR, and on FAIL only with --strict. A summary is written to
+outputs/flow/<design>/flow_summary.json and every command's log to runs/logs/flow/<design>/.
 """
 from __future__ import annotations
 
@@ -27,6 +28,7 @@ from pathlib import Path
 
 import yaml
 
+from src.common.hygiene import EXIT_GATE_FAIL, EXIT_PASS
 from src.common.tools import REPO
 
 STAGES = ["S0", "S1", "S2", "S3"]
@@ -106,6 +108,7 @@ def run_stage(stage: str, design: str, a) -> dict:
     logdir.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     rec = {"stage": stage, "steps": [], "started": dt.datetime.now().isoformat(timespec="seconds")}
+    erred = None
     for label, cmd in steps(stage, design, a):
         log = logdir / f"{stage}_{label}.log"
         ts = time.time()
@@ -116,9 +119,15 @@ def run_stage(stage: str, design: str, a) -> dict:
         rec["steps"].append({"step": label, "rc": r.returncode, "seconds": round(time.time() - ts, 1),
                              "log": str(log.relative_to(REPO))})
         print(f"  {stage}/{label:15s} rc={r.returncode}  {time.time() - ts:7.1f} s  log: {log.relative_to(REPO)}")
+        if r.returncode not in (EXIT_PASS, EXIT_GATE_FAIL):   # a crash (Python exits with 1) or another error
+            erred = (label, r.returncode)
+            break
     rp = report_path(stage, design)
     fresh = rp.exists() and rp.stat().st_mtime >= t0 - 1
-    if not fresh:
+    if erred:   # even with a fresh report: a crash after writing it is not a finished stage (row 40)
+        rec["status"] = "ERROR"
+        rec["reason"] = f"{stage}/{erred[0]} exited with {erred[1]} (0 = PASS, 3 = gate FAIL, anything else = error)"
+    elif not fresh:
         rec["status"] = "ERROR"
         rec["reason"] = f"no fresh report at {rp.relative_to(REPO)}"
     else:
@@ -126,7 +135,8 @@ def run_stage(stage: str, design: str, a) -> dict:
         g = gates_of(rep)
         rec["gates"] = g
         failed = [k for k, v in g.items() if v is False]
-        rec["status"] = "PASS" if not failed else "FAIL"
+        gate_fail = any(s["rc"] == EXIT_GATE_FAIL for s in rec["steps"])
+        rec["status"] = "FAIL" if failed or gate_fail else "PASS"
         rec["failed_gates"] = failed
     rec["seconds"] = round(time.time() - t0, 1)
     return rec

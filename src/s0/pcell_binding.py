@@ -15,6 +15,7 @@ import sys
 from pathlib import Path
 
 from src.common import pcell
+from src.common.hygiene import gate_exit
 from src.common.tools import REPO, rel, write_json
 
 
@@ -79,7 +80,7 @@ def main(argv=None) -> int:
     rep["all_pass"] = all(g.get("pass") in (True, None) for g in rep["gates"].values())
     write_json(rep_f, rep)
     print("G0.7", "PASS" if gate["pass"] else "FAIL")
-    return 0 if gate["pass"] else 1
+    return gate_exit(gate["pass"])
 
 
 if __name__ == "__main__":

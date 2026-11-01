@@ -699,3 +699,32 @@ the work manageable.
   step 7 measures the error and records it.
 
 **No code, runs or outputs changed.**
+
+## 2026-11-01: Plan v3 Phase A, steps 0–2 (Claude Code)
+
+- **Step 0 (setup), committed `03390202`.**
+  - Container up and idle. Branch `plan-v3-phaseA`; tag `prereg-v1` on `a8c6f7d3`.
+  - Baseline before any change: 87 unit tests passed, golden OK for all 5 designs × S0–S3.
+- **Step 1 (PREREG amendment), committed `02279b98`.**
+  - "2026-11-01, Plan v3 Phase A (5T and LOADBench)", written before any code change: nominal-only budgets,
+    eta 0.5, one tolerance, S3 do-no-harm (ASSUMPTION), `lp_floor_k`, G2.0 route from representative cells, PM
+    reference, mirror bank and designer groups.
+  - The plan's predictions table is copied in unchanged (checked by diff).
+- **Step 2 (run hygiene; rows 40 and 43).**
+  - **Why.** In plan v2 a crash and a gate FAIL both exited 1, so a crashed S2 was snapped as finished (row 40).
+    Variant runs also left stale files in a reused folder (row 43).
+  - **What changed.**
+    - Exit code 3 for a gate FAIL, from one shared module, `src/common/hygiene.py`.
+    - `flow.run_stage` takes its status from the exit codes and stops at a command that errs.
+    - S2 starts from an empty folder (the run before goes to `<d>.prev/`). S3 does the same with its report
+      files, keeping its `sim/` and `_cells/` caches.
+    - `run_id` and `eta` in every S2 JSON; `run_id`, `s2_run_id` and `eta` in S3's.
+    - `snap` refuses S2 files from different runs, an unfinished S2, or files older than the S2 start.
+  - **Checks.**
+    - 12 new tests (`tests/test_phaseA.py`); 99 passed in all; golden 20/20 OK.
+    - A 5T S2 run with the unchanged code first reproduced the committed plan-v2 budgets exactly. The step 2 code
+      then gave the same budgets again (63 values identical, gates equal), with one `run_id` in all 7 files and a
+      planted stale file moved to `.prev`.
+  - **Side effects.**
+    - S2 no longer reuses its SPICE cache: 5T S2 took 10.7 min, against 3.8 with the cache.
+    - `pdk_parasitics`'s exit 1 for an incomplete table is now an ERROR.

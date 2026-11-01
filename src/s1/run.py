@@ -29,6 +29,7 @@ from pathlib import Path
 
 import numpy as np
 
+from src.common.hygiene import gate_exit
 from src.common.tools import REPO, bench, out_expr, provenance, rel, run_ngspice, write_json
 from src.s0.ingest import load_package
 from src.s1 import linear, op as opmod, resistance, spice_fd, symbolic
@@ -550,7 +551,7 @@ def main(argv=None) -> int:
     for k, g in gates.items():
         print(f"{k:45s} {'PASS' if g.get('pass') else ('INFO' if g.get('pass') is None else 'FAIL')}")
     print("S1", "PASS" if report["all_pass"] else "FAIL", "->", rel(out))
-    return 0 if report["all_pass"] else 1
+    return gate_exit(report["all_pass"])
 
 
 if __name__ == "__main__":

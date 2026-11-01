@@ -12,6 +12,9 @@ Outputs: outputs/S3/<design>/
   cells/<cell>/...      GDS, PNG, DRC/LVS/PEX runs of every option
   plots/*.png, s3_report.json (gates G3.1-G3.5)
 Option cells are design independent and cached in outputs/S3/_cells (same type + option = same cell).
+A run's report files carry its run_id, and S2's (s2_run_id, eta). The report files of the run before move to
+outputs/S3/<design>.prev/; sim/ stays, as a cache used only for identical decks. Exit code: 0 PASS, 3 a gate
+failed, anything else an error (src/common/hygiene.py).
 """
 from __future__ import annotations
 
@@ -23,6 +26,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from src.common import pcell
+from src.common.hygiene import fresh_output_dir, gate_exit, new_run_id
 from src.common.tools import REPO, provenance, rel, write_json
 from src.s0.ingest import load_package
 from src.s3 import evaluate as E, options as O, wbins
@@ -134,7 +138,10 @@ def main(argv=None) -> int:
     if a.cells_only:
         print(f"option cells: {len(table)} built, {len(bad)} not signed off: {bad}")
         return 0
+    fresh_output_dir(out, keep=("sim",))    # no stale report file is left (row 43); the cell cache is _cells
+    (out / "plots").mkdir(parents=True, exist_ok=True)
     budgets = json.loads((s2 / "budgets.json").read_text())
+    ident = {"run_id": new_run_id(), "s2_run_id": budgets.get("run_id"), "eta": budgets.get("eta")}
 
     # 2. allowances, in S2's own terms: S2's expected need of every element is split into the default device
     #    cells' part (measured) and the wiring part; the cells get the same fraction of each budget.
@@ -353,9 +360,9 @@ def main(argv=None) -> int:
         slim.append({k: r.get(k) for k in ("type", "cell", "option", "ok", "gds", "png", "drc", "lvs", "geometry",
                                            "access_resistance_ohm", "pex", "in_circuit_cell_only", "margin_use_cell_only",
                                            "budget_check", "feasible", "min_slack", "magic_extresist", "strap", "error")})
-    write_json(out / "option_table.json", {"design": design, "f_device": F_DEVICE, "tolerance": TOL,
+    write_json(out / "option_table.json", {**ident, "design": design, "f_device": F_DEVICE, "tolerance": TOL,
                                            "baseline_S0": base, "allowance": allow, "options": slim})
-    write_json(out / "device_decisions.json", {"design": design, "mode": a.mode, "rules": a.rules,
+    write_json(out / "device_decisions.json", {**ident, "design": design, "mode": a.mode, "rules": a.rules,
                                                "relax_fallback": a.relax_fallback,
                                                "decisions": decisions, "final_in_circuit": final,
                                                "by_mode": mode_summary,
@@ -384,7 +391,7 @@ def main(argv=None) -> int:
 
     prov = provenance([s0 / "circuit_ir.json", s2 / "budgets.json", REPO / "outputs" / "S2" / "pdk" / "parasitics.json",
                        REPO / a.package])
-    report = {"design": design, "gates": gates, "all_pass": all(g.get("pass") in (True, None) for g in gates.values()),
+    report = {**ident, "design": design, "gates": gates, "all_pass": all(g.get("pass") in (True, None) for g in gates.values()),
               "provenance": prov}
     write_json(out / "s3_report.json", report)
     for k in sorted(gates):
@@ -393,7 +400,7 @@ def main(argv=None) -> int:
         print(f"  {tid:28s} -> {d['chosen']['id']:24s} area {d['area_um2']:.1f} um2  R(d,g,s)="
               f"{', '.join(f'{d['access_resistance_ohm'][k]:.1f}' for k in 'dgs')} ohm")
     print("S3", "PASS" if report["all_pass"] else "FAIL", "->", rel(out))
-    return 0 if report["all_pass"] else 1
+    return gate_exit(report["all_pass"])
 
 
 if __name__ == "__main__":

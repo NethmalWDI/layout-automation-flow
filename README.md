@@ -54,10 +54,28 @@ designers' `gain_and_phase.sch` conditions; `scripts/reference_iadc.sh` for the 
 held in phase 1, cmc driven by the flow's ideal CMFB law).
 
 Each stage writes to `outputs/<stage>/<design>/` and logs to `runs/logs/flow/<design>/`; the run summary is
-`outputs/flow/<design>/flow_summary.json`. A stage is **PASS** (all gates pass), **FAIL** (a gate failed but the
-stage finished, e.g. S3 flags a device type that does not fit) or **ERROR** (it crashed). The committed outputs
-are the reference results; `./flow test` fails if a re-run moves any of them beyond its tolerance
-(`tests/golden/`).
+`outputs/flow/<design>/flow_summary.json`. A stage's status comes from the exit codes of its commands
+(`src/common/hygiene.py`):
+
+| Status | Exit code | Meaning |
+|---|---|---|
+| **PASS** | 0 | every gate passed |
+| **FAIL** | 3 | a gate failed, but the stage finished and wrote its report (e.g. S3 flags a device type that does not fit) |
+| **ERROR** | anything else, e.g. 1 from a crash; or no fresh report | the stage did not finish; it stops at that command |
+
+The committed outputs are the reference results; `./flow test` fails if a re-run moves any of them beyond its
+tolerance (`tests/golden/`).
+
+**Clean runs.**
+- S2 starts from an empty `outputs/S2/<design>/`. The run before moves to `outputs/S2/<design>.prev/`
+  (git-ignored), replacing an earlier `.prev`.
+- S3 does the same with its report files. It keeps `sim/`, its simulation cache, which is reused only for an
+  identical deck, and `outputs/S3/_cells/`, the cell cache.
+- Every S2 JSON carries the run's `run_id` and `eta`. The S3 files carry their own `run_id` and the `s2_run_id`
+  they were made from.
+- `compare_before_after.py snap` refuses (exit 2) when `budgets.json`, `s2_report.json` and `baselines.json`
+  disagree on `run_id` or `eta`, when `budgets.json` has no `s2_report.json`, or when any of them is older than the
+  S2 start in `flow_summary.json`.
 
 **Your own design:** copy `inputs/_template/` to `inputs/<name>/`, fill in `package.yaml` (every field is
 explained in `docs/INPUTS.md`), and run `./flow run <name>`. Missing upstream files are reported as pending,
