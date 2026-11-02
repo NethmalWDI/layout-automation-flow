@@ -1023,3 +1023,14 @@ the output of every step shown. Branch `s0-s3-review` starts at `fd8d7118`, with
     brought up to date; merged.
   - `CLAUDE.md`'s test line (it said 24 tests in `test_v2.py`) now describes `./flow test`.
   - `.\flow.ps1 test`: 134 passed, golden 20 of 20 OK, 13 s.
+- **Phase 6: rehearsal from PowerShell, as the supervisor would run it** (nothing that rewrites the committed
+  outputs).
+  - `list`, `status` for both designs (also through a throwaway container), `test`, and the walkthrough regenerated
+    into `runs/tmp/`. All work. The regenerated walkthrough matches the committed one except the commit hash.
+  - Found (row 64): the flow's own lines were held back until each command ended, because `docker exec -i` gives
+    Python no terminal. A `run` would have looked hung for 30 minutes. Both launchers now pass
+    `PYTHONUNBUFFERED=1`, and the README's direct command uses `python3 -u`. After the fix, output arrives in
+    order; 134 passed, golden 20 of 20 OK.
+  - STATUS corrected: `main` is at `a8c6f7d3`, before Phase A, so the fast-forward merge brings Phase A into
+    `main` too.
+  - Claude Code's claim is released.

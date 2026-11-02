@@ -2,8 +2,9 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-02 23:05 CET, by Claude Code (review phase 5 done, waiting for Imasha's commit; phase 6,
-the rehearsal and the merge into `main`, is next).
+**Last updated:** 2026-11-02 23:20 CET, by Claude Code. Review phase 6's rehearsal is done. Next, Imasha commits
+it, merges `s0-s3-review` into `main` (a fast-forward) and pushes. Claude Code's claim is released, and nothing is
+running.
 **Now: the supervisor-review finalisation, on branch
 `s0-s3-review`** (Imasha's plan of 2026-11-02 evening: S0–S3 without errors on the 5T and LOADBench, and the
 output of every step shown). The phases and progress are under *Supervisor review (s0-s3-review)* below.
@@ -137,7 +138,7 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
-| Claude Code | Supervisor review on branch `s0-s3-review`, phase 6 (the rehearsal): `README.md`, `flow.ps1`, `flow`, `docs/` (STATUS, progress log, flow record, the walkthrough), `scripts/make_s0s3_walkthrough.py`, `tests/`. Narrowed after phase 5; the outputs, `src/` and the goldens are no longer claimed. Released when phase 6 ends | 2026-11-02 18:15 CET |
+| Claude Code | **released 2026-11-02 23:20 CET**: supervisor review on branch `s0-s3-review`, phases 1–6 done (the rehearsal included). Held since 2026-11-02 18:15 CET, narrowed after phase 5 | 2026-11-02 18:15 CET |
 | Claude Code | Plan v3 Phase A: `src/`, `scripts/benchlib.py`, `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`, `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`; plus the doc updates the plan's steps ask for (README, progress log, flow record section 7 draft) | **released 2026-11-02 14:50 CET**: Phase A done (steps 0–13). Held since 2026-11-01 16:10, paused overnight 22:05, resumed 2026-11-02 12:12 |
 | Cowork | **released 2026-11-01**: Phase A plan written (`docs/plan_v3_phaseA.md`; `docs/HANDOFF.md` rewritten; this file; progress log). No code or outputs changed. **Next: Claude Code claims Phase A at its step 0** | 2026-11-01 |
 | Cowork (earlier) | **released 2026-10-27 17:15 CET**: Plan v3 review pack done (`docs/plan_v3_review_pack.md`, `docs/plan_v3/`, flow record 7.12 and rows 46–50, project doc 14). Earlier: the documentation pass (released 14:20). No runs, no flow code changed | 2026-10-27 |
@@ -148,7 +149,9 @@ Earlier history of this run:
 **Goal** (Imasha, for the supervisor inspection on 2026-11-03): S0–S3 run on `example_ota_5t` and `loadbench_miller`
 with no ERROR, and the output of every step is shown. Work happens on branch `s0-s3-review` (from `fd8d7118`;
 Phase A is tagged `phaseA-v3a`), and Imasha commits after each phase. Before the meeting she merges the branch into
-`main`, which has not moved since the branch point, so the merge is a fast-forward.
+`main`. `main` is at `a8c6f7d3` ("status_update", 2026-11-01), an ancestor of the branch, so the merge is a
+fast-forward. It brings Phase A into `main` as well: Phase A lived on `plan-v3-phaseA` and was never merged.
+(Corrected in phase 6: this line used to say `main` had not moved since the branch point.)
 
 **Decisions** (Imasha, 2026-11-02, the recommended answers):
 - the branch is `s0-s3-review`;
@@ -163,8 +166,29 @@ Phase A is tagged `phaseA-v3a`), and Imasha commits after each phase. Before the
 | 2 | Robustness: the login-shell `USER` quirk; a retry on Errno 22 writes | **done**, committed `bf67fd09` |
 | 3 | Clean full runs from S0 of both designs; snapshot `review`; goldens; tests | **done**, committed `214eb337` |
 | 4 | `docs/s0_s3_walkthrough.md` + HTML, generated from the outputs | **done**, committed `58c4f207` |
-| 5 | README "For reviewers", flow record 7.14, STATUS, log, `CLAUDE.md` test line | **done**, waiting for Imasha's commit |
-| 6 | Rehearsal from PowerShell; commit, merge into `main`, push (Imasha) | pending |
+| 5 | README "For reviewers", flow record 7.14, STATUS, log, `CLAUDE.md` test line | **done**, committed `b2448dd3` |
+| 6 | Rehearsal from PowerShell; commit, merge into `main`, push (Imasha) | rehearsal **done**; waiting for Imasha's commit and the merge |
+
+Phase 6 record (2026-11-02, to 23:20 CET; the README's commands from PowerShell, as a reviewer would type them;
+nothing that rewrites the committed outputs):
+
+| Command | Result |
+|---|---|
+| `.\flow.ps1 list` | the 5 designs, exit 0 |
+| `.\flow.ps1 status example_ota_5t` / `loadbench_miller` | S0–S3 PASS / FAIL G0.7, FAIL G1.6, PASS, FAIL G3.5, as the README says; exit 0; no `[INFO]` lines |
+| the same without `FLOW_CONTAINER` (throwaway container from the local image) | same output, 2 s |
+| `.\flow.ps1 test` | 134 passed, golden 20 of 20 OK, 13 s (`runs/logs/review_p6_test.log`) |
+| `make_s0s3_walkthrough.py --out runs/tmp/rehearsal/…` (the README's container form) | identical to the committed walkthrough except the commit hash in its header |
+
+- **Found and fixed (flow record row 64):** Python held the flow's own lines until a command ended. The output had
+  no terminal (`docker exec -i`), so "== unit tests" came after pytest's results, and a `run` would have shown
+  nothing for 30 minutes. Both launchers now pass `PYTHONUNBUFFERED=1` on both paths; the README's direct command
+  uses `python3 -u` and the quiet variable. Re-run: "== unit tests" comes first, 134 passed, golden 20 of 20 OK
+  (`runs/logs/review_p6_test_unbuf.log`); the `docker run` path's golden check passes too.
+- **Not rehearsed:** a live `run`. It rewrites the committed outputs (ids and timestamps), which would then have to
+  be discarded in GitHub Desktop. Phase 3's full runs used the same command inside the container.
+- **Records:** flow record row 64, 7.14's phase table and findings, the header and the changelog (rows 62–64);
+  this file; the progress log. The statement about `main` above is corrected.
 
 Phase 5 record (2026-11-02 evening; documentation and the launchers, no run):
 - **README "For reviewers"**, right after the design table: what to read first (the walkthrough), the expected
@@ -1326,9 +1350,10 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 - 2026-11-02 evening (Claude Code): **Supervisor review, branch `s0-s3-review`**: phases 1–3 committed
   (`33e6277f` the `env.sh` fix, `bf67fd09` robustness, `214eb337` the clean runs), phase 4 the S0–S3 walkthrough
-  (`58c4f207`: `docs/s0_s3_walkthrough.md` + HTML, `scripts/make_s0s3_walkthrough.py`). Phase 5 (README "For
-  reviewers", flow record 7.14 and row 63, quiet launchers, the `CLAUDE.md` test line) is done and waiting for
-  Imasha's commit. Details under *Supervisor review (s0-s3-review)*.
+  (`58c4f207`: `docs/s0_s3_walkthrough.md` + HTML, `scripts/make_s0s3_walkthrough.py`), phase 5 (`b2448dd3`:
+  README "For reviewers", flow record 7.14 and row 63, quiet launchers, the `CLAUDE.md` test line). Phase 6, the
+  rehearsal from PowerShell (row 64: the launchers' output is unbuffered), is done and waiting for Imasha's commit
+  and the merge into `main`. Details under *Supervisor review (s0-s3-review)*.
 - 2026-11-02 (Claude Code): **Plan v3 Phase A, step 13**: flow record rows 40–61 and section 7.13, review D (9
   findings, all checked, 7.9), the post-hoc PREREG amendment for the at-bound tolerance, README. Phase A is
   complete; the claim is released. Committed `67b3b83d`, with the G2.8 follow-up (PVT checks back after review D 1).

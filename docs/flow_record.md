@@ -13,7 +13,7 @@ evidence with pictures, and the problems met on the way and how they were fixed.
 
 **Last updated:** 2026-11-02 (evening). Section 7 now also covers Plan v3 Phase A on the 5T and LOADBench (7.13)
 and the supervisor review of S0–S3 on those two designs (7.14; its output, stage by stage, is
-[`s0_s3_walkthrough.html`](s0_s3_walkthrough.html)). The journey table runs to row 63.
+[`s0_s3_walkthrough.html`](s0_s3_walkthrough.html)). The journey table runs to row 64.
 
 *Earlier (2026-10-27, evening):* section 7 (plan v2) is complete: every before/after run on the five designs, the post-hoc S3 test, the five budget rules at each design's own eta and at eta 0.9 (PREREG headline; TTSKY25a's eta 0.9 run is not valid), the hand-drawn layouts against the 'after' G2.0, a third independent review (review C) and what it changed, the journey table to row 50, an assessment (7.11) and the Plan v3 review pack (7.12, `docs/plan_v3_review_pack.md`). Figures: `flow_record/img/v2_*.png`, `plan_v3/img/*.png`.
 
@@ -1231,6 +1231,7 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 61 | infra | `OSError: [Errno 22]` writing into the mounted repo (row 40's crash) came back once in Phase A, writing `before_after.md` (step 12); it had also hit a flow-record merge on 2026-10-27 | the script's traceback | a retry worked; no run was affected | open: a retry in the write helpers would remove it. → Supervisor-review phase 2: `tools.write_text()` retries Errno 22 up to 5 times (backing off 0.5 s per try); `write_json` and the ngspice and Netgen log, deck and rc writes use it (test added) |
 | 62 | infra (EDA) | Row 57's fix made `scripts/env.sh` source the image's `sak-pdk-script.sh`, which reads unset variables (`KLAYOUT_PYTHONPATH`). `magic_drc.sh` and `magic_lvs.sh` run with `set -u` and source `env.sh`, so they stopped before Magic ran. LOADBench's S0 re-run in step 12 recorded G0.7 with no DRC/LVS result for all 9 devices (before: N3 only, 6 real DRC errors), and step 12's golden refresh kept that. S3 built no new cell after row 57, so its results were not affected; the 5T's S0 dated from before | planning the supervisor review: G0.7 failing on all 9 devices instead of 1, then `errors: None` and DRC files left from the day before | `env.sh` switches nounset off around the image's script and restores it; two tests (`env.sh` under `set -u`; a real Magic DRC through the script); LOADBench's S0 re-run (supervisor-review phase 1) | G0.7 fails on N3 only again (6 DRC errors, the known PDK finding, row 7); the other 8 devices pass DRC and LVS with both negative controls, as in step 5's run. The IR and PVT results are unchanged. The golden had not changed, since it records G0.7 as a gate only |
 | 63 | docs (walkthrough) | The first draft of the S0–S3 walkthrough generator (`scripts/make_s0s3_walkthrough.py`) read G0.6's values only under `measured`, which exists only when there is no upstream run, so the 5T's testbench table and G3.3 "Schematic" column came out empty. It summed one cell per device type for the total area (5T 128.7 µm² instead of S3's 200.8 µm²), and left LOADBench's margins without units. The phase 3 STATUS record had the 5T's S0 time as 19.9 min (it was S1's 19.9 s) | reading the generated walkthrough against the stage reports, and its area against the phase 3 record (the two disagreed) | G0.6 is read from `compare` (upstream vs rerun) or `measured`; the area counts every device, as S3 does (`src/s3/run.py`, G3.7); units come from the spec name; notes under G2.5 (`TOL_USE`) and G2.8 (scored before the closure step). Two tests, one comparing the area with S3's own total; with the first G0.6 reading put back, it fails | caught before the walkthrough was committed; no flow result changed. STATUS corrected (20.3 min) |
+| 64 | infra (launchers) | `flow.ps1` and `flow` start `python3 -m src.flow` through `docker exec -i` / `docker run -i`, with no terminal, so Python held the flow's own lines (one per step and per stage) until the run ended: a 30-minute `run` showed nothing until it finished. Through `docker exec`, the image's login profile also printed two long `[INFO]` lines before every command | rehearsing the README's commands from PowerShell (review phases 5 and 6): `flow test` printed "== unit tests" after pytest's results, and every command began with the `[INFO]` lines | both launchers pass `IIC_OSIC_TOOLS_QUIET=1` and `PYTHONUNBUFFERED=1` on both paths (`docker run` had the first already); the README's direct command uses `python3 -u` | the lines arrive as each step ends ("== unit tests" now comes first); no result changes; tests and goldens pass on both launcher paths |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -2228,7 +2229,7 @@ Imasha's decisions:
 | 3 | Clean full runs from S0 of both designs with the final code; snapshot `review` | `214eb337` |
 | 4 | `docs/s0_s3_walkthrough.md` + `.html`, generated from the outputs (row 63) | `58c4f207` |
 | 5 | README "For reviewers"; this section; the launchers' `docker exec` made quiet like `docker run` | the commit with this section |
-| 6 | Rehearsal of the README's commands from PowerShell; merge into `main` (Imasha) | recorded in `docs/STATUS.md` |
+| 6 | Rehearsal of the README's commands from PowerShell, both launcher paths; the flow's output made unbuffered (row 64); merge into `main` (Imasha) | the commit after phase 5; the merge is recorded in `docs/STATUS.md` |
 
 **The runs** (phase 3, from S0, started from a login shell; `outputs/flow/<design>/flow_summary.json`):
 
@@ -2259,6 +2260,9 @@ Imasha's decisions:
   and both have tests.
 - **Row 63:** the walkthrough is generated, not typed, but its generator had three reading bugs. They were found by
   checking it against the reports before it was committed.
+- **Row 64:** rehearsing the README's commands from PowerShell, as the supervisor would, found that a `run` would
+  have shown nothing for 30 minutes (Python held its output) after two long `[INFO]` lines. The tests could not see
+  either problem. Both launchers now fix it.
 
 **Still open:** as at the end of 7.13, without the `USER` quirk and the Errno 22 retry. The three other designs
 (`ota5t_stress`, `ttsky25a_fd`, `iadc_ota`) keep their plan-v2 outputs (7.5) and were not part of this review.
@@ -2301,3 +2305,4 @@ Imasha's decisions:
 - 2026-10-27: section 7 completed (Cowork, documentation pass, no runs): 7.5 for LOADBench, iadc and TTSKY25a with the post-hoc column; 7.6 with the held-out designs, the eta 0.9 headline and the hypothesis reading; 7.7 and 7.8 against the 'after' G2.0; review C (7.9) and its corrections; 7.10 and the new 7.11 assessment; journey rows 40–44; figures `v2_*.png` from `scripts/make_v2_figures.py`; plan v2 status at a glance.
 - 2026-10-27 (evening): 7.12 and journey rows 46–50 from the Plan v3 review pack (Cowork, documentation only, no runs): PM measured from the 1 Hz phase (TTSKY25a +2.3 deg), dummy tags, recognition pairings, hand-model gaps, iadc's upstream Performance Summary; the pack itself is `docs/plan_v3_review_pack.md`.
 - 2026-11-02: 7.13 and journey rows 51–61 (Claude Code, Plan v3 Phase A on example_ota_5t and loadbench_miller: nominal budgets, one tolerance, `lp_floor_k`, route lengths from the representative cells, PM reference, mirror bank and designer groups, LOADBench's hand model with the mirror doublet, sky130A pinned, re-run `after_v3a`); rows 40–49 point to their Phase A fix; review D in 7.9.
+- 2026-11-02 (evening): 7.14 and journey rows 62–64 (Claude Code, the supervisor review of S0–S3 on example_ota_5t and loadbench_miller, branch `s0-s3-review`: the `env.sh` regression that stopped Magic, the login-shell `USER` and Errno 22 fixes, clean full runs that reproduce `after_v3a`, the generated walkthrough `s0_s3_walkthrough.md`/`.html`, quiet and unbuffered launchers); the header's *Last updated* line.

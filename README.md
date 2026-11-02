@@ -59,8 +59,10 @@ $env:FLOW_CONTAINER="layout-s0s3"
 .\flow.ps1 test                            # 134 unit tests + golden comparison with the committed outputs (~15 s)
 ```
 
-The same inside the container: `docker exec layout-s0s3 bash -lc "cd /foss/designs && source scripts/env.sh &&
-python3 -m src.flow run example_ota_5t"`. `status all` also lists the three other designs. Their outputs are the
+The same inside the container: `docker exec -e IIC_OSIC_TOOLS_QUIET=1 layout-s0s3 bash -lc "cd /foss/designs &&
+source scripts/env.sh && python3 -u -m src.flow run example_ota_5t"`. The variable stops the image's login
+profile from printing its `[INFO]` lines. `-u` makes each step's line appear as it finishes; without it, Python
+holds its output until the run ends. The launchers set both. `status all` also lists the three other designs. Their outputs are the
 plan-v2 runs of 25–27 October and are not part of this review; flow record 7.5 gives their results.
 
 **Where the outputs go:**
