@@ -132,9 +132,9 @@ every PVT point, as in plan v2.
   `sak-pdk-script.sh`), which ends up loading sky130's ngspice settings (`ngbehavior=hsa`, `enable_noisy_r`). Source
   it before every flow command; `./flow` and `flow.ps1` already do. `TOOL_ENV` (`src/common/tools.py`) pins the
   same variables for every tool the flow starts.
-- **Running the tests.** Use `bash -c` with `source scripts/env.sh`, not a login shell (`bash -lc`). The image's
-  login profile sets `USER` to a value with a newline, which ends up in pytest's temp folder name, and netgen then
-  fails the S0 round-trip test.
+- **Running the tests.** `./flow test`, or `.\flow.ps1 test` from PowerShell, works from any shell. The image's
+  login profile sets `USER` to "1000\ndesigner"; `scripts/env.sh` keeps the part after the newline, because a
+  newline in pytest's temp folder name made Netgen fail the S0 round-trip test.
 
 **Repository rules:** third-party material and licences are listed in `THIRD_PARTY.md`; hypotheses and
 thresholds for the experiments are fixed in `PREREG.md` before baselines run.

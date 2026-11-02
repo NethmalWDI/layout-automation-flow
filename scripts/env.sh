@@ -2,6 +2,9 @@
 export PATH=/foss/tools/bin:/foss/tools/sak:/foss/tools/klayout:$PATH
 export PDK_ROOT=/foss/pdks
 export REPO=/foss/designs
+# The image's login profile sets USER to "1000\ndesigner" (uid has no passwd entry). pytest builds its temp folder
+# name from it, and Netgen cannot open a path with a newline (flow record row 55): keep the name after the newline.
+case "${USER:-}" in *$'\n'*) export USER="${USER##*$'\n'}" ;; esac
 # The image's login profile selects IHP-SG13G2 by default (PDK, SPICE_USERINIT_DIR, KLAYOUT_PATH, ...): ngspice then
 # reads IHP's init and not sky130's (ngbehavior=hsa, enable_noisy_r). Switch with the image's own command, sak-pdk
 # (an alias of this script). Its last line returns 1 for every PDK except GF180, so the check below decides.

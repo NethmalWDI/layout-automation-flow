@@ -615,3 +615,40 @@ def test_magic_drc_script_runs_on_a_committed_pcell(tmp_path):
         pytest.skip("needs Magic (layout-s0s3 container)")
     r = pcell.drc(REPO / "outputs/S0/example_ota_5t/pcell/XM1.gds", "XM1", tmp_path / "drc")
     assert r["errors"] == 0 and r["neg_control_flagged"] and r["pass"], r   # Magic ran, and its control was caught
+
+
+# ------------------------------------------------------------------ review phase 2: robustness
+def test_write_text_retries_errno22_only(tmp_path, monkeypatch):
+    import errno
+    from src.common import tools
+    monkeypatch.setattr(tools.time, "sleep", lambda s: None)
+    real, calls = Path.write_text, {"n": 0}
+
+    def flaky(self, text, *a, **k):                       # Errno 22 twice, then a normal write
+        calls["n"] += 1
+        if calls["n"] <= 2:
+            raise OSError(errno.EINVAL, "Invalid argument")
+        return real(self, text, *a, **k)
+    monkeypatch.setattr(Path, "write_text", flaky)
+    tools.write_json(tmp_path / "a.json", {"x": 1})
+    assert calls["n"] == 3 and json.loads((tmp_path / "a.json").read_text()) == {"x": 1}
+
+    def denied(self, text, *a, **k):                      # any other error is raised at once
+        raise PermissionError(errno.EACCES, "denied")
+    monkeypatch.setattr(Path, "write_text", denied)
+    with pytest.raises(PermissionError):
+        tools.write_text(tmp_path / "b.txt", "x")
+
+
+def test_env_sh_cleans_a_user_name_with_a_newline():
+    """The image's login profile sets USER to "1000\ndesigner"; pytest's temp folder then has a newline in its name
+    and Netgen fails the S0 round-trip test (row 55)."""
+    import shutil
+    import subprocess
+    if not shutil.which("bash") or not Path("/foss/tools/sak/sak-pdk-script.sh").exists():
+        pytest.skip("needs the layout-s0s3 container")
+    r = subprocess.run(["bash", "-c", f"export USER=$(printf '1000\ndesigner'); . {REPO}/scripts/env.sh; "
+                                      "printf '[%s]' \"$USER\""], capture_output=True, text=True)
+    assert r.stdout == "[designer]", (r.stdout, r.stderr)
+    r = subprocess.run(["bash", "-c", f"set -u; unset USER; . {REPO}/scripts/env.sh; echo ok"], capture_output=True, text=True)
+    assert r.stdout.strip() == "ok", r.stderr

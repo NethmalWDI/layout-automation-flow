@@ -978,3 +978,9 @@ the output of every step shown. Branch `s0-s3-review` starts at `fd8d7118`, with
   - LOADBench's S0 was re-run (18:13–18:24): G0.7 again fails on N3 alone (the PDK finding); the IR and PVT are
     unchanged.
   - Tests: 130 passed; golden 20 of 20 OK.
+- **Phase 2: robustness for someone else running it.**
+  - `scripts/env.sh` cleans the image's login-shell `USER` ("1000\ndesigner" → "designer"), so pytest's temp folder
+    no longer breaks Netgen's round-trip test.
+  - `tools.write_text()` retries Errno 22 (the Windows-mount write failure of rows 40 and 61) for `write_json`
+    and the ngspice and Netgen writes.
+  - 2 tests added. `.\flow.ps1 test` from PowerShell: 132 passed, golden 20 of 20 OK.

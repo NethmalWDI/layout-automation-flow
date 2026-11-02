@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import datetime as _dt
+import errno
 import hashlib
 import json
 import os
 import re
 import subprocess
+import time
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
@@ -71,9 +73,22 @@ def provenance(inputs: list, extra: dict | None = None) -> dict:
     }
 
 
+def write_text(path: Path, text: str, tries: int = 5) -> None:
+    """Path.write_text with a short retry on OSError EINVAL (Errno 22). Writes into the repo, which the container
+    mounts from Windows, now and then fail that way (flow record rows 40 and 61); a retry has always worked."""
+    for k in range(tries):
+        try:
+            Path(path).write_text(text)
+            return
+        except OSError as e:
+            if e.errno != errno.EINVAL or k == tries - 1:
+                raise
+            time.sleep(0.5 * (k + 1))
+
+
 def write_json(path: Path, obj) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(obj, indent=2) + "\n")
+    write_text(path, json.dumps(obj, indent=2) + "\n")
 
 
 def parse_meas(log: str) -> dict:
@@ -105,8 +120,8 @@ def run_ngspice(deck: Path, workdir: Path, timeout: int = 600) -> dict:
     except subprocess.TimeoutExpired as e:   # a run that hangs (e.g. no DC solution) is a failed run, not a crash
         dec = lambda s: s.decode(errors="replace") if isinstance(s, bytes) else (s or "")  # noqa: E731
         log, rc = dec(e.stdout) + dec(e.stderr) + f"\nTIMEOUT after {timeout} s\n", -9
-    (workdir / (deck.stem + ".log")).write_text(log)
-    (workdir / (deck.stem + ".rc")).write_text(str(rc))
+    write_text(workdir / (deck.stem + ".log"), log)
+    write_text(workdir / (deck.stem + ".rc"), str(rc))
     return {"rc": rc, "meas": parse_meas(log) if rc == 0 else {}, "log": rel(workdir / (deck.stem + ".log")),
             "timed_out": "TIMEOUT after" in log[-64:],
             "numerical_warnings": numerical_warnings(log) + (["timeout"] if "TIMEOUT after" in log[-64:] else [])}
@@ -123,7 +138,7 @@ def run_ngspice_text(txt: str, workdir: Path, name: str, cache: bool = True, tim
         txt_log = log.read_text()
         return {"rc": 0, "meas": parse_meas(txt_log), "log": rel(log), "cached": True,
                 "numerical_warnings": numerical_warnings(txt_log)}
-    deck.write_text(txt)
+    write_text(deck, txt)
     return run_ngspice(deck, workdir, timeout)
 
 
@@ -133,7 +148,7 @@ def run_netgen_compare(a: Path, a_cell: str, b: Path, b_cell: str, report: Path,
     report.parent.mkdir(parents=True, exist_ok=True)
     r = subprocess.run(["netgen", "-batch", "lvs", f"{a} {a_cell}", f"{b} {b_cell}", str(setup), str(report)],
                        cwd=report.parent, env=TOOL_ENV, capture_output=True, text=True, timeout=timeout)
-    (report.parent / (report.stem + ".netgen.log")).write_text(r.stdout + r.stderr)
+    write_text(report.parent / (report.stem + ".netgen.log"), r.stdout + r.stderr)
     txt = report.read_text() if report.exists() else ""
     unique = "Circuits match uniquely" in txt
     prop_err = bool(re.search(r"property errors|Property errors", txt))

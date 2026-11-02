@@ -153,12 +153,25 @@ Phase A is tagged `phaseA-v3a`), and Imasha commits after each phase. Before the
 | Phase | Work | State |
 |---|---|---|
 | 0 | Branch `s0-s3-review`, tag `phaseA-v3a` (Imasha) | **done** |
-| 1 | Fix the `env.sh` regression (DRC/LVS scripts stopped under `set -u`); re-run LOADBench S0; refresh its golden | **done**, waiting for Imasha's commit |
-| 2 | Robustness: the login-shell `USER` quirk; a retry on Errno 22 writes | pending |
+| 1 | Fix the `env.sh` regression (DRC/LVS scripts stopped under `set -u`); re-run LOADBench S0; refresh its golden | **done**, committed `33e6277f` |
+| 2 | Robustness: the login-shell `USER` quirk; a retry on Errno 22 writes | **done**, waiting for Imasha's commit |
 | 3 | Clean full runs from S0 of both designs; snapshot `review`; goldens; tests | pending |
 | 4 | `docs/s0_s3_walkthrough.md` + HTML, generated from the outputs | pending |
 | 5 | README "For reviewers", flow record 7.14, STATUS, log, `CLAUDE.md` test line | pending |
 | 6 | Rehearsal from PowerShell; commit, merge into `main`, push (Imasha) | pending |
+
+Phase 2 record (flow record rows 55 and 61; no run):
+- **`USER` quirk.** `scripts/env.sh` keeps the part of `USER` after a newline: the image's login profile sets it
+  to "1000\ndesigner". pytest's temp folder then has a normal name, and Netgen's round-trip test passes from a
+  login shell. It is safe under `set -u` with `USER` unset.
+- **Errno 22.** `src/common/tools.py` has `write_text()`, which retries `OSError` EINVAL up to 5 times, backing
+  off 0.5 s more each try; any other error is raised at once. `write_json` uses it, and so do the ngspice log, rc
+  and deck writes and the Netgen log write. The ~30 one-off `write_text` calls elsewhere in `src/` are unchanged.
+- **Tests:**
+  - 2 new: the retry, and the `USER` clean-up.
+  - `.\flow.ps1 test` from PowerShell, as a reviewer would run it: 132 passed, golden 20 of 20 OK. The Netgen
+    round-trip test now passes on that path.
+- **Docs:** README ("Running the tests") and flow record rows 55 and 61, merged.
 
 Phase 1 record (flow record row 62):
 - **The regression.** My sky130A change (`70279125`, row 57) made `scripts/env.sh` source the image's
