@@ -869,7 +869,7 @@ the work manageable.
       predicted.
   - Tests: 2 new, 34 Phase A tests in all; full suite 120 passed plus the expected 5T S2 golden failure.
 
-## 2026-11-02: Plan v3 Phase A, steps 10–12 (Claude Code)
+## 2026-11-02: Plan v3 Phase A, steps 10–13 (Claude Code)
 
 Resumed at 12:12 CET after the overnight stop. Step 9 had been committed (`fb1b9adf`), and the container was
 running with no job.
@@ -919,8 +919,9 @@ running with no job.
     - area goes from 4396 to 2079 µm², the smallest of the four runs.
     - Predictions: step 3 mostly (37 of 40 budgets larger; 29 elements still starved at nominal, since G2.0 gain
       is at 1.00 of margin against eta 0.5); 4, 5, 7, 8, 9, 10 and 12 hold.
-  - **Step 6's "ours' outcome word unchanged" fails for LOADBench** (infeasible → ok): plan v2's word came from
-    infeasible floors, and now ours meets its allowance in SPICE (1.007).
+  - **Ours on LOADBench goes from "infeasible" (plan v2) to "ok"** (SPICE 1.007): the floors fit at the nominal
+    corner (step 3), and the at-bound fix applies. Step 6's prediction "ours' outcome word unchanged" still holds,
+    since step 6 kept `outcome()`'s 2 % threshold; this entry first said it failed, and step 13 corrected it.
   - **Found and fixed, with Imasha's OK: a tolerance edge.**
     - Phase 2 leaves a pinned budget 10⁻⁹ of room, and G2.8's score used the same 10⁻⁹ for "below floor" and
       "starved". A budget at its floor fell either side by rounding, and on LOADBench one did, scoring ours
@@ -933,3 +934,31 @@ running with no job.
       is not overwritten. It now reads that re-run's kept folder only for its own tag.
     - The goldens of both designs were refreshed (Q4): tests 126 passed, golden 20 of 20 OK.
     - `docs/before_after.md` was regenerated, with only the two designs' `after_v3a` column added.
+- **Step 13 (documentation and independent review D; Phase A complete).**
+  - **Flow record:** rows 40–49 now point to their Phase A fix; rows 51–61 record what Phase A found; new section
+    7.13. Merged into `docs/flow_record.md`, with a changelog line.
+  - **A correction of my own:** step 6's prediction "ours' outcome word unchanged" holds, since step 6 kept
+    `outcome()`'s 2 % threshold. Ours' infeasible → ok on LOADBench comes from step 3 and the at-bound fix.
+  - **Review D** (a fresh agent, without STATUS or this log) returned 9 findings, all checked, recorded in 7.9:
+    - G2.8's `after_v3a` words are nominal-only, since no PVT point is simulated: FEEDBACK NEEDED.
+    - The at-bound tolerance got a post-hoc PREREG amendment.
+    - Close calls are ties.
+    - S3's cache had kept 208 LOADBench decks simulated under IHP's init. Re-simulated under sky130's, all are
+      identical, so the results stand.
+    - G3.3's saturation test is unchanged.
+    - Both G2.9 counts are given.
+    - Step 6 is "partly"; the attributions are fixed; the need-definition row is added.
+  - README: the `after_v3a` tag. Tests: 126 passed. Claude Code's Phase A claim is released.
+- **After review D 1 (Imasha's answer (a)): G2.8 SPICE-checks PVT points again.**
+  - With nominal budgets G2.8 had simulated no PVT point, so its words covered the nominal corner only. Now each
+    rule's 5 most-used G2.9 points are simulated again (scored, not budgeted). `outcome` covers every check, and
+    `outcome_nominal` keeps the nominal word. G2.5 stays nominal, so the budgets do not change. PREREG has a
+    dated, post-hoc note.
+  - **Re-run** S2 and S3 for both designs (15:01–15:35). Budgets and S3 are identical, the goldens are still
+    20 of 20 OK, and `after_v3a` was re-taken.
+  - **5T:** ours "unsafe" (1.086 at the nominal point; its PVT points are lower in SPICE); equal split now
+    "unsafe" (2.76 at GBW tt, 0.9 V, 27 C); only `lp_floor` "ok". Row 42's sign disagreement is reproduced:
+    6.42 × first order, −2.27 × SPICE.
+  - **LOADBench:** every rule "unsafe" with the PVT points. Ours is 75.8 × at gain sf, 0.9 V, −40 C, where first
+    order says 78.7; ours and `lp_floor_k` are "ok" at the nominal corner only.
+  - 7.13, row 60, review D's row and the README are updated. Tests: 128 passed.

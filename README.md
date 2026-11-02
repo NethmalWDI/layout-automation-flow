@@ -43,6 +43,11 @@ Inside the container you can also call the stages directly, e.g. `python3 -m src
 --rules v1|v2`; `python3 scripts/compare_before_after.py snap <design> <tag> [<S3 folder>]` and `... report` keep and
 compare runs.
 
+Plan v3 Phase A's runs of `example_ota_5t` and `loadbench_miller` have the snapshot tag `after_v3a` (2026-11-02;
+flow record 7.13). `python3 scripts/compare_eta09_rerun.py <design> --first <tag> --rerun after_v3a --json
+outputs/phaseA/<design>/<name>.json` compares any two tags. Always give `--json`: the default path is the eta 0.9
+re-run's committed comparison.
+
 **Hand-drawn reference layouts** (plan v2, baseline 8): `python3 scripts/reference_layout.py <design> <gds> <cell>
 --ports "<pin>=<bench node>,..." [--bias "<off-chip element>;..."] [--corner ff --temp 20 --mim-load 1,1,100 --tag <name>]`
 extracts a layout with Magic (LVS netlist and a capacitance-only PEX), runs LVS against the flow's layout view and
@@ -99,6 +104,10 @@ every PVT point, as in plan v2.
   - S3, as `TOL_USE` × eta of the margin.
 
   G2.5's old 10 % stays only as a reported column, `within_first_order_error_10pct`.
+- **G2.8 and the PVT points.** With `budget_corners: nominal`, G2.8 still SPICE-checks each rule's 5 most-used PVT
+  points from G2.9; they are scored, not budgeted, and G2.5 stays nominal.
+  - `outcome` covers every simulated check, as in plan v2; `outcome_nominal` gives the nominal checks alone.
+  - The PREREG note of 2026-11-02 records this, after review D.
 - **At a bound.** G2.8 counts a budget within 10⁻⁶ below its floor or need as at it, not below it
   (`baselines.AT_BOUND_TOL`). Phase 2 leaves pinned budgets 10⁻⁹ of room.
 - **`lp_floor_k`.** G2.8 also scores `lp_floor_k`: `lp_floor` with ours' upper bound, 10 × need, so six rules are

@@ -1203,17 +1203,28 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 37 | S3 | iadc 'before' S3 stopped: its two 1.2/0.2 um LVT types had no signed-off cell. Every option iadc builds for them (nf = 1, in the sized W bin) failed met1.6, because the PCell's gate contact pad stays 0.290 x 0.230 um = 0.067 um2 at short L (also LOADBench's 484/0.24 nf = 1 cells) | S3 ERROR (`no built option`), then every met1 island of the failing cells measured: only the gate pads are below 0.083 um2 | the strap step widens a gate pad below the minimum area along the gate, away from the S/D strips, to 0.370 x 0.230 = 0.085 um2 (Imasha's suggestion); cells that failed DRC before the patch are rebuilt, signed-off cells are not | iadc 88 of 88 options signed off (was 80): DRC 0, LVS match, negative control still caught, cell size unchanged |
 | 38 | S3 | LOADBench 'after' missed PM: 48.1° against ≥ 60° ('before' 64.9°). S2's budgets were starved at the PVT points, so all 6 types were relaxed, and a relaxed type keeps its default PCell. The 484/0.24 and 887/0.74 um devices became single fingers with 8.2 and 4.9 kohm of gate R. The 484 um cell only passed DRC after row 37's patch; before that, the fallback took nf = 8 | G3.3 FAIL, then the chosen cells' access R in `device_decisions.json`: the cells alone cost about 1° of PM, all cells with their access R 17.3° | none in the flow: the 'after' result stands. A 'least-bad' fallback (`--relax-fallback least-bad`: largest min_slack, access R included) is tested post hoc after the queue, in its own folder and snapshot column (Imasha's decision) | post hoc, not pre-registered, same inputs: LOADBench PM 64.7° (spec met), G3.3 passes, area 4396 → 2142 um2, the wide devices at nf = 64 (gate R 2–3 ohm); ota5t_stress area 257 → 206 um2 with GBW and PM slightly up; iadc and TTSKY unchanged (the least-bad option is the default cell). Adopted as the S3 default for later runs (PREREG amendment 2026-10-27; Imasha's decision); plan v2's results keep the old rule |
 | 39 | infra | Windows put the PC into Modern Standby on idle timeout five times during the runs (06:59–11:16). The container slowed or paused, and a SPICE check slowed past its 180 s limit would count as a failed run ("unverified", a violation possibly hidden). The eta 0.9 runs of the 5T and LOADBench ran almost entirely in standby, and their logs were gone | the processes' run times were 28–32 min shorter than the wall clock; the Windows event log (Kernel-Power 506/507) | timeouts checked against the standby windows: one possible case (an iadc lp_floor check, no outcome change). The two eta 0.9 runs were re-run with the PC awake (app keep-awake), keeping their logs and a wall-clock vs uptime record | identical results: gates, outcomes, failed-run counts and worst use. For long runs, keep the PC awake |
-| 40 | S2 / infra | The TTSKY25a S2 run at eta 0.9 crashed (`OSError: [Errno 22] Invalid argument` while writing an ngspice log in the mounted folder, 12:36), but the resume script snapped it anyway: a crash and a gate FAIL both exit with code 1, and review B's stale-report guard (item 10) only covers stages run through `./flow`. The snapshot mixes the crashed run's `budgets.json` (eta 0.9: eta, starved count, minimum budget / need) with the 'after' run's eta 0.5 report (round-1 t, verification, every budget-rule number, G2.7) | Cowork, writing up 7.6: TTSKY25a's round-1 t and all its budget-rule numbers were identical at eta 0.5 and 0.9, while the round-1 t of the other eta 0.5 designs grew about 1.8 x; then the traceback in `runs/logs/plan_v2_resume.log` | nothing in this documentation pass: the row is marked 'not valid' in 7.6 and in `v2_budget_rules.png`; the re-run and the script fix are open (7.10) | the PREREG headline at eta 0.9 has 4 of 5 designs |
-| 41 | S3 | For a device already below vdsat before layout, S3 takes its negative vds − vdsat as the margin, so the check `use <= allowance + 1 % x margin` fails for every option; every iadc type is relaxed whatever its cells, and the least-bad slack flips sign | review C (finding 6), confirmed in `src/s3/run.py` (`mg_of`, the `ok` test, G3.3's `within`) | nothing yet (documentation pass); fix and re-run iadc S3 are open (7.10) | iadc's S3 'before', 'after' and post-hoc results are artefacts of the check |
-| 42 | S2 | The 5T's binding PVT constraint (GBW at tt, 0.9 V, 27 C) is contradicted by SPICE: first order says ours uses all of its allowance there, SPICE measures −0.16 of the margin (GBW rises). G2.5 cannot see it: it checks use <= 1.1 x allowed and never compares SPICE with first order | review C (finding 3), confirmed in the 5T snapshot (`verify`) and `src/s2/run.py` | nothing yet; checking the corner's rates and baseline, and a gate on SPICE vs first order, are open | "PVT constraints cost the 5T 36 um2" is qualified (7.5) |
-| 43 | infra | Variant S2 runs (no-PVT ablation, eta 0.9) reuse the 'after' S2 folder without clearing it, so files the variant does not write stay behind: the `after_nopvt` snapshots carry the 'after' run's `baseline_budget_over_need` (from a stale `baselines.json`), and the TTSKY25a eta 0.9 snapshot mixed files (row 40) | review C (finding 9), confirmed in both `after_nopvt.json` files (ours' geomean 3.1935 = 'after') | nothing yet; clearing the folder and an identity check in `snap` are open | the stale field is not shown in any table; row 40 as above |
-| 44 | S2 | G2.0's route part still uses route lengths from S0's as-sized PCells (single 484 and 887 um fingers on LOADBench; m unconnected copies for m > 1), while v2 changed only the cell part to the representative cell | review C (finding 7), confirmed in `src/s2/run.py` (`unit` = half-perimeter of `device_sizes(s0)`) | nothing yet; route stubs from the representative cells is open | LOADBench's G2.0 is mostly this route R; the claim that G2.0 "flagged" LOADBench's problem is withdrawn (7.8) |
+| 40 | S2 / infra | The TTSKY25a S2 run at eta 0.9 crashed (`OSError: [Errno 22] Invalid argument` while writing an ngspice log in the mounted folder, 12:36), but the resume script snapped it anyway: a crash and a gate FAIL both exit with code 1, and review B's stale-report guard (item 10) only covers stages run through `./flow`. The snapshot mixes the crashed run's `budgets.json` (eta 0.9: eta, starved count, minimum budget / need) with the 'after' run's eta 0.5 report (round-1 t, verification, every budget-rule number, G2.7) | Cowork, writing up 7.6: TTSKY25a's round-1 t and all its budget-rule numbers were identical at eta 0.5 and 0.9, while the round-1 t of the other eta 0.5 designs grew about 1.8 x; then the traceback in `runs/logs/plan_v2_resume.log` | nothing in this documentation pass: the row is marked 'not valid' in 7.6 and in `v2_budget_rules.png`; the re-run and the script fix are open (7.10) → Plan v3 Phase A step 2 (7.13): exit code 3 for a gate FAIL, so a crash is an ERROR; clean S2/S3 folders with a `run_id`; `snap` refuses mixed or stale files. The TTSKY25a re-run is outside Phase A | the PREREG headline at eta 0.9 has 4 of 5 designs |
+| 41 | S3 | For a device already below vdsat before layout, S3 takes its negative vds − vdsat as the margin, so the check `use <= allowance + 1 % x margin` fails for every option; every iadc type is relaxed whatever its cells, and the least-bad slack flips sign | review C (finding 6), confirmed in `src/s3/run.py` (`mg_of`, the `ok` test, G3.3's `within`) | nothing yet (documentation pass); fix and re-run iadc S3 are open (7.10) → Phase A step 4 (7.13): such a device may lose at most 2 % of its |vds − vdsat| (do no harm). iadc is frozen in Phase A, so its S3 results are not re-run. G3.3's own test that every device ends saturated is unchanged (review D 5) | iadc's S3 'before', 'after' and post-hoc results are artefacts of the check |
+| 42 | S2 | The 5T's binding PVT constraint (GBW at tt, 0.9 V, 27 C) is contradicted by SPICE: first order says ours uses all of its allowance there, SPICE measures −0.16 of the margin (GBW rises). G2.5 cannot see it: it checks use <= 1.1 x allowed and never compares SPICE with first order | review C (finding 3), confirmed in the 5T snapshot (`verify`) and `src/s2/run.py` | nothing yet; checking the corner's rates and baseline, and a gate on SPICE vs first order, are open → Phase A: budgets at the nominal corner (step 3), so the corner no longer binds and is reported in G2.9; one 2 % tolerance (step 6); SPICE vs first order for every simulated check, G2.10 (step 9) | "PVT constraints cost the 5T 36 um2" is qualified (7.5) |
+| 43 | infra | Variant S2 runs (no-PVT ablation, eta 0.9) reuse the 'after' S2 folder without clearing it, so files the variant does not write stay behind: the `after_nopvt` snapshots carry the 'after' run's `baseline_budget_over_need` (from a stale `baselines.json`), and the TTSKY25a eta 0.9 snapshot mixed files (row 40) | review C (finding 9), confirmed in both `after_nopvt.json` files (ours' geomean 3.1935 = 'after') | nothing yet; clearing the folder and an identity check in `snap` are open → Phase A step 2 (7.13): clean output folders, `run_id` and eta in every S2 file, and `snap` refuses mixed files | the stale field is not shown in any table; row 40 as above |
+| 44 | S2 | G2.0's route part still uses route lengths from S0's as-sized PCells (single 484 and 887 um fingers on LOADBench; m unconnected copies for m > 1), while v2 changed only the cell part to the representative cell | review C (finding 7), confirmed in `src/s2/run.py` (`unit` = half-perimeter of `device_sizes(s0)`) | nothing yet; route stubs from the representative cells is open → Phase A step 8 (7.13): route lengths from the representative cells, in G2.0 and in the need the allocation uses (Imasha's decision, PREREG amendment) | LOADBench's G2.0 is mostly this route R; the claim that G2.0 "flagged" LOADBench's problem is withdrawn (7.8) |
 | 45 | infra | A Cowork deploy reused an archive name from 2026-10-26 (`docs_c`); the bridge delivered the old archive, which had no `__prev_md5.txt`, and `apply.sh` extracted it anyway, overwriting `PREREG.md` and `docs/flow_record_section7_draft.md` with their 2026-10-26 18:22 versions for about 5 minutes (no run used them) | the archive's md5 printed by `apply.sh` differed from the one built; then its file list | both files restored from Cowork's copy (md5 checked); `apply.sh` now refuses an archive whose md5 differs from the expected one or that has no `__prev_md5.txt`; archive names carry a timestamp | no lasting change |
-| 46 | S0 / S1 (bench) | PM is measured as 180 + phase at the unity-gain frequency − phase at 1 Hz (`scripts/benchlib.py`, `src/s1/linear.py`). When the dominant pole is near 1 Hz, the 1 Hz phase is already part of the roll-off: TTSKY25a's pole is at about 25 Hz, so its PM reads 2.3 deg high (78.2 instead of about 75.9 deg; margin about 16 instead of 18.2 deg). LOADBench and iadc: under 0.01 deg | Plan v3 review pack, independent reviewer (a re-built linear model whose absolute phase gave 75.97 deg); confirmed in the bench template | nothing yet (documentation pass); fix A6: round the 1 Hz phase to the nearest 180 deg | TTSKY25a PM and its PM margins in 7.5–7.7 are 2.3 deg optimistic; no outcome in 7.6 binds on PM |
-| 47 | S1 | S1's node tagger reads every device with gate = drain as diode-connected, including dummies whose drain, gate and source share one net: iadc's outputs `op`/`on`, its fold nodes, VDD, VSS and some tail and bias nodes are tagged "mirror node (diode-connected)". `primitives.json` already marks them as dummies (24 shorted, 14 off to a rail) | Plan v3 review pack (reading `node_classes.json` against the netlist); counts confirmed by the reviewer | nothing yet; fix A3: skip devices of category dummy when tagging (their capacitance still counts) | tags only; no budget uses them yet, the planned suspect list would |
-| 48 | S0 (recognition) | Rule-based structure recognition pairs TTSKY25a's NMOS cascodes across functions: (x1_M19, x1_M4) and (x1_M3, x1_M8) instead of (x1_M4, x1_M8) output cascodes and (x1_M19, x1_M3) tail cascodes; the second-stage input devices (x2_M9, x2_M4) are not grouped at all; iadc's `cm` devices (5 parallel stacks of 4 series units) are read as 10 cascode pairs. The groups figure (G16, G17) has the same pairing | Plan v3 review pack (netlist and xschem sheets read against `primitives.json`) | nothing yet; fix A3 | S3/S4 matching groups; no Plan v2 number depends on the pairing |
-| 49 | S1 (hand models) | The PREDICTED textbook models miss the element that matters most in each circuit: LOADBench's mirror pole-zero doublet (pole about 33 MHz; it accounts for the whole 17 deg PM gap), iadc's fold-node current split (M11/M12 in triode, ro = 2.19 kOhm, about 1/gm of the cascode, so about half the signal current is lost: the factor 2 in GBW and 20 deg in PM), TTSKY25a's fold-node pole (about the fT of the L = 5 um cascode, about 10 deg) | Plan v3 review pack (hand recomputation from `symbolic_check.json` level-0 values), checked by the independent reviewer's re-built model | nothing yet; fix A5 (post hoc on these circuits; judge it on held-out designs too) | G1.5 is reported, not gated; budgets use S1's SPICE-linearised model, not these equations |
+| 46 | S0 / S1 (bench) | PM is measured as 180 + phase at the unity-gain frequency − phase at 1 Hz (`scripts/benchlib.py`, `src/s1/linear.py`). When the dominant pole is near 1 Hz, the 1 Hz phase is already part of the roll-off: TTSKY25a's pole is at about 25 Hz, so its PM reads 2.3 deg high (78.2 instead of about 75.9 deg; margin about 16 instead of 18.2 deg). LOADBench and iadc: under 0.01 deg | Plan v3 review pack, independent reviewer (a re-built linear model whose absolute phase gave 75.97 deg); confirmed in the bench template | nothing yet (documentation pass); fix A6: round the 1 Hz phase to the nearest 180 deg → Phase A step 7 (7.13): rounded in the linear model and the bench template; the frozen benches keep it, at 2e-5 deg (5T) and 1.6e-3 deg (LOADBench) | TTSKY25a PM and its PM margins in 7.5–7.7 are 2.3 deg optimistic; no outcome in 7.6 binds on PM |
+| 47 | S1 | S1's node tagger reads every device with gate = drain as diode-connected, including dummies whose drain, gate and source share one net: iadc's outputs `op`/`on`, its fold nodes, VDD, VSS and some tail and bias nodes are tagged "mirror node (diode-connected)". `primitives.json` already marks them as dummies (24 shorted, 14 off to a rail) | Plan v3 review pack (reading `node_classes.json` against the netlist); counts confirmed by the reviewer | nothing yet; fix A3: skip devices of category dummy when tagging (their capacitance still counts) → Phase A step 5 (7.13): dummies are skipped when tagging; their capacitance stays in the model | tags only; no budget uses them yet, the planned suspect list would |
+| 48 | S0 (recognition) | Rule-based structure recognition pairs TTSKY25a's NMOS cascodes across functions: (x1_M19, x1_M4) and (x1_M3, x1_M8) instead of (x1_M4, x1_M8) output cascodes and (x1_M19, x1_M3) tail cascodes; the second-stage input devices (x2_M9, x2_M4) are not grouped at all; iadc's `cm` devices (5 parallel stacks of 4 series units) are read as 10 cascode pairs. The groups figure (G16, G17) has the same pairing | Plan v3 review pack (netlist and xschem sheets read against `primitives.json`) | nothing yet; fix A3 → Phase A step 5 (7.13): only the generic mirror-bank rule (LOADBench); TTSKY25a's and iadc's groupings are outside Phase A | S3/S4 matching groups; no Plan v2 number depends on the pairing |
+| 49 | S1 (hand models) | The PREDICTED textbook models miss the element that matters most in each circuit: LOADBench's mirror pole-zero doublet (pole about 33 MHz; it accounts for the whole 17 deg PM gap), iadc's fold-node current split (M11/M12 in triode, ro = 2.19 kOhm, about 1/gm of the cascode, so about half the signal current is lost: the factor 2 in GBW and 20 deg in PM), TTSKY25a's fold-node pole (about the fT of the L = 5 um cascode, about 10 deg) | Plan v3 review pack (hand recomputation from `symbolic_check.json` level-0 values), checked by the independent reviewer's re-built model | nothing yet; fix A5 (post hoc on these circuits; judge it on held-out designs too) → Phase A step 10 (7.13), LOADBench only: the doublet in a patched copy, PREDICTED (patched, post hoc); hand PM gap 17.0 → 1.7 deg | G1.5 is reported, not gated; budgets use S1's SPICE-linearised model, not these equations |
 | 50 | S0 (provenance) | iadc's `SOURCE.md` and `config.yaml` say upstream gives no OTA figures, but `folded_cascode_3_core.sch` carries a designer "Performance Summary" (A0 53.7 dB, PM 70 deg, fu 344 MHz, f3dB 750 kHz, C_load 0.3 pF). Our operating point reproduces it without the CMFB capacitors C3/C4 (about 53.6 dB, 330–343 MHz, 70 deg); saturated fold sources would give about 70 dB, so M11/M12 in triode look intended | Plan v3 review pack (rendering the upstream schematic); the C3/C4 reading by the independent reviewer | nothing yet; correct the provenance note (a logged decision for Imasha) | iadc's specs stay ASSUMPTION; the reference question is FEEDBACK NEEDED (D6) |
+| 51 | S2 (G2.9) | Plan v3 Phase A step 3: the PVT use table listed the nominal point's binding check as over 1 (1.0000000000003), and labelled a GBW or PM cell where the gain is below 0 dB "no margin measured" | reading the first G2.9 table | over 1 means above 1 + 1e-9; the label says "not defined: gain below 0 dB (no unity-gain crossing)" | G2.9 lists 19 real overruns on the 5T (16 after steps 6 and 8) |
+| 52 | inputs | `ota5t_stress` inherits the 5T package, so setting `budget_corners: nominal` there would have switched a frozen design too | reading the package inheritance before the step 3 change | `budget_corners: all` written into `ota5t_stress`'s package | the frozen design keeps plan v2's budgets |
+| 53 | plan | The plan's step 4 test example (+1 mV of harm at vds − vdsat = −0.05 V must fail) sits exactly on the PREREG limit (2 % × 0.05 V = 1 mV), so it passes | writing the test | the test checks both sides (0.5 mV passes, 2 mV fails); reported to Imasha | none (no Phase A device is below vdsat) |
+| 54 | plan | The plan's test "`lp_floor_k` ≥ `lp_floor` element by element" cannot hold for a max-sum LP: with a 10 × cap it moves to a vertex that starves some elements (LOADBench 13 of 40 on plan v2's numbers) | a probe before writing the test | Imasha's choice (a): the literal LP with ours' bounds; the test checks the bounds and the objective; starving is reported | `lp_floor_k` starves 1 of 21 (5T) and 12 of 40 (LOADBench) elements below `lp_floor` |
+| 55 | infra (tests) | In a login shell the image sets `USER` to "1000\ndesigner"; pytest puts it into its temp folder name, and Netgen cannot open a path with a newline, so the S0 round-trip test fails | a test failure that only `bash -lc` showed | documented (README); the tests run with `bash -c` + `env.sh`. A one-line fix is suggested, not applied | `./flow test` from a login shell shows one false failure |
+| 56 | plan / S2 | The plan said G2.0 is information only, so step 8 would leave ours' budgets identical. But G2.0's route lengths are the wiring part of the expected need the allocation shares in | a read-only probe that reproduces S2's allocation (to 3e-8) before any change | Imasha's choice (b): the representative-cell routes set the need everywhere; PREREG amendment (2026-11-01, step 8) | 5T: 11 of 21 budgets move (XM5.s −25 %), round-1 t 3.40 → 3.93; LOADBench round-1 t 0.074 → 0.50 |
+| 57 | infra (EDA) | ngspice's init depended on the launching shell: the image's login profile selects IHP-SG13G2 (`SPICE_USERINIT_DIR`), so `./flow` (a login shell) ran without sky130's `ngbehavior=hsa` and `enable_noisy_r`, while a plain shell had them; the committed outputs mixed both | many S2 work logs changing between two identical runs ("No compatibility mode" vs "hs a") | `scripts/env.sh` runs the image's `sak-pdk sky130A` (its exit status is ignored: it returns 1 for every PDK but GF180), and `TOOL_ENV` pins the same variables | every design's S0 benches agree to 7e-6 under both inits. From step 9 on, every new simulation uses sky130's. S3's cache still held 208 LOADBench option decks simulated under IHP's init in October (review D 4); re-simulated under sky130's in step 13, they give identical measurements |
+| 58 | flow (tests) | `./flow test --rerun` writes the re-run stage over `outputs/<stage>/<design>/`, a frozen design's included; and `pkg_yaml()` reads a package without its `inherit`, so `ota5t_stress` runs no `s1_extras` | reading `cmd_test` before the step 11 check | the frozen design's S1 files were set aside and put back; README says `--rerun` overwrites. `inherit` in `pkg_yaml()` is open | `ota5t_stress`'s committed files unchanged |
+| 59 | scripts | Run as the plan wrote it, `compare_eta09_rerun.py` would have overwritten the committed eta 0.9 comparison (`--json` default) and attached that re-run's clock and timeouts to the `after_v3a` comparison | reading the script before step 12 | `--json outputs/phaseA/...`; the kept folder is read only for the `after_eta0.9_rerun` tag | eta 0.9 comparison unchanged (checked) |
+| 60 | S2 (G2.8) | Phase 2 leaves a pinned budget xm × (1 − 1e-9) of room, and G2.8 counted "below floor" and "starved" below floor or need × (1 − 1e-9): a budget at its floor fell either side by rounding. On LOADBench 7 budgets sat there; `ibias~out` (20.38719997961 vs 20.3872) fell 1e-13 below, and ours was scored "infeasible" | step 12's prediction check: ours "infeasible" while G2.7 said the floors are feasible | Imasha's choice (a): `AT_BOUND_TOL` = 1e-6 for both tests (and the snapshot's starved count); LOADBench S2 and S3 re-run. Decided after the results, so it is a post-hoc PREREG amendment (2026-11-02). Scored at 1e-9, ours would read "infeasible" (review D 2) | ours on LOADBench at the nominal corner: "ok" (SPICE 1.007 of allowed); nothing else changed. With G2.8's PVT checks put back after review D, its full word is "unsafe" (75.8 × at a PVT point) |
+| 61 | infra | `OSError: [Errno 22]` writing into the mounted repo (row 40's crash) came back once in Phase A, writing `before_after.md` (step 12); it had also hit a flow-record merge on 2026-10-27 | the script's traceback | a retry worked; no run was affected | open: a retry in the write helpers would remove it |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -1810,7 +1821,8 @@ resistance:
 
 ### 7.9 Independent reviews of v2
 
-Three independent review agents read the code, with no access to our conclusions beyond what the files say.
+Four independent review agents read the code, with no access to our conclusions beyond what the files say (review
+D, of Plan v3 Phase A, is at the end of this section).
 Code comments cite their items as "review item N" (review A, before the runs) and "review B, item N" (after the
 first runs, on the code and on this section's first draft). Review C (2026-10-27) read the finished write-up of
 7.5–7.11 against the snapshots, run outputs and code, without the status notes or the progress log.
@@ -1864,6 +1876,27 @@ not do; those are listed for Imasha in 7.10.
 | 12 | Number and text errors (stress "use / allowed" was a fraction of margin; 5T "every budget at need"; the 5T gate-resistance story contradicted row 20; 31.79 dB; missing "(unverified)"; TTSKY25a's G3.3 tolerance) | yes | all corrected in 7.5 and 7.6 |
 | 13 | Evidence not in the files named (18 TTSKY25a runs; numbers not in the snapshots) | partly: the reviewer's copy lacked two of the tile's result files, which are in the repo | wording of 7.5's source note corrected |
 | 14 | G3.3 and S3 check the nominal point only, power is unbudgeted, and LOADBench turned on the fallback rule, so S3's before/after comparisons say little until 6 and 7 are fixed | yes | 7.10 and 7.11 |
+
+**Review D (2026-11-02, Plan v3 Phase A; 9 findings).** A fresh agent read Phase A's code diff (`prereg-v1` to the
+step 12 commit, `src/` and `scripts/`), the plan, PREREG, and the first draft of 7.13 with rows 40–61. It checked
+them against the snapshots and outputs, without `docs/STATUS.md` or the progress log. It verified the numbers of
+both 7.13 tables, the step 3 regression, step 8's budget moves, the PM reference, the hand model, G2.9/G2.10, the
+grouping and the run identities. Each finding below was checked against the files before it was acted on.
+
+| # | Finding (short) | Checked | Done |
+|---|---|---|---|
+| 1 | With nominal budgets G2.5 and G2.8 simulate no PVT point, so every `after_v3a` outcome word is nominal-only, while plan v2's words included each rule's most-used PVT points; H1 (every PVT corner) is untested; PREREG's Phase A item 1 does not say so | yes: no "@" check in either design's G2.5 or G2.8 | Imasha chose to put the PVT checks back into G2.8, with a dated post-hoc PREREG note. Each rule's 5 most-used G2.9 points are SPICE-checked again; `outcome` covers them, and `outcome_nominal` keeps the nominal word. G2.5 stays nominal. S2/S3 re-run: budgets and S3 unchanged. With the PVT points, every rule is "unsafe" on LOADBench; on the 5T only `lp_floor` stays "ok", and row 42's sign disagreement is reproduced. Both words are in 7.13 |
+| 2 | `AT_BOUND_TOL` changed the scoring after the results were seen, and PREREG did not record it; the root cause is `refine`'s xm × (1 − 1e-9) room | yes: at 1e-9 only ours changes, and only on LOADBench | post-hoc PREREG amendment (2026-11-02); 7.13's intro and row 60 say so and give the 1e-9 word. Clamping `refine` at the floor is left as a suggestion |
+| 3 | On LOADBench the ok/unsafe split between ours (1.007), `lp_floor_k` (1.015) and `lp_floor` (1.032) is inside the model error; the 5T's 1.086 vs 1.085 likewise | yes | 7.13 calls them ties and gives the SPICE uses |
+| 4 | S3's simulation cache is keyed by the deck text only, so LOADBench's S3 reused 208 option decks simulated under the IHP init in October; row 57's "every run uses sky130's" was false for S3 | yes: 208 of 872 logs; the 5T's 328 all ran under sky130's | all 208 re-simulated under sky130's init (`runs/tmp/step13_s3_init_check.py`): identical measurements, the chosen cells included. Row 57 corrected; the cache key is listed as open |
+| 5 | G3.3's `sat_ok` still fails any device below vdsat, whatever the do-no-harm check says | yes (`src/s3/run.py`, `sat_ok`); also reported to Imasha at step 4 | row 41 and 7.13 say so; it matters for iadc only |
+| 6 | Mixed tolerances: `after_nopvt`'s G2.5 "pass" was at 10 % (its gain was at 1.086); G2.9 counts "over" at 1, not 1.02 (16 → 15 and 57 → 50); LOADBench's nominal point reads 1.006 for GBW; the 57 checks fall on 39 of 45 points | yes | 7.13's tables and open items give both counts and the tolerance of each "pass"; G2.9 at `TOL_USE` is left as a suggestion |
+| 7 | Generous verdicts: step 6's `lp_floor_k` "more room" (the element-wise test failed on both designs); ours' word did change on both designs between plan v2 and `after_v3a`; tail~ibias is set by GBW, not the cap; row 42 is not re-checked by choice, not by a limit of the code | yes | step 6 now "partly" on both designs, with the word changes and their causes; step 3's attribution and row 42's wording corrected |
+| 8 | G2.0 and round-1 t mix in step 8's change of the need's definition across columns | yes: the same run's as-sized G2.0 gain is 6.64 | "route part of the need" row in both tables, and a note |
+| 9 | Minor: the `v1` variant no longer reproduces plan v2 exactly; `snap` only notes a different `s2_run_id`; `score()`'s `unsafe_checks` uses 1e-9 while `outcome()` uses `TOL_USE`; the closure factor 0.98 is hard-coded; the hand model uses gm of P6 (declared) | yes | the `v1` point is in 7.13's open items; the others are noted here (the `unsafe_checks` list is informational; 0.98 equals 1 − `TOL_USE`) |
+
+Not verified by the reviewer: step 2's "63 budgets identical", row 57's 7e-6 and row 54's "13 of 40" (all from runs
+recorded in `docs/STATUS.md`), and row 51's "19".
 
 ### 7.10 Limitations and open questions
 
@@ -2019,6 +2052,157 @@ What it adds to the reading of plan v2:
 - Plan v3: Phase A (fix the defects, rows 40–49), B (the sizing–layout contract in S2, PREREG amendment v3), C (a
   frozen suspect list), D (S3 candidates, S4 blocks), E (one extraction, then attribution). Decisions D1–D10 wait
   for Imasha (`docs/STATUS.md`).
+
+### 7.13 Plan v3 Phase A (5T and LOADBench), 2026-11-01 and 02
+
+Phase A fixes the defects that review C and the review pack found (rows 40–49) on the two development designs only,
+`example_ota_5t` and `loadbench_miller`. The other three designs (`ota5t_stress`, `iadc_ota`, `ttsky25a_fd`) are
+frozen: their committed results are plan v2's, and they only had to keep passing their tests. Every rule change
+and every prediction was written into PREREG (amendment of 2026-11-01) before any code changed, with three later
+exceptions: step 8's amendment, written after a probe and before its code; the at-bound tolerance of row 60,
+decided after step 12's results; and G2.8's PVT checks, put back after review D (both post-hoc amendments of
+2026-11-02). Claude Code did one step at a time, and Imasha
+committed each step (`docs/plan_v3_phaseA.md`; record in `docs/STATUS.md`).
+
+**What changed, by step.**
+
+| Step | Change | Rows |
+|---|---|---|
+| 1 | PREREG amendment: nominal budgets, eta 0.5, one 2 % tolerance, `lp_floor_k`, route lengths, PM reference, designer groups, and the predictions table | — |
+| 2 | Run hygiene. Exit code 3 for a gate FAIL, so a crash is an ERROR; S2/S3 start from clean folders and write a `run_id` and eta into every file; `snap` refuses mixed or stale files | 40, 43 |
+| 3 | `budget_corners: nominal`: S2 budgets at the nominal corner only. The 45 PVT points are still computed, and their first-order use by the final budgets is reported in G2.9, not gated | 42 (part) |
+| 4 | S3 "do no harm" for a device already below vdsat in the schematic: at most 2 % of its \|vds − vdsat\| more | 41 |
+| 5 | Dummy-aware S1 tagger; S0's mirror-bank rule; LOADBench's designer groups and floorplan rows (G0.11) | 47, 48 |
+| 6 | One tolerance, `TOL_USE` = 0.02 of eta × margin, in G2.5, its closure step, `outcome()` and S3. New budget rule `lp_floor_k`: `lp_floor` with ours' 10 × need cap | review C 3, 5 |
+| 7 | PM reference = the 1 Hz phase rounded to the nearest multiple of 180 deg, in the linear model and the bench template | 46 |
+| 8 | Route lengths from the representative cells, in G2.0 and in the expected need the allocation uses (Imasha's choice; PREREG amendment) | 44, 56 |
+| 9 | SPICE vs first order for every simulated check, and the `G2.10_model_agreement` summary (reported) | 42 |
+| 10 | LOADBench's hand model with the NMOS-mirror doublet, PREDICTED (patched, post hoc) | 49 |
+| — | sky130A selected with the image's `sak-pdk` command in `scripts/env.sh`, and pinned in `TOOL_ENV` (Imasha's request) | 57 |
+| 11–12 | Test pass, re-run of both designs (snapshot `after_v3a`), goldens refreshed; G2.8's at-bound tolerance fixed (Imasha's choice) | 58–60 |
+| after review D | G2.8 again SPICE-checks each rule's 5 most-used PVT points, drawn from G2.9 (scored, not budgeted; G2.5 stays nominal). `outcome` covers every simulated check, `outcome_nominal` the nominal checks alone (Imasha's choice). S2 and S3 re-run; budgets and S3 unchanged | review D 1 |
+
+**Results.** The 5T against plan v2's 'after' and its no-PVT ablation:
+
+| example_ota_5t | after (v2) | after_nopvt | **after_v3a** |
+|---|---|---|---|
+| S2 budgets at | every PVT point | nominal | nominal |
+| Route part of the need | as-sized PCells | as-sized PCells | representative cells (step 8) |
+| Round-1 t (budget / need) | 1.05 | 3.40 | 3.93 |
+| G2.8, ours (SPICE use of allowed, worst point) | ok (0.648; PVT points checked too) | — | unsafe (1.086, at the nominal point; its 9 simulated PVT points are lower; before the closure). Nominal only: unsafe |
+| G2.5 | pass (10 % tolerance) | pass (10 % tolerance; gain at 1.086 would need the closure at 2 %) | pass after the closure (2 %; gain 0.972) |
+| S3 relaxed types | none | none | none |
+| S3 area (µm²) | 237 | 200.8 | 200.8 |
+| S3 gain / GBW / PM | 31.79 dB, 102.4 MHz, 79.63 deg | 31.87 dB, 102.95 MHz, 79.95 deg | the same as after_nopvt |
+
+LOADBench against plan v2:
+
+| loadbench_miller | before (v1) | after (v2) | post hoc least-bad | **after_v3a** |
+|---|---|---|---|---|
+| S2 | PASS | FAIL G2.3, G2.7 | (same S2) | **PASS** |
+| Route part of the need | as-sized PCells | as-sized PCells | | representative cells (step 8) |
+| Round-1 t | 0.076 | 0.00094 | | 0.497 |
+| Budgets below need | 21/40 | 39/42 | | 29/40 |
+| G2.0, gain / PM / GBW (share of margin at the expected need) | 6.57 / 6.26 / 0.97 | 6.64 / 3.74 / 0.91 | | 1.00 / 0.79 / 0.34 |
+| G2.8, ours | — | infeasible (PVT points checked too) | | **unsafe** with its 7 simulated PVT points (gain at sf, 0.9 V, −40 C: SPICE 75.8 × allowed, spec missed); **ok** at the nominal corner alone (1.007) |
+| S3 relaxed types | 3 | 6 | 6 | **3** |
+| S3 PM | 64.91 deg | 48.06 deg | 64.73 deg | **65.17 deg** |
+| S3 GBW / gain | 22.96 MHz, 57.99 dB | 22.55 MHz, 57.74 dB | 22.74 MHz, 57.99 dB | 23.02 MHz, 58.01 dB |
+| S3 area (µm²) | 2342 | 4396 | 2142 | **2079** |
+| Power (µW) | 551 | 361 | 555 | 554 |
+
+How to read the two tables:
+
+- **Ours on the 5T.** With budgets set at the nominal corner only, ours fills the gain check to first order 1.000,
+  and SPICE measures 8.6 % more, so G2.8 calls it "unsafe".
+  - G2.8 scores every rule before G2.5's closure step, which is fair to all of them. S2's own budgets then go
+    through the closure: the 3 gain-harmful budgets shrink by 9.8 %, and G2.5 passes at 0.972.
+  - The 'after' run's "ok" came from much smaller budgets (t 1.05), cut down by the PVT points.
+- **G2.8 checks the PVT points again** (review D 1; Imasha's choice). Step 12's first `after_v3a` run had G2.8
+  simulate no PVT point, so its words covered the nominal corner only, unlike plan v2's.
+  - G2.8 now SPICE-checks each rule's 5 most-used G2.9 points: 9 points on the 5T, 7 on LOADBench, one common set.
+  - `outcome` covers every simulated check, as in plan v2; `outcome_nominal` keeps the nominal-only word.
+- **The other rules on the 5T**, every simulated check (nominal only in brackets):
+  - `lp_floor` is "ok" (0.25);
+  - per-net, `lp_sum` and `lp_floor_k` are "unsafe";
+  - equal split is "unsafe" (ok): at GBW tt, 0.9 V, 27 C it uses 2.76 × its allowance, and the spec is missed.
+- **Ours at the 5T's PVT points.** SPICE stays below the nominal point's 1.086 at every one, even where first
+  order says more (e.g. GBW at ss, 0.9 V, 85 C: 1.69 × first order, 0.07 × SPICE).
+  - At row 42's corner (GBW at tt, 0.9 V, 27 C), first order gives 6.42 × the allowance and SPICE −2.27 ×: the
+    GBW rises. Row 42's sign disagreement is reproduced with nominal budgets, and also for `lp_sum` and
+    `lp_floor_k` (G2.10).
+- **On LOADBench, with its PVT points, every rule is "unsafe"** (H1 fails at the PVT points for all six).
+  - First order is accurate there: ours' gain at sf, 0.9 V, −40 C is 78.7 × first order and 75.8 × SPICE, with
+    the spec missed. That point's margin is tiny, 0.014 dB (review C 2).
+  - Ours and `lp_floor_k` are "ok" at the nominal corner only. Equal split is the least bad, but is still
+    "unsafe": 6.3 × at its worst point.
+- **Close calls are ties** (review D 3).
+  - On LOADBench, ours, `lp_floor_k` and `lp_floor` all fill the allowance to first order 1.000. SPICE puts them
+    at 1.007, 1.015 and 1.032: either side of the 1.02 line, and inside the first-order model error.
+  - On the 5T, ours at 1.086 and `lp_sum` / `lp_floor_k` at 1.085 are a tie as well.
+- **LOADBench's S2 now passes.** Without the PVT points as constraints (step 3), the library floors fit (G2.7)
+  and the allocation completes (G2.3, round-1 t 0.497).
+  - G2.0 and round-1 t are not like for like across the columns: step 8 changed the need itself. With the
+    as-sized routes, the same run's G2.0 gain is still 6.64.
+  - Still, 29 of 40 budgets are below their need. A compact layout's expected parasitics use the whole nominal gain
+    margin (G2.0 1.00), and eta gives layout half of it (t = 0.497).
+  - The rules: ours and `lp_floor_k` are "ok"; equal split is "infeasible"; per-net and `lp_floor` (1.03) are
+    "unsafe"; `lp_sum` is "infeasible", unverified, with one failed SPICE run.
+  - As on the plan-v2 designs, no rule wins on both designs.
+- **LOADBench's S3** relaxes 3 types instead of 6, and its PM after S3 (65.17 deg) is at the 'before' and
+  post-hoc level instead of 48 deg. Its area is the smallest of the four runs.
+  - The 5T's S3 result is the same as the no-PVT ablation's: larger budgets than 'after', the same compact cells.
+
+**The predictions (PREREG amendment 2026-11-01, item 9), and what happened.**
+
+| Step | 5T | LOADBench |
+|---|---|---|
+| 2 hygiene: no number changes | held (63 budgets identical) | held |
+| 3 nominal budgets | held at step 3 (identical to `after_nopvt`). Step 8 later moved the need, so t is now 3.93 | partly. Budgets larger for 37 of 40 (geomean × 97). Two smaller ones follow from step 8's shorter routes: P2.d sits at the 10 × cap of a smaller need, and P5.s's need fell 7 ×. The tail~ibias coupling sat at the 10 × cap in plan v2 and is now set by the GBW check. "No longer starved" fails: 29 of 40 are below need at the nominal corner (above). PVT checks over 1: yes, 57 (50 over 1.02), on 39 of 45 points |
+| 4 do no harm | held (every device saturated) | held |
+| 5 grouping | held (blocks unchanged) | held (one bank {P2, P8, P5}, consistent in G1.4; CS stage not matched; designer file agrees) |
+| 6 tolerance, `lp_floor_k` | partly. `outcome()` kept its 2 % threshold, so step 6 changes no outcome word. Between plan v2 and `after_v3a`, ours went from "ok" to "unsafe" through step 3's larger nominal budgets (with and without the PVT points). `lp_floor_k` has more room in total, but leaves 1 of 21 elements below `lp_floor` | partly. Step 6 changes no outcome word, as on the 5T. `lp_floor_k` has more room in total (Σ budget/need 276 vs 39), but leaves 12 of 40 elements below `lp_floor`, so the plan's element-by-element test fails (row 54). Ours went from "infeasible" (plan v2) to "unsafe" with the PVT points (75.8 ×), and to "ok" at the nominal corner alone, through step 3 (the floors fit at the nominal corner) and the at-bound fix (row 60), not through step 6 |
+| 7 PM reference | held (2.0e-5 deg) | held (1.6e-3 deg) |
+| 8 G2.0 route | held (small change) | held: G2.0 gain 6.64 → 1.00 |
+| 9 model agreement | held: the row-42 corner is in G2.9 (6.34 × allowed, first order) and no longer binds. With G2.8's PVT checks back, G2.10 flags 18 of 126 checks, among them row 42's sign disagreement for ours, `lp_sum` and `lp_floor_k` (first order 6.42 ×, SPICE −2.27 ×) | listed. Nominal only: 4 checks, all for baselines. With the PVT checks: 25 of 118, among them ours at 3 PVT points (no sign disagreement; first order within 4 % of SPICE at the worst) and `lp_sum`'s gain sign disagreements |
+| 10 hand model | — | held: hand PM gap 17.0 → 1.7 deg (3.0 with the exact rational H(s)) |
+| 12 S3 and SPICE | held exactly (area, cells, specs = `after_nopvt`) | held: 3 relaxed < 6; PM 65.17 ≥ 64.7 deg |
+
+**What Phase A found on the way** (rows 51–61): the plan's tests were wrong three times (rows 53, 54, 56), the
+environment twice (rows 55, 57), a tolerance edge flipped a reported outcome (row 60), and two scripts would
+have written over committed results (rows 58, 59). Each was stopped before it changed a result, or decided by
+Imasha.
+
+**Still open after Phase A.**
+
+- **The frozen designs keep plan v2's results.** iadc's S3 results are still artefacts of row 41 (the fix is in,
+  but iadc was not re-run); TTSKY25a's eta 0.9 run (row 40) and its PM reading (row 46) are not re-done;
+  `ota5t_stress` keeps PVT budgets.
+- **PVT points are reported, not budgeted.** G2.9 lists, first order:
+  - the 5T: 16 checks over 1 (15 over 1.02); worst GBW at tt, 0.9 V, 27 C, 6.34 ×;
+  - LOADBench: 57 checks over 1 (50 over 1.02), on 39 of 45 points; worst gain at sf, 0.9 V, −40 C, 78.7 ×.
+
+  G2.9 counts "over" at 1, not at 1 + `TOL_USE`, and LOADBench's own nominal point reads 1.006 for GBW there
+  (review D 6).
+  - Only each rule's 5 most-used points are SPICE-checked, in G2.8. G2.5, the gate on S2's own budgets, stays
+    nominal.
+  - On LOADBench the nominal budgets break specs at PVT points in SPICE for every rule. So H1, judged with the
+    PVT points, fails there. Budgeting at the nominal corner (D-b) trades that for budgets layout can use.
+- **G3.3 still fails any device that is below vdsat after layout** (review D 5). Step 4's do-no-harm covers the
+  per-option check and G3.3's `within`, not its saturation test. It matters for iadc only.
+- **S3's simulation cache is keyed by the deck text only, not by the ngspice init** (review D 4). The 208 LOADBench
+  decks it had kept from October's IHP-init runs give identical measurements under sky130's init (re-simulated in
+  step 13). A key that includes the init would make that guarantee explicit.
+- **The `v1` variant no longer reproduces plan v2 exactly** (review D 9): the 2 % closure, the PM reference and
+  `AT_BOUND_TOL` apply to it too.
+- **LOADBench's gain margin is used up by a compact layout before any budget is shared** (G2.0 1.00 at eta 0.5),
+  and its specs are an ASSUMPTION (D4).
+- **The hand model is post hoc**, fitted after seeing LOADBench's gap; it has to be judged on other designs. The
+  5T's patch (`symbolic_patch.py`) still takes the unrounded phase at 1 rad/s (negligible there).
+- **S3 still checks the nominal point only, and power is not budgeted** (review C 14). Phase 2 above 200 elements
+  still stops on wall-clock time (review C 11; it affects only the frozen large designs).
+- **Smaller items:** `inherit` in `pkg_yaml()` (row 58), the login-shell `USER` quirk (row 55), and the Errno 22
+  retry (row 61).
 <!-- section7:end -->
 
 ---
@@ -2057,3 +2241,4 @@ What it adds to the reading of plan v2:
 - 2026-10-26: section 7 (plan v2): new designs, generality fixes, PVT and Monte Carlo, library floors and the R19 fix, budget baselines, S3 option modes, hand-drawn layouts of TTSKY25a and iadc, two independent reviews, and the journey table (7.1); section 6 note (S4 not started); R19 marked applied.
 - 2026-10-27: section 7 completed (Cowork, documentation pass, no runs): 7.5 for LOADBench, iadc and TTSKY25a with the post-hoc column; 7.6 with the held-out designs, the eta 0.9 headline and the hypothesis reading; 7.7 and 7.8 against the 'after' G2.0; review C (7.9) and its corrections; 7.10 and the new 7.11 assessment; journey rows 40–44; figures `v2_*.png` from `scripts/make_v2_figures.py`; plan v2 status at a glance.
 - 2026-10-27 (evening): 7.12 and journey rows 46–50 from the Plan v3 review pack (Cowork, documentation only, no runs): PM measured from the 1 Hz phase (TTSKY25a +2.3 deg), dummy tags, recognition pairings, hand-model gaps, iadc's upstream Performance Summary; the pack itself is `docs/plan_v3_review_pack.md`.
+- 2026-11-02: 7.13 and journey rows 51–61 (Claude Code, Plan v3 Phase A on example_ota_5t and loadbench_miller: nominal budgets, one tolerance, `lp_floor_k`, route lengths from the representative cells, PM reference, mirror bank and designer groups, LOADBench's hand model with the mirror doublet, sky130A pinned, re-run `after_v3a`); rows 40–49 point to their Phase A fix; review D in 7.9.

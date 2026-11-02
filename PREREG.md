@@ -170,3 +170,28 @@ After the tag, changes are allowed only as dated amendments at the end, with the
     need in the allocation.
   - G2.0 keeps the as-sized route as a second column (`fraction_of_margin_route_as_sized_pcell`).
   - Item 6's other points, and the step 8 predictions in item 9, are unchanged.
+
+- **2026-11-02, Plan v3 Phase A step 12: budgets at a bound (decided post hoc, after the step 12 results).**
+  - **What was wrong.** G2.8's score counted "below floor" and "starved" when a budget was below floor or need ×
+    (1 − 10⁻⁹). Phase 2 of the allocation (`budgets.refine`) leaves a pinned budget exactly that much room, xm ×
+    (1 − 10⁻⁹). So a budget at its floor fell above or below the test by rounding.
+  - **The change.** The tolerance is now 10⁻⁶ (`AT_BOUND_TOL` in `src/s2/baselines.py`), and the snapshots' starved
+    count uses the same. The definitions of "infeasible" (a budget below the library floor) and "starved" (a budget
+    below the expected need) are otherwise unchanged.
+  - **Effect.** It changes one reported word, ours on LOADBench: "infeasible" at 10⁻⁹, "ok" at 10⁻⁶ (SPICE 1.007
+    of allowed). Both are reported (flow record 7.13, row 60). No budget changes.
+  - **Decision.** Imasha's, 2026-11-02. It was made after the step 12 results were seen, so it is post hoc.
+
+- **2026-11-02, after review D (finding 1): G2.8 SPICE-checks PVT points again (decided after the Phase A results).**
+  - **Why.** With `budget_corners: nominal`, S2's constraints are nominal only, so G2.8 simulated no PVT point. Its
+    outcome words, and H1 (defined at every PVT corner where the schematic meets the spec), covered the nominal
+    corner only. Plan v2's G2.8 also checked each rule's most-used PVT points (amendment of 2026-10-26, item 3).
+  - **The change.**
+    - G2.8 again SPICE-checks each rule's 5 most-used PVT points (first order, one common set), drawn from G2.9's
+      PVT constraints.
+    - The outcome word covers every simulated check, as in plan v2, and `outcome_nominal` gives the word from the
+      nominal checks alone.
+    - The PVT points are scored, not budgeted. G2.5, the gate on S2's own budgets, stays nominal, because its
+      closure step would otherwise change the budgets.
+  - **Decision.** Imasha's, 2026-11-02, choosing this over declaring G2.8 nominal-only. It was made after the
+    Phase A results were seen.

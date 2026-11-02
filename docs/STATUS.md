@@ -2,17 +2,17 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-02 14:00 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–11
-and the sky130A environment change done and committed (the environment change is commit `70279125`, named
-"step_9"; step 9 is `fb1b9adf`). **Step 12 done, waiting for Imasha's commit**: both designs re-run,
-`after_v3a` snapshots, goldens refreshed (20 of 20 OK), `before_after.md` regenerated. Next: step 13
-(documentation and the independent review). Nothing is running.
+**Last updated:** 2026-11-02 15:40 CET, by Claude Code. **Plan v3 Phase A is complete** (`docs/plan_v3_phaseA.md`).
+- Steps 0–12 and the sky130A environment change are committed. The environment change is commit `70279125`,
+  named "step_9"; step 9 is `fb1b9adf`; step 12 is `14e97f7e`.
+- **Step 13 (documentation and independent review D) and the G2.8 follow-up wait for Imasha's final commit.** In
+  the follow-up, G2.8 SPICE-checks PVT points again (Imasha's answer (a) to review D 1); S2 and S3 were re-run.
+- Claude Code has released its Phase A claim. Nothing is running.
+- Optional follow-ups (none blocking) are under *Open questions*.
 
 **Resumed 2026-11-02 12:12 CET** after the overnight stop (2026-11-01 22:05):
 - the container was running with no job, and there was no `.git/index.lock`;
 - step 9 was committed, and the working tree was clean.
-
-Open questions: none blocking.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -41,6 +41,8 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- After review D 1 (Imasha: re-add PVT checks to G2.8): `example_ota_5t --from S2` 15:01–15:19 (S2 PASS, S3 PASS) and
+  `loadbench_miller --from S2` 15:19–15:35 (S2 PASS, S3 FAIL G3.5 as before); logs `runs/logs/phaseA_reviewD_*_S2S3.log`.
 - Phase A step 12, after Imasha's answer (a): `loadbench_miller --from S2` ran 13:48–13:55, S2 PASS and S3 FAIL G3.5
   as before (`runs/logs/phaseA_step12_lb_S2S3_fix.log`).
 - Phase A step 12's re-run has ended, with no ERROR.
@@ -120,7 +122,7 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
-| Claude Code | Plan v3 Phase A: `src/`, `scripts/benchlib.py`, `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`, `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`; plus the doc updates the plan's steps ask for (README, progress log, flow record section 7 draft) | 2026-11-01 16:10 CET (paused overnight 22:05; resumed 2026-11-02 12:12) |
+| Claude Code | Plan v3 Phase A: `src/`, `scripts/benchlib.py`, `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`, `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`; plus the doc updates the plan's steps ask for (README, progress log, flow record section 7 draft) | **released 2026-11-02 14:50 CET**: Phase A done (steps 0–13). Held since 2026-11-01 16:10, paused overnight 22:05, resumed 2026-11-02 12:12 |
 | Cowork | **released 2026-11-01**: Phase A plan written (`docs/plan_v3_phaseA.md`; `docs/HANDOFF.md` rewritten; this file; progress log). No code or outputs changed. **Next: Claude Code claims Phase A at its step 0** | 2026-11-01 |
 | Cowork (earlier) | **released 2026-10-27 17:15 CET**: Plan v3 review pack done (`docs/plan_v3_review_pack.md`, `docs/plan_v3/`, flow record 7.12 and rows 46–50, project doc 14). Earlier: the documentation pass (released 14:20). No runs, no flow code changed | 2026-10-27 |
 | Claude Code | **released 2026-10-27 13:35 CET**: the runs are finished; the write-up goes to Cowork (Imasha's decision) | 2026-10-27 |
@@ -147,7 +149,83 @@ predictions to write into PREREG before the runs.
 | 9 SPICE vs first order | **done**, committed `fb1b9adf` | agreement fields on every SPICE-verified check (G2.5, G2.8) and the `G2.10_model_agreement (info)` summary. 5T: 72 checks, none flagged; the row-42 corner is in G2.9 at 6.34 × allowed, not binding. Budgets identical to step 8. Details below |
 | 10 LOADBench hand model | **done**, committed `9370baa7` | patched copy P1 with the NMOS-mirror doublet, PREDICTED (patched, post hoc). Hand PM gap 17.0° → 1.7° (exact rational 3.0°); GBW gap 6.7 → 2.2 MHz. G1.5 unchanged and report-only. Details below |
 | 11 tests and goldens | **done**, committed `2a9897c0` | pytest 124 passed + the expected 5T S2 golden failure; `./flow test` golden 19 of 20 OK; `ota5t_stress` S1 re-run: golden OK, its committed outputs put back. Details below |
-| 12 re-run, snapshot, compare | **done**, waiting for Imasha's commit | 5T: every prediction holds. LOADBench: S2 now PASS; S3 PM 65.17°, 3 types relaxed (6 in plan v2); ours "ok" after the tolerance fix (Imasha's answer (a)). Goldens refreshed, 20 of 20 OK. Details below |
+| 12 re-run, snapshot, compare | **done**, committed `14e97f7e` | 5T: every prediction holds. LOADBench: S2 now PASS; S3 PM 65.17°, 3 types relaxed (6 in plan v2); ours "ok" after the tolerance fix (Imasha's answer (a)). Goldens refreshed, 20 of 20 OK. Details below (verdicts as corrected in step 13) |
+| 13 documentation and review | **done**, waiting for Imasha's commit | flow record rows 40–49 linked to their fixes, rows 51–61 and section 7.13; review D (9 findings, all checked; 7.9); post-hoc PREREG amendment for the at-bound tolerance; README. Details below |
+| after review D 1 | **done**, waiting for Imasha's commit (with step 13) | G2.8 SPICE-checks each rule's most-used PVT points again (Imasha's answer (a)). Budgets and S3 unchanged. With the PVT points: LOADBench every rule "unsafe"; 5T only `lp_floor` "ok"; row 42's sign disagreement reproduced. Details below |
+
+After review D 1 (2026-11-02, Imasha's answer (a), about 15:00):
+- **Code** (`src/s2/run.py`):
+  - `top_corner_checks()` moved to module level, with an explicit pool.
+  - G2.5 keeps the budgeted corners only: none in nominal mode, because its closure step would change the budgets.
+  - G2.8's pool is the budgeted corners or, with `budget_corners: nominal`, G2.9's PVT constraints. Each rule's 5
+    most-used points form one common set.
+  - Each rule has `outcome` (every simulated check, as in plan v2) and `outcome_nominal` (nominal checks only).
+  - G2.8 records `pvt_checks_simulated` and `pvt_pool`.
+  - Tests: 2 new (selection, and that G2.5 and G2.8 use their own pools); 128 passed.
+- **PREREG:** a dated note, post hoc, after review D.
+- **Runs** (from a login shell + `env.sh`):
+  - the 5T `--from S2`, 15:01–15:19: S2 took 17 min instead of 6, for the PVT checks;
+  - LOADBench `--from S2`, 15:19–15:35.
+  - For both, budgets are identical to the committed `after_v3a`, S3 is unchanged (5T PASS; LOADBench G3.5 as
+    before), and every gate is as before.
+  - `after_v3a` was re-taken for both. Goldens: 20 of 20 still OK (they do not track G2.8's words), so no refresh.
+    `before_after.md` is unchanged.
+- **5T** (9 PVT points simulated):
+
+  | Rule | Outcome (nominal only) | Worst SPICE use of allowed |
+  |---|---|---|
+  | per_net | unsafe (unsafe) | 1.84 |
+  | equal | **unsafe** (ok) | 2.76 at GBW tt, 0.9 V, 27 C, where the spec is missed |
+  | lp_sum | unsafe (unsafe) | |
+  | lp_floor | ok (ok) | 0.25 |
+  | lp_floor_k | unsafe (unsafe) | |
+  | ours | unsafe (unsafe) | 1.086, at the nominal point |
+
+  - Ours' PVT points all sit lower in SPICE than first order says, e.g. GBW ss, 0.9 V, 85 C: 1.69 first order,
+    0.07 SPICE.
+  - **Row 42 reproduced:** at GBW tt, 0.9 V, 27 C, first order gives 6.42 × and SPICE −2.27 × (the GBW rises).
+    The same sign disagreement shows for `lp_sum` and `lp_floor_k`. G2.10 flags 18 of 126.
+- **LOADBench** (7 PVT points simulated):
+
+  | Rule | Outcome (nominal only) | Worst SPICE use of allowed |
+  |---|---|---|
+  | per_net | unsafe (unsafe) | 123.6 |
+  | equal | unsafe + infeasible (infeasible) | 6.3 |
+  | lp_sum | unsafe + infeasible, unverified (infeasible, unverified) | 1021 |
+  | lp_floor | unsafe (unsafe) | 75.6 |
+  | lp_floor_k | **unsafe** (ok) | 8.4 |
+  | ours | **unsafe** (ok) | 75.8, gain at sf, 0.9 V, −40 C, where the spec is missed |
+
+  - First order is accurate there: 78.7 against 75.8.
+  - H1 judged with the PVT points fails for every rule. G2.10 flags 25 of 118.
+- **Flow record:** 7.13 (tables, reading, predictions for steps 6 and 9, open items), row 60, and review D's row 1
+  in 7.9, merged. README: the G2.8 note.
+
+Step 13 record:
+- **Flow record** (`docs/flow_record_section7_draft.md`, merged with `scripts/merge_section7.py`):
+  - rows 40–49 now point to their Phase A fix;
+  - rows 51–61 are what Phase A itself found;
+  - new section 7.13 covers what changed by step, the two results tables, the predictions with their outcomes,
+    and what is still open;
+  - a changelog line.
+- **A correction of my own** before the review. I had written that step 6's prediction "ours' outcome word
+  unchanged" fails for LOADBench. But step 6 kept `outcome()`'s 2 % threshold, so it changes no word. Ours'
+  "infeasible" → "ok" comes from step 3 and the at-bound fix. STATUS, the log and 7.13 say so.
+- **Review D** (a fresh agent, without STATUS or the progress log) returned 9 findings. Every one checked out
+  against the files (table in 7.9). What was done:
+  - G2.8's `after_v3a` words are labelled nominal-only, since no PVT point is simulated: FEEDBACK NEEDED.
+  - The at-bound tolerance got a dated post-hoc PREREG amendment (2026-11-02), and the 1e-9 word is reported too.
+  - Close calls are called ties: LOADBench's 1.007 / 1.015 / 1.032; the 5T's 1.086 vs 1.085.
+  - **S3's cache** kept 208 LOADBench decks simulated under the IHP init in October. All 208 were re-simulated
+    under sky130's (`runs/tmp/step13_s3_init_check.py`, log `runs/tmp/s3_init_check.log`): every measurement is
+    identical, the chosen cells included. LOADBench's S3 results stand; row 57 is corrected.
+  - G3.3's saturation test is unchanged for below-vdsat devices (iadc only): row 41.
+  - The tables give both G2.9 counts (16/15 and 57/50, on 39 of 45 points) and the tolerance of each G2.5 "pass".
+  - Step 6 is now "partly" on both designs; step 3's attribution and row 42's wording are corrected.
+  - A "route part of the need" row is in both tables.
+  - The `v1` variant no longer reproducing plan v2 exactly is listed as open.
+- **README:** the `after_v3a` tag and how to compare tags. Always give `--json`.
+- **Tests:** 126 passed (docs-only step).
 
 Step 12 record (2026-11-02):
 - **Runs**, started from a login shell + `env.sh` (sky130A pinned); no ERROR.
@@ -179,7 +257,7 @@ Step 12 record (2026-11-02):
   | 3 | Held at step 3; step 8's choice (b) later moved the need, so t is now 3.93 | **Mostly.** 37 of 40 budgets larger (geomean ×97). Smaller: P2.d (10× cap, need cut by step 8's route), P5.s (need ÷7 from step 8, budget 0.18 → 0.63 × need), tail~ibias (at the cap in v2, now binds on GBW). 29 of 40 are still starved: no longer from the PVT points, but at nominal, since G2.0 gain is 1.00 of margin and eta is 0.5. PVT points over 1.0: yes, 57 (worst gain at `sf_v0.9_t-40`, 78.7 ×) |
   | 4 | holds (G1.1 pass) | holds (G1.1 pass) |
   | 5 | holds | holds (G1.4 pass) |
-  | 6 | holds | G2.5 passes (PM at 1.007). `lp_floor_k` has more room in total (Σ budget/need 276 vs 39), with 12 of 40 elements below `lp_floor`. **"Ours' outcome word unchanged" fails:** "infeasible" → "ok". Plan v2's word came from infeasible library floors (G2.7 FAIL). Now the floors are feasible, and ours meets its allowance in SPICE (1.007 ≤ 1.02). Before the tolerance fix below, the word stayed "infeasible" only through a rounding edge |
+  | 6 | holds | G2.5 passes (PM at 1.007). `lp_floor_k` has more room in total (Σ budget/need 276 vs 39), with 12 of 40 elements below `lp_floor`. **"Ours' outcome word unchanged" holds** for step 6 itself: `outcome()` already had the 2 % threshold before Phase A, so step 6 changes no outcome word. (Corrected in step 13: this cell first said "fails".) Between plan v2 and `after_v3a`, ours goes "infeasible" → "ok". That comes from step 3, since the floors fit at the nominal corner (G2.7 FAIL → PASS), and from the at-bound fix below; before that fix, the word stayed "infeasible" only through a rounding edge |
   | 7 | holds (2.0e-5°) | holds (1.6e-3°) |
   | 8 | holds (small change) | holds: G2.0 gain 6.64 → 1.00, PM 3.74 → 0.79, GBW 0.91 → 0.34 |
   | 9 | holds | listed: 4 checks, all baselines (per_net GBW and PM; lp_sum gain with a sign disagreement, first order 0.31 vs SPICE −8.69; lp_sum GBW). None for ours |
@@ -800,6 +878,34 @@ Step 0 record:
 
 ## Open questions for Imasha
 
+**Resolved 2026-11-02 ~15:00 CET (Imasha): (a), G2.8 SPICE-checks PVT points again.** Done; the record is under
+*Plan v3 Phase A*, "After review D 1", and in flow record 7.13. The question as it was asked:
+
+**Was FEEDBACK NEEDED (Claude Code, 2026-11-02 14:50, after Phase A; review D 1): should G2.8 and H1 cover the PVT
+points again?**
+- **What happens now.** With `budget_corners: nominal` (step 3), S2's constraints are nominal only, so G2.5 and
+  G2.8 SPICE-check no PVT point. Every `after_v3a` outcome word is for the nominal corner. Plan v2's words also
+  covered each rule's most-used PVT points.
+- **Why it matters.** H1 is defined "at every PVT corner where the schematic meets the spec", so H1 is not tested in
+  Phase A. PREREG's Phase A item 1 moved budgets to the nominal corner, but did not say that G2.8 stops simulating
+  PVT points.
+- **(a) SPICE-check PVT points again in G2.8 (recommended).** Each rule's most-used G2.9 points, reported and not
+  gated, as plan v2 did. Then re-run S2 for both designs (about 15 min) and re-take `after_v3a`. Budgets do not
+  change; only the G2.8 words may.
+- **(b) Declare it.** A dated PREREG amendment: in Phase A, G2.8 and H1 are judged at the nominal corner only, and
+  the PVT points are reported first order in G2.9. Documentation only.
+
+**Optional follow-ups from Phase A and review D** (none blocks anything; each is small, and needs your OK):
+1. **S3's simulation cache key:** include the ngspice init (review D 4). Today's results are unaffected
+   (re-simulated, identical).
+2. **G2.9:** count "over" at 1 + `TOL_USE` rather than at 1 (review D 6).
+3. **`budgets.refine`:** never leave a budget below its floor (review D 2), making `AT_BOUND_TOL` unnecessary.
+4. **G3.3's saturation test** for devices below vdsat in the schematic (review D 5; needed before any iadc re-run).
+5. **The login-shell `USER` quirk:** `--basetemp` in `./flow test`, or clean `USER` in `env.sh` (row 55).
+6. **`pkg_yaml()`** should follow `inherit` (row 58).
+7. **A retry on Errno 22** in the write helpers (row 61).
+8. **Later phases.** Plan v3's phases B–E (`docs/plan_v3_phaseA.md`, section 1) and decisions D4–D8 wait for you.
+
 **Resolved 2026-11-02 ~13:47 CET (Imasha): (a), fix the tolerance edge**, done in step 12; ours on LOADBench is now
 "ok". The question as it was asked:
 
@@ -1076,9 +1182,11 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-02 (Claude Code): **Plan v3 Phase A, step 13**: flow record rows 40–61 and section 7.13, review D (9
+  findings, all checked, 7.9), the post-hoc PREREG amendment for the at-bound tolerance, README. Phase A is
+  complete; the claim is released. It waits for Imasha's final commit.
 - 2026-11-02 (Claude Code): **Plan v3 Phase A, step 12**: the 5T and LOADBench re-run (`after_v3a`), the G2.8
-  tolerance fix (Imasha's answer (a)), goldens refreshed, `before_after.md` regenerated. It waits for Imasha's
-  commit.
+  tolerance fix (Imasha's answer (a)), goldens refreshed, `before_after.md` regenerated. Committed `14e97f7e`.
 - 2026-11-02 (Claude Code): **Plan v3 Phase A, step 11**: the test pass before step 12, documentation only.
   Committed `2a9897c0`.
 - 2026-11-02 (Claude Code): **Plan v3 Phase A, step 10**: LOADBench's hand model with the NMOS-mirror doublet,

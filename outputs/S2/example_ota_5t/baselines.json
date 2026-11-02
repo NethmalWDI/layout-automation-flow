@@ -1,5 +1,5 @@
 {
-  "run_id": "2026-11-02T13:16:56-77f532d3",
+  "run_id": "2026-11-02T15:00:22-f568fb74",
   "eta": 0.5,
   "design": "example_ota_5t",
   "alloc": "v2",
@@ -55,7 +55,9 @@
         "spice_worst_use_of_allowed": 1.8355478331970565,
         "spice_specs_violated": [],
         "spice_failed_runs": [],
-        "spice_checks": 9,
+        "spice_checks": 18,
+        "spice_worst_use_of_allowed_nominal": 1.8355478331970565,
+        "outcome_nominal": "unsafe",
         "outcome": "unsafe"
       },
       "spice": {
@@ -139,6 +141,87 @@
           "sign_disagrees": false,
           "meets_spec": true,
           "value_now": 0.0016089999999999993
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.6212110605530274,
+          "first_order_use_frac_of_allowed": 1.8852644196932289,
+          "spice_use_frac_of_allowed": 1.2424221211060549,
+          "diff_frac_of_margin": 0.321421149293587,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.5411
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "spice_use_frac_of_margin": 0.7000106142625365,
+          "first_order_use_frac_of_allowed": 1.8449942079485453,
+          "spice_use_frac_of_allowed": 1.400021228525073,
+          "diff_frac_of_margin": 0.22248648971173618,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 65.9352
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "spice_use_frac_of_margin": 0.6975502118803437,
+          "first_order_use_frac_of_allowed": 1.8392513547983151,
+          "spice_use_frac_of_allowed": 1.3951004237606874,
+          "diff_frac_of_margin": 0.22207546551881388,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 66.031
+        },
+        "gbw_mhz@ss_v0.9_t85": {
+          "spice_use_frac_of_margin": 0.3343352751772787,
+          "first_order_use_frac_of_allowed": 2.12099804919107,
+          "spice_use_frac_of_allowed": 0.6686705503545574,
+          "diff_frac_of_margin": 0.7261637494182563,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 34.3062
+        },
+        "gbw_mhz@tt_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.39116255661801724,
+          "first_order_use_frac_of_allowed": 7.722036145343174,
+          "spice_use_frac_of_allowed": 0.7823251132360345,
+          "diff_frac_of_margin": 3.4698555160535696,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 23.0244
+        },
+        "gain_db@ss_v1_t85": {
+          "spice_use_frac_of_margin": 0.6607300482891106,
+          "first_order_use_frac_of_allowed": 1.4052629959463956,
+          "spice_use_frac_of_allowed": 1.3214600965782213,
+          "diff_frac_of_margin": 0.04190144968408709,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.6534
+        },
+        "gain_db@tt_v1_t27": {
+          "spice_use_frac_of_margin": 0.9113730111962279,
+          "first_order_use_frac_of_allowed": 1.5878988523563806,
+          "spice_use_frac_of_allowed": 1.8227460223924559,
+          "diff_frac_of_margin": 0.11742358501803753,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.1504
+        },
+        "gbw_mhz@ss_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.35711966200533923,
+          "first_order_use_frac_of_allowed": 1.6885666733229898,
+          "spice_use_frac_of_allowed": 0.7142393240106785,
+          "diff_frac_of_margin": 0.4871636746561557,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 38.8074
+        },
+        "gbw_mhz@tt_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.3835237861473988,
+          "first_order_use_frac_of_allowed": 1.5916205796168112,
+          "spice_use_frac_of_allowed": 0.7670475722947976,
+          "diff_frac_of_margin": 0.41228650366100683,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 40.3439
         }
       }
     },
@@ -187,11 +270,15 @@
         "below_floor": [],
         "min_ratio_to_need": 0.9424292071468229,
         "geo_mean_ratio_to_need": 5.769788782818517,
-        "spice_worst_use_of_allowed": 0.7142015321154961,
-        "spice_specs_violated": [],
+        "spice_worst_use_of_allowed": 2.758409662808254,
+        "spice_specs_violated": [
+          "gbw_mhz@tt_v0.9_t27"
+        ],
         "spice_failed_runs": [],
-        "spice_checks": 9,
-        "outcome": "ok"
+        "spice_checks": 18,
+        "spice_worst_use_of_allowed_nominal": 0.7142015321154961,
+        "outcome_nominal": "ok",
+        "outcome": "unsafe"
       },
       "spice": {
         "gain_db": {
@@ -274,6 +361,87 @@
           "sign_disagrees": false,
           "meets_spec": true,
           "value_now": 0.01578199999999999
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.2513125656282802,
+          "first_order_use_frac_of_allowed": 0.8030702734121358,
+          "spice_use_frac_of_allowed": 0.5026251312565604,
+          "diff_frac_of_margin": 0.15022257107778764,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.0695
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "spice_use_frac_of_margin": 0.21386222687228015,
+          "first_order_use_frac_of_allowed": 0.4571424582100159,
+          "spice_use_frac_of_allowed": 0.4277244537445603,
+          "diff_frac_of_margin": 0.014709002232727817,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 75.5535
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "spice_use_frac_of_margin": 0.2138863117775382,
+          "first_order_use_frac_of_allowed": 0.4580200215940441,
+          "spice_use_frac_of_allowed": 0.4277726235550764,
+          "diff_frac_of_margin": 0.01512369901948383,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 75.6755
+        },
+        "gbw_mhz@ss_v0.9_t85": {
+          "spice_use_frac_of_margin": 0.29889817417037357,
+          "first_order_use_frac_of_allowed": 0.6501187046951608,
+          "spice_use_frac_of_allowed": 0.5977963483407471,
+          "diff_frac_of_margin": 0.026161178177206836,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 35.0678
+        },
+        "gbw_mhz@tt_v0.9_t27": {
+          "spice_use_frac_of_margin": 1.379204831404127,
+          "first_order_use_frac_of_allowed": 2.316036135925396,
+          "spice_use_frac_of_allowed": 2.758409662808254,
+          "diff_frac_of_margin": 0.22118676344142904,
+          "sign_disagrees": false,
+          "meets_spec": false,
+          "value_now": 18.1163
+        },
+        "gain_db@ss_v1_t85": {
+          "spice_use_frac_of_margin": 0.27955760942935753,
+          "first_order_use_frac_of_allowed": 0.5970073027802915,
+          "spice_use_frac_of_allowed": 0.5591152188587151,
+          "diff_frac_of_margin": 0.01894604196078816,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.3875
+        },
+        "gain_db@tt_v1_t27": {
+          "spice_use_frac_of_margin": 0.35710076605774804,
+          "first_order_use_frac_of_allowed": 0.6765397056081942,
+          "spice_use_frac_of_allowed": 0.7142015321154961,
+          "diff_frac_of_margin": 0.018830913253650897,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.091
+        },
+        "gbw_mhz@ss_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.2453913703345422,
+          "first_order_use_frac_of_allowed": 0.5182706469172602,
+          "spice_use_frac_of_allowed": 0.4907827406690844,
+          "diff_frac_of_margin": 0.013743953124087905,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 42.076
+        },
+        "gbw_mhz@tt_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.24560079756850695,
+          "first_order_use_frac_of_allowed": 0.4876710372070712,
+          "spice_use_frac_of_allowed": 0.4912015951370139,
+          "diff_frac_of_margin": 0.0017652789649713304,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 44.8954
         }
       }
     },
@@ -325,7 +493,9 @@
         "spice_worst_use_of_allowed": 1.0850913376546854,
         "spice_specs_violated": [],
         "spice_failed_runs": [],
-        "spice_checks": 9,
+        "spice_checks": 18,
+        "spice_worst_use_of_allowed_nominal": 1.0850913376546854,
+        "outcome_nominal": "unsafe",
         "outcome": "unsafe"
       },
       "spice": {
@@ -409,6 +579,87 @@
           "sign_disagrees": false,
           "meets_spec": true,
           "value_now": 0.009920000000000012
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.3785089254462731,
+          "first_order_use_frac_of_allowed": 1.1868644529807586,
+          "spice_use_frac_of_allowed": 0.7570178508925463,
+          "diff_frac_of_margin": 0.21492330104410617,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.8878
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "spice_use_frac_of_margin": 0.4602192603375335,
+          "first_order_use_frac_of_allowed": 1.1919105703636501,
+          "spice_use_frac_of_allowed": 0.920438520675067,
+          "diff_frac_of_margin": 0.1357360248442915,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 70.6794
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "spice_use_frac_of_margin": 0.4641157443394097,
+          "first_order_use_frac_of_allowed": 1.1886614252505545,
+          "spice_use_frac_of_allowed": 0.9282314886788194,
+          "diff_frac_of_margin": 0.1302149682858675,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 70.6858
+        },
+        "gbw_mhz@ss_v0.9_t85": {
+          "spice_use_frac_of_margin": 0.13390347856837093,
+          "first_order_use_frac_of_allowed": 1.9151741390212726,
+          "spice_use_frac_of_allowed": 0.26780695713674185,
+          "diff_frac_of_margin": 0.8236835909422654,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 38.6138
+        },
+        "gbw_mhz@tt_v0.9_t27": {
+          "spice_use_frac_of_margin": -0.8230095621540009,
+          "first_order_use_frac_of_allowed": 6.951937894082253,
+          "spice_use_frac_of_allowed": -1.6460191243080018,
+          "diff_frac_of_margin": 4.298978509195127,
+          "sign_disagrees": true,
+          "meets_spec": true,
+          "value_now": 29.0558
+        },
+        "gain_db@ss_v1_t85": {
+          "spice_use_frac_of_margin": 0.38626096889765854,
+          "first_order_use_frac_of_allowed": 0.8872379933768102,
+          "spice_use_frac_of_allowed": 0.7725219377953171,
+          "diff_frac_of_margin": 0.057358027790746585,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.182
+        },
+        "gain_db@tt_v1_t27": {
+          "spice_use_frac_of_margin": 0.5425456688273427,
+          "first_order_use_frac_of_allowed": 1.0000000000000082,
+          "spice_use_frac_of_allowed": 1.0850913376546854,
+          "diff_frac_of_margin": 0.042545668827338554,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.7763
+        },
+        "gbw_mhz@ss_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.2070730031550269,
+          "first_order_use_frac_of_allowed": 1.525377878906806,
+          "spice_use_frac_of_allowed": 0.4141460063100538,
+          "diff_frac_of_margin": 0.555615936298376,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 43.197
+        },
+        "gbw_mhz@tt_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.23572209949606518,
+          "first_order_use_frac_of_allowed": 1.4336449573998953,
+          "spice_use_frac_of_allowed": 0.47144419899213036,
+          "diff_frac_of_margin": 0.48110037920388243,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 45.2214
         }
       }
     },
@@ -459,7 +710,9 @@
         "spice_worst_use_of_allowed": 0.25398609975470304,
         "spice_specs_violated": [],
         "spice_failed_runs": [],
-        "spice_checks": 9,
+        "spice_checks": 18,
+        "spice_worst_use_of_allowed_nominal": 0.25398609975470304,
+        "outcome_nominal": "ok",
         "outcome": "ok"
       },
       "spice": {
@@ -543,6 +796,87 @@
           "sign_disagrees": false,
           "meets_spec": true,
           "value_now": 0.017082999999999987
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.062233111655582,
+          "first_order_use_frac_of_allowed": 0.2034036353707424,
+          "spice_use_frac_of_allowed": 0.124466223311164,
+          "diff_frac_of_margin": 0.0394687060297892,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.3396
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "spice_use_frac_of_margin": 0.08878072449923438,
+          "first_order_use_frac_of_allowed": 0.18459136376821564,
+          "spice_use_frac_of_allowed": 0.17756144899846876,
+          "diff_frac_of_margin": 0.003514957384873435,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 78.0282
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "spice_use_frac_of_margin": 0.08901983400616809,
+          "first_order_use_frac_of_allowed": 0.18399679873399574,
+          "spice_use_frac_of_allowed": 0.17803966801233617,
+          "diff_frac_of_margin": 0.0029785653608297804,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 78.1654
+        },
+        "gbw_mhz@ss_v0.9_t85": {
+          "spice_use_frac_of_margin": 0.03856855701762537,
+          "first_order_use_frac_of_allowed": 0.21837781249043606,
+          "spice_use_frac_of_allowed": 0.07713711403525074,
+          "diff_frac_of_margin": 0.07062034922759265,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 40.6627
+        },
+        "gbw_mhz@tt_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.02987418218419774,
+          "first_order_use_frac_of_allowed": 0.7989654285672033,
+          "spice_use_frac_of_allowed": 0.05974836436839548,
+          "diff_frac_of_margin": 0.3696085320994039,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 24.8191
+        },
+        "gain_db@ss_v1_t85": {
+          "spice_use_frac_of_margin": 0.06661820447582922,
+          "first_order_use_frac_of_allowed": 0.15156117719676207,
+          "spice_use_frac_of_allowed": 0.13323640895165845,
+          "diff_frac_of_margin": 0.009162384122551815,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.7976
+        },
+        "gain_db@tt_v1_t27": {
+          "spice_use_frac_of_margin": 0.08685916322922664,
+          "first_order_use_frac_of_allowed": 0.17131320331102273,
+          "spice_use_frac_of_allowed": 0.17371832645845328,
+          "diff_frac_of_margin": 0.001202561573715269,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.5496
+        },
+        "gbw_mhz@ss_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.04494631668541002,
+          "first_order_use_frac_of_allowed": 0.1734970122836355,
+          "spice_use_frac_of_allowed": 0.08989263337082004,
+          "diff_frac_of_margin": 0.04180218945640773,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 47.94
+        },
+        "gbw_mhz@tt_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.04975409314460776,
+          "first_order_use_frac_of_allowed": 0.16339602468620817,
+          "spice_use_frac_of_allowed": 0.09950818628921552,
+          "diff_frac_of_margin": 0.031943919198496325,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 51.3584
         }
       }
     },
@@ -595,7 +929,9 @@
         "spice_worst_use_of_allowed": 1.0850913376546854,
         "spice_specs_violated": [],
         "spice_failed_runs": [],
-        "spice_checks": 9,
+        "spice_checks": 18,
+        "spice_worst_use_of_allowed_nominal": 1.0850913376546854,
+        "outcome_nominal": "unsafe",
         "outcome": "unsafe"
       },
       "spice": {
@@ -679,6 +1015,87 @@
           "sign_disagrees": false,
           "meets_spec": true,
           "value_now": 0.009920000000000012
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.3785089254462731,
+          "first_order_use_frac_of_allowed": 1.1868644529807586,
+          "spice_use_frac_of_allowed": 0.7570178508925463,
+          "diff_frac_of_margin": 0.21492330104410617,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.8878
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "spice_use_frac_of_margin": 0.4602192603375335,
+          "first_order_use_frac_of_allowed": 1.1919105703636501,
+          "spice_use_frac_of_allowed": 0.920438520675067,
+          "diff_frac_of_margin": 0.1357360248442915,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 70.6794
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "spice_use_frac_of_margin": 0.4641157443394097,
+          "first_order_use_frac_of_allowed": 1.1886614252505545,
+          "spice_use_frac_of_allowed": 0.9282314886788194,
+          "diff_frac_of_margin": 0.1302149682858675,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 70.6858
+        },
+        "gbw_mhz@ss_v0.9_t85": {
+          "spice_use_frac_of_margin": 0.13390347856837093,
+          "first_order_use_frac_of_allowed": 1.9151741390212726,
+          "spice_use_frac_of_allowed": 0.26780695713674185,
+          "diff_frac_of_margin": 0.8236835909422654,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 38.6138
+        },
+        "gbw_mhz@tt_v0.9_t27": {
+          "spice_use_frac_of_margin": -0.8230095621540009,
+          "first_order_use_frac_of_allowed": 6.951937894082253,
+          "spice_use_frac_of_allowed": -1.6460191243080018,
+          "diff_frac_of_margin": 4.298978509195127,
+          "sign_disagrees": true,
+          "meets_spec": true,
+          "value_now": 29.0558
+        },
+        "gain_db@ss_v1_t85": {
+          "spice_use_frac_of_margin": 0.38626096889765854,
+          "first_order_use_frac_of_allowed": 0.8872379933768102,
+          "spice_use_frac_of_allowed": 0.7725219377953171,
+          "diff_frac_of_margin": 0.057358027790746585,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.182
+        },
+        "gain_db@tt_v1_t27": {
+          "spice_use_frac_of_margin": 0.5425456688273427,
+          "first_order_use_frac_of_allowed": 1.0000000000000082,
+          "spice_use_frac_of_allowed": 1.0850913376546854,
+          "diff_frac_of_margin": 0.042545668827338554,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.7763
+        },
+        "gbw_mhz@ss_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.2070730031550269,
+          "first_order_use_frac_of_allowed": 1.525377878906806,
+          "spice_use_frac_of_allowed": 0.4141460063100538,
+          "diff_frac_of_margin": 0.555615936298376,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 43.197
+        },
+        "gbw_mhz@tt_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.23572209949606518,
+          "first_order_use_frac_of_allowed": 1.4336449573998953,
+          "spice_use_frac_of_allowed": 0.47144419899213036,
+          "diff_frac_of_margin": 0.48110037920388243,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 45.2214
         }
       }
     },
@@ -728,7 +1145,9 @@
         "spice_worst_use_of_allowed": 1.0860341779611062,
         "spice_specs_violated": [],
         "spice_failed_runs": [],
-        "spice_checks": 9,
+        "spice_checks": 18,
+        "spice_worst_use_of_allowed_nominal": 1.0860341779611062,
+        "outcome_nominal": "unsafe",
         "outcome": "unsafe"
       },
       "spice": {
@@ -812,6 +1231,87 @@
           "sign_disagrees": false,
           "meets_spec": true,
           "value_now": 0.009924000000000016
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.3785089254462731,
+          "first_order_use_frac_of_allowed": 1.1870210858255843,
+          "spice_use_frac_of_allowed": 0.7570178508925463,
+          "diff_frac_of_margin": 0.21500161746651897,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.8878
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "spice_use_frac_of_margin": 0.49063670411985,
+          "first_order_use_frac_of_allowed": 1.2283021048946563,
+          "spice_use_frac_of_allowed": 0.9812734082397,
+          "diff_frac_of_margin": 0.1235143483274781,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 70.0776
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "spice_use_frac_of_margin": 0.49511296105915087,
+          "first_order_use_frac_of_allowed": 1.2253320519512751,
+          "spice_use_frac_of_allowed": 0.9902259221183017,
+          "diff_frac_of_margin": 0.11755306491648673,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 70.0677
+        },
+        "gbw_mhz@ss_v0.9_t85": {
+          "spice_use_frac_of_margin": 0.035260287740326274,
+          "first_order_use_frac_of_allowed": 1.691702592169762,
+          "spice_use_frac_of_allowed": 0.07052057548065255,
+          "diff_frac_of_margin": 0.8105910083445547,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 40.7338
+        },
+        "gbw_mhz@tt_v0.9_t27": {
+          "spice_use_frac_of_margin": -1.136185203824861,
+          "first_order_use_frac_of_allowed": 6.415627824513424,
+          "spice_use_frac_of_allowed": -2.272370407649722,
+          "diff_frac_of_margin": 4.343999116081573,
+          "sign_disagrees": true,
+          "meets_spec": true,
+          "value_now": 30.6115
+        },
+        "gain_db@ss_v1_t85": {
+          "spice_use_frac_of_margin": 0.41326133236408963,
+          "first_order_use_frac_of_allowed": 0.8837280250485061,
+          "spice_use_frac_of_allowed": 0.8265226647281793,
+          "diff_frac_of_margin": 0.028602680160163475,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.13
+        },
+        "gain_db@tt_v1_t27": {
+          "spice_use_frac_of_margin": 0.5430170889805531,
+          "first_order_use_frac_of_allowed": 1.0000000000000064,
+          "spice_use_frac_of_allowed": 1.0860341779611062,
+          "diff_frac_of_margin": 0.04301708898054992,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.7755
+        },
+        "gbw_mhz@ss_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.1234528232877226,
+          "first_order_use_frac_of_allowed": 1.319191718283869,
+          "spice_use_frac_of_allowed": 0.2469056465754452,
+          "diff_frac_of_margin": 0.536143035854212,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 45.6433
+        },
+        "gbw_mhz@tt_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.15520161937921786,
+          "first_order_use_frac_of_allowed": 1.2240128509335815,
+          "spice_use_frac_of_allowed": 0.31040323875843573,
+          "diff_frac_of_margin": 0.4568048060875729,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 47.8786
         }
       }
     }

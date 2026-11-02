@@ -1,5 +1,5 @@
 {
-  "run_id": "2026-11-02T13:16:56-77f532d3",
+  "run_id": "2026-11-02T15:00:22-f568fb74",
   "eta": 0.5,
   "design": "example_ota_5t",
   "budget_corners": "nominal",
@@ -833,7 +833,9 @@
           "spice_worst_use_of_allowed": 1.8355478331970565,
           "spice_specs_violated": [],
           "spice_failed_runs": [],
-          "spice_checks": 9,
+          "spice_checks": 18,
+          "spice_worst_use_of_allowed_nominal": 1.8355478331970565,
+          "outcome_nominal": "unsafe",
           "outcome": "unsafe"
         },
         "equal": {
@@ -857,11 +859,15 @@
           "below_floor": [],
           "min_ratio_to_need": 0.9424292071468229,
           "geo_mean_ratio_to_need": 5.769788782818517,
-          "spice_worst_use_of_allowed": 0.7142015321154961,
-          "spice_specs_violated": [],
+          "spice_worst_use_of_allowed": 2.758409662808254,
+          "spice_specs_violated": [
+            "gbw_mhz@tt_v0.9_t27"
+          ],
           "spice_failed_runs": [],
-          "spice_checks": 9,
-          "outcome": "ok"
+          "spice_checks": 18,
+          "spice_worst_use_of_allowed_nominal": 0.7142015321154961,
+          "outcome_nominal": "ok",
+          "outcome": "unsafe"
         },
         "lp_sum": {
           "worst_use_of_allowed": 1.0,
@@ -887,7 +893,9 @@
           "spice_worst_use_of_allowed": 1.0850913376546854,
           "spice_specs_violated": [],
           "spice_failed_runs": [],
-          "spice_checks": 9,
+          "spice_checks": 18,
+          "spice_worst_use_of_allowed_nominal": 1.0850913376546854,
+          "outcome_nominal": "unsafe",
           "outcome": "unsafe"
         },
         "lp_floor": {
@@ -913,7 +921,9 @@
           "spice_worst_use_of_allowed": 0.25398609975470304,
           "spice_specs_violated": [],
           "spice_failed_runs": [],
-          "spice_checks": 9,
+          "spice_checks": 18,
+          "spice_worst_use_of_allowed_nominal": 0.25398609975470304,
+          "outcome_nominal": "ok",
           "outcome": "ok"
         },
         "lp_floor_k": {
@@ -941,7 +951,9 @@
           "spice_worst_use_of_allowed": 1.0850913376546854,
           "spice_specs_violated": [],
           "spice_failed_runs": [],
-          "spice_checks": 9,
+          "spice_checks": 18,
+          "spice_worst_use_of_allowed_nominal": 1.0850913376546854,
+          "outcome_nominal": "unsafe",
           "outcome": "unsafe"
         },
         "ours": {
@@ -966,17 +978,177 @@
           "spice_worst_use_of_allowed": 1.0860341779611062,
           "spice_specs_violated": [],
           "spice_failed_runs": [],
-          "spice_checks": 9,
+          "spice_checks": 18,
+          "spice_worst_use_of_allowed_nominal": 1.0860341779611062,
+          "outcome_nominal": "unsafe",
           "outcome": "unsafe"
         }
-      }
+      },
+      "pvt_checks_simulated": [
+        "gain_db@fs_v0.9_t-40",
+        "gain_db@ss_v1_t85",
+        "gain_db@tt_v1_t27",
+        "gbw_mhz@ss_v0.9_t27",
+        "gbw_mhz@ss_v0.9_t85",
+        "gbw_mhz@tt_v0.9_t-40",
+        "gbw_mhz@tt_v0.9_t27",
+        "pm_deg@sf_v1.1_t-40",
+        "pm_deg@sf_v1.1_t27"
+      ],
+      "pvt_pool": "G2.9's PVT points (budget_corners: nominal): simulated and scored, not budgeted",
+      "note": "outcome: every simulated check, the nominal ones and each rule's 5 most-used PVT points (one common set, as in plan v2); outcome_nominal: the nominal checks only"
     },
     "G2.10_model_agreement (info)": {
       "pass": null,
       "flag_diff_frac_of_margin": 0.25,
       "flag_note": "ASSUMPTION (plan v3 Phase A step 9): a difference above 0.25 of the margin, or a sign disagreement, lists the check for review; reported, not gated",
-      "checks_compared": 72,
-      "flagged": [],
+      "checks_compared": 126,
+      "flagged": [
+        {
+          "source": "G2.8 per_net",
+          "check": "gain_db@fs_v0.9_t-40",
+          "first_order_use_frac_of_allowed": 1.8852644196932289,
+          "spice_use_frac_of_allowed": 1.2424221211060549,
+          "diff_frac_of_margin": 0.321421149293587,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 per_net",
+          "check": "gbw_mhz@ss_v0.9_t85",
+          "first_order_use_frac_of_allowed": 2.12099804919107,
+          "spice_use_frac_of_allowed": 0.6686705503545574,
+          "diff_frac_of_margin": 0.7261637494182563,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 per_net",
+          "check": "gbw_mhz@tt_v0.9_t27",
+          "first_order_use_frac_of_allowed": 7.722036145343174,
+          "spice_use_frac_of_allowed": 0.7823251132360345,
+          "diff_frac_of_margin": 3.4698555160535696,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 per_net",
+          "check": "gbw_mhz@ss_v0.9_t27",
+          "first_order_use_frac_of_allowed": 1.6885666733229898,
+          "spice_use_frac_of_allowed": 0.7142393240106785,
+          "diff_frac_of_margin": 0.4871636746561557,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 per_net",
+          "check": "gbw_mhz@tt_v0.9_t-40",
+          "first_order_use_frac_of_allowed": 1.5916205796168112,
+          "spice_use_frac_of_allowed": 0.7670475722947976,
+          "diff_frac_of_margin": 0.41228650366100683,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 lp_sum",
+          "check": "gbw_mhz@ss_v0.9_t85",
+          "first_order_use_frac_of_allowed": 1.9151741390212726,
+          "spice_use_frac_of_allowed": 0.26780695713674185,
+          "diff_frac_of_margin": 0.8236835909422654,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 lp_sum",
+          "check": "gbw_mhz@tt_v0.9_t27",
+          "first_order_use_frac_of_allowed": 6.951937894082253,
+          "spice_use_frac_of_allowed": -1.6460191243080018,
+          "diff_frac_of_margin": 4.298978509195127,
+          "sign_disagrees": true
+        },
+        {
+          "source": "G2.8 lp_sum",
+          "check": "gbw_mhz@ss_v0.9_t27",
+          "first_order_use_frac_of_allowed": 1.525377878906806,
+          "spice_use_frac_of_allowed": 0.4141460063100538,
+          "diff_frac_of_margin": 0.555615936298376,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 lp_sum",
+          "check": "gbw_mhz@tt_v0.9_t-40",
+          "first_order_use_frac_of_allowed": 1.4336449573998953,
+          "spice_use_frac_of_allowed": 0.47144419899213036,
+          "diff_frac_of_margin": 0.48110037920388243,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 lp_floor",
+          "check": "gbw_mhz@tt_v0.9_t27",
+          "first_order_use_frac_of_allowed": 0.7989654285672033,
+          "spice_use_frac_of_allowed": 0.05974836436839548,
+          "diff_frac_of_margin": 0.3696085320994039,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 lp_floor_k",
+          "check": "gbw_mhz@ss_v0.9_t85",
+          "first_order_use_frac_of_allowed": 1.9151741390212726,
+          "spice_use_frac_of_allowed": 0.26780695713674185,
+          "diff_frac_of_margin": 0.8236835909422654,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 lp_floor_k",
+          "check": "gbw_mhz@tt_v0.9_t27",
+          "first_order_use_frac_of_allowed": 6.951937894082253,
+          "spice_use_frac_of_allowed": -1.6460191243080018,
+          "diff_frac_of_margin": 4.298978509195127,
+          "sign_disagrees": true
+        },
+        {
+          "source": "G2.8 lp_floor_k",
+          "check": "gbw_mhz@ss_v0.9_t27",
+          "first_order_use_frac_of_allowed": 1.525377878906806,
+          "spice_use_frac_of_allowed": 0.4141460063100538,
+          "diff_frac_of_margin": 0.555615936298376,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 lp_floor_k",
+          "check": "gbw_mhz@tt_v0.9_t-40",
+          "first_order_use_frac_of_allowed": 1.4336449573998953,
+          "spice_use_frac_of_allowed": 0.47144419899213036,
+          "diff_frac_of_margin": 0.48110037920388243,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 ours",
+          "check": "gbw_mhz@ss_v0.9_t85",
+          "first_order_use_frac_of_allowed": 1.691702592169762,
+          "spice_use_frac_of_allowed": 0.07052057548065255,
+          "diff_frac_of_margin": 0.8105910083445547,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 ours",
+          "check": "gbw_mhz@tt_v0.9_t27",
+          "first_order_use_frac_of_allowed": 6.415627824513424,
+          "spice_use_frac_of_allowed": -2.272370407649722,
+          "diff_frac_of_margin": 4.343999116081573,
+          "sign_disagrees": true
+        },
+        {
+          "source": "G2.8 ours",
+          "check": "gbw_mhz@ss_v0.9_t27",
+          "first_order_use_frac_of_allowed": 1.319191718283869,
+          "spice_use_frac_of_allowed": 0.2469056465754452,
+          "diff_frac_of_margin": 0.536143035854212,
+          "sign_disagrees": false
+        },
+        {
+          "source": "G2.8 ours",
+          "check": "gbw_mhz@tt_v0.9_t-40",
+          "first_order_use_frac_of_allowed": 1.2240128509335815,
+          "spice_use_frac_of_allowed": 0.31040323875843573,
+          "diff_frac_of_margin": 0.4568048060875729,
+          "sign_disagrees": false
+        }
+      ],
       "pvt_worst_points": {
         "pm_deg": {
           "point": "sf_v1.1_t-40",
@@ -1048,8 +1220,8 @@
   },
   "all_pass": true,
   "provenance": {
-    "created": "2026-11-02T12:22:58+00:00",
-    "git_commit": "2a9897c0eadf786596f881834a688e02acb35379",
+    "created": "2026-11-02T14:17:26+00:00",
+    "git_commit": "14e97f7e267de97014ce01f4bba8891167ad14af",
     "inputs": [
       {
         "path": "outputs/S0/example_ota_5t/circuit_ir.json",

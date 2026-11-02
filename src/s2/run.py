@@ -538,6 +538,16 @@ def model_agreement(sources: dict, nominal_rows: list, pvt: dict | None, flag: f
     return out
 
 
+def top_corner_checks(pool: list, sets: list, binding: set, n: int = 5, cap: int = 15) -> list:
+    """Every corner constraint of the pool that bound the allocation, plus the n most used (first order, relative to
+    their allowed use) by any budget set; ties go to the smaller margin (review item 10)."""
+    score_ = {c["id"]: (round(max(sum(c["a"].get(k, 0.0) * v for k, v in xx.items()) / c["b"] for xx in sets), 6),
+                        -c["margin"]) for c in pool}
+    top = sorted(score_, key=score_.get, reverse=True)
+    pick = [k for k in top if k in binding][:cap - n] + [k for k in top if k not in binding][:n]
+    return [c for c in pool if c["id"] in pick]
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("package")
@@ -719,18 +729,13 @@ def main(argv=None) -> int:
         return "noise" if cid == "vnoise_nv_rthz" else ("op" if cid.startswith("sat_") else "ac")
 
     nom_cons = [c for c in constraints if "@" not in c["id"]]
+    corner_cons = [c for c in constraints if "@" in c["id"]]     # budgeted corners (budget_corners: all)
+    # G2.8's corner pool: the budgeted corners, or with budget_corners: nominal G2.9's PVT constraints, so that every
+    # rule is still SPICE-checked at its own most-used PVT points, reported and not gated (Imasha, 2026-11-02, after
+    # review D 1). G2.5 keeps the budgeted corners only: its closure acts on every check it runs.
+    g28_pool = corner_cons or (pvt_info["constraints"] if pvt_info is not None and budget_corners == "nominal" else [])
 
     binding_corners = {cid for r_ in alloc["rounds"] for cid in r_["binding"] if "@" in cid}
-
-    def top_corner_checks(sets: list, n: int = 5, cap: int = 15) -> list:
-        """every corner constraint that bound the allocation, plus the n most used (first order, relative to
-        their allowed use) by any budget set; ties go to the smaller margin (review item 10)"""
-        cc = [c for c in constraints if "@" in c["id"]]
-        score_ = {c["id"]: (round(max(sum(c["a"].get(k, 0.0) * v for k, v in xx.items()) / c["b"] for xx in sets), 6),
-                            -c["margin"]) for c in cc}
-        top = sorted(score_, key=score_.get, reverse=True)
-        pick = [k for k in top if k in binding_corners][:cap - n] + [k for k in top if k not in binding_corners][:n]
-        return [c for c in cc if c["id"] in pick]
 
     def corner_use(c, m):
         """SPICE margin use of a corner check: its spec at the point, vs the point's own pre-layout value"""
@@ -791,7 +796,7 @@ def main(argv=None) -> int:
         base = run_scenarios(s0, ir, {"base_ac": ("ac", [], []), "base_noise": ("noise", [], []),
                                       "base_op": ("op", [], [])}, out / "work" / "verify" / "base", a.workers)
         for it in range(CLOSURE_ITERS + 1):
-            checks = nom_cons + top_corner_checks([xv])
+            checks = nom_cons + top_corner_checks(corner_cons, [xv], binding_corners)
             rows = spice_checks(checks, xv, f"verify/iter{it}")
             over = {r_["check"]: r_["allowed_eta_margin"] / r_["spice_use"] for r_ in rows
                     if r_["spice_use"] is not None and r_["spice_use"] > r_["allowed_eta_margin"] * (1 + TOL_USE)
@@ -827,7 +832,7 @@ def main(argv=None) -> int:
             # each method's own most-used corners (plus the corners that bound ours), one common set for all
             cb_ids, checks_b = set(), list(nom_cons)
             for v_ in bl.values():
-                for c_ in top_corner_checks([v_["budgets"]]):
+                for c_ in top_corner_checks(g28_pool, [v_["budgets"]], binding_corners):
                     if c_["id"] not in cb_ids:
                         cb_ids.add(c_["id"])
                         checks_b.append(c_)
@@ -845,12 +850,28 @@ def main(argv=None) -> int:
                                                              if r_["value_now"] is not None and not r_["meets_spec"])
                 v_["score"]["spice_failed_runs"] = sorted(k for k, r_ in v_["spice"].items() if r_["value_now"] is None)
                 v_["score"]["spice_checks"] = len(v_["spice"])
+                # the same word from the nominal checks alone, next to the one over every simulated check
+                nom_ = {k: r_ for k, r_ in v_["spice"].items() if "@" not in k}
+                frn = [r_["spice_use_frac_of_allowed"] for r_ in nom_.values() if r_["spice_use_frac_of_allowed"] is not None]
+                v_["score"]["spice_worst_use_of_allowed_nominal"] = max(frn) if frn else None
+                v_["score"]["outcome_nominal"] = BL.outcome({
+                    "spice_worst_use_of_allowed": v_["score"]["spice_worst_use_of_allowed_nominal"],
+                    "worst_use_of_allowed": v_["score"].get("worst_use_of_allowed"),
+                    "spice_specs_violated": [k for k, r_ in nom_.items() if r_["value_now"] is not None and not r_["meets_spec"]],
+                    "spice_failed_runs": [k for k, r_ in nom_.items() if r_["value_now"] is None],
+                    "below_floor": v_["score"].get("below_floor")})
             for v_ in bl.values():
                 v_["score"]["outcome"] = BL.outcome(v_["score"])
         put("baselines.json", {"design": design, "eta": eta, "alloc": a.alloc,
                                             "methods": bl, "note": BL.__doc__})
-        gates["G2.8_baselines (info)"] = {"pass": None, "eta": eta,
-                                         "scores": {m_: v_["score"] for m_, v_ in bl.items()}}
+        gates["G2.8_baselines (info)"] = {
+            "pass": None, "eta": eta, "scores": {m_: v_["score"] for m_, v_ in bl.items()},
+            "pvt_checks_simulated": [] if a.no_spice else sorted(cb_ids),
+            "pvt_pool": ("budgeted PVT corners" if corner_cons else
+                         "G2.9's PVT points (budget_corners: nominal): simulated and scored, not budgeted" if g28_pool
+                         else "none"),
+            "note": "outcome: every simulated check, the nominal ones and each rule's 5 most-used PVT points (one "
+                    "common set, as in plan v2); outcome_nominal: the nominal checks only"}
     # eta sweep (first order): eta as a model-error reserve, 0.3 .. 1.0
     sweep = {}
     for et in (0.3, 0.5, 0.7, 0.9, 1.0):

@@ -573,3 +573,23 @@ def test_budget_at_its_floor_or_need_is_not_below_it():
     below = BL.score({"a": 20.3872 * (1 - 1e-5), "b": 1.0 * (1 - 1e-5)}, EL, CO, fl)
     assert below["below_floor"] == ["a"] and below["starved"] == ["a", "b"] and BL.outcome(below) == "infeasible"
     assert 1e-9 < BL.AT_BOUND_TOL <= 1e-6
+
+
+# ------------------------------------------------------------------ after review D 1: G2.8 checks PVT points again
+def test_top_corner_checks_picks_each_sets_most_used_points():
+    from src.s2 import run as S2
+    pool = [{"id": f"gbw_mhz@p{i}", "b": 1.0, "margin": 2.0 + i, "a": {"e": float(i)}} for i in range(8)]
+    pick = S2.top_corner_checks(pool, [{"e": 1.0}], set(), n=3)
+    assert [c["id"] for c in pick] == ["gbw_mhz@p5", "gbw_mhz@p6", "gbw_mhz@p7"]     # the 3 most used, first order
+    pick_b = S2.top_corner_checks(pool, [{"e": 1.0}], {"gbw_mhz@p0"}, n=2)
+    assert {c["id"] for c in pick_b} == {"gbw_mhz@p0", "gbw_mhz@p6", "gbw_mhz@p7"}  # binding corners always kept
+    assert S2.top_corner_checks([], [{"e": 1.0}], set()) == []
+
+
+def test_g25_keeps_budgeted_corners_and_g28_uses_the_pvt_pool():
+    """G2.5's closure acts on every check it runs, so it may only see budgeted corners; G2.8 is scored at G2.9's PVT
+    points as well when budgets are nominal (Imasha, 2026-11-02, after review D 1)."""
+    t = (REPO / "src" / "s2" / "run.py").read_text()
+    assert "checks = nom_cons + top_corner_checks(corner_cons, [xv], binding_corners)" in t
+    assert "top_corner_checks(g28_pool, [v_[\"budgets\"]], binding_corners)" in t
+    assert 'pvt_info["constraints"] if pvt_info is not None and budget_corners == "nominal"' in t
