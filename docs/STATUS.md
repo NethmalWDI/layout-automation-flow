@@ -2,8 +2,11 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-02 16:10 CET, by Claude Code. **Plan v3 Phase A is complete and committed**
-(`docs/plan_v3_phaseA.md`).
+**Last updated:** 2026-11-02 18:15 CET, by Claude Code. **Now: the supervisor-review finalisation, on branch
+`s0-s3-review`** (Imasha's plan of 2026-11-02 evening: S0–S3 without errors on the 5T and LOADBench, and the
+output of every step shown). The phases and progress are under *Supervisor review (s0-s3-review)* below.
+
+**Plan v3 Phase A is complete and committed** (`docs/plan_v3_phaseA.md`, tag `phaseA-v3a`).
 - Steps 0–13 and the sky130A environment change are committed. The environment change is commit `70279125`, named
   "step_9"; step 9 is `fb1b9adf`; step 12 is `14e97f7e`.
 - Step 13 (documentation, independent review D) and the G2.8 follow-up are `67b3b83d`. In the follow-up, G2.8
@@ -45,6 +48,8 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- Review phase 1: `loadbench_miller --stage S0` ran 18:13–18:24 (`runs/logs/review_p1_lb_S0.log`). G0.7 fails on
+  N3 only again, the known PDK finding.
 - After review D 1 (Imasha: re-add PVT checks to G2.8): `example_ota_5t --from S2` 15:01–15:19 (S2 PASS, S3 PASS) and
   `loadbench_miller --from S2` 15:19–15:35 (S2 PASS, S3 FAIL G3.5 as before); logs `runs/logs/phaseA_reviewD_*_S2S3.log`.
 - Phase A step 12, after Imasha's answer (a): `loadbench_miller --from S2` ran 13:48–13:55, S2 PASS and S3 FAIL G3.5
@@ -126,10 +131,53 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
+| Claude Code | Supervisor review on branch `s0-s3-review`: `scripts/env.sh`, `src/flow.py`, `src/common/`, `scripts/`, `tests/`, `docs/` (README, STATUS, progress log, flow record section 7 draft, the new walkthrough), `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `outputs/compare/`, `tests/golden/` | 2026-11-02 18:15 CET |
 | Claude Code | Plan v3 Phase A: `src/`, `scripts/benchlib.py`, `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`, `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`; plus the doc updates the plan's steps ask for (README, progress log, flow record section 7 draft) | **released 2026-11-02 14:50 CET**: Phase A done (steps 0–13). Held since 2026-11-01 16:10, paused overnight 22:05, resumed 2026-11-02 12:12 |
 | Cowork | **released 2026-11-01**: Phase A plan written (`docs/plan_v3_phaseA.md`; `docs/HANDOFF.md` rewritten; this file; progress log). No code or outputs changed. **Next: Claude Code claims Phase A at its step 0** | 2026-11-01 |
 | Cowork (earlier) | **released 2026-10-27 17:15 CET**: Plan v3 review pack done (`docs/plan_v3_review_pack.md`, `docs/plan_v3/`, flow record 7.12 and rows 46–50, project doc 14). Earlier: the documentation pass (released 14:20). No runs, no flow code changed | 2026-10-27 |
 | Claude Code | **released 2026-10-27 13:35 CET**: the runs are finished; the write-up goes to Cowork (Imasha's decision) | 2026-10-27 |
+
+## Supervisor review (s0-s3-review), from 2026-11-02 evening
+
+**Goal** (Imasha, for the supervisor inspection on 2026-11-03): S0–S3 run on `example_ota_5t` and `loadbench_miller`
+with no ERROR, and the output of every step is shown. Work happens on branch `s0-s3-review` (from `fd8d7118`;
+Phase A is tagged `phaseA-v3a`), and Imasha commits after each phase. Before the meeting she merges the branch into
+`main`, which has not moved since the branch point, so the merge is a fast-forward.
+
+**Decisions** (Imasha, 2026-11-02, the recommended answers):
+- the branch is `s0-s3-review`;
+- LOADBench's FAIL gates are presented as explained findings, with no rule change;
+- the walkthrough is Markdown plus HTML in the repo;
+- the only optional follow-ups are the `USER` quirk and an Errno 22 retry.
+
+| Phase | Work | State |
+|---|---|---|
+| 0 | Branch `s0-s3-review`, tag `phaseA-v3a` (Imasha) | **done** |
+| 1 | Fix the `env.sh` regression (DRC/LVS scripts stopped under `set -u`); re-run LOADBench S0; refresh its golden | **done**, waiting for Imasha's commit |
+| 2 | Robustness: the login-shell `USER` quirk; a retry on Errno 22 writes | pending |
+| 3 | Clean full runs from S0 of both designs; snapshot `review`; goldens; tests | pending |
+| 4 | `docs/s0_s3_walkthrough.md` + HTML, generated from the outputs | pending |
+| 5 | README "For reviewers", flow record 7.14, STATUS, log, `CLAUDE.md` test line | pending |
+| 6 | Rehearsal from PowerShell; commit, merge into `main`, push (Imasha) | pending |
+
+Phase 1 record (flow record row 62):
+- **The regression.** My sky130A change (`70279125`, row 57) made `scripts/env.sh` source the image's
+  `sak-pdk-script.sh`. That script reads unset variables (line 100: `KLAYOUT_PYTHONPATH`). `magic_drc.sh` and
+  `magic_lvs.sh` run with `set -uo pipefail` and source `env.sh`, so they exited (rc 127) before Magic ran.
+  - Effect: LOADBench's S0 re-run in step 12 recorded G0.7 with no DRC/LVS result for all 9 devices (`errors:
+    None`). Before, N3 alone failed, with 6 real DRC errors.
+  - I reported that G0.7 failure in step 12 as "the known one" without opening the per-device detail.
+  - S3 built no new cell after `70279125`, so its results were not affected; the 5T's S0 dated from before.
+- **The fix.** `env.sh` switches nounset off around the image's script and restores it. Two tests in
+  `tests/test_phaseA.py`: `env.sh` under `set -u` (nounset kept), and a real Magic DRC through `pcell.drc` on a
+  committed 5T PCell (0 errors, negative control caught).
+- **Re-run of LOADBench S0**, 18:13–18:24:
+  - G0.7: N3 fails (6 DRC errors, met1.6 at the PDK cell's gate pad, the known PDK finding); the other 8 devices
+    pass DRC and LVS with both negative controls, identical to step 5's run.
+  - The circuit IR and `pvt.json` are unchanged apart from provenance, so S1–S3 need no re-run.
+  - The LOADBench S0 golden came out identical to the committed one (it records G0.7 as a gate verdict only).
+- **Tests:** 130 passed; golden 20 of 20 OK.
+- **Records:** flow record row 62, merged.
 
 ## Plan v3 Phase A (decided 2026-11-01): next work, for Claude Code
 

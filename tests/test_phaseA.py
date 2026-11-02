@@ -593,3 +593,25 @@ def test_g25_keeps_budgeted_corners_and_g28_uses_the_pvt_pool():
     assert "checks = nom_cons + top_corner_checks(corner_cons, [xv], binding_corners)" in t
     assert "top_corner_checks(g28_pool, [v_[\"budgets\"]], binding_corners)" in t
     assert 'pvt_info["constraints"] if pvt_info is not None and budget_corners == "nominal"' in t
+
+
+# ------------------------------------------------------------------ review branch: env.sh under `set -u` (row 62)
+def test_env_sh_works_for_callers_with_nounset():
+    """magic_drc.sh and magic_lvs.sh run with `set -uo pipefail` and source env.sh; the image's sak-pdk script reads
+    unset variables, which stopped them before Magic ran (S0 G0.7 then had no DRC/LVS result for any device)."""
+    import shutil
+    import subprocess
+    if not shutil.which("bash") or not (Path("/foss/tools/sak/sak-pdk-script.sh")).exists():
+        pytest.skip("needs the layout-s0s3 container")
+    r = subprocess.run(["bash", "-c", f"set -uo pipefail; . {REPO}/scripts/env.sh; echo PDK=$PDK; "
+                                      "case $- in *u*) echo NOUNSET_KEPT;; esac"], capture_output=True, text=True)
+    assert r.returncode == 0 and "PDK=sky130A" in r.stdout and "NOUNSET_KEPT" in r.stdout, r.stderr
+
+
+def test_magic_drc_script_runs_on_a_committed_pcell(tmp_path):
+    import shutil
+    from src.common import pcell
+    if not shutil.which("magic", path="/foss/tools/bin:/usr/bin"):
+        pytest.skip("needs Magic (layout-s0s3 container)")
+    r = pcell.drc(REPO / "outputs/S0/example_ota_5t/pcell/XM1.gds", "XM1", tmp_path / "drc")
+    assert r["errors"] == 0 and r["neg_control_flagged"] and r["pass"], r   # Magic ran, and its control was caught

@@ -962,3 +962,19 @@ running with no job.
   - **LOADBench:** every rule "unsafe" with the PVT points. Ours is 75.8 × at gain sf, 0.9 V, −40 C, where first
     order says 78.7; ours and `lp_floor_k` are "ok" at the nominal corner only.
   - 7.13, row 60, review D's row and the README are updated. Tests: 128 passed.
+
+## 2026-11-02 (evening): supervisor-review finalisation, branch `s0-s3-review` (Claude Code)
+
+Goal (Imasha, for the supervisor inspection on 2026-11-03): S0–S3 on the 5T and LOADBench with no ERROR, and
+the output of every step shown. Branch `s0-s3-review` starts at `fd8d7118`, with Phase A tagged `phaseA-v3a`.
+
+- **Phase 1: an `env.sh` regression, found while planning (flow record row 62).**
+  - My sky130A change made `env.sh` source the image's `sak-pdk-script.sh`, which reads unset variables, so
+    `magic_drc.sh` and `magic_lvs.sh` (both `set -u`) exited before Magic ran.
+  - LOADBench's S0 in step 12 therefore had no DRC/LVS result for any device. I had reported that G0.7 FAIL as the
+    known one without checking the devices. S3 built no new cell meanwhile, and the 5T's S0 predates the change.
+  - Fix: `env.sh` turns nounset off around the image's script and restores it. Two new tests, including a real
+    Magic DRC.
+  - LOADBench's S0 was re-run (18:13–18:24): G0.7 again fails on N3 alone (the PDK finding); the IR and PVT are
+    unchanged.
+  - Tests: 130 passed; golden 20 of 20 OK.
