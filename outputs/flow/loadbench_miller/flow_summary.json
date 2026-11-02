@@ -7,23 +7,23 @@
     {
      "step": "ingest",
      "rc": 0,
-     "seconds": 19.0,
+     "seconds": 19.6,
      "log": "runs/logs/flow/loadbench_miller/S0_ingest.log"
     },
     {
      "step": "pcell_binding",
      "rc": 3,
-     "seconds": 90.7,
+     "seconds": 99.6,
      "log": "runs/logs/flow/loadbench_miller/S0_pcell_binding.log"
     },
     {
      "step": "pvt",
      "rc": 0,
-     "seconds": 549.3,
+     "seconds": 530.1,
      "log": "runs/logs/flow/loadbench_miller/S0_pvt.log"
     }
    ],
-   "started": "2026-11-02T18:13:16",
+   "started": "2026-11-02T19:44:43",
    "gates": {
     "G0.1_inventory": true,
     "G0.2_validation": true,
@@ -41,7 +41,7 @@
    "failed_gates": [
     "G0.7_pcell_binding_drc_lvs"
    ],
-   "seconds": 659.0
+   "seconds": 649.3
   },
   "S1": {
    "stage": "S1",
@@ -49,17 +49,17 @@
     {
      "step": "run",
      "rc": 3,
-     "seconds": 21.0,
+     "seconds": 17.7,
      "log": "runs/logs/flow/loadbench_miller/S1_run.log"
     },
     {
      "step": "symbolic_patch_miller",
      "rc": 0,
-     "seconds": 1.6,
+     "seconds": 1.5,
      "log": "runs/logs/flow/loadbench_miller/S1_symbolic_patch_miller.log"
     }
    ],
-   "started": "2026-11-02T13:33:49",
+   "started": "2026-11-02T19:55:33",
    "gates": {
     "G1.1_operating_point": true,
     "G1.2_linear_model_vs_spice": true,
@@ -72,7 +72,7 @@
    "failed_gates": [
     "G1.6_resistance_sensitivity_vs_spice"
    ],
-   "seconds": 22.6
+   "seconds": 19.2
   },
   "S2": {
    "stage": "S2",
@@ -80,17 +80,17 @@
     {
      "step": "cells",
      "rc": 0,
-     "seconds": 61.1,
+     "seconds": 13.2,
      "log": "runs/logs/flow/loadbench_miller/S2_cells.log"
     },
     {
      "step": "run",
      "rc": 0,
-     "seconds": 827.6,
+     "seconds": 462.4,
      "log": "runs/logs/flow/loadbench_miller/S2_run.log"
     }
    ],
-   "started": "2026-11-02T15:19:24",
+   "started": "2026-11-02T19:55:52",
    "gates": {
     "G2.9_pvt_constraints (info)": null,
     "G2.0_expected_layout_use (info)": null,
@@ -106,7 +106,7 @@
    },
    "status": "PASS",
    "failed_gates": [],
-   "seconds": 891.6
+   "seconds": 475.7
   },
   "S3": {
    "stage": "S3",
@@ -114,11 +114,11 @@
     {
      "step": "run",
      "rc": 3,
-     "seconds": 41.0,
+     "seconds": 41.5,
      "log": "runs/logs/flow/loadbench_miller/S3_run.log"
     }
    ],
-   "started": "2026-11-02T15:34:16",
+   "started": "2026-11-02T20:03:47",
    "gates": {
     "G3.4_option_table_complete": true,
     "G3.7_modes (info)": null,
@@ -132,7 +132,7 @@
    "failed_gates": [
     "G3.5_no_relaxation"
    ],
-   "seconds": 41.0
+   "seconds": 41.6
   }
  }
 }

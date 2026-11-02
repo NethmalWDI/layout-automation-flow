@@ -48,6 +48,10 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- Review phase 3's full runs from S0 have ended, with no ERROR.
+  - `example_ota_5t`: 19:15–19:45, S0–S3 all PASS (`runs/logs/review_p3_5t.log`).
+  - `loadbench_miller`: 19:45–20:04, S2 PASS; S0, S1 and S3 FAIL only on their known findings
+    (`runs/logs/review_p3_lb.log`).
 - Review phase 1: `loadbench_miller --stage S0` ran 18:13–18:24 (`runs/logs/review_p1_lb_S0.log`). G0.7 fails on
   N3 only again, the known PDK finding.
 - After review D 1 (Imasha: re-add PVT checks to G2.8): `example_ota_5t --from S2` 15:01–15:19 (S2 PASS, S3 PASS) and
@@ -154,11 +158,35 @@ Phase A is tagged `phaseA-v3a`), and Imasha commits after each phase. Before the
 |---|---|---|
 | 0 | Branch `s0-s3-review`, tag `phaseA-v3a` (Imasha) | **done** |
 | 1 | Fix the `env.sh` regression (DRC/LVS scripts stopped under `set -u`); re-run LOADBench S0; refresh its golden | **done**, committed `33e6277f` |
-| 2 | Robustness: the login-shell `USER` quirk; a retry on Errno 22 writes | **done**, waiting for Imasha's commit |
-| 3 | Clean full runs from S0 of both designs; snapshot `review`; goldens; tests | pending |
-| 4 | `docs/s0_s3_walkthrough.md` + HTML, generated from the outputs | pending |
+| 2 | Robustness: the login-shell `USER` quirk; a retry on Errno 22 writes | **done**, committed `bf67fd09` |
+| 3 | Clean full runs from S0 of both designs; snapshot `review`; goldens; tests | **done**, waiting for Imasha's commit |
+| 4 | `docs/s0_s3_walkthrough.md` + HTML, generated from the outputs | pending (generator drafted in `runs/tmp/`) |
 | 5 | README "For reviewers", flow record 7.14, STATUS, log, `CLAUDE.md` test line | pending |
 | 6 | Rehearsal from PowerShell; commit, merge into `main`, push (Imasha) | pending |
+
+Phase 3 record (2026-11-02 evening, final code `bf67fd09`, started from a login shell + `env.sh`, PC kept awake):
+
+| Design | S0 | S1 | S2 | S3 | Run time |
+|---|---|---|---|---|---|
+| example_ota_5t | PASS | PASS | PASS | PASS | 30 min (S0 19.9, of which PVT + Monte Carlo 19.5; S2 8.2) |
+| loadbench_miller | FAIL (G0.7) | FAIL (G1.6) | PASS | FAIL (G3.5) | 19 min (S0 10.8, S2 7.9) |
+
+- **No ERROR anywhere.** LOADBench's FAILs are its three known findings:
+  - G0.7: N3 only, 6 DRC errors (the PDK cell at its netlist size); 8 of 9 devices pass;
+  - G1.6: 1 of 54 resistance checks (P5's source, a bias shift);
+  - G3.5: 3 relaxed device types.
+- The 5T's G0.7 passes on all 5 devices with both negative controls: DRC and LVS really run under the fixed
+  `env.sh` (it was the 5T's first S0 since October).
+- **Snapshots `review`** for both designs; the identity check passed. Against `after_v3a`
+  (`outputs/review/<design>_after_v3a_vs_review.json`) both runs are identical:
+  - the budgets (SPICE verification change 0);
+  - the six budget rules' verdicts, SPICE uses and violated specs;
+  - S3's cells, area and final specs (5T 200.8 µm², PM 79.95°; LOADBench 2079 µm², PM 65.17°).
+
+  So a run from scratch with the final code reproduces Phase A's results.
+- **Tests:** `.\flow.ps1 test` from PowerShell: 132 passed, golden 20 of 20 OK. The goldens still match, so no
+  refresh is needed.
+- **Prepared for phase 4, not committed:** the walkthrough generator, drafted and tried in `runs/tmp/` (git-ignored).
 
 Phase 2 record (flow record rows 55 and 61; no run):
 - **`USER` quirk.** `scripts/env.sh` keeps the part of `USER` after a newline: the image's login profile sets it

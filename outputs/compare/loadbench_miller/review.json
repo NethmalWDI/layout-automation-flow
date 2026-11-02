@@ -1,0 +1,931 @@
+{
+ "design": "loadbench_miller",
+ "tag": "review",
+ "S0": {
+  "gates": {
+   "G0.1_inventory": true,
+   "G0.2_validation": true,
+   "G0.3_hash_freeze": true,
+   "G0.4_name_map": true,
+   "G0.11_designer_groups (info)": null,
+   "G0.5_round_trip_lvs": true,
+   "G0.6_testbench_reproduction": true,
+   "G0.8_external_reference": true,
+   "G0.7_pcell_binding_drc_lvs": false,
+   "G0.9_pvt (info)": null,
+   "G0.10_mismatch_mc (info)": null
+  },
+  "failed": [
+   "G0.7_pcell_binding_drc_lvs"
+  ]
+ },
+ "S1": {
+  "gates": {
+   "G1.1_operating_point": true,
+   "G1.2_linear_model_vs_spice": true,
+   "G1.3_sensitivity_vs_spice": true,
+   "G1.4_matching_groups": true,
+   "G1.5_symbolic_vs_spice (reported, not gated)": null,
+   "G1.6_resistance_sensitivity_vs_spice": false
+  },
+  "failed": [
+   "G1.6_resistance_sensitivity_vs_spice"
+  ],
+  "linear_vs_spice": {
+   "gain_db": 0.01671634152032908,
+   "gbw_rel": 0.0035514190831940073,
+   "pm_deg": -0.028521559447213463
+  },
+  "symbolic_vs_spice": {
+   "gain_db": 0.05458773162137476,
+   "gbw_mhz": 6.688140090278072,
+   "pm_deg": 17.02267275437829
+  }
+ },
+ "S2": {
+  "gates": {
+   "G2.9_pvt_constraints (info)": null,
+   "G2.0_expected_layout_use (info)": null,
+   "G2.7_library_floors_feasible": true,
+   "G2.3_allocation": true,
+   "G2.5_spice_budget_verification": true,
+   "G2.8_baselines (info)": null,
+   "G2.10_model_agreement (info)": null,
+   "G2.4_linear_all_budgets_at_once": null,
+   "G2.6_hierarchy_sums": true,
+   "G2.1_names_resolve": true,
+   "G2.2_units_and_provenance": true
+  },
+  "failed": [],
+  "run_id": "2026-11-02T19:56:09-5a65c917",
+  "eta": 0.5,
+  "alloc": "v2",
+  "expected_use_fraction": {
+   "gain_db": 0.9991383635851795,
+   "gbw_mhz": 0.3399921466621188,
+   "pm_deg": 0.7928823297267972
+  },
+  "t_round1": 0.496787249123301,
+  "n_budgeted": 40,
+  "starved": 29,
+  "min_ratio_to_need": 0.49678724862651386,
+  "verify": {
+   "gain_db": 0.48799999999999955,
+   "gbw_mhz": 0.4910420318980626,
+   "pm_deg": 0.5034095391956115,
+   "sat_XDiodeTransistorNmos1": 0.002474702815599579,
+   "sat_XDiodeTransistorPmos2": 0.005310287535182491,
+   "sat_XNormalTransistorNmos3": 0.011153736021978299,
+   "sat_XNormalTransistorNmos4": 0.015693884615930666,
+   "sat_XNormalTransistorPmos5": 0.014430078201151888,
+   "sat_XNormalTransistorPmos6": 0.008586967122222242,
+   "sat_XNormalTransistorPmos7": 0.0013270244426439772,
+   "sat_XNormalTransistorPmos8": 0.03147458358066369
+  },
+  "floors": {
+   "pass": true,
+   "alloc": "v2",
+   "n_floors": 33,
+   "representative_option": {
+    "nfet_01v8_lvt_W66p13_L2p03_m1": {
+     "option": "nf4_gboth_sdhalf_outS",
+     "score_vs_default": 0.40825856158676843
+    },
+    "pfet_01v8_lvt_W37p3_L0p74_m1": {
+     "option": "nf4_gboth_sdfull_outS",
+     "score_vs_default": 0.726630592567027
+    },
+    "nfet_01v8_lvt_W484p2_L0p24_m1": {
+     "option": "nf8_gtop_sdhalf_outS",
+     "score_vs_default": 0.2687994842852916
+    },
+    "pfet_01v8_lvt_W887p03_L0p74_m1": {
+     "option": "nf8_gboth_sdhalf_outS",
+     "score_vs_default": 0.23809399219567473
+    },
+    "pfet_01v8_lvt_W14p21_L0p89_m1": {
+     "option": "nf2_gboth_sdfull_outS",
+     "score_vs_default": 0.9794586228351991
+    },
+    "pfet_01v8_lvt_W90p63_L0p74_m1": {
+     "option": "nf4_gboth_sdhalf_outS",
+     "score_vs_default": 0.4960035153381542
+    }
+   },
+   "floor_use_of_allowed": {
+    "gain_db": 0.04917655744538856,
+    "gbw_mhz": 0.3130692320654051,
+    "pm_deg": 0.2779190228444598,
+    "sat_XDiodeTransistorNmos1": 0.00046487435137357015,
+    "sat_XDiodeTransistorPmos2": 0.00044710889049523326,
+    "sat_XNormalTransistorNmos3": 0.0006026226494032766,
+    "sat_XNormalTransistorNmos4": 0.0008804175562392789,
+    "sat_XNormalTransistorPmos5": 0.0007826931710234339,
+    "sat_XNormalTransistorPmos6": 0.0010091911131489117,
+    "sat_XNormalTransistorPmos7": 0.0005959604731715216,
+    "sat_XNormalTransistorPmos8": 0.005288715826080113
+   },
+   "note": "the cheapest cell of the S3 unit library for every element, all at once, as a fraction of eta*margin; > 1 means no layout built from library cells can meet the budgets at this eta"
+  },
+  "baselines": {
+   "per_net": {
+    "worst_use_of_allowed": 5.773144756715311,
+    "use_of_allowed": {
+     "gain_db": 1.97257409751247,
+     "gbw_mhz": 4.8951551446492045,
+     "pm_deg": 5.773144756715311,
+     "sat_XDiodeTransistorNmos1": 0.022123474401428405,
+     "sat_XDiodeTransistorPmos2": 0.010619551318953376,
+     "sat_XNormalTransistorNmos3": 0.23005274441052634,
+     "sat_XNormalTransistorNmos4": 0.11825271544757843,
+     "sat_XNormalTransistorPmos5": 0.4357177502583529,
+     "sat_XNormalTransistorPmos6": 0.034949579681333165,
+     "sat_XNormalTransistorPmos7": 0.01876554695249716,
+     "sat_XNormalTransistorPmos8": 0.12386989855840193
+    },
+    "unsafe_checks": [
+     "gain_db",
+     "gbw_mhz",
+     "pm_deg"
+    ],
+    "n_elements": 40,
+    "starved": [
+     "XNormalTransistorNmos3.s"
+    ],
+    "below_floor": [],
+    "min_ratio_to_need": 0.5260335814887853,
+    "geo_mean_ratio_to_need": 8.46062111958202,
+    "spice_worst_use_of_allowed": 123.55714285711709,
+    "spice_specs_violated": [
+     "gain_db@ff_v1.1_t85",
+     "gain_db@ff_v1_t27",
+     "gain_db@sf_v0.9_t-40",
+     "gbw_mhz",
+     "gbw_mhz@ff_v0.9_t85",
+     "gbw_mhz@sf_v1_t27",
+     "gbw_mhz@sf_v1_t85",
+     "gbw_mhz@ss_v1_t85",
+     "pm_deg"
+    ],
+    "spice_failed_runs": [],
+    "spice_checks": 18,
+    "spice_worst_use_of_allowed_nominal": 6.772641030939452,
+    "outcome_nominal": "unsafe",
+    "outcome": "unsafe"
+   },
+   "equal": {
+    "worst_use_of_allowed": 0.5803740245606122,
+    "use_of_allowed": {
+     "gain_db": 0.15222265104779284,
+     "gbw_mhz": 0.5505402420507247,
+     "pm_deg": 0.5803740245606122,
+     "sat_XDiodeTransistorNmos1": 0.01168016595064164,
+     "sat_XDiodeTransistorPmos2": 0.010619551318953376,
+     "sat_XNormalTransistorNmos3": 0.020636312679077288,
+     "sat_XNormalTransistorNmos4": 0.020414441605878495,
+     "sat_XNormalTransistorPmos5": 0.10375886591010713,
+     "sat_XNormalTransistorPmos6": 0.013362067000083952,
+     "sat_XNormalTransistorPmos7": 0.014374196022797022,
+     "sat_XNormalTransistorPmos8": 0.08226650778067283
+    },
+    "unsafe_checks": [],
+    "n_elements": 40,
+    "starved": [
+     "FirstStageYout1",
+     "FirstStageYsourceTransconductance",
+     "XNormalTransistorNmos3.d",
+     "XNormalTransistorNmos3.g",
+     "XNormalTransistorNmos3.s",
+     "XNormalTransistorPmos5.s",
+     "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+     "XNormalTransistorPmos8.s",
+     "ibias~out",
+     "out",
+     "out~outFirstStage"
+    ],
+    "below_floor": [
+     "FirstStageYout1",
+     "FirstStageYsourceTransconductance",
+     "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+     "ibias~out",
+     "out",
+     "out~outFirstStage"
+    ],
+    "min_ratio_to_need": 0.02922408786048807,
+    "geo_mean_ratio_to_need": 2.6662219888249266,
+    "spice_worst_use_of_allowed": 6.3142857142849165,
+    "spice_specs_violated": [
+     "gain_db@sf_v0.9_t-40",
+     "gbw_mhz@ff_v0.9_t85",
+     "gbw_mhz@sf_v1_t85"
+    ],
+    "spice_failed_runs": [],
+    "spice_checks": 18,
+    "spice_worst_use_of_allowed_nominal": 0.5933161760562055,
+    "outcome_nominal": "infeasible",
+    "outcome": "unsafe + infeasible"
+   },
+   "lp_sum": {
+    "worst_use_of_allowed": 1.0000000000000002,
+    "use_of_allowed": {
+     "gain_db": 0.30608371653733984,
+     "gbw_mhz": 1.0,
+     "pm_deg": 1.0000000000000002,
+     "sat_XDiodeTransistorNmos1": 0.011647309573140072,
+     "sat_XDiodeTransistorPmos2": 0.010619551318953376,
+     "sat_XNormalTransistorNmos3": 0.0008985754475981356,
+     "sat_XNormalTransistorNmos4": 0.029836098361053547,
+     "sat_XNormalTransistorPmos5": 0.41294017232869884,
+     "sat_XNormalTransistorPmos6": 0.012158033009298947,
+     "sat_XNormalTransistorPmos7": 0.0169966801562363,
+     "sat_XNormalTransistorPmos8": 0.11827254876982811
+    },
+    "unsafe_checks": [],
+    "n_elements": 40,
+    "starved": [
+     "FirstStageYout1",
+     "FirstStageYout1~outFirstStage",
+     "FirstStageYsourceTransconductance",
+     "XNormalTransistorNmos3.d",
+     "XNormalTransistorNmos3.g",
+     "XNormalTransistorNmos3.s",
+     "XNormalTransistorPmos5.s",
+     "XNormalTransistorPmos8.s",
+     "ibias~out",
+     "out",
+     "out~outFirstStage"
+    ],
+    "below_floor": [
+     "FirstStageYout1",
+     "FirstStageYout1~outFirstStage",
+     "FirstStageYsourceTransconductance",
+     "XNormalTransistorNmos3.d",
+     "XNormalTransistorNmos3.g",
+     "XNormalTransistorNmos3.s",
+     "XNormalTransistorPmos5.s",
+     "XNormalTransistorPmos8.s",
+     "ibias~out",
+     "out",
+     "out~outFirstStage"
+    ],
+    "min_ratio_to_need": 0.0,
+    "geo_mean_ratio_to_need": 2.9247432720960516e-08,
+    "spice_worst_use_of_allowed": 1021.4593919200107,
+    "spice_specs_violated": [
+     "gain_db@ff_v1_t27",
+     "gbw_mhz@sf_v1_t85"
+    ],
+    "spice_failed_runs": [
+     "pm_deg"
+    ],
+    "spice_checks": 18,
+    "spice_worst_use_of_allowed_nominal": 0.4960020524222876,
+    "outcome_nominal": "infeasible (unverified: failed runs)",
+    "outcome": "unsafe + infeasible (unverified: failed runs)"
+   },
+   "lp_floor": {
+    "worst_use_of_allowed": 1.0000000001517635,
+    "use_of_allowed": {
+     "gain_db": 1.0000000001517635,
+     "gbw_mhz": 0.6168680464798846,
+     "pm_deg": 1.0,
+     "sat_XDiodeTransistorNmos1": 0.0025303172658301325,
+     "sat_XDiodeTransistorPmos2": 0.0010619551318953376,
+     "sat_XNormalTransistorNmos3": 0.0317233273031741,
+     "sat_XNormalTransistorNmos4": 0.019328434534859402,
+     "sat_XNormalTransistorPmos5": 0.045836237689507765,
+     "sat_XNormalTransistorPmos6": 0.014572620353213443,
+     "sat_XNormalTransistorPmos7": 0.0020244398414395346,
+     "sat_XNormalTransistorPmos8": 0.013496331939062384
+    },
+    "unsafe_checks": [],
+    "n_elements": 40,
+    "starved": [
+     "XNormalTransistorNmos3.s",
+     "XNormalTransistorPmos5.s"
+    ],
+    "below_floor": [],
+    "min_ratio_to_need": 0.30742145211687716,
+    "geo_mean_ratio_to_need": 0.9530326717020307,
+    "floors_applied": true,
+    "spice_worst_use_of_allowed": 75.58571428569859,
+    "spice_specs_violated": [
+     "gain_db@ff_v1.1_t85",
+     "gain_db@ff_v1_t27",
+     "gain_db@sf_v0.9_t-40",
+     "gbw_mhz@ff_v0.9_t85",
+     "gbw_mhz@sf_v1_t27",
+     "gbw_mhz@sf_v1_t85"
+    ],
+    "spice_failed_runs": [],
+    "spice_checks": 18,
+    "spice_worst_use_of_allowed_nominal": 1.0319914338849956,
+    "outcome_nominal": "unsafe",
+    "outcome": "unsafe"
+   },
+   "lp_floor_k": {
+    "worst_use_of_allowed": 1.0000000000000002,
+    "use_of_allowed": {
+     "gain_db": 0.2250613219747974,
+     "gbw_mhz": 1.0,
+     "pm_deg": 1.0000000000000002,
+     "sat_XDiodeTransistorNmos1": 0.011842814485314965,
+     "sat_XDiodeTransistorPmos2": 0.010619551318953376,
+     "sat_XNormalTransistorNmos3": 0.001466289431542739,
+     "sat_XNormalTransistorNmos4": 0.03043214774586673,
+     "sat_XNormalTransistorPmos5": 0.41306623581017304,
+     "sat_XNormalTransistorPmos6": 0.0126457937662478,
+     "sat_XNormalTransistorPmos7": 0.01700846283086129,
+     "sat_XNormalTransistorPmos8": 0.10780848972495356
+    },
+    "unsafe_checks": [],
+    "n_elements": 40,
+    "starved": [
+     "FirstStageYout1",
+     "FirstStageYout1~outFirstStage",
+     "FirstStageYsourceTransconductance",
+     "XNormalTransistorNmos3.d",
+     "XNormalTransistorNmos3.g",
+     "XNormalTransistorNmos3.s",
+     "XNormalTransistorPmos5.s",
+     "XNormalTransistorPmos8.s",
+     "ibias~out",
+     "out",
+     "outFirstStage~in2",
+     "out~outFirstStage"
+    ],
+    "below_floor": [],
+    "min_ratio_to_need": 0.005814320338864526,
+    "geo_mean_ratio_to_need": 2.753110558101733,
+    "floors_applied": true,
+    "spice_worst_use_of_allowed": 8.372111553784931,
+    "spice_specs_violated": [
+     "gain_db@ff_v1.1_t85",
+     "gain_db@sf_v0.9_t-40",
+     "gbw_mhz@ff_v0.9_t85",
+     "gbw_mhz@sf_v1_t27",
+     "gbw_mhz@sf_v1_t85",
+     "gbw_mhz@ss_v1_t85"
+    ],
+    "spice_failed_runs": [],
+    "spice_checks": 18,
+    "spice_worst_use_of_allowed_nominal": 1.0147840625176108,
+    "outcome_nominal": "ok",
+    "outcome": "unsafe"
+   },
+   "ours": {
+    "worst_use_of_allowed": 0.9999999999999998,
+    "use_of_allowed": {
+     "gain_db": 0.9999999990001095,
+     "gbw_mhz": 0.9999999999999939,
+     "pm_deg": 0.9999999999999998,
+     "sat_XDiodeTransistorNmos1": 0.0050619085083519685,
+     "sat_XDiodeTransistorPmos2": 0.010619551318915777,
+     "sat_XNormalTransistorNmos3": 0.021677426213810386,
+     "sat_XNormalTransistorNmos4": 0.03516447874690143,
+     "sat_XNormalTransistorPmos5": 0.03207977338987606,
+     "sat_XNormalTransistorPmos6": 0.01686507212675816,
+     "sat_XNormalTransistorPmos7": 0.002841054669143464,
+     "sat_XNormalTransistorPmos8": 0.06238410079570171
+    },
+    "unsafe_checks": [],
+    "n_elements": 40,
+    "starved": [
+     "FirstStageYout1",
+     "FirstStageYout1~ibias",
+     "FirstStageYout1~in1",
+     "FirstStageYout1~out",
+     "FirstStageYout1~outFirstStage",
+     "FirstStageYsourceTransconductance~in2",
+     "FirstStageYsourceTransconductance~out",
+     "FirstStageYsourceTransconductance~outFirstStage",
+     "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+     "XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
+     "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+     "XNormalTransistorNmos3.d",
+     "XNormalTransistorNmos3.g",
+     "XNormalTransistorNmos3.s",
+     "XNormalTransistorPmos5.d",
+     "XNormalTransistorPmos5.s",
+     "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+     "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+     "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+     "XNormalTransistorPmos8.g",
+     "ibias~out",
+     "ibias~outFirstStage",
+     "out",
+     "outFirstStage",
+     "outFirstStage~in1",
+     "outFirstStage~in2",
+     "out~in1",
+     "out~in2",
+     "out~outFirstStage"
+    ],
+    "below_floor": [],
+    "min_ratio_to_need": 0.49678724862651386,
+    "geo_mean_ratio_to_need": 1.1189490865069873,
+    "spice_worst_use_of_allowed": 75.82857142855562,
+    "spice_specs_violated": [
+     "gain_db@ff_v1.1_t85",
+     "gain_db@ff_v1_t27",
+     "gain_db@sf_v0.9_t-40",
+     "gbw_mhz@ff_v0.9_t85",
+     "gbw_mhz@sf_v1_t85",
+     "gbw_mhz@ss_v1_t85"
+    ],
+    "spice_failed_runs": [],
+    "spice_checks": 18,
+    "spice_worst_use_of_allowed_nominal": 1.006819078391223,
+    "outcome_nominal": "ok",
+    "outcome": "unsafe"
+   }
+  },
+  "pvt": {
+   "pass": null,
+   "budget_corners": "nominal",
+   "points": 45,
+   "constraints_added": 0,
+   "op_failed": [],
+   "use_of_allowed": {
+    "ff_v0.9_t-40": {
+     "gain_db": 2.86345578832131,
+     "gbw_mhz": 1.5240653294504996,
+     "pm_deg": 0.6155226494450329
+    },
+    "ff_v0.9_t27": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 2.011577561107974,
+     "pm_deg": 0.7827428317123196
+    },
+    "ff_v0.9_t85": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 4.678047468407051,
+     "pm_deg": 0.8897295347351133
+    },
+    "ff_v1.1_t-40": {
+     "gain_db": 1.3582594890516426,
+     "gbw_mhz": 0.40921775608635885,
+     "pm_deg": 1.0325800689528004
+    },
+    "ff_v1.1_t27": {
+     "gain_db": 2.1777277742355907,
+     "gbw_mhz": 0.595476547425171,
+     "pm_deg": 0.9569474722676578
+    },
+    "ff_v1.1_t85": {
+     "gain_db": 7.115009904006149,
+     "gbw_mhz": 0.8650803943302959,
+     "pm_deg": 0.9826128674489027
+    },
+    "ff_v1_t-40": {
+     "gain_db": 1.7801310698924588,
+     "gbw_mhz": 0.5452631868811036,
+     "pm_deg": 0.9645334587441624
+    },
+    "ff_v1_t27": {
+     "gain_db": 4.023160697332096,
+     "gbw_mhz": 0.8416937978396718,
+     "pm_deg": 0.9231492974084499
+    },
+    "ff_v1_t85": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 1.3546195825307248,
+     "pm_deg": 0.9643835942574006
+    },
+    "fs_v0.9_t-40": {
+     "gain_db": 1.1103538878562251,
+     "gbw_mhz": 0.8258733361395403,
+     "pm_deg": 0.7983710868594845
+    },
+    "fs_v0.9_t27": {
+     "gain_db": 1.4511115382538045,
+     "gbw_mhz": 1.3312784708010394,
+     "pm_deg": 0.8761034173386464
+    },
+    "fs_v0.9_t85": {
+     "gain_db": 2.432164172927209,
+     "gbw_mhz": 2.4376348014528277,
+     "pm_deg": 0.9520640276928654
+    },
+    "fs_v1.1_t-40": {
+     "gain_db": 0.8161442846174213,
+     "gbw_mhz": 0.39275820934088934,
+     "pm_deg": 1.0777978706348244
+    },
+    "fs_v1.1_t27": {
+     "gain_db": 0.910129065122405,
+     "gbw_mhz": 0.5710935209292443,
+     "pm_deg": 0.9924861560067252
+    },
+    "fs_v1.1_t85": {
+     "gain_db": 1.153496983234364,
+     "gbw_mhz": 0.8064288572308103,
+     "pm_deg": 1.0133170167833347
+    },
+    "fs_v1_t-40": {
+     "gain_db": 0.9261963784717435,
+     "gbw_mhz": 0.49477884642222336,
+     "pm_deg": 1.0297999691589421
+    },
+    "fs_v1_t27": {
+     "gain_db": 1.0879185856515858,
+     "gbw_mhz": 0.760874668171851,
+     "pm_deg": 0.9687005180772915
+    },
+    "fs_v1_t85": {
+     "gain_db": 1.4939393886474253,
+     "gbw_mhz": 1.1589649707448695,
+     "pm_deg": 1.0018455815898861
+    },
+    "sf_v0.9_t-40": {
+     "gain_db": 78.67612716279743,
+     "gbw_mhz": "spec not met before layout",
+     "pm_deg": 0.12261430156357986
+    },
+    "sf_v0.9_t27": {
+     "gain_db": 2.137329852663003,
+     "gbw_mhz": "spec not met before layout",
+     "pm_deg": 0.2697778382592307
+    },
+    "sf_v0.9_t85": {
+     "gain_db": 2.4335834289645284,
+     "gbw_mhz": "spec not met before layout",
+     "pm_deg": 0.4866686227850303
+    },
+    "sf_v1.1_t-40": {
+     "gain_db": 0.752034558916867,
+     "gbw_mhz": 0.6395845274653801,
+     "pm_deg": 1.0688074065503361
+    },
+    "sf_v1.1_t27": {
+     "gain_db": 0.861518177453479,
+     "gbw_mhz": 0.919272831271244,
+     "pm_deg": 1.0490875601710816
+    },
+    "sf_v1.1_t85": {
+     "gain_db": 1.0012306544353333,
+     "gbw_mhz": 1.4075723255416437,
+     "pm_deg": 1.1353135906810057
+    },
+    "sf_v1_t-40": {
+     "gain_db": 0.9189424956928806,
+     "gbw_mhz": "spec not met before layout",
+     "pm_deg": 0.5588952215258886
+    },
+    "sf_v1_t27": {
+     "gain_db": 1.0943628232738627,
+     "gbw_mhz": 3.743618974145268,
+     "pm_deg": 0.8326591053198064
+    },
+    "sf_v1_t85": {
+     "gain_db": 1.3474897111594364,
+     "gbw_mhz": 8.831154264378196,
+     "pm_deg": 1.0142772147102312
+    },
+    "ss_v0.9_t-40": {
+     "gain_db": 0.9513038251805103,
+     "gbw_mhz": "spec not met before layout",
+     "pm_deg": 0.18744573591519353
+    },
+    "ss_v0.9_t27": {
+     "gain_db": 0.7812041249380584,
+     "gbw_mhz": "spec not met before layout",
+     "pm_deg": 0.39215590963198804
+    },
+    "ss_v0.9_t85": {
+     "gain_db": 0.8001979653726188,
+     "gbw_mhz": "spec not met before layout",
+     "pm_deg": 0.6868424731631895
+    },
+    "ss_v1.1_t-40": {
+     "gain_db": 0.5535583130008904,
+     "gbw_mhz": 0.5152543563744426,
+     "pm_deg": 1.2381646327740075
+    },
+    "ss_v1.1_t27": {
+     "gain_db": 0.5575482032304078,
+     "gbw_mhz": 0.7457843707818335,
+     "pm_deg": 1.1685657008568102
+    },
+    "ss_v1.1_t85": {
+     "gain_db": 0.568114362174731,
+     "gbw_mhz": 1.1269736536511505,
+     "pm_deg": 1.247520588583214
+    },
+    "ss_v1_t-40": {
+     "gain_db": 0.6169001218128319,
+     "gbw_mhz": 1.1172297636861228,
+     "pm_deg": 0.8275771718678755
+    },
+    "ss_v1_t27": {
+     "gain_db": 0.6308701445095938,
+     "gbw_mhz": 1.4756524126464992,
+     "pm_deg": 1.0053575583269843
+    },
+    "ss_v1_t85": {
+     "gain_db": 0.6503671375952681,
+     "gbw_mhz": 2.688652214561921,
+     "pm_deg": 1.1542881635209792
+    },
+    "tt_v0.9_t-40": {
+     "gain_db": 1.0928705912970806,
+     "gbw_mhz": "spec not met before layout",
+     "pm_deg": 0.3589279120810253
+    },
+    "tt_v0.9_t27": {
+     "gain_db": 1.3640943829332093,
+     "gbw_mhz": "spec not met before layout",
+     "pm_deg": 0.6464284104450563
+    },
+    "tt_v0.9_t85": {
+     "gain_db": 1.8965571411303912,
+     "gbw_mhz": "spec not met before layout",
+     "pm_deg": 0.8808841155040293
+    },
+    "tt_v1.1_t-40": {
+     "gain_db": 0.7444457860495654,
+     "gbw_mhz": 0.444897991425381,
+     "pm_deg": 1.1557504693680838
+    },
+    "tt_v1.1_t27": {
+     "gain_db": 0.8274369981059904,
+     "gbw_mhz": 0.6461523908434433,
+     "pm_deg": 1.0716982168849074
+    },
+    "tt_v1.1_t85": {
+     "gain_db": 0.959370986297503,
+     "gbw_mhz": 0.960288198961683,
+     "pm_deg": 1.117584686378008
+    },
+    "tt_v1_t-40": {
+     "gain_db": 0.8572568511612321,
+     "gbw_mhz": 0.662196894616181,
+     "pm_deg": 0.9944306456333218
+    },
+    "tt_v1_t27": {
+     "gain_db": 0.9999999989999158,
+     "gbw_mhz": 1.0059049846897437,
+     "pm_deg": 1.000194693089445
+    },
+    "tt_v1_t85": {
+     "gain_db": 1.225714794127105,
+     "gbw_mhz": 1.7198388930766189,
+     "pm_deg": 1.0777775520328137
+    }
+   },
+   "worst": {
+    "point": "sf_v0.9_t-40",
+    "spec": "gain_db",
+    "use_of_allowed": 78.67612716279743
+   },
+   "over_allowed": [
+    "gain_db@ff_v0.9_t-40",
+    "gain_db@ff_v1.1_t-40",
+    "gain_db@ff_v1.1_t27",
+    "gain_db@ff_v1.1_t85",
+    "gain_db@ff_v1_t-40",
+    "gain_db@ff_v1_t27",
+    "gain_db@fs_v0.9_t-40",
+    "gain_db@fs_v0.9_t27",
+    "gain_db@fs_v0.9_t85",
+    "gain_db@fs_v1.1_t85",
+    "gain_db@fs_v1_t27",
+    "gain_db@fs_v1_t85",
+    "gain_db@sf_v0.9_t-40",
+    "gain_db@sf_v0.9_t27",
+    "gain_db@sf_v0.9_t85",
+    "gain_db@sf_v1.1_t85",
+    "gain_db@sf_v1_t27",
+    "gain_db@sf_v1_t85",
+    "gain_db@tt_v0.9_t-40",
+    "gain_db@tt_v0.9_t27",
+    "gain_db@tt_v0.9_t85",
+    "gain_db@tt_v1_t85",
+    "gbw_mhz@ff_v0.9_t-40",
+    "gbw_mhz@ff_v0.9_t27",
+    "gbw_mhz@ff_v0.9_t85",
+    "gbw_mhz@ff_v1_t85",
+    "gbw_mhz@fs_v0.9_t27",
+    "gbw_mhz@fs_v0.9_t85",
+    "gbw_mhz@fs_v1_t85",
+    "gbw_mhz@sf_v1.1_t85",
+    "gbw_mhz@sf_v1_t27",
+    "gbw_mhz@sf_v1_t85",
+    "gbw_mhz@ss_v1.1_t85",
+    "gbw_mhz@ss_v1_t-40",
+    "gbw_mhz@ss_v1_t27",
+    "gbw_mhz@ss_v1_t85",
+    "gbw_mhz@tt_v1_t27",
+    "gbw_mhz@tt_v1_t85",
+    "pm_deg@ff_v1.1_t-40",
+    "pm_deg@fs_v1.1_t-40",
+    "pm_deg@fs_v1.1_t85",
+    "pm_deg@fs_v1_t-40",
+    "pm_deg@fs_v1_t85",
+    "pm_deg@sf_v1.1_t-40",
+    "pm_deg@sf_v1.1_t27",
+    "pm_deg@sf_v1.1_t85",
+    "pm_deg@sf_v1_t85",
+    "pm_deg@ss_v1.1_t-40",
+    "pm_deg@ss_v1.1_t27",
+    "pm_deg@ss_v1.1_t85",
+    "pm_deg@ss_v1_t27",
+    "pm_deg@ss_v1_t85",
+    "pm_deg@tt_v1.1_t-40",
+    "pm_deg@tt_v1.1_t27",
+    "pm_deg@tt_v1.1_t85",
+    "pm_deg@tt_v1_t27",
+    "pm_deg@tt_v1_t85"
+   ],
+   "note": "budgets at the nominal corner only (budget_corners: nominal; PREREG 2026-11-01). Per point and spec: first-order use of eta x that point's margin by the final budgets (sum of rate at the point x budget). Reported, not gated; above 1 the point would use more than its allowed share"
+  },
+  "g20_by_part": {
+   "gbw_mhz": {
+    "cap_wiring": 0.07958153939844245,
+    "cap_cells": 0.3277338528530772,
+    "r_wiring": 0.2674961763392787,
+    "r_access": 0.12032806480789845,
+    "total": 0.7951396333986969,
+    "margin": 2.3386999999999993,
+    "residual": 1.1102230246251565e-16
+   },
+   "pm_deg": {
+    "cap_wiring": 0.18666830078962354,
+    "cap_cells": 0.8058089044455229,
+    "r_wiring": 2.4590793805804307,
+    "r_access": 0.7691939200190843,
+    "total": 4.220750505834661,
+    "margin": 5.323300000000003,
+    "residual": 8.881784197001252e-16
+   },
+   "gain_db": {
+    "cap_wiring": 1.4799576929330982e-11,
+    "cap_cells": 6.108219988476548e-11,
+    "r_wiring": 0.9160700089285387,
+    "r_access": 0.08306835458075887,
+    "total": 0.9991383635851794,
+    "margin": 1.0,
+    "residual": 1.1102230246251565e-16
+   }
+  },
+  "baseline_budget_over_need": {
+   "per_net": {
+    "geomean": 8.46062111958202,
+    "median": 10.0,
+    "min": 0.5260335814887853,
+    "n": 40
+   },
+   "equal": {
+    "geomean": 2.6662219888249266,
+    "median": 6.267967073019457,
+    "min": 0.02922408786048807,
+    "n": 40
+   },
+   "lp_sum": {
+    "geomean": 0.0026066801850559594,
+    "median": 10.0,
+    "min": 0.0,
+    "n": 40
+   },
+   "lp_floor": {
+    "geomean": 0.9530326717020307,
+    "median": 1.0,
+    "min": 0.30742145211687716,
+    "n": 40
+   },
+   "lp_floor_k": {
+    "geomean": 2.753110558101733,
+    "median": 10.0,
+    "min": 0.005814320338864526,
+    "n": 40
+   },
+   "ours": {
+    "geomean": 1.1189490865069873,
+    "median": 0.6313046384947627,
+    "min": 0.49678724862651386,
+    "n": 40
+   }
+  }
+ },
+ "S3": {
+  "gates": {
+   "G3.4_option_table_complete": true,
+   "G3.7_modes (info)": null,
+   "G3.3_all_chosen_devices_in_circuit": true,
+   "G3.1_chosen_DRC": true,
+   "G3.2_chosen_LVS_W_L_nf": true,
+   "G3.5_no_relaxation": false,
+   "G3.6_model_has_no_gate_resistance": true
+  },
+  "failed": [
+   "G3.5_no_relaxation"
+  ],
+  "run_id": "2026-11-02T20:03:58-0fdcd3a4",
+  "s2_run_id": "2026-11-02T19:56:09-5a65c917",
+  "mode": "A-bin",
+  "rules": "v2",
+  "types": {
+   "nfet_01v8_lvt_W66p13_L2p03_m1": {
+    "option": "nf8_gboth_sdfull_outS",
+    "area_um2": 206.431,
+    "relaxed": true,
+    "devices": 2
+   },
+   "pfet_01v8_lvt_W37p3_L0p74_m1": {
+    "option": "nf1_gboth_sdhalf",
+    "area_um2": 106.623,
+    "relaxed": false,
+    "devices": 1
+   },
+   "nfet_01v8_lvt_W484p2_L0p24_m1": {
+    "option": "nf32_gtop_sdhalf_outS",
+    "area_um2": 311.321,
+    "relaxed": true,
+    "devices": 1
+   },
+   "pfet_01v8_lvt_W887p03_L0p74_m1": {
+    "option": "nf16_gtop_sdhalf_outS",
+    "area_um2": 1039.632,
+    "relaxed": false,
+    "devices": 1
+   },
+   "pfet_01v8_lvt_W14p21_L0p89_m1": {
+    "option": "nf2_gboth_sdfull_outS",
+    "area_um2": 37.479,
+    "relaxed": true,
+    "devices": 2
+   },
+   "pfet_01v8_lvt_W90p63_L0p74_m1": {
+    "option": "nf8_gboth_sdfull_outS",
+    "area_um2": 133.983,
+    "relaxed": false,
+    "devices": 1
+   }
+  },
+  "total_device_area_um2": 2079.379,
+  "relaxed": [
+   "nfet_01v8_lvt_W484p2_L0p24_m1",
+   "nfet_01v8_lvt_W66p13_L2p03_m1",
+   "pfet_01v8_lvt_W14p21_L0p89_m1"
+  ],
+  "final": {
+   "gain_db": 58.0072,
+   "gbw_mhz": 23.0185,
+   "pm_deg": 65.1728,
+   "vnoise_nv_rthz": 149.105,
+   "vnoise_rms_uv_rms": 3596.76,
+   "vout_V": 0.902069,
+   "isup_ua": 307.888,
+   "power_uw": 554.199,
+   "vout_v": 0.902069
+  },
+  "by_mode": {
+   "B": {
+    "total_area_um2": 4396.36,
+    "relaxed": [
+     "nfet_01v8_lvt_W484p2_L0p24_m1",
+     "nfet_01v8_lvt_W66p13_L2p03_m1",
+     "pfet_01v8_lvt_W14p21_L0p89_m1",
+     "pfet_01v8_lvt_W887p03_L0p74_m1",
+     "pfet_01v8_lvt_W90p63_L0p74_m1"
+    ],
+    "fingers_outside_sized_bin": []
+   },
+   "A-bin": {
+    "total_area_um2": 2079.379,
+    "relaxed": [
+     "nfet_01v8_lvt_W484p2_L0p24_m1",
+     "nfet_01v8_lvt_W66p13_L2p03_m1",
+     "pfet_01v8_lvt_W14p21_L0p89_m1"
+    ],
+    "fingers_outside_sized_bin": []
+   },
+   "A-free": {
+    "total_area_um2": 2092.635,
+    "relaxed": [
+     "nfet_01v8_lvt_W484p2_L0p24_m1",
+     "nfet_01v8_lvt_W66p13_L2p03_m1",
+     "pfet_01v8_lvt_W14p21_L0p89_m1"
+    ],
+    "fingers_outside_sized_bin": [
+     "pfet_01v8_lvt_W14p21_L0p89_m1"
+    ]
+   },
+   "RoT": {
+    "total_area_um2": 2112.095,
+    "relaxed": [
+     "nfet_01v8_lvt_W484p2_L0p24_m1",
+     "nfet_01v8_lvt_W66p13_L2p03_m1",
+     "pfet_01v8_lvt_W14p21_L0p89_m1",
+     "pfet_01v8_lvt_W37p3_L0p74_m1",
+     "pfet_01v8_lvt_W887p03_L0p74_m1",
+     "pfet_01v8_lvt_W90p63_L0p74_m1"
+    ],
+    "fingers_outside_sized_bin": [
+     "pfet_01v8_lvt_W14p21_L0p89_m1",
+     "pfet_01v8_lvt_W37p3_L0p74_m1"
+    ]
+   }
+  }
+ }
+}

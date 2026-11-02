@@ -984,3 +984,10 @@ the output of every step shown. Branch `s0-s3-review` starts at `fd8d7118`, with
   - `tools.write_text()` retries Errno 22 (the Windows-mount write failure of rows 40 and 61) for `write_json`
     and the ngspice and Netgen writes.
   - 2 tests added. `.\flow.ps1 test` from PowerShell: 132 passed, golden 20 of 20 OK.
+- **Phase 3: clean full runs from S0 with the final code.**
+  - `example_ota_5t` (19:15–19:45): S0, S1, S2 and S3 all PASS. Its G0.7 passes on all 5 devices, confirming the
+    DRC/LVS fix.
+  - `loadbench_miller` (19:45–20:04): no ERROR. S2 PASS; S0, S1 and S3 FAIL only on the known findings (G0.7 N3,
+    the PDK cell; G1.6 one bias-shift check; G3.5 three relaxed types).
+  - Snapshots `review`: both identical to `after_v3a` (budgets, rule verdicts, S3 cells, area and specs).
+  - `.\flow.ps1 test`: 132 passed, golden 20 of 20 OK (no refresh needed).

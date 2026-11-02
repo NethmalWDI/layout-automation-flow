@@ -1,0 +1,254 @@
+{
+ "created": "2026-11-02T20:05:26",
+ "designs": {
+  "loadbench_miller": {
+   "design": "loadbench_miller",
+   "first": "after_v3a",
+   "rerun": "review",
+   "s2": {
+    "failed": {
+     "first": [],
+     "rerun": []
+    },
+    "eta": {
+     "first": 0.5,
+     "rerun": 0.5
+    },
+    "t_round1": {
+     "first": 0.496787249123301,
+     "rerun": 0.496787249123301
+    },
+    "starved": {
+     "first": 29,
+     "rerun": 29
+    },
+    "n_budgeted": {
+     "first": 40,
+     "rerun": 40
+    },
+    "floors_pass": {
+     "first": true,
+     "rerun": true
+    },
+    "verify_max_abs_change": 0.0
+   },
+   "rules": {
+    "per_net": {
+     "outcome": {
+      "first": "unsafe",
+      "rerun": "unsafe"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 123.55714285711709,
+      "rerun": 123.55714285711709
+     },
+     "spice_specs_violated": {
+      "first": [
+       "gain_db@ff_v1.1_t85",
+       "gain_db@ff_v1_t27",
+       "gain_db@sf_v0.9_t-40",
+       "gbw_mhz",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t27",
+       "gbw_mhz@sf_v1_t85",
+       "gbw_mhz@ss_v1_t85",
+       "pm_deg"
+      ],
+      "rerun": [
+       "gain_db@ff_v1.1_t85",
+       "gain_db@ff_v1_t27",
+       "gain_db@sf_v0.9_t-40",
+       "gbw_mhz",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t27",
+       "gbw_mhz@sf_v1_t85",
+       "gbw_mhz@ss_v1_t85",
+       "pm_deg"
+      ]
+     },
+     "worst_use_of_allowed": {
+      "first": 5.773144756715311,
+      "rerun": 5.773144756715311
+     }
+    },
+    "equal": {
+     "outcome": {
+      "first": "unsafe + infeasible",
+      "rerun": "unsafe + infeasible"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 6.3142857142849165,
+      "rerun": 6.3142857142849165
+     },
+     "spice_specs_violated": {
+      "first": [
+       "gain_db@sf_v0.9_t-40",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t85"
+      ],
+      "rerun": [
+       "gain_db@sf_v0.9_t-40",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t85"
+      ]
+     },
+     "worst_use_of_allowed": {
+      "first": 0.5803740245606122,
+      "rerun": 0.5803740245606122
+     }
+    },
+    "lp_sum": {
+     "outcome": {
+      "first": "unsafe + infeasible (unverified: failed runs)",
+      "rerun": "unsafe + infeasible (unverified: failed runs)"
+     },
+     "spice_failed_runs": {
+      "first": [
+       "pm_deg"
+      ],
+      "rerun": [
+       "pm_deg"
+      ]
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 1021.4593919200107,
+      "rerun": 1021.4593919200107
+     },
+     "spice_specs_violated": {
+      "first": [
+       "gain_db@ff_v1_t27",
+       "gbw_mhz@sf_v1_t85"
+      ],
+      "rerun": [
+       "gain_db@ff_v1_t27",
+       "gbw_mhz@sf_v1_t85"
+      ]
+     },
+     "worst_use_of_allowed": {
+      "first": 1.0000000000000002,
+      "rerun": 1.0000000000000002
+     }
+    },
+    "lp_floor": {
+     "outcome": {
+      "first": "unsafe",
+      "rerun": "unsafe"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 75.58571428569859,
+      "rerun": 75.58571428569859
+     },
+     "spice_specs_violated": {
+      "first": [
+       "gain_db@ff_v1.1_t85",
+       "gain_db@ff_v1_t27",
+       "gain_db@sf_v0.9_t-40",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t27",
+       "gbw_mhz@sf_v1_t85"
+      ],
+      "rerun": [
+       "gain_db@ff_v1.1_t85",
+       "gain_db@ff_v1_t27",
+       "gain_db@sf_v0.9_t-40",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t27",
+       "gbw_mhz@sf_v1_t85"
+      ]
+     },
+     "worst_use_of_allowed": {
+      "first": 1.0000000001517635,
+      "rerun": 1.0000000001517635
+     }
+    },
+    "lp_floor_k": {
+     "outcome": {
+      "first": "unsafe",
+      "rerun": "unsafe"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 8.372111553784931,
+      "rerun": 8.372111553784931
+     },
+     "spice_specs_violated": {
+      "first": [
+       "gain_db@ff_v1.1_t85",
+       "gain_db@sf_v0.9_t-40",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t27",
+       "gbw_mhz@sf_v1_t85",
+       "gbw_mhz@ss_v1_t85"
+      ],
+      "rerun": [
+       "gain_db@ff_v1.1_t85",
+       "gain_db@sf_v0.9_t-40",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t27",
+       "gbw_mhz@sf_v1_t85",
+       "gbw_mhz@ss_v1_t85"
+      ]
+     },
+     "worst_use_of_allowed": {
+      "first": 1.0000000000000002,
+      "rerun": 1.0000000000000002
+     }
+    },
+    "ours": {
+     "outcome": {
+      "first": "unsafe",
+      "rerun": "unsafe"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 75.82857142855562,
+      "rerun": 75.82857142855562
+     },
+     "spice_specs_violated": {
+      "first": [
+       "gain_db@ff_v1.1_t85",
+       "gain_db@ff_v1_t27",
+       "gain_db@sf_v0.9_t-40",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t85",
+       "gbw_mhz@ss_v1_t85"
+      ],
+      "rerun": [
+       "gain_db@ff_v1.1_t85",
+       "gain_db@ff_v1_t27",
+       "gain_db@sf_v0.9_t-40",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t85",
+       "gbw_mhz@ss_v1_t85"
+      ]
+     },
+     "worst_use_of_allowed": {
+      "first": 0.9999999999999998,
+      "rerun": 0.9999999999999998
+     }
+    }
+   },
+   "same_gates_outcomes_and_failed_run_counts": true,
+   "rerun_timed_out_runs": null,
+   "rerun_clock": null
+  }
+ }
+}

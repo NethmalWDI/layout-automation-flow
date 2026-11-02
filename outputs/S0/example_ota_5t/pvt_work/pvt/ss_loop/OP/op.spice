@@ -17,6 +17,7 @@ Vsup VDD 0 'VDD_V'
 save all
 foreach vv 1.62 1.8 1.98
 foreach tt -40 27 85
+destroy all
 alter vsup dc=$vv
 option temp=$tt
   op
