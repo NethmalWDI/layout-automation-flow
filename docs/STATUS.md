@@ -2,13 +2,17 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-02 15:40 CET, by Claude Code. **Plan v3 Phase A is complete** (`docs/plan_v3_phaseA.md`).
-- Steps 0–12 and the sky130A environment change are committed. The environment change is commit `70279125`,
-  named "step_9"; step 9 is `fb1b9adf`; step 12 is `14e97f7e`.
-- **Step 13 (documentation and independent review D) and the G2.8 follow-up wait for Imasha's final commit.** In
-  the follow-up, G2.8 SPICE-checks PVT points again (Imasha's answer (a) to review D 1); S2 and S3 were re-run.
+**Last updated:** 2026-11-02 16:10 CET, by Claude Code. **Plan v3 Phase A is complete and committed**
+(`docs/plan_v3_phaseA.md`).
+- Steps 0–13 and the sky130A environment change are committed. The environment change is commit `70279125`, named
+  "step_9"; step 9 is `fb1b9adf`; step 12 is `14e97f7e`.
+- Step 13 (documentation, independent review D) and the G2.8 follow-up are `67b3b83d`. In the follow-up, G2.8
+  SPICE-checks PVT points again (Imasha's answer (a) to review D 1).
 - Claude Code has released its Phase A claim. Nothing is running.
-- Optional follow-ups (none blocking) are under *Open questions*.
+- **Where to read the results:** flow record 7.13 (and 7.9, review D), `docs/before_after.md`, and the step
+  records below.
+- **Next is Imasha's call:** the optional follow-ups under *Open questions* (none blocking), and Plan v3's phases
+  B–E.
 
 **Resumed 2026-11-02 12:12 CET** after the overnight stop (2026-11-01 22:05):
 - the container was running with no job, and there was no `.git/index.lock`;
@@ -150,8 +154,8 @@ predictions to write into PREREG before the runs.
 | 10 LOADBench hand model | **done**, committed `9370baa7` | patched copy P1 with the NMOS-mirror doublet, PREDICTED (patched, post hoc). Hand PM gap 17.0° → 1.7° (exact rational 3.0°); GBW gap 6.7 → 2.2 MHz. G1.5 unchanged and report-only. Details below |
 | 11 tests and goldens | **done**, committed `2a9897c0` | pytest 124 passed + the expected 5T S2 golden failure; `./flow test` golden 19 of 20 OK; `ota5t_stress` S1 re-run: golden OK, its committed outputs put back. Details below |
 | 12 re-run, snapshot, compare | **done**, committed `14e97f7e` | 5T: every prediction holds. LOADBench: S2 now PASS; S3 PM 65.17°, 3 types relaxed (6 in plan v2); ours "ok" after the tolerance fix (Imasha's answer (a)). Goldens refreshed, 20 of 20 OK. Details below (verdicts as corrected in step 13) |
-| 13 documentation and review | **done**, waiting for Imasha's commit | flow record rows 40–49 linked to their fixes, rows 51–61 and section 7.13; review D (9 findings, all checked; 7.9); post-hoc PREREG amendment for the at-bound tolerance; README. Details below |
-| after review D 1 | **done**, waiting for Imasha's commit (with step 13) | G2.8 SPICE-checks each rule's most-used PVT points again (Imasha's answer (a)). Budgets and S3 unchanged. With the PVT points: LOADBench every rule "unsafe"; 5T only `lp_floor` "ok"; row 42's sign disagreement reproduced. Details below |
+| 13 documentation and review | **done**, committed `67b3b83d` | flow record rows 40–49 linked to their fixes, rows 51–61 and section 7.13; review D (9 findings, all checked; 7.9); post-hoc PREREG amendment for the at-bound tolerance; README. Details below |
+| after review D 1 | **done**, committed `67b3b83d` (with step 13) | G2.8 SPICE-checks each rule's most-used PVT points again (Imasha's answer (a)). Budgets and S3 unchanged. With the PVT points: LOADBench every rule "unsafe"; 5T only `lp_floor` "ok"; row 42's sign disagreement reproduced. Details below |
 
 After review D 1 (2026-11-02, Imasha's answer (a), about 15:00):
 - **Code** (`src/s2/run.py`):
@@ -1184,7 +1188,7 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 - 2026-11-02 (Claude Code): **Plan v3 Phase A, step 13**: flow record rows 40–61 and section 7.13, review D (9
   findings, all checked, 7.9), the post-hoc PREREG amendment for the at-bound tolerance, README. Phase A is
-  complete; the claim is released. It waits for Imasha's final commit.
+  complete; the claim is released. Committed `67b3b83d`, with the G2.8 follow-up (PVT checks back after review D 1).
 - 2026-11-02 (Claude Code): **Plan v3 Phase A, step 12**: the 5T and LOADBench re-run (`after_v3a`), the G2.8
   tolerance fix (Imasha's answer (a)), goldens refreshed, `before_after.md` regenerated. Committed `14e97f7e`.
 - 2026-11-02 (Claude Code): **Plan v3 Phase A, step 11**: the test pass before step 12, documentation only.
