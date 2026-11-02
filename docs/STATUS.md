@@ -2,7 +2,8 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-02 22:35 CET, by Claude Code (review phase 4 done, waiting for Imasha's commit).
+**Last updated:** 2026-11-02 23:05 CET, by Claude Code (review phase 5 done, waiting for Imasha's commit; phase 6,
+the rehearsal and the merge into `main`, is next).
 **Now: the supervisor-review finalisation, on branch
 `s0-s3-review`** (Imasha's plan of 2026-11-02 evening: S0–S3 without errors on the 5T and LOADBench, and the
 output of every step shown). The phases and progress are under *Supervisor review (s0-s3-review)* below.
@@ -136,7 +137,7 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
-| Claude Code | Supervisor review on branch `s0-s3-review`: `scripts/env.sh`, `src/flow.py`, `src/common/`, `scripts/`, `tests/`, `docs/` (README, STATUS, progress log, flow record section 7 draft, the new walkthrough), `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `outputs/compare/`, `tests/golden/` | 2026-11-02 18:15 CET |
+| Claude Code | Supervisor review on branch `s0-s3-review`, phase 6 (the rehearsal): `README.md`, `flow.ps1`, `flow`, `docs/` (STATUS, progress log, flow record, the walkthrough), `scripts/make_s0s3_walkthrough.py`, `tests/`. Narrowed after phase 5; the outputs, `src/` and the goldens are no longer claimed. Released when phase 6 ends | 2026-11-02 18:15 CET |
 | Claude Code | Plan v3 Phase A: `src/`, `scripts/benchlib.py`, `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`, `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`; plus the doc updates the plan's steps ask for (README, progress log, flow record section 7 draft) | **released 2026-11-02 14:50 CET**: Phase A done (steps 0–13). Held since 2026-11-01 16:10, paused overnight 22:05, resumed 2026-11-02 12:12 |
 | Cowork | **released 2026-11-01**: Phase A plan written (`docs/plan_v3_phaseA.md`; `docs/HANDOFF.md` rewritten; this file; progress log). No code or outputs changed. **Next: Claude Code claims Phase A at its step 0** | 2026-11-01 |
 | Cowork (earlier) | **released 2026-10-27 17:15 CET**: Plan v3 review pack done (`docs/plan_v3_review_pack.md`, `docs/plan_v3/`, flow record 7.12 and rows 46–50, project doc 14). Earlier: the documentation pass (released 14:20). No runs, no flow code changed | 2026-10-27 |
@@ -161,9 +162,28 @@ Phase A is tagged `phaseA-v3a`), and Imasha commits after each phase. Before the
 | 1 | Fix the `env.sh` regression (DRC/LVS scripts stopped under `set -u`); re-run LOADBench S0; refresh its golden | **done**, committed `33e6277f` |
 | 2 | Robustness: the login-shell `USER` quirk; a retry on Errno 22 writes | **done**, committed `bf67fd09` |
 | 3 | Clean full runs from S0 of both designs; snapshot `review`; goldens; tests | **done**, committed `214eb337` |
-| 4 | `docs/s0_s3_walkthrough.md` + HTML, generated from the outputs | **done**, waiting for Imasha's commit |
-| 5 | README "For reviewers", flow record 7.14, STATUS, log, `CLAUDE.md` test line | pending |
+| 4 | `docs/s0_s3_walkthrough.md` + HTML, generated from the outputs | **done**, committed `58c4f207` |
+| 5 | README "For reviewers", flow record 7.14, STATUS, log, `CLAUDE.md` test line | **done**, waiting for Imasha's commit |
 | 6 | Rehearsal from PowerShell; commit, merge into `main`, push (Imasha) | pending |
+
+Phase 5 record (2026-11-02 evening; documentation and the launchers, no run):
+- **README "For reviewers"**, right after the design table: what to read first (the walkthrough), the expected
+  statuses with the reason for each LOADBench FAIL, the PowerShell commands and their run times, where the outputs
+  go, and that a run rewrites the committed outputs (the results reproduce; ids and timestamps change).
+  - It points at `status example_ota_5t` and `status loadbench_miller`. `status all` also lists the three plan-v2
+    designs, whose October FAILs are not part of this review; the README says so.
+- **Launchers:** `flow.ps1` and `flow` pass `IIC_OSIC_TOOLS_QUIET=1` to `docker exec` too, as their `docker run`
+  path already did. Without it, every command started with the image's two long `[INFO] Final PATH…` lines.
+- **Flow record:**
+  - section 7.14, the review (phases, runs, what it found);
+  - row 63, the walkthrough generator's bugs (phase 4);
+  - 7.13's open list notes that the `USER` and Errno 22 items are now fixed;
+  - the header's *Last updated* line, which still said 2026-10-27.
+  - Merged with `scripts/merge_section7.py`.
+- **`CLAUDE.md`:** the test line said `tests/test_v2.py` (24 tests). It now gives `./flow test`: 134 tests in
+  `tests/`, then 20 golden comparisons.
+- **`.\flow.ps1 test`** from PowerShell: 134 passed, golden 20 of 20 OK, 13 s, with no `[INFO]` lines
+  (`runs/logs/review_p5_test.log`).
 
 Phase 4 record (2026-11-02 evening, first draft generated 20:22 CET, finished after a usage-limit break; no run,
 outputs read only):
@@ -1305,9 +1325,10 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 ## Recent changes
 
 - 2026-11-02 evening (Claude Code): **Supervisor review, branch `s0-s3-review`**: phases 1–3 committed
-  (`33e6277f` the `env.sh` fix, `bf67fd09` robustness, `214eb337` the clean runs); phase 4, the S0–S3 walkthrough
-  (`docs/s0_s3_walkthrough.md` + HTML, `scripts/make_s0s3_walkthrough.py`), is done and waiting for Imasha's
-  commit. Details under *Supervisor review (s0-s3-review)*.
+  (`33e6277f` the `env.sh` fix, `bf67fd09` robustness, `214eb337` the clean runs), phase 4 the S0–S3 walkthrough
+  (`58c4f207`: `docs/s0_s3_walkthrough.md` + HTML, `scripts/make_s0s3_walkthrough.py`). Phase 5 (README "For
+  reviewers", flow record 7.14 and row 63, quiet launchers, the `CLAUDE.md` test line) is done and waiting for
+  Imasha's commit. Details under *Supervisor review (s0-s3-review)*.
 - 2026-11-02 (Claude Code): **Plan v3 Phase A, step 13**: flow record rows 40–61 and section 7.13, review D (9
   findings, all checked, 7.9), the post-hoc PREREG amendment for the at-bound tolerance, README. Phase A is
   complete; the claim is released. Committed `67b3b83d`, with the G2.8 follow-up (PVT checks back after review D 1).

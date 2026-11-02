@@ -1011,3 +1011,15 @@ the output of every step shown. Branch `s0-s3-review` starts at `fd8d7118`, with
     time in seconds.
   - 2 tests (one checks the area against S3's own total), and a README line under *Documents*.
   - `.\flow.ps1 test`: 134 passed, golden 20 of 20 OK.
+- **Phase 5: the documents a reviewer starts from.**
+  - README "For reviewers", right after the design table: what to read first, the expected statuses and why
+    LOADBench has three FAILs, the PowerShell commands with run times, where the outputs go.
+  - Checking those commands found two things a reviewer would trip on:
+    - `status all` also lists the three October designs with their plan-v2 FAILs, so the README names the two
+      designs and says what the others are;
+    - every `docker exec` printed the image's two long `[INFO] Final PATH…` lines first. Both launchers now pass
+      `IIC_OSIC_TOOLS_QUIET=1` there too, as their `docker run` path already did.
+  - Flow record: section 7.14 (the review: phases, runs, findings), row 63, the 7.13 open list and the header
+    brought up to date; merged.
+  - `CLAUDE.md`'s test line (it said 24 tests in `test_v2.py`) now describes `./flow test`.
+  - `.\flow.ps1 test`: 134 passed, golden 20 of 20 OK, 13 s.

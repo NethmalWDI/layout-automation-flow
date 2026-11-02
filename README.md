@@ -20,6 +20,62 @@ Designs (`./flow list`):
 Inputs the upstream stages did not provide are predicted by the package scripts and labelled PREDICTED
 (`circuits/<design>/SOURCE.md`). The before/after comparison of the plan-v2 updates is in `docs/before_after.md`.
 
+## For reviewers: S0–S3 on the 5T OTA and LOADBench
+
+**What to read first:** `docs/s0_s3_walkthrough.html` (open it in a browser; `.md` for the same text). It shows,
+for `example_ota_5t` and `loadbench_miller`, what each stage did and what came out: every gate, the main numbers
+and plots, and an explanation of each failed gate. It is generated from the committed outputs.
+
+**Expected result.** FAIL means a gate reported a finding, but the stage finished and wrote its report. ERROR
+(a crash) does not occur.
+
+| Design | S0 | S1 | S2 | S3 | Run time |
+|---|---|---|---|---|---|
+| `example_ota_5t` | PASS | PASS | PASS | PASS | about 30 min (20 of them S0's 45 PVT points and Monte Carlo) |
+| `loadbench_miller` | FAIL (G0.7) | FAIL (G1.6) | PASS | FAIL (G3.5) | about 20 min |
+
+LOADBench's three FAILs are findings, not flow errors:
+- **G0.7:** the SKY130 PCell drawn at the netlist's exact size for one device (`XNormalTransistorNmos3`, one
+  484 µm finger) breaks the PDK's metal-area rule met1.6 at its gate pad. The other 8 devices pass DRC and LVS.
+  S3 draws its own cells and widens that pad, so every cell it chooses is DRC-clean (G3.1).
+- **G1.6:** 1 of 54 resistance-sensitivity checks. A resistor at P5's source shifts the bias point, which a
+  small-signal model at a fixed operating point cannot predict within the limit. The flow passes on the
+  transistor-level SPICE rate, which includes the shift.
+- **G3.5:** 3 of 6 device types have no cell within their S2 allowance (LOADBench's gain margin is 1 dB). S3
+  keeps the least-bad cell and flags the type. The circuit with every chosen cell still meets every spec in SPICE
+  (G3.3).
+
+**Run it** (Windows PowerShell, Docker Desktop running). On this PC the container `layout-s0s3` already mounts the
+repository (`docker start layout-s0s3` if it is stopped). Without `FLOW_CONTAINER`, `flow.ps1` starts a
+throwaway container from the pinned image instead.
+
+```powershell
+$env:FLOW_CONTAINER="layout-s0s3"
+.\flow.ps1 status example_ota_5t           # gate verdicts of the committed run, per stage
+.\flow.ps1 status loadbench_miller
+.\flow.ps1 run example_ota_5t              # S0 -> S3, about 30 min
+.\flow.ps1 run loadbench_miller            # S0 -> S3, about 20 min
+.\flow.ps1 run example_ota_5t --stage S1   # one stage, from the earlier stages' outputs (S1 or S3: under a minute)
+.\flow.ps1 test                            # 134 unit tests + golden comparison with the committed outputs (~15 s)
+```
+
+The same inside the container: `docker exec layout-s0s3 bash -lc "cd /foss/designs && source scripts/env.sh &&
+python3 -m src.flow run example_ota_5t"`. `status all` also lists the three other designs. Their outputs are the
+plan-v2 runs of 25–27 October and are not part of this review; flow record 7.5 gives their results.
+
+**Where the outputs go:**
+- each stage: `outputs/<stage>/<design>/`, with its gates in `<stage>_report.json` (e.g. `outputs/S2/loadbench_miller/s2_report.json`);
+- per-step logs: `runs/logs/flow/<design>/`;
+- the run summary: `outputs/flow/<design>/flow_summary.json`.
+
+A run rewrites these folders. The results reproduce (the review's clean runs matched Phase A's exactly), but run
+ids and timestamps change. Discarding the changes in GitHub Desktop returns to the committed run.
+`python3 scripts/make_s0s3_walkthrough.py` regenerates the walkthrough from a new run.
+
+**Further reading:** `docs/flow_record.md` (the journey: what was built, what went wrong and how it was found;
+section 7.13 is the current version, 7.14 this review), `docs/progress_log.md`, and `PREREG.md` (hypotheses and
+thresholds, with dated amendments).
+
 ## Quick start (anyone, any OS)
 
 You need Docker (Docker Desktop on Windows/macOS) and about 20 GB of disk for the EDA image.

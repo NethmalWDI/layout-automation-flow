@@ -14,7 +14,7 @@ $Image = if ($env:FLOW_IMAGE) { $env:FLOW_IMAGE } else { "hpretl/iic-osic-tools:
 $Here = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Inner = "source scripts/env.sh && python3 -m src.flow " + ($FlowArgs -join ' ')
 if ($env:FLOW_CONTAINER) {
-    docker exec -i $env:FLOW_CONTAINER bash -lc "cd /foss/designs && $Inner"
+    docker exec -i -e IIC_OSIC_TOOLS_QUIET=1 $env:FLOW_CONTAINER bash -lc "cd /foss/designs && $Inner"
 } else {
     docker run --rm -i -e IIC_OSIC_TOOLS_QUIET=1 -v "${Here}:/foss/designs" -w /foss/designs $Image --skip bash -lc $Inner
 }

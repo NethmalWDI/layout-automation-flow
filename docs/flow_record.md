@@ -11,7 +11,11 @@ evidence with pictures, and the problems met on the way and how they were fixed.
 - How to run each stage: [`../README.md`](../README.md). Chronological notes: [`progress_log.md`](progress_log.md).
 - To get a self-contained HTML copy (pictures embedded), run from `docs/`: `pandoc flow_record.md --standalone --embed-resources -c flow_record/record.css -o ../runs/tmp/flow_record.html`.
 
-**Last updated:** 2026-10-27 (evening). Section 7 (plan v2) is complete: every before/after run on the five designs, the post-hoc S3 test, the five budget rules at each design's own eta and at eta 0.9 (PREREG headline; TTSKY25a's eta 0.9 run is not valid), the hand-drawn layouts against the 'after' G2.0, a third independent review (review C) and what it changed, the journey table to row 50, an assessment (7.11) and the Plan v3 review pack (7.12, `docs/plan_v3_review_pack.md`). Figures: `flow_record/img/v2_*.png`, `plan_v3/img/*.png`.
+**Last updated:** 2026-11-02 (evening). Section 7 now also covers Plan v3 Phase A on the 5T and LOADBench (7.13)
+and the supervisor review of S0–S3 on those two designs (7.14; its output, stage by stage, is
+[`s0_s3_walkthrough.html`](s0_s3_walkthrough.html)). The journey table runs to row 63.
+
+*Earlier (2026-10-27, evening):* section 7 (plan v2) is complete: every before/after run on the five designs, the post-hoc S3 test, the five budget rules at each design's own eta and at eta 0.9 (PREREG headline; TTSKY25a's eta 0.9 run is not valid), the hand-drawn layouts against the 'after' G2.0, a third independent review (review C) and what it changed, the journey table to row 50, an assessment (7.11) and the Plan v3 review pack (7.12, `docs/plan_v3_review_pack.md`). Figures: `flow_record/img/v2_*.png`, `plan_v3/img/*.png`.
 
 > **Decisions of 2026-10-25 (night), from you:**
 > - The stress variant gives layout **90 % of each margin** (η = 0.9, package key `eta`). The example design keeps η = 0.5.
@@ -1226,6 +1230,7 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 60 | S2 (G2.8) | Phase 2 leaves a pinned budget xm × (1 − 1e-9) of room, and G2.8 counted "below floor" and "starved" below floor or need × (1 − 1e-9): a budget at its floor fell either side by rounding. On LOADBench 7 budgets sat there; `ibias~out` (20.38719997961 vs 20.3872) fell 1e-13 below, and ours was scored "infeasible" | step 12's prediction check: ours "infeasible" while G2.7 said the floors are feasible | Imasha's choice (a): `AT_BOUND_TOL` = 1e-6 for both tests (and the snapshot's starved count); LOADBench S2 and S3 re-run. Decided after the results, so it is a post-hoc PREREG amendment (2026-11-02). Scored at 1e-9, ours would read "infeasible" (review D 2) | ours on LOADBench at the nominal corner: "ok" (SPICE 1.007 of allowed); nothing else changed. With G2.8's PVT checks put back after review D, its full word is "unsafe" (75.8 × at a PVT point) |
 | 61 | infra | `OSError: [Errno 22]` writing into the mounted repo (row 40's crash) came back once in Phase A, writing `before_after.md` (step 12); it had also hit a flow-record merge on 2026-10-27 | the script's traceback | a retry worked; no run was affected | open: a retry in the write helpers would remove it. → Supervisor-review phase 2: `tools.write_text()` retries Errno 22 up to 5 times (backing off 0.5 s per try); `write_json` and the ngspice and Netgen log, deck and rc writes use it (test added) |
 | 62 | infra (EDA) | Row 57's fix made `scripts/env.sh` source the image's `sak-pdk-script.sh`, which reads unset variables (`KLAYOUT_PYTHONPATH`). `magic_drc.sh` and `magic_lvs.sh` run with `set -u` and source `env.sh`, so they stopped before Magic ran. LOADBench's S0 re-run in step 12 recorded G0.7 with no DRC/LVS result for all 9 devices (before: N3 only, 6 real DRC errors), and step 12's golden refresh kept that. S3 built no new cell after row 57, so its results were not affected; the 5T's S0 dated from before | planning the supervisor review: G0.7 failing on all 9 devices instead of 1, then `errors: None` and DRC files left from the day before | `env.sh` switches nounset off around the image's script and restores it; two tests (`env.sh` under `set -u`; a real Magic DRC through the script); LOADBench's S0 re-run (supervisor-review phase 1) | G0.7 fails on N3 only again (6 DRC errors, the known PDK finding, row 7); the other 8 devices pass DRC and LVS with both negative controls, as in step 5's run. The IR and PVT results are unchanged. The golden had not changed, since it records G0.7 as a gate only |
+| 63 | docs (walkthrough) | The first draft of the S0–S3 walkthrough generator (`scripts/make_s0s3_walkthrough.py`) read G0.6's values only under `measured`, which exists only when there is no upstream run, so the 5T's testbench table and G3.3 "Schematic" column came out empty. It summed one cell per device type for the total area (5T 128.7 µm² instead of S3's 200.8 µm²), and left LOADBench's margins without units. The phase 3 STATUS record had the 5T's S0 time as 19.9 min (it was S1's 19.9 s) | reading the generated walkthrough against the stage reports, and its area against the phase 3 record (the two disagreed) | G0.6 is read from `compare` (upstream vs rerun) or `measured`; the area counts every device, as S3 does (`src/s3/run.py`, G3.7); units come from the spec name; notes under G2.5 (`TOL_USE`) and G2.8 (scored before the closure step). Two tests, one comparing the area with S3's own total; with the first G0.6 reading put back, it fails | caught before the walkthrough was committed; no flow result changed. STATUS corrected (20.3 min) |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -2203,7 +2208,60 @@ Imasha.
 - **S3 still checks the nominal point only, and power is not budgeted** (review C 14). Phase 2 above 200 elements
   still stops on wall-clock time (review C 11; it affects only the frozen large designs).
 - **Smaller items:** `inherit` in `pkg_yaml()` (row 58), the login-shell `USER` quirk (row 55), and the Errno 22
-  retry (row 61).
+  retry (row 61). The last two were fixed in the supervisor review (7.14).
+
+### 7.14 The supervisor review of S0–S3 (5T and LOADBench), 2026-11-02 evening
+
+**The goal** (Imasha, for the supervisor inspection on 2026-11-03): S0–S3 run on `example_ota_5t` and
+`loadbench_miller` with no ERROR, and the output of every step shown. The work was done on branch `s0-s3-review`
+(from `fd8d7118`; Phase A is tagged `phaseA-v3a`), one commit per phase, to be merged into `main` before the
+meeting.
+Imasha's decisions:
+- LOADBench's FAIL gates are shown as explained findings, with no rule change;
+- the walkthrough is Markdown plus HTML in the repository;
+- the only fixes beyond that are the `USER` quirk and the Errno 22 retry.
+
+| Phase | What | Commit |
+|---|---|---|
+| 1 | The `env.sh` regression: the DRC/LVS scripts stopped before Magic ran (row 62); LOADBench's S0 re-run | `33e6277f` |
+| 2 | Robustness for someone else running it: the login-shell `USER` (row 55), the Errno 22 retry (row 61) | `bf67fd09` |
+| 3 | Clean full runs from S0 of both designs with the final code; snapshot `review` | `214eb337` |
+| 4 | `docs/s0_s3_walkthrough.md` + `.html`, generated from the outputs (row 63) | `58c4f207` |
+| 5 | README "For reviewers"; this section; the launchers' `docker exec` made quiet like `docker run` | the commit with this section |
+| 6 | Rehearsal of the README's commands from PowerShell; merge into `main` (Imasha) | recorded in `docs/STATUS.md` |
+
+**The runs** (phase 3, from S0, started from a login shell; `outputs/flow/<design>/flow_summary.json`):
+
+| Design | S0 | S1 | S2 | S3 | Run time |
+|---|---|---|---|---|---|
+| example_ota_5t | PASS | PASS | PASS | PASS | 29 min: S0 20.3 (PVT and Monte Carlo 19.5), S1 0.3, S2 8.2, S3 0.3 |
+| loadbench_miller | FAIL (G0.7) | FAIL (G1.6) | PASS | FAIL (G3.5) | 20 min: S0 10.8, S1 0.3, S2 7.9, S3 0.7 |
+
+- **No ERROR.** LOADBench's FAILs are its three known findings, each explained in the walkthrough with its numbers:
+  - G0.7: the PDK cell at the netlist's size breaks met1.6 on one device, N3 (row 7); the other 8 devices pass
+    DRC and LVS with both negative controls, and S3's cells sign off (row 37);
+  - G1.6: 1 of 54 resistance checks, a bias shift at P5's source that a fixed-operating-point model cannot
+    predict; the rates passed on are SPICE's;
+  - G3.5: 3 of 6 device types have no cell within their allowance; S3 keeps the least-bad cell, and the circuit
+    with every chosen cell meets every spec (G3.3).
+- **The 5T's G0.7 passes on all 5 devices** with both negative controls. It was the 5T's first S0 since October,
+  and it shows that DRC and LVS really run under the fixed `env.sh`.
+- **The runs reproduce Phase A.** The `review` snapshots are identical to `after_v3a` for both designs
+  (`outputs/review/<design>_after_v3a_vs_review.json`): the budgets, the six budget rules' verdicts and SPICE
+  uses, and S3's cells, area (5T 200.8 µm², LOADBench 2079 µm²) and final specs (PM 79.95° and 65.17°).
+- **Tests:** `.\flow.ps1 test` from PowerShell: 134 passed, golden 20 of 20 OK.
+
+**What the review found.**
+- **Row 62 is the one that mattered.** A gate failed for the wrong reason (no DRC result at all), and I had called
+  it "the known FAIL" in Phase A step 12 because the gate's name matched. A FAIL is the known one only when its
+  per-device detail matches. The walkthrough now prints that detail for G0.7, so the difference would show.
+- **Rows 55 and 61** were the two things that could break a run on someone else's shell or disk. They are fixed,
+  and both have tests.
+- **Row 63:** the walkthrough is generated, not typed, but its generator had three reading bugs. They were found by
+  checking it against the reports before it was committed.
+
+**Still open:** as at the end of 7.13, without the `USER` quirk and the Errno 22 retry. The three other designs
+(`ota5t_stress`, `ttsky25a_fd`, `iadc_ota`) keep their plan-v2 outputs (7.5) and were not part of this review.
 <!-- section7:end -->
 
 ---
