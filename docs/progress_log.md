@@ -869,7 +869,7 @@ the work manageable.
       predicted.
   - Tests: 2 new, 34 Phase A tests in all; full suite 120 passed plus the expected 5T S2 golden failure.
 
-## 2026-11-02: Plan v3 Phase A, step 10 (Claude Code)
+## 2026-11-02: Plan v3 Phase A, steps 10–11 (Claude Code)
 
 Resumed at 12:12 CET after the overnight stop. Step 9 had been committed (`fb1b9adf`), and the container was
 running with no job.
@@ -892,3 +892,16 @@ running with no job.
   - LOADBench's S1 through the flow: G1.6 FAIL as before, the new step rc 0, and every S1 number identical to step
     7's.
   - Tests: 4 new, 38 Phase A tests in all; full suite 124 passed plus the expected 5T S2 golden failure.
+- **Step 11 (tests and goldens before the re-run; no code changed).**
+  - `pytest tests/`: 124 passed, plus the 5T S2 golden failure. That golden holds plan v2's PVT budgets and is
+    refreshed in step 12 (Q4).
+  - `./flow test`: golden 19 of 20 OK, the other four designs unchanged. The 5T S2's 29 differences include row
+    42's corner value (−0.16), which nominal budgets no longer simulate.
+  - `./flow test --design ota5t_stress --stage S1 --rerun`: the shared code still runs on a frozen design, and its
+    S1 golden is OK.
+    - Only PM values moved, from step 7's reference (G1.2: 0.019684° → 0.019680°), plus keys added since its S1
+      was made on 2026-10-25.
+    - `--rerun` overwrites outputs in place, so the frozen design's committed S1 files were set aside first and
+      put back after; README now says it overwrites.
+  - **Found:** in a login shell (`./flow`, `flow.ps1`) the `USER` quirk still fails the netgen round-trip test.
+    A one-line fix is suggested in STATUS.

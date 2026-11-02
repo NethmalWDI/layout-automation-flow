@@ -2,9 +2,10 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-02 12:25 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–9
+**Last updated:** 2026-11-02 13:15 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–10
 and the sky130A environment change done and committed (the environment change is commit `70279125`, named
-"step_9"; step 9 is `fb1b9adf`); **step 10 done, waiting for Imasha's commit**. Nothing is running.
+"step_9"; step 9 is `fb1b9adf`); **step 11 done, waiting for Imasha's commit** (documentation only). Next: step
+12's re-run (about 1 h with the PC awake). Nothing is running.
 
 **Resumed 2026-11-02 12:12 CET** after the overnight stop (2026-11-01 22:05):
 - the container was running with no job, and there was no `.git/index.lock`;
@@ -39,6 +40,11 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- Phase A step 11's `ota5t_stress` S1 re-run check has ended, 13:09–13:10
+  (`runs/logs/phaseA_step11_stress_S1_rerun.log`): S1 rc 0, golden S1 OK.
+  - Its committed S1 outputs, flow summary and S1 logs were set aside in `runs/tmp/aside/step11/` before the run
+    and copied back after it. `git status` shows no change for this frozen design.
+  - The re-run's own outputs are kept for reference in `runs/tmp/step11_rerun_outputs/` (git-ignored).
 - Phase A step 10's LOADBench S1 run has ended, 12:19, in 23 s (`runs/logs/phaseA_step10_lb_S1.log`): S1/run rc 3
   (G1.6 FAIL, as in plan v2), `symbolic_patch_miller` rc 0. The S1 numbers are identical to step 7's.
 - Phase A step 9's 5T S2 run has ended, 21:53–21:58, PASS with rc 0 (`runs/logs/phaseA_step9_5t_S2.log`). It was
@@ -132,7 +138,39 @@ predictions to write into PREREG before the runs.
 | 8 G2.0 route lengths | **done**, committed `8cc70503` | route stubs from the representative cells, in G2.0 and in the need the allocation uses (Imasha's answer (b), PREREG note). 5T S2 PASS: only XM5's route moves; 11 of 21 budgets move; G2.8 outcome words unchanged. Details below |
 | – sky130A environment (Imasha's request, before step 9) | **done**, committed `70279125` | `scripts/env.sh` selects sky130A with the image's `sak-pdk` command; `TOOL_ENV` pins the same. Not a plan step; no rule or number changes. Details below |
 | 9 SPICE vs first order | **done**, committed `fb1b9adf` | agreement fields on every SPICE-verified check (G2.5, G2.8) and the `G2.10_model_agreement (info)` summary. 5T: 72 checks, none flagged; the row-42 corner is in G2.9 at 6.34 × allowed, not binding. Budgets identical to step 8. Details below |
-| 10 LOADBench hand model | **done**, waiting for Imasha's commit | patched copy P1 with the NMOS-mirror doublet, PREDICTED (patched, post hoc). Hand PM gap 17.0° → 1.7° (exact rational 3.0°); GBW gap 6.7 → 2.2 MHz. G1.5 unchanged and report-only. Details below |
+| 10 LOADBench hand model | **done**, committed `9370baa7` | patched copy P1 with the NMOS-mirror doublet, PREDICTED (patched, post hoc). Hand PM gap 17.0° → 1.7° (exact rational 3.0°); GBW gap 6.7 → 2.2 MHz. G1.5 unchanged and report-only. Details below |
+| 11 tests and goldens | **done**, waiting for Imasha's commit (documentation only) | pytest 124 passed + the expected 5T S2 golden failure; `./flow test` golden 19 of 20 OK; `ota5t_stress` S1 re-run: golden OK, its committed outputs put back. Details below |
+
+Step 11 record (no code changed):
+- **`python3 -m pytest -q tests/`** (`bash -c` + `env.sh`): 124 passed, 1 failed.
+  - The failure is the 5T S2 golden, as since step 3. It still holds plan v2's PVT budgets; the plan refreshes
+    it in step 12 (Q4).
+  - So the suite cannot pass "in full" before step 12. Every other test passes.
+- **`./flow test`** (unit tests + golden comparison of the committed outputs, no re-run): golden 19 of 20 OK.
+  - The other four designs (`iadc_ota`, `loadbench_miller`, `ota5t_stress`, `ttsky25a_fd`) match on S0–S3, and so
+    do the 5T's S0, S1 and S3. LOADBench's S0 and S1 were re-run in steps 5, 7 and 10 and still match.
+  - The 5T S2 has 29 differences: budgets from steps 3, 6 and 8. One is
+    `verify.gbw_mhz@tt_v0.9_t27: missing now (was -0.1635)`, row 42's SPICE result, which nominal budgets no
+    longer simulate.
+- **`./flow test --design ota5t_stress --stage S1 --rerun`** (13:09–13:10; started as `CLAUDE.md` says, from a
+  login shell): the shared code still runs on a frozen design.
+  - S1 rc 0, golden S1 OK.
+  - **Differences against the committed S1** (`runs/tmp/step7_diff.py`): only PM values, from step 7's reference
+    (the 1 Hz phase is −4.5 × 10⁻⁶°). G1.2's PM difference went from 0.019684° to 0.019680°. Every other number is
+    identical. The rest are keys added by code since that S1 was made (2026-10-25: G1.1 `not_saturated` and
+    `dummies_excluded`; G1.4 `consistent`, `ratio_Wm`, `not_matching_blocks`) and provenance (time, commit,
+    package hash).
+  - **Not regenerated:** `pkg_yaml()` in `src/flow.py` reads a package without its `inherit`, so `ota5t_stress`
+    gets no `s1_extras` and its `symbolic_patch_check.json` was not rewritten. This is existing behaviour.
+  - **`--rerun` writes in place.** It overwrites `outputs/S1/<design>/`, so this frozen design's committed S1
+    files, flow summary and S1 logs were set aside first and copied back after. Its golden was not refreshed. The
+    re-run's outputs are kept in `runs/tmp/step11_rerun_outputs/`. README now says that `--rerun` overwrites.
+  - The unit tests inside that run also failed `test_round_trip_matches`. That is the login-shell `USER` quirk
+    (step 7 notes), not a code change; with `bash -c` it passes.
+- **Suggestion (not done):** the quirk bites `./flow test` whenever it runs from a login shell, as `./flow` and
+  `flow.ps1` do. Two one-line fixes are possible, and each needs your OK:
+  - give pytest `--basetemp=runs/tmp/pytest` in `src/flow.py`'s `cmd_test`;
+  - or clean `USER` in `scripts/env.sh`.
 
 Step 10 record (A5, row 49; pending task 1m, LOADBench only):
 - **What changed.**
@@ -936,8 +974,10 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-02 (Claude Code): **Plan v3 Phase A, step 11**: the test pass before step 12, documentation only. It
+  waits for Imasha's commit.
 - 2026-11-02 (Claude Code): **Plan v3 Phase A, step 10**: LOADBench's hand model with the NMOS-mirror doublet,
-  PREDICTED (patched, post hoc). It waits for Imasha's commit.
+  PREDICTED (patched, post hoc). Committed `9370baa7`.
 - 2026-11-01 (Claude Code): **Plan v3 Phase A, steps 0–9, and the sky130A environment** (branch
   `plan-v3-phaseA`). Each change and its result is in the progress table under *Plan v3 Phase A*. All are
   committed.

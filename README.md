@@ -33,7 +33,7 @@ git clone <this repo> && cd layout-automation-flow
 ./flow run example_ota_5t --stage S2     # one stage; it reads only the earlier stages' outputs
 ./flow status all                        # gate table per design and stage
 ./flow test                              # unit tests + golden comparison of the committed outputs
-./flow test --stage S1 --rerun           # re-run S1 for the golden designs, then compare
+./flow test --stage S1 --rerun           # re-run S1 for the golden designs, then compare (overwrites outputs/S1/<design>/)
 ./flow run loadbench_miller --variant v1 # the flow as it was before the plan-v2 updates (ablation)
 ./flow run ttsky25a_fd --no-pvt          # skip the 45-point PVT sweep and Monte Carlo in S0
 ```

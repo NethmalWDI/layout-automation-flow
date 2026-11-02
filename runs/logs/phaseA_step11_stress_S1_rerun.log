@@ -1,0 +1,38 @@
+..F...................................................................F. [ 57%]
+.....................................................                    [100%]
+=================================== FAILURES ===================================
+_________________ test_outputs_match_golden[example_ota_5t-S2] _________________
+
+design = 'example_ota_5t', stage = 'S2'
+
+    @pytest.mark.parametrize("design,stage", CASES)
+    def test_outputs_match_golden(design, stage):
+        diffs = golden.compare(design, stage)
+>       assert not diffs, f"{design} {stage}: " + "; ".join(diffs[:10])
+E       AssertionError: example_ota_5t S2: budget.OUTP: 3.75937 -> 37.5937; budget.OUTP~INN: 1.05615 -> 6.28604; budget.OUTP~INP: 1.0358 -> 1.99834; budget.OUTP~net1: 2.63088 -> 8.79168; budget.OUTP~net3: 1.77375 -> 5.13787; budget.XM1+XM2.d: 20.6551 -> 159.722; budget.XM1+XM2.g: 286.102 -> 1819.99; budget.XM1+XM2.s: 20.6551 -> 86.6845; budget.XM3+XM4.d: 331.773 -> 299.381; budget.XM3+XM4.s: 33.1773 -> 131.644
+E       assert not ['budget.OUTP: 3.75937 -> 37.5937', 'budget.OUTP~INN: 1.05615 -> 6.28604', 'budget.OUTP~INP: 1.0358 -> 1.99834', 'budget.OUTP~net1: 2.63088 -> 8.79168', 'budget.OUTP~net3: 1.77375 -> 5.13787', 'budget.XM1+XM2.d: 20.6551 -> 159.722', ...]
+
+tests/test_golden.py:17: AssertionError
+___________________________ test_round_trip_matches ____________________________
+
+tmp_path = PosixPath('/tmp/pytest-of-1000\ndesigner/pytest-8/test_round_trip_matches0')
+
+    @needs_netgen
+    def test_round_trip_matches(tmp_path):
+        nl = spice.parse(NETLIST)
+        (tmp_path / "full.spice").write_text(ingest.write_full(nl, "dut"))
+        ingest.wrap_original(NETLIST, tmp_path / "orig.spice", nl.name)
+        r = run_netgen_compare(tmp_path / "full.spice", "dut", tmp_path / "orig.spice", nl.name, tmp_path / "lvs.txt")
+>       assert r["pass"], r
+E       AssertionError: {'match_uniquely': False, 'property_errors': False, 'pin_mismatch': False, 'pass': False, ...}
+E       assert False
+
+tests/test_s0_integration.py:24: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_golden.py::test_outputs_match_golden[example_ota_5t-S2] - A...
+FAILED tests/test_s0_integration.py::test_round_trip_matches - AssertionError...
+2 failed, 123 passed in 9.62s
+== unit tests
+== re-running S1 for ota5t_stress
+  S1/run             rc=0     18.9 s  log: runs/logs/flow/ota5t_stress/S1_run.log
+== golden ota5t_stress S1: OK
