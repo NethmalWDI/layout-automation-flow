@@ -991,3 +991,23 @@ the output of every step shown. Branch `s0-s3-review` starts at `fd8d7118`, with
     the PDK cell; G1.6 one bias-shift check; G3.5 three relaxed types).
   - Snapshots `review`: both identical to `after_v3a` (budgets, rule verdicts, S3 cells, area and specs).
   - `.\flow.ps1 test`: 132 passed, golden 20 of 20 OK (no refresh needed).
+- **Phase 4: the S0–S3 walkthrough** (`docs/s0_s3_walkthrough.md`, and a self-contained `.html` with its 31 images
+  embedded).
+  - `scripts/make_s0s3_walkthrough.py` writes it from `outputs/` only.
+    - Per design: each stage's status and run time, and an explanation of every failed gate, with its numbers read
+      from the files.
+    - Per stage: what it does, every gate with its meaning, the main numbers and the plots.
+  - Reading the draft against the reports found three generator bugs, all fixed before any commit:
+    - the 5T's G0.6 table and G3.3 "Schematic" column were empty: G0.6 keeps the values under `compare` when
+      there is an upstream run, under `measured` otherwise;
+    - the total area counted one cell per device type (5T 128.7 µm²) instead of every device as S3 does
+      (200.8 µm²);
+    - LOADBench's margins had no units.
+  - Notes added where a table could be misread:
+    - G2.5's "within" includes `TOL_USE`;
+    - G2.8 scores every rule before the closure step, so "ours" reads unsafe on the 5T while G2.5 passes;
+    - the four S3 option modes are tabulated (G3.7).
+  - The cross-check also corrected my phase 3 record: the 5T's S0 took 20.3 min, not 19.9. The 19.9 was S1's
+    time in seconds.
+  - 2 tests (one checks the area against S3's own total), and a README line under *Documents*.
+  - `.\flow.ps1 test`: 134 passed, golden 20 of 20 OK.

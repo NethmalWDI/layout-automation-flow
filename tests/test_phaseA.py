@@ -652,3 +652,41 @@ def test_env_sh_cleans_a_user_name_with_a_newline():
     assert r.stdout == "[designer]", (r.stdout, r.stderr)
     r = subprocess.run(["bash", "-c", f"set -u; unset USER; . {REPO}/scripts/env.sh; echo ok"], capture_output=True, text=True)
     assert r.stdout.strip() == "ok", r.stderr
+
+
+# ------------------------------------------------------------------ review phase 4: S0-S3 walkthrough
+def test_walkthrough_reads_both_shapes_of_g06():
+    """G0.6 keeps the schematic's values under `compare` (upstream run, the 5T) or `measured` (no upstream, LOADBench);
+    the first walkthrough read `measured` only and left the 5T's G3.3 schematic column empty."""
+    import make_s0s3_walkthrough as W
+    assert W.schematic_values({"measured": {"gain_db": 58.0}}) == {"gain_db": 58.0}
+    assert W.schematic_values({"compare": {"gain_db": {"upstream": 31.7, "rerun": 31.697, "ok": True}}}) == {"gain_db": 31.697}
+    assert W.schematic_values({}) == {}
+
+
+def test_walkthrough_covers_both_designs_and_explains_every_failed_gate(tmp_path):
+    """Read from outputs/ only: each design gets a section with its stage statuses, every failed gate gets an
+    explanation (not the generic line), and no G3.3 row has an empty schematic value."""
+    import make_s0s3_walkthrough as W
+    designs = ["example_ota_5t", "loadbench_miller"]
+    if not all((REPO / "outputs/flow" / d / "flow_summary.json").exists() for d in designs):
+        pytest.skip("needs the S0-S3 outputs of both designs")
+    out = tmp_path / "w.md"
+    assert W.main(designs + ["--no-html", "--out", str(out)]) == 0
+    md = out.read_text()
+    for d in designs:
+        sec = md.split(f"\n## {d}\n", 1)[1].split("\n## ", 1)[0]
+        st = json.loads((REPO / "outputs/flow" / d / "flow_summary.json").read_text())["stages"]
+        assert f"| {d} | " + " | ".join(st[s]["status"] for s in ("S0", "S1", "S2", "S3")) + " |" in md
+        for s in ("S0", "S1", "S2", "S3"):
+            assert f"\n### {s}\n" in sec
+            gates = json.loads((REPO / f"outputs/{s}/{d}/{s.lower()}_report.json").read_text())["gates"]
+            for g, v in gates.items():
+                if v.get("pass") is False:
+                    assert f"- **{g.split('_')[0]} (" in sec, (d, g)
+        mode = json.loads((REPO / f"outputs/S3/{d}/device_decisions.json").read_text())["mode"]   # S3's own total
+        s3_area = gates["G3.7_modes (info)"]["summary"][mode]["total_area_um2"]                   # (every device)
+        m = re.search(r"Total device area \(every device counted\): ([0-9.e+]+) µm²", sec)
+        assert m and float(m.group(1)) == pytest.approx(s3_area, rel=1e-3), (d, m and m.group(1), s3_area)
+    rows =[r for r in md.splitlines() if re.fullmatch(r"\| (gain_db|gbw_mhz|pm_deg|power_uw) \|[^|]+\|[^|]+\| (yes|\*\*no\*\*) \|", r)]
+    assert rows and not any("| – |" in r for r in rows)

@@ -2,7 +2,8 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-02 18:15 CET, by Claude Code. **Now: the supervisor-review finalisation, on branch
+**Last updated:** 2026-11-02 22:35 CET, by Claude Code (review phase 4 done, waiting for Imasha's commit).
+**Now: the supervisor-review finalisation, on branch
 `s0-s3-review`** (Imasha's plan of 2026-11-02 evening: S0–S3 without errors on the 5T and LOADBench, and the
 output of every step shown). The phases and progress are under *Supervisor review (s0-s3-review)* below.
 
@@ -159,17 +160,44 @@ Phase A is tagged `phaseA-v3a`), and Imasha commits after each phase. Before the
 | 0 | Branch `s0-s3-review`, tag `phaseA-v3a` (Imasha) | **done** |
 | 1 | Fix the `env.sh` regression (DRC/LVS scripts stopped under `set -u`); re-run LOADBench S0; refresh its golden | **done**, committed `33e6277f` |
 | 2 | Robustness: the login-shell `USER` quirk; a retry on Errno 22 writes | **done**, committed `bf67fd09` |
-| 3 | Clean full runs from S0 of both designs; snapshot `review`; goldens; tests | **done**, waiting for Imasha's commit |
-| 4 | `docs/s0_s3_walkthrough.md` + HTML, generated from the outputs | pending (generator drafted in `runs/tmp/`) |
+| 3 | Clean full runs from S0 of both designs; snapshot `review`; goldens; tests | **done**, committed `214eb337` |
+| 4 | `docs/s0_s3_walkthrough.md` + HTML, generated from the outputs | **done**, waiting for Imasha's commit |
 | 5 | README "For reviewers", flow record 7.14, STATUS, log, `CLAUDE.md` test line | pending |
 | 6 | Rehearsal from PowerShell; commit, merge into `main`, push (Imasha) | pending |
+
+Phase 4 record (2026-11-02 evening, first draft generated 20:22 CET, finished after a usage-limit break; no run,
+outputs read only):
+- **`docs/s0_s3_walkthrough.md`** and a self-contained **`docs/s0_s3_walkthrough.html`** (pandoc, 31 images
+  embedded, 3.3 MB), written by `scripts/make_s0s3_walkthrough.py` from `outputs/` only.
+  - Per design: the status and run time of each stage, and an explanation of each failed gate, with its numbers
+    read from the files.
+  - Per stage: what it does, every gate with its result and meaning, the main numbers, the plots.
+- **Checked against the reports before committing.** Three generator bugs, fixed:
+  - the 5T's G0.6 table and the G3.3 "Schematic" column were empty: G0.6 keeps the values under `compare`
+    (upstream vs rerun) when there is an upstream run, under `measured` otherwise (LOADBench);
+  - the total device area counted one cell per type (5T 128.7 µm²), not every device as S3 does (200.8 µm²);
+  - LOADBench's margins had no units (its IR has none; now taken from the spec name).
+- **Notes where a table could be misread:**
+  - G2.5's "within" allows 1.02 × (`TOL_USE`), which is why LOADBench's pm_deg passes at 1.007;
+  - G2.8 scores every rule before the closure step, so "ours" reads unsafe on the 5T while G2.5 passes (flow
+    record 7.13);
+  - a G3.7 table gives the four option modes' areas.
+- **The same cross-check corrected my phase 3 run times** (above).
+- **Tests:** 2 new.
+  - G0.6's two shapes.
+  - The walkthrough covers both designs, explains every failed gate, has no empty G3.3 cell, and its area matches
+    S3's own total. With the first G0.6 reading put back, the test fails, as it should.
+- **README:** the walkthrough is listed under *Documents*, with its command.
+- **`.\flow.ps1 test`** from PowerShell: 134 passed, golden 20 of 20 OK (`runs/logs/review_p4_test.log`).
 
 Phase 3 record (2026-11-02 evening, final code `bf67fd09`, started from a login shell + `env.sh`, PC kept awake):
 
 | Design | S0 | S1 | S2 | S3 | Run time |
 |---|---|---|---|---|---|
-| example_ota_5t | PASS | PASS | PASS | PASS | 30 min (S0 19.9, of which PVT + Monte Carlo 19.5; S2 8.2) |
-| loadbench_miller | FAIL (G0.7) | FAIL (G1.6) | PASS | FAIL (G3.5) | 19 min (S0 10.8, S2 7.9) |
+| example_ota_5t | PASS | PASS | PASS | PASS | 29 min (S0 20.3, of which PVT + Monte Carlo 19.5; S2 8.2) |
+| loadbench_miller | FAIL (G0.7) | FAIL (G1.6) | PASS | FAIL (G3.5) | 20 min (S0 10.8, S2 7.9) |
+
+(Run times corrected in phase 4 from the flow summaries: I had written S1's 19.9 *seconds* as the 5T's S0 time.)
 
 - **No ERROR anywhere.** LOADBench's FAILs are its three known findings:
   - G0.7: N3 only, 6 DRC errors (the PDK cell at its netlist size); 8 of 9 devices pass;
@@ -186,7 +214,8 @@ Phase 3 record (2026-11-02 evening, final code `bf67fd09`, started from a login 
   So a run from scratch with the final code reproduces Phase A's results.
 - **Tests:** `.\flow.ps1 test` from PowerShell: 132 passed, golden 20 of 20 OK. The goldens still match, so no
   refresh is needed.
-- **Prepared for phase 4, not committed:** the walkthrough generator, drafted and tried in `runs/tmp/` (git-ignored).
+- **Prepared for phase 4:** the walkthrough generator, drafted and tried in `runs/tmp/` (git-ignored); it moved to
+  `scripts/` in phase 4.
 
 Phase 2 record (flow record rows 55 and 61; no run):
 - **`USER` quirk.** `scripts/env.sh` keeps the part of `USER` after a newline: the image's login profile sets it
@@ -1275,6 +1304,10 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-02 evening (Claude Code): **Supervisor review, branch `s0-s3-review`**: phases 1–3 committed
+  (`33e6277f` the `env.sh` fix, `bf67fd09` robustness, `214eb337` the clean runs); phase 4, the S0–S3 walkthrough
+  (`docs/s0_s3_walkthrough.md` + HTML, `scripts/make_s0s3_walkthrough.py`), is done and waiting for Imasha's
+  commit. Details under *Supervisor review (s0-s3-review)*.
 - 2026-11-02 (Claude Code): **Plan v3 Phase A, step 13**: flow record rows 40–61 and section 7.13, review D (9
   findings, all checked, 7.9), the post-hoc PREREG amendment for the at-bound tolerance, README. Phase A is
   complete; the claim is released. Committed `67b3b83d`, with the G2.8 follow-up (PVT checks back after review D 1).
