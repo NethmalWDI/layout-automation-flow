@@ -542,109 +542,169 @@ XDUT INN INP OUTP VSS VDD loadbench_miller
 .ends
 
 .subckt loadbench_miller in1 in2 out sourceNmos sourcePmos
-XDiodeTransistorNmos1 s3_XDiodeTransistorNmos1_d s3_XDiodeTransistorNmos1_s s3_XDiodeTransistorNmos1_g sourceNmos s3c_nfet_01v8_lvt_w66p13_l2p03_m1__nf1_gboth_sdfull
-Rs3_XDiodeTransistorNmos1_d s3_XDiodeTransistorNmos1_d FirstStageYout1 12.9845
-Rs3_XDiodeTransistorNmos1_g s3_XDiodeTransistorNmos1_g FirstStageYout1 144.445
-Rs3_XDiodeTransistorNmos1_s s3_XDiodeTransistorNmos1_s sourceNmos 12.9845
-XDiodeTransistorPmos2 s3_XDiodeTransistorPmos2_d s3_XDiodeTransistorPmos2_s s3_XDiodeTransistorPmos2_g sourcePmos sourceNmos s3c_pfet_01v8_lvt_w37p3_l0p74_m1__nf1_gboth_sdfull
-Rs3_XDiodeTransistorPmos2_d s3_XDiodeTransistorPmos2_d ibias 12.2145
+XDiodeTransistorNmos1 s3_XDiodeTransistorNmos1_s s3_XDiodeTransistorNmos1_d s3_XDiodeTransistorNmos1_g sourceNmos s3c_nfet_01v8_lvt_w66p13_l2p03_m1__nf8_gboth_sdfull_outs
+Rs3_XDiodeTransistorNmos1_d s3_XDiodeTransistorNmos1_d FirstStageYout1 3.4845
+Rs3_XDiodeTransistorNmos1_g s3_XDiodeTransistorNmos1_g FirstStageYout1 3.74409
+Rs3_XDiodeTransistorNmos1_s s3_XDiodeTransistorNmos1_s sourceNmos 2.7876
+XDiodeTransistorPmos2 s3_XDiodeTransistorPmos2_d s3_XDiodeTransistorPmos2_s s3_XDiodeTransistorPmos2_g sourcePmos sourceNmos s3c_pfet_01v8_lvt_w37p3_l0p74_m1__nf1_gboth_sdhalf
+Rs3_XDiodeTransistorPmos2_d s3_XDiodeTransistorPmos2_d ibias 14.4557
 Rs3_XDiodeTransistorPmos2_g s3_XDiodeTransistorPmos2_g ibias 242.787
-Rs3_XDiodeTransistorPmos2_s s3_XDiodeTransistorPmos2_s sourcePmos 12.2145
-XNormalTransistorNmos3 s3_XNormalTransistorNmos3_d s3_XNormalTransistorNmos3_s s3_XNormalTransistorNmos3_g sourceNmos s3c_nfet_01v8_lvt_w484p2_l0p24_m1__nf1_gboth_sdfull
-Rs3_XNormalTransistorNmos3_d s3_XNormalTransistorNmos3_d out 87.8542
-Rs3_XNormalTransistorNmos3_g s3_XNormalTransistorNmos3_g outFirstStage 8184.28
-Rs3_XNormalTransistorNmos3_s s3_XNormalTransistorNmos3_s sourceNmos 87.8542
-XNormalTransistorNmos4 s3_XNormalTransistorNmos4_d s3_XNormalTransistorNmos4_s s3_XNormalTransistorNmos4_g sourceNmos s3c_nfet_01v8_lvt_w66p13_l2p03_m1__nf1_gboth_sdfull
-Rs3_XNormalTransistorNmos4_d s3_XNormalTransistorNmos4_d outFirstStage 12.9845
-Rs3_XNormalTransistorNmos4_g s3_XNormalTransistorNmos4_g FirstStageYout1 144.445
-Rs3_XNormalTransistorNmos4_s s3_XNormalTransistorNmos4_s sourceNmos 12.9845
-XNormalTransistorPmos5 s3_XNormalTransistorPmos5_d s3_XNormalTransistorPmos5_s s3_XNormalTransistorPmos5_g sourcePmos sourceNmos s3c_pfet_01v8_lvt_w887p03_l0p74_m1__nf1_gboth_sdfull
-Rs3_XNormalTransistorPmos5_d s3_XNormalTransistorPmos5_d out 160.922
-Rs3_XNormalTransistorPmos5_g s3_XNormalTransistorPmos5_g ibias 4855.06
-Rs3_XNormalTransistorPmos5_s s3_XNormalTransistorPmos5_s sourcePmos 160.922
-XNormalTransistorPmos6 s3_XNormalTransistorPmos6_d s3_XNormalTransistorPmos6_s s3_XNormalTransistorPmos6_g FirstStageYsourceTransconductance sourceNmos s3c_pfet_01v8_lvt_w14p21_l0p89_m1__nf1_gboth_sdfull
-Rs3_XNormalTransistorPmos6_d s3_XNormalTransistorPmos6_d outFirstStage 17.081
-Rs3_XNormalTransistorPmos6_g s3_XNormalTransistorPmos6_g in2 104.456
-Rs3_XNormalTransistorPmos6_s s3_XNormalTransistorPmos6_s FirstStageYsourceTransconductance 17.081
-XNormalTransistorPmos7 s3_XNormalTransistorPmos7_d s3_XNormalTransistorPmos7_s s3_XNormalTransistorPmos7_g FirstStageYsourceTransconductance sourceNmos s3c_pfet_01v8_lvt_w14p21_l0p89_m1__nf1_gboth_sdfull
-Rs3_XNormalTransistorPmos7_d s3_XNormalTransistorPmos7_d FirstStageYout1 17.081
-Rs3_XNormalTransistorPmos7_g s3_XNormalTransistorPmos7_g in1 104.456
-Rs3_XNormalTransistorPmos7_s s3_XNormalTransistorPmos7_s FirstStageYsourceTransconductance 17.081
-XNormalTransistorPmos8 s3_XNormalTransistorPmos8_d s3_XNormalTransistorPmos8_s s3_XNormalTransistorPmos8_g sourcePmos sourceNmos s3c_pfet_01v8_lvt_w90p63_l0p74_m1__nf1_gboth_sdfull
-Rs3_XNormalTransistorPmos8_d s3_XNormalTransistorPmos8_d FirstStageYsourceTransconductance 18.6548
-Rs3_XNormalTransistorPmos8_g s3_XNormalTransistorPmos8_g ibias 532.258
-Rs3_XNormalTransistorPmos8_s s3_XNormalTransistorPmos8_s sourcePmos 18.6548
+Rs3_XDiodeTransistorPmos2_s s3_XDiodeTransistorPmos2_s sourcePmos 14.4557
+XNormalTransistorNmos3 s3_XNormalTransistorNmos3_s s3_XNormalTransistorNmos3_d s3_XNormalTransistorNmos3_g sourceNmos s3c_nfet_01v8_lvt_w484p2_l0p24_m1__nf32_gtop_sdhalf_outs
+Rs3_XNormalTransistorNmos3_d s3_XNormalTransistorNmos3_d out 0.926605
+Rs3_XNormalTransistorNmos3_g s3_XNormalTransistorNmos3_g outFirstStage 36.6954
+Rs3_XNormalTransistorNmos3_s s3_XNormalTransistorNmos3_s sourceNmos 0.872099
+XNormalTransistorNmos4 s3_XNormalTransistorNmos4_s s3_XNormalTransistorNmos4_d s3_XNormalTransistorNmos4_g sourceNmos s3c_nfet_01v8_lvt_w66p13_l2p03_m1__nf8_gboth_sdfull_outs
+Rs3_XNormalTransistorNmos4_d s3_XNormalTransistorNmos4_d outFirstStage 3.4845
+Rs3_XNormalTransistorNmos4_g s3_XNormalTransistorNmos4_g FirstStageYout1 3.74409
+Rs3_XNormalTransistorNmos4_s s3_XNormalTransistorNmos4_s sourceNmos 2.7876
+XNormalTransistorPmos5 s3_XNormalTransistorPmos5_s s3_XNormalTransistorPmos5_d s3_XNormalTransistorPmos5_g sourcePmos sourceNmos s3c_pfet_01v8_lvt_w887p03_l0p74_m1__nf16_gtop_sdhalf_outs
+Rs3_XNormalTransistorPmos5_d s3_XNormalTransistorPmos5_d out 2.06824
+Rs3_XNormalTransistorPmos5_g s3_XNormalTransistorPmos5_g ibias 80.2709
+Rs3_XNormalTransistorPmos5_s s3_XNormalTransistorPmos5_s sourcePmos 1.83843
+XNormalTransistorPmos6 s3_XNormalTransistorPmos6_s s3_XNormalTransistorPmos6_d s3_XNormalTransistorPmos6_g FirstStageYsourceTransconductance sourceNmos s3c_pfet_01v8_lvt_w14p21_l0p89_m1__nf2_gboth_sdfull_outs
+Rs3_XNormalTransistorPmos6_d s3_XNormalTransistorPmos6_d outFirstStage 33.986
+Rs3_XNormalTransistorPmos6_g s3_XNormalTransistorPmos6_g in2 36.1953
+Rs3_XNormalTransistorPmos6_s s3_XNormalTransistorPmos6_s FirstStageYsourceTransconductance 16.993
+XNormalTransistorPmos7 s3_XNormalTransistorPmos7_s s3_XNormalTransistorPmos7_d s3_XNormalTransistorPmos7_g FirstStageYsourceTransconductance sourceNmos s3c_pfet_01v8_lvt_w14p21_l0p89_m1__nf2_gboth_sdfull_outs
+Rs3_XNormalTransistorPmos7_d s3_XNormalTransistorPmos7_d FirstStageYout1 33.986
+Rs3_XNormalTransistorPmos7_g s3_XNormalTransistorPmos7_g in1 36.1953
+Rs3_XNormalTransistorPmos7_s s3_XNormalTransistorPmos7_s FirstStageYsourceTransconductance 16.993
+XNormalTransistorPmos8 s3_XNormalTransistorPmos8_s s3_XNormalTransistorPmos8_d s3_XNormalTransistorPmos8_g sourcePmos sourceNmos s3c_pfet_01v8_lvt_w90p63_l0p74_m1__nf8_gboth_sdfull_outs
+Rs3_XNormalTransistorPmos8_d s3_XNormalTransistorPmos8_d FirstStageYsourceTransconductance 6.08574
+Rs3_XNormalTransistorPmos8_g s3_XNormalTransistorPmos8_g ibias 12.7271
+Rs3_XNormalTransistorPmos8_s s3_XNormalTransistorPmos8_s sourcePmos 4.8686
 Ibias ibias sourceNmos 1e-05
 Capacitor2 outFirstStage out 5e-13
 .ends loadbench_miller
-.subckt s3c_nfet_01v8_lvt_w66p13_l2p03_m1__nf1_gboth_sdfull D S G B
-X0 S G D B sky130_fd_pr__nfet_01v8_lvt ad=19.1777 pd=132.84 as=19.1777 ps=132.84 w=66.13 l=2.03
-C0 D G 4.70208f
-C1 D S 1.06115f
-C2 G S 4.70208f
-C3 S B 4.96121f
-C4 D B 4.96121f
-C5 G B 0.974f
+.subckt s3c_nfet_01v8_lvt_w66p13_l2p03_m1__nf8_gboth_sdfull_outs S D G B
+X0 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=2.3983 ps=17.12 w=8.27 l=2.03
+X1 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X2 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X3 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X4 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.3983 pd=17.12 as=1.19915 ps=8.56 w=8.27 l=2.03
+X5 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X6 S G D B sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X7 D G S B sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+C0 D G 6.22104f
+C1 S G 6.23237f
+C2 D S 1.67054f
+C3 D B 0.63863f
+C4 S B 1.90053f
+C5 G B 7.27713f
 .ends
-.subckt s3c_pfet_01v8_lvt_w37p3_l0p74_m1__nf1_gboth_sdfull D S G B SUB
+.subckt s3c_pfet_01v8_lvt_w37p3_l0p74_m1__nf1_gboth_sdhalf D S G B SUB
 X0 S G D B sky130_fd_pr__pfet_01v8_lvt ad=10.817 pd=75.18 as=10.817 ps=75.18 w=37.3 l=0.74
-C0 D S 1.38952f
-C1 D G 1.71558f
-C2 G S 1.71558f
-C3 B D 2.17456f
-C4 B S 2.17456f
-C5 B G 0.35539f
-C6 S SUB 1.00725f
-C7 D SUB 1.00725f
+C0 B G 0.76107f
+C1 D S 0.69733f
+C2 D G 0.86103f
+C3 G S 0.86103f
+C4 B D 1.26756f
+C5 B S 1.26756f
+C6 S SUB 0.50259f
+C7 D SUB 0.50259f
 C8 G SUB 0.14787f
-C9 B SUB 15.7899f
+C9 B SUB 15.1998f
 .ends
-.subckt s3c_nfet_01v8_lvt_w484p2_l0p24_m1__nf1_gboth_sdfull D S G B
-X0 S G D B sky130_fd_pr__nfet_01v8_lvt ad=140.418 pd=968.97998 as=140.418 ps=968.97998 w=484.20001 l=0.24
-C0 S G 9.46369f
-C1 D G 9.46369f
-C2 S D 34.7351f
-C3 G B 0.30668f
-C4 S B 36.66436f
-C5 D B 36.66436f
+.subckt s3c_nfet_01v8_lvt_w484p2_l0p24_m1__nf32_gtop_sdhalf_outs S D G B
+X0 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X1 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X2 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X3 S G D B sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.84 as=2.19385 ps=15.42 w=15.13 l=0.24
+X4 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X5 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X6 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X7 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X8 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X9 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X10 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X11 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X12 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X13 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X14 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X15 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X16 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X17 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X18 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X19 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X20 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X21 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=4.3877 ps=30.84 w=15.13 l=0.24
+X22 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X23 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X24 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X25 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X26 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X27 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X28 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X29 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X30 D G S B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X31 S G D B sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+C0 D G 5.65647f
+C1 G S 5.6697f
+C2 D S 19.29213f
+C3 D B 0.21053f
+C4 S B 1.43576f
+C5 G B 5.10604f
 .ends
-.subckt s3c_pfet_01v8_lvt_w887p03_l0p74_m1__nf1_gboth_sdfull D S G B SUB
-X0 S G D B sky130_fd_pr__pfet_01v8_lvt ad=257.23871 pd=1.77464k as=257.23871 ps=1.77464k w=887.03003 l=0.74
-C0 G D 40.7675f
-C1 S B 51.2645f
-C2 B D 51.2645f
-C3 S D 33.0325f
-C4 B G 0.35539f
-C5 S G 40.7675f
-C6 S SUB 23.6424f
-C7 D SUB 23.6424f
-C8 G SUB 0.14787f
-C9 B SUB 0.35262p
+.subckt s3c_pfet_01v8_lvt_w887p03_l0p74_m1__nf16_gtop_sdhalf_outs S D G B SUB
+X0 S G D B sky130_fd_pr__pfet_01v8_lvt ad=16.0776 pd=111.46 as=8.0388 ps=55.73 w=55.44 l=0.74
+X1 S G D B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X2 D G S B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X3 S G D B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X4 D G S B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=16.0776 ps=111.46 w=55.44 l=0.74
+X5 D G S B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X6 S G D B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X7 D G S B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X8 S G D B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X9 D G S B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X10 D G S B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X11 S G D B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X12 D G S B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X13 D G S B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X14 S G D B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X15 S G D B sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+C0 S D 17.63875f
+C1 B D 4.97785f
+C2 G D 21.51847f
+C3 B S 7.89685f
+C4 G S 21.51847f
+C5 B G 4.52291f
+C6 S SUB 1.66518f
+C7 G SUB 1.25808f
+C8 B SUB 0.12838p
 .ends
-.subckt s3c_pfet_01v8_lvt_w14p21_l0p89_m1__nf1_gboth_sdfull D S G B SUB
-X0 S G D B sky130_fd_pr__pfet_01v8_lvt ad=4.1209 pd=29 as=4.1209 ps=29 w=14.21 l=0.89
-C0 S B 0.85665f
-C1 S D 0.4612f
-C2 S G 0.72641f
-C3 D B 0.85665f
-C4 G B 0.398f
-C5 G D 0.72641f
-C6 S SUB 0.38764f
-C7 D SUB 0.38764f
-C8 G SUB 0.16759f
-C9 B SUB 6.94135f
+.subckt s3c_pfet_01v8_lvt_w14p21_l0p89_m1__nf2_gboth_sdfull_outs S D G B SUB
+X0 S G D B sky130_fd_pr__pfet_01v8_lvt ad=2.0619 pd=14.8 as=1.03095 ps=7.4 w=7.11 l=0.89
+X1 D G S B sky130_fd_pr__pfet_01v8_lvt ad=1.03095 pd=7.4 as=2.0619 ps=14.8 w=7.11 l=0.89
+C0 S B 0.90666f
+C1 S D 0.61595f
+C2 B G 0.78558f
+C3 D G 0.91599f
+C4 D B 0.21006f
+C5 S G 0.91851f
+C6 D SUB 0.08206f
+C7 S SUB 0.46101f
+C8 G SUB 0.28346f
+C9 B SUB 5.40049f
 .ends
-.subckt s3c_pfet_01v8_lvt_w90p63_l0p74_m1__nf1_gboth_sdfull D S G B SUB
-X0 S G D B sky130_fd_pr__pfet_01v8_lvt ad=26.2827 pd=181.84 as=26.2827 ps=181.84 w=90.63 l=0.74
-C0 B D 5.26317f
-C1 S D 3.37546f
-C2 B G 0.35539f
-C3 S G 4.16652f
-C4 G D 4.16652f
-C5 S B 5.26317f
-C6 S SUB 2.42817f
-C7 D SUB 2.42817f
-C8 G SUB 0.14787f
-C9 B SUB 36.9299f
+.subckt s3c_pfet_01v8_lvt_w90p63_l0p74_m1__nf8_gboth_sdfull_outs S D G B SUB
+X0 D G S B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X1 S G D B sky130_fd_pr__pfet_01v8_lvt ad=3.2857 pd=23.24 as=1.64285 ps=11.62 w=11.33 l=0.74
+X2 S G D B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X3 S G D B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X4 D G S B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=3.2857 ps=23.24 w=11.33 l=0.74
+X5 S G D B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X6 D G S B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X7 D G S B sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+C0 B S 2.18124f
+C1 S G 4.85693f
+C2 D S 3.85483f
+C3 B G 2.53179f
+C4 B D 1.0891f
+C5 D G 4.84687f
+C6 D SUB 0.2792f
+C7 S SUB 0.88543f
+C8 G SUB 0.97484f
+C9 B SUB 17.7172f
 .ends
 .end

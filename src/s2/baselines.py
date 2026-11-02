@@ -96,6 +96,11 @@ def lp_floor(elements, constraints, floors: dict | None = None, upper: float = 1
     return {k: float(v) for k, v in zip(ids, r.x)}, floored
 
 
+AT_BOUND_TOL = 1e-6   # a budget within this share below its need or floor counts as at it, not below it: phase 2
+                      # (budgets.refine) leaves a pinned budget xm * (1 - 1e-9) of room, so with a 1e-9 test a
+                      # budget at its floor fell above or below it by rounding (Plan v3 Phase A step 12, LOADBench)
+
+
 def score(x: dict, elements: list, constraints: list, floors: dict | None = None) -> dict:
     w = {e["id"]: e["w"] for e in elements}
     use = {}
@@ -108,8 +113,8 @@ def score(x: dict, elements: list, constraints: list, floors: dict | None = None
             "use_of_allowed": use,
             "unsafe_checks": sorted(k for k, v in use.items() if v is not None and v > 1 + 1e-9),
             "n_elements": len(x),
-            "starved": sorted(k for k in x if x[k] < w[k] * (1 - 1e-9)),
-            "below_floor": sorted(k for k in x if x[k] < fl.get(k, 0.0) * (1 - 1e-9)),
+            "starved": sorted(k for k in x if x[k] < w[k] * (1 - AT_BOUND_TOL)),
+            "below_floor": sorted(k for k in x if x[k] < fl.get(k, 0.0) * (1 - AT_BOUND_TOL)),
             "min_ratio_to_need": min(ratios) if ratios else None,
             "geo_mean_ratio_to_need": math.exp(sum(math.log(max(r_, 1e-30)) for r_ in ratios) / len(ratios)) if ratios else None}
 

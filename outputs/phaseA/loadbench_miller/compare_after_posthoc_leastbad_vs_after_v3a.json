@@ -1,0 +1,210 @@
+{
+ "created": "2026-11-02T13:55:27",
+ "designs": {
+  "loadbench_miller": {
+   "design": "loadbench_miller",
+   "first": "after_posthoc_leastbad",
+   "rerun": "after_v3a",
+   "s2": {
+    "failed": {
+     "first": [
+      "G2.3_allocation",
+      "G2.7_library_floors_feasible"
+     ],
+     "rerun": []
+    },
+    "eta": {
+     "first": 0.5,
+     "rerun": 0.5
+    },
+    "t_round1": {
+     "first": 0.0009419841293572113,
+     "rerun": 0.496787249123301
+    },
+    "starved": {
+     "first": 39,
+     "rerun": 29
+    },
+    "n_budgeted": {
+     "first": 42,
+     "rerun": 40
+    },
+    "floors_pass": {
+     "first": false,
+     "rerun": true
+    },
+    "verify_max_abs_change": 0.48170000000000357
+   },
+   "rules": {
+    "per_net": {
+     "outcome": {
+      "first": "unsafe + infeasible",
+      "rerun": "unsafe"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 13.1992031872511,
+      "rerun": 6.772641030939452
+     },
+     "spice_specs_violated": {
+      "first": [
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t27",
+       "gbw_mhz@sf_v1_t85",
+       "pm_deg",
+       "pm_deg@sf_v1.1_t85",
+       "pm_deg@ss_v1.1_t-40",
+       "pm_deg@ss_v1.1_t27",
+       "pm_deg@ss_v1.1_t85",
+       "pm_deg@ss_v1_t85",
+       "pm_deg@tt_v1.1_t85"
+      ],
+      "rerun": [
+       "gbw_mhz",
+       "pm_deg"
+      ]
+     },
+     "worst_use_of_allowed": {
+      "first": 14.584533150538086,
+      "rerun": 5.773144756715311
+     }
+    },
+    "equal": {
+     "outcome": {
+      "first": "infeasible",
+      "rerun": "infeasible"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 0.7609561752987936,
+      "rerun": 0.5933161760562055
+     },
+     "spice_specs_violated": {
+      "first": [],
+      "rerun": []
+     },
+     "worst_use_of_allowed": {
+      "first": 0.724463282429966,
+      "rerun": 0.5803740245606122
+     }
+    },
+    "lp_sum": {
+     "outcome": {
+      "first": "unsafe + infeasible (unverified: failed runs)",
+      "rerun": "infeasible (unverified: failed runs)"
+     },
+     "spice_failed_runs": {
+      "first": [
+       "gbw_mhz",
+       "gbw_mhz@ff_v0.9_t85",
+       "gbw_mhz@sf_v1_t27",
+       "gbw_mhz@sf_v1_t85",
+       "pm_deg",
+       "pm_deg@sf_v1.1_t85",
+       "pm_deg@ss_v1.1_t-40",
+       "pm_deg@ss_v1.1_t27",
+       "pm_deg@ss_v1.1_t85",
+       "pm_deg@ss_v1_t85",
+       "pm_deg@tt_v1.1_t85"
+      ],
+      "rerun": [
+       "pm_deg"
+      ]
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 35824.52857142116,
+      "rerun": 0.4960020524222876
+     },
+     "spice_specs_violated": {
+      "first": [
+       "gain_db@sf_v0.9_t-40",
+       "sat_XDiodeTransistorNmos1"
+      ],
+      "rerun": []
+     },
+     "worst_use_of_allowed": {
+      "first": 1.000000011879873,
+      "rerun": 1.0000000000000002
+     }
+    },
+    "lp_floor": {
+     "outcome": {
+      "first": "unsafe + infeasible",
+      "rerun": "unsafe"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 43777.95714284808,
+      "rerun": 1.0319914338849956
+     },
+     "spice_specs_violated": {
+      "first": [
+       "gain_db@sf_v0.9_t-40"
+      ],
+      "rerun": []
+     },
+     "worst_use_of_allowed": {
+      "first": 1.0000000171322923,
+      "rerun": 1.0000000001517635
+     }
+    },
+    "ours": {
+     "outcome": {
+      "first": "infeasible",
+      "rerun": "ok"
+     },
+     "spice_failed_runs": {
+      "first": [],
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": 0.9999999999994925,
+      "rerun": 1.006819078391223
+     },
+     "spice_specs_violated": {
+      "first": [],
+      "rerun": []
+     },
+     "worst_use_of_allowed": {
+      "first": 1.0000000000000002,
+      "rerun": 0.9999999999999998
+     }
+    },
+    "lp_floor_k": {
+     "outcome": {
+      "first": null,
+      "rerun": "ok"
+     },
+     "spice_failed_runs": {
+      "first": null,
+      "rerun": []
+     },
+     "spice_worst_use_of_allowed": {
+      "first": null,
+      "rerun": 1.0147840625176108
+     },
+     "spice_specs_violated": {
+      "first": null,
+      "rerun": []
+     },
+     "worst_use_of_allowed": {
+      "first": null,
+      "rerun": 1.0000000000000002
+     }
+    }
+   },
+   "same_gates_outcomes_and_failed_run_counts": false,
+   "rerun_timed_out_runs": null,
+   "rerun_clock": null
+  }
+ }
+}

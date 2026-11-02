@@ -62,11 +62,13 @@ def compare(design: str, first: str, rerun: str) -> dict:
         r["outcome"]["first"] == r["outcome"]["rerun"]
         and len(r["spice_failed_runs"]["first"] or []) == len(r["spice_failed_runs"]["rerun"] or [])
         for r in rules.values())
-    d = RERUN / design
+    # the kept S2 folder and clock record belong to the eta 0.9 re-run only; any other pair (e.g. Plan v3 Phase A's
+    # after_nopvt -> after_v3a) must not borrow them
+    d = RERUN / design if rerun == "after_eta0.9_rerun" else None
     return {"design": design, "first": first, "rerun": rerun, "s2": s2, "rules": rules,
             "same_gates_outcomes_and_failed_run_counts": same,
-            "rerun_timed_out_runs": timed_out(d / "S2") if (d / "S2").exists() else None,
-            "rerun_clock": _j(d / "clock.json")}
+            "rerun_timed_out_runs": timed_out(d / "S2") if d and (d / "S2").exists() else None,
+            "rerun_clock": _j(d / "clock.json") if d else None}
 
 
 def _f(v):

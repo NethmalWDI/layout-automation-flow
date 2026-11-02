@@ -1,0 +1,690 @@
+{
+ "design": "example_ota_5t",
+ "tag": "after_v3a",
+ "S0": {
+  "gates": {
+   "G0.1_inventory": true,
+   "G0.2_validation": true,
+   "G0.3_hash_freeze": true,
+   "G0.4_name_map": true,
+   "G0.5_round_trip_lvs": true,
+   "G0.6_testbench_reproduction": true,
+   "G0.7_pcell_binding_drc_lvs": true,
+   "G0.9_pvt (info)": null,
+   "G0.10_mismatch_mc (info)": null
+  },
+  "failed": []
+ },
+ "S1": {
+  "gates": {
+   "G1.1_operating_point": true,
+   "G1.2_linear_model_vs_spice": true,
+   "G1.3_sensitivity_vs_spice": true,
+   "G1.4_matching_groups": true,
+   "G1.5_symbolic_vs_spice (reported, not gated)": null,
+   "G1.6_resistance_sensitivity_vs_spice": true
+  },
+  "failed": [],
+  "linear_vs_spice": {
+   "gain_db": -0.004065111029795787,
+   "gbw_rel": 0.005281605832581526,
+   "pm_deg": 0.010925510353402501
+  },
+  "symbolic_vs_spice": {
+   "gain_db": -0.33258143917458227,
+   "gbw_mhz": 3.9778338334919567,
+   "pm_deg": 10.409408745389442
+  }
+ },
+ "S2": {
+  "gates": {
+   "G2.9_pvt_constraints (info)": null,
+   "G2.0_expected_layout_use (info)": null,
+   "G2.7_library_floors_feasible": true,
+   "G2.3_allocation": true,
+   "G2.5_spice_budget_verification": true,
+   "G2.8_baselines (info)": null,
+   "G2.10_model_agreement (info)": null,
+   "G2.4_linear_all_budgets_at_once": null,
+   "G2.6_hierarchy_sums": true,
+   "G2.1_names_resolve": true,
+   "G2.2_units_and_provenance": true
+  },
+  "failed": [],
+  "run_id": "2026-11-02T13:16:56-77f532d3",
+  "eta": 0.5,
+  "alloc": "v2",
+  "expected_use_fraction": {
+   "gain_db": 0.08565660165551096,
+   "gbw_mhz": 0.053615893003413004,
+   "pm_deg": 0.07468603521427222,
+   "vnoise_nv_rthz": 0.013109034521719224
+  },
+  "t_round1": 3.925385730587429,
+  "n_budgeted": 21,
+  "starved": 0,
+  "min_ratio_to_need": 3.729116444058057,
+  "verify": {
+   "gain_db": 0.485857395403654,
+   "gbw_mhz": 0.29368302646379724,
+   "pm_deg": 0.41248543095706686,
+   "vnoise_nv_rthz": 0.07566955494289077,
+   "sat_XM3": 0.01495329062962072,
+   "sat_XM4": 0.01495329062962072,
+   "sat_XM1": 0.1051002771037278,
+   "sat_XM2": 0.1051002771037278,
+   "sat_XM5": 0.49131234668847007
+  },
+  "floors": {
+   "pass": true,
+   "alloc": "v2",
+   "n_floors": 19,
+   "representative_option": {
+    "pfet_01v8_W8_L1_m1": {
+     "option": "nf1_gboth_sdfull",
+     "score_vs_default": 1.0
+    },
+    "nfet_01v8_W24_L0p5_m1": {
+     "option": "nf1_gboth_sdhalf",
+     "score_vs_default": 0.7472742830201137
+    },
+    "nfet_01v8_W24_L1_m1": {
+     "option": "nf2_gboth_sdfull_outS",
+     "score_vs_default": 0.8753885359388272
+    }
+   },
+   "floor_use_of_allowed": {
+    "gain_db": 0.11020323931830453,
+    "gbw_mhz": 0.03696950325455029,
+    "pm_deg": 0.05061459427951559,
+    "vnoise_nv_rthz": 0.009175717826215382,
+    "sat_XM3": 0.002658995058956126,
+    "sat_XM4": 0.002658995058956126,
+    "sat_XM1": 0.026082518373139678,
+    "sat_XM2": 0.026082518373139678,
+    "sat_XM5": 0.07709312808601364
+   },
+   "note": "the cheapest cell of the S3 unit library for every element, all at once, as a fraction of eta*margin; > 1 means no layout built from library cells can meet the budgets at this eta"
+  },
+  "baselines": {
+   "per_net": {
+    "worst_use_of_allowed": 1.8941220521259348,
+    "use_of_allowed": {
+     "gain_db": 1.5878988523563724,
+     "gbw_mhz": 1.0584299088094307,
+     "pm_deg": 1.4934146723889208,
+     "vnoise_nv_rthz": 0.25436669704096837,
+     "sat_XM3": 0.03769209013850428,
+     "sat_XM4": 0.03769209013850428,
+     "sat_XM1": 0.3730775567438696,
+     "sat_XM2": 0.3730775567438696,
+     "sat_XM5": 1.8941220521259348
+    },
+    "unsafe_checks": [
+     "gain_db",
+     "gbw_mhz",
+     "pm_deg",
+     "sat_XM5"
+    ],
+    "n_elements": 21,
+    "starved": [],
+    "below_floor": [],
+    "min_ratio_to_need": 6.061847705542168,
+    "geo_mean_ratio_to_need": 9.70974305879724,
+    "spice_worst_use_of_allowed": 1.8355478331970565,
+    "spice_specs_violated": [],
+    "spice_failed_runs": [],
+    "spice_checks": 9,
+    "outcome": "unsafe"
+   },
+   "equal": {
+    "worst_use_of_allowed": 0.6765397056081864,
+    "use_of_allowed": {
+     "gain_db": 0.6765397056081864,
+     "gbw_mhz": 0.32077596584336754,
+     "pm_deg": 0.392040243559663,
+     "vnoise_nv_rthz": 0.04779960811204164,
+     "sat_XM3": 0.029208768393422728,
+     "sat_XM4": 0.029208768393422728,
+     "sat_XM1": 0.15742481747093695,
+     "sat_XM2": 0.15742481747093695,
+     "sat_XM5": 0.38811450501685946
+    },
+    "unsafe_checks": [],
+    "n_elements": 21,
+    "starved": [
+     "XM1+XM2.g"
+    ],
+    "below_floor": [],
+    "min_ratio_to_need": 0.9424292071468229,
+    "geo_mean_ratio_to_need": 5.769788782818517,
+    "spice_worst_use_of_allowed": 0.7142015321154961,
+    "spice_specs_violated": [],
+    "spice_failed_runs": [],
+    "spice_checks": 9,
+    "outcome": "ok"
+   },
+   "lp_sum": {
+    "worst_use_of_allowed": 1.0,
+    "use_of_allowed": {
+     "gain_db": 1.0,
+     "gbw_mhz": 0.999425173093782,
+     "pm_deg": 1.0,
+     "vnoise_nv_rthz": 0.24098747890163905,
+     "sat_XM3": 0.03710248472819482,
+     "sat_XM4": 0.03710248472819482,
+     "sat_XM1": 0.23256306095303714,
+     "sat_XM2": 0.23256306095303714,
+     "sat_XM5": 1.0
+    },
+    "unsafe_checks": [],
+    "n_elements": 21,
+    "starved": [
+     "XM5.d"
+    ],
+    "below_floor": [],
+    "min_ratio_to_need": 0.7481384925603027,
+    "geo_mean_ratio_to_need": 8.062118723588938,
+    "spice_worst_use_of_allowed": 1.0850913376546854,
+    "spice_specs_violated": [],
+    "spice_failed_runs": [],
+    "spice_checks": 9,
+    "outcome": "unsafe"
+   },
+   "lp_floor": {
+    "worst_use_of_allowed": 0.25475203422883774,
+    "use_of_allowed": {
+     "gain_db": 0.17131320331102193,
+     "gbw_mhz": 0.10723178600682601,
+     "pm_deg": 0.14937207042854445,
+     "vnoise_nv_rthz": 0.026218069043438447,
+     "sat_XM3": 0.00381290647275093,
+     "sat_XM4": 0.00381290647275093,
+     "sat_XM1": 0.040300970779226446,
+     "sat_XM2": 0.040300970779226446,
+     "sat_XM5": 0.25475203422883774
+    },
+    "unsafe_checks": [],
+    "n_elements": 21,
+    "starved": [],
+    "below_floor": [],
+    "min_ratio_to_need": 1.0,
+    "geo_mean_ratio_to_need": 1.0,
+    "floors_applied": true,
+    "spice_worst_use_of_allowed": 0.25398609975470304,
+    "spice_specs_violated": [],
+    "spice_failed_runs": [],
+    "spice_checks": 9,
+    "outcome": "ok"
+   },
+   "lp_floor_k": {
+    "worst_use_of_allowed": 1.0,
+    "use_of_allowed": {
+     "gain_db": 1.0,
+     "gbw_mhz": 0.999425173093782,
+     "pm_deg": 1.0,
+     "vnoise_nv_rthz": 0.24098747890163905,
+     "sat_XM3": 0.03710248472819482,
+     "sat_XM4": 0.03710248472819482,
+     "sat_XM1": 0.23256306095303714,
+     "sat_XM2": 0.23256306095303714,
+     "sat_XM5": 1.0
+    },
+    "unsafe_checks": [],
+    "n_elements": 21,
+    "starved": [
+     "XM5.d"
+    ],
+    "below_floor": [],
+    "min_ratio_to_need": 0.7481384925603027,
+    "geo_mean_ratio_to_need": 8.062118723588938,
+    "floors_applied": true,
+    "spice_worst_use_of_allowed": 1.0850913376546854,
+    "spice_specs_violated": [],
+    "spice_failed_runs": [],
+    "spice_checks": 9,
+    "outcome": "unsafe"
+   },
+   "ours": {
+    "worst_use_of_allowed": 1.0000000000000004,
+    "use_of_allowed": {
+     "gain_db": 1.0000000000000004,
+     "gbw_mhz": 0.724695626237565,
+     "pm_deg": 0.999999999999999,
+     "vnoise_nv_rthz": 0.17620163701536554,
+     "sat_XM3": 0.03708528609585384,
+     "sat_XM4": 0.03708528609585384,
+     "sat_XM1": 0.2332971762676794,
+     "sat_XM2": 0.2332971762676794,
+     "sat_XM5": 0.9999999999999976
+    },
+    "unsafe_checks": [],
+    "n_elements": 21,
+    "starved": [],
+    "below_floor": [],
+    "min_ratio_to_need": 3.729116444058057,
+    "geo_mean_ratio_to_need": 8.12766783310447,
+    "spice_worst_use_of_allowed": 1.0860341779611062,
+    "spice_specs_violated": [],
+    "spice_failed_runs": [],
+    "spice_checks": 9,
+    "outcome": "unsafe"
+   }
+  },
+  "pvt": {
+   "pass": null,
+   "budget_corners": "nominal",
+   "points": 45,
+   "constraints_added": 0,
+   "op_failed": [],
+   "use_of_allowed": {
+    "ff_v0.9_t-40": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": "spec not met before layout",
+     "pm_deg": 0.0560284977696766
+    },
+    "ff_v0.9_t27": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": "not defined: gain below 0 dB (no unity-gain crossing)",
+     "pm_deg": "not defined: gain below 0 dB (no unity-gain crossing)"
+    },
+    "ff_v0.9_t85": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": "not defined: gain below 0 dB (no unity-gain crossing)",
+     "pm_deg": "not defined: gain below 0 dB (no unity-gain crossing)"
+    },
+    "ff_v1.1_t-40": {
+     "gain_db": 0.20886641567754502,
+     "gbw_mhz": 0.6993744840410422,
+     "pm_deg": 1.1344272763226488
+    },
+    "ff_v1.1_t27": {
+     "gain_db": 0.25904196990912803,
+     "gbw_mhz": 0.7002315687419222,
+     "pm_deg": 1.1881811906457753
+    },
+    "ff_v1.1_t85": {
+     "gain_db": 0.3150560471546019,
+     "gbw_mhz": 0.705297961774624,
+     "pm_deg": 1.1687995896370829
+    },
+    "ff_v1_t-40": {
+     "gain_db": 0.5800139998225581,
+     "gbw_mhz": 0.70798291337468,
+     "pm_deg": 1.0664595419128855
+    },
+    "ff_v1_t27": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 0.7142961975717622,
+     "pm_deg": 1.056373554937115
+    },
+    "ff_v1_t85": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 0.7246418935345663,
+     "pm_deg": 0.9902077467848601
+    },
+    "fs_v0.9_t-40": {
+     "gain_db": 1.0711271226224226,
+     "gbw_mhz": 0.9042458323560378,
+     "pm_deg": 0.6970828751181501
+    },
+    "fs_v0.9_t27": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 0.8188616664506273,
+     "pm_deg": 0.7617831055315185
+    },
+    "fs_v0.9_t85": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 0.8162155423909023,
+     "pm_deg": 0.7334519584097786
+    },
+    "fs_v1.1_t-40": {
+     "gain_db": 0.16389499565338878,
+     "gbw_mhz": 0.8747983376395004,
+     "pm_deg": 0.7545543532924738
+    },
+    "fs_v1.1_t27": {
+     "gain_db": 0.18067952663851025,
+     "gbw_mhz": 0.7777386427808874,
+     "pm_deg": 0.9001524168990894
+    },
+    "fs_v1.1_t85": {
+     "gain_db": 0.200665002182769,
+     "gbw_mhz": 0.7629827121827163,
+     "pm_deg": 0.944063137317507
+    },
+    "fs_v1_t-40": {
+     "gain_db": 0.20439750913846783,
+     "gbw_mhz": 0.8792873916351744,
+     "pm_deg": 0.7435748493194345
+    },
+    "fs_v1_t27": {
+     "gain_db": 0.24887954592982436,
+     "gbw_mhz": 0.7826266362186234,
+     "pm_deg": 0.8763362066307095
+    },
+    "fs_v1_t85": {
+     "gain_db": 0.30421230753516354,
+     "gbw_mhz": 0.7682231131546271,
+     "pm_deg": 0.9107960123652628
+    },
+    "sf_v0.9_t-40": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": "not defined: gain below 0 dB (no unity-gain crossing)",
+     "pm_deg": "not defined: gain below 0 dB (no unity-gain crossing)"
+    },
+    "sf_v0.9_t27": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": "not defined: gain below 0 dB (no unity-gain crossing)",
+     "pm_deg": "not defined: gain below 0 dB (no unity-gain crossing)"
+    },
+    "sf_v0.9_t85": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": "not defined: gain below 0 dB (no unity-gain crossing)",
+     "pm_deg": "not defined: gain below 0 dB (no unity-gain crossing)"
+    },
+    "sf_v1.1_t-40": {
+     "gain_db": 0.27127452726813206,
+     "gbw_mhz": 0.6946255526345931,
+     "pm_deg": 1.2279169079498222
+    },
+    "sf_v1.1_t27": {
+     "gain_db": 0.4260786884050326,
+     "gbw_mhz": 0.7001350400187508,
+     "pm_deg": 1.225032946264153
+    },
+    "sf_v1.1_t85": {
+     "gain_db": 0.697755395986177,
+     "gbw_mhz": 0.7060128600268175,
+     "pm_deg": 1.1731912095370196
+    },
+    "sf_v1_t-40": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 0.7434999447091248,
+     "pm_deg": 0.9312371552730349
+    },
+    "sf_v1_t27": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 0.8077348064069448,
+     "pm_deg": 0.5632240338007621
+    },
+    "sf_v1_t85": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 0.8845885800213912,
+     "pm_deg": 0.39844880510201336
+    },
+    "ss_v0.9_t-40": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 0.9723564179983472,
+     "pm_deg": 0.474611393443152
+    },
+    "ss_v0.9_t27": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 1.303710355208302,
+     "pm_deg": 0.21789816984471622
+    },
+    "ss_v0.9_t85": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 1.6710626579211365,
+     "pm_deg": 0.15515737679878464
+    },
+    "ss_v1.1_t-40": {
+     "gain_db": 0.17511872249842686,
+     "gbw_mhz": 0.7949381900968078,
+     "pm_deg": 0.8531941427483223
+    },
+    "ss_v1.1_t27": {
+     "gain_db": 0.20116395910116922,
+     "gbw_mhz": 0.746444071958661,
+     "pm_deg": 0.9755975448486355
+    },
+    "ss_v1.1_t85": {
+     "gain_db": 0.23040145170618098,
+     "gbw_mhz": 0.7421585792362504,
+     "pm_deg": 1.0008453021262864
+    },
+    "ss_v1_t-40": {
+     "gain_db": 0.2713030855515448,
+     "gbw_mhz": 0.8019678420817989,
+     "pm_deg": 0.8284646450377164
+    },
+    "ss_v1_t27": {
+     "gain_db": 0.43645887437241043,
+     "gbw_mhz": 0.7549572144983074,
+     "pm_deg": 0.92365401166748
+    },
+    "ss_v1_t85": {
+     "gain_db": 0.7976931135654065,
+     "gbw_mhz": 0.7533410573953054,
+     "pm_deg": 0.928213652188601
+    },
+    "tt_v0.9_t-40": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 1.2090650142242072,
+     "pm_deg": 0.2423650011471611
+    },
+    "tt_v0.9_t27": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 6.335829422681386,
+     "pm_deg": 0.07549814448178199
+    },
+    "tt_v0.9_t85": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": "spec not met before layout",
+     "pm_deg": 0.0659135648214779
+    },
+    "tt_v1.1_t-40": {
+     "gain_db": 0.18929384640949304,
+     "gbw_mhz": 0.7301491859613597,
+     "pm_deg": 0.9891251173827877
+    },
+    "tt_v1.1_t27": {
+     "gain_db": 0.22491463498764105,
+     "gbw_mhz": 0.7155909006860012,
+     "pm_deg": 1.08154494541073
+    },
+    "tt_v1.1_t85": {
+     "gain_db": 0.26406094736750974,
+     "gbw_mhz": 0.7184239411179851,
+     "pm_deg": 1.0857197185722187
+    },
+    "tt_v1_t-40": {
+     "gain_db": 0.3532939078287048,
+     "gbw_mhz": 0.7373274264506103,
+     "pm_deg": 0.9480559134466771
+    },
+    "tt_v1_t27": {
+     "gain_db": 0.9023657080846522,
+     "gbw_mhz": 0.7259901728771773,
+     "pm_deg": 0.9994990504075318
+    },
+    "tt_v1_t85": {
+     "gain_db": "spec not met before layout",
+     "gbw_mhz": 0.7321338520273106,
+     "pm_deg": 0.9738566190335973
+    }
+   },
+   "worst": {
+    "point": "tt_v0.9_t27",
+    "spec": "gbw_mhz",
+    "use_of_allowed": 6.335829422681386
+   },
+   "over_allowed": [
+    "gain_db@fs_v0.9_t-40",
+    "gbw_mhz@ss_v0.9_t27",
+    "gbw_mhz@ss_v0.9_t85",
+    "gbw_mhz@tt_v0.9_t-40",
+    "gbw_mhz@tt_v0.9_t27",
+    "pm_deg@ff_v1.1_t-40",
+    "pm_deg@ff_v1.1_t27",
+    "pm_deg@ff_v1.1_t85",
+    "pm_deg@ff_v1_t-40",
+    "pm_deg@ff_v1_t27",
+    "pm_deg@sf_v1.1_t-40",
+    "pm_deg@sf_v1.1_t27",
+    "pm_deg@sf_v1.1_t85",
+    "pm_deg@ss_v1.1_t85",
+    "pm_deg@tt_v1.1_t27",
+    "pm_deg@tt_v1.1_t85"
+   ],
+   "note": "budgets at the nominal corner only (budget_corners: nominal; PREREG 2026-11-01). Per point and spec: first-order use of eta x that point's margin by the final budgets (sum of rate at the point x budget). Reported, not gated; above 1 the point would use more than its allowed share"
+  },
+  "g20_by_part": {
+   "gbw_mhz": {
+    "cap_wiring": 0.5129633664432827,
+    "cap_cells": 0.6772047989871173,
+    "r_wiring": 1.810167219866063,
+    "r_access": 1.5277948583067824,
+    "total": 4.528130243603245,
+    "margin": 84.455,
+    "residual": 0.0
+   },
+   "pm_deg": {
+    "cap_wiring": 0.2829362376636852,
+    "cap_cells": 0.4026032191110714,
+    "r_wiring": 0.04663687276784326,
+    "r_access": 0.8313608804611461,
+    "total": 1.563537210003746,
+    "margin": 20.934799999999996,
+    "residual": 0.0
+   },
+   "gain_db": {
+    "cap_wiring": 0.0,
+    "cap_cells": 0.0,
+    "r_wiring": 0.04708383035714171,
+    "r_access": 0.09827542265226032,
+    "total": 0.14535925300940203,
+    "margin": 1.6969999999999992,
+    "residual": 0.0
+   },
+   "vnoise_nv_rthz": {
+    "cap_wiring": 0.0,
+    "cap_cells": 0.0,
+    "r_wiring": 0.4552933482142514,
+    "r_access": 0.34351877940123104,
+    "total": 0.7988121276154825,
+    "margin": 60.93599999999998,
+    "residual": -1.1102230246251565e-16
+   }
+  },
+  "baseline_budget_over_need": {
+   "per_net": {
+    "geomean": 9.70974305879724,
+    "median": 10.0,
+    "min": 6.061847705542168,
+    "n": 21
+   },
+   "equal": {
+    "geomean": 5.769788782818517,
+    "median": 10.0,
+    "min": 0.9424292071468229,
+    "n": 21
+   },
+   "lp_sum": {
+    "geomean": 8.062118723588938,
+    "median": 10.0,
+    "min": 0.7481384925603027,
+    "n": 21
+   },
+   "lp_floor": {
+    "geomean": 1.0,
+    "median": 1.0,
+    "min": 1.0,
+    "n": 21
+   },
+   "lp_floor_k": {
+    "geomean": 8.062118723588938,
+    "median": 10.0,
+    "min": 0.7481384925603027,
+    "n": 21
+   },
+   "ours": {
+    "geomean": 8.12766783310447,
+    "median": 9.999999999999922,
+    "min": 3.729116444058057,
+    "n": 21
+   }
+  }
+ },
+ "S3": {
+  "gates": {
+   "G3.4_option_table_complete": true,
+   "G3.7_modes (info)": null,
+   "G3.3_all_chosen_devices_in_circuit": true,
+   "G3.1_chosen_DRC": true,
+   "G3.2_chosen_LVS_W_L_nf": true,
+   "G3.5_no_relaxation": true,
+   "G3.6_model_has_no_gate_resistance": true
+  },
+  "failed": [],
+  "run_id": "2026-11-02T13:23:01-c27cb734",
+  "s2_run_id": "2026-11-02T13:16:56-77f532d3",
+  "mode": "A-bin",
+  "rules": "v2",
+  "types": {
+   "pfet_01v8_W8_L1_m1": {
+    "option": "nf1_gtop_sdfull",
+    "area_um2": 29.126,
+    "relaxed": false,
+    "devices": 2
+   },
+   "nfet_01v8_W24_L0p5_m1": {
+    "option": "nf2_gtop_sdfull_outS",
+    "area_um2": 42.955,
+    "relaxed": false,
+    "devices": 2
+   },
+   "nfet_01v8_W24_L1_m1": {
+    "option": "nf2_gtop_sdfull_outD",
+    "area_um2": 56.635,
+    "relaxed": false,
+    "devices": 1
+   }
+  },
+  "total_device_area_um2": 200.797,
+  "relaxed": [],
+  "final": {
+   "gain_db": 31.8685,
+   "gbw_mhz": 102.953,
+   "pm_deg": 79.9497,
+   "vnoise_nv_rthz": 339.775,
+   "vnoise_rms_uv_rms": 422.822,
+   "vout_V": 0.403948,
+   "isup_ua": 83.4919,
+   "power_uw": 150.285,
+   "vout_v": 0.403948
+  },
+  "by_mode": {
+   "B": {
+    "total_area_um2": 254.478,
+    "relaxed": [],
+    "fingers_outside_sized_bin": []
+   },
+   "A-bin": {
+    "total_area_um2": 200.797,
+    "relaxed": [],
+    "fingers_outside_sized_bin": []
+   },
+   "A-free": {
+    "total_area_um2": 187.16,
+    "relaxed": [],
+    "fingers_outside_sized_bin": [
+     "nfet_01v8_W24_L1_m1",
+     "pfet_01v8_W8_L1_m1"
+    ]
+   },
+   "RoT": {
+    "total_area_um2": 190.53699999999998,
+    "relaxed": [
+     "nfet_01v8_W24_L0p5_m1",
+     "nfet_01v8_W24_L1_m1"
+    ],
+    "fingers_outside_sized_bin": [
+     "nfet_01v8_W24_L0p5_m1",
+     "nfet_01v8_W24_L1_m1",
+     "pfet_01v8_W8_L1_m1"
+    ]
+   }
+  }
+ }
+}

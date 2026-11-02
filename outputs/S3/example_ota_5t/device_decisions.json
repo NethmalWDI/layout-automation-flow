@@ -1,7 +1,11 @@
 {
+  "run_id": "2026-11-02T13:23:01-c27cb734",
+  "s2_run_id": "2026-11-02T13:16:56-77f532d3",
+  "eta": 0.5,
   "design": "example_ota_5t",
   "mode": "A-bin",
   "rules": "v2",
+  "relax_fallback": "least-bad",
   "decisions": {
     "pfet_01v8_W8_L1_m1": {
       "devices": [
@@ -30,7 +34,7 @@
       "cell": "pfet_01v8_W8_L1_m1__nf1_gtop_sdfull",
       "gds": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull.gds",
       "png": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull.png",
-      "reason": "smallest area among the 2 of 4 options that stay within the allowance (1 within 2% of it; largest slack among those)",
+      "reason": "smallest area among the 4 of 4 options that stay within the allowance (2 within 2% of it; largest slack among those)",
       "relaxed": false,
       "area_um2": 29.126,
       "bbox_um": [
@@ -47,23 +51,23 @@
           "gain_db": {
             "used_harmful": 0.0,
             "signed": -0.08269999999999911,
-            "allowed": 0.2318670669343026,
+            "allowed": 0.027614232230059172,
             "ok": true,
-            "slack_frac_of_margin": 0.14663351027360205
+            "slack_frac_of_margin": 0.026272381985892275
           },
           "gbw_mhz": {
             "used_harmful": 0.24200000000000443,
             "signed": 0.24200000000000443,
-            "allowed": 12.877412835813896,
+            "allowed": 6.706229006062349,
             "ok": true,
-            "slack_frac_of_margin": 0.15961118744673367
+            "slack_frac_of_margin": 0.08654051277085247
           },
           "pm_deg": {
             "used_harmful": 0.21589999999999065,
             "signed": 0.21589999999999065,
-            "allowed": 3.199127387655526,
+            "allowed": 1.5975411905602932,
             "ok": true,
-            "slack_frac_of_margin": 0.152500878329649
+            "slack_frac_of_margin": 0.07599734368421493
           },
           "power_uw": {
             "used_harmful": 0.005000000000023874,
@@ -75,196 +79,93 @@
           "vnoise_nv_rthz": {
             "used_harmful": 0.2629999999999768,
             "signed": 0.2629999999999768,
-            "allowed": 9.845686009544838,
+            "allowed": 8.366496174471946,
             "ok": true,
-            "slack_frac_of_margin": 0.16725820548682005
+            "slack_frac_of_margin": 0.14298372348811825
           },
           "sat_XM3": {
             "used_harmful": 0.0,
             "signed": -0.000952000000000286,
-            "allowed": 0.16990260428693052,
+            "allowed": 0.16879341054152996,
             "ok": true,
-            "slack_frac_of_margin": 0.17197660316429222
+            "slack_frac_of_margin": 0.17091915359849483
           },
           "sat_XM4": {
             "used_harmful": 0.0,
             "signed": -0.000952000000000286,
-            "allowed": 0.16990260428693052,
+            "allowed": 0.16879341054152996,
             "ok": true,
-            "slack_frac_of_margin": 0.17197660316429222
+            "slack_frac_of_margin": 0.17091915359849483
           },
           "sat_XM1": {
             "used_harmful": 0.0,
             "signed": -0.001521400000000006,
-            "allowed": 0.020782657690399248,
+            "allowed": 0.017113255788341327,
             "ok": true,
-            "slack_frac_of_margin": 0.1697933385186426
+            "slack_frac_of_margin": 0.14158010472384452
           },
           "sat_XM2": {
             "used_harmful": 0.0,
             "signed": -0.001521400000000006,
-            "allowed": 0.020782657690399248,
+            "allowed": 0.017113255788341327,
             "ok": true,
-            "slack_frac_of_margin": 0.1697933385186426
+            "slack_frac_of_margin": 0.14158010472384452
           },
           "sat_XM5": {
             "used_harmful": 0.0,
             "signed": -2.899999999997349e-05,
-            "allowed": 0.0023024242979933483,
+            "allowed": 9.280024323935048e-06,
             "ok": true,
-            "slack_frac_of_margin": 0.12766272986474592
+            "slack_frac_of_margin": 0.010474244906170025
           }
         },
         "resistance": {
           "d": {
             "group": "XM3+XM4.d",
             "R_access_ohm": 27.306785243741768,
-            "allowed_ohm": 273.0678524373604,
+            "allowed_ohm": 246.4070660198422,
             "ok": true,
-            "remaining_for_routing_ohm": 304.4664243364634,
-            "slack_frac": 0.899999999999979
+            "remaining_for_routing_ohm": 272.0739819426763,
+            "slack_frac": 0.8891801859223353
           },
           "g": {
             "group": "XM3+XM4.g",
             "R_access_ohm": 209.18333333333334,
-            "allowed_ohm": 724.5833333332947,
+            "allowed_ohm": 724.5833333333283,
             "ok": true,
-            "remaining_for_routing_ohm": 574.1053571428154,
-            "slack_frac": 0.7113053479010772
+            "remaining_for_routing_ohm": 574.1053571428517,
+            "slack_frac": 0.7113053479010905
           },
           "s": {
             "group": "XM3+XM4.s",
             "R_access_ohm": 27.306785243741768,
-            "allowed_ohm": 27.30678524374177,
+            "allowed_ohm": 108.35027163742367,
             "ok": true,
-            "remaining_for_routing_ohm": 5.870535714285712,
-            "slack_frac": 1.3010369573308596e-16
+            "remaining_for_routing_ohm": 104.33711593016609,
+            "slack_frac": 0.7479767717138779
           }
         }
       },
       "allowance_capacitance": {
-        "gbw_mhz": 12.877412835813896,
-        "pm_deg": 3.199127387655526,
-        "gain_db": 0.2318670669343026,
-        "vnoise_nv_rthz": 9.845686009544838,
-        "sat_XM3": 0.16990260428693052,
-        "sat_XM4": 0.16990260428693052,
-        "sat_XM1": 0.020782657690399248,
-        "sat_XM2": 0.020782657690399248,
-        "sat_XM5": 0.0023024242979933483,
-        "pm_deg@ff_v0.9_t-40": 15.521166666666668,
-        "gain_db@ff_v1.1_t-40": 1.260583333333333,
-        "gbw_mhz@ff_v1.1_t-40": 16.00733333333333,
-        "pm_deg@ff_v1.1_t-40": 3.328316666666666,
-        "gain_db@ff_v1.1_t27": 1.0271666666666661,
-        "gbw_mhz@ff_v1.1_t27": 17.115,
-        "pm_deg@ff_v1.1_t27": 3.292716666666666,
-        "gain_db@ff_v1.1_t85": 0.8493499999999999,
-        "gbw_mhz@ff_v1.1_t85": 16.788333333333334,
-        "pm_deg@ff_v1.1_t85": 3.308750000000001,
-        "gain_db@ff_v1_t-40": 0.4399499999999996,
-        "gbw_mhz@ff_v1_t-40": 15.472666666666667,
-        "pm_deg@ff_v1_t-40": 3.471983333333334,
-        "gbw_mhz@ff_v1_t27": 16.091,
-        "pm_deg@ff_v1_t27": 3.5732333333333344,
-        "gbw_mhz@ff_v1_t85": 15.417666666666667,
-        "pm_deg@ff_v1_t85": 3.712033333333333,
-        "gain_db@fs_v0.9_t-40": 0.23808333333333329,
-        "gbw_mhz@fs_v0.9_t-40": 7.719166666666666,
-        "pm_deg@fs_v0.9_t-40": 3.7310666666666656,
-        "gbw_mhz@fs_v0.9_t27": 9.8031,
-        "pm_deg@fs_v0.9_t27": 3.7989166666666656,
-        "gbw_mhz@fs_v0.9_t85": 10.083766666666667,
-        "pm_deg@fs_v0.9_t85": 3.9750333333333336,
-        "gain_db@fs_v1.1_t-40": 1.5697833333333335,
-        "gbw_mhz@fs_v1.1_t-40": 8.12695,
-        "pm_deg@fs_v1.1_t-40": 3.5487666666666655,
-        "gain_db@fs_v1.1_t27": 1.4560666666666673,
-        "gbw_mhz@fs_v1.1_t27": 10.809933333333333,
-        "pm_deg@fs_v1.1_t27": 3.4024666666666668,
-        "gain_db@fs_v1.1_t85": 1.3296166666666664,
-        "gbw_mhz@fs_v1.1_t85": 11.592016666666666,
-        "pm_deg@fs_v1.1_t85": 3.363049999999999,
-        "gain_db@fs_v1_t-40": 1.2476166666666668,
-        "gbw_mhz@fs_v1_t-40": 8.0539,
-        "pm_deg@fs_v1_t-40": 3.5767,
-        "gain_db@fs_v1_t27": 1.0381166666666672,
-        "gbw_mhz@fs_v1_t27": 10.643966666666666,
-        "pm_deg@fs_v1_t27": 3.4536666666666656,
-        "gain_db@fs_v1_t85": 0.8565000000000005,
-        "gbw_mhz@fs_v1_t85": 11.3656,
-        "pm_deg@fs_v1_t85": 3.432699999999999,
-        "gain_db@sf_v1.1_t-40": 0.9623666666666667,
-        "gbw_mhz@sf_v1.1_t-40": 18.026833333333332,
-        "pm_deg@sf_v1.1_t-40": 3.29745,
-        "gain_db@sf_v1.1_t27": 0.6136333333333338,
-        "gbw_mhz@sf_v1.1_t27": 18.365666666666666,
-        "pm_deg@sf_v1.1_t27": 3.3234166666666667,
-        "gain_db@sf_v1.1_t85": 0.37483333333333374,
-        "gbw_mhz@sf_v1.1_t85": 17.597833333333334,
-        "pm_deg@sf_v1.1_t85": 3.378983333333333,
-        "gbw_mhz@sf_v1_t-40": 15.472499999999998,
-        "pm_deg@sf_v1_t-40": 4.061049999999999,
-        "gbw_mhz@sf_v1_t27": 12.311483333333333,
-        "pm_deg@sf_v1_t27": 5.605083333333333,
-        "gbw_mhz@sf_v1_t85": 9.856833333333334,
-        "pm_deg@sf_v1_t85": 6.691666666666667,
-        "gbw_mhz@ss_v0.9_t-40": 7.220583333333334,
-        "pm_deg@ss_v0.9_t-40": 5.1163333333333325,
-        "gbw_mhz@ss_v0.9_t27": 4.875816666666666,
-        "pm_deg@ss_v0.9_t27": 8.1915,
-        "gbw_mhz@ss_v0.9_t85": 3.581933333333333,
-        "pm_deg@ss_v0.9_t85": 9.647333333333334,
-        "gain_db@ss_v1.1_t-40": 1.4732833333333335,
-        "gbw_mhz@ss_v1.1_t-40": 10.049033333333334,
-        "pm_deg@ss_v1.1_t-40": 3.458366666666668,
-        "gain_db@ss_v1.1_t27": 1.3046499999999999,
-        "gbw_mhz@ss_v1.1_t27": 12.334916666666667,
-        "pm_deg@ss_v1.1_t27": 3.3473166666666665,
-        "gain_db@ss_v1.1_t85": 1.1503000000000003,
-        "gbw_mhz@ss_v1.1_t85": 12.806116666666666,
-        "pm_deg@ss_v1.1_t85": 3.3277,
-        "gain_db@ss_v1_t-40": 0.9400500000000006,
-        "gbw_mhz@ss_v1_t-40": 9.874483333333332,
-        "pm_deg@ss_v1_t-40": 3.520766666666667,
-        "gain_db@ss_v1_t27": 0.5850500000000002,
-        "gbw_mhz@ss_v1_t27": 11.972833333333334,
-        "pm_deg@ss_v1_t27": 3.4642166666666676,
-        "gain_db@ss_v1_t85": 0.3209833333333331,
-        "gbw_mhz@ss_v1_t85": 12.2973,
-        "pm_deg@ss_v1_t85": 3.4919999999999995,
-        "gbw_mhz@tt_v0.9_t-40": 5.500050000000001,
-        "pm_deg@tt_v0.9_t-40": 8.005333333333333,
-        "gbw_mhz@tt_v0.9_t27": 0.8279166666666669,
-        "pm_deg@tt_v0.9_t27": 13.661666666666667,
-        "pm_deg@tt_v0.9_t85": 15.3405,
-        "gain_db@tt_v1.1_t-40": 1.377133333333333,
-        "gbw_mhz@tt_v1.1_t-40": 12.913266666666667,
-        "pm_deg@tt_v1.1_t-40": 3.3848999999999996,
-        "gain_db@tt_v1.1_t27": 1.1756499999999999,
-        "gbw_mhz@tt_v1.1_t27": 14.679333333333332,
-        "pm_deg@tt_v1.1_t27": 3.3118333333333325,
-        "gain_db@tt_v1.1_t85": 1.0092333333333332,
-        "gbw_mhz@tt_v1.1_t85": 14.771166666666666,
-        "pm_deg@tt_v1.1_t85": 3.3104833333333326,
-        "gain_db@tt_v1_t-40": 0.7220666666666666,
-        "gbw_mhz@tt_v1_t-40": 12.610033333333334,
-        "pm_deg@tt_v1_t-40": 3.4784833333333345,
-        "gain_db@tt_v1_t27": 0.2828333333333332,
-        "gbw_mhz@tt_v1_t27": 14.075833333333334,
-        "pm_deg@tt_v1_t27": 3.4891333333333328,
-        "gbw_mhz@tt_v1_t85": 13.957333333333333,
-        "pm_deg@tt_v1_t85": 3.5603499999999997
+        "gbw_mhz": 6.706229006062349,
+        "pm_deg": 1.5975411905602932,
+        "gain_db": 0.027614232230059172,
+        "vnoise_nv_rthz": 8.366496174471946,
+        "sat_XM3": 0.16879341054152996,
+        "sat_XM4": 0.16879341054152996,
+        "sat_XM1": 0.017113255788341327,
+        "sat_XM2": 0.017113255788341327,
+        "sat_XM5": 9.280024323935048e-06
       },
       "allowance_resistance_margin": {
-        "gain_db": 0.08547706450920295,
-        "pm_deg": 0.08557035787206287,
-        "sat_XM3": 0.011496156587611635,
-        "sat_XM4": 0.011496156587611635,
-        "sat_XM1": 0.0014953127332510516,
-        "sat_XM2": 0.0014953127332510516,
-        "gbw_mhz": 0.10847620438076117,
-        "sat_XM5": 2.703371739133707e-05
+        "gain_db": 0.31802677262158124,
+        "pm_deg": 0.08464389554406572,
+        "sat_XM3": 0.010373737479434242,
+        "sat_XM4": 0.010373737479434242,
+        "sat_XM1": 0.005762047726800018,
+        "sat_XM2": 0.005762047726800018,
+        "gbw_mhz": 0.43042145407965365,
+        "sat_XM5": 0.00010726676892117926
       },
       "pex": {
         "n_devices": 1,
@@ -310,23 +211,23 @@
             "gain_db": {
               "used_harmful": 0.0,
               "signed": -0.08269999999999911,
-              "allowed": 0.2318670669343026,
+              "allowed": 0.027614232230059172,
               "ok": true,
-              "slack_frac_of_margin": 0.14663351027360205
+              "slack_frac_of_margin": 0.026272381985892275
             },
             "gbw_mhz": {
               "used_harmful": 0.26300000000000523,
               "signed": 0.26300000000000523,
-              "allowed": 12.877412835813896,
+              "allowed": 6.706229006062349,
               "ok": true,
-              "slack_frac_of_margin": 0.15936253431784844
+              "slack_frac_of_margin": 0.08629185964196726
             },
             "pm_deg": {
               "used_harmful": 0.23850000000000193,
               "signed": 0.23850000000000193,
-              "allowed": 3.199127387655526,
+              "allowed": 1.5975411905602932,
               "ok": true,
-              "slack_frac_of_margin": 0.15142133613196807
+              "slack_frac_of_margin": 0.07491780148653397
             },
             "power_uw": {
               "used_harmful": 0.005000000000023874,
@@ -338,70 +239,70 @@
             "vnoise_nv_rthz": {
               "used_harmful": 0.2629999999999768,
               "signed": 0.2629999999999768,
-              "allowed": 9.845686009544838,
+              "allowed": 8.366496174471946,
               "ok": true,
-              "slack_frac_of_margin": 0.16725820548682005
+              "slack_frac_of_margin": 0.14298372348811825
             },
             "sat_XM3": {
               "used_harmful": 0.0,
               "signed": -0.000952000000000286,
-              "allowed": 0.16990260428693052,
+              "allowed": 0.16879341054152996,
               "ok": true,
-              "slack_frac_of_margin": 0.17197660316429222
+              "slack_frac_of_margin": 0.17091915359849483
             },
             "sat_XM4": {
               "used_harmful": 0.0,
               "signed": -0.000952000000000286,
-              "allowed": 0.16990260428693052,
+              "allowed": 0.16879341054152996,
               "ok": true,
-              "slack_frac_of_margin": 0.17197660316429222
+              "slack_frac_of_margin": 0.17091915359849483
             },
             "sat_XM1": {
               "used_harmful": 0.0,
               "signed": -0.001521400000000006,
-              "allowed": 0.020782657690399248,
+              "allowed": 0.017113255788341327,
               "ok": true,
-              "slack_frac_of_margin": 0.1697933385186426
+              "slack_frac_of_margin": 0.14158010472384452
             },
             "sat_XM2": {
               "used_harmful": 0.0,
               "signed": -0.001521400000000006,
-              "allowed": 0.020782657690399248,
+              "allowed": 0.017113255788341327,
               "ok": true,
-              "slack_frac_of_margin": 0.1697933385186426
+              "slack_frac_of_margin": 0.14158010472384452
             },
             "sat_XM5": {
               "used_harmful": 0.0,
               "signed": -2.899999999997349e-05,
-              "allowed": 0.0023024242979933483,
+              "allowed": 9.280024323935048e-06,
               "ok": true,
-              "slack_frac_of_margin": 0.12766272986474592
+              "slack_frac_of_margin": 0.010474244906170025
             }
           },
           "resistance": {
             "d": {
               "group": "XM3+XM4.d",
               "R_access_ohm": 27.306785243741768,
-              "allowed_ohm": 273.0678524373604,
+              "allowed_ohm": 246.4070660198422,
               "ok": true,
-              "remaining_for_routing_ohm": 304.4664243364634,
-              "slack_frac": 0.899999999999979
+              "remaining_for_routing_ohm": 272.0739819426763,
+              "slack_frac": 0.8891801859223353
             },
             "g": {
               "group": "XM3+XM4.g",
               "R_access_ohm": 72.45833333333333,
-              "allowed_ohm": 724.5833333332947,
+              "allowed_ohm": 724.5833333333283,
               "ok": true,
-              "remaining_for_routing_ohm": 710.8303571428154,
-              "slack_frac": 0.8999999999999946
+              "remaining_for_routing_ohm": 710.8303571428517,
+              "slack_frac": 0.8999999999999992
             },
             "s": {
               "group": "XM3+XM4.s",
               "R_access_ohm": 27.306785243741768,
-              "allowed_ohm": 27.30678524374177,
+              "allowed_ohm": 108.35027163742367,
               "ok": true,
-              "remaining_for_routing_ohm": 5.870535714285712,
-              "slack_frac": 1.3010369573308596e-16
+              "remaining_for_routing_ohm": 104.33711593016609,
+              "slack_frac": 0.7479767717138779
             }
           }
         },
@@ -421,7 +322,7 @@
         }
       },
       "n_options": 4,
-      "n_feasible": 2
+      "n_feasible": 4
     },
     "nfet_01v8_W24_L0p5_m1": {
       "devices": [
@@ -432,291 +333,188 @@
       "W_um": 24.0,
       "L_um": 0.5,
       "chosen": {
-        "id": "nf1_gboth_sdfull",
-        "nf": 1,
-        "gate_contacts": "both",
+        "id": "nf2_gtop_sdfull_outS",
+        "nf": 2,
+        "gate_contacts": "top",
         "sd_cov": "full",
-        "outer": "D",
+        "outer": "S",
         "magic": {
           "topc": 1,
-          "botc": 1,
+          "botc": 0,
           "diffcov": 100,
           "viasrc": 100,
           "viadrn": 100,
           "guard": 1,
-          "conn_gates": 0
+          "conn_gates": 1
         }
       },
-      "cell": "nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull",
-      "gds": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull.gds",
-      "png": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull.png",
-      "reason": "smallest area among the 1 of 12 options that stay within the allowance (1 within 2% of it; largest slack among those)",
+      "cell": "nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS",
+      "gds": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS.gds",
+      "png": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS.png",
+      "reason": "smallest area among the 12 of 12 options that stay within the allowance (4 within 2% of it; largest slack among those)",
       "relaxed": false,
-      "area_um2": 61.077,
+      "area_um2": 42.955,
       "bbox_um": [
-        2.35,
-        25.99
+        3.14,
+        13.68
       ],
       "access_resistance_ohm": {
-        "d": 7.1315923207227545,
+        "d": 11.990609390609391,
         "g": 273.45000000000005,
-        "s": 7.131592320722755
+        "s": 5.995304695304695
       },
       "budget_check": {
         "capacitance": {
           "gain_db": {
             "used_harmful": 0.0,
-            "signed": -0.006299999999999528,
-            "allowed": 0.2318670669343026,
+            "signed": -0.02120000000000033,
+            "allowed": 0.027614232230059172,
             "ok": true,
-            "slack_frac_of_margin": 0.14663351027360205
+            "slack_frac_of_margin": 0.026272381985892275
           },
           "gbw_mhz": {
-            "used_harmful": 0.3100000000000023,
-            "signed": 0.3100000000000023,
-            "allowed": 12.21639830345136,
+            "used_harmful": 0.0,
+            "signed": -0.605000000000004,
+            "allowed": 6.652308410086448,
             "ok": true,
-            "slack_frac_of_margin": 0.15097919961460374
+            "slack_frac_of_margin": 0.0887674904989219
           },
           "pm_deg": {
-            "used_harmful": 0.27609999999999957,
-            "signed": 0.27609999999999957,
-            "allowed": 2.63299997737584,
+            "used_harmful": 0.0,
+            "signed": -0.0660000000000025,
+            "allowed": 1.2265091358783198,
             "ok": true,
-            "slack_frac_of_margin": 0.122582875278285
+            "slack_frac_of_margin": 0.0685870959301412
           },
           "power_uw": {
-            "used_harmful": 0.019000000000005457,
-            "signed": 0.019000000000005457,
+            "used_harmful": 0.0,
+            "signed": -0.027999999999991587,
             "allowed": 0.0,
             "ok": true,
-            "slack_frac_of_margin": 0.009977578501795484
+            "slack_frac_of_margin": 0.010000000000000002
           },
           "vnoise_nv_rthz": {
-            "used_harmful": 0.0,
-            "signed": -0.04200000000003001,
-            "allowed": 9.845686009544838,
+            "used_harmful": 0.27899999999999636,
+            "signed": 0.27899999999999636,
+            "allowed": 8.366496174471946,
             "ok": true,
-            "slack_frac_of_margin": 0.17157420916280758
+            "slack_frac_of_margin": 0.14272115292227835
           },
           "sat_XM3": {
-            "used_harmful": 0.0,
-            "signed": -2.220446049250313e-16,
-            "allowed": 0.16990260428693052,
+            "used_harmful": 9.999999999843467e-06,
+            "signed": 9.999999999843467e-06,
+            "allowed": 0.16879341054152996,
             "ok": true,
-            "slack_frac_of_margin": 0.17197660316429222
+            "slack_frac_of_margin": 0.17090962010112193
           },
           "sat_XM4": {
-            "used_harmful": 0.0,
-            "signed": -2.220446049250313e-16,
-            "allowed": 0.16990260428693052,
+            "used_harmful": 9.999999999843467e-06,
+            "signed": 9.999999999843467e-06,
+            "allowed": 0.16879341054152996,
             "ok": true,
-            "slack_frac_of_margin": 0.17197660316429222
+            "slack_frac_of_margin": 0.17090962010112193
           },
           "sat_XM1": {
             "used_harmful": 0.0,
-            "signed": -9.5600000000029e-05,
-            "allowed": 0.020782657690399248,
+            "signed": -0.00040200000000001346,
+            "allowed": 0.017113255788341327,
             "ok": true,
-            "slack_frac_of_margin": 0.1697933385186426
+            "slack_frac_of_margin": 0.14158010472384452
           },
           "sat_XM2": {
             "used_harmful": 0.0,
-            "signed": -9.5600000000029e-05,
-            "allowed": 0.020782657690399248,
+            "signed": -0.00040200000000001346,
+            "allowed": 0.017113255788341327,
             "ok": true,
-            "slack_frac_of_margin": 0.1697933385186426
+            "slack_frac_of_margin": 0.14158010472384452
           },
           "sat_XM5": {
-            "used_harmful": 0.0,
-            "signed": -0.00011499999999997623,
-            "allowed": 0.0023024242979933483,
+            "used_harmful": 0.00017500000000000848,
+            "signed": 0.00017500000000000848,
+            "allowed": 9.280024323935048e-06,
             "ok": true,
-            "slack_frac_of_margin": 0.12766272986474592
+            "slack_frac_of_margin": 0.0015310723795955946
           }
         },
         "resistance": {
           "d": {
             "group": "XM1+XM2.d",
-            "R_access_ohm": 7.1315923207227545,
-            "allowed_ohm": 8.003295468384964,
+            "R_access_ohm": 11.990609390609391,
+            "allowed_ohm": 61.888003166828035,
             "ok": true,
-            "remaining_for_routing_ohm": 13.523488861947923,
-            "slack_frac": 0.10891802646867868
+            "remaining_for_routing_ohm": 147.73131199712734,
+            "slack_frac": 0.806253089822805
           },
           "g": {
             "group": "XM1+XM2.g",
             "R_access_ohm": 273.45000000000005,
-            "allowed_ohm": 273.45000000000016,
+            "allowed_ohm": 1739.5048006313953,
             "ok": true,
-            "remaining_for_routing_ohm": 12.651785714285836,
-            "slack_frac": 4.157500008104442e-16
+            "remaining_for_routing_ohm": 1546.5369435699936,
+            "slack_frac": 0.842800088909933
           },
           "s": {
             "group": "XM1+XM2.s",
-            "R_access_ohm": 7.131592320722755,
-            "allowed_ohm": 8.003295468384964,
+            "R_access_ohm": 5.995304695304695,
+            "allowed_ohm": 33.587951166626894,
             "ok": true,
-            "remaining_for_routing_ohm": 13.523488861947921,
-            "slack_frac": 0.10891802646867857
+            "remaining_for_routing_ohm": 80.68921930443904,
+            "slack_frac": 0.8215043047561159
           }
         }
       },
       "allowance_capacitance": {
-        "gbw_mhz": 12.21639830345136,
-        "pm_deg": 2.63299997737584,
-        "gain_db": 0.2318670669343026,
-        "vnoise_nv_rthz": 9.845686009544838,
-        "sat_XM3": 0.16990260428693052,
-        "sat_XM4": 0.16990260428693052,
-        "sat_XM1": 0.020782657690399248,
-        "sat_XM2": 0.020782657690399248,
-        "sat_XM5": 0.0023024242979933483,
-        "pm_deg@ff_v0.9_t-40": 15.521166666666668,
-        "gain_db@ff_v1.1_t-40": 1.260583333333333,
-        "gbw_mhz@ff_v1.1_t-40": 16.00733333333333,
-        "pm_deg@ff_v1.1_t-40": 3.328316666666666,
-        "gain_db@ff_v1.1_t27": 1.0271666666666661,
-        "gbw_mhz@ff_v1.1_t27": 17.115,
-        "pm_deg@ff_v1.1_t27": 3.292716666666666,
-        "gain_db@ff_v1.1_t85": 0.8493499999999999,
-        "gbw_mhz@ff_v1.1_t85": 16.788333333333334,
-        "pm_deg@ff_v1.1_t85": 3.308750000000001,
-        "gain_db@ff_v1_t-40": 0.4399499999999996,
-        "gbw_mhz@ff_v1_t-40": 15.472666666666667,
-        "pm_deg@ff_v1_t-40": 3.471983333333334,
-        "gbw_mhz@ff_v1_t27": 16.091,
-        "pm_deg@ff_v1_t27": 3.5732333333333344,
-        "gbw_mhz@ff_v1_t85": 15.417666666666667,
-        "pm_deg@ff_v1_t85": 3.712033333333333,
-        "gain_db@fs_v0.9_t-40": 0.23808333333333329,
-        "gbw_mhz@fs_v0.9_t-40": 7.719166666666666,
-        "pm_deg@fs_v0.9_t-40": 3.7310666666666656,
-        "gbw_mhz@fs_v0.9_t27": 9.8031,
-        "pm_deg@fs_v0.9_t27": 3.7989166666666656,
-        "gbw_mhz@fs_v0.9_t85": 10.083766666666667,
-        "pm_deg@fs_v0.9_t85": 3.9750333333333336,
-        "gain_db@fs_v1.1_t-40": 1.5697833333333335,
-        "gbw_mhz@fs_v1.1_t-40": 8.12695,
-        "pm_deg@fs_v1.1_t-40": 3.5487666666666655,
-        "gain_db@fs_v1.1_t27": 1.4560666666666673,
-        "gbw_mhz@fs_v1.1_t27": 10.809933333333333,
-        "pm_deg@fs_v1.1_t27": 3.4024666666666668,
-        "gain_db@fs_v1.1_t85": 1.3296166666666664,
-        "gbw_mhz@fs_v1.1_t85": 11.592016666666666,
-        "pm_deg@fs_v1.1_t85": 3.363049999999999,
-        "gain_db@fs_v1_t-40": 1.2476166666666668,
-        "gbw_mhz@fs_v1_t-40": 8.0539,
-        "pm_deg@fs_v1_t-40": 3.5767,
-        "gain_db@fs_v1_t27": 1.0381166666666672,
-        "gbw_mhz@fs_v1_t27": 10.643966666666666,
-        "pm_deg@fs_v1_t27": 3.4536666666666656,
-        "gain_db@fs_v1_t85": 0.8565000000000005,
-        "gbw_mhz@fs_v1_t85": 11.3656,
-        "pm_deg@fs_v1_t85": 3.432699999999999,
-        "gain_db@sf_v1.1_t-40": 0.9623666666666667,
-        "gbw_mhz@sf_v1.1_t-40": 18.026833333333332,
-        "pm_deg@sf_v1.1_t-40": 3.29745,
-        "gain_db@sf_v1.1_t27": 0.6136333333333338,
-        "gbw_mhz@sf_v1.1_t27": 18.365666666666666,
-        "pm_deg@sf_v1.1_t27": 3.3234166666666667,
-        "gain_db@sf_v1.1_t85": 0.37483333333333374,
-        "gbw_mhz@sf_v1.1_t85": 17.597833333333334,
-        "pm_deg@sf_v1.1_t85": 3.378983333333333,
-        "gbw_mhz@sf_v1_t-40": 15.472499999999998,
-        "pm_deg@sf_v1_t-40": 4.061049999999999,
-        "gbw_mhz@sf_v1_t27": 12.311483333333333,
-        "pm_deg@sf_v1_t27": 5.605083333333333,
-        "gbw_mhz@sf_v1_t85": 9.856833333333334,
-        "pm_deg@sf_v1_t85": 6.691666666666667,
-        "gbw_mhz@ss_v0.9_t-40": 7.220583333333334,
-        "pm_deg@ss_v0.9_t-40": 5.1163333333333325,
-        "gbw_mhz@ss_v0.9_t27": 4.875816666666666,
-        "pm_deg@ss_v0.9_t27": 8.1915,
-        "gbw_mhz@ss_v0.9_t85": 3.581933333333333,
-        "pm_deg@ss_v0.9_t85": 9.647333333333334,
-        "gain_db@ss_v1.1_t-40": 1.4732833333333335,
-        "gbw_mhz@ss_v1.1_t-40": 10.049033333333334,
-        "pm_deg@ss_v1.1_t-40": 3.458366666666668,
-        "gain_db@ss_v1.1_t27": 1.3046499999999999,
-        "gbw_mhz@ss_v1.1_t27": 12.334916666666667,
-        "pm_deg@ss_v1.1_t27": 3.3473166666666665,
-        "gain_db@ss_v1.1_t85": 1.1503000000000003,
-        "gbw_mhz@ss_v1.1_t85": 12.806116666666666,
-        "pm_deg@ss_v1.1_t85": 3.3277,
-        "gain_db@ss_v1_t-40": 0.9400500000000006,
-        "gbw_mhz@ss_v1_t-40": 9.874483333333332,
-        "pm_deg@ss_v1_t-40": 3.520766666666667,
-        "gain_db@ss_v1_t27": 0.5850500000000002,
-        "gbw_mhz@ss_v1_t27": 11.972833333333334,
-        "pm_deg@ss_v1_t27": 3.4642166666666676,
-        "gain_db@ss_v1_t85": 0.3209833333333331,
-        "gbw_mhz@ss_v1_t85": 12.2973,
-        "pm_deg@ss_v1_t85": 3.4919999999999995,
-        "gbw_mhz@tt_v0.9_t-40": 5.500050000000001,
-        "pm_deg@tt_v0.9_t-40": 8.005333333333333,
-        "gbw_mhz@tt_v0.9_t27": 0.8279166666666669,
-        "pm_deg@tt_v0.9_t27": 13.661666666666667,
-        "pm_deg@tt_v0.9_t85": 15.3405,
-        "gain_db@tt_v1.1_t-40": 1.377133333333333,
-        "gbw_mhz@tt_v1.1_t-40": 12.913266666666667,
-        "pm_deg@tt_v1.1_t-40": 3.3848999999999996,
-        "gain_db@tt_v1.1_t27": 1.1756499999999999,
-        "gbw_mhz@tt_v1.1_t27": 14.679333333333332,
-        "pm_deg@tt_v1.1_t27": 3.3118333333333325,
-        "gain_db@tt_v1.1_t85": 1.0092333333333332,
-        "gbw_mhz@tt_v1.1_t85": 14.771166666666666,
-        "pm_deg@tt_v1.1_t85": 3.3104833333333326,
-        "gain_db@tt_v1_t-40": 0.7220666666666666,
-        "gbw_mhz@tt_v1_t-40": 12.610033333333334,
-        "pm_deg@tt_v1_t-40": 3.4784833333333345,
-        "gain_db@tt_v1_t27": 0.2828333333333332,
-        "gbw_mhz@tt_v1_t27": 14.075833333333334,
-        "pm_deg@tt_v1_t27": 3.4891333333333328,
-        "gbw_mhz@tt_v1_t85": 13.957333333333333,
-        "pm_deg@tt_v1_t85": 3.5603499999999997
+        "gbw_mhz": 6.652308410086448,
+        "pm_deg": 1.2265091358783198,
+        "gain_db": 0.027614232230059172,
+        "vnoise_nv_rthz": 8.366496174471946,
+        "sat_XM3": 0.16879341054152996,
+        "sat_XM4": 0.16879341054152996,
+        "sat_XM1": 0.017113255788341327,
+        "sat_XM2": 0.017113255788341327,
+        "sat_XM5": 9.280024323935048e-06
       },
       "allowance_resistance_margin": {
-        "gain_db": 0.0190038250896796,
-        "gbw_mhz": 0.9076119040508972,
-        "sat_XM1": 0.0003351820158636931,
-        "sat_XM2": 0.0003351820158636931,
-        "sat_XM5": 0.0003276549164756999,
-        "pm_deg": 0.8165900624998679,
-        "vnoise_nv_rthz": 0.15979266701363515,
-        "sat_XM3": 1.2185017350608857e-05,
-        "sat_XM4": 1.2185017350608857e-05
+        "gain_db": 0.1469530635196293,
+        "gbw_mhz": 4.321635468023541,
+        "sat_XM1": 0.0025919005166283155,
+        "sat_XM2": 0.0025919005166283155,
+        "sat_XM5": 0.0013975892621019732,
+        "pm_deg": 5.194596210884661,
+        "vnoise_nv_rthz": 0.7002072584536994,
+        "sat_XM3": 5.113765565115902e-05,
+        "sat_XM4": 5.113765565115902e-05
       },
       "pex": {
-        "n_devices": 1,
+        "n_devices": 2,
         "n_caps": 6,
-        "sum_caps_F": 6.913110000000001e-15
+        "sum_caps_F": 5.7415800000000005e-15
       },
       "drc": {
         "errors": 0,
         "neg_control_flagged": true,
         "pass": true,
-        "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/drc/drc_report.txt"
+        "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/drc/drc_report.txt"
       },
       "lvs": {
         "match": true,
         "neg_control_rejected": true,
         "pass": true,
-        "pcell_instance": "nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull",
-        "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/lvs/lvs/lvs_report.txt",
-        "extracted": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/lvs/lvs/extracted.spice"
+        "pcell_instance": "nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS",
+        "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/lvs/lvs/extracted.spice"
       },
       "device_model_change": {
         "per_device": {
           "XM1": {
-            "id_rel": 0.00012031508397281065,
-            "gm_rel": 0.00010703729014505114,
-            "vth_shift_V": -1.0000000000287557e-06
+            "id_rel": -0.0001816521856061737,
+            "gm_rel": -0.000507740991714356,
+            "vth_shift_V": 0.00020699999999995722
           },
           "XM2": {
-            "id_rel": 0.00012031508397281065,
-            "gm_rel": 0.00010703729014505114,
-            "vth_shift_V": -1.0000000000287557e-06
+            "id_rel": -0.0001816521856061737,
+            "gm_rel": -0.000507740991714356,
+            "vth_shift_V": 0.00020699999999995722
           }
         },
         "note": "cell only, vs the sized netlist device; nf > 1 changes the SKY130 W bin"
@@ -731,23 +529,23 @@
             "gain_db": {
               "used_harmful": 0.0,
               "signed": -0.006299999999999528,
-              "allowed": 0.2318670669343026,
+              "allowed": 0.027614232230059172,
               "ok": true,
-              "slack_frac_of_margin": 0.14663351027360205
+              "slack_frac_of_margin": 0.026272381985892275
             },
             "gbw_mhz": {
               "used_harmful": 0.3100000000000023,
               "signed": 0.3100000000000023,
-              "allowed": 12.21639830345136,
+              "allowed": 6.652308410086448,
               "ok": true,
-              "slack_frac_of_margin": 0.15097919961460374
+              "slack_frac_of_margin": 0.08509689669156884
             },
             "pm_deg": {
               "used_harmful": 0.27609999999999957,
               "signed": 0.27609999999999957,
-              "allowed": 2.63299997737584,
+              "allowed": 1.2265091358783198,
               "ok": true,
-              "slack_frac_of_margin": 0.122582875278285
+              "slack_frac_of_margin": 0.05539852952396585
             },
             "power_uw": {
               "used_harmful": 0.019000000000005457,
@@ -759,70 +557,70 @@
             "vnoise_nv_rthz": {
               "used_harmful": 0.0,
               "signed": -0.04200000000003001,
-              "allowed": 9.845686009544838,
+              "allowed": 8.366496174471946,
               "ok": true,
-              "slack_frac_of_margin": 0.17157420916280758
+              "slack_frac_of_margin": 0.14729972716410578
             },
             "sat_XM3": {
               "used_harmful": 0.0,
               "signed": -2.220446049250313e-16,
-              "allowed": 0.16990260428693052,
+              "allowed": 0.16879341054152996,
               "ok": true,
-              "slack_frac_of_margin": 0.17197660316429222
+              "slack_frac_of_margin": 0.17091915359849483
             },
             "sat_XM4": {
               "used_harmful": 0.0,
               "signed": -2.220446049250313e-16,
-              "allowed": 0.16990260428693052,
+              "allowed": 0.16879341054152996,
               "ok": true,
-              "slack_frac_of_margin": 0.17197660316429222
+              "slack_frac_of_margin": 0.17091915359849483
             },
             "sat_XM1": {
               "used_harmful": 0.0,
               "signed": -9.5600000000029e-05,
-              "allowed": 0.020782657690399248,
+              "allowed": 0.017113255788341327,
               "ok": true,
-              "slack_frac_of_margin": 0.1697933385186426
+              "slack_frac_of_margin": 0.14158010472384452
             },
             "sat_XM2": {
               "used_harmful": 0.0,
               "signed": -9.5600000000029e-05,
-              "allowed": 0.020782657690399248,
+              "allowed": 0.017113255788341327,
               "ok": true,
-              "slack_frac_of_margin": 0.1697933385186426
+              "slack_frac_of_margin": 0.14158010472384452
             },
             "sat_XM5": {
               "used_harmful": 0.0,
               "signed": -0.00011499999999997623,
-              "allowed": 0.0023024242979933483,
+              "allowed": 9.280024323935048e-06,
               "ok": true,
-              "slack_frac_of_margin": 0.12766272986474592
+              "slack_frac_of_margin": 0.010474244906170025
             }
           },
           "resistance": {
             "d": {
               "group": "XM1+XM2.d",
               "R_access_ohm": 7.1315923207227545,
-              "allowed_ohm": 8.003295468384964,
+              "allowed_ohm": 61.888003166828035,
               "ok": true,
-              "remaining_for_routing_ohm": 13.523488861947923,
-              "slack_frac": 0.10891802646867868
+              "remaining_for_routing_ohm": 152.59032906701398,
+              "slack_frac": 0.884766158935545
             },
             "g": {
               "group": "XM1+XM2.g",
               "R_access_ohm": 273.45000000000005,
-              "allowed_ohm": 273.45000000000016,
+              "allowed_ohm": 1739.5048006313953,
               "ok": true,
-              "remaining_for_routing_ohm": 12.651785714285836,
-              "slack_frac": 4.157500008104442e-16
+              "remaining_for_routing_ohm": 1546.5369435699936,
+              "slack_frac": 0.842800088909933
             },
             "s": {
               "group": "XM1+XM2.s",
               "R_access_ohm": 7.131592320722755,
-              "allowed_ohm": 8.003295468384964,
+              "allowed_ohm": 33.587951166626894,
               "ok": true,
-              "remaining_for_routing_ohm": 13.523488861947921,
-              "slack_frac": 0.10891802646867857
+              "remaining_for_routing_ohm": 79.55293167902097,
+              "slack_frac": 0.7876740892785169
             }
           }
         },
@@ -842,7 +640,7 @@
         }
       },
       "n_options": 12,
-      "n_feasible": 1
+      "n_feasible": 12
     },
     "nfet_01v8_W24_L1_m1": {
       "devices": [
@@ -852,11 +650,11 @@
       "W_um": 24.0,
       "L_um": 1.0,
       "chosen": {
-        "id": "nf2_gtop_sdfull_outS",
+        "id": "nf2_gtop_sdfull_outD",
         "nf": 2,
         "gate_contacts": "top",
         "sd_cov": "full",
-        "outer": "S",
+        "outer": "D",
         "magic": {
           "topc": 1,
           "botc": 0,
@@ -867,10 +665,10 @@
           "conn_gates": 1
         }
       },
-      "cell": "nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS",
-      "gds": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS.gds",
-      "png": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS.png",
-      "reason": "smallest area among the 2 of 12 options that stay within the allowance (1 within 2% of it; largest slack among those)",
+      "cell": "nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD",
+      "gds": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD.gds",
+      "png": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD.png",
+      "reason": "smallest area among the 10 of 12 options that stay within the allowance (4 within 2% of it; largest slack among those)",
       "relaxed": false,
       "area_um2": 56.635,
       "bbox_um": [
@@ -878,32 +676,32 @@
         13.68
       ],
       "access_resistance_ohm": {
-        "d": 11.990609390609391,
+        "d": 5.995304695304695,
         "g": 136.72500000000002,
-        "s": 5.995304695304695
+        "s": 11.990609390609391
       },
       "budget_check": {
         "capacitance": {
           "gain_db": {
             "used_harmful": 0.0,
             "signed": -0.01389999999999958,
-            "allowed": 0.2318670669343026,
+            "allowed": 0.027614232230059172,
             "ok": true,
-            "slack_frac_of_margin": 0.14663351027360205
+            "slack_frac_of_margin": 0.026272381985892275
           },
           "gbw_mhz": {
-            "used_harmful": 0.07699999999999818,
-            "signed": 0.07699999999999818,
-            "allowed": 10.758495996039493,
+            "used_harmful": 0.07899999999999352,
+            "signed": 0.07899999999999352,
+            "allowed": 3.920428856616121,
             "ok": true,
-            "slack_frac_of_margin": 0.13647559050428623
+            "slack_frac_of_margin": 0.0554849192660722
           },
           "pm_deg": {
-            "used_harmful": 0.001300000000000523,
-            "signed": 0.001300000000000523,
-            "allowed": 1.1316126258443548,
+            "used_harmful": 0.0009000000000014552,
+            "signed": 0.0009000000000014552,
+            "allowed": 0.0003752124577290535,
             "ok": true,
-            "slack_frac_of_margin": 0.06399204319336008
+            "slack_frac_of_margin": 0.009974932287756635
           },
           "power_uw": {
             "used_harmful": 0.0,
@@ -915,213 +713,110 @@
           "vnoise_nv_rthz": {
             "used_harmful": 0.022999999999967713,
             "signed": 0.022999999999967713,
-            "allowed": 9.845686009544838,
+            "allowed": 8.366496174471946,
             "ok": true,
-            "slack_frac_of_margin": 0.17119676397441372
+            "slack_frac_of_margin": 0.14692228197571192
           },
           "sat_XM3": {
             "used_harmful": 3.6999999999842714e-05,
             "signed": 3.6999999999842714e-05,
-            "allowed": 0.16990260428693052,
+            "allowed": 0.16879341054152996,
             "ok": true,
-            "slack_frac_of_margin": 0.1719413292240121
+            "slack_frac_of_margin": 0.17088387965821472
           },
           "sat_XM4": {
             "used_harmful": 3.6999999999842714e-05,
             "signed": 3.6999999999842714e-05,
-            "allowed": 0.16990260428693052,
+            "allowed": 0.16879341054152996,
             "ok": true,
-            "slack_frac_of_margin": 0.1719413292240121
+            "slack_frac_of_margin": 0.17088387965821472
           },
           "sat_XM1": {
             "used_harmful": 0.0,
             "signed": -0.00021460000000000923,
-            "allowed": 0.020782657690399248,
+            "allowed": 0.017113255788341327,
             "ok": true,
-            "slack_frac_of_margin": 0.1697933385186426
+            "slack_frac_of_margin": 0.14158010472384452
           },
           "sat_XM2": {
             "used_harmful": 0.0,
             "signed": -0.00021460000000000923,
-            "allowed": 0.020782657690399248,
+            "allowed": 0.017113255788341327,
             "ok": true,
-            "slack_frac_of_margin": 0.1697933385186426
+            "slack_frac_of_margin": 0.14158010472384452
           },
           "sat_XM5": {
             "used_harmful": 0.0,
             "signed": -0.0005229999999999957,
-            "allowed": 0.0023024242979933483,
+            "allowed": 9.280024323935048e-06,
             "ok": true,
-            "slack_frac_of_margin": 0.12766272986474592
+            "slack_frac_of_margin": 0.010474244906170025
           }
         },
         "resistance": {
           "d": {
             "group": "XM5.d",
-            "R_access_ohm": 11.990609390609391,
-            "allowed_ohm": 11.990609390609393,
+            "R_access_ohm": 5.995304695304695,
+            "allowed_ohm": 44.714378652798445,
             "ok": true,
-            "remaining_for_routing_ohm": 12.875000000000005,
-            "slack_frac": 1.481456681252104e-16
+            "remaining_for_routing_ohm": 68.90161017658863,
+            "slack_frac": 0.8659199819848222
           },
           "g": {
             "group": "XM5.g",
             "R_access_ohm": 136.72500000000002,
-            "allowed_ohm": 254.99002804561502,
+            "allowed_ohm": 442.6249999999972,
             "ok": true,
-            "remaining_for_routing_ohm": 192.43608957822823,
-            "slack_frac": 0.46380256103371476
+            "remaining_for_routing_ohm": 386.8374999999967,
+            "slack_frac": 0.6911042078508876
           },
           "s": {
             "group": "XM5.s",
-            "R_access_ohm": 5.995304695304695,
-            "allowed_ohm": 5.995304695304695,
+            "R_access_ohm": 11.990609390609391,
+            "allowed_ohm": 59.95304695304653,
             "ok": true,
-            "remaining_for_routing_ohm": 12.874999999999998,
-            "slack_frac": 0.0
+            "remaining_for_routing_ohm": 128.89993756243655,
+            "slack_frac": 0.7999999999999986
           }
         }
       },
       "allowance_capacitance": {
-        "gbw_mhz": 10.758495996039493,
-        "gain_db": 0.2318670669343026,
-        "pm_deg": 1.1316126258443548,
-        "vnoise_nv_rthz": 9.845686009544838,
-        "sat_XM3": 0.16990260428693052,
-        "sat_XM4": 0.16990260428693052,
-        "sat_XM1": 0.020782657690399248,
-        "sat_XM2": 0.020782657690399248,
-        "sat_XM5": 0.0023024242979933483,
-        "pm_deg@ff_v0.9_t-40": 15.521166666666668,
-        "gain_db@ff_v1.1_t-40": 1.260583333333333,
-        "gbw_mhz@ff_v1.1_t-40": 16.00733333333333,
-        "pm_deg@ff_v1.1_t-40": 3.328316666666666,
-        "gain_db@ff_v1.1_t27": 1.0271666666666661,
-        "gbw_mhz@ff_v1.1_t27": 17.115,
-        "pm_deg@ff_v1.1_t27": 3.292716666666666,
-        "gain_db@ff_v1.1_t85": 0.8493499999999999,
-        "gbw_mhz@ff_v1.1_t85": 16.788333333333334,
-        "pm_deg@ff_v1.1_t85": 3.308750000000001,
-        "gain_db@ff_v1_t-40": 0.4399499999999996,
-        "gbw_mhz@ff_v1_t-40": 15.472666666666667,
-        "pm_deg@ff_v1_t-40": 3.471983333333334,
-        "gbw_mhz@ff_v1_t27": 16.091,
-        "pm_deg@ff_v1_t27": 3.5732333333333344,
-        "gbw_mhz@ff_v1_t85": 15.417666666666667,
-        "pm_deg@ff_v1_t85": 3.712033333333333,
-        "gain_db@fs_v0.9_t-40": 0.23808333333333329,
-        "gbw_mhz@fs_v0.9_t-40": 7.719166666666666,
-        "pm_deg@fs_v0.9_t-40": 3.7310666666666656,
-        "gbw_mhz@fs_v0.9_t27": 9.8031,
-        "pm_deg@fs_v0.9_t27": 3.7989166666666656,
-        "gbw_mhz@fs_v0.9_t85": 10.083766666666667,
-        "pm_deg@fs_v0.9_t85": 3.9750333333333336,
-        "gain_db@fs_v1.1_t-40": 1.5697833333333335,
-        "gbw_mhz@fs_v1.1_t-40": 8.12695,
-        "pm_deg@fs_v1.1_t-40": 3.5487666666666655,
-        "gain_db@fs_v1.1_t27": 1.4560666666666673,
-        "gbw_mhz@fs_v1.1_t27": 10.809933333333333,
-        "pm_deg@fs_v1.1_t27": 3.4024666666666668,
-        "gain_db@fs_v1.1_t85": 1.3296166666666664,
-        "gbw_mhz@fs_v1.1_t85": 11.592016666666666,
-        "pm_deg@fs_v1.1_t85": 3.363049999999999,
-        "gain_db@fs_v1_t-40": 1.2476166666666668,
-        "gbw_mhz@fs_v1_t-40": 8.0539,
-        "pm_deg@fs_v1_t-40": 3.5767,
-        "gain_db@fs_v1_t27": 1.0381166666666672,
-        "gbw_mhz@fs_v1_t27": 10.643966666666666,
-        "pm_deg@fs_v1_t27": 3.4536666666666656,
-        "gain_db@fs_v1_t85": 0.8565000000000005,
-        "gbw_mhz@fs_v1_t85": 11.3656,
-        "pm_deg@fs_v1_t85": 3.432699999999999,
-        "gain_db@sf_v1.1_t-40": 0.9623666666666667,
-        "gbw_mhz@sf_v1.1_t-40": 18.026833333333332,
-        "pm_deg@sf_v1.1_t-40": 3.29745,
-        "gain_db@sf_v1.1_t27": 0.6136333333333338,
-        "gbw_mhz@sf_v1.1_t27": 18.365666666666666,
-        "pm_deg@sf_v1.1_t27": 3.3234166666666667,
-        "gain_db@sf_v1.1_t85": 0.37483333333333374,
-        "gbw_mhz@sf_v1.1_t85": 17.597833333333334,
-        "pm_deg@sf_v1.1_t85": 3.378983333333333,
-        "gbw_mhz@sf_v1_t-40": 15.472499999999998,
-        "pm_deg@sf_v1_t-40": 4.061049999999999,
-        "gbw_mhz@sf_v1_t27": 12.311483333333333,
-        "pm_deg@sf_v1_t27": 5.605083333333333,
-        "gbw_mhz@sf_v1_t85": 9.856833333333334,
-        "pm_deg@sf_v1_t85": 6.691666666666667,
-        "gbw_mhz@ss_v0.9_t-40": 7.220583333333334,
-        "pm_deg@ss_v0.9_t-40": 5.1163333333333325,
-        "gbw_mhz@ss_v0.9_t27": 4.875816666666666,
-        "pm_deg@ss_v0.9_t27": 8.1915,
-        "gbw_mhz@ss_v0.9_t85": 3.581933333333333,
-        "pm_deg@ss_v0.9_t85": 9.647333333333334,
-        "gain_db@ss_v1.1_t-40": 1.4732833333333335,
-        "gbw_mhz@ss_v1.1_t-40": 10.049033333333334,
-        "pm_deg@ss_v1.1_t-40": 3.458366666666668,
-        "gain_db@ss_v1.1_t27": 1.3046499999999999,
-        "gbw_mhz@ss_v1.1_t27": 12.334916666666667,
-        "pm_deg@ss_v1.1_t27": 3.3473166666666665,
-        "gain_db@ss_v1.1_t85": 1.1503000000000003,
-        "gbw_mhz@ss_v1.1_t85": 12.806116666666666,
-        "pm_deg@ss_v1.1_t85": 3.3277,
-        "gain_db@ss_v1_t-40": 0.9400500000000006,
-        "gbw_mhz@ss_v1_t-40": 9.874483333333332,
-        "pm_deg@ss_v1_t-40": 3.520766666666667,
-        "gain_db@ss_v1_t27": 0.5850500000000002,
-        "gbw_mhz@ss_v1_t27": 11.972833333333334,
-        "pm_deg@ss_v1_t27": 3.4642166666666676,
-        "gain_db@ss_v1_t85": 0.3209833333333331,
-        "gbw_mhz@ss_v1_t85": 12.2973,
-        "pm_deg@ss_v1_t85": 3.4919999999999995,
-        "gbw_mhz@tt_v0.9_t-40": 5.500050000000001,
-        "pm_deg@tt_v0.9_t-40": 8.005333333333333,
-        "gbw_mhz@tt_v0.9_t27": 0.8279166666666669,
-        "pm_deg@tt_v0.9_t27": 13.661666666666667,
-        "pm_deg@tt_v0.9_t85": 15.3405,
-        "gain_db@tt_v1.1_t-40": 1.377133333333333,
-        "gbw_mhz@tt_v1.1_t-40": 12.913266666666667,
-        "pm_deg@tt_v1.1_t-40": 3.3848999999999996,
-        "gain_db@tt_v1.1_t27": 1.1756499999999999,
-        "gbw_mhz@tt_v1.1_t27": 14.679333333333332,
-        "pm_deg@tt_v1.1_t27": 3.3118333333333325,
-        "gain_db@tt_v1.1_t85": 1.0092333333333332,
-        "gbw_mhz@tt_v1.1_t85": 14.771166666666666,
-        "pm_deg@tt_v1.1_t85": 3.3104833333333326,
-        "gain_db@tt_v1_t-40": 0.7220666666666666,
-        "gbw_mhz@tt_v1_t-40": 12.610033333333334,
-        "pm_deg@tt_v1_t-40": 3.4784833333333345,
-        "gain_db@tt_v1_t27": 0.2828333333333332,
-        "gbw_mhz@tt_v1_t27": 14.075833333333334,
-        "pm_deg@tt_v1_t27": 3.4891333333333328,
-        "gbw_mhz@tt_v1_t85": 13.957333333333333,
-        "pm_deg@tt_v1_t85": 3.5603499999999997
+        "gbw_mhz": 3.920428856616121,
+        "gain_db": 0.027614232230059172,
+        "pm_deg": 0.0003752124577290535,
+        "vnoise_nv_rthz": 8.366496174471946,
+        "sat_XM3": 0.16879341054152996,
+        "sat_XM4": 0.16879341054152996,
+        "sat_XM1": 0.017113255788341327,
+        "sat_XM2": 0.017113255788341327,
+        "sat_XM5": 9.280024323935048e-06
       },
       "allowance_resistance_margin": {
-        "gbw_mhz": 0.5117067498751239,
-        "pm_deg": 0.0063191459380980645,
-        "vnoise_nv_rthz": 0.18372611238759584,
-        "sat_XM3": 0.00025318171728270247,
-        "sat_XM4": 0.00025318171728270247,
-        "sat_XM5": 0.0009635953471528632
+        "gbw_mhz": 4.699001561942888,
+        "pm_deg": 0.05909255727296717,
+        "vnoise_nv_rthz": 1.6109340609636242,
+        "sat_XM3": 0.002313949177880019,
+        "sat_XM4": 0.002313949177880019,
+        "sat_XM5": 0.0035933592544855745
       },
       "pex": {
         "n_devices": 2,
         "n_caps": 6,
-        "sum_caps_F": 6.705780000000001e-15
+        "sum_caps_F": 6.7059300000000005e-15
       },
       "drc": {
         "errors": 0,
         "neg_control_flagged": true,
         "pass": true,
-        "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS/drc/drc_report.txt"
+        "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/drc/drc_report.txt"
       },
       "lvs": {
         "match": true,
         "neg_control_rejected": true,
         "pass": true,
-        "pcell_instance": "nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS",
-        "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS/lvs/lvs/lvs_report.txt",
-        "extracted": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outS/lvs/lvs/extracted.spice"
+        "pcell_instance": "nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD",
+        "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/lvs/lvs/extracted.spice"
       },
       "device_model_change": {
         "per_device": {
@@ -1137,29 +832,29 @@
       "vs_default": {
         "default_cell": "nfet_01v8_W24_L1_m1__nf1_gboth_sdfull",
         "default_area_um2": 74.072,
-        "default_feasible": false,
+        "default_feasible": true,
         "default_budget_check": {
           "capacitance": {
             "gain_db": {
               "used_harmful": 0.03989999999999938,
               "signed": 0.03989999999999938,
-              "allowed": 0.2318670669343026,
+              "allowed": 0.027614232230059172,
               "ok": true,
-              "slack_frac_of_margin": 0.12312143013217637
+              "slack_frac_of_margin": 0.002760301844466582
             },
             "gbw_mhz": {
               "used_harmful": 0.0,
               "signed": -0.2220000000000084,
-              "allowed": 10.758495996039493,
+              "allowed": 3.920428856616121,
               "ok": true,
-              "slack_frac_of_margin": 0.13738731864353199
+              "slack_frac_of_margin": 0.0564203286556879
             },
             "pm_deg": {
               "used_harmful": 0.0,
               "signed": -0.0033000000000100727,
-              "allowed": 1.1316126258443548,
+              "allowed": 0.0003752124577290535,
               "ok": true,
-              "slack_frac_of_margin": 0.06405414075340367
+              "slack_frac_of_margin": 0.010017922906248403
             },
             "power_uw": {
               "used_harmful": 0.5110000000000241,
@@ -1171,70 +866,70 @@
             "vnoise_nv_rthz": {
               "used_harmful": 0.0,
               "signed": -0.07800000000003138,
-              "allowed": 9.845686009544838,
+              "allowed": 8.366496174471946,
               "ok": true,
-              "slack_frac_of_margin": 0.17157420916280758
+              "slack_frac_of_margin": 0.14729972716410578
             },
             "sat_XM3": {
               "used_harmful": 0.0,
               "signed": -0.00011600000000022703,
-              "allowed": 0.16990260428693052,
+              "allowed": 0.16879341054152996,
               "ok": true,
-              "slack_frac_of_margin": 0.17197660316429222
+              "slack_frac_of_margin": 0.17091915359849483
             },
             "sat_XM4": {
               "used_harmful": 0.0,
               "signed": -0.00011600000000022703,
-              "allowed": 0.16990260428693052,
+              "allowed": 0.16879341054152996,
               "ok": true,
-              "slack_frac_of_margin": 0.17197660316429222
+              "slack_frac_of_margin": 0.17091915359849483
             },
             "sat_XM1": {
               "used_harmful": 0.0006159000000000026,
               "signed": 0.0006159000000000026,
-              "allowed": 0.020782657690399248,
+              "allowed": 0.017113255788341327,
               "ok": true,
-              "slack_frac_of_margin": 0.1650578172653095
+              "slack_frac_of_margin": 0.1368445834705114
             },
             "sat_XM2": {
               "used_harmful": 0.0006159000000000026,
               "signed": 0.0006159000000000026,
-              "allowed": 0.020782657690399248,
+              "allowed": 0.017113255788341327,
               "ok": true,
-              "slack_frac_of_margin": 0.1650578172653095
+              "slack_frac_of_margin": 0.1368445834705114
             },
             "sat_XM5": {
               "used_harmful": 0.0,
               "signed": -9.000000000000674e-05,
-              "allowed": 0.0023024242979933483,
+              "allowed": 9.280024323935048e-06,
               "ok": true,
-              "slack_frac_of_margin": 0.12766272986474592
+              "slack_frac_of_margin": 0.010474244906170025
             }
           },
           "resistance": {
             "d": {
               "group": "XM5.d",
               "R_access_ohm": 7.1315923207227545,
-              "allowed_ohm": 11.990609390609393,
+              "allowed_ohm": 44.714378652798445,
               "ok": true,
-              "remaining_for_routing_ohm": 17.73401706988664,
-              "slack_frac": 0.40523520628501525
+              "remaining_for_routing_ohm": 67.76532255117057,
+              "slack_frac": 0.8405078514878027
             },
             "g": {
               "group": "XM5.g",
               "R_access_ohm": 136.72500000000002,
-              "allowed_ohm": 254.99002804561502,
+              "allowed_ohm": 442.6249999999972,
               "ok": true,
-              "remaining_for_routing_ohm": 192.43608957822823,
-              "slack_frac": 0.46380256103371476
+              "remaining_for_routing_ohm": 386.8374999999967,
+              "slack_frac": 0.6911042078508876
             },
             "s": {
               "group": "XM5.s",
               "R_access_ohm": 7.131592320722755,
-              "allowed_ohm": 5.995304695304695,
-              "ok": false,
-              "remaining_for_routing_ohm": 11.738712374581937,
-              "slack_frac": -0.18952958742997
+              "allowed_ohm": 59.95304695304653,
+              "ok": true,
+              "remaining_for_routing_ohm": 133.7589546323232,
+              "slack_frac": 0.8810470412570022
             }
           }
         },
@@ -1254,71 +949,69 @@
         }
       },
       "n_options": 12,
-      "n_feasible": 2
+      "n_feasible": 10
     }
   },
   "final_in_circuit": {
-    "gain_db": 31.7948,
-    "gbw_mhz": 102.373,
-    "pm_deg": 79.6341,
-    "vnoise_nv_rthz": 339.363,
-    "vnoise_rms_uv_rms": 427.233,
+    "gain_db": 31.8685,
+    "gbw_mhz": 102.953,
+    "pm_deg": 79.9497,
+    "vnoise_nv_rthz": 339.775,
+    "vnoise_rms_uv_rms": 422.822,
     "sat_V": {
-      "XM3": 1.0486879999999998,
-      "XM4": 1.0486879999999998,
-      "XM1": 0.1316037,
-      "XM2": 0.1316037,
-      "XM5": 0.019249000000000016
+      "XM3": 1.0484769999999999,
+      "XM4": 1.0484769999999999,
+      "XM1": 0.1328084,
+      "XM2": 0.1328084,
+      "XM5": 0.019767000000000007
     },
-    "vout_V": 0.402672,
+    "vout_V": 0.403948,
     "op_params": {
       "XM3": {
-        "id": 4.20103e-05,
-        "gm": 0.000209593,
-        "gds": 9.23072e-07,
+        "id": 4.17459e-05,
+        "gm": 0.000208956,
+        "gds": 9.17799e-07,
         "vth": 1.0296,
-        "vdsat": 0.344092
+        "vdsat": 0.343053
       },
       "XM4": {
-        "id": 4.20103e-05,
-        "gm": 0.000209593,
-        "gds": 9.23072e-07,
+        "id": 4.17459e-05,
+        "gm": 0.000208956,
+        "gds": 9.17799e-07,
         "vth": 1.0296,
-        "vdsat": 0.344092
+        "vdsat": 0.343053
       },
       "XM1": {
-        "id": 4.20103e-05,
-        "gm": 0.000723917,
-        "gds": 1.76229e-05,
-        "vth": 0.664846,
-        "vdsat": 0.0890883
+        "id": 2.0873e-05,
+        "gm": 0.000360126,
+        "gds": 8.69013e-06,
+        "vth": 0.665119,
+        "vdsat": 0.0889416
       },
       "XM2": {
-        "id": 4.20103e-05,
-        "gm": 0.000723917,
-        "gds": 1.76229e-05,
-        "vth": 0.664846,
-        "vdsat": 0.0890883
+        "id": 2.0873e-05,
+        "gm": 0.000360126,
+        "gds": 8.69013e-06,
+        "vth": 0.665119,
+        "vdsat": 0.0889416
       },
       "XM5": {
-        "id": 4.20103e-05,
-        "gm": 0.000438146,
-        "gds": 4.44393e-05,
-        "vth": 0.587202,
-        "vdsat": 0.15996
+        "id": 4.17459e-05,
+        "gm": 0.000436982,
+        "gds": 4.37747e-05,
+        "vth": 0.587332,
+        "vdsat": 0.15952
       }
     },
-    "isup_ua": 84.0206,
-    "power_uw": 151.237,
-    "vout_v": 0.402672
+    "isup_ua": 83.4919,
+    "power_uw": 150.285,
+    "vout_v": 0.403948
   },
   "by_mode": {
     "B": {
       "complete": true,
       "total_area_um2": 254.478,
-      "relaxed": [
-        "nfet_01v8_W24_L1_m1"
-      ],
+      "relaxed": [],
       "fingers_outside_sized_bin": [],
       "chosen": {
         "pfet_01v8_W8_L1_m1": "nf1_gtop_sdfull",
@@ -1329,27 +1022,28 @@
     },
     "A-bin": {
       "complete": true,
-      "total_area_um2": 237.041,
+      "total_area_um2": 200.797,
       "relaxed": [],
       "fingers_outside_sized_bin": [],
       "chosen": {
         "pfet_01v8_W8_L1_m1": "nf1_gtop_sdfull",
-        "nfet_01v8_W24_L0p5_m1": "nf1_gboth_sdfull",
-        "nfet_01v8_W24_L1_m1": "nf2_gtop_sdfull_outS"
+        "nfet_01v8_W24_L0p5_m1": "nf2_gtop_sdfull_outS",
+        "nfet_01v8_W24_L1_m1": "nf2_gtop_sdfull_outD"
       },
       "missing": []
     },
     "A-free": {
       "complete": true,
-      "total_area_um2": 232.016,
+      "total_area_um2": 187.16,
       "relaxed": [],
       "fingers_outside_sized_bin": [
-        "nfet_01v8_W24_L1_m1"
+        "nfet_01v8_W24_L1_m1",
+        "pfet_01v8_W8_L1_m1"
       ],
       "chosen": {
-        "pfet_01v8_W8_L1_m1": "nf1_gtop_sdfull",
-        "nfet_01v8_W24_L0p5_m1": "nf1_gboth_sdfull",
-        "nfet_01v8_W24_L1_m1": "nf4_gtop_sdfull_outS"
+        "pfet_01v8_W8_L1_m1": "nf2_gtop_sdfull_outS",
+        "nfet_01v8_W24_L0p5_m1": "nf2_gtop_sdfull_outS",
+        "nfet_01v8_W24_L1_m1": "nf4_gtop_sdfull_outD"
       },
       "missing": []
     },
@@ -1358,8 +1052,7 @@
       "total_area_um2": 190.53699999999998,
       "relaxed": [
         "nfet_01v8_W24_L0p5_m1",
-        "nfet_01v8_W24_L1_m1",
-        "pfet_01v8_W8_L1_m1"
+        "nfet_01v8_W24_L1_m1"
       ],
       "fingers_outside_sized_bin": [
         "nfet_01v8_W24_L0p5_m1",

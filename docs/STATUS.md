@@ -2,16 +2,17 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-02 13:15 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–10
+**Last updated:** 2026-11-02 14:00 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–11
 and the sky130A environment change done and committed (the environment change is commit `70279125`, named
-"step_9"; step 9 is `fb1b9adf`); **step 11 done, waiting for Imasha's commit** (documentation only). Next: step
-12's re-run (about 1 h with the PC awake). Nothing is running.
+"step_9"; step 9 is `fb1b9adf`). **Step 12 done, waiting for Imasha's commit**: both designs re-run,
+`after_v3a` snapshots, goldens refreshed (20 of 20 OK), `before_after.md` regenerated. Next: step 13
+(documentation and the independent review). Nothing is running.
 
 **Resumed 2026-11-02 12:12 CET** after the overnight stop (2026-11-01 22:05):
 - the container was running with no job, and there was no `.git/index.lock`;
 - step 9 was committed, and the working tree was clean.
 
-Open questions: none blocking. LOADBench's predictions for steps 3, 6, 8 and 9 are read at step 12's re-run.
+Open questions: none blocking.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -40,6 +41,12 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- Phase A step 12, after Imasha's answer (a): `loadbench_miller --from S2` ran 13:48–13:55, S2 PASS and S3 FAIL G3.5
+  as before (`runs/logs/phaseA_step12_lb_S2S3_fix.log`).
+- Phase A step 12's re-run has ended, with no ERROR.
+  - `example_ota_5t --from S1`: 13:17–13:24, S1, S2 and S3 PASS (`runs/logs/phaseA_step12_5t.log`).
+  - `loadbench_miller --from S0`: 13:24–13:41 (`runs/logs/phaseA_step12_lb.log`). S0 FAIL G0.7 and S1 FAIL G1.6,
+    both known. **S2 PASS.** S3 FAIL G3.5: 3 types relaxed.
 - Phase A step 11's `ota5t_stress` S1 re-run check has ended, 13:09–13:10
   (`runs/logs/phaseA_step11_stress_S1_rerun.log`): S1 rc 0, golden S1 OK.
   - Its committed S1 outputs, flow summary and S1 logs were set aside in `runs/tmp/aside/step11/` before the run
@@ -139,7 +146,77 @@ predictions to write into PREREG before the runs.
 | – sky130A environment (Imasha's request, before step 9) | **done**, committed `70279125` | `scripts/env.sh` selects sky130A with the image's `sak-pdk` command; `TOOL_ENV` pins the same. Not a plan step; no rule or number changes. Details below |
 | 9 SPICE vs first order | **done**, committed `fb1b9adf` | agreement fields on every SPICE-verified check (G2.5, G2.8) and the `G2.10_model_agreement (info)` summary. 5T: 72 checks, none flagged; the row-42 corner is in G2.9 at 6.34 × allowed, not binding. Budgets identical to step 8. Details below |
 | 10 LOADBench hand model | **done**, committed `9370baa7` | patched copy P1 with the NMOS-mirror doublet, PREDICTED (patched, post hoc). Hand PM gap 17.0° → 1.7° (exact rational 3.0°); GBW gap 6.7 → 2.2 MHz. G1.5 unchanged and report-only. Details below |
-| 11 tests and goldens | **done**, waiting for Imasha's commit (documentation only) | pytest 124 passed + the expected 5T S2 golden failure; `./flow test` golden 19 of 20 OK; `ota5t_stress` S1 re-run: golden OK, its committed outputs put back. Details below |
+| 11 tests and goldens | **done**, committed `2a9897c0` | pytest 124 passed + the expected 5T S2 golden failure; `./flow test` golden 19 of 20 OK; `ota5t_stress` S1 re-run: golden OK, its committed outputs put back. Details below |
+| 12 re-run, snapshot, compare | **done**, waiting for Imasha's commit | 5T: every prediction holds. LOADBench: S2 now PASS; S3 PM 65.17°, 3 types relaxed (6 in plan v2); ours "ok" after the tolerance fix (Imasha's answer (a)). Goldens refreshed, 20 of 20 OK. Details below |
+
+Step 12 record (2026-11-02):
+- **Runs**, started from a login shell + `env.sh` (sky130A pinned); no ERROR.
+  - The 5T `--from S1`: 13:17–13:24, all PASS. Its S2 is identical to step 9's: 21 budgets equal.
+  - LOADBench `--from S0`: 13:24–13:41. S0 FAIL G0.7, S1 FAIL G1.6 (both as in plan v2), **S2 PASS**, S3 FAIL G3.5.
+- **Snapshots** `after_v3a` for both designs; the identity check passed.
+- **Comparisons:** `scripts/compare_eta09_rerun.py` was called with `--json outputs/phaseA/<d>/compare_<first>_vs_after_v3a.json`.
+  - The plan's command had no `--json`, so it would have overwritten the committed
+    `outputs/posthoc/eta09_rerun/compare.json`.
+  - The script also read that re-run's kept S2 folder and clock by design name. It now does so only for the
+    `after_eta0.9_rerun` tag; the default pair's output is unchanged (checked).
+- **LOADBench, plan v2 → `after_v3a`:**
+
+  | | before (v1) | after (v2) | post hoc least-bad | **after_v3a** |
+  |---|---|---|---|---|
+  | S2 | PASS | FAIL G2.3, G2.7 | (same S2) | **PASS** |
+  | Round-1 t | 0.076 | 0.00094 | | **0.497** |
+  | Starved | 21/40 | 39/42 | | 29/40 |
+  | S3 relaxed types | 3 | 6 | 6 | **3** |
+  | S3 PM | 64.91° | 48.06° | 64.73° | **65.17°** |
+  | S3 GBW (MHz) | 22.96 | 22.55 | 22.74 | 23.02 |
+  | S3 area (µm²) | 2342 | 4396 | 2142 | **2079** |
+  | Power (µW) | 551 | 361 | 555 | 554 |
+
+- **Predictions (section 4):**
+
+  | Step | 5T | LOADBench |
+  |---|---|---|
+  | 3 | Held at step 3; step 8's choice (b) later moved the need, so t is now 3.93 | **Mostly.** 37 of 40 budgets larger (geomean ×97). Smaller: P2.d (10× cap, need cut by step 8's route), P5.s (need ÷7 from step 8, budget 0.18 → 0.63 × need), tail~ibias (at the cap in v2, now binds on GBW). 29 of 40 are still starved: no longer from the PVT points, but at nominal, since G2.0 gain is 1.00 of margin and eta is 0.5. PVT points over 1.0: yes, 57 (worst gain at `sf_v0.9_t-40`, 78.7 ×) |
+  | 4 | holds (G1.1 pass) | holds (G1.1 pass) |
+  | 5 | holds | holds (G1.4 pass) |
+  | 6 | holds | G2.5 passes (PM at 1.007). `lp_floor_k` has more room in total (Σ budget/need 276 vs 39), with 12 of 40 elements below `lp_floor`. **"Ours' outcome word unchanged" fails:** "infeasible" → "ok". Plan v2's word came from infeasible library floors (G2.7 FAIL). Now the floors are feasible, and ours meets its allowance in SPICE (1.007 ≤ 1.02). Before the tolerance fix below, the word stayed "infeasible" only through a rounding edge |
+  | 7 | holds (2.0e-5°) | holds (1.6e-3°) |
+  | 8 | holds (small change) | holds: G2.0 gain 6.64 → 1.00, PM 3.74 → 0.79, GBW 0.91 → 0.34 |
+  | 9 | holds | listed: 4 checks, all baselines (per_net GBW and PM; lp_sum gain with a sign disagreement, first order 0.31 vs SPICE −8.69; lp_sum GBW). None for ours |
+  | 10 | — | holds (17.0° → 1.7°) |
+  | 12 | holds exactly: area 200.8 µm², the same cells, none relaxed, the same final specs as `after_nopvt` | holds: 3 relaxed < 6; PM 65.17° ≥ 64.7° |
+
+- **Tolerance fix** (Imasha's answer (a), about 13:47):
+  - **The bug.** Phase 2 (`budgets.refine`) leaves a pinned budget xm × (1 − 10⁻⁹) of room. G2.8's score
+    counted "below floor" and "starved" below floor or need × (1 − 10⁻⁹), so a budget at its floor fell either
+    side by rounding.
+  - **On LOADBench,** 7 budgets sat at floor × (1 − 10⁻⁹). One, `ibias~out` (20.38719997961 against 20.3872),
+    landed 10⁻¹³ on the wrong side, and ours was scored "infeasible".
+  - **The change.** `src/s2/baselines.py` has `AT_BOUND_TOL` = 10⁻⁶ for both tests, and the snapshot's "starved"
+    count in `scripts/compare_before_after.py` uses the same. Reporting only: no budget changes.
+  - **Re-run.** LOADBench's S2 and S3 ran again, 13:48–13:55, and `after_v3a` was re-taken. Ours is now "ok",
+    with nothing below a floor. Every other number and word is identical to the first run, including S3's cells,
+    PM and area.
+  - On the 5T no budget sits within 10⁻⁶ of its floor or need: no effect.
+  - Test: `test_budget_at_its_floor_or_need_is_not_below_it`, with LOADBench's numbers.
+  - **For step 13:** a journey row in flow record 7.1 (from row 51). PREREG is unchanged: the definition, "budget
+    below the library floor", stays; only its numerical tolerance moved.
+- **G2.8 on LOADBench, plan v2 'after' → `after_v3a`:**
+  - per_net: unsafe + infeasible → unsafe (6.77);
+  - equal: infeasible → infeasible;
+  - lp_sum: unsafe + infeasible (unverified) → infeasible (unverified, 1 failed run);
+  - lp_floor: unsafe + infeasible → unsafe (1.03);
+  - lp_floor_k: new, ok (1.015);
+  - **ours: infeasible → ok (1.007).**
+- **Goldens (Q4).** `python3 -m src.flow snapshot <d> --stage all` for both designs. The 5T's S0 snapshot came out
+  identical, since S0 was not re-run. Then `pytest tests/`: 126 passed. `./flow test`: golden 20 of 20 OK.
+- **`docs/before_after.md`** was regenerated (`compare_before_after.py report`).
+  - Only the 5T and LOADBench tables changed, each gaining an `after_v3a` column. The other designs' sections and
+    every earlier column are unchanged (checked in the diff).
+  - The introduction has a line for the new tag.
+  - The first write hit Errno 22 (the known transient file lock on the Windows mount); the retry worked.
+- **Comparison files:** `outputs/phaseA/example_ota_5t/compare_after_nopvt_vs_after_v3a.json` and
+  `outputs/phaseA/loadbench_miller/compare_after_posthoc_leastbad_vs_after_v3a.json`.
 
 Step 11 record (no code changed):
 - **`python3 -m pytest -q tests/`** (`bash -c` + `env.sh`): 124 passed, 1 failed.
@@ -723,6 +800,31 @@ Step 0 record:
 
 ## Open questions for Imasha
 
+**Resolved 2026-11-02 ~13:47 CET (Imasha): (a), fix the tolerance edge**, done in step 12; ours on LOADBench is now
+"ok". The question as it was asked:
+
+**Was FEEDBACK NEEDED (Claude Code, 2026-11-02 13:45, Phase A step 12): fix a tolerance edge that marks ours
+"infeasible" on LOADBench?**
+- **What happens.**
+  - Ours' max-min budget for `ibias~out` equals its library floor exactly: 20.3872.
+  - Phase 2 (`budgets.refine`) relaxes each max-min budget's lower bound to xm × (1 − 10⁻⁹) (`src/s2/budgets.py`,
+    line 206), and the solver returns that bound: 20.38719997961.
+  - G2.8's score flags "below floor" when x < floor × (1 − 10⁻⁹) (`src/s2/baselines.py`, `score`). The refined
+    value is 10⁻¹³ below that threshold, so ours is scored "infeasible".
+  - The budget is at its floor; the two 10⁻⁹ tolerances just don't nest.
+- **Effect.** On LOADBench, ours is "infeasible" only because of this. Its SPICE worst use is 1.007 of allowed,
+  within 1.02, so the outcome would be **"ok"**. On the 5T no ours budget sits at a floor: no effect.
+- **(a) Fix (recommended).**
+  - Make the two tests nest: `score`'s below-floor test gets a tolerance wider than `refine`'s 10⁻⁹ relaxation,
+    e.g. x < floor × (1 − 10⁻⁶). It changes reporting only; no budget changes.
+  - Then re-run LOADBench's S2 and S3 (about 8 min; S3 so that its `s2_run_id` matches), re-take its `after_v3a`
+    snapshot, and add a journey row (flow record 7.1, from row 51) in step 13.
+  - Ours' word on LOADBench then becomes "ok", so step 6's prediction "outcome words for ours unchanged" fails
+    for LOADBench. The explanation line: plan v2's "infeasible" came from infeasible floors; now the floors are
+    feasible and ours meets its allowance.
+- **(b) Keep as is.** Report "infeasible", with a note that it is a tolerance artefact (budget at its floor to
+  10⁻⁹). The prediction then "holds" only through the artefact.
+
 **Resolved 2026-11-01 (Imasha, during step 9): select sky130A with the image's `sak-pdk` command**, done; see
 "sky130A environment" under *Plan v3 Phase A*. The question as it was asked:
 
@@ -974,8 +1076,11 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
-- 2026-11-02 (Claude Code): **Plan v3 Phase A, step 11**: the test pass before step 12, documentation only. It
-  waits for Imasha's commit.
+- 2026-11-02 (Claude Code): **Plan v3 Phase A, step 12**: the 5T and LOADBench re-run (`after_v3a`), the G2.8
+  tolerance fix (Imasha's answer (a)), goldens refreshed, `before_after.md` regenerated. It waits for Imasha's
+  commit.
+- 2026-11-02 (Claude Code): **Plan v3 Phase A, step 11**: the test pass before step 12, documentation only.
+  Committed `2a9897c0`.
 - 2026-11-02 (Claude Code): **Plan v3 Phase A, step 10**: LOADBench's hand model with the NMOS-mirror doublet,
   PREDICTED (patched, post hoc). Committed `9370baa7`.
 - 2026-11-01 (Claude Code): **Plan v3 Phase A, steps 0–9, and the sky130A environment** (branch

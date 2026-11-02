@@ -37,62 +37,60 @@ XDUT INN INP OUTP VSS VDD loadbench_miller
 .ends
 
 .subckt loadbench_miller in1 in2 out sourceNmos sourcePmos
-Cbud_s2_0 FirstStageYout1 sourceNmos 4.43406f
-Cbud_s2_1 FirstStageYsourceTransconductance sourceNmos 0.0188847f
-Cbud_s2_2 ibias sourceNmos 0.0778206f
-Cbud_s2_3 out sourceNmos 0.0944738f
-Cbud_s2_4 outFirstStage sourceNmos 0.0320485f
-Cbud_s2_5 FirstStageYout1 FirstStageYsourceTransconductance 0.00166828f
-Cbud_s2_6 FirstStageYout1 ibias 0.291333f
-Cbud_s2_7 FirstStageYout1 out 0.291333f
-Cbud_s2_8 FirstStageYout1 outFirstStage 0.00443244f
-Cbud_s2_9 FirstStageYout1 in1 0.184712f
-Cbud_s2_10 FirstStageYsourceTransconductance ibias 33.4832f
-Cbud_s2_11 FirstStageYsourceTransconductance out 0.000890189f
-Cbud_s2_12 FirstStageYsourceTransconductance outFirstStage 0.00166828f
-Cbud_s2_13 FirstStageYsourceTransconductance in1 0.00173309f
-Cbud_s2_14 FirstStageYsourceTransconductance in2 0.323123f
-Cbud_s2_15 ibias out 0.0269286f
-Cbud_s2_16 ibias outFirstStage 0.0040744f
-Cbud_s2_17 ibias in1 0.000127863f
-Cbud_s2_18 ibias in2 0.0238392f
-Cbud_s2_19 out outFirstStage 0.00875548f
-Cbud_s2_20 out in1 0.000127863f
-Cbud_s2_21 out in2 0.000127863f
-Cbud_s2_22 outFirstStage in1 0.000127863f
-Cbud_s2_23 outFirstStage in2 0.000990711f
+Cbud_s2_0 FirstStageYout1 sourceNmos 12.3582f
+Cbud_s2_1 FirstStageYsourceTransconductance sourceNmos 55.8414f
+Cbud_s2_2 ibias sourceNmos 451.721f
+Cbud_s2_3 out sourceNmos 40.3369f
+Cbud_s2_4 outFirstStage sourceNmos 7.53815f
+Cbud_s2_5 FirstStageYout1 FirstStageYsourceTransconductance 8.28122f
+Cbud_s2_6 FirstStageYout1 ibias 0.451428f
+Cbud_s2_7 FirstStageYout1 out 0.451428f
+Cbud_s2_8 FirstStageYout1 outFirstStage 2.35636f
+Cbud_s2_9 FirstStageYout1 in1 0.637607f
+Cbud_s2_10 FirstStageYsourceTransconductance ibias 16.8257f
+Cbud_s2_11 FirstStageYsourceTransconductance out 0.200722f
+Cbud_s2_12 FirstStageYsourceTransconductance outFirstStage 0.611073f
+Cbud_s2_13 FirstStageYsourceTransconductance in1 5.97777f
+Cbud_s2_14 FirstStageYsourceTransconductance in2 1.13514f
+Cbud_s2_15 ibias out 20.3872f
+Cbud_s2_16 ibias outFirstStage 0.506463f
+Cbud_s2_17 ibias in1 0.939938f
+Cbud_s2_18 out outFirstStage 4.73188f
+Cbud_s2_19 out in1 0.046696f
+Cbud_s2_20 out in2 0.0466949f
+Cbud_s2_21 outFirstStage in1 0.0466949f
+Cbud_s2_22 outFirstStage in2 0.501747f
 XDiodeTransistorNmos1 s1r_XDiodeTransistorNmos1_d s1r_XDiodeTransistorNmos1_g s1r_XDiodeTransistorNmos1_s sourceNmos sky130_fd_pr__nfet_01v8_lvt L=2.03 W=66.13 NF=1 AD=19.1777 AS=19.1777 PD=132.84 PS=132.84 NRD=0.0043853 NRS=0.0043853 SA=0 SB=0 SD=0 MULT=1
-Rpar_s1_XDiodeTransistorNmos1_s s1r_XDiodeTransistorNmos1_s sourceNmos 6.47637
-Rpar_s1_XDiodeTransistorNmos1_g s1r_XDiodeTransistorNmos1_g FirstStageYout1 7.67842
-Rpar_s1_XDiodeTransistorNmos1_d s1r_XDiodeTransistorNmos1_d FirstStageYout1 0.0369655
-XDiodeTransistorPmos2 s1r_XDiodeTransistorPmos2_d s1r_XDiodeTransistorPmos2_g s1r_XDiodeTransistorPmos2_s sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=37.3 NF=1 AD=10.817 AS=10.817 PD=75.18 PS=75.18 NRD=0.0077748 NRS=0.0077748 SA=0 SB=0 SD=0 MULT=1
-Rpar_s1_XDiodeTransistorPmos2_s s1r_XDiodeTransistorPmos2_s sourcePmos 0.0265401
-Rpar_s1_XDiodeTransistorPmos2_g s1r_XDiodeTransistorPmos2_g ibias 415.699
-Rpar_s1_XDiodeTransistorPmos2_d s1r_XDiodeTransistorPmos2_d ibias 328.446
+Rpar_s1_XDiodeTransistorNmos1_s s1r_XDiodeTransistorNmos1_s sourceNmos 11.2625
+Rpar_s1_XDiodeTransistorNmos1_g s1r_XDiodeTransistorNmos1_g FirstStageYout1 15.5833
+Rpar_s1_XDiodeTransistorNmos1_d s1r_XDiodeTransistorNmos1_d FirstStageYout1 10.0383
+XDiodeTransistorPmos2 s1r_XDiodeTransistorPmos2_d ibias s1r_XDiodeTransistorPmos2_s sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=37.3 NF=1 AD=10.817 AS=10.817 PD=75.18 PS=75.18 NRD=0.0077748 NRS=0.0077748 SA=0 SB=0 SD=0 MULT=1
+Rpar_s1_XDiodeTransistorPmos2_s s1r_XDiodeTransistorPmos2_s sourcePmos 170.675
+Rpar_s1_XDiodeTransistorPmos2_d s1r_XDiodeTransistorPmos2_d ibias 217.375
 XNormalTransistorNmos3 s1r_XNormalTransistorNmos3_d s1r_XNormalTransistorNmos3_g s1r_XNormalTransistorNmos3_s sourceNmos sky130_fd_pr__nfet_01v8_lvt L=0.24 W=484.2 NF=1 AD=140.418 AS=140.418 PD=968.98 PS=968.98 NRD=0.000598926 NRS=0.000598926 SA=0 SB=0 SD=0 MULT=1
-Rpar_s1_XNormalTransistorNmos3_s s1r_XNormalTransistorNmos3_s sourceNmos 0.207559
-Rpar_s1_XNormalTransistorNmos3_g s1r_XNormalTransistorNmos3_g outFirstStage 130.776
-Rpar_s1_XNormalTransistorNmos3_d s1r_XNormalTransistorNmos3_d out 0.208114
+Rpar_s1_XNormalTransistorNmos3_s s1r_XNormalTransistorNmos3_s sourceNmos 16.2556
+Rpar_s1_XNormalTransistorNmos3_g s1r_XNormalTransistorNmos3_g outFirstStage 351.637
+Rpar_s1_XNormalTransistorNmos3_d s1r_XNormalTransistorNmos3_d out 16.5487
 XNormalTransistorNmos4 s1r_XNormalTransistorNmos4_d s1r_XNormalTransistorNmos4_g s1r_XNormalTransistorNmos4_s sourceNmos sky130_fd_pr__nfet_01v8_lvt L=2.03 W=66.13 NF=1 AD=19.1777 AS=19.1777 PD=132.84 PS=132.84 NRD=0.0043853 NRS=0.0043853 SA=0 SB=0 SD=0 MULT=1
-Rpar_s1_XNormalTransistorNmos4_s s1r_XNormalTransistorNmos4_s sourceNmos 6.47637
-Rpar_s1_XNormalTransistorNmos4_g s1r_XNormalTransistorNmos4_g FirstStageYout1 7.67842
-Rpar_s1_XNormalTransistorNmos4_d s1r_XNormalTransistorNmos4_d outFirstStage 0.0369655
+Rpar_s1_XNormalTransistorNmos4_s s1r_XNormalTransistorNmos4_s sourceNmos 11.2625
+Rpar_s1_XNormalTransistorNmos4_g s1r_XNormalTransistorNmos4_g FirstStageYout1 15.5833
+Rpar_s1_XNormalTransistorNmos4_d s1r_XNormalTransistorNmos4_d outFirstStage 10.0383
 XNormalTransistorPmos5 s1r_XNormalTransistorPmos5_d s1r_XNormalTransistorPmos5_g s1r_XNormalTransistorPmos5_s sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=887.03 NF=1 AD=257.239 AS=257.239 PD=1774.64 PS=1774.64 NRD=0.000326934 NRS=0.000326934 SA=0 SB=0 SD=0 MULT=1
-Rpar_s1_XNormalTransistorPmos5_s s1r_XNormalTransistorPmos5_s sourcePmos 70.5384
-Rpar_s1_XNormalTransistorPmos5_g s1r_XNormalTransistorPmos5_g ibias 0.450692
-Rpar_s1_XNormalTransistorPmos5_d s1r_XNormalTransistorPmos5_d out 0.379151
+Rpar_s1_XNormalTransistorPmos5_s s1r_XNormalTransistorPmos5_s sourcePmos 36.8434
+Rpar_s1_XNormalTransistorPmos5_g s1r_XNormalTransistorPmos5_g ibias 768.125
+Rpar_s1_XNormalTransistorPmos5_d s1r_XNormalTransistorPmos5_d out 29.4224
 XNormalTransistorPmos6 s1r_XNormalTransistorPmos6_d s1r_XNormalTransistorPmos6_g s1r_XNormalTransistorPmos6_s FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt L=0.89 W=14.21 NF=1 AD=4.1209 AS=4.1209 PD=29 PS=29 NRD=0.0204082 NRS=0.0204082 SA=0 SB=0 SD=0 MULT=1
-Rpar_s1_XNormalTransistorPmos6_s s1r_XNormalTransistorPmos6_s FirstStageYsourceTransconductance 0.0241023
-Rpar_s1_XNormalTransistorPmos6_g s1r_XNormalTransistorPmos6_g in2 7.86617
-Rpar_s1_XNormalTransistorPmos6_d s1r_XNormalTransistorPmos6_d outFirstStage 0.0401095
+Rpar_s1_XNormalTransistorPmos6_s s1r_XNormalTransistorPmos6_s FirstStageYsourceTransconductance 16.993
+Rpar_s1_XNormalTransistorPmos6_g s1r_XNormalTransistorPmos6_g in2 36.1953
+Rpar_s1_XNormalTransistorPmos6_d s1r_XNormalTransistorPmos6_d outFirstStage 19.8402
 XNormalTransistorPmos7 s1r_XNormalTransistorPmos7_d s1r_XNormalTransistorPmos7_g s1r_XNormalTransistorPmos7_s FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt L=0.89 W=14.21 NF=1 AD=4.1209 AS=4.1209 PD=29 PS=29 NRD=0.0204082 NRS=0.0204082 SA=0 SB=0 SD=0 MULT=1
-Rpar_s1_XNormalTransistorPmos7_s s1r_XNormalTransistorPmos7_s FirstStageYsourceTransconductance 0.0241023
-Rpar_s1_XNormalTransistorPmos7_g s1r_XNormalTransistorPmos7_g in1 7.86617
-Rpar_s1_XNormalTransistorPmos7_d s1r_XNormalTransistorPmos7_d FirstStageYout1 0.0401095
+Rpar_s1_XNormalTransistorPmos7_s s1r_XNormalTransistorPmos7_s FirstStageYsourceTransconductance 16.993
+Rpar_s1_XNormalTransistorPmos7_g s1r_XNormalTransistorPmos7_g in1 36.1953
+Rpar_s1_XNormalTransistorPmos7_d s1r_XNormalTransistorPmos7_d FirstStageYout1 19.8402
 XNormalTransistorPmos8 s1r_XNormalTransistorPmos8_d s1r_XNormalTransistorPmos8_g s1r_XNormalTransistorPmos8_s sourcePmos sky130_fd_pr__pfet_01v8_lvt L=0.74 W=90.63 NF=1 AD=26.2827 AS=26.2827 PD=181.84 PS=181.84 NRD=0.00319982 NRS=0.00319982 SA=0 SB=0 SD=0 MULT=1
-Rpar_s1_XNormalTransistorPmos8_s s1r_XNormalTransistorPmos8_s sourcePmos 0.0478943
-Rpar_s1_XNormalTransistorPmos8_g s1r_XNormalTransistorPmos8_g ibias 14.6596
-Rpar_s1_XNormalTransistorPmos8_d s1r_XNormalTransistorPmos8_d FirstStageYsourceTransconductance 0.051757
+Rpar_s1_XNormalTransistorPmos8_s s1r_XNormalTransistorPmos8_s sourcePmos 72.7397
+Rpar_s1_XNormalTransistorPmos8_g s1r_XNormalTransistorPmos8_g ibias 34.4097
+Rpar_s1_XNormalTransistorPmos8_d s1r_XNormalTransistorPmos8_d FirstStageYsourceTransconductance 98.4256
 Ibias ibias sourceNmos 1e-05
 Capacitor2 outFirstStage out 5e-13
 .ends loadbench_miller

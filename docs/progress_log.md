@@ -869,7 +869,7 @@ the work manageable.
       predicted.
   - Tests: 2 new, 34 Phase A tests in all; full suite 120 passed plus the expected 5T S2 golden failure.
 
-## 2026-11-02: Plan v3 Phase A, steps 10–11 (Claude Code)
+## 2026-11-02: Plan v3 Phase A, steps 10–12 (Claude Code)
 
 Resumed at 12:12 CET after the overnight stop. Step 9 had been committed (`fb1b9adf`), and the container was
 running with no job.
@@ -905,3 +905,31 @@ running with no job.
       put back after; README now says it overwrites.
   - **Found:** in a login shell (`./flow`, `flow.ps1`) the `USER` quirk still fails the netgen round-trip test.
     A one-line fix is suggested in STATUS.
+- **Step 12 (re-run, snapshot, compare; golden refresh).**
+  - **Runs** (from a login shell + `env.sh`, sky130A pinned; no ERROR):
+    - the 5T `--from S1`, 13:17–13:24, all PASS;
+    - LOADBench `--from S0`, 13:24–13:41. S0 and S1 fail only their known gates (G0.7, G1.6), **S2 now PASSES**
+      (plan v2: G2.3, G2.7), and S3 fails G3.5 with 3 relaxed types.
+    - Snapshots `after_v3a` for both.
+  - **5T:** every prediction holds. S2 equals step 9's run. S3 equals `after_nopvt`: area 200.8 µm², the same
+    cells, none relaxed, PM 79.95°.
+  - **LOADBench, plan v2 'after' → `after_v3a`:**
+    - round-1 t goes from 0.00094 to 0.497; starved from 39/42 to 29/40;
+    - relaxed types go from 6 to 3; PM from 48.06° to 65.17° (post hoc 64.73°, 'before' 64.91°);
+    - area goes from 4396 to 2079 µm², the smallest of the four runs.
+    - Predictions: step 3 mostly (37 of 40 budgets larger; 29 elements still starved at nominal, since G2.0 gain
+      is at 1.00 of margin against eta 0.5); 4, 5, 7, 8, 9, 10 and 12 hold.
+  - **Step 6's "ours' outcome word unchanged" fails for LOADBench** (infeasible → ok): plan v2's word came from
+    infeasible floors, and now ours meets its allowance in SPICE (1.007).
+  - **Found and fixed, with Imasha's OK: a tolerance edge.**
+    - Phase 2 leaves a pinned budget 10⁻⁹ of room, and G2.8's score used the same 10⁻⁹ for "below floor" and
+      "starved". A budget at its floor fell either side by rounding, and on LOADBench one did, scoring ours
+      "infeasible".
+    - `AT_BOUND_TOL` = 10⁻⁶ in `src/s2/baselines.py`, and the same in the snapshot's starved count. LOADBench S2
+      and S3 were re-run (13:48–13:55): only ours' word changed.
+    - A journey row follows in step 13.
+  - **Also:**
+    - `compare_eta09_rerun.py` was called with `--json outputs/phaseA/...`, so the committed eta 0.9 comparison
+      is not overwritten. It now reads that re-run's kept folder only for its own tag.
+    - The goldens of both designs were refreshed (Q4): tests 126 passed, golden 20 of 20 OK.
+    - `docs/before_after.md` was regenerated, with only the two designs' `after_v3a` column added.

@@ -557,3 +557,19 @@ def test_s2_does_not_read_hand_models():
     for f in (REPO / "src" / "s2").glob("*.py"):
         t = f.read_text()
         assert "symbolic" not in t and "upstream_patched" not in t and "equations" not in t, f.name
+
+
+# ------------------------------------------------------------------ step 12: a budget at its floor is not below it
+def test_budget_at_its_floor_or_need_is_not_below_it():
+    """LOADBench, step 12: phase 2 left ibias~out at 20.38719997961 = floor 20.3872 x (1 - 1e-9) - rounding, and a 1e-9
+    test scored ours 'infeasible'. AT_BOUND_TOL is wider than refine's 1e-9 room."""
+    from src.s2 import baselines as BL
+    EL = [{"id": "a", "w": 22.3567}, {"id": "b", "w": 1.0}]
+    CO = [{"id": "pm_deg", "b": 100.0, "a": {"a": 1.0, "b": 1.0}}]
+    fl = {"a": 20.3872}
+    at = BL.score({"a": 20.3871999796128, "b": 1.0 * (1 - 1e-9)}, EL, CO, fl)
+    assert at["below_floor"] == [] and at["starved"] == ["a"]           # a is below its need (22.36), b is at it
+    assert BL.outcome(at) == "ok"
+    below = BL.score({"a": 20.3872 * (1 - 1e-5), "b": 1.0 * (1 - 1e-5)}, EL, CO, fl)
+    assert below["below_floor"] == ["a"] and below["starved"] == ["a", "b"] and BL.outcome(below) == "infeasible"
+    assert 1e-9 < BL.AT_BOUND_TOL <= 1e-6

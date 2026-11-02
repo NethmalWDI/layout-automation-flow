@@ -146,7 +146,7 @@ def snap(design: str, tag: str, s3_dir: str | None = None) -> Path:
                                       if not k.startswith("sat_") and "@" not in k},
             "t_round1": (g.get("G2.3_allocation") or {}).get("t_round1"),
             "n_budgeted": len(el),
-            "starved": sum(1 for e in el if e["budget"] < e["w"] * (1 - 1e-9)),
+            "starved": sum(1 for e in el if e["budget"] < e["w"] * (1 - 1e-6)),   # baselines.AT_BOUND_TOL
             "min_ratio_to_need": min((e["budget"] / e["w"] for e in el), default=None),
             "verify": {r["check"]: r.get("spice_use_frac_of_margin") for r in (g.get("G2.5_spice_budget_verification") or {}).get("rows", [])},
             "floors": g.get("G2.7_library_floors_feasible"),
@@ -245,7 +245,10 @@ def report() -> Path:
              "breaks its allowances least instead of the default PCell (post-hoc test of 2026-10-27, not pre-registered;",
              "this rule is the S3 default for later runs, see PREREG.md);",
              "'after_eta0.9_rerun' is the same eta 0.9 S2 run again with the PC awake, because the first run overlapped a",
-             "Windows standby (2026-10-27; scripts/compare_eta09_rerun.py compares the two).", ""]
+             "Windows standby (2026-10-27; scripts/compare_eta09_rerun.py compares the two);",
+             "'after_v3a' is Plan v3 Phase A (2026-11-02; example_ota_5t and loadbench_miller only, docs/plan_v3_phaseA.md):",
+             "budgets at the nominal corner only with the PVT points reported, one tolerance, route lengths from the",
+             "representative cells, the mirror bank and designer groups, and S3's least-bad rule for relaxed types.", ""]
     for dd in sorted(p for p in OUT.glob("*") if p.is_dir()):
         order = {"before": 0, "after": 1}          # then ablations (after_*) by name
         tags = sorted(dd.glob("*.json"), key=lambda f: (order.get(f.stem, 2), f.stem))

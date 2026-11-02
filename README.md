@@ -99,6 +99,8 @@ every PVT point, as in plan v2.
   - S3, as `TOL_USE` × eta of the margin.
 
   G2.5's old 10 % stays only as a reported column, `within_first_order_error_10pct`.
+- **At a bound.** G2.8 counts a budget within 10⁻⁶ below its floor or need as at it, not below it
+  (`baselines.AT_BOUND_TOL`). Phase 2 leaves pinned budgets 10⁻⁹ of room.
 - **`lp_floor_k`.** G2.8 also scores `lp_floor_k`: `lp_floor` with ours' upper bound, 10 × need, so six rules are
   compared in all. With that room the max-sum LP may starve some elements to give others more; that is a result,
   not an error.

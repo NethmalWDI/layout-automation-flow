@@ -9,29 +9,32 @@ only), run after the generality fixes that let it ingest the new circuits; 'afte
 breaks its allowances least instead of the default PCell (post-hoc test of 2026-10-27, not pre-registered;
 this rule is the S3 default for later runs, see PREREG.md);
 'after_eta0.9_rerun' is the same eta 0.9 S2 run again with the PC awake, because the first run overlapped a
-Windows standby (2026-10-27; scripts/compare_eta09_rerun.py compares the two).
+Windows standby (2026-10-27; scripts/compare_eta09_rerun.py compares the two);
+'after_v3a' is Plan v3 Phase A (2026-11-02; example_ota_5t and loadbench_miller only, docs/plan_v3_phaseA.md):
+budgets at the nominal corner only with the PVT points reported, one tolerance, route lengths from the
+representative cells, the mirror bank and designer groups, and S3's least-bad rule for relaxed types.
 
 ## example_ota_5t
 
-| | before | after | after_eta0.9 | after_eta0.9_rerun | after_nopvt |
-|---|---|---|---|---|---|
-| S0 failed gates | none | none | none | none | none |
-| S1 failed gates | none | none | none | none | none |
-| S2 failed gates | none | none | none | none | none |
-| S3 failed gates | none | none | not run | not run | none |
-| S1 linear − SPICE (gain dB, GBW rel, PM °) | -0.0041, 0.0053, 0.0109 | -0.0041, 0.0053, 0.0109 | -0.0041, 0.0053, 0.0109 | -0.0041, 0.0053, 0.0109 | -0.0041, 0.0053, 0.0109 |
-| S1 symbolic − SPICE (gain, GBW MHz, PM) | -0.333, 3.978, 10.409 | -0.333, 3.978, 10.409 | -0.333, 3.978, 10.409 | -0.333, 3.978, 10.409 | -0.333, 3.978, 10.409 |
-| S2 eta / alloc | 0.5 / v1 | 0.5 / v2 | 0.9 / v2 | 0.9 / v2 | 0.5 / v2 |
-| S2 expected layout use (fraction of margin) | {'gain_db': 0.084, 'gbw_mhz': 0.061, 'pm_deg': 0.082, 'vnoise_nv_rthz': 0.015} | {'gain_db': 0.086, 'gbw_mhz': 0.058, 'pm_deg': 0.075, 'vnoise_nv_rthz': 0.015} | {'gain_db': 0.086, 'gbw_mhz': 0.058, 'pm_deg': 0.075, 'vnoise_nv_rthz': 0.015} | {'gain_db': 0.086, 'gbw_mhz': 0.058, 'pm_deg': 0.075, 'vnoise_nv_rthz': 0.015} | {'gain_db': 0.086, 'gbw_mhz': 0.058, 'pm_deg': 0.075, 'vnoise_nv_rthz': 0.015} |
-| S2 round-1 t (budget / need) | 3.99 | 1.05 | 1.89 | 1.89 | 3.4 |
-| S2 budgeted / starved (budget < need) | 21 / 0 | 21 / 0 | 21 / 0 | 21 / 0 | 21 / 0 |
-| S2 SPICE use at budget (fraction of margin) | {'gain_db': 0.543, 'gbw_mhz': 0.337, 'pm_deg': 0.401, 'vnoise_nv_rthz': 0.09} | {'gain_db': 0.091, 'gbw_mhz': 0.12, 'pm_deg': 0.284, 'vnoise_nv_rthz': 0.015, 'pm_deg@ff_v1.1_t27': 0.322, 'pm_deg@ff_v1.1_t85': 0.319, 'pm_deg@sf_v1.1_t-40': 0.324, 'pm_deg@sf_v1.1_t27': 0.321, 'pm_deg@sf_v1.1_t85': 0.313, 'gbw_mhz@tt_v0.9_t27': -0.164} | {'gain_db': 0.161, 'gbw_mhz': 0.162, 'pm_deg': 0.321, 'vnoise_nv_rthz': 0.026, 'pm_deg@ff_v1.1_t27': 0.367, 'pm_deg@ff_v1.1_t85': 0.364, 'pm_deg@sf_v1.1_t-40': 0.369, 'pm_deg@sf_v1.1_t27': 0.368, 'pm_deg@sf_v1.1_t85': 0.358, 'gbw_mhz@tt_v0.9_t27': -0.269} | {'gain_db': 0.161, 'gbw_mhz': 0.162, 'pm_deg': 0.321, 'vnoise_nv_rthz': 0.026, 'pm_deg@ff_v1.1_t27': 0.367, 'pm_deg@ff_v1.1_t85': 0.364, 'pm_deg@sf_v1.1_t-40': 0.369, 'pm_deg@sf_v1.1_t27': 0.368, 'pm_deg@sf_v1.1_t85': 0.358, 'gbw_mhz@tt_v0.9_t27': -0.269} | {'gain_db': 0.543, 'gbw_mhz': 0.312, 'pm_deg': 0.403, 'vnoise_nv_rthz': 0.085} |
-| S2 library floors feasible | – | yes | yes | yes | yes |
-| S2 PVT constraints added | – | 103 | 103 | 103 | – |
-| S3 mode / rules | A-free / v1 | A-bin / v2 | – | – | A-bin / v2 |
-| S3 relaxed types | none | none | – | – | none |
-| S3 total device area (µm²) | 187 | 237 | – | – | 201 |
-| S3 final gain / GBW / PM | 32.882, 101.898, 79.84 | 31.795, 102.373, 79.634 | – | – | 31.869, 102.953, 79.95 |
+| | before | after | after_eta0.9 | after_eta0.9_rerun | after_nopvt | after_v3a |
+|---|---|---|---|---|---|---|
+| S0 failed gates | none | none | none | none | none | none |
+| S1 failed gates | none | none | none | none | none | none |
+| S2 failed gates | none | none | none | none | none | none |
+| S3 failed gates | none | none | not run | not run | none | none |
+| S1 linear − SPICE (gain dB, GBW rel, PM °) | -0.0041, 0.0053, 0.0109 | -0.0041, 0.0053, 0.0109 | -0.0041, 0.0053, 0.0109 | -0.0041, 0.0053, 0.0109 | -0.0041, 0.0053, 0.0109 | -0.0041, 0.0053, 0.0109 |
+| S1 symbolic − SPICE (gain, GBW MHz, PM) | -0.333, 3.978, 10.409 | -0.333, 3.978, 10.409 | -0.333, 3.978, 10.409 | -0.333, 3.978, 10.409 | -0.333, 3.978, 10.409 | -0.333, 3.978, 10.409 |
+| S2 eta / alloc | 0.5 / v1 | 0.5 / v2 | 0.9 / v2 | 0.9 / v2 | 0.5 / v2 | 0.5 / v2 |
+| S2 expected layout use (fraction of margin) | {'gain_db': 0.084, 'gbw_mhz': 0.061, 'pm_deg': 0.082, 'vnoise_nv_rthz': 0.015} | {'gain_db': 0.086, 'gbw_mhz': 0.058, 'pm_deg': 0.075, 'vnoise_nv_rthz': 0.015} | {'gain_db': 0.086, 'gbw_mhz': 0.058, 'pm_deg': 0.075, 'vnoise_nv_rthz': 0.015} | {'gain_db': 0.086, 'gbw_mhz': 0.058, 'pm_deg': 0.075, 'vnoise_nv_rthz': 0.015} | {'gain_db': 0.086, 'gbw_mhz': 0.058, 'pm_deg': 0.075, 'vnoise_nv_rthz': 0.015} | {'gain_db': 0.086, 'gbw_mhz': 0.054, 'pm_deg': 0.075, 'vnoise_nv_rthz': 0.013} |
+| S2 round-1 t (budget / need) | 3.99 | 1.05 | 1.89 | 1.89 | 3.4 | 3.93 |
+| S2 budgeted / starved (budget < need) | 21 / 0 | 21 / 0 | 21 / 0 | 21 / 0 | 21 / 0 | 21 / 0 |
+| S2 SPICE use at budget (fraction of margin) | {'gain_db': 0.543, 'gbw_mhz': 0.337, 'pm_deg': 0.401, 'vnoise_nv_rthz': 0.09} | {'gain_db': 0.091, 'gbw_mhz': 0.12, 'pm_deg': 0.284, 'vnoise_nv_rthz': 0.015, 'pm_deg@ff_v1.1_t27': 0.322, 'pm_deg@ff_v1.1_t85': 0.319, 'pm_deg@sf_v1.1_t-40': 0.324, 'pm_deg@sf_v1.1_t27': 0.321, 'pm_deg@sf_v1.1_t85': 0.313, 'gbw_mhz@tt_v0.9_t27': -0.164} | {'gain_db': 0.161, 'gbw_mhz': 0.162, 'pm_deg': 0.321, 'vnoise_nv_rthz': 0.026, 'pm_deg@ff_v1.1_t27': 0.367, 'pm_deg@ff_v1.1_t85': 0.364, 'pm_deg@sf_v1.1_t-40': 0.369, 'pm_deg@sf_v1.1_t27': 0.368, 'pm_deg@sf_v1.1_t85': 0.358, 'gbw_mhz@tt_v0.9_t27': -0.269} | {'gain_db': 0.161, 'gbw_mhz': 0.162, 'pm_deg': 0.321, 'vnoise_nv_rthz': 0.026, 'pm_deg@ff_v1.1_t27': 0.367, 'pm_deg@ff_v1.1_t85': 0.364, 'pm_deg@sf_v1.1_t-40': 0.369, 'pm_deg@sf_v1.1_t27': 0.368, 'pm_deg@sf_v1.1_t85': 0.358, 'gbw_mhz@tt_v0.9_t27': -0.269} | {'gain_db': 0.543, 'gbw_mhz': 0.312, 'pm_deg': 0.403, 'vnoise_nv_rthz': 0.085} | {'gain_db': 0.486, 'gbw_mhz': 0.294, 'pm_deg': 0.412, 'vnoise_nv_rthz': 0.076} |
+| S2 library floors feasible | – | yes | yes | yes | yes | yes |
+| S2 PVT constraints added | – | 103 | 103 | 103 | – | 0 |
+| S3 mode / rules | A-free / v1 | A-bin / v2 | – | – | A-bin / v2 | A-bin / v2 |
+| S3 relaxed types | none | none | – | – | none | none |
+| S3 total device area (µm²) | 187 | 237 | – | – | 201 | 201 |
+| S3 final gain / GBW / PM | 32.882, 101.898, 79.84 | 31.795, 102.373, 79.634 | – | – | 31.869, 102.953, 79.95 | 31.869, 102.953, 79.95 |
 
 Budget rules on the same sensitivities (after):
 
@@ -105,25 +108,25 @@ R+C run: `outputs/reference_layout/iadc_ota/reference_layout_rc100s.json`.
 
 ## loadbench_miller
 
-| | before | after | after_eta0.9 | after_eta0.9_rerun | after_posthoc_leastbad |
-|---|---|---|---|---|---|
-| S0 failed gates | G0.7_pcell_binding_drc_lvs | G0.7_pcell_binding_drc_lvs | G0.7_pcell_binding_drc_lvs | G0.7_pcell_binding_drc_lvs | G0.7_pcell_binding_drc_lvs |
-| S1 failed gates | G1.6_resistance_sensitivity_vs_spice | G1.6_resistance_sensitivity_vs_spice | G1.6_resistance_sensitivity_vs_spice | G1.6_resistance_sensitivity_vs_spice | G1.6_resistance_sensitivity_vs_spice |
-| S2 failed gates | none | G2.3_allocation, G2.7_library_floors_feasible | G2.3_allocation, G2.7_library_floors_feasible | G2.3_allocation, G2.7_library_floors_feasible | G2.3_allocation, G2.7_library_floors_feasible |
-| S3 failed gates | G3.5_no_relaxation | G3.3_all_chosen_devices_in_circuit, G3.5_no_relaxation | not run | not run | G3.5_no_relaxation |
-| S1 linear − SPICE (gain dB, GBW rel, PM °) | 0.0167, 0.0036, -0.0269 | 0.0167, 0.0036, -0.0269 | 0.0167, 0.0036, -0.0269 | 0.0167, 0.0036, -0.0269 | 0.0167, 0.0036, -0.0269 |
-| S1 symbolic − SPICE (gain, GBW MHz, PM) | 0.055, 6.688, 17.023 | 0.055, 6.688, 17.023 | 0.055, 6.688, 17.023 | 0.055, 6.688, 17.023 | 0.055, 6.688, 17.023 |
-| S2 eta / alloc | 0.5 / v1 | 0.5 / v2 | 0.9 / v2 | 0.9 / v2 | 0.5 / v2 |
-| S2 expected layout use (fraction of margin) | {'gain_db': 6.573, 'gbw_mhz': 0.968, 'pm_deg': 6.258} | {'gain_db': 6.637, 'gbw_mhz': 0.913, 'pm_deg': 3.743} | {'gain_db': 6.637, 'gbw_mhz': 0.913, 'pm_deg': 3.743} | {'gain_db': 6.637, 'gbw_mhz': 0.913, 'pm_deg': 3.743} | {'gain_db': 6.637, 'gbw_mhz': 0.913, 'pm_deg': 3.743} |
-| S2 round-1 t (budget / need) | 0.0761 | 0.000942 | 0.0017 | 0.0017 | 0.000942 |
-| S2 budgeted / starved (budget < need) | 40 / 21 | 42 / 39 | 42 / 39 | 42 / 39 | 42 / 39 |
-| S2 SPICE use at budget (fraction of margin) | {'gain_db': 0.468, 'gbw_mhz': 0.464, 'pm_deg': 0.494} | {'gain_db': 0.006, 'gbw_mhz': 0.024, 'pm_deg': 0.356, 'gain_db@sf_v0.9_t-40': 0.5, 'pm_deg@sf_v1.1_t85': 0.423, 'pm_deg@ss_v1.1_t-40': 0.436, 'pm_deg@ss_v1.1_t27': 0.425, 'pm_deg@ss_v1.1_t85': 0.472, 'pm_deg@ss_v1_t85': 0.432, 'pm_deg@tt_v1.1_t85': 0.419} | {'gain_db': 0.011, 'gbw_mhz': 0.031, 'pm_deg': 0.595, 'gain_db@sf_v0.9_t-40': 0.907, 'pm_deg@sf_v1.1_t85': 0.71, 'pm_deg@ss_v1.1_t-40': 0.724, 'pm_deg@ss_v1.1_t27': 0.71, 'pm_deg@ss_v1.1_t85': 0.792, 'pm_deg@ss_v1_t85': 0.726, 'pm_deg@tt_v1.1_t85': 0.703} | {'gain_db': 0.011, 'gbw_mhz': 0.031, 'pm_deg': 0.595, 'gain_db@sf_v0.9_t-40': 0.907, 'pm_deg@sf_v1.1_t85': 0.71, 'pm_deg@ss_v1.1_t-40': 0.724, 'pm_deg@ss_v1.1_t27': 0.71, 'pm_deg@ss_v1.1_t85': 0.792, 'pm_deg@ss_v1_t85': 0.726, 'pm_deg@tt_v1.1_t85': 0.703} | {'gain_db': 0.006, 'gbw_mhz': 0.024, 'pm_deg': 0.356, 'gain_db@sf_v0.9_t-40': 0.5, 'pm_deg@sf_v1.1_t85': 0.423, 'pm_deg@ss_v1.1_t-40': 0.436, 'pm_deg@ss_v1.1_t27': 0.425, 'pm_deg@ss_v1.1_t85': 0.472, 'pm_deg@ss_v1_t85': 0.432, 'pm_deg@tt_v1.1_t85': 0.419} |
-| S2 library floors feasible | – | no | no | no | no |
-| S2 PVT constraints added | – | 122 | 122 | 122 | 122 |
-| S3 mode / rules | A-free / v1 | A-bin / v2 | – | – | A-bin / v2 |
-| S3 relaxed types | nfet_01v8_lvt_W484p2_L0p24_m1, nfet_01v8_lvt_W66p13_L2p03_m1, pfet_01v8_lvt_W14p21_L0p89_m1 | nfet_01v8_lvt_W484p2_L0p24_m1, nfet_01v8_lvt_W66p13_L2p03_m1, pfet_01v8_lvt_W14p21_L0p89_m1, pfet_01v8_lvt_W37p3_L0p74_m1, pfet_01v8_lvt_W887p03_L0p74_m1, pfet_01v8_lvt_W90p63_L0p74_m1 | – | – | nfet_01v8_lvt_W484p2_L0p24_m1, nfet_01v8_lvt_W66p13_L2p03_m1, pfet_01v8_lvt_W14p21_L0p89_m1, pfet_01v8_lvt_W37p3_L0p74_m1, pfet_01v8_lvt_W887p03_L0p74_m1, pfet_01v8_lvt_W90p63_L0p74_m1 |
-| S3 total device area (µm²) | 2.34e+03 | 4.4e+03 | – | – | 2.14e+03 |
-| S3 final gain / GBW / PM | 57.991, 22.964, 64.909 | 57.744, 22.551, 48.061 | – | – | 57.995, 22.744, 64.73 |
+| | before | after | after_eta0.9 | after_eta0.9_rerun | after_posthoc_leastbad | after_v3a |
+|---|---|---|---|---|---|---|
+| S0 failed gates | G0.7_pcell_binding_drc_lvs | G0.7_pcell_binding_drc_lvs | G0.7_pcell_binding_drc_lvs | G0.7_pcell_binding_drc_lvs | G0.7_pcell_binding_drc_lvs | G0.7_pcell_binding_drc_lvs |
+| S1 failed gates | G1.6_resistance_sensitivity_vs_spice | G1.6_resistance_sensitivity_vs_spice | G1.6_resistance_sensitivity_vs_spice | G1.6_resistance_sensitivity_vs_spice | G1.6_resistance_sensitivity_vs_spice | G1.6_resistance_sensitivity_vs_spice |
+| S2 failed gates | none | G2.3_allocation, G2.7_library_floors_feasible | G2.3_allocation, G2.7_library_floors_feasible | G2.3_allocation, G2.7_library_floors_feasible | G2.3_allocation, G2.7_library_floors_feasible | none |
+| S3 failed gates | G3.5_no_relaxation | G3.3_all_chosen_devices_in_circuit, G3.5_no_relaxation | not run | not run | G3.5_no_relaxation | G3.5_no_relaxation |
+| S1 linear − SPICE (gain dB, GBW rel, PM °) | 0.0167, 0.0036, -0.0269 | 0.0167, 0.0036, -0.0269 | 0.0167, 0.0036, -0.0269 | 0.0167, 0.0036, -0.0269 | 0.0167, 0.0036, -0.0269 | 0.0167, 0.0036, -0.0285 |
+| S1 symbolic − SPICE (gain, GBW MHz, PM) | 0.055, 6.688, 17.023 | 0.055, 6.688, 17.023 | 0.055, 6.688, 17.023 | 0.055, 6.688, 17.023 | 0.055, 6.688, 17.023 | 0.055, 6.688, 17.023 |
+| S2 eta / alloc | 0.5 / v1 | 0.5 / v2 | 0.9 / v2 | 0.9 / v2 | 0.5 / v2 | 0.5 / v2 |
+| S2 expected layout use (fraction of margin) | {'gain_db': 6.573, 'gbw_mhz': 0.968, 'pm_deg': 6.258} | {'gain_db': 6.637, 'gbw_mhz': 0.913, 'pm_deg': 3.743} | {'gain_db': 6.637, 'gbw_mhz': 0.913, 'pm_deg': 3.743} | {'gain_db': 6.637, 'gbw_mhz': 0.913, 'pm_deg': 3.743} | {'gain_db': 6.637, 'gbw_mhz': 0.913, 'pm_deg': 3.743} | {'gain_db': 0.999, 'gbw_mhz': 0.34, 'pm_deg': 0.793} |
+| S2 round-1 t (budget / need) | 0.0761 | 0.000942 | 0.0017 | 0.0017 | 0.000942 | 0.497 |
+| S2 budgeted / starved (budget < need) | 40 / 21 | 42 / 39 | 42 / 39 | 42 / 39 | 42 / 39 | 40 / 29 |
+| S2 SPICE use at budget (fraction of margin) | {'gain_db': 0.468, 'gbw_mhz': 0.464, 'pm_deg': 0.494} | {'gain_db': 0.006, 'gbw_mhz': 0.024, 'pm_deg': 0.356, 'gain_db@sf_v0.9_t-40': 0.5, 'pm_deg@sf_v1.1_t85': 0.423, 'pm_deg@ss_v1.1_t-40': 0.436, 'pm_deg@ss_v1.1_t27': 0.425, 'pm_deg@ss_v1.1_t85': 0.472, 'pm_deg@ss_v1_t85': 0.432, 'pm_deg@tt_v1.1_t85': 0.419} | {'gain_db': 0.011, 'gbw_mhz': 0.031, 'pm_deg': 0.595, 'gain_db@sf_v0.9_t-40': 0.907, 'pm_deg@sf_v1.1_t85': 0.71, 'pm_deg@ss_v1.1_t-40': 0.724, 'pm_deg@ss_v1.1_t27': 0.71, 'pm_deg@ss_v1.1_t85': 0.792, 'pm_deg@ss_v1_t85': 0.726, 'pm_deg@tt_v1.1_t85': 0.703} | {'gain_db': 0.011, 'gbw_mhz': 0.031, 'pm_deg': 0.595, 'gain_db@sf_v0.9_t-40': 0.907, 'pm_deg@sf_v1.1_t85': 0.71, 'pm_deg@ss_v1.1_t-40': 0.724, 'pm_deg@ss_v1.1_t27': 0.71, 'pm_deg@ss_v1.1_t85': 0.792, 'pm_deg@ss_v1_t85': 0.726, 'pm_deg@tt_v1.1_t85': 0.703} | {'gain_db': 0.006, 'gbw_mhz': 0.024, 'pm_deg': 0.356, 'gain_db@sf_v0.9_t-40': 0.5, 'pm_deg@sf_v1.1_t85': 0.423, 'pm_deg@ss_v1.1_t-40': 0.436, 'pm_deg@ss_v1.1_t27': 0.425, 'pm_deg@ss_v1.1_t85': 0.472, 'pm_deg@ss_v1_t85': 0.432, 'pm_deg@tt_v1.1_t85': 0.419} | {'gain_db': 0.488, 'gbw_mhz': 0.491, 'pm_deg': 0.503} |
+| S2 library floors feasible | – | no | no | no | no | yes |
+| S2 PVT constraints added | – | 122 | 122 | 122 | 122 | 0 |
+| S3 mode / rules | A-free / v1 | A-bin / v2 | – | – | A-bin / v2 | A-bin / v2 |
+| S3 relaxed types | nfet_01v8_lvt_W484p2_L0p24_m1, nfet_01v8_lvt_W66p13_L2p03_m1, pfet_01v8_lvt_W14p21_L0p89_m1 | nfet_01v8_lvt_W484p2_L0p24_m1, nfet_01v8_lvt_W66p13_L2p03_m1, pfet_01v8_lvt_W14p21_L0p89_m1, pfet_01v8_lvt_W37p3_L0p74_m1, pfet_01v8_lvt_W887p03_L0p74_m1, pfet_01v8_lvt_W90p63_L0p74_m1 | – | – | nfet_01v8_lvt_W484p2_L0p24_m1, nfet_01v8_lvt_W66p13_L2p03_m1, pfet_01v8_lvt_W14p21_L0p89_m1, pfet_01v8_lvt_W37p3_L0p74_m1, pfet_01v8_lvt_W887p03_L0p74_m1, pfet_01v8_lvt_W90p63_L0p74_m1 | nfet_01v8_lvt_W484p2_L0p24_m1, nfet_01v8_lvt_W66p13_L2p03_m1, pfet_01v8_lvt_W14p21_L0p89_m1 |
+| S3 total device area (µm²) | 2.34e+03 | 4.4e+03 | – | – | 2.14e+03 | 2.08e+03 |
+| S3 final gain / GBW / PM | 57.991, 22.964, 64.909 | 57.744, 22.551, 48.061 | – | – | 57.995, 22.744, 64.73 | 58.007, 23.018, 65.173 |
 
 Budget rules on the same sensitivities (after):
 
