@@ -79,8 +79,11 @@ def steps(stage: str, design: str, a) -> list[tuple[str, list[str]]]:
         return s
     if stage == "S1":
         s = [("run", [PY, "-m", "src.s1.run", pkg] + (["--no-fd"] if a.skip_fd else []))]
-        if "symbolic_patch" in (pkg_yaml(design).get("s1_extras") or []):
+        extras = pkg_yaml(design).get("s1_extras") or []
+        if "symbolic_patch" in extras:
             s.append(("symbolic_patch", [PY, "-m", "src.s1.symbolic_patch", pkg]))
+        if "symbolic_patch_miller" in extras:   # Plan v3 Phase A step 10: two-stage Miller hand model + mirror doublet
+            s.append(("symbolic_patch_miller", [PY, "-m", "src.s1.symbolic_patch_miller", pkg]))
         return s
     if stage == "S2":
         s = []

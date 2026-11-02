@@ -1,0 +1,101 @@
+{
+  "design": "loadbench_miller",
+  "label": "PREDICTED (patched, post hoc)",
+  "spice": {
+    "gain_db": 57.9997,
+    "gbw_mhz": 23.3871,
+    "pm_deg": 65.3233
+  },
+  "CL_F": 1e-12,
+  "models": {
+    "original": {
+      "file": "circuits/loadbench_miller/upstream/equations.predicted.json",
+      "predicted": {
+        "gain_db": 58.05428773162137,
+        "gbw_mhz": 30.075240090278072,
+        "pm_deg": 82.3459727543783
+      },
+      "error_vs_spice": {
+        "gain_db": 0.05458773162137476,
+        "gbw_mhz": 6.688140090278072,
+        "pm_deg": 17.02267275437829
+      },
+      "per_fF": {
+        "out": {
+          "gain_db": 0.0,
+          "gbw_mhz": 0.0,
+          "pm_deg": -0.003517454810721486
+        },
+        "FirstStageYout1": {
+          "gain_db": 0.0,
+          "gbw_mhz": 0.0,
+          "pm_deg": 0.0
+        }
+      },
+      "unresolved_symbols": []
+    },
+    "P1": {
+      "file": "inputs/loadbench_miller/upstream_patched/equations.predicted.P1.json",
+      "predicted": {
+        "gain_db": 58.05428773162137,
+        "gbw_mhz": 25.543723052527888,
+        "pm_deg": 66.9886299193509
+      },
+      "error_vs_spice": {
+        "gain_db": 0.05458773162137476,
+        "gbw_mhz": 2.1566230525278876,
+        "pm_deg": 1.6653299193508957
+      },
+      "per_fF": {
+        "out": {
+          "gain_db": 0.0,
+          "gbw_mhz": 0.0,
+          "pm_deg": -0.002998670410581037
+        },
+        "FirstStageYout1": {
+          "gain_db": 0.0,
+          "gbw_mhz": -0.004368062081869538,
+          "pm_deg": -0.004852988892809488
+        }
+      },
+      "unresolved_symbols": []
+    }
+  },
+  "exact_checks": {
+    "original_exact_rational": {
+      "gbw_mhz": 27.849553246201086,
+      "pm_deg": 83.33920223093149
+    },
+    "P1_exact_rational": {
+      "gbw_mhz": 24.02642199504723,
+      "pm_deg": 68.27631176254796
+    }
+  },
+  "mirror_node": {
+    "net": "FirstStageYout1",
+    "C_linear_model_F": 1.1423336483858002e-12,
+    "C_level0_sum_F_for_comparison": 1.3395251566658e-12,
+    "g_S": 0.00023845576,
+    "g_linear_model_S": 0.00023845576,
+    "tau_m_s": 4.790547514498288e-09,
+    "pole_mhz": 33.222704212874,
+    "zero_mhz": 66.445408425748,
+    "gm_input_pair_S": {
+      "XNormalTransistorPmos6": 0.000117721,
+      "XNormalTransistorPmos7": 0.000116722
+    }
+  },
+  "spice_fd_per_fF": {
+    "out": {
+      "gain_db": 0.0,
+      "gbw_mhz": -7.999999999981355e-05,
+      "pm_deg": -0.0025000000000005686
+    },
+    "FirstStageYout1": {
+      "gain_db": 0.0,
+      "gbw_mhz": -0.0036400000000000434,
+      "pm_deg": -0.0037599999999997635
+    }
+  },
+  "reading": "'original' = the PREDICTED textbook file (G1.5); P1 adds the NMOS-mirror pole-zero doublet, PREDICTED (patched, post hoc). error_vs_spice = prediction - transistor-level SPICE. exact_checks: the same models solved without the closed-form approximations. The mirror node's C is the S1 linear model's; the sum of the file's level-0 symbols on that node is given for comparison only."
+}

@@ -506,3 +506,54 @@ def test_model_agreement_summary_on_fake_numbers():
     assert "differs" in w["gbw_mhz"]["note"]                               # nominal -0.32 in SPICE, corner 7.8 first order
     assert w["gain_db"]["point"] == "ss_v1_t27" and "note" not in w["gain_db"]   # 0.9 <= 1: no note
     assert "pvt_worst_points" not in S2.model_agreement(srcs, g25, None)
+
+
+# ------------------------------------------------------------------ step 10: LOADBench hand model + mirror doublet
+LB_EQ = "circuits/loadbench_miller/upstream/equations.predicted.json"
+
+
+def test_miller_patch_builds_a_labelled_copy_with_the_doublet():
+    from src.common.tools import sha256
+    from src.s1 import symbolic_patch_miller as M
+    orig = json.loads((REPO / LB_EQ).read_text())
+    p = M.build_patched(orig, LB_EQ, 1.1e-12)
+    assert p["provenance"] == p["patch"]["status"].split(":")[0] == "PREDICTED (patched, post hoc)"
+    assert p["patch"]["based_on"] == {"file": LB_EQ, "sha256": sha256(REPO / LB_EQ)}
+    assert p["performance_original"] == orig["performance"] and orig["provenance"] == "PREDICTED"   # original untouched
+    t = p["performance"]["terms"]
+    assert list(t)[-1] == "wu" and t["wu0"] == orig["performance"]["terms"]["wu"]   # resolved after its inputs
+    assert t["tau_z"] == "tau_m/2" and t["C_m"].startswith("C4_XDiodeTransistorNmos1 + ")
+    assert p["performance"]["gain_db"] == orig["performance"]["gain_db"]             # Gm(0) = gm1: DC gain unchanged
+    assert "atan(wu*tau_m) - atan(wu*tau_z)" in p["performance"]["pm_deg"]
+
+
+def test_miller_exact_rational_doublet_costs_phase():
+    from src.s1 import symbolic_patch_miller as M
+    t = {"R1o": 1e6, "R2o": 1e5, "gm1": 1e-4, "gm2": 1e-3, "Cc": 1e-12, "C1n": 1e-13, "C2n": 1e-12}
+    a, b = M.exact(t, None), M.exact(t, 5e-9)          # gm1/Cc = 1e8 rad/s (~16 MHz); doublet pole ~32 MHz
+    assert a["gbw_mhz"] > b["gbw_mhz"] and a["pm_deg"] - b["pm_deg"] > 5
+
+
+def test_loadbench_hand_pm_gap_closes_and_the_original_is_unchanged():
+    d = json.loads((REPO / "outputs/S1/loadbench_miller/symbolic_patch_check.json").read_text())
+    g15 = json.loads((REPO / "outputs/S1/loadbench_miller/s1_report.json").read_text())["gates"][
+        "G1.5_symbolic_vs_spice (reported, not gated)"]
+    orig, p1, spice = d["models"]["original"], d["models"]["P1"], d["spice"]
+    assert orig["predicted"] == pytest.approx(g15["predicted"])                       # the unpatched file, as in G1.5
+    assert abs(orig["error_vs_spice"]["pm_deg"]) == pytest.approx(17.02, abs=0.05)    # the 17 deg gap of row 49
+    assert abs(p1["error_vs_spice"]["pm_deg"]) < 3.0                                   # recorded: 1.67 deg
+    assert abs(d["exact_checks"]["P1_exact_rational"]["pm_deg"] - spice["pm_deg"]) < 3.0   # recorded: 2.95 deg
+    assert p1["predicted"]["gain_db"] == pytest.approx(orig["predicted"]["gain_db"])
+    assert d["mirror_node"]["pole_mhz"] == pytest.approx(33.2, abs=0.5)                # the plan's "about 33 MHz"
+    assert d["mirror_node"]["g_S"] == pytest.approx(d["mirror_node"]["g_linear_model_S"], rel=1e-6)
+    assert orig["per_fF"]["FirstStageYout1"]["pm_deg"] == 0.0 < -p1["per_fF"]["FirstStageYout1"]["pm_deg"]
+    assert d["label"] == "PREDICTED (patched, post hoc)" and not p1["unresolved_symbols"]
+    assert g15["pass"] is None                                                          # G1.5 stays report-only
+    assert not list((REPO / "circuits").rglob("*.P1.json"))                             # nothing written into circuits/
+
+
+def test_s2_does_not_read_hand_models():
+    """S2 budgets come from the SPICE-linearised model (S1 sensitivities): no hand model reaches them."""
+    for f in (REPO / "src" / "s2").glob("*.py"):
+        t = f.read_text()
+        assert "symbolic" not in t and "upstream_patched" not in t and "equations" not in t, f.name

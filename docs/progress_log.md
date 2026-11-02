@@ -868,3 +868,27 @@ the work manageable.
     - Row 42's corner (GBW at `tt_v0.9_t27`) is in G2.9 at 6.34 × its allowed share, first order, not binding, as
       predicted.
   - Tests: 2 new, 34 Phase A tests in all; full suite 120 passed plus the expected 5T S2 golden failure.
+
+## 2026-11-02: Plan v3 Phase A, step 10 (Claude Code)
+
+Resumed at 12:12 CET after the overnight stop. Step 9 had been committed (`fb1b9adf`), and the container was
+running with no job.
+
+- **Step 10 (LOADBench hand model with the NMOS-mirror doublet; A5, row 49).**
+  - **Why.** LOADBench's PREDICTED textbook equations neglect the first-stage mirror pole-zero doublet. On this
+    design its pole (33.2 MHz) sits next to the unity-gain frequency, and the hand PM was 17.0° above SPICE (G1.5).
+  - **Change.** New `src/s1/symbolic_patch_miller.py`, run through `s1_extras: [symbolic_patch_miller]`. It
+    writes `inputs/loadbench_miller/upstream_patched/equations.predicted.P1.json`, labelled PREDICTED (patched,
+    post hoc); nothing goes into `circuits/`.
+    - Gm(s) = gm1/2·(1 + 1/(1 + s·τm)), with τm = C(FirstStageYout1)/(gm + gds of N1 + gds of P7).
+    - C comes from the S1 linear model (1142 fF; the file's level-0 symbols sum to 1340 fF).
+    - wu solves the magnitude condition with the doublet. The DC gain is unchanged.
+  - **Result.**
+    - Hand PM goes from 82.35° to 66.99° against SPICE's 65.32°: the gap falls from 17.0° to 1.7° (3.0° with the
+      exact rational H(s)).
+    - GBW goes from 30.1 to 25.5 MHz against 23.4.
+    - The mirror node's PM sensitivity goes from 0 to −0.0049 °/fF, against SPICE's −0.0038.
+    - The step 10 prediction holds. G1.5 still reports the unpatched file, not gated. S2 reads no hand model.
+  - LOADBench's S1 through the flow: G1.6 FAIL as before, the new step rc 0, and every S1 number identical to step
+    7's.
+  - Tests: 4 new, 38 Phase A tests in all; full suite 124 passed plus the expected 5T S2 golden failure.

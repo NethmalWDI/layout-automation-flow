@@ -256,6 +256,23 @@ python3 -m src.s1.symbolic_patch inputs/example_ota_5t/package.yaml inputs/ota5t
 - Evaluates the original, P1 and P2 with the S1 evaluator against SPICE: `outputs/S1/<design>/symbolic_patch_check.json` and `plots/symbolic_patch.png`.
 - Explained in `docs/flow_record.md`, section 3.9.
 
+**Two-stage Miller (LOADBench), Plan v3 Phase A step 10:**
+
+```bash
+python3 -m src.s1.symbolic_patch_miller inputs/loadbench_miller/package.yaml
+```
+
+It also runs inside `./flow run loadbench_miller --stage S1`, through `s1_extras: [symbolic_patch_miller]`.
+
+- It writes `inputs/loadbench_miller/upstream_patched/equations.predicted.P1.json`, a patched copy of the
+  PREDICTED textbook file, which stays unchanged in `circuits/`.
+- The copy adds the NMOS-mirror pole-zero doublet: Gm(s) = gm1/2·(1 + 1/(1 + s·τm)).
+  - τm = C(FirstStageYout1) / (gm + gds of the diode device + gds of the mirror-side input device).
+  - C is the S1 linear model's capacitance at that node.
+- It is labelled **PREDICTED (patched, post hoc)**, because it was written after this circuit's PM gap was seen.
+  G1.5 still reports the unpatched file, not gated.
+- Results go to `outputs/S1/loadbench_miller/symbolic_patch_check.json` and `plots/symbolic_patch.png`.
+
 ## S2: requirement compiler (budgets, rules, verification)
 
 Run inside `layout-s0s3`, from `/foss/designs`, after S1:

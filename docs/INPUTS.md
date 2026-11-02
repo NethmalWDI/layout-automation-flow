@@ -29,7 +29,7 @@ them yet) carry `provenance: PREDICTED` inside and are listed in the design's `c
 | `budget_corners` | no | Which corners S2 budgets against. `all` (default, plan v2): the nominal corner and every PVT point of S0. `nominal` (Plan v3 Phase A): the nominal corner only; what the final budgets use at each PVT point is reported in G2.9, not gated. A package that `inherit`s another inherits this key too |
 | `mc_runs` | no | Monte Carlo runs of the S0 mismatch step (default 200) |
 | `s3_build_mode` | no | Which S3 options to build: `A-free` (default), `A-bin` or `B` (large designs) |
-| `s1_extras` | no | Optional S1 add-ons (`symbolic_patch`) |
+| `s1_extras` | no | Optional S1 add-ons: `symbolic_patch` (5T OTA: patched copies of the upstream equations), `symbolic_patch_miller` (two-stage Miller with LOADBench's device names: the hand model plus the NMOS-mirror doublet, PREDICTED (patched, post hoc), written to `inputs/<design>/upstream_patched/`) |
 
 ## Testbenches
 

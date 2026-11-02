@@ -2,25 +2,15 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-01 22:05 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–8
+**Last updated:** 2026-11-02 12:25 CET, by Claude Code. Plan v3 Phase A (`docs/plan_v3_phaseA.md`): steps 0–9
 and the sky130A environment change done and committed (the environment change is commit `70279125`, named
-"step_9"); **step 9 done, waiting for Imasha's commit**. Nothing is running.
+"step_9"; step 9 is `fb1b9adf`); **step 10 done, waiting for Imasha's commit**. Nothing is running.
 
-## Stopped for the day (2026-11-01 22:05 CET, Imasha turns the PC off)
+**Resumed 2026-11-02 12:12 CET** after the overnight stop (2026-11-01 22:05):
+- the container was running with no job, and there was no `.git/index.lock`;
+- step 9 was committed, and the working tree was clean.
 
-- **State:** no job is running in `layout-s0s3`, and no `.git/index.lock`. Step 9's changes are on disk and not yet
-  committed: 16 files, among them `src/s2/run.py`, `tests/test_phaseA.py`, the 5T's S2 outputs, README and the
-  docs. Suggested message: `Phase A step 9: SPICE vs first-order agreement reported per verified check`.
-- **Claude Code keeps its Phase A claim** (*Claims*): the plan is paused, not finished. Cowork: don't edit the
-  claimed files or outputs.
-- **To resume:**
-  1. Start Docker Desktop, then the container. Its restart policy is "no", so it does not start by itself:
-     `docker start layout-s0s3`.
-  2. Commit step 9 in GitHub Desktop, if not done today.
-  3. In Claude Code: read `CLAUDE.md`, this file and `docs/plan_v3_phaseA.md`, check the container and git
-     (read-only), and continue Phase A at **step 10** (LOADBench hand model with the mirror doublet). Then steps
-     11–13, with the same commit-per-step routine.
-- **Open questions:** none blocking. LOADBench's predictions for steps 3, 6, 8 and 9 are read at step 12's re-run.
+Open questions: none blocking. LOADBench's predictions for steps 3, 6, 8 and 9 are read at step 12's re-run.
 
 ## Handoff to Cowork (2026-10-27 13:35 CET)
 
@@ -49,6 +39,8 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- Phase A step 10's LOADBench S1 run has ended, 12:19, in 23 s (`runs/logs/phaseA_step10_lb_S1.log`): S1/run rc 3
+  (G1.6 FAIL, as in plan v2), `symbolic_patch_miller` rc 0. The S1 numbers are identical to step 7's.
 - Phase A step 9's 5T S2 run has ended, 21:53–21:58, PASS with rc 0 (`runs/logs/phaseA_step9_5t_S2.log`). It was
   started from a login shell + `env.sh`; all 123 ngspice logs show sky130's init ("hs a").
 - Phase A step 8's 5T S2 run has ended, 20:40–20:46, PASS with rc 0 (`runs/logs/phaseA_step8_5t_S2.log`).
@@ -115,7 +107,7 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
-| Claude Code | Plan v3 Phase A: `src/`, `scripts/benchlib.py`, `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`, `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`; plus the doc updates the plan's steps ask for (README, progress log, flow record section 7 draft) | 2026-11-01 16:10 CET; **paused 22:05, resumes at step 10** |
+| Claude Code | Plan v3 Phase A: `src/`, `scripts/benchlib.py`, `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`, `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`; plus the doc updates the plan's steps ask for (README, progress log, flow record section 7 draft) | 2026-11-01 16:10 CET (paused overnight 22:05; resumed 2026-11-02 12:12) |
 | Cowork | **released 2026-11-01**: Phase A plan written (`docs/plan_v3_phaseA.md`; `docs/HANDOFF.md` rewritten; this file; progress log). No code or outputs changed. **Next: Claude Code claims Phase A at its step 0** | 2026-11-01 |
 | Cowork (earlier) | **released 2026-10-27 17:15 CET**: Plan v3 review pack done (`docs/plan_v3_review_pack.md`, `docs/plan_v3/`, flow record 7.12 and rows 46–50, project doc 14). Earlier: the documentation pass (released 14:20). No runs, no flow code changed | 2026-10-27 |
 | Claude Code | **released 2026-10-27 13:35 CET**: the runs are finished; the write-up goes to Cowork (Imasha's decision) | 2026-10-27 |
@@ -139,7 +131,69 @@ predictions to write into PREREG before the runs.
 | 7 PM reference phase | **done**, committed `f79e53f8` | PM's reference is the 1 Hz phase rounded to the nearest multiple of 180°, in the linear model and the bench template. Both designs' G1.2 PM differences move by under 0.002°. Details below |
 | 8 G2.0 route lengths | **done**, committed `8cc70503` | route stubs from the representative cells, in G2.0 and in the need the allocation uses (Imasha's answer (b), PREREG note). 5T S2 PASS: only XM5's route moves; 11 of 21 budgets move; G2.8 outcome words unchanged. Details below |
 | – sky130A environment (Imasha's request, before step 9) | **done**, committed `70279125` | `scripts/env.sh` selects sky130A with the image's `sak-pdk` command; `TOOL_ENV` pins the same. Not a plan step; no rule or number changes. Details below |
-| 9 SPICE vs first order | **done**, waiting for Imasha's commit | agreement fields on every SPICE-verified check (G2.5, G2.8) and the `G2.10_model_agreement (info)` summary. 5T: 72 checks, none flagged; the row-42 corner is in G2.9 at 6.34 × allowed, not binding. Budgets identical to step 8. Details below |
+| 9 SPICE vs first order | **done**, committed `fb1b9adf` | agreement fields on every SPICE-verified check (G2.5, G2.8) and the `G2.10_model_agreement (info)` summary. 5T: 72 checks, none flagged; the row-42 corner is in G2.9 at 6.34 × allowed, not binding. Budgets identical to step 8. Details below |
+| 10 LOADBench hand model | **done**, waiting for Imasha's commit | patched copy P1 with the NMOS-mirror doublet, PREDICTED (patched, post hoc). Hand PM gap 17.0° → 1.7° (exact rational 3.0°); GBW gap 6.7 → 2.2 MHz. G1.5 unchanged and report-only. Details below |
+
+Step 10 record (A5, row 49; pending task 1m, LOADBench only):
+- **What changed.**
+  - New `src/s1/symbolic_patch_miller.py`. The 5T's `symbolic_patch.py` is unchanged.
+  - It writes `inputs/loadbench_miller/upstream_patched/equations.predicted.P1.json`, a copy of the hash-frozen
+    `circuits/loadbench_miller/upstream/equations.predicted.json`, labelled **PREDICTED (patched, post hoc)**.
+    Nothing is written into `circuits/`.
+  - **The copy's first-stage transconductance:** Gm(s) = gm1/2·(1 + 1/(1 + s·τm)) = gm1·(1 + s·τm/2)/(1 + s·τm).
+    - τm = C_m / g_m, where g_m = gm + gds of N1 (diode) + gds of P7 (mirror-side input).
+    - C_m is the S1 linear model's capacitance at `FirstStageYout1`, as the plan says. It is written as
+      C4_N1 + the rest: C4 of the diode device sits on no other node, so the patched model also gives a symbolic
+      sensitivity to that node, as the 5T's patch does.
+    - The doublet's pole is at 1/τm and its zero at 2/τm. Gm(0) = gm1, so the DC gain is the original's.
+  - **wu** solves the magnitude condition with the doublet exactly (the 5T P1 form). PM adds
+    atan(wu·τm) − atan(wu·τz) to the original lags.
+  - **Symbols:** the mirrored half uses the file's gm1 (G1 of P6), a matched-pair assumption; P6 and P7's gm
+    differ by 0.9 %. A 1:1 mirror (N1 = N4) is assumed.
+  - **Package and flow:** `s1_extras: [symbolic_patch_miller]` in LOADBench's package, and the step in
+    `src/flow.py`'s S1 branch, next to `symbolic_patch`. Documented in `docs/INPUTS.md`, the template and README.
+- **The mirror node** (S1 OP and linear model):
+
+  | Quantity | Value |
+  |---|---|
+  | C, linear model | 1142 fF |
+  | C, sum of the file's level-0 symbols on the node (comparison only) | 1340 fF, +17 % |
+  | g_m (equals the linear model's) | 238.46 µS |
+  | τm | 4.79 ns |
+  | Pole / zero | 33.2 / 66.4 MHz (the plan's "about 33 MHz") |
+
+- **Results** (`outputs/S1/loadbench_miller/symbolic_patch_check.json`, `plots/symbolic_patch.png`):
+
+  | Model | PM | Gap to SPICE (65.32°) | GBW | Gap to SPICE (23.39 MHz) | Gain |
+  |---|---|---|---|---|---|
+  | Original (G1.5) | 82.35° | +17.02° | 30.08 MHz | +6.69 | 58.05 dB |
+  | P1 | 66.99° | **+1.67°** | 25.54 MHz | +2.16 | 58.05 dB |
+  | P1, exact rational H(s) | 68.28° | +2.95° | 24.03 MHz | +0.64 | |
+  | Original, exact rational H(s) | 83.34° | +18.0° | 27.85 MHz | +4.46 | |
+
+  - **Mirror-node sensitivity.** The original gives 0 by construction. P1 gives PM −0.00485 °/fF and GBW
+    −0.00437 MHz/fF, against SPICE's −0.00376 and −0.00364: the right sign, 29 % and 20 % high.
+  - At the output, P1 gives PM −0.0030 °/fF, against SPICE's −0.0025; the original gives −0.0035.
+- **Prediction (section 4), step 10:** holds. The hand PM gap falls from about 17° to a few degrees (1.7°; 3.0°
+  with the exact H(s)). It was fitted after seeing this circuit, so it still has to be judged on other designs.
+- **Checked:**
+  - **G1.5:** stays as it was, report-only (pass `None`), computed from the unpatched file.
+  - **S2:** reads no hand model (a test checks that no S2 source mentions `symbolic`, `upstream_patched` or
+    `equations`), so its budgets cannot change.
+  - **LOADBench S1 through the flow** (12:19, 23 s): S1/run rc 3, G1.6 FAIL as in plan v2; the new step rc 0.
+    Every S1 number is identical to step 7's. Only provenance changed: time, commit, and the package hash, from
+    the new `s1_extras`. It is LOADBench's first S1 run with sky130A pinned.
+- **Tests.** 4 new:
+  - the patched copy's structure: label, hash of the original, term order, unchanged gain;
+  - the exact H(s) with and without the doublet;
+  - LOADBench's results: the gap closes, the original matches G1.5, the 33 MHz pole, nothing in `circuits/`;
+  - S2 reads no hand model.
+
+  `tests/test_phaseA.py` has 38 tests, all passing. The full suite is 124 passed plus the expected 5T S2 golden
+  failure.
+- **Note.** The new module takes the PM reference rounded to 180° (step 7) in its exact check. The 5T module
+  (`symbolic_patch.py`) still uses the phase at 1 rad/s unrounded. Its effect there is negligible, with the
+  dominant pole near 2 MHz, so it is left as it is.
 
 Step 9 record (row 42; pending task 1e):
 - **What changed** (`src/s2/run.py`):
@@ -882,9 +936,11 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-02 (Claude Code): **Plan v3 Phase A, step 10**: LOADBench's hand model with the NMOS-mirror doublet,
+  PREDICTED (patched, post hoc). It waits for Imasha's commit.
 - 2026-11-01 (Claude Code): **Plan v3 Phase A, steps 0–9, and the sky130A environment** (branch
-  `plan-v3-phaseA`). Each change and its result is in the progress table under *Plan v3 Phase A*. Steps 0–8 and
-  the sky130A environment change are committed; step 9 waits for Imasha's commit.
+  `plan-v3-phaseA`). Each change and its result is in the progress table under *Plan v3 Phase A*. All are
+  committed.
 - 2026-11-01 (Cowork): **Plan v3 Phase A planned** (no code, runs or outputs changed).
   - `docs/plan_v3_phaseA.md`: the decisions, Q1–Q4, steps 0–13, the predictions, the open issues per stage (for
     this version and for a new SPICE file), and how LLMs are used in each stage.
