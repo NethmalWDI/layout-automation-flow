@@ -2,10 +2,10 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-03 08:25 CET, by Claude Code. The review is merged into `main` (`973661c5`, pushed).
-After the merge, Claude Code fixed the S3 option plot (row 65) and the Windows line endings the checkout had written
-(row 66; `.gitattributes` added); see *After the merge* below. Those changes are uncommitted, waiting for Imasha.
-No claim is held and nothing is running.
+**Last updated:** 2026-11-03, by Claude Code. The review is merged into `main` (`973661c5`, pushed). After the
+merge, Claude Code fixed the S3 option plot (row 65) and the Windows line endings the checkout had written (row 66;
+`.gitattributes` added), and the walkthrough now explains each result; see *After the merge* below. Imasha
+committed and pushed all of it as `1626d11b` on `main`. No claim is held and nothing is running.
 **Now: the supervisor-review finalisation, on branch
 `s0-s3-review`** (Imasha's plan of 2026-11-02 evening: S0–S3 without errors on the 5T and LOADBench, and the
 output of every step shown). The phases and progress are under *Supervisor review (s0-s3-review)* below.
@@ -170,7 +170,7 @@ fast-forward. It brings Phase A into `main` as well: Phase A lived on `plan-v3-p
 | 5 | README "For reviewers", flow record 7.14, STATUS, log, `CLAUDE.md` test line | **done**, committed `b2448dd3` |
 | 6 | Rehearsal from PowerShell; commit, merge into `main`, push (Imasha) | **done**: committed `973661c5`, merged into `main` and pushed |
 
-*After the merge* (2026-11-03, from about 07:45 to 08:25 CET; Claude Code; no S0–S3 run; uncommitted):
+*After the merge* (2026-11-03 morning; Claude Code; no S0–S3 run; committed by Imasha as `1626d11b`):
 - **S3 option plot (row 65).** Explaining the walkthrough, I saw that the plot mixed the options S3 may choose
   (main mode A-bin) with the other modes' options, all drawn alike. Smaller green points next to the chosen cell
   seemed to contradict "smallest that fits".
@@ -1388,8 +1388,8 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 - 2026-11-03 morning (Claude Code): **after the merge into `main`**: the S3 option plot marks the options S3 may
   choose (row 65); the CRLF line endings written by the checkout are restored to LF and `.gitattributes` keeps LF
   (row 66); `flow status` shows the reports' own times; the walkthrough explains how to read each table and plot,
-  and what it shows for each design. Uncommitted, waiting for Imasha. Details under *Supervisor review*, *After
-  the merge*.
+  and what it shows for each design. Committed and pushed as `1626d11b` on `main`. Details under *Supervisor
+  review*, *After the merge*.
 - 2026-11-02 evening (Claude Code): **Supervisor review, branch `s0-s3-review`**: phases 1–3 committed
   (`33e6277f` the `env.sh` fix, `bf67fd09` robustness, `214eb337` the clean runs), phase 4 the S0–S3 walkthrough
   (`58c4f207`: `docs/s0_s3_walkthrough.md` + HTML, `scripts/make_s0s3_walkthrough.py`), phase 5 (`b2448dd3`:
