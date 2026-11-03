@@ -127,6 +127,8 @@ def main(argv=None) -> int:
                          "default, the default PCell (the rule of every plan-v2 run)")
     ap.add_argument("--out", default=None,
                     help="output folder, relative to the repo (default outputs/S3/<design>), for post-hoc variants")
+    ap.add_argument("--guard", type=int, choices=[0, 1], default=O.GUARD,
+                    help="guard ring on each unit cell: 0 (plan v4: S4 rings each block) or 1 (the reviewed S3)")
     a = ap.parse_args(argv)
     pkg = load_package(REPO / a.package)
     design = pkg["design"]
@@ -142,12 +144,12 @@ def main(argv=None) -> int:
     # 1. option table: build and measure every option of every device type (parallel, cached by cell)
     types = O.device_types(ir)
     build_mode = a.build_mode or pkg.get("s3_build_mode") or "A-free"
-    jobs = [(tid, t, opt) for tid, t in types.items() for opt in O.grid(t["W"], wide=(a.rules == "v2"))
+    jobs = [(tid, t, opt) for tid, t in types.items() for opt in O.grid(t["W"], wide=(a.rules == "v2"), guard=a.guard)
             if O.in_mode(t, opt, build_mode)]
 
     def build(job):
         tid, t, opt = job
-        cache = cells_dir / f"{tid}__{opt['id']}" / "record.json"
+        cache = cells_dir / O.cell_name(tid, opt) / "record.json"
         if cache.exists():
             cr = json.loads(cache.read_text())
             # a DRC failure from before the gate-pad met1.6 patch (strap.pad_patch) is rebuilt; signed-off
@@ -158,7 +160,7 @@ def main(argv=None) -> int:
         try:
             rec = O.build_one(t, tid, opt, cells_dir, rules, cross_check=(opt["id"] == O.default_option_id()))
         except Exception as e:  # recorded, never silently dropped
-            rec = {"type": tid, "option": opt, "cell": f"{tid}__{opt['id']}", "ok": False, "error": repr(e)}
+            rec = {"type": tid, "option": opt, "cell": O.cell_name(tid, opt), "ok": False, "error": repr(e)}
         write_json(cache, rec)
         return rec
 
@@ -182,7 +184,9 @@ def main(argv=None) -> int:
                     write_json(cf, cr)
     bad = [r["cell"] for r in table if not r.get("ok")]
     gates["G3.4_option_table_complete"] = {"pass": len(table) == len(jobs), "options": len(table),
-                                           "not_signed_off": bad, "build_mode": build_mode}
+                                           "not_signed_off": bad, "build_mode": build_mode,
+                                           "unit_cell_guard_ring": bool(a.guard),
+                                           "deferred_to_S4": [] if a.guard else list(O.TAP_RULES)}
     if a.cells_only:
         print(f"option cells: {len(table)} built, {len(bad)} not signed off: {bad}")
         return 0

@@ -1,5 +1,5 @@
 {
-  "run_id": "2026-11-02T19:44:29-459d2b34",
+  "run_id": "2026-11-03T19:32:06-959ab06e",
   "s2_run_id": "2026-11-02T19:36:18-e6eb43a9",
   "eta": 0.5,
   "design": "example_ota_5t",
@@ -8,12 +8,18 @@
       "pass": true,
       "options": 84,
       "not_signed_off": [
-        "pfet_01v8_W8_L1_m1__nf8_gboth_sdhalf_outS",
-        "pfet_01v8_W8_L1_m1__nf8_gboth_sdhalf_outD",
-        "pfet_01v8_W8_L1_m1__nf8_gtop_sdhalf_outS",
-        "pfet_01v8_W8_L1_m1__nf8_gtop_sdhalf_outD"
+        "pfet_01v8_W8_L1_m1__nf8_gboth_sdhalf_outS_ng",
+        "pfet_01v8_W8_L1_m1__nf8_gboth_sdhalf_outD_ng",
+        "pfet_01v8_W8_L1_m1__nf8_gtop_sdhalf_outS_ng",
+        "pfet_01v8_W8_L1_m1__nf8_gtop_sdhalf_outD_ng"
       ],
-      "build_mode": "A-free"
+      "build_mode": "A-free",
+      "unit_cell_guard_ring": false,
+      "deferred_to_S4": [
+        "LU.2",
+        "LU.3",
+        "nwell.4"
+      ]
     },
     "G3.7_modes (info)": {
       "pass": null,
@@ -21,7 +27,7 @@
       "summary": {
         "B": {
           "complete": true,
-          "total_area_um2": 254.478,
+          "total_area_um2": 146.094,
           "relaxed": [],
           "fingers_outside_sized_bin": [],
           "chosen": {
@@ -33,7 +39,7 @@
         },
         "A-bin": {
           "complete": true,
-          "total_area_um2": 200.797,
+          "total_area_um2": 126.865,
           "relaxed": [],
           "fingers_outside_sized_bin": [],
           "chosen": {
@@ -45,7 +51,7 @@
         },
         "A-free": {
           "complete": true,
-          "total_area_um2": 187.16,
+          "total_area_um2": 122.049,
           "relaxed": [],
           "fingers_outside_sized_bin": [
             "nfet_01v8_W24_L1_m1",
@@ -60,7 +66,7 @@
         },
         "RoT": {
           "complete": true,
-          "total_area_um2": 190.53699999999998,
+          "total_area_um2": 128.71699999999998,
           "relaxed": [
             "nfet_01v8_W24_L0p5_m1",
             "nfet_01v8_W24_L1_m1"
@@ -666,8 +672,8 @@
       "pass": true,
       "specs": {
         "gain_db": 31.8685,
-        "gbw_mhz": 102.953,
-        "pm_deg": 79.9497,
+        "gbw_mhz": 102.958,
+        "pm_deg": 79.9563,
         "power_uw": 150.285,
         "vnoise_nv_rthz": 339.775
       },
@@ -687,8 +693,8 @@
       },
       "margin_use_signed": {
         "gain_db": -0.17150000000000176,
-        "gbw_mhz": 1.5019999999999953,
-        "pm_deg": 0.9850999999999885,
+        "gbw_mhz": 1.4969999999999999,
+        "pm_deg": 0.9784999999999968,
         "power_uw": -2.313999999999993,
         "vnoise_nv_rthz": 0.7109999999999559,
         "sat_XM3": 0.00045600000000001195,
@@ -730,19 +736,32 @@
           "errors": 0,
           "neg_control_flagged": true,
           "pass": true,
-          "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull/drc/drc_report.txt"
+          "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng/drc/drc_report.txt",
+          "errors_total": 1,
+          "deferred": {
+            "nwell.4": 1,
+            "LU.3": 2
+          }
         },
         "nfet_01v8_W24_L0p5_m1": {
           "errors": 0,
           "neg_control_flagged": true,
           "pass": true,
-          "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/drc/drc_report.txt"
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng/drc/drc_report.txt",
+          "errors_total": 3,
+          "deferred": {
+            "LU.2": 3
+          }
         },
         "nfet_01v8_W24_L1_m1": {
           "errors": 0,
           "neg_control_flagged": true,
           "pass": true,
-          "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/drc/drc_report.txt"
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng/drc/drc_report.txt",
+          "errors_total": 3,
+          "deferred": {
+            "LU.2": 3
+          }
         }
       }
     },
@@ -753,25 +772,25 @@
           "match": true,
           "neg_control_rejected": true,
           "pass": true,
-          "pcell_instance": "pfet_01v8_W8_L1_m1__nf1_gtop_sdfull",
-          "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull/lvs/lvs/lvs_report.txt",
-          "extracted": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull/lvs/lvs/extracted.spice"
+          "pcell_instance": "pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng",
+          "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng/lvs/lvs/extracted.spice"
         },
         "nfet_01v8_W24_L0p5_m1": {
           "match": true,
           "neg_control_rejected": true,
           "pass": true,
-          "pcell_instance": "nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS",
-          "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/lvs/lvs/lvs_report.txt",
-          "extracted": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/lvs/lvs/extracted.spice"
+          "pcell_instance": "nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng",
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng/lvs/lvs/extracted.spice"
         },
         "nfet_01v8_W24_L1_m1": {
           "match": true,
           "neg_control_rejected": true,
           "pass": true,
-          "pcell_instance": "nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD",
-          "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/lvs/lvs/lvs_report.txt",
-          "extracted": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/lvs/lvs/extracted.spice"
+          "pcell_instance": "nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng",
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng/lvs/lvs/extracted.spice"
         }
       }
     },
@@ -800,8 +819,8 @@
   },
   "all_pass": true,
   "provenance": {
-    "created": "2026-11-02T18:44:43+00:00",
-    "git_commit": "bf67fd0963b8c0e35b4bd739b704bfc09fcde59d",
+    "created": "2026-11-03T18:46:39+00:00",
+    "git_commit": "e63068797fbcfe3fad62a358fd9a220a6460e221",
     "inputs": [
       {
         "path": "outputs/S0/example_ota_5t/circuit_ir.json",

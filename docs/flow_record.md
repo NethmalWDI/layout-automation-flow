@@ -11,10 +11,14 @@ evidence with pictures, and the problems met on the way and how they were fixed.
 - How to run each stage: [`../README.md`](../README.md). Chronological notes: [`progress_log.md`](progress_log.md).
 - To get a self-contained HTML copy (pictures embedded), run from `docs/`: `pandoc flow_record.md --standalone --embed-resources -c flow_record/record.css -o ../runs/tmp/flow_record.html`.
 
-**Last updated:** 2026-11-02 (evening). Section 7 now also covers Plan v3 Phase A on the 5T and LOADBench (7.13)
-and the supervisor review of S0–S3 on those two designs (7.14; its output, stage by stage, is
-[`s0_s3_walkthrough.html`](s0_s3_walkthrough.html)). The journey table runs to row 66 (2026-11-03: the S3 option
-plot, and line endings after the merge).
+**Last updated:** 2026-11-04. Section 7 now also covers:
+- Plan v3 Phase A on the 5T and LOADBench (7.13);
+- the supervisor review of S0–S3 on those two designs (7.14; its output, stage by stage, is
+  [`s0_s3_walkthrough.html`](s0_s3_walkthrough.html));
+- plan v4 Phase 1, S3's unit cells without guard rings, on branch `s4-s5` (7.15).
+
+The journey table runs to row 67: the S3 option plot and the line endings after the merge (65, 66), and the DRC
+negative control (67).
 
 *Earlier (2026-10-27, evening):* section 7 (plan v2) is complete: every before/after run on the five designs, the post-hoc S3 test, the five budget rules at each design's own eta and at eta 0.9 (PREREG headline; TTSKY25a's eta 0.9 run is not valid), the hand-drawn layouts against the 'after' G2.0, a third independent review (review C) and what it changed, the journey table to row 50, an assessment (7.11) and the Plan v3 review pack (7.12, `docs/plan_v3_review_pack.md`). Figures: `flow_record/img/v2_*.png`, `plan_v3/img/*.png`.
 
@@ -1235,6 +1239,7 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 64 | infra (launchers) | `flow.ps1` and `flow` start `python3 -m src.flow` through `docker exec -i` / `docker run -i`, with no terminal, so Python held the flow's own lines (one per step and per stage) until the run ended: a 30-minute `run` showed nothing until it finished. Through `docker exec`, the image's login profile also printed two long `[INFO]` lines before every command | rehearsing the README's commands from PowerShell (review phases 5 and 6): `flow test` printed "== unit tests" after pytest's results, and every command began with the `[INFO]` lines | both launchers pass `IIC_OSIC_TOOLS_QUIET=1` and `PYTHONUNBUFFERED=1` on both paths (`docker run` had the first already); the README's direct command uses `python3 -u` | the lines arrive as each step ends ("== unit tests" now comes first); no result changes; tests and goldens pass on both launcher paths |
 | 65 | S3 (plot) | `option_space.png` drew every option built for a type, of every mode, in the same filled green or red, but S3 chooses only among its main mode's options (A-bin: each finger stays in the sized device's SKY130 W bin). On the 5T's PMOS mirror, green options of 24.8–28.6 µm² sat beside the chosen 29.1 µm² cell, so the plot seemed to contradict "smallest area that fits" | explaining the walkthrough's plots to Imasha (2026-11-03): the smaller green points are the 2- and 4-finger cells, whose fingers fall in another W bin | the plot fills the main mode's options and draws the other modes' hollow, with a title that says so; the plotting is a function (`plot_option_space`) that `scripts/replot_s3_options.py` uses to redraw a committed run from its saved tables, without re-running S3; the walkthrough caption explains it. Test: the chosen cell is a main-mode option and no main-mode option that fits is smaller by more than the 2 % tie | the decisions are unchanged; both designs' plots redrawn |
 | 66 | infra (git) | With Git for Windows' `core.autocrlf=true` and no `.gitattributes`, checking out `main` after the merge (2026-11-03) wrote CRLF into the 855 files Phase A and the review had changed. bash cannot parse CRLF, so `scripts/env.sh` failed at line 7 and every flow command with it; S3's cached decks and the logs changed too. `flow status` read the time from the report files, so every stage showed the checkout's time | the first command after the merge (redrawing the S3 plot) stopped with a syntax error in `env.sh`; `git ls-files --eol` listed 856 files with CRLF in the working tree, 855 of them committed with LF | the 855 files converted back to LF (each one's bytes checked against its committed blob: identical); `.gitattributes` (`* text=auto eol=lf`) so every checkout writes LF; `flow status` takes the time from the report's provenance. Tests: shell files are LF; the status time | 138 tests and 20 goldens pass from PowerShell; GitHub Desktop lists the 855 files as changed with empty diffs until they are committed (no content change) |
+| 67 | S3 / DRC | The DRC negative control painted its 0.05 µm met1 sliver at the origin. On a ringless PMOS cell (plan v4) the origin lies inside the n-well, whose tap-rule error (nwell.4) covers it, and Magic's merged error total did not grow, so the control read as not caught. Magic's total and its per-rule list also count differently there (total 1; list 1 + 2) | building the first ringless cells by hand before changing S3 (plan v4, Phase 1) | the sliver sits at (−20, −20) µm, away from any layout (`scripts/magic_drc.sh`); a cell's deferred tap rules are counted from the per-rule list (`pcell.drc`, `defer`) | the control is caught on every ringless cell; earlier verdicts are unchanged (their controls were caught) |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -2275,6 +2280,37 @@ Imasha's decisions:
 
 **Still open:** as at the end of 7.13, without the `USER` quirk and the Errno 22 retry. The three other designs
 (`ota5t_stress`, `ttsky25a_fd`, `iadc_ota`) keep their plan-v2 outputs (7.5) and were not part of this review.
+
+### 7.15 Plan v4, Phase 1: S3 unit cells without guard rings (2026-11-03 and 04)
+
+Plan v4 (`docs/plan_v4_S4_S7.md`, branch `s4-s5`) starts S4 and S5. Imasha decided that S3's unit cells lose their
+guard rings and that each S4 block gets one ring: a ring between the halves of a pair costs area and matching.
+
+- **What a ringless cell needed.** Two cells built by hand first showed what changes.
+  - DRC flags exactly the tap rules: latch-up distance (LU.2, LU.3) and "every n-well needs a tap" (nwell.4). They
+    belong to the block, so S3 defers them (`options.TAP_RULES`) and S4 checks them (G4.5).
+  - The body pin B lived on the ring. Now it is a label on a small patch of the cell's well: the n-well for PMOS, or
+    pwell for NMOS, which Magic's sky130 extraction counts as substrate (`substrate … pwell` in the tech file). LVS
+    and the extracted subcircuit then have B as a port, as before. A reference with the body as an internal node
+    was tried first; it failed Netgen's parallel-device property check.
+  - The DRC negative control could hide inside the n-well's error area (row 67).
+- **Names.** Ringless cells end in `_ng`. S2's frozen budgets were built from the ringed cells, which keep their
+  names; S2's "cells" step and the `v1` variant still build ringed cells (`--guard 1`).
+- **Results.** The 5T ran 19:25–19:46 CET and LOADBench 00:18–01:15 (logs `runs/logs/v4_p1_*_S3.log`).
+
+| | 5T, reviewed | 5T, ringless | LOADBench, reviewed | LOADBench, ringless |
+|---|---|---|---|---|
+| S3 status | PASS | PASS | FAIL (G3.5, 3 relaxed) | FAIL (G3.5, the same 3) |
+| Device area (µm²) | 200.8 | 126.9 (−37 %) | 2079 | 1817 (−13 %) |
+| Choices changed | | none | | P5: nf16, gate contacted at the top → at both ends |
+| PM with every chosen cell (deg) | 79.95 | 79.96 | 65.17 | 65.15 |
+| GBW with every chosen cell (MHz) | 102.95 | 102.96 | 23.02 | 23.04 |
+
+- **Against the prediction.** Every chosen cell is smaller and every spec is still met, as the PREREG amendment of
+  2026-11-03 predicted.
+- **The four 5T PMOS options that do not sign off** (8 fingers, half contacts) failed the same way before: the strips
+  are too short for two straps.
+- **The S0–S2 outputs are byte-identical** (the freeze test); only the two S3 goldens were refreshed.
 <!-- section7:end -->
 
 ---
@@ -2316,3 +2352,4 @@ Imasha's decisions:
 - 2026-11-02: 7.13 and journey rows 51–61 (Claude Code, Plan v3 Phase A on example_ota_5t and loadbench_miller: nominal budgets, one tolerance, `lp_floor_k`, route lengths from the representative cells, PM reference, mirror bank and designer groups, LOADBench's hand model with the mirror doublet, sky130A pinned, re-run `after_v3a`); rows 40–49 point to their Phase A fix; review D in 7.9.
 - 2026-11-02 (evening): 7.14 and journey rows 62–64 (Claude Code, the supervisor review of S0–S3 on example_ota_5t and loadbench_miller, branch `s0-s3-review`: the `env.sh` regression that stopped Magic, the login-shell `USER` and Errno 22 fixes, clean full runs that reproduce `after_v3a`, the generated walkthrough `s0_s3_walkthrough.md`/`.html`, quiet and unbuffered launchers); the header's *Last updated* line.
 - 2026-11-03: journey rows 65 and 66 and a note in 7.14 (Claude Code, after the merge into `main`): the S3 option plot marks the options S3 may choose; Windows line endings written by the checkout restored to LF, `.gitattributes` added, `flow status` times taken from the reports.
+- 2026-11-04: 7.15 and journey row 67 (Claude Code, plan v4 Phase 1 on branch `s4-s5`): S3's unit cells without guard rings (body labelled on the well, tap rules deferred to S4), re-run on the 5T and LOADBench; the DRC negative control moved off the layout.

@@ -45,21 +45,38 @@ def _run(cmd: list, env_extra: dict | None = None, timeout: int = 300) -> str:
     return r.stdout + r.stderr
 
 
-def drc(gds: Path, cell: str, out: Path) -> dict:
+def drc(gds: Path, cell: str, out: Path, defer: tuple = ()) -> dict:
+    """defer: rule codes (e.g. 'LU.2') that belong to a higher level and are counted apart, not as errors here
+    (S3's ringless unit cells defer the tap rules to the S4 block that rings them)."""
     txt = _run(["bash", str(SCRIPTS / "magic_drc.sh"), str(gds), cell, str(out)])
     tot = re.search(r"^DRC_TOTAL (\d+)", txt, re.M)
     neg = re.search(r"^NEG_CONTROL_TOTAL (\d+)", txt, re.M)
     total = int(tot.group(1)) if tot else None
     neg_n = int(neg.group(1)) if neg else None
-    return {"errors": total, "neg_control_flagged": bool(neg_n and neg_n > (total or 0)),
-            "pass": total == 0 and bool(neg_n and neg_n > 0), "report": rel(out / "drc_report.txt")}
+    deferred, kept = {}, 0
+    if defer and (out / "drc_report.txt").exists():
+        # count from the per-rule list: Magic's total merges overlapping error areas, the list does not
+        for ln in (out / "drc_report.txt").read_text().splitlines():
+            n, _, why = ln.partition("\t")
+            if not n.strip().isdigit():
+                continue
+            code = re.search(r"\(([^()]+)\)\s*$", why)
+            if code and code.group(1) in defer:
+                deferred[code.group(1)] = deferred.get(code.group(1), 0) + int(n)
+            else:
+                kept += int(n)
+    errors = total if not defer or total is None else kept
+    return {"errors": errors, "neg_control_flagged": bool(neg_n and neg_n > (total or 0)),
+            "pass": errors == 0 and bool(neg_n and neg_n > 0), "report": rel(out / "drc_report.txt"),
+            **({"errors_total": total, "deferred": deferred} if defer else {})}
 
 
 def lvs_device(gds: Path, cell: str, model: str, W: float, L: float, nf: int, m: int, out: Path,
-               mode: str = "subcell") -> dict:
+               mode: str = "subcell", body_port: bool = True) -> dict:
     """Device-level LVS against the netlist values (um). mode 'subcell' compares the PCell inside its
     wrapper (S0); mode 'top' compares the wrapper, whose own labels D/G/S/B are the ports (S3 device
-    cells with finger straps)."""
+    cells with finger straps). body_port=False: the body is an internal node, not a port (a ringless NMOS
+    cell, whose body is the substrate)."""
     out.mkdir(parents=True, exist_ok=True)
     # negative control: L changed by 10 % (at least 0.1 um). A fixed 0.1 um is 1 % of a 10 um channel, inside
     # Netgen's relative property tolerance, so the wrong reference matched (ttsky25a_fd, 18 long-channel
@@ -70,7 +87,8 @@ def lvs_device(gds: Path, cell: str, model: str, W: float, L: float, nf: int, m:
                                  neg_key="L", neg_delta=neg_dl)
     mpart = f" m={m}" if m != 1 else ""
     ref = out / "ref.spice"
-    ref.write_text(f".subckt {cell} D G S B\nX{cell} D G S B {model} L={L:g} W={W:g} nf={nf}{mpart}\n.ends\n")
+    ref.write_text(f".subckt {cell} D G S{' B' if body_port else ''}\n"
+                   f"X{cell} D G S B {model} L={L:g} W={W:g} nf={nf}{mpart}\n.ends\n")
     txt = _run(["bash", str(SCRIPTS / "magic_lvs.sh"), str(gds), cell, str(ref), cell, str(out / "lvs")],
                {"LVS_MODE": mode})
     ok = "LVS_RESULT MATCH" in txt

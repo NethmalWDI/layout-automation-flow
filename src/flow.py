@@ -61,7 +61,7 @@ def pkg_yaml(design: str) -> dict:
 
 VARIANT_ARGS = {   # v1: the flow before the plan-v2 updates (ablation / "before"); v2: current
     "v1": {"S0": ["--no-pvt"], "S2": ["--alloc", "v1", "--no-pvt", "--no-baselines"],
-           "S3": ["--rules", "v1", "--mode", "A-free", "--relax-fallback", "default"]},
+           "S3": ["--rules", "v1", "--mode", "A-free", "--relax-fallback", "default", "--guard", "1"]},
     "v2": {"S0": [], "S2": [], "S3": []},
 }
 
@@ -89,8 +89,10 @@ def steps(stage: str, design: str, a) -> list[tuple[str, list[str]]]:
         s = []
         if not (REPO / "outputs" / "S2" / "pdk" / "parasitics.json").exists():
             s.append(("pdk_parasitics", [PY, "-m", "src.s2.pdk_parasitics"]))
-        # S2's expected need uses the default device cells of the S3 library (built before S2)
-        s.append(("cells", [PY, "-m", "src.s3.run", pkg, "--cells-only"] + w + [x for x in var["S3"] if x in ("--rules", "v1", "v2")]))
+        # S2's expected need uses the default device cells of the S3 library (built before S2). They keep their guard
+        # rings (plan v4): S2's frozen budgets were built from those cells, and S2 reads them by their ringed names
+        s.append(("cells", [PY, "-m", "src.s3.run", pkg, "--cells-only", "--guard", "1"] + w
+                  + [x for x in var["S3"] if x in ("--rules", "v1", "v2")]))
         s.append(("run", [PY, "-m", "src.s2.run", pkg] + w + var["S2"]))
         return s
     if stage == "S3":

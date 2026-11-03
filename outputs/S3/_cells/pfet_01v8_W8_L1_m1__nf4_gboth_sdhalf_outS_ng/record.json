@@ -1,0 +1,202 @@
+{
+  "type": "pfet_01v8_W8_L1_m1",
+  "option": {
+    "id": "nf4_gboth_sdhalf_outS",
+    "nf": 4,
+    "gate_contacts": "both",
+    "sd_cov": "half",
+    "outer": "S",
+    "magic": {
+      "topc": 1,
+      "botc": 1,
+      "diffcov": 50,
+      "viasrc": 50,
+      "viadrn": 50,
+      "guard": 0,
+      "conn_gates": 1
+    }
+  },
+  "cell": "pfet_01v8_W8_L1_m1__nf4_gboth_sdhalf_outS_ng",
+  "gds": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf4_gboth_sdhalf_outS_ng/pfet_01v8_W8_L1_m1__nf4_gboth_sdhalf_outS_ng.gds",
+  "gen_rc": 0,
+  "strap": {
+    "rc": 0,
+    "strapped": true,
+    "roles": [
+      "S",
+      "D",
+      "S",
+      "D",
+      "S"
+    ],
+    "gate_pad_patch": []
+  },
+  "drc": {
+    "errors": 0,
+    "neg_control_flagged": true,
+    "pass": true,
+    "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf4_gboth_sdhalf_outS_ng/drc/drc_report.txt",
+    "errors_total": 1,
+    "deferred": {
+      "nwell.4": 1,
+      "LU.3": 5
+    }
+  },
+  "lvs": {
+    "match": true,
+    "neg_control_rejected": true,
+    "pass": true,
+    "pcell_instance": "pfet_01v8_W8_L1_m1__nf4_gboth_sdhalf_outS_ng",
+    "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf4_gboth_sdhalf_outS_ng/lvs/lvs/lvs_report.txt",
+    "extracted": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf4_gboth_sdhalf_outS_ng/lvs/lvs/extracted.spice"
+  },
+  "geometry": {
+    "bbox_um": [
+      5.81,
+      3.01
+    ],
+    "area_um2": 17.488,
+    "n_licon_poly": 16,
+    "n_licon_diff": 15,
+    "n_mcon_diff": 15,
+    "n_mcon_gate": 16,
+    "strips": [
+      {
+        "x0": 0.195,
+        "x1": 0.455,
+        "y0": 0.97,
+        "y1": 2.0300000000000002,
+        "role": "S",
+        "n_licon": 3,
+        "n_mcon": 3,
+        "width_um": 0.26,
+        "length_um": 1.0600000000000003,
+        "li_length_um": 1.1,
+        "li_width_um": 0.17
+      },
+      {
+        "x0": 1.485,
+        "x1": 1.745,
+        "y0": 0.97,
+        "y1": 2.0300000000000002,
+        "role": "D",
+        "n_licon": 3,
+        "n_mcon": 3,
+        "width_um": 0.26,
+        "length_um": 1.0600000000000003,
+        "li_length_um": 1.1,
+        "li_width_um": 0.17
+      },
+      {
+        "x0": 2.775,
+        "x1": 3.035,
+        "y0": 0.97,
+        "y1": 2.0300000000000002,
+        "role": "S",
+        "n_licon": 3,
+        "n_mcon": 3,
+        "width_um": 0.26000000000000023,
+        "length_um": 1.0600000000000003,
+        "li_length_um": 1.1,
+        "li_width_um": 0.17
+      },
+      {
+        "x0": 4.065,
+        "x1": 4.325,
+        "y0": 0.97,
+        "y1": 2.0300000000000002,
+        "role": "D",
+        "n_licon": 3,
+        "n_mcon": 3,
+        "width_um": 0.2599999999999998,
+        "length_um": 1.0600000000000003,
+        "li_length_um": 1.1,
+        "li_width_um": 0.17
+      },
+      {
+        "x0": 5.355,
+        "x1": 5.615,
+        "y0": 0.97,
+        "y1": 2.0300000000000002,
+        "role": "S",
+        "n_licon": 3,
+        "n_mcon": 3,
+        "width_um": 0.2599999999999998,
+        "length_um": 1.0600000000000003,
+        "li_length_um": 1.1,
+        "li_width_um": 0.17
+      }
+    ]
+  },
+  "pex": {
+    "file": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf4_gboth_sdhalf_outS_ng/pex/pex.spice",
+    "subckt": "pfet_01v8_W8_L1_m1__nf4_gboth_sdhalf_outS_ng",
+    "ports": [
+      "S",
+      "D",
+      "G",
+      "B"
+    ],
+    "n_devices": 4,
+    "fingers": [
+      {
+        "ad": "0.29",
+        "pd": "2.29",
+        "as": "0.29",
+        "ps": "2.29",
+        "w": "2",
+        "l": "1"
+      },
+      {
+        "ad": "0.29",
+        "pd": "2.29",
+        "as": "0.29",
+        "ps": "2.29",
+        "w": "2",
+        "l": "1"
+      },
+      {
+        "ad": "0.29",
+        "pd": "2.29",
+        "as": "0.58",
+        "ps": "4.58",
+        "w": "2",
+        "l": "1"
+      },
+      {
+        "ad": "0.58",
+        "pd": "4.58",
+        "as": "0.29",
+        "ps": "2.29",
+        "w": "2",
+        "l": "1"
+      }
+    ],
+    "n_caps": 10,
+    "sum_caps_F": 6.28631e-15,
+    "mult": 1
+  },
+  "cell_format": 2,
+  "access_resistance_ohm": {
+    "g": 12.089583333333334,
+    "g_parts": {
+      "poly_distributed": 2.0083333333333333,
+      "ngcon": 2,
+      "poly_contacts": 16,
+      "gate_mcons": 16
+    },
+    "d": 101.51042609351431,
+    "d_strips_ohm": [
+      203.0209,
+      203.0209
+    ],
+    "s": 67.67361739567622,
+    "s_strips_ohm": [
+      203.0209,
+      203.0209,
+      203.0209
+    ]
+  },
+  "png": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf4_gboth_sdhalf_outS_ng/pfet_01v8_W8_L1_m1__nf4_gboth_sdhalf_outS_ng.png",
+  "ok": true
+}

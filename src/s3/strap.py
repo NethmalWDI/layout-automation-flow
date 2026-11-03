@@ -6,7 +6,9 @@ in the wrapper cell, around the unchanged PCell instance:
   * one via1 (Magic contact type m2c) on every strip of a terminal, near the top end for the terminal
     connected at the top and near the bottom end for the other one,
   * one met2 bar per terminal across all strips (top bar / bottom bar),
-  * labels D, G, S, B in the wrapper (so LVS compares the wrapper's ports D G S B),
+  * labels D, G, S, B in the wrapper (so LVS compares the wrapper's ports D G S B); a ringless cell (plan v4)
+    has no ring to carry B, so B is a label on a small patch of its well: n-well (PMOS) or pwell, i.e. the
+    substrate (NMOS),
   * on short-L devices, a met1 patch that widens each gate contact pad to the met1 minimum area: the PCell's
     pad is 0.29 x 0.23 um = 0.067 um2 at L = 0.2-0.24 um, below met1.6 (iadc_ota 1.2/0.2 LVT, LOADBench
     484/0.24 nf = 1; 2026-10-27). The pad is widened along the gate (x), away from the S/D strips.
@@ -76,7 +78,14 @@ def plan(gds: Path, outer: str) -> dict:
     top_pads = sorted([b for b in pads if b.bottom * dbu > max(s["y1"] for s in st)], key=lambda b: b.left)
     bot_pads = sorted([b for b in pads if b.top * dbu < min(s["y0"] for s in st)], key=lambda b: b.left)
     gpad = (top_pads or bot_pads)[0] if (top_pads or bot_pads) else None
-    return {"strips": st, "gate_pad": None if gpad is None else
+    # a ringless cell has no body label. Its body is the n-well (PMOS) or the substrate (NMOS; Magic's sky130
+    # extraction counts pwell as substrate): a small patch of that well type, labelled B, just inside the left edge
+    # of the n-well or of the diffusion
+    nw_li = ly.find_layer(64, 20)
+    nw = kdb.Region(top.begin_shapes_rec(nw_li)).bbox() if nw_li is not None else kdb.Box()
+    wb, well = (nw, "nwell") if not nw.empty() else (diff.bbox(), "pwell")
+    body = {"layer": well, "point": [wb.left * dbu + 0.05, (wb.bottom + wb.top) / 2 * dbu]}
+    return {"body_well": body, "strips": st, "gate_pad": None if gpad is None else
             [gpad.left * dbu, gpad.bottom * dbu, gpad.right * dbu, gpad.top * dbu],
             "gate_pads": [[b.left * dbu, b.bottom * dbu, b.right * dbu, b.top * dbu] for b in top_pads + bot_pads],
             "labels": labels, "n_strips": n}
@@ -116,6 +125,10 @@ def tcl(cell: str, pl: dict) -> str:
         bx, by = pl["labels"]["B"]
         cmds += [f"box {bx - 0.085:.3f}um {by - 0.085:.3f}um {bx + 0.085:.3f}um {by + 0.085:.3f}um", "paint locali",
                  "label B c locali"]
+    elif pl.get("body_well"):     # ringless: label the well itself (n-well for PMOS, substrate/pwell for NMOS)
+        x, y = pl["body_well"]["point"]
+        w = pl["body_well"]["layer"]
+        cmds += [f"box {x:.3f}um {y - 0.05:.3f}um {x + 0.1:.3f}um {y + 0.05:.3f}um", f"paint {w}", f"label B c {w}"]
     cmds += [f"save {cell}", f"gds write {cell}", "quit -noprompt"]
     return "\n".join(cmds) + "\n"
 

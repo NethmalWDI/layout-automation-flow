@@ -1,5 +1,5 @@
 {
-  "run_id": "2026-11-02T19:44:29-459d2b34",
+  "run_id": "2026-11-03T19:32:06-959ab06e",
   "s2_run_id": "2026-11-02T19:36:18-e6eb43a9",
   "eta": 0.5,
   "design": "example_ota_5t",
@@ -27,19 +27,19 @@
           "diffcov": 100,
           "viasrc": 100,
           "viadrn": 100,
-          "guard": 1,
+          "guard": 0,
           "conn_gates": 0
         }
       },
-      "cell": "pfet_01v8_W8_L1_m1__nf1_gtop_sdfull",
-      "gds": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull.gds",
-      "png": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull.png",
+      "cell": "pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng",
+      "gds": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng.gds",
+      "png": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng.png",
       "reason": "smallest area among the 4 of 4 options that stay within the allowance (2 within 2% of it; largest slack among those)",
       "relaxed": false,
-      "area_um2": 29.126,
+      "area_um2": 17.101,
       "bbox_um": [
-        2.96,
-        9.84
+        1.94,
+        8.815
       ],
       "access_resistance_ohm": {
         "d": 27.306785243741768,
@@ -56,18 +56,18 @@
             "slack_frac_of_margin": 0.026272381985892275
           },
           "gbw_mhz": {
-            "used_harmful": 0.24200000000000443,
-            "signed": 0.24200000000000443,
+            "used_harmful": 0.23900000000000432,
+            "signed": 0.23900000000000432,
             "allowed": 6.706229006062349,
             "ok": true,
-            "slack_frac_of_margin": 0.08654051277085247
+            "slack_frac_of_margin": 0.0865760346464075
           },
           "pm_deg": {
-            "used_harmful": 0.21589999999999065,
-            "signed": 0.21589999999999065,
+            "used_harmful": 0.2102000000000004,
+            "signed": 0.2102000000000004,
             "allowed": 1.5975411905602932,
             "ok": true,
-            "slack_frac_of_margin": 0.07599734368421493
+            "slack_frac_of_margin": 0.07626961760132855
           },
           "power_uw": {
             "used_harmful": 0.005000000000023874,
@@ -170,21 +170,26 @@
       "pex": {
         "n_devices": 1,
         "n_caps": 10,
-        "sum_caps_F": 7.31831e-15
+        "sum_caps_F": 5.02036e-15
       },
       "drc": {
         "errors": 0,
         "neg_control_flagged": true,
         "pass": true,
-        "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull/drc/drc_report.txt"
+        "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng/drc/drc_report.txt",
+        "errors_total": 1,
+        "deferred": {
+          "nwell.4": 1,
+          "LU.3": 2
+        }
       },
       "lvs": {
         "match": true,
         "neg_control_rejected": true,
         "pass": true,
-        "pcell_instance": "pfet_01v8_W8_L1_m1__nf1_gtop_sdfull",
-        "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull/lvs/lvs/lvs_report.txt",
-        "extracted": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull/lvs/lvs/extracted.spice"
+        "pcell_instance": "pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng",
+        "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng/lvs/lvs/extracted.spice"
       },
       "device_model_change": {
         "per_device": {
@@ -203,8 +208,8 @@
       },
       "finger_in_sized_bin": true,
       "vs_default": {
-        "default_cell": "pfet_01v8_W8_L1_m1__nf1_gboth_sdfull",
-        "default_area_um2": 30.162,
+        "default_cell": "pfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng",
+        "default_area_um2": 17.479,
         "default_feasible": true,
         "default_budget_check": {
           "capacitance": {
@@ -223,11 +228,11 @@
               "slack_frac_of_margin": 0.08629185964196726
             },
             "pm_deg": {
-              "used_harmful": 0.23850000000000193,
-              "signed": 0.23850000000000193,
+              "used_harmful": 0.2365999999999957,
+              "signed": 0.2365999999999957,
               "allowed": 1.5975411905602932,
               "ok": true,
-              "slack_frac_of_margin": 0.07491780148653397
+              "slack_frac_of_margin": 0.07500855945890564
             },
             "power_uw": {
               "used_harmful": 0.005000000000023874,
@@ -317,7 +322,7 @@
             "D": null,
             "S": null
           },
-          "file": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull/rx/rx.spice",
+          "file": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng/rx/rx.spice",
           "note": "Magic lumps each net to a point; None = net below extresist tolerance"
         }
       },
@@ -344,24 +349,24 @@
           "diffcov": 100,
           "viasrc": 100,
           "viadrn": 100,
-          "guard": 1,
+          "guard": 0,
           "conn_gates": 1
         }
       },
-      "cell": "nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS",
-      "gds": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS.gds",
-      "png": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS.png",
+      "cell": "nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng",
+      "gds": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng.gds",
+      "png": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng.png",
       "reason": "smallest area among the 12 of 12 options that stay within the allowance (4 within 2% of it; largest slack among those)",
       "relaxed": false,
-      "area_um2": 42.955,
+      "area_um2": 26.691,
       "bbox_um": [
-        3.14,
-        13.68
+        2.12,
+        12.59
       ],
       "access_resistance_ohm": {
-        "d": 11.990609390609391,
+        "d": 11.990609390609393,
         "g": 273.45000000000005,
-        "s": 5.995304695304695
+        "s": 5.995304695304696
       },
       "budget_check": {
         "capacitance": {
@@ -374,14 +379,14 @@
           },
           "gbw_mhz": {
             "used_harmful": 0.0,
-            "signed": -0.605000000000004,
+            "signed": -0.6069999999999993,
             "allowed": 6.652308410086448,
             "ok": true,
             "slack_frac_of_margin": 0.0887674904989219
           },
           "pm_deg": {
             "used_harmful": 0.0,
-            "signed": -0.0660000000000025,
+            "signed": -0.06650000000000489,
             "allowed": 1.2265091358783198,
             "ok": true,
             "slack_frac_of_margin": 0.0685870959301412
@@ -439,7 +444,7 @@
         "resistance": {
           "d": {
             "group": "XM1+XM2.d",
-            "R_access_ohm": 11.990609390609391,
+            "R_access_ohm": 11.990609390609393,
             "allowed_ohm": 61.888003166828035,
             "ok": true,
             "remaining_for_routing_ohm": 147.73131199712734,
@@ -455,7 +460,7 @@
           },
           "s": {
             "group": "XM1+XM2.s",
-            "R_access_ohm": 5.995304695304695,
+            "R_access_ohm": 5.995304695304696,
             "allowed_ohm": 33.587951166626894,
             "ok": true,
             "remaining_for_routing_ohm": 80.68921930443904,
@@ -488,21 +493,25 @@
       "pex": {
         "n_devices": 2,
         "n_caps": 6,
-        "sum_caps_F": 5.7415800000000005e-15
+        "sum_caps_F": 5.74149e-15
       },
       "drc": {
         "errors": 0,
         "neg_control_flagged": true,
         "pass": true,
-        "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/drc/drc_report.txt"
+        "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng/drc/drc_report.txt",
+        "errors_total": 3,
+        "deferred": {
+          "LU.2": 3
+        }
       },
       "lvs": {
         "match": true,
         "neg_control_rejected": true,
         "pass": true,
-        "pcell_instance": "nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS",
-        "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/lvs/lvs/lvs_report.txt",
-        "extracted": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS/lvs/lvs/extracted.spice"
+        "pcell_instance": "nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng",
+        "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng/lvs/lvs/extracted.spice"
       },
       "device_model_change": {
         "per_device": {
@@ -521,8 +530,8 @@
       },
       "finger_in_sized_bin": true,
       "vs_default": {
-        "default_cell": "nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull",
-        "default_area_um2": 61.077,
+        "default_cell": "nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull_ng",
+        "default_area_um2": 33.144,
         "default_feasible": true,
         "default_budget_check": {
           "capacitance": {
@@ -534,18 +543,18 @@
               "slack_frac_of_margin": 0.026272381985892275
             },
             "gbw_mhz": {
-              "used_harmful": 0.3100000000000023,
-              "signed": 0.3100000000000023,
+              "used_harmful": 0.32099999999999795,
+              "signed": 0.32099999999999795,
               "allowed": 6.652308410086448,
               "ok": true,
-              "slack_frac_of_margin": 0.08509689669156884
+              "slack_frac_of_margin": 0.08496664981453378
             },
             "pm_deg": {
-              "used_harmful": 0.27609999999999957,
-              "signed": 0.27609999999999957,
+              "used_harmful": 0.28009999999999025,
+              "signed": 0.28009999999999025,
               "allowed": 1.2265091358783198,
               "ok": true,
-              "slack_frac_of_margin": 0.05539852952396585
+              "slack_frac_of_margin": 0.05520746010844764
             },
             "power_uw": {
               "used_harmful": 0.019000000000005457,
@@ -600,7 +609,7 @@
           "resistance": {
             "d": {
               "group": "XM1+XM2.d",
-              "R_access_ohm": 7.1315923207227545,
+              "R_access_ohm": 7.131592320722755,
               "allowed_ohm": 61.888003166828035,
               "ok": true,
               "remaining_for_routing_ohm": 152.59032906701398,
@@ -625,7 +634,7 @@
           }
         },
         "default_access_resistance_ohm": {
-          "d": 7.1315923207227545,
+          "d": 7.131592320722755,
           "g": 273.45000000000005,
           "s": 7.131592320722755
         },
@@ -635,7 +644,7 @@
             "D": null,
             "S": null
           },
-          "file": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull/rx/rx.spice",
+          "file": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf1_gboth_sdfull_ng/rx/rx.spice",
           "note": "Magic lumps each net to a point; None = net below extresist tolerance"
         }
       },
@@ -661,22 +670,22 @@
           "diffcov": 100,
           "viasrc": 100,
           "viadrn": 100,
-          "guard": 1,
+          "guard": 0,
           "conn_gates": 1
         }
       },
-      "cell": "nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD",
-      "gds": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD.gds",
-      "png": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD.png",
+      "cell": "nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng",
+      "gds": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng.gds",
+      "png": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng.png",
       "reason": "smallest area among the 10 of 12 options that stay within the allowance (4 within 2% of it; largest slack among those)",
       "relaxed": false,
-      "area_um2": 56.635,
+      "area_um2": 39.281,
       "bbox_um": [
-        4.14,
-        13.68
+        3.12,
+        12.59
       ],
       "access_resistance_ohm": {
-        "d": 5.995304695304695,
+        "d": 5.995304695304696,
         "g": 136.72500000000002,
         "s": 11.990609390609391
       },
@@ -756,7 +765,7 @@
         "resistance": {
           "d": {
             "group": "XM5.d",
-            "R_access_ohm": 5.995304695304695,
+            "R_access_ohm": 5.995304695304696,
             "allowed_ohm": 44.714378652798445,
             "ok": true,
             "remaining_for_routing_ohm": 68.90161017658863,
@@ -802,21 +811,25 @@
       "pex": {
         "n_devices": 2,
         "n_caps": 6,
-        "sum_caps_F": 6.7059300000000005e-15
+        "sum_caps_F": 6.65241e-15
       },
       "drc": {
         "errors": 0,
         "neg_control_flagged": true,
         "pass": true,
-        "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/drc/drc_report.txt"
+        "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng/drc/drc_report.txt",
+        "errors_total": 3,
+        "deferred": {
+          "LU.2": 3
+        }
       },
       "lvs": {
         "match": true,
         "neg_control_rejected": true,
         "pass": true,
-        "pcell_instance": "nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD",
-        "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/lvs/lvs/lvs_report.txt",
-        "extracted": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD/lvs/lvs/extracted.spice"
+        "pcell_instance": "nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng",
+        "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng/lvs/lvs/extracted.spice"
       },
       "device_model_change": {
         "per_device": {
@@ -830,8 +843,8 @@
       },
       "finger_in_sized_bin": true,
       "vs_default": {
-        "default_cell": "nfet_01v8_W24_L1_m1__nf1_gboth_sdfull",
-        "default_area_um2": 74.072,
+        "default_cell": "nfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng",
+        "default_area_um2": 45.604,
         "default_feasible": true,
         "default_budget_check": {
           "capacitance": {
@@ -909,7 +922,7 @@
           "resistance": {
             "d": {
               "group": "XM5.d",
-              "R_access_ohm": 7.1315923207227545,
+              "R_access_ohm": 7.131592320722755,
               "allowed_ohm": 44.714378652798445,
               "ok": true,
               "remaining_for_routing_ohm": 67.76532255117057,
@@ -934,7 +947,7 @@
           }
         },
         "default_access_resistance_ohm": {
-          "d": 7.1315923207227545,
+          "d": 7.131592320722755,
           "g": 136.72500000000002,
           "s": 7.131592320722755
         },
@@ -944,7 +957,7 @@
             "D": null,
             "S": null
           },
-          "file": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf1_gboth_sdfull/rx/rx.spice",
+          "file": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng/rx/rx.spice",
           "note": "Magic lumps each net to a point; None = net below extresist tolerance"
         }
       },
@@ -954,10 +967,10 @@
   },
   "final_in_circuit": {
     "gain_db": 31.8685,
-    "gbw_mhz": 102.953,
-    "pm_deg": 79.9497,
+    "gbw_mhz": 102.958,
+    "pm_deg": 79.9563,
     "vnoise_nv_rthz": 339.775,
-    "vnoise_rms_uv_rms": 422.822,
+    "vnoise_rms_uv_rms": 422.725,
     "sat_V": {
       "XM3": 1.0484769999999999,
       "XM4": 1.0484769999999999,
@@ -1010,7 +1023,7 @@
   "by_mode": {
     "B": {
       "complete": true,
-      "total_area_um2": 254.478,
+      "total_area_um2": 146.094,
       "relaxed": [],
       "fingers_outside_sized_bin": [],
       "chosen": {
@@ -1022,7 +1035,7 @@
     },
     "A-bin": {
       "complete": true,
-      "total_area_um2": 200.797,
+      "total_area_um2": 126.865,
       "relaxed": [],
       "fingers_outside_sized_bin": [],
       "chosen": {
@@ -1034,7 +1047,7 @@
     },
     "A-free": {
       "complete": true,
-      "total_area_um2": 187.16,
+      "total_area_um2": 122.049,
       "relaxed": [],
       "fingers_outside_sized_bin": [
         "nfet_01v8_W24_L1_m1",
@@ -1049,7 +1062,7 @@
     },
     "RoT": {
       "complete": true,
-      "total_area_um2": 190.53699999999998,
+      "total_area_um2": 128.71699999999998,
       "relaxed": [
         "nfet_01v8_W24_L0p5_m1",
         "nfet_01v8_W24_L1_m1"

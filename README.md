@@ -395,7 +395,17 @@ python3 -m src.s3.run inputs/example_ota_5t/package.yaml
 python3 -m src.s3.run inputs/ota5t_stress/package.yaml --cells-only   # only build/measure the option cells
 python3 -m src.s3.run inputs/loadbench_miller/package.yaml --relax-fallback default \
     --out runs/tmp/s3_planv2_rule                                     # plan v2's relaxed-type rule, beside the results
+python3 -m src.s3.run inputs/example_ota_5t/package.yaml --guard 1 --out runs/tmp/s3_ringed   # the reviewed S3's ringed cells
 ```
+
+**Unit cells without guard rings (plan v4, branch `s4-s5`).** By default S3's cells carry no guard ring, because S4
+puts one ring around each block.
+- Their names end in `_ng`.
+- The body pin B is a label on a small patch of the cell's well: the n-well for PMOS, pwell (the substrate) for
+  NMOS.
+- DRC defers the tap rules LU.2, LU.3 and nwell.4 to S4 (`deferred` in each cell's `drc` record).
+- `--guard 1` builds the ringed cells of the reviewed S3. S2's "cells" step and `--variant v1` always do, because
+  S2's frozen floors were read from those cells.
 
 **Relaxed types.** When no option of a device type stays within its allowance, S3 still keeps one and flags the
 type (G3.5).

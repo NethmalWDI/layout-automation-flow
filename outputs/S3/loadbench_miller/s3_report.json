@@ -1,5 +1,5 @@
 {
-  "run_id": "2026-11-02T20:03:58-0fdcd3a4",
+  "run_id": "2026-11-03T20:06:04-51379e33",
   "s2_run_id": "2026-11-02T19:56:09-5a65c917",
   "eta": 0.5,
   "design": "loadbench_miller",
@@ -8,7 +8,13 @@
       "pass": true,
       "options": 216,
       "not_signed_off": [],
-      "build_mode": "A-free"
+      "build_mode": "A-free",
+      "unit_cell_guard_ring": false,
+      "deferred_to_S4": [
+        "LU.2",
+        "LU.3",
+        "nwell.4"
+      ]
     },
     "G3.7_modes (info)": {
       "pass": null,
@@ -16,7 +22,7 @@
       "summary": {
         "B": {
           "complete": true,
-          "total_area_um2": 4396.36,
+          "total_area_um2": 2668.533,
           "relaxed": [
             "nfet_01v8_lvt_W484p2_L0p24_m1",
             "nfet_01v8_lvt_W66p13_L2p03_m1",
@@ -37,7 +43,7 @@
         },
         "A-bin": {
           "complete": true,
-          "total_area_um2": 2079.379,
+          "total_area_um2": 1816.968,
           "relaxed": [
             "nfet_01v8_lvt_W484p2_L0p24_m1",
             "nfet_01v8_lvt_W66p13_L2p03_m1",
@@ -48,7 +54,7 @@
             "nfet_01v8_lvt_W66p13_L2p03_m1": "nf8_gboth_sdfull_outS",
             "pfet_01v8_lvt_W37p3_L0p74_m1": "nf1_gboth_sdhalf",
             "nfet_01v8_lvt_W484p2_L0p24_m1": "nf32_gtop_sdhalf_outS",
-            "pfet_01v8_lvt_W887p03_L0p74_m1": "nf16_gtop_sdhalf_outS",
+            "pfet_01v8_lvt_W887p03_L0p74_m1": "nf16_gboth_sdhalf_outS",
             "pfet_01v8_lvt_W14p21_L0p89_m1": "nf2_gboth_sdfull_outS",
             "pfet_01v8_lvt_W90p63_L0p74_m1": "nf8_gboth_sdfull_outS"
           },
@@ -56,7 +62,7 @@
         },
         "A-free": {
           "complete": true,
-          "total_area_um2": 2092.635,
+          "total_area_um2": 1824.3880000000001,
           "relaxed": [
             "nfet_01v8_lvt_W484p2_L0p24_m1",
             "nfet_01v8_lvt_W66p13_L2p03_m1",
@@ -69,7 +75,7 @@
             "nfet_01v8_lvt_W66p13_L2p03_m1": "nf8_gboth_sdfull_outS",
             "pfet_01v8_lvt_W37p3_L0p74_m1": "nf1_gboth_sdhalf",
             "nfet_01v8_lvt_W484p2_L0p24_m1": "nf32_gtop_sdhalf_outS",
-            "pfet_01v8_lvt_W887p03_L0p74_m1": "nf16_gtop_sdhalf_outS",
+            "pfet_01v8_lvt_W887p03_L0p74_m1": "nf16_gboth_sdhalf_outS",
             "pfet_01v8_lvt_W14p21_L0p89_m1": "nf8_gboth_sdfull_outS",
             "pfet_01v8_lvt_W90p63_L0p74_m1": "nf8_gboth_sdfull_outS"
           },
@@ -77,7 +83,7 @@
         },
         "RoT": {
           "complete": true,
-          "total_area_um2": 2112.095,
+          "total_area_um2": 1842.6019999999999,
           "relaxed": [
             "nfet_01v8_lvt_W484p2_L0p24_m1",
             "nfet_01v8_lvt_W66p13_L2p03_m1",
@@ -604,10 +610,10 @@
     "G3.3_all_chosen_devices_in_circuit": {
       "pass": true,
       "specs": {
-        "pm_deg": 65.1728,
+        "pm_deg": 65.1451,
         "power_uw": 554.199,
         "gain_db": 58.0072,
-        "gbw_mhz": 23.0185
+        "gbw_mhz": 23.038
       },
       "meets": {
         "pm_deg": true,
@@ -626,10 +632,10 @@
         "XNormalTransistorPmos8": 0.20446099999999998
       },
       "margin_use_signed": {
-        "pm_deg": 0.15050000000000807,
+        "pm_deg": 0.1782000000000039,
         "power_uw": -4.247000000000071,
         "gain_db": -0.007500000000000284,
-        "gbw_mhz": 0.3686000000000007,
+        "gbw_mhz": 0.34909999999999997,
         "sat_XDiodeTransistorNmos1": -0.00042480000000005846,
         "sat_XDiodeTransistorPmos2": 6.140000000004475e-05,
         "sat_XNormalTransistorNmos3": 0.00040040000000007847,
@@ -676,37 +682,65 @@
           "errors": 0,
           "neg_control_flagged": true,
           "pass": true,
-          "report": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS/drc/drc_report.txt"
+          "report": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng/drc/drc_report.txt",
+          "errors_total": 9,
+          "deferred": {
+            "LU.2": 9
+          }
         },
         "pfet_01v8_lvt_W37p3_L0p74_m1": {
           "errors": 0,
           "neg_control_flagged": true,
           "pass": true,
-          "report": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf/drc/drc_report.txt"
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng/drc/drc_report.txt",
+          "errors_total": 1,
+          "deferred": {
+            "nwell.4": 1,
+            "LU.3": 2
+          }
         },
         "nfet_01v8_lvt_W484p2_L0p24_m1": {
           "errors": 0,
           "neg_control_flagged": true,
           "pass": true,
-          "report": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS/drc/drc_report.txt"
+          "report": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng/drc/drc_report.txt",
+          "errors_total": 33,
+          "deferred": {
+            "LU.2": 33
+          }
         },
         "pfet_01v8_lvt_W887p03_L0p74_m1": {
           "errors": 0,
           "neg_control_flagged": true,
           "pass": true,
-          "report": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS/drc/drc_report.txt"
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng/drc/drc_report.txt",
+          "errors_total": 1,
+          "deferred": {
+            "nwell.4": 1,
+            "LU.3": 17
+          }
         },
         "pfet_01v8_lvt_W14p21_L0p89_m1": {
           "errors": 0,
           "neg_control_flagged": true,
           "pass": true,
-          "report": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS/drc/drc_report.txt"
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng/drc/drc_report.txt",
+          "errors_total": 1,
+          "deferred": {
+            "nwell.4": 1,
+            "LU.3": 3
+          }
         },
         "pfet_01v8_lvt_W90p63_L0p74_m1": {
           "errors": 0,
           "neg_control_flagged": true,
           "pass": true,
-          "report": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS/drc/drc_report.txt"
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng/drc/drc_report.txt",
+          "errors_total": 1,
+          "deferred": {
+            "nwell.4": 1,
+            "LU.3": 9
+          }
         }
       }
     },
@@ -717,49 +751,49 @@
           "match": true,
           "neg_control_rejected": true,
           "pass": true,
-          "pcell_instance": "nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS",
-          "report": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS/lvs/lvs/lvs_report.txt",
-          "extracted": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS/lvs/lvs/extracted.spice"
+          "pcell_instance": "nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng",
+          "report": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng/lvs/lvs/extracted.spice"
         },
         "pfet_01v8_lvt_W37p3_L0p74_m1": {
           "match": true,
           "neg_control_rejected": true,
           "pass": true,
-          "pcell_instance": "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf",
-          "report": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf/lvs/lvs/lvs_report.txt",
-          "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf/lvs/lvs/extracted.spice"
+          "pcell_instance": "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng",
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng/lvs/lvs/extracted.spice"
         },
         "nfet_01v8_lvt_W484p2_L0p24_m1": {
           "match": true,
           "neg_control_rejected": true,
           "pass": true,
-          "pcell_instance": "nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS",
-          "report": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS/lvs/lvs/lvs_report.txt",
-          "extracted": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS/lvs/lvs/extracted.spice"
+          "pcell_instance": "nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng",
+          "report": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng/lvs/lvs/extracted.spice"
         },
         "pfet_01v8_lvt_W887p03_L0p74_m1": {
           "match": true,
           "neg_control_rejected": true,
           "pass": true,
-          "pcell_instance": "pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS",
-          "report": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS/lvs/lvs/lvs_report.txt",
-          "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS/lvs/lvs/extracted.spice"
+          "pcell_instance": "pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng",
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng/lvs/lvs/extracted.spice"
         },
         "pfet_01v8_lvt_W14p21_L0p89_m1": {
           "match": true,
           "neg_control_rejected": true,
           "pass": true,
-          "pcell_instance": "pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS",
-          "report": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS/lvs/lvs/lvs_report.txt",
-          "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS/lvs/lvs/extracted.spice"
+          "pcell_instance": "pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng",
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng/lvs/lvs/extracted.spice"
         },
         "pfet_01v8_lvt_W90p63_L0p74_m1": {
           "match": true,
           "neg_control_rejected": true,
           "pass": true,
-          "pcell_instance": "pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS",
-          "report": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS/lvs/lvs/lvs_report.txt",
-          "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS/lvs/lvs/extracted.spice"
+          "pcell_instance": "pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng",
+          "report": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng/lvs/lvs/extracted.spice"
         }
       }
     },
@@ -792,8 +826,8 @@
   },
   "all_pass": false,
   "provenance": {
-    "created": "2026-11-02T19:04:29+00:00",
-    "git_commit": "bf67fd0963b8c0e35b4bd739b704bfc09fcde59d",
+    "created": "2026-11-03T19:44:06+00:00",
+    "git_commit": "e63068797fbcfe3fad62a358fd9a220a6460e221",
     "inputs": [
       {
         "path": "outputs/S0/loadbench_miller/circuit_ir.json",

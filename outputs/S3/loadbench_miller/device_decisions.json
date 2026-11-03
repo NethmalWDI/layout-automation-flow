@@ -1,5 +1,5 @@
 {
-  "run_id": "2026-11-02T20:03:58-0fdcd3a4",
+  "run_id": "2026-11-03T20:06:04-51379e33",
   "s2_run_id": "2026-11-02T19:56:09-5a65c917",
   "eta": 0.5,
   "design": "loadbench_miller",
@@ -27,19 +27,19 @@
           "diffcov": 100,
           "viasrc": 100,
           "viadrn": 100,
-          "guard": 1,
+          "guard": 0,
           "conn_gates": 1
         }
       },
-      "cell": "nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS",
-      "gds": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS.gds",
-      "png": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS.png",
+      "cell": "nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng",
+      "gds": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng.gds",
+      "png": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng.png",
       "reason": "no option met the allowance: the option whose worst check is broken least (largest min_slack, access R of d, g and s included) is kept and the type is flagged (relaxation; fallback 'least-bad'); see budget_check for what does not fit",
       "relaxed": true,
-      "area_um2": 206.431,
+      "area_um2": 175.529,
       "bbox_um": [
-        20.12,
-        10.26
+        19.1,
+        9.19
       ],
       "access_resistance_ohm": {
         "d": 3.4845004180602,
@@ -49,11 +49,11 @@
       "budget_check": {
         "capacitance": {
           "pm_deg": {
-            "used_harmful": 0.1325000000000074,
-            "signed": 0.1325000000000074,
+            "used_harmful": 0.1308000000000078,
+            "signed": 0.1308000000000078,
             "allowed": 0.07771308975156639,
-            "ok": false,
-            "slack_frac_of_margin": -0.000291907322232634
+            "ok": true,
+            "slack_frac_of_margin": 2.7443456419628605e-05
           },
           "power_uw": {
             "used_harmful": 0.0049999999999954525,
@@ -70,11 +70,11 @@
             "slack_frac_of_margin": 0.010000000084945294
           },
           "gbw_mhz": {
-            "used_harmful": 0.08279999999999887,
-            "signed": 0.08279999999999887,
+            "used_harmful": 0.08119999999999905,
+            "signed": 0.08119999999999905,
             "allowed": 0.05076265035422732,
             "ok": false,
-            "slack_frac_of_margin": -0.0036987854986836985
+            "slack_frac_of_margin": -0.0030146447367219997
           },
           "sat_XDiodeTransistorNmos1": {
             "used_harmful": 0.0,
@@ -186,21 +186,25 @@
       "pex": {
         "n_devices": 8,
         "n_caps": 6,
-        "sum_caps_F": 2.394024e-14
+        "sum_caps_F": 2.3730570000000002e-14
       },
       "drc": {
         "errors": 0,
         "neg_control_flagged": true,
         "pass": true,
-        "report": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS/drc/drc_report.txt"
+        "report": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng/drc/drc_report.txt",
+        "errors_total": 9,
+        "deferred": {
+          "LU.2": 9
+        }
       },
       "lvs": {
         "match": true,
         "neg_control_rejected": true,
         "pass": true,
-        "pcell_instance": "nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS",
-        "report": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS/lvs/lvs/lvs_report.txt",
-        "extracted": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS/lvs/lvs/extracted.spice"
+        "pcell_instance": "nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng",
+        "report": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng/lvs/lvs/extracted.spice"
       },
       "device_model_change": {
         "per_device": {
@@ -219,17 +223,17 @@
       },
       "finger_in_sized_bin": true,
       "vs_default": {
-        "default_cell": "nfet_01v8_lvt_W66p13_L2p03_m1__nf1_gboth_sdfull",
-        "default_area_um2": 264.306,
+        "default_cell": "nfet_01v8_lvt_W66p13_L2p03_m1__nf1_gboth_sdfull_ng",
+        "default_area_um2": 191.763,
         "default_feasible": false,
         "default_budget_check": {
           "capacitance": {
             "pm_deg": {
-              "used_harmful": 0.18070000000000164,
-              "signed": 0.18070000000000164,
+              "used_harmful": 0.18189999999999884,
+              "signed": 0.18189999999999884,
               "allowed": 0.07771308975156639,
               "ok": false,
-              "slack_frac_of_margin": -0.009346441164021415
+              "slack_frac_of_margin": -0.0095718652430696
             },
             "power_uw": {
               "used_harmful": 0.0,
@@ -246,11 +250,11 @@
               "slack_frac_of_margin": 0.008700000084944771
             },
             "gbw_mhz": {
-              "used_harmful": 0.10640000000000072,
-              "signed": 0.10640000000000072,
+              "used_harmful": 0.10709999999999908,
+              "signed": 0.10709999999999908,
               "allowed": 0.05076265035422732,
               "ok": false,
-              "slack_frac_of_margin": -0.013789861737620649
+              "slack_frac_of_margin": -0.014089173320978228
             },
             "sat_XDiodeTransistorNmos1": {
               "used_harmful": 0.0,
@@ -312,11 +316,11 @@
           "resistance": {
             "d": {
               "group": "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
-              "R_access_ohm": 12.984500383321942,
+              "R_access_ohm": 12.984500383321945,
               "allowed_ohm": 3.526841080525318,
               "ok": false,
-              "remaining_for_routing_ohm": -2.9461978654419596,
-              "slack_frac": -2.681623324345513
+              "remaining_for_routing_ohm": -2.946197865441963,
+              "slack_frac": -2.681623324345514
             },
             "g": {
               "group": "XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
@@ -337,7 +341,7 @@
           }
         },
         "default_access_resistance_ohm": {
-          "d": 12.984500383321942,
+          "d": 12.984500383321945,
           "g": 144.44502463054187,
           "s": 12.984500383321947
         },
@@ -347,7 +351,7 @@
             "D": null,
             "S": null
           },
-          "file": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf1_gboth_sdfull/rx/rx.spice",
+          "file": "outputs/S3/_cells/nfet_01v8_lvt_W66p13_L2p03_m1__nf1_gboth_sdfull_ng/rx/rx.spice",
           "note": "Magic lumps each net to a point; None = net below extresist tolerance"
         }
       },
@@ -373,19 +377,19 @@
           "diffcov": 50,
           "viasrc": 50,
           "viadrn": 50,
-          "guard": 1,
+          "guard": 0,
           "conn_gates": 0
         }
       },
-      "cell": "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf",
-      "gds": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf.gds",
-      "png": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf.png",
+      "cell": "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng",
+      "gds": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng.gds",
+      "png": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng.png",
       "reason": "smallest area among the 4 of 20 options that stay within the allowance (4 within 2% of it; largest slack among those)",
       "relaxed": false,
-      "area_um2": 106.623,
+      "area_um2": 64.361,
       "bbox_um": [
-        2.7,
-        39.49
+        1.68,
+        38.31
       ],
       "access_resistance_ohm": {
         "d": 14.455682935989834,
@@ -395,11 +399,11 @@
       "budget_check": {
         "capacitance": {
           "pm_deg": {
-            "used_harmful": 0.0010000000000047748,
-            "signed": 0.0010000000000047748,
+            "used_harmful": 0.0011000000000080945,
+            "signed": 0.0011000000000080945,
             "allowed": 7.401486830834377e-17,
             "ok": true,
-            "slack_frac_of_margin": 0.009812146600791858
+            "slack_frac_of_margin": 0.00979336126087051
           },
           "power_uw": {
             "used_harmful": 0.0,
@@ -522,21 +526,26 @@
       "pex": {
         "n_devices": 1,
         "n_caps": 10,
-        "sum_caps_F": 2.2068430000000003e-14
+        "sum_caps_F": 1.1088970000000001e-14
       },
       "drc": {
         "errors": 0,
         "neg_control_flagged": true,
         "pass": true,
-        "report": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf/drc/drc_report.txt"
+        "report": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng/drc/drc_report.txt",
+        "errors_total": 1,
+        "deferred": {
+          "nwell.4": 1,
+          "LU.3": 2
+        }
       },
       "lvs": {
         "match": true,
         "neg_control_rejected": true,
         "pass": true,
-        "pcell_instance": "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf",
-        "report": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf/lvs/lvs/lvs_report.txt",
-        "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf/lvs/lvs/extracted.spice"
+        "pcell_instance": "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng",
+        "report": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng/lvs/lvs/extracted.spice"
       },
       "device_model_change": {
         "per_device": {
@@ -550,8 +559,8 @@
       },
       "finger_in_sized_bin": true,
       "vs_default": {
-        "default_cell": "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdfull",
-        "default_area_um2": 106.623,
+        "default_cell": "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdfull_ng",
+        "default_area_um2": 64.361,
         "default_feasible": true,
         "default_budget_check": {
           "capacitance": {
@@ -643,7 +652,7 @@
           "resistance": {
             "d": {
               "group": "XDiodeTransistorPmos2.d",
-              "R_access_ohm": 12.214510116011736,
+              "R_access_ohm": 12.214510116011738,
               "allowed_ohm": 140.09775640976042,
               "ok": true,
               "remaining_for_routing_ohm": 205.16003200776078,
@@ -660,7 +669,7 @@
           }
         },
         "default_access_resistance_ohm": {
-          "d": 12.214510116011736,
+          "d": 12.214510116011738,
           "g": 242.78671171171172,
           "s": 12.214510116011738
         },
@@ -670,7 +679,7 @@
             "D": null,
             "S": null
           },
-          "file": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdfull/rx/rx.spice",
+          "file": "outputs/S3/_cells/pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdfull_ng/rx/rx.spice",
           "note": "Magic lumps each net to a point; None = net below extresist tolerance"
         }
       },
@@ -696,30 +705,30 @@
           "diffcov": 50,
           "viasrc": 50,
           "viadrn": 50,
-          "guard": 1,
+          "guard": 0,
           "conn_gates": 1
         }
       },
-      "cell": "nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS",
-      "gds": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS.gds",
-      "png": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS.png",
+      "cell": "nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng",
+      "gds": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng.gds",
+      "png": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng.png",
       "reason": "no option met the allowance: the option whose worst check is broken least (largest min_slack, access R of d, g and s included) is kept and the type is flagged (relaxation; fallback 'least-bad'); see budget_check for what does not fit",
       "relaxed": true,
-      "area_um2": 311.321,
+      "area_um2": 275.975,
       "bbox_um": [
-        18.52,
-        16.81
+        17.5,
+        15.77
       ],
       "access_resistance_ohm": {
-        "d": 0.9266053033975826,
+        "d": 0.9266053033975828,
         "g": 36.69541015625,
-        "s": 0.8720991090800778
+        "s": 0.872099109080078
       },
       "budget_check": {
         "capacitance": {
           "pm_deg": {
             "used_harmful": 0.0,
-            "signed": -0.24150000000000205,
+            "signed": -0.24349999999999739,
             "allowed": 0.049086870160667824,
             "ok": true,
             "slack_frac_of_margin": 0.019221135416126797
@@ -739,11 +748,11 @@
             "slack_frac_of_margin": 0.010000000128158347
           },
           "gbw_mhz": {
-            "used_harmful": 0.15060000000000073,
-            "signed": 0.15060000000000073,
+            "used_harmful": 0.1498999999999988,
+            "signed": 0.1498999999999988,
             "allowed": 0.11633123573699823,
             "ok": false,
-            "slack_frac_of_margin": -0.00465291155898683
+            "slack_frac_of_margin": -0.004353599975627733
           },
           "sat_XDiodeTransistorNmos1": {
             "used_harmful": 1.09999999997612e-06,
@@ -805,11 +814,11 @@
         "resistance": {
           "d": {
             "group": "XNormalTransistorNmos3.d",
-            "R_access_ohm": 0.9266053033975826,
+            "R_access_ohm": 0.9266053033975828,
             "allowed_ohm": 1.4654380193157013,
             "ok": true,
             "remaining_for_routing_ohm": 15.622091992297229,
-            "slack_frac": 0.3676939650915643
+            "slack_frac": 0.3676939650915642
           },
           "g": {
             "group": "XNormalTransistorNmos3.g",
@@ -821,11 +830,11 @@
           },
           "s": {
             "group": "XNormalTransistorNmos3.s",
-            "R_access_ohm": 0.8720991090800778,
+            "R_access_ohm": 0.872099109080078,
             "allowed_ohm": 1.1723504154525608,
             "ok": true,
             "remaining_for_routing_ohm": 15.383510582751597,
-            "slack_frac": 0.2561105471665461
+            "slack_frac": 0.2561105471665459
           }
         }
       },
@@ -856,21 +865,25 @@
       "pex": {
         "n_devices": 32,
         "n_caps": 6,
-        "sum_caps_F": 3.737063e-14
+        "sum_caps_F": 3.6583910000000003e-14
       },
       "drc": {
         "errors": 0,
         "neg_control_flagged": true,
         "pass": true,
-        "report": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS/drc/drc_report.txt"
+        "report": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng/drc/drc_report.txt",
+        "errors_total": 33,
+        "deferred": {
+          "LU.2": 33
+        }
       },
       "lvs": {
         "match": true,
         "neg_control_rejected": true,
         "pass": true,
-        "pcell_instance": "nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS",
-        "report": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS/lvs/lvs/lvs_report.txt",
-        "extracted": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS/lvs/lvs/extracted.spice"
+        "pcell_instance": "nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng",
+        "report": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng/lvs/lvs/extracted.spice"
       },
       "device_model_change": {
         "per_device": {
@@ -884,14 +897,14 @@
       },
       "finger_in_sized_bin": true,
       "vs_default": {
-        "default_cell": "nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gboth_sdfull",
-        "default_area_um2": 1016.137,
+        "default_cell": "nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gboth_sdfull_ng",
+        "default_area_um2": 519.078,
         "default_feasible": false,
         "default_budget_check": {
           "capacitance": {
             "pm_deg": {
               "used_harmful": 0.0,
-              "signed": -0.009900000000001796,
+              "signed": -0.006100000000003547,
               "allowed": 0.049086870160667824,
               "ok": true,
               "slack_frac_of_margin": 0.019221135416126797
@@ -911,11 +924,11 @@
               "slack_frac_of_margin": 0.010000000128158347
             },
             "gbw_mhz": {
-              "used_harmful": 0.28200000000000003,
-              "signed": 0.28200000000000003,
+              "used_harmful": 0.2820999999999998,
+              "signed": 0.2820999999999998,
               "allowed": 0.11633123573699823,
               "ok": false,
-              "slack_frac_of_margin": -0.0608379716350972
+              "slack_frac_of_margin": -0.060880730432719715
             },
             "sat_XDiodeTransistorNmos1": {
               "used_harmful": 1.0000000000287557e-07,
@@ -993,18 +1006,18 @@
             },
             "s": {
               "group": "XNormalTransistorNmos3.s",
-              "R_access_ohm": 87.85422153282614,
+              "R_access_ohm": 87.85422153282617,
               "allowed_ohm": 1.1723504154525608,
               "ok": false,
-              "remaining_for_routing_ohm": -71.59861184099447,
-              "slack_frac": -73.93853405503499
+              "remaining_for_routing_ohm": -71.5986118409945,
+              "slack_frac": -73.93853405503502
             }
           }
         },
         "default_access_resistance_ohm": {
           "d": 87.85422153282616,
           "g": 8184.275000000001,
-          "s": 87.85422153282614
+          "s": 87.85422153282617
         },
         "magic_extresist_cross_check": {
           "largest_resistor_on_net_ohm": {
@@ -1012,7 +1025,7 @@
             "D": null,
             "S": null
           },
-          "file": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gboth_sdfull/rx/rx.spice",
+          "file": "outputs/S3/_cells/nfet_01v8_lvt_W484p2_L0p24_m1__nf1_gboth_sdfull_ng/rx/rx.spice",
           "note": "Magic lumps each net to a point; None = net below extresist tolerance"
         }
       },
@@ -1027,44 +1040,44 @@
       "W_um": 887.03,
       "L_um": 0.74,
       "chosen": {
-        "id": "nf16_gtop_sdhalf_outS",
+        "id": "nf16_gboth_sdhalf_outS",
         "nf": 16,
-        "gate_contacts": "top",
+        "gate_contacts": "both",
         "sd_cov": "half",
         "outer": "S",
         "magic": {
           "topc": 1,
-          "botc": 0,
+          "botc": 1,
           "diffcov": 50,
           "viasrc": 50,
           "viadrn": 50,
-          "guard": 1,
+          "guard": 0,
           "conn_gates": 1
         }
       },
-      "cell": "pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS",
-      "gds": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS.gds",
-      "png": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS.png",
-      "reason": "smallest area among the 8 of 52 options that stay within the allowance (6 within 2% of it; largest slack among those)",
+      "cell": "pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng",
+      "gds": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng.gds",
+      "png": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng.png",
+      "reason": "smallest area among the 8 of 52 options that stay within the allowance (8 within 2% of it; largest slack among those)",
       "relaxed": false,
-      "area_um2": 1039.632,
+      "area_um2": 966.989,
       "bbox_um": [
-        18.15,
-        57.28
+        17.13,
+        56.45
       ],
       "access_resistance_ohm": {
-        "d": 2.0682381140101724,
-        "g": 80.27085796734235,
-        "s": 1.8384338791201533
+        "d": 2.068238114010172,
+        "g": 21.327870741835586,
+        "s": 1.8384338791201538
       },
       "budget_check": {
         "capacitance": {
           "pm_deg": {
-            "used_harmful": 0.11589999999999634,
-            "signed": 0.11589999999999634,
+            "used_harmful": 0.11849999999999739,
+            "signed": 0.11849999999999739,
             "allowed": 0.43420669827494274,
             "ok": true,
-            "slack_frac_of_margin": 0.0697949952613879
+            "slack_frac_of_margin": 0.06930657642344883
           },
           "power_uw": {
             "used_harmful": 0.0,
@@ -1081,11 +1094,11 @@
             "slack_frac_of_margin": 0.0038000000834522984
           },
           "gbw_mhz": {
-            "used_harmful": 0.018499999999999517,
-            "signed": 0.018499999999999517,
+            "used_harmful": 0.01869999999999905,
+            "signed": 0.01869999999999905,
             "allowed": 0.02723551825648737,
             "ok": true,
-            "slack_frac_of_margin": 0.013735202572577867
+            "slack_frac_of_margin": 0.013649684977332844
           },
           "sat_XDiodeTransistorNmos1": {
             "used_harmful": 0.0,
@@ -1147,27 +1160,27 @@
         "resistance": {
           "d": {
             "group": "XNormalTransistorPmos5.d",
-            "R_access_ohm": 2.0682381140101724,
+            "R_access_ohm": 2.068238114010172,
             "allowed_ohm": 2.14792894977087,
             "ok": true,
             "remaining_for_routing_ohm": 27.35419790544315,
-            "slack_frac": 0.037101243860602734
+            "slack_frac": 0.037101243860602935
           },
           "g": {
             "group": "XNormalTransistorPmos5.g",
-            "R_access_ohm": 80.27085796734235,
+            "R_access_ohm": 21.327870741835586,
             "allowed_ohm": 456.1432271371575,
             "ok": true,
-            "remaining_for_routing_ohm": 687.854554803057,
-            "slack_frac": 0.8240226902608252
+            "remaining_for_routing_ohm": 746.7975420285637,
+            "slack_frac": 0.9532430397450087
           },
           "s": {
             "group": "XNormalTransistorPmos5.s",
-            "R_access_ohm": 1.8384338791201533,
+            "R_access_ohm": 1.8384338791201538,
             "allowed_ohm": 2.183626915379185,
             "ok": true,
             "remaining_for_routing_ohm": 35.00494501933309,
-            "slack_frac": 0.15808242416680843
+            "slack_frac": 0.15808242416680823
           }
         }
       },
@@ -1194,22 +1207,27 @@
       },
       "pex": {
         "n_devices": 16,
-        "n_caps": 9,
-        "sum_caps_F": 2.0937656e-13
+        "n_caps": 10,
+        "sum_caps_F": 1.5085282e-13
       },
       "drc": {
         "errors": 0,
         "neg_control_flagged": true,
         "pass": true,
-        "report": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS/drc/drc_report.txt"
+        "report": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng/drc/drc_report.txt",
+        "errors_total": 1,
+        "deferred": {
+          "nwell.4": 1,
+          "LU.3": 17
+        }
       },
       "lvs": {
         "match": true,
         "neg_control_rejected": true,
         "pass": true,
-        "pcell_instance": "pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS",
-        "report": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS/lvs/lvs/lvs_report.txt",
-        "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gtop_sdhalf_outS/lvs/lvs/extracted.spice"
+        "pcell_instance": "pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng",
+        "report": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng/lvs/lvs/extracted.spice"
       },
       "device_model_change": {
         "per_device": {
@@ -1223,17 +1241,17 @@
       },
       "finger_in_sized_bin": true,
       "vs_default": {
-        "default_cell": "pfet_01v8_lvt_W887p03_L0p74_m1__nf1_gboth_sdfull",
-        "default_area_um2": 2400.894,
+        "default_cell": "pfet_01v8_lvt_W887p03_L0p74_m1__nf1_gboth_sdfull_ng",
+        "default_area_um2": 1491.907,
         "default_feasible": false,
         "default_budget_check": {
           "capacitance": {
             "pm_deg": {
-              "used_harmful": 1.0463000000000022,
-              "signed": 1.0463000000000022,
+              "used_harmful": 1.053200000000004,
+              "signed": 1.053200000000004,
               "allowed": 0.43420669827494274,
               "ok": false,
-              "slack_frac_of_margin": -0.10498380736104657
+              "slack_frac_of_margin": -0.10627999581557697
             },
             "power_uw": {
               "used_harmful": 0.6209999999999809,
@@ -1250,11 +1268,11 @@
               "slack_frac_of_margin": 0.006500000083456664
             },
             "gbw_mhz": {
-              "used_harmful": 0.062000000000001165,
-              "signed": 0.062000000000001165,
+              "used_harmful": 0.062300000000000466,
+              "signed": 0.062300000000000466,
               "allowed": 0.02723551825648737,
               "ok": false,
-              "slack_frac_of_margin": -0.0048648743932585645
+              "slack_frac_of_margin": -0.004993150786126098
             },
             "sat_XDiodeTransistorNmos1": {
               "used_harmful": 0.0,
@@ -1316,11 +1334,11 @@
           "resistance": {
             "d": {
               "group": "XNormalTransistorPmos5.d",
-              "R_access_ohm": 160.9218387709114,
+              "R_access_ohm": 160.92183877091142,
               "allowed_ohm": 2.14792894977087,
               "ok": false,
-              "remaining_for_routing_ohm": -131.49940275145806,
-              "slack_frac": -73.91953529844538
+              "remaining_for_routing_ohm": -131.4994027514581,
+              "slack_frac": -73.9195352984454
             },
             "g": {
               "group": "XNormalTransistorPmos5.g",
@@ -1341,7 +1359,7 @@
           }
         },
         "default_access_resistance_ohm": {
-          "d": 160.9218387709114,
+          "d": 160.92183877091142,
           "g": 4855.05990990991,
           "s": 160.92183877091145
         },
@@ -1351,7 +1369,7 @@
             "D": null,
             "S": null
           },
-          "file": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf1_gboth_sdfull/rx/rx.spice",
+          "file": "outputs/S3/_cells/pfet_01v8_lvt_W887p03_L0p74_m1__nf1_gboth_sdfull_ng/rx/rx.spice",
           "note": "Magic lumps each net to a point; None = net below extresist tolerance"
         }
       },
@@ -1378,19 +1396,19 @@
           "diffcov": 100,
           "viasrc": 100,
           "viadrn": 100,
-          "guard": 1,
+          "guard": 0,
           "conn_gates": 1
         }
       },
-      "cell": "pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS",
-      "gds": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS.gds",
-      "png": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS.png",
+      "cell": "pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng",
+      "gds": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng.gds",
+      "png": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng.png",
       "reason": "no option met the allowance: the option whose worst check is broken least (largest min_slack, access R of d, g and s included) is kept and the type is flagged (relaxation; fallback 'least-bad'); see budget_check for what does not fit",
       "relaxed": true,
-      "area_um2": 37.479,
+      "area_um2": 24.441,
       "bbox_um": [
-        4.03,
-        9.3
+        3.01,
+        8.12
       ],
       "access_resistance_ohm": {
         "d": 33.986039618276465,
@@ -1400,11 +1418,11 @@
       "budget_check": {
         "capacitance": {
           "pm_deg": {
-            "used_harmful": 0.020700000000005048,
-            "signed": 0.020700000000005048,
+            "used_harmful": 0.04950000000000898,
+            "signed": 0.04950000000000898,
             "allowed": 0.06735807516008434,
             "ok": true,
-            "slack_frac_of_margin": 0.01876487801928865
+            "slack_frac_of_margin": 0.013354700122118862
           },
           "power_uw": {
             "used_harmful": 0.0,
@@ -1422,7 +1440,7 @@
           },
           "gbw_mhz": {
             "used_harmful": 0.0,
-            "signed": -0.01770000000000138,
+            "signed": -0.03119999999999834,
             "allowed": 0.18554274389499906,
             "ok": true,
             "slack_frac_of_margin": 0.08933584636550182
@@ -1537,21 +1555,26 @@
       "pex": {
         "n_devices": 2,
         "n_caps": 10,
-        "sum_caps_F": 1.0579770000000001e-14
+        "sum_caps_F": 8.100860000000001e-15
       },
       "drc": {
         "errors": 0,
         "neg_control_flagged": true,
         "pass": true,
-        "report": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS/drc/drc_report.txt"
+        "report": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng/drc/drc_report.txt",
+        "errors_total": 1,
+        "deferred": {
+          "nwell.4": 1,
+          "LU.3": 3
+        }
       },
       "lvs": {
         "match": true,
         "neg_control_rejected": true,
         "pass": true,
-        "pcell_instance": "pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS",
-        "report": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS/lvs/lvs/lvs_report.txt",
-        "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS/lvs/lvs/extracted.spice"
+        "pcell_instance": "pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng",
+        "report": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng/lvs/lvs/extracted.spice"
       },
       "device_model_change": {
         "per_device": {
@@ -1570,17 +1593,17 @@
       },
       "finger_in_sized_bin": true,
       "vs_default": {
-        "default_cell": "pfet_01v8_lvt_W14p21_L0p89_m1__nf1_gboth_sdfull",
-        "default_area_um2": 46.74,
+        "default_cell": "pfet_01v8_lvt_W14p21_L0p89_m1__nf1_gboth_sdfull_ng",
+        "default_area_um2": 27.853,
         "default_feasible": false,
         "default_budget_check": {
           "capacitance": {
             "pm_deg": {
-              "used_harmful": 0.0,
-              "signed": -0.0016999999999995907,
+              "used_harmful": 0.04940000000000566,
+              "signed": 0.04940000000000566,
               "allowed": 0.06735807516008434,
               "ok": true,
-              "slack_frac_of_margin": 0.022653443382879848
+              "slack_frac_of_margin": 0.013373485462040213
             },
             "power_uw": {
               "used_harmful": 0.0049999999999954525,
@@ -1597,11 +1620,11 @@
               "slack_frac_of_margin": 0.010000000083703154
             },
             "gbw_mhz": {
-              "used_harmful": 0.013799999999999812,
-              "signed": 0.013799999999999812,
+              "used_harmful": 0.0,
+              "signed": -0.009399999999999409,
               "allowed": 0.18554274389499906,
               "ok": true,
-              "slack_frac_of_margin": 0.0834351322935816
+              "slack_frac_of_margin": 0.08933584636550182
             },
             "sat_XDiodeTransistorNmos1": {
               "used_harmful": 0.0,
@@ -1698,7 +1721,7 @@
             "D": null,
             "S": null
           },
-          "file": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf1_gboth_sdfull/rx/rx.spice",
+          "file": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf1_gboth_sdfull_ng/rx/rx.spice",
           "note": "Magic lumps each net to a point; None = net below extresist tolerance"
         }
       },
@@ -1724,19 +1747,19 @@
           "diffcov": 100,
           "viasrc": 100,
           "viadrn": 100,
-          "guard": 1,
+          "guard": 0,
           "conn_gates": 1
         }
       },
-      "cell": "pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS",
-      "gds": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS.gds",
-      "png": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS.png",
+      "cell": "pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng",
+      "gds": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng.gds",
+      "png": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng.png",
       "reason": "smallest area among the 1 of 28 options that stay within the allowance (1 within 2% of it; largest slack among those)",
       "relaxed": false,
-      "area_um2": 133.983,
+      "area_um2": 109.703,
       "bbox_um": [
-        9.91,
-        13.52
+        8.89,
+        12.34
       ],
       "access_resistance_ohm": {
         "d": 6.085744463869465,
@@ -1746,11 +1769,11 @@
       "budget_check": {
         "capacitance": {
           "pm_deg": {
-            "used_harmful": 0.024399999999999977,
-            "signed": 0.024399999999999977,
+            "used_harmful": 0.024500000000003297,
+            "signed": 0.024500000000003297,
             "allowed": 7.401486830834377e-17,
             "ok": true,
-            "slack_frac_of_margin": 0.00541637705934291
+            "slack_frac_of_margin": 0.005397591719421561
           },
           "power_uw": {
             "used_harmful": 0.0,
@@ -1767,11 +1790,11 @@
             "slack_frac_of_margin": 0.0100000000833242
           },
           "gbw_mhz": {
-            "used_harmful": 0.07339999999999947,
-            "signed": 0.07339999999999947,
+            "used_harmful": 0.0732999999999997,
+            "signed": 0.0732999999999997,
             "allowed": 0.050121242721126495,
             "ok": true,
-            "slack_frac_of_margin": 4.6283286067912784e-05
+            "slack_frac_of_margin": 8.9042083690424e-05
           },
           "sat_XDiodeTransistorNmos1": {
             "used_harmful": 0.00019919999999995497,
@@ -1882,21 +1905,26 @@
       "pex": {
         "n_devices": 8,
         "n_caps": 10,
-        "sum_caps_F": 3.921743e-14
+        "sum_caps_F": 3.461338e-14
       },
       "drc": {
         "errors": 0,
         "neg_control_flagged": true,
         "pass": true,
-        "report": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS/drc/drc_report.txt"
+        "report": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng/drc/drc_report.txt",
+        "errors_total": 1,
+        "deferred": {
+          "nwell.4": 1,
+          "LU.3": 9
+        }
       },
       "lvs": {
         "match": true,
         "neg_control_rejected": true,
         "pass": true,
-        "pcell_instance": "pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS",
-        "report": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS/lvs/lvs/lvs_report.txt",
-        "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS/lvs/lvs/extracted.spice"
+        "pcell_instance": "pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng",
+        "report": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng/lvs/lvs/lvs_report.txt",
+        "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng/lvs/lvs/extracted.spice"
       },
       "device_model_change": {
         "per_device": {
@@ -1910,14 +1938,14 @@
       },
       "finger_in_sized_bin": true,
       "vs_default": {
-        "default_cell": "pfet_01v8_lvt_W90p63_L0p74_m1__nf1_gboth_sdfull",
-        "default_area_um2": 250.614,
+        "default_cell": "pfet_01v8_lvt_W90p63_L0p74_m1__nf1_gboth_sdfull_ng",
+        "default_area_um2": 153.955,
         "default_feasible": false,
         "default_budget_check": {
           "capacitance": {
             "pm_deg": {
               "used_harmful": 0.0,
-              "signed": -0.11929999999999552,
+              "signed": -0.12160000000000082,
               "allowed": 7.401486830834377e-17,
               "ok": true,
               "slack_frac_of_margin": 0.010000000000000014
@@ -1937,11 +1965,11 @@
               "slack_frac_of_margin": 0.0100000000833242
             },
             "gbw_mhz": {
-              "used_harmful": 0.029399999999998983,
-              "signed": 0.029399999999998983,
+              "used_harmful": 0.03049999999999997,
+              "signed": 0.03049999999999997,
               "allowed": 0.050121242721126495,
               "ok": true,
-              "slack_frac_of_margin": 0.0188601542400169
+              "slack_frac_of_margin": 0.018389807466167758
             },
             "sat_XDiodeTransistorNmos1": {
               "used_harmful": 0.0,
@@ -2003,11 +2031,11 @@
           "resistance": {
             "d": {
               "group": "XNormalTransistorPmos8.d",
-              "R_access_ohm": 18.654778173999002,
+              "R_access_ohm": 18.654778173999,
               "allowed_ohm": 46.60484331319479,
               "ok": true,
-              "remaining_for_routing_ohm": 79.77080367949485,
-              "slack_frac": 0.5997244739428734
+              "remaining_for_routing_ohm": 79.77080367949486,
+              "slack_frac": 0.5997244739428735
             },
             "g": {
               "group": "XNormalTransistorPmos8.g",
@@ -2028,7 +2056,7 @@
           }
         },
         "default_access_resistance_ohm": {
-          "d": 18.654778173999002,
+          "d": 18.654778173999,
           "g": 532.2581081081082,
           "s": 18.654778173999002
         },
@@ -2038,7 +2066,7 @@
             "D": null,
             "S": null
           },
-          "file": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf1_gboth_sdfull/rx/rx.spice",
+          "file": "outputs/S3/_cells/pfet_01v8_lvt_W90p63_L0p74_m1__nf1_gboth_sdfull_ng/rx/rx.spice",
           "note": "Magic lumps each net to a point; None = net below extresist tolerance"
         }
       },
@@ -2048,10 +2076,10 @@
   },
   "final_in_circuit": {
     "gain_db": 58.0072,
-    "gbw_mhz": 23.0185,
-    "pm_deg": 65.1728,
+    "gbw_mhz": 23.038,
+    "pm_deg": 65.1451,
     "vnoise_nv_rthz": 149.105,
-    "vnoise_rms_uv_rms": 3596.76,
+    "vnoise_rms_uv_rms": 3626.06,
     "sat_V": {
       "XDiodeTransistorNmos1": 0.40031120000000003,
       "XDiodeTransistorPmos2": 0.4031936,
@@ -2128,7 +2156,7 @@
   "by_mode": {
     "B": {
       "complete": true,
-      "total_area_um2": 4396.36,
+      "total_area_um2": 2668.533,
       "relaxed": [
         "nfet_01v8_lvt_W484p2_L0p24_m1",
         "nfet_01v8_lvt_W66p13_L2p03_m1",
@@ -2149,7 +2177,7 @@
     },
     "A-bin": {
       "complete": true,
-      "total_area_um2": 2079.379,
+      "total_area_um2": 1816.968,
       "relaxed": [
         "nfet_01v8_lvt_W484p2_L0p24_m1",
         "nfet_01v8_lvt_W66p13_L2p03_m1",
@@ -2160,7 +2188,7 @@
         "nfet_01v8_lvt_W66p13_L2p03_m1": "nf8_gboth_sdfull_outS",
         "pfet_01v8_lvt_W37p3_L0p74_m1": "nf1_gboth_sdhalf",
         "nfet_01v8_lvt_W484p2_L0p24_m1": "nf32_gtop_sdhalf_outS",
-        "pfet_01v8_lvt_W887p03_L0p74_m1": "nf16_gtop_sdhalf_outS",
+        "pfet_01v8_lvt_W887p03_L0p74_m1": "nf16_gboth_sdhalf_outS",
         "pfet_01v8_lvt_W14p21_L0p89_m1": "nf2_gboth_sdfull_outS",
         "pfet_01v8_lvt_W90p63_L0p74_m1": "nf8_gboth_sdfull_outS"
       },
@@ -2168,7 +2196,7 @@
     },
     "A-free": {
       "complete": true,
-      "total_area_um2": 2092.635,
+      "total_area_um2": 1824.3880000000001,
       "relaxed": [
         "nfet_01v8_lvt_W484p2_L0p24_m1",
         "nfet_01v8_lvt_W66p13_L2p03_m1",
@@ -2181,7 +2209,7 @@
         "nfet_01v8_lvt_W66p13_L2p03_m1": "nf8_gboth_sdfull_outS",
         "pfet_01v8_lvt_W37p3_L0p74_m1": "nf1_gboth_sdhalf",
         "nfet_01v8_lvt_W484p2_L0p24_m1": "nf32_gtop_sdhalf_outS",
-        "pfet_01v8_lvt_W887p03_L0p74_m1": "nf16_gtop_sdhalf_outS",
+        "pfet_01v8_lvt_W887p03_L0p74_m1": "nf16_gboth_sdhalf_outS",
         "pfet_01v8_lvt_W14p21_L0p89_m1": "nf8_gboth_sdfull_outS",
         "pfet_01v8_lvt_W90p63_L0p74_m1": "nf8_gboth_sdfull_outS"
       },
@@ -2189,7 +2217,7 @@
     },
     "RoT": {
       "complete": true,
-      "total_area_um2": 2112.095,
+      "total_area_um2": 1842.6019999999999,
       "relaxed": [
         "nfet_01v8_lvt_W484p2_L0p24_m1",
         "nfet_01v8_lvt_W66p13_L2p03_m1",

@@ -37,6 +37,19 @@ WIDE_MIN_WF = 7.0             # um, the lower W edge of the wide SKY130 model bi
 GATE_GRID = {"both": (1, 1), "top": (1, 0)}
 SD_GRID = {"full": (100, 100), "half": (50, 50)}   # (diffcov %, viasrc/viadrn %)
 MIN_WF = 0.42                                       # sky130 minimum finger width (PCell wmin)
+# Plan v4 (PREREG amendment 2026-11-03, Imasha's decision): unit cells have no guard ring; S4 draws one ring per
+# block. GUARD = 1 reproduces the reviewed S3 (tag s0s3-reviewed). Without the ring:
+#   - the tap rules belong to the block, so a unit cell's DRC defers them (TAP_RULES, checked by S4, G4.5);
+#   - the body port B is a label on a small patch of the cell's well: the n-well (PMOS), or pwell, which Magic's
+#     sky130 extraction counts as substrate (NMOS) (strap.py).
+GUARD = 0
+TAP_RULES = ("LU.2", "LU.3", "nwell.4")   # latch-up tap distance, and "every nwell needs a metal-connected tap"
+
+
+def cell_name(tid: str, opt: dict) -> str:
+    """Cell (and cache folder) name. Ringless cells get '_ng', so the guarded cells of the reviewed S3, which S2's
+    library floors were read from, stay in the cache under their own names."""
+    return f"{tid}__{opt['id']}" + ("_ng" if opt["magic"]["guard"] == 0 else "")
 
 
 def device_types(ir: dict) -> dict:
@@ -49,8 +62,8 @@ def device_types(ir: dict) -> dict:
     return types
 
 
-def grid(W: float, wide: bool = True) -> list:
-    """wide=False: the v1 grid (nf <= 8), for the 'before' variant"""
+def grid(W: float, wide: bool = True, guard: int = GUARD) -> list:
+    """wide=False: the v1 grid (nf <= 8), for the 'before' variant; guard=1: the reviewed S3's cells with rings"""
     out = []
     nfs = NF_GRID + (tuple(n for n in NF_GRID_WIDE if W / n >= WIDE_MIN_WF) if wide else ())
     for nf, (g, gc), (s, sc) in itertools.product(nfs, GATE_GRID.items(), SD_GRID.items()):
@@ -60,7 +73,7 @@ def grid(W: float, wide: bool = True) -> list:
             out.append({"id": f"nf{nf}_g{g}_sd{s}" + (f"_out{outer}" if nf % 2 == 0 else ""), "nf": nf,
                         "gate_contacts": g, "sd_cov": s, "outer": outer,
                         "magic": {"topc": gc[0], "botc": gc[1], "diffcov": sc[0], "viasrc": sc[1], "viadrn": sc[1],
-                                  "guard": 1, "conn_gates": 1 if nf > 1 else 0}})
+                                  "guard": guard, "conn_gates": 1 if nf > 1 else 0}})
     return out
 
 
@@ -245,7 +258,8 @@ def device_geometry(gds: Path, roles_plan: dict, t: dict) -> dict:
 
 
 def build_one(t: dict, tid: str, opt: dict, out: Path, rules: dict, cross_check: bool = False) -> dict:
-    cell = f"{tid}__{opt['id']}"
+    cell = cell_name(tid, opt)
+    ringless = opt["magic"]["guard"] == 0
     d = out / cell
     # a rebuild starts from an empty folder: Magic would otherwise load the old .mag (whose PCell subcell may
     # be gone) instead of generating, and the old GDS would be strapped and measured (iadc_ota, 2026-10-26)
@@ -264,7 +278,7 @@ def build_one(t: dict, tid: str, opt: dict, out: Path, rules: dict, cross_check:
         rec.update({"ok": False, "error": f"strap does not fit: {e}"})
         return rec
     rec["strap"] = {k: st[k] for k in ("rc", "strapped", "roles", "gate_pad_patch")}
-    rec["drc"] = pcell.drc(gds, cell, d / "drc")
+    rec["drc"] = pcell.drc(gds, cell, d / "drc", defer=TAP_RULES if ringless else ())
     rec["lvs"] = pcell.lvs_device(gds, cell, t["model"], t["W"], t["L"], opt["nf"], 1, d / "lvs", mode="top")
     geo = device_geometry(gds, st["plan"], t)
     rec["geometry"] = geo

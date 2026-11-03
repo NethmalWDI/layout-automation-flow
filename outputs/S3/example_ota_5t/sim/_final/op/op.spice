@@ -354,59 +354,59 @@ XDUT VDD OUTP INP INN VSS example_ota_5t_sized
 .ends
 
 .subckt example_ota_5t_sized VDD OUTP INP INN VSS
-XM3 s3_XM3_d s3_XM3_s s3_XM3_g VDD VSS s3c_pfet_01v8_w8_l1_m1__nf1_gtop_sdfull
+XM3 s3_XM3_d s3_XM3_s s3_XM3_g VDD VSS s3c_pfet_01v8_w8_l1_m1__nf1_gtop_sdfull_ng
 Rs3_XM3_d s3_XM3_d net3 27.3068
 Rs3_XM3_g s3_XM3_g net3 209.183
 Rs3_XM3_s s3_XM3_s VDD 27.3068
-XM4 s3_XM4_d s3_XM4_s s3_XM4_g VDD VSS s3c_pfet_01v8_w8_l1_m1__nf1_gtop_sdfull
+XM4 s3_XM4_d s3_XM4_s s3_XM4_g VDD VSS s3c_pfet_01v8_w8_l1_m1__nf1_gtop_sdfull_ng
 Rs3_XM4_d s3_XM4_d OUTP 27.3068
 Rs3_XM4_g s3_XM4_g net3 209.183
 Rs3_XM4_s s3_XM4_s VDD 27.3068
-XM1 s3_XM1_s s3_XM1_d s3_XM1_g VSS s3c_nfet_01v8_w24_l0p5_m1__nf2_gtop_sdfull_outs
+XM1 s3_XM1_s s3_XM1_d s3_XM1_g VSS s3c_nfet_01v8_w24_l0p5_m1__nf2_gtop_sdfull_outs_ng
 Rs3_XM1_d s3_XM1_d net3 11.9906
 Rs3_XM1_g s3_XM1_g INP 273.45
 Rs3_XM1_s s3_XM1_s net1 5.9953
-XM2 s3_XM2_s s3_XM2_d s3_XM2_g VSS s3c_nfet_01v8_w24_l0p5_m1__nf2_gtop_sdfull_outs
+XM2 s3_XM2_s s3_XM2_d s3_XM2_g VSS s3c_nfet_01v8_w24_l0p5_m1__nf2_gtop_sdfull_outs_ng
 Rs3_XM2_d s3_XM2_d OUTP 11.9906
 Rs3_XM2_g s3_XM2_g INN 273.45
 Rs3_XM2_s s3_XM2_s net1 5.9953
-XM5 s3_XM5_s s3_XM5_d s3_XM5_g VSS s3c_nfet_01v8_w24_l1_m1__nf2_gtop_sdfull_outd
+XM5 s3_XM5_s s3_XM5_d s3_XM5_g VSS s3c_nfet_01v8_w24_l1_m1__nf2_gtop_sdfull_outd_ng
 Rs3_XM5_d s3_XM5_d net1 5.9953
 Rs3_XM5_g s3_XM5_g net2 136.725
 Rs3_XM5_s s3_XM5_s VSS 11.9906
 V1 net2 VSS 0.75
 .ends example_ota_5t_sized
-.subckt s3c_pfet_01v8_w8_l1_m1__nf1_gtop_sdfull D S G B SUB
+.subckt s3c_pfet_01v8_w8_l1_m1__nf1_gtop_sdfull_ng D S G B SUB
 X0 S G D B sky130_fd_pr__pfet_01v8 ad=2.32 pd=16.58 as=2.32 ps=16.58 w=8 l=1
-C0 B G 0.31211f
+C0 B G 0.13305f
 C1 S G 0.43491f
 C2 D G 0.43491f
-C3 B S 0.49934f
-C4 B D 0.49934f
+C3 B S 0.15596f
+C4 B D 0.15596f
 C5 D S 0.23712f
-C6 S SUB 0.22322f
-C7 D SUB 0.22322f
-C8 G SUB 0.11806f
-C9 B SUB 4.33608f
+C6 S SUB 0.58694f
+C7 D SUB 0.58694f
+C8 G SUB 0.2436f
+C9 B SUB 2.05097f
 .ends
-.subckt s3c_nfet_01v8_w24_l0p5_m1__nf2_gtop_sdfull_outs S D G B
+.subckt s3c_nfet_01v8_w24_l0p5_m1__nf2_gtop_sdfull_outs_ng S D G B
 X0 S G D B sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=1.74 ps=12.29 w=12 l=0.5
 X1 D G S B sky130_fd_pr__nfet_01v8 ad=1.74 pd=12.29 as=3.48 ps=24.58 w=12 l=0.5
-C0 D G 0.92615f
-C1 S G 0.96993f
-C2 S D 1.29958f
-C3 D B 0.10524f
-C4 S B 1.95283f
-C5 G B 0.48785f
+C0 S D 1.29958f
+C1 G D 0.92615f
+C2 G S 0.96993f
+C3 D B 0.09672f
+C4 S B 2.01449f
+C5 G B 0.43462f
 .ends
-.subckt s3c_nfet_01v8_w24_l1_m1__nf2_gtop_sdfull_outd S D G B
+.subckt s3c_nfet_01v8_w24_l1_m1__nf2_gtop_sdfull_outd_ng S D G B
 X0 D G S B sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=1.74 ps=12.29 w=12 l=1
 X1 S G D B sky130_fd_pr__nfet_01v8 ad=1.74 pd=12.29 as=3.48 ps=24.58 w=12 l=1
-C0 S G 1.49721f
-C1 D G 1.42061f
-C2 D S 0.85766f
-C3 S B 0.13844f
-C4 D B 1.99618f
-C5 G B 0.79583f
+C0 D S 0.85766f
+C1 G S 1.49721f
+C2 G D 1.42061f
+C3 S B 0.13291f
+C4 D B 2.04881f
+C5 G B 0.69521f
 .ends
 .end

@@ -1083,3 +1083,17 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   - `docs/plan_v4_S4_S7.md` sets out how decisions are taken: type and well rules, symmetry, designer rows,
     enumeration for small designs, a budget-aware cost with an area-only baseline.
   - PREREG's amendment of 2026-11-03 adds the gates, H4, H5 and the per-design predictions, before any change.
+- **Phase 1 (2026-11-03 evening to 2026-11-04 01:40): S3's unit cells without guard rings.**
+  - Two ringless 5T cells were built by hand first. DRC failed only on the tap rules, and LVS on the missing body
+    pin. The body is now a label on a small patch of the well: the n-well for PMOS, pwell for NMOS (substrate in
+    Magic's sky130 extraction). The tap rules are deferred to S4.
+  - The DRC negative control sat at the origin, inside the n-well's error area, so it could look unflagged. It now
+    sits away from the layout (flow record row 67).
+  - Ringless cells are named `_ng`. S2's cells step and the `v1` variant keep the ringed cells S2's frozen floors came
+    from.
+  - Results:
+    - 5T: S3 PASS with the same choices, 200.8 → 126.9 µm².
+    - LOADBench: S3 FAIL G3.5 on the same 3 types, 2079 → 1817 µm², one option changed (P5's gate contacted at both
+      ends).
+    - Specs unchanged on both, as predicted.
+  - S0–S2 byte-identical; S3 goldens refreshed; walkthrough regenerated; 3 tests.

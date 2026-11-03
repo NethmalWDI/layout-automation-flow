@@ -1,0 +1,156 @@
+{
+  "type": "pfet_01v8_lvt_W14p21_L0p89_m1",
+  "option": {
+    "id": "nf2_gboth_sdhalf_outD",
+    "nf": 2,
+    "gate_contacts": "both",
+    "sd_cov": "half",
+    "outer": "D",
+    "magic": {
+      "topc": 1,
+      "botc": 1,
+      "diffcov": 50,
+      "viasrc": 50,
+      "viadrn": 50,
+      "guard": 0,
+      "conn_gates": 1
+    }
+  },
+  "cell": "pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdhalf_outD_ng",
+  "gds": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdhalf_outD_ng/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdhalf_outD_ng.gds",
+  "gen_rc": 0,
+  "strap": {
+    "rc": 0,
+    "strapped": true,
+    "roles": [
+      "D",
+      "S",
+      "D"
+    ],
+    "gate_pad_patch": []
+  },
+  "drc": {
+    "errors": 0,
+    "neg_control_flagged": true,
+    "pass": true,
+    "report": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdhalf_outD_ng/drc/drc_report.txt",
+    "errors_total": 1,
+    "deferred": {
+      "nwell.4": 1,
+      "LU.3": 3
+    }
+  },
+  "lvs": {
+    "match": true,
+    "neg_control_rejected": true,
+    "pass": true,
+    "pcell_instance": "pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdhalf_outD_ng",
+    "report": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdhalf_outD_ng/lvs/lvs/lvs_report.txt",
+    "extracted": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdhalf_outD_ng/lvs/lvs/extracted.spice"
+  },
+  "geometry": {
+    "bbox_um": [
+      3.01,
+      8.12
+    ],
+    "area_um2": 24.441,
+    "n_licon_poly": 8,
+    "n_licon_diff": 30,
+    "n_mcon_diff": 30,
+    "n_mcon_gate": 8,
+    "strips": [
+      {
+        "x0": 0.195,
+        "x1": 0.455,
+        "y0": 2.25,
+        "y1": 5.86,
+        "role": "D",
+        "n_licon": 10,
+        "n_mcon": 10,
+        "width_um": 0.26,
+        "length_um": 3.6100000000000003,
+        "li_length_um": 3.65,
+        "li_width_um": 0.17
+      },
+      {
+        "x0": 1.375,
+        "x1": 1.635,
+        "y0": 2.25,
+        "y1": 5.86,
+        "role": "S",
+        "n_licon": 10,
+        "n_mcon": 10,
+        "width_um": 0.26,
+        "length_um": 3.6100000000000003,
+        "li_length_um": 3.65,
+        "li_width_um": 0.17
+      },
+      {
+        "x0": 2.555,
+        "x1": 2.815,
+        "y0": 2.25,
+        "y1": 5.86,
+        "role": "D",
+        "n_licon": 10,
+        "n_mcon": 10,
+        "width_um": 0.2599999999999998,
+        "length_um": 3.6100000000000003,
+        "li_length_um": 3.65,
+        "li_width_um": 0.17
+      }
+    ]
+  },
+  "pex": {
+    "file": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdhalf_outD_ng/pex/pex.spice",
+    "subckt": "pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdhalf_outD_ng",
+    "ports": [
+      "S",
+      "D",
+      "G",
+      "B"
+    ],
+    "n_devices": 2,
+    "fingers": [
+      {
+        "ad": "2.0619",
+        "pd": "14.8",
+        "as": "1.03095",
+        "ps": "7.4",
+        "w": "7.11",
+        "l": "0.89"
+      },
+      {
+        "ad": "1.03095",
+        "pd": "7.4",
+        "as": "2.0619",
+        "ps": "14.8",
+        "w": "7.11",
+        "l": "0.89"
+      }
+    ],
+    "n_caps": 10,
+    "sum_caps_F": 6.257420000000001e-15,
+    "mult": 1
+  },
+  "cell_format": 2,
+  "access_resistance_ohm": {
+    "g": 36.19531835205993,
+    "g_parts": {
+      "poly_distributed": 16.032818352059927,
+      "ngcon": 2,
+      "poly_contacts": 8,
+      "gate_mcons": 8
+    },
+    "d": 32.37975301659125,
+    "d_strips_ohm": [
+      64.7595,
+      64.7595
+    ],
+    "s": 64.7595060331825,
+    "s_strips_ohm": [
+      64.7595
+    ]
+  },
+  "png": "outputs/S3/_cells/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdhalf_outD_ng/pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdhalf_outD_ng.png",
+  "ok": true
+}

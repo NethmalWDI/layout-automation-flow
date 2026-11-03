@@ -2,10 +2,12 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-03 19:30 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
+**Last updated:** 2026-11-04 01:40 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
 routing, verification) on branch `s4-s5`**, from `main` at tag `s0s3-reviewed` (`ec359567`). The plan is
-`docs/plan_v4_S4_S7.md`; the phases are under *Plan v4 (s4-s5)* below. Phase 0 (freeze test, plan, PREREG
-amendment) is done and waiting for Imasha's commit. Claude Code holds the claim below; nothing is running.
+`docs/plan_v4_S4_S7.md`; the phases are under *Plan v4 (s4-s5)* below.
+- Phase 0 is committed (`e6306879`).
+- Phase 1 (S3 without guard rings, re-run on both designs) is done and waiting for Imasha's commit.
+- Claude Code holds the claim below; nothing is running.
 
 `main` holds the reviewed S0–S3 state (the supervisor review, merged; `1626d11b` and Imasha's STATUS commit
 `ec359567`) and is not touched until a review merges `s4-s5`.
@@ -52,6 +54,12 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+- Plan v4 Phase 1's S3 runs, with ringless unit cells, have ended (results under *Plan v4*, Phase 1 record):
+  - `example_ota_5t --stage S3`: 19:25–19:46 CET 2026-11-03, PASS (`runs/logs/v4_p1_5t_S3.log`).
+  - `loadbench_miller --stage S3`: 00:18–01:15 CET 2026-11-04, FAIL G3.5 only, as before
+    (`runs/logs/v4_p1_lb_S3.log`).
+
+**Earlier:**
 - Review phase 3's full runs from S0 have ended, with no ERROR.
   - `example_ota_5t`: 19:15–19:45, S0–S3 all PASS (`runs/logs/review_p3_5t.log`).
   - `loadbench_miller`: 19:45–20:04, S2 PASS; S0, S1 and S3 FAIL only on their known findings
@@ -156,8 +164,8 @@ checked against its budget. S3's unit cells lose their guard rings; S4's blocks 
 
 | Phase | Work | State |
 |---|---|---|
-| 0 | Freeze test for S0–S2; plan; PREREG amendment; STATUS | **done**, waiting for Imasha's commit |
-| 1 | S3 without guard rings; re-run the 5T and LOADBench; compare with the reviewed S3 | pending |
+| 0 | Freeze test for S0–S2; plan; PREREG amendment; STATUS | **done**, committed `e6306879` |
+| 1 | S3 without guard rings; re-run the 5T and LOADBench; compare with the reviewed S3 | **done**, waiting for Imasha's commit |
 | 2 | S4 on the 5T: pair, mirror, single device; rings; variants | pending |
 | 3 | S5 placement on the 5T; area-only baseline | pending |
 | 4 | S5 router on the 5T | pending |
@@ -165,6 +173,31 @@ checked against its budget. S3's unit cells lose their guard rings; S4's blocks 
 | 6 | LOADBench through S4–S7 | pending |
 | 7 | Stabilise: goldens, walkthrough to S7, review, merge | pending |
 | 8 | Harder design (`ttsky25a_fd` or `iadc_ota`, open) | pending |
+
+Phase 1 record (2026-11-03 19:35 to 2026-11-04 01:40 CET; flow record 7.15 and row 67):
+- **Ringless cells, tried by hand first** (two 5T cells, `runs/tmp/s3ng/`):
+  - DRC flags only the tap rules (LU.2, LU.3, nwell.4). S3 now defers them to S4 (`options.TAP_RULES`; counted
+    from Magic's per-rule list).
+  - The body pin B is a label on a small patch of the well: the n-well for PMOS, pwell (the substrate in Magic's
+    sky130 extraction) for NMOS. LVS and the extraction keep B as a port.
+  - The DRC negative control moved off the layout (row 67).
+- **Code:**
+  - `src/s3/options.py`: `GUARD = 0`, `TAP_RULES`, `cell_name()` with `_ng`.
+  - `src/s3/strap.py`: the well label.
+  - `src/common/pcell.py`: `drc(defer=…)`, and `lvs_device(body_port=…)`, which is not used now.
+  - `src/s3/run.py`: `--guard`.
+  - `src/flow.py`: S2's cells step and `--variant v1` keep ringed cells.
+  - `scripts/magic_drc.sh`: the negative control's position.
+- **Results:**
+  - 5T: PASS, the same choices, area 200.8 → 126.9 µm², specs unchanged.
+  - LOADBench: FAIL G3.5 with the same 3 relaxed types, all 216 options signed off, area 2079 → 1817 µm². P5 moves
+    from `nf16_gtop` to `nf16_gboth`. Specs unchanged (PM 65.15°).
+  - The PREREG prediction held: every chosen cell is smaller, and G3.3 still meets every spec.
+- **Checks:**
+  - S0–S2 byte-identical (freeze).
+  - The two S3 goldens refreshed, the rest unchanged.
+  - The S0–S3 walkthrough regenerated.
+  - 3 new tests.
 
 Phase 0 record (2026-11-03, 19:10–19:30 CET; no run):
 - **Freeze.** `scripts/freeze_outputs.py` wrote `tests/frozen/s0_s2_outputs.json`: the SHA-256 of the 75 S0–S2 files
@@ -1418,6 +1451,9 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-04 (Claude Code): **plan v4 Phase 1 on `s4-s5`**: S3's unit cells without guard rings (body labelled on the
+  well, tap rules deferred to S4), re-run on both designs. Same verdicts, 37 % and 13 % less device area, specs
+  unchanged; S3 goldens refreshed. Flow record 7.15, row 67. Waiting for Imasha's commit.
 - 2026-11-03 evening (Claude Code): **plan v4 Phase 0 on branch `s4-s5`**: freeze test for the S0–S2 outputs later
   stages read, `docs/plan_v4_S4_S7.md`, and PREREG's amendment of 2026-11-03 (gates, H4, H5, predictions), written
   before any S3 change or S4–S7 code. Waiting for Imasha's commit.
