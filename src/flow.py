@@ -173,6 +173,16 @@ def cmd_run(a) -> int:
     return worst
 
 
+def report_time(rep: dict, rp: Path) -> str:
+    """When the stage created its report, on the local clock (its provenance time), or the file's time for a report
+    without one. A git checkout rewrites files, so the file time alone can be a day off (flow record row 66)."""
+    try:
+        t = dt.datetime.fromisoformat((rep.get("provenance") or {})["created"]).astimezone()
+    except (KeyError, TypeError, ValueError):
+        t = dt.datetime.fromtimestamp(rp.stat().st_mtime)
+    return t.strftime("%Y-%m-%dT%H:%M")
+
+
 def cmd_status(a) -> int:
     targets = designs() if a.design == "all" else [a.design]
     for d in targets:
@@ -182,9 +192,10 @@ def cmd_status(a) -> int:
             if not rp.exists():
                 print(f"  {st}: not run")
                 continue
-            g = gates_of(json.loads(rp.read_text()))
+            rep = json.loads(rp.read_text())
+            g = gates_of(rep)
             failed = [k for k, v in g.items() if v is False]
-            when = dt.datetime.fromtimestamp(rp.stat().st_mtime).isoformat(timespec="minutes")
+            when = report_time(rep, rp)
             print(f"  {st}: {'PASS' if not failed else 'FAIL'}  ({len(g)} gates, {when})" +
                   (f"  failed: {failed}" if failed else ""))
     return 0

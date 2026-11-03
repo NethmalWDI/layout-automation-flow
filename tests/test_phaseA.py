@@ -688,5 +688,58 @@ def test_walkthrough_covers_both_designs_and_explains_every_failed_gate(tmp_path
         s3_area = gates["G3.7_modes (info)"]["summary"][mode]["total_area_um2"]                   # (every device)
         m = re.search(r"Total device area \(every device counted\): ([0-9.e+]+) µm²", sec)
         assert m and float(m.group(1)) == pytest.approx(s3_area, rel=1e-3), (d, m and m.group(1), s3_area)
+        for s in ("S0", "S1", "S2", "S3"):     # every stage explains its tables and plots
+            stage = sec.split(f"\n### {s}\n", 1)[1].split("\n### ", 1)[0]
+            assert stage.count("> **How to read it.**") >= 2, (d, s)
+        assert "**In short** (built from the reports):" in sec and "- **Devices (S3):**" in sec
+        assert "**What it shows here:** with every chosen cell in place, the circuit" in sec
+    assert md.count("\n## How to read this page\n") == 1
     rows =[r for r in md.splitlines() if re.fullmatch(r"\| (gain_db|gbw_mhz|pm_deg|power_uw) \|[^|]+\|[^|]+\| (yes|\*\*no\*\*) \|", r)]
     assert rows and not any("| – |" in r for r in rows)
+
+
+# ------------------------------------------------------------------ after the review: S3 option plot, line endings
+@pytest.mark.parametrize("d", ["example_ota_5t", "loadbench_miller"])
+def test_s3_chooses_a_filled_option_and_none_smaller_fits(d, tmp_path):
+    """The option plot fills the main mode's options and leaves the other modes hollow (row 65). What S3 chose is a
+    filled option, and no filled option that fits is smaller than it by more than the 2 % area tie."""
+    from src.s3 import options as O
+    from src.s3.run import AREA_TIE, plot_option_space
+    s3 = REPO / "outputs/S3" / d
+    if not (s3 / "option_table.json").exists():
+        pytest.skip("needs the committed S3 outputs")
+    types = O.device_types(json.loads((REPO / "outputs/S0" / d / "circuit_ir.json").read_text()))
+    table = json.loads((s3 / "option_table.json").read_text())["options"]
+    dd = json.loads((s3 / "device_decisions.json").read_text())
+    for tid, v in dd["decisions"].items():
+        main = [r for r in table if r["type"] == tid and r.get("min_slack") is not None
+                and O.in_mode(types[tid], r["option"], dd["mode"])]
+        chosen = next(r for r in table if r["cell"] == v["cell"])
+        assert chosen in main, tid
+        fits = [r["geometry"]["area_um2"] for r in main if r["feasible"]]
+        assert v["relaxed"] == (not fits), tid
+        if fits:
+            assert chosen["geometry"]["area_um2"] <= min(fits) * (1 + AREA_TIE) + 1e-9, tid
+    plot_option_space(tmp_path / "o.png", table, types, dd["decisions"], dd["mode"])
+    assert (tmp_path / "o.png").stat().st_size > 10_000
+
+
+def test_shell_files_have_lf_line_endings():
+    """bash cannot parse CRLF. A Windows checkout with core.autocrlf=true wrote it into scripts/env.sh, which every
+    flow command sources (row 66); .gitattributes now checks text out with LF."""
+    files = [REPO / "flow", *sorted((REPO / "scripts").glob("*.sh")), *sorted((REPO / "src").rglob("*.sh"))]
+    bad = [str(p.relative_to(REPO)) for p in files if b"\r" in p.read_bytes()]
+    assert not bad, bad
+    assert "* text=auto eol=lf" in (REPO / ".gitattributes").read_text()
+
+
+def test_status_time_comes_from_the_report_not_the_file(tmp_path):
+    """A checkout rewrote every report file, so `flow status` showed the checkout's time for every stage (row 66).
+    It now shows the report's own provenance time, on the local clock, and the file time only without one."""
+    import datetime as dt_
+    rp = tmp_path / "r.json"
+    rp.write_text("{}")
+    created = "2026-11-02T18:45:01+00:00"
+    want = dt_.datetime.fromisoformat(created).astimezone().strftime("%Y-%m-%dT%H:%M")
+    assert flow.report_time({"provenance": {"created": created}}, rp) == want
+    assert flow.report_time({}, rp) == dt_.datetime.fromtimestamp(rp.stat().st_mtime).strftime("%Y-%m-%dT%H:%M")

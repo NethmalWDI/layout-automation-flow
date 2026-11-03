@@ -81,6 +81,36 @@ def model_change(base: dict, rec: dict, t: dict) -> dict:
     return {"per_device": out, "note": "cell only, vs the sized netlist device; nf > 1 changes the SKY130 W bin"}
 
 
+def plot_option_space(path: Path, table: list, types: dict, decisions: dict, mode: str) -> None:
+    """Area against worst slack for every built option of each device type. The options the main mode may choose
+    are filled; the other modes' options (reported in G3.7, never chosen here) are hollow, so a smaller green
+    option that S3 did not take is visibly one it may not take."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    fig, axs = plt.subplots(1, len(types), figsize=(5.2 * len(types), 4.3))
+    axs = axs if len(types) > 1 else [axs]
+    for ax, (tid, t) in zip(axs, types.items()):
+        rs = [r for r in table if r["type"] == tid and r.get("min_slack") is not None]
+        for main in (False, True):     # hollow first, so the eligible options are drawn on top
+            for feas, col in ((True, "#54A24B"), (False, "#E45756")):
+                sel = [r for r in rs if r["feasible"] == feas and O.in_mode(t, r["option"], mode) == main]
+                if not sel:
+                    continue
+                label = (f"{mode}: " if main else "other modes: ") + ("within allowance" if feas else "over allowance")
+                ax.scatter([r["geometry"]["area_um2"] for r in sel], [r["min_slack"] for r in sel], s=26, label=label,
+                           **({"c": col} if main else {"facecolors": "none", "edgecolors": col, "alpha": 0.6}))
+        ch = next(r for r in table if r["cell"] == decisions[tid]["cell"])
+        ax.scatter([ch["geometry"]["area_um2"]], [ch["min_slack"]], s=160, facecolors="none", edgecolors="k",
+                   label=f"chosen: {ch['option']['id']}")
+        ax.axhline(0, color="grey", lw=0.6)
+        ax.set_xlabel("cell area (um^2)"); ax.set_ylabel("worst slack (fraction of margin)")
+        ax.set_title(f"{tid}\n({', '.join(t['devices'])})", fontsize=9); ax.legend(fontsize=7)
+    fig.suptitle(f"S3 chooses among the filled options only (main mode {mode}); hollow: other modes, reported in G3.7",
+                 fontsize=9)
+    fig.tight_layout(); fig.savefig(path, dpi=110); plt.close(fig)
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("package")
@@ -394,24 +424,7 @@ def main(argv=None) -> int:
                                                "by_mode": mode_summary,
                                                "f_device_note": "ASSUMPTION: share of each terminal-R budget given to the PCell"})
     try:
-        import matplotlib
-        matplotlib.use("Agg")
-        import matplotlib.pyplot as plt
-        fig, axs = plt.subplots(1, len(types), figsize=(5.2 * len(types), 4.3))
-        axs = axs if len(types) > 1 else [axs]
-        for ax, (tid, t) in zip(axs, types.items()):
-            rs = [r for r in table if r["type"] == tid and r.get("min_slack") is not None]
-            for feas, col in ((True, "#54A24B"), (False, "#E45756")):
-                xs = [r["geometry"]["area_um2"] for r in rs if r["feasible"] == feas]
-                ys = [r["min_slack"] for r in rs if r["feasible"] == feas]
-                ax.scatter(xs, ys, c=col, s=26, label="within allowance" if feas else "over allowance")
-            ch = next(r for r in table if r["cell"] == decisions[tid]["cell"])
-            ax.scatter([ch["geometry"]["area_um2"]], [ch["min_slack"]], s=160, facecolors="none", edgecolors="k",
-                       label=f"chosen: {ch['option']['id']}")
-            ax.axhline(0, color="grey", lw=0.6)
-            ax.set_xlabel("cell area (um^2)"); ax.set_ylabel("worst slack (fraction of margin)")
-            ax.set_title(f"{tid}\n({', '.join(t['devices'])})", fontsize=9); ax.legend(fontsize=7)
-        fig.tight_layout(); fig.savefig(out / "plots" / "option_space.png", dpi=110); plt.close(fig)
+        plot_option_space(out / "plots" / "option_space.png", table, types, decisions, a.mode)
     except Exception as e:
         gates["G3.4_option_table_complete"]["plot_error"] = str(e)
 

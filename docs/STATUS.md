@@ -2,9 +2,10 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-02 23:20 CET, by Claude Code. Review phase 6's rehearsal is done. Next, Imasha commits
-it, merges `s0-s3-review` into `main` (a fast-forward) and pushes. Claude Code's claim is released, and nothing is
-running.
+**Last updated:** 2026-11-03 08:25 CET, by Claude Code. The review is merged into `main` (`973661c5`, pushed).
+After the merge, Claude Code fixed the S3 option plot (row 65) and the Windows line endings the checkout had written
+(row 66; `.gitattributes` added); see *After the merge* below. Those changes are uncommitted, waiting for Imasha.
+No claim is held and nothing is running.
 **Now: the supervisor-review finalisation, on branch
 `s0-s3-review`** (Imasha's plan of 2026-11-02 evening: S0–S3 without errors on the 5T and LOADBench, and the
 output of every step shown). The phases and progress are under *Supervisor review (s0-s3-review)* below.
@@ -167,7 +168,43 @@ fast-forward. It brings Phase A into `main` as well: Phase A lived on `plan-v3-p
 | 3 | Clean full runs from S0 of both designs; snapshot `review`; goldens; tests | **done**, committed `214eb337` |
 | 4 | `docs/s0_s3_walkthrough.md` + HTML, generated from the outputs | **done**, committed `58c4f207` |
 | 5 | README "For reviewers", flow record 7.14, STATUS, log, `CLAUDE.md` test line | **done**, committed `b2448dd3` |
-| 6 | Rehearsal from PowerShell; commit, merge into `main`, push (Imasha) | rehearsal **done**; waiting for Imasha's commit and the merge |
+| 6 | Rehearsal from PowerShell; commit, merge into `main`, push (Imasha) | **done**: committed `973661c5`, merged into `main` and pushed |
+
+*After the merge* (2026-11-03, from about 07:45 to 08:25 CET; Claude Code; no S0–S3 run; uncommitted):
+- **S3 option plot (row 65).** Explaining the walkthrough, I saw that the plot mixed the options S3 may choose
+  (main mode A-bin) with the other modes' options, all drawn alike. Smaller green points next to the chosen cell
+  seemed to contradict "smallest that fits".
+  - Fix: the main mode's options are filled, the others hollow, with a title saying so. The plotting is now
+    `plot_option_space()` in `src/s3/run.py`.
+  - `scripts/replot_s3_options.py` redrew both designs' plots from the saved tables, so only the two PNGs
+    changed. The walkthrough was regenerated, with a caption explaining the marking.
+- **Line endings (row 66).** GitHub Desktop's checkout of `main` (Git for Windows, `core.autocrlf=true`, no
+  `.gitattributes`) wrote CRLF into the 855 files Phase A and the review had changed.
+  - bash could not parse `scripts/env.sh` (syntax error, line 7), so every flow command failed. It was found when
+    the plot redraw stopped.
+  - Fix: the 855 files were converted back to LF. Each one's bytes were then checked against its committed blob:
+    854 identical, plus `src/s3/run.py` with the plot change.
+  - `.gitattributes` (`* text=auto eol=lf`) makes every future checkout write LF.
+    `docs/context/project_context_S0-S9.md`, committed with CRLF, is left as it is.
+  - **GitHub Desktop will list the 855 files as changed with empty diffs.** Git's index still records their old
+    sizes. Committing them changes nothing in their content; it only refreshes the index.
+- **`flow status` time (row 66).** It showed the checkout's time (08:13) for every stage, because it read the
+  report file's time. It now reads the report's provenance time: 5T 19:15–19:44, LOADBench 19:45–20:04 on
+  2026-11-02.
+- **Tests:** 4 new (the chosen cell is a main-mode option, for both designs; shell files are LF; the status time).
+  `.\flow.ps1 test` from PowerShell: 138 passed, golden 20 of 20 OK (`runs/logs/review_fix_test.log`).
+- **Docs:** README (the line-endings note, S3's plot row, 138 tests), `CLAUDE.md` (138 tests), flow record rows
+  65–66 and 7.14, the progress log.
+- **The walkthrough explains its results** (Imasha's request, 2026-11-03), as in my explanation to her that
+  morning.
+  - It opens with "How to read this page" (margin, eta and the allowance, expected need, first order vs SPICE,
+    PASS/FAIL/ERROR, negative controls).
+  - Each table and plot has a typed *How to read it* note (46 in all), including the layout pictures' colours,
+    which were checked in the PDK's KLayout layer file.
+  - 23 *What it shows here* lines are built from the numbers, e.g. which specs miss at which PVT supplies, the
+    hand model's PM gap, and how many budgets fall below need. Each design also has an *In short* summary.
+  - I checked every generated line against the data. The walkthrough test now requires the notes and the
+    summary.
 
 Phase 6 record (2026-11-02, to 23:20 CET; the README's commands from PowerShell, as a reviewer would type them;
 nothing that rewrites the committed outputs):
@@ -1348,6 +1385,11 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-03 morning (Claude Code): **after the merge into `main`**: the S3 option plot marks the options S3 may
+  choose (row 65); the CRLF line endings written by the checkout are restored to LF and `.gitattributes` keeps LF
+  (row 66); `flow status` shows the reports' own times; the walkthrough explains how to read each table and plot,
+  and what it shows for each design. Uncommitted, waiting for Imasha. Details under *Supervisor review*, *After
+  the merge*.
 - 2026-11-02 evening (Claude Code): **Supervisor review, branch `s0-s3-review`**: phases 1–3 committed
   (`33e6277f` the `env.sh` fix, `bf67fd09` robustness, `214eb337` the clean runs), phase 4 the S0–S3 walkthrough
   (`58c4f207`: `docs/s0_s3_walkthrough.md` + HTML, `scripts/make_s0s3_walkthrough.py`), phase 5 (`b2448dd3`:

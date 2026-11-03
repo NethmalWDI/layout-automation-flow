@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Generate docs/s0_s3_walkthrough.md (and, with pandoc, a self-contained HTML copy): what S0, S1, S2 and S3 did on
 each design and what came out, read only from the run's own output files (outputs/<stage>/<design>/, the flow
-summary, the plots). Nothing in it is typed by hand except the one-line meaning of each gate and the explanation
-of a known finding.
+summary, the plots). Typed by hand: the meaning of each gate, the explanation of each known finding, and the
+"How to read it" notes, which are the same for every design. Everything else, including the "What it shows here"
+lines and each design's summary, is built from the numbers in the files.
 
 usage (inside layout-s0s3, repo root): python3 scripts/make_s0s3_walkthrough.py [design ...] [--no-html] [--out FILE.md]
 default designs: example_ota_5t loadbench_miller
@@ -12,6 +13,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -73,6 +75,44 @@ STAGE_DOES = {
 }
 # Units by the spec name's suffix, for IRs whose margins carry none (LOADBench).
 SPEC_UNITS = {"db": "dB", "mhz": "MHz", "deg": "deg", "uw": "uW", "rthz": "nV/sqrt(Hz)"}
+
+# The page's opening explanation: the ideas every later section uses.
+READING_GUIDE = [
+    "## How to read this page", "",
+    "The tables and plots below carry two kinds of note. **How to read it** explains what a table or plot shows; it "
+    "is the same for every design. **What it shows here** says what it shows for that design, built from its own "
+    "numbers. The ideas they use:", "",
+    "- **Margin.** How far the schematic is from a spec: schematic − limit for a minimum spec (gain ≥ 30 dB), "
+    "limit − schematic for a maximum spec (power ≤ 1000 µW). The layout's parasitic capacitance and resistance use "
+    "up part of each margin.",
+    "- **eta and the allowance.** eta is the share of each margin the layout may use (each design's S2 section "
+    "gives its value). eta × margin is the "
+    "*allowance*, or *allowed use*; the rest is kept in reserve.",
+    "- **Expected need.** What a compact layout puts on each net or terminal anyway: the S3 library's cell for the "
+    "device plus one short wire per pin. A budget below its expected need is one a real layout could not meet.",
+    "- **First order and SPICE.** *First order* is a prediction from S1's linear model (sensitivity × parasitic). "
+    "It is fast, and S2 uses it to set the budgets. *SPICE* is the transistor-level simulation with the parasitics "
+    "inserted, which is the check.",
+    "- **PASS, FAIL, ERROR.** PASS: every gate passed. FAIL: a gate reports a finding, but the stage finished and "
+    "wrote its report; each one is explained under its design. ERROR means the stage crashed.",
+    "- **Negative control.** A deliberately broken copy, checked by the same tool, which must fail. It shows that "
+    "the tool really ran.",
+    "- **PREDICTED and ASSUMPTION.** Labels on inputs the upstream stages did not give. Where a design's specs come "
+    "from is listed under its S0 margins.", ""]
+
+
+def how(text: str) -> list:
+    """A typed note on how to read a table or plot (the same for every design)."""
+    return ["", f"> **How to read it.** {text[:1].upper()}{text[1:]}"]
+
+
+def and_list(xs: list) -> str:
+    return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " and " + xs[-1]
+
+
+def here(text: str) -> list:
+    """What a table or plot shows for this design; the text passed in is built from its numbers."""
+    return ["", f"**What it shows here:** {text}"] if text else []
 
 
 def _j(p: Path):
@@ -185,6 +225,11 @@ def s0_section(d: str, rep: dict) -> list:
         for k, v in margins.items():
             L.append(f"| {k} | {v.get('kind')} | {f(v.get('limit'), 6)} | {f(v.get('value', v.get('achieved')), 6)} | "
                      f"{f(v.get('margin'), 4)} {v.get('units') or SPEC_UNITS.get(k.rsplit('_', 1)[-1], '')} |")
+        L += how("the margin is how far the schematic is from each spec. The layout's parasitics use up part of it; "
+                 "the smaller a margin, the less room the layout has on that spec.")
+        src = g06.get("spec_source") or {}
+        if src:
+            L += here("where the specs come from: " + "; ".join(f"{k}: {v}" for k, v in src.items()) + ".")
     ref = g.get("G0.8_external_reference", {}).get("compare")
     if ref:
         L += ["", "**External reference (G0.8):** " + "; ".join(
@@ -202,19 +247,66 @@ def s0_section(d: str, rep: dict) -> list:
         if pics:
             L += ["", " ".join(img(x["png"], 240, x["device"]) for x in pics),
                   "", f"*PCells as drawn: {', '.join(x['device'] for x in pics)}.*"]
+        L += how("each transistor is drawn by the SKY130 PCell at exactly its netlist size (W, L, fingers) and checked "
+                 "on its own with Magic DRC and Netgen LVS. 'Control caught' means a deliberately broken copy was also "
+                 "checked and correctly failed, which shows the check really ran. In the pictures (KLayout, in the "
+                 "PDK's own colours): red is the polysilicon gate, blue the metal-1 on the source and drain contacts, "
+                 "the green outline the active (diffusion) area, and the yellow dotted frame the substrate or well tap.")
+        L += here(pcell_here(pb, ir, pics))
     pv = g.get("G0.9_pvt (info)", {})
     if pv:
         L += ["", f"**PVT (G0.9):** {pv.get('points')} points; the schematic meets every spec at "
                   f"{pv.get('meeting_all_specs')} of them."]
+    pl = REPO / "outputs/S0" / d / "plots" / "pvt_specs.png"
+    if pl.exists():
+        L += ["", img(f"outputs/S0/{d}/plots/pvt_specs.png", 640, "PVT"), "", "*Specs at the 45 PVT points.*"]
+    if pv:
+        L += how("45 simulations of the schematic before layout: 5 process corners on the x-axis (tt typical, ff and "
+                 "ss fast and slow, fs and sf fast NMOS with slow PMOS and the reverse) × supply 0.9, 1.0 and 1.1 × VDD "
+                 "× −40, 27 and 85 °C, so 9 dots per corner. The red line is the spec. Where the circuit collapses, "
+                 "the other specs can show meaningless values (e.g. a large PM where the gain barely reaches 0 dB). "
+                 "This is reported, not gated: S2 sets the budgets at the nominal corner and reports in G2.9 what they "
+                 "would use at these points.")
+        L += here(pvt_here(d))
     mc = (g.get("G0.10_mismatch_mc (info)") or {}).get("summary") or {}
     if mc:
         L += ["", "**Mismatch Monte Carlo (G0.10):** " + "; ".join(
             f"{k} {f(v.get('mean'), 4)} ± {f(v.get('std'), 2)} (n = {v.get('n')})" for k, v in mc.items()
             if isinstance(v, dict)) + "."]
-    pl = REPO / "outputs/S0" / d / "plots" / "pvt_specs.png"
-    if pl.exists():
-        L += ["", img(f"outputs/S0/{d}/plots/pvt_specs.png", 640, "PVT"), "", "*Specs at the 45 PVT points.*"]
+        L += how("the same circuit simulated many times with random transistor mismatch (SKY130's mismatch models): "
+                 "the mean ± one standard deviation of each result. offset_v is the circuit's offset voltage.")
     return L
+
+
+def pcell_here(pb: dict, ir: dict, pics: list) -> str:
+    devs = pb.get("devices", [])
+    bad = [x["device"] for x in devs if not x["pass"]]
+    txt = (f"{len(devs) - len(bad)} of {len(devs)} devices pass DRC and LVS"
+           + (f"; {', '.join(f'`{b}`' for b in bad)} {'fails' if len(bad) == 1 else 'fail'} (see Known findings)."
+              if bad else ", each with both controls caught."))
+    size = {x["name"]: x for x in ir.get("devices", [])}
+    for x in pics:
+        s = size.get(x["device"])
+        if s and s.get("nf", 1) == 1 and (s.get("W_um") or 0) >= 100:
+            txt += (f" `{x['device']}` is one finger of W = {f(s['W_um'], 4)} µm (L = {f(s['L_um'], 3)} µm), so drawn "
+                    "to scale its picture is a thin line.")
+    return txt
+
+
+def pvt_here(d: str) -> str:
+    """Per spec: at how many of the PVT points the schematic misses it, at which supplies, and the worst point."""
+    p = _j(REPO / "outputs/S0" / d / "pvt.json") or {}
+    pts = p.get("points") or {}
+    parts = []
+    for spec, wm in (p.get("worst_margin") or {}).items():
+        bad = [k for k, v in pts.items() if ((v.get("margin") or {}).get(spec) or 0) < 0]
+        if not bad:
+            parts.append(f"{spec} is met at every point (smallest margin {f(wm.get('margin'), 3)}, at {wm.get('point')})")
+            continue
+        sup = sorted({m.group(1) for k in bad if (m := re.search(r"_v([0-9.]+)_", k))}, key=float)
+        parts.append(f"{spec} misses at {len(bad)} of {len(pts)} points, at {' and '.join(sup)} × VDD (worst "
+                     f"{wm.get('point')}, margin {f(wm.get('margin'), 3)})")
+    return "; ".join(parts) + "." if parts else ""
 
 
 def s1_section(d: str, rep: dict) -> list:
@@ -227,6 +319,9 @@ def s1_section(d: str, rep: dict) -> list:
     L.append(f"- **Operating point (G1.1):** supply current {f(op.get('isup_uA'), 4)} µA (testbench "
              f"{f(op.get('isup_achieved_uA'), 4)} µA); devices not saturated: {op.get('not_saturated') or 'none'}"
              + (f"; smallest vds − vdsat: {mins[0][0]} {f(mins[0][1], 3)} V" if mins and isinstance(mins[0][1], float) else "") + ".")
+    L += how("vds − vdsat is each transistor's distance from the edge of saturation. The smallest one belongs to "
+             "the transistor that leaves saturation first when layout resistance shifts its voltages; S2 budgets "
+             "that headroom as a check of its own (sat_<device>).")
     lm = g.get("G1.2_linear_model_vs_spice", {})
     if lm:
         a, s, dl = lm.get("linear", {}), lm.get("spice", {}), lm.get("delta", {})
@@ -234,6 +329,9 @@ def s1_section(d: str, rep: dict) -> list:
               f"| linear model | {f(a.get('gain_db'), 6)} | {f(a.get('gbw_mhz'), 6)} | {f(a.get('pm_deg'), 6)} |",
               f"| SPICE | {f(s.get('gain_db'), 6)} | {f(s.get('gbw_mhz'), 6)} | {f(s.get('pm_deg'), 6)} |",
               f"| difference | {f(dl.get('gain_db'), 2)} dB | {f(100 * (dl.get('gbw_rel') or 0), 2)} % | {f(dl.get('pm_deg'), 2)} deg |"]
+        L += how("S1 builds an exact small-signal model of the circuit at its operating point and checks it against "
+                 "transistor-level SPICE. When the two agree, S1 can compute every sensitivity from the model, quickly, "
+                 "instead of running SPICE once per parasitic.")
     c3 = g.get("G1.3_sensitivity_vs_spice", {}).get("checks", [])
     c6 = g.get("G1.6_resistance_sensitivity_vs_spice", {}).get("checks", [])
     if c3 or c6:
@@ -251,6 +349,11 @@ def s1_section(d: str, rep: dict) -> list:
               "| Net or coupling | Spec | fF to use the margin | Change per fF |", "|---|---|---|---|"]
         for fm, item, spec, per in sorted(rows)[:8]:
             L.append(f"| `{item}` | {spec} | {f(fm, 3)} | {f(per, 3)} |")
+        L += how("capacitance on one net, or between two nets ('A~B', a coupling), changes a spec by 'change per "
+                 "fF'. 'fF to use the margin' is margin ÷ change: the capacitance that would use up the whole margin "
+                 "on its own. The smallest numbers mark the nets the layout must keep short and apart.")
+        fm, item, spec, _ = sorted(rows)[0]
+        L += here(f"`{item}` leaves the least room: {f(fm, 3)} fF there alone would use the whole {spec} margin.")
     mg = g.get("G1.4_matching_groups", {}).get("groups", [])
     if mg:
         L += ["", "**Matching groups (G1.4):** " + "; ".join(
@@ -265,12 +368,59 @@ def s1_section(d: str, rep: dict) -> list:
             L.append(f"| {k} | {f(p.get('gain_db'), 4)} | {f(p.get('gbw_mhz'), 4)} | {f(p.get('pm_deg'), 4)} |")
         s = sp.get("spice", {})
         L.append(f"| SPICE | {f(s.get('gain_db'), 4)} | {f(s.get('gbw_mhz'), 4)} | {f(s.get('pm_deg'), 4)} |")
-    for name, cap, w in (("bode_linear_vs_spice.png", "Open-loop response: linear model against SPICE.", 560),
-                         ("sensitivity_comparison.png", "Sensitivities: linear model against SPICE finite differences.", 560),
-                         ("symbolic_patch.png", "Hand model against SPICE.", 460)):
-        if (REPO / "outputs/S1" / d / "plots" / name).exists():
-            L += ["", img(f"outputs/S1/{d}/plots/{name}", w, name), "", f"*{cap}*"]
+        L += how("textbook hand equations for the circuit (the 'original' row; PREDICTED when the upstream stage did "
+                 "not give them) against SPICE. Each further row adds one effect the hand model missed. Reported, not "
+                 "gated: the flow itself uses the exact model, and this table shows why.")
+        L += here(hand_model_here(sp))
+    plots = REPO / "outputs/S1" / d / "plots"
+    if (plots / "bode_linear_vs_spice.png").exists():
+        L += ["", img(f"outputs/S1/{d}/plots/bode_linear_vs_spice.png", 560, "bode"), "",
+              "*Open-loop response: linear model against SPICE.*"]
+        L += how("open-loop gain (top) and phase (bottom) against frequency. Solid: transistor-level SPICE; dashed: "
+                 "S1's linear model. Lines lying on top of each other mean the model can stand in for SPICE (G1.2).")
+    if (plots / "sensitivity_comparison.png").exists():
+        L += ["", img(f"outputs/S1/{d}/plots/sensitivity_comparison.png", 560, "sensitivities"), "",
+              "*Sensitivities: linear model against SPICE finite differences.*"]
+        L += how("for each net or coupling, how much GBW (MHz per fF, left) and PM (degrees per fF, right) change "
+                 "when capacitance is added there. Blue: the linear model; orange and green: SPICE, measured two ways; "
+                 "red: the hand equations (no red bar: they have no term for that capacitance). Bars of one group "
+                 "that agree mean the model's sensitivities can be trusted (G1.3). Negative bars hurt the spec, "
+                 "positive bars help it.")
+        L += here(sens_here(d))
+    if (plots / "symbolic_patch.png").exists():
+        L += ["", img(f"outputs/S1/{d}/plots/symbolic_patch.png", 460, "hand model"), "",
+              "*Hand model against SPICE: the table above as bars (grey: original; blue: with the missing effects; "
+              "green: SPICE).*"]
     return L
+
+
+def hand_model_here(sp: dict) -> str:
+    models = list((sp.get("models") or {}).items())
+    pm = (sp.get("spice") or {}).get("pm_deg")
+    if len(models) < 1 or pm is None:
+        return ""
+    gap = lambda m: (m[1]["predicted"].get("pm_deg") or 0) - pm   # noqa: E731
+    txt = f"the {models[0][0]} hand model is {gap(models[0]):+.1f} deg off SPICE in PM"
+    if len(models) > 1:
+        txt += f"; with {models[-1][0]} it is {gap(models[-1]):+.1f} deg"
+    return txt + "."
+
+
+def sens_here(d: str) -> str:
+    """Over every net and coupling in S1's table: what lowers GBW and PM fastest, and what raises PM."""
+    tab = (_j(REPO / "outputs/S1" / d / "sensitivity.json") or {}).get("table") or {}
+    out = []
+    for spec, unit, name in (("gbw_mhz", "MHz", "GBW"), ("pm_deg", "deg", "PM")):
+        v = [(row[spec]["linear_per_fF"], item) for item, row in tab.items()
+             if isinstance(row.get(spec), dict) and row[spec].get("linear_per_fF") is not None]
+        if not v:
+            continue
+        lo, hi = min(v), max(v)
+        if lo[0] < 0:
+            out.append(f"{name} falls fastest with capacitance on `{lo[1]}` ({f(lo[0], 2)} {unit} per fF)")
+        if hi[0] > 0:
+            out.append(f"capacitance on `{hi[1]}` raises {name} ({f(hi[0], 2)} {unit} per fF)")
+    return "; ".join(out) + "." if out else ""
 
 
 def s2_section(d: str, rep: dict) -> list:
@@ -286,6 +436,15 @@ def s2_section(d: str, rep: dict) -> list:
         for k, v in g0.items():
             if "@" not in k:
                 L.append(f"| {k} | {f(v.get('fraction_of_margin'), 3)} |")
+        eta = rep.get("eta") or 0
+        L += how("before any budget is set: the share of each margin that a compact layout would use, with every net "
+                 "and terminal at its expected need. Above eta, the layout cannot fit within that allowance, so the "
+                 "budgets of the parasitics that affect it must fall below their expected need.")
+        over = [(k, v.get("fraction_of_margin")) for k, v in g0.items()
+                if "@" not in k and (v.get("fraction_of_margin") or 0) > eta]
+        L += here("a compact layout alone would use " + and_list([f"{f(x, 3)} of the {k} margin" for k, x in over])
+                  + f", more than eta = {eta} allows." if over else
+                  f"every share is below eta = {eta}: a compact layout fits inside every allowance, with room.")
     el = [e for e in b.get("elements", []) if e.get("budget") is not None]
     if el:
         el.sort(key=lambda e: e["budget"] / e["w"])
@@ -294,6 +453,15 @@ def s2_section(d: str, rep: dict) -> list:
         for e in el[:10]:
             L.append(f"| `{e['id']}` | {e['kind'].replace('_', ' ')} | {f(e['w'], 3)} {e['units']} | {f(e['budget'], 3)} {e['units']} | "
                      f"{f(e['budget'] / e['w'], 3)} | {', '.join(e.get('binding') or [])} |")
+        L += how("a budget is the most parasitic capacitance (fF) or series resistance (Ω) the layout may put on one "
+                 "net, coupling or transistor terminal. 'Expected need' is what a compact layout puts there anyway. "
+                 "Budget / need above 1 leaves the layout room; below 1 asks for less than a compact layout gives. "
+                 "'Binding check' is the spec or saturation check that stopped the budget from growing.")
+        below = [e for e in el if e["budget"] < e["w"] * (1 - 1e-6)]
+        r0 = el[0]["budget"] / el[0]["w"]
+        L += here(f"{len(below)} of {len(el)} budgets are below their expected need (lowest {f(r0, 3)} × need, "
+                  f"`{el[0]['id']}`)." if below else
+                  f"every budget is at least {f(r0, 3)} × its expected need (the tightest is `{el[0]['id']}`).")
     v5 = g.get("G2.5_spice_budget_verification", {})
     if v5.get("rows"):
         L += ["", f"**SPICE verification (G2.5,** {v5.get('iterations')} iteration(s)**):** for each check, every "
@@ -304,6 +472,17 @@ def s2_section(d: str, rep: dict) -> list:
                      f"{f(r.get('spice_use_frac_of_allowed'), 3)} × | {'yes' if r.get('ok') else '**no**'} |")
         L += ["", "*Within: SPICE use at most 1.02 × the allowed use (`TOL_USE` = 0.02, `src/common/tolerance.py`; "
                   "PREREG amendment of 2026-11-01).*"]
+        L += how("every budget that hurts a check is inserted at once into the transistor-level circuit, and SPICE "
+                 "measures how much of the allowance (eta × margin) that check then uses: 1 × is the whole allowance. "
+                 "'First order' is the prediction S2 made. A check is a spec or the saturation headroom of one "
+                 "transistor (sat_<device>).")
+        rows5 = [r for r in v5["rows"] if r.get("spice_use_frac_of_allowed") is not None]
+        if rows5:
+            top = max(rows5, key=lambda r: r["spice_use_frac_of_allowed"])
+            bad = [r["check"] for r in v5["rows"] if not r.get("ok")]
+            L += here(f"with all the budgets in place at once, SPICE uses at most {f(top['spice_use_frac_of_allowed'], 3)}"
+                      f" × the allowance (on {top['check']}); "
+                      + (f"over it: {', '.join(bad)}." if bad else "every check is within it."))
         if v5.get("closure_scaled_elements"):
             L += ["", f"*Closure step: {', '.join(v5['closure_scaled_elements'])} scaled down so that SPICE stays within "
                       "the allowance.*"]
@@ -315,6 +494,17 @@ def s2_section(d: str, rep: dict) -> list:
         for m, s in sc.items():
             L.append(f"| {m} | {s.get('outcome')} | {s.get('outcome_nominal', '–')} | {f(s.get('spice_worst_use_of_allowed'), 3)} | "
                      f"{f(s.get('min_ratio_to_need'), 3)} |")
+        L += how("six ways to share the same margins among the same parasitics, scored the same way. per_net: each "
+                 "parasitic may use the whole allowance on its own, as if no other existed. equal: an equal share for "
+                 "every parasitic that affects a check. lp_sum: a linear program that maximises the total budget. "
+                 "lp_floor and lp_floor_k: the same with the library's minimum cells, capped at 1 × and 10 × need. "
+                 "ours: S2's joint max-min fair sharing. Outcome: 'unsafe' = in SPICE a spec is missed or more than "
+                 "the allowance is used (beyond 2 %); 'infeasible' = some budget is below what the cheapest library "
+                 "cell already adds; 'ok' = neither.")
+        by = {}
+        for m, s in sc.items():
+            by.setdefault(s.get("outcome_nominal") or "–", []).append(m)
+        L += here("at the nominal corner, " + "; ".join(f"{w}: {', '.join(ms)}" for w, ms in by.items()) + ".")
         L += ["", "*G2.8 scores every rule before G2.5's closure step, which is fair to all of them, so 'ours' here is "
                   "the allocation before the closure. The budgets S2 hands to S3 are the closed ones that pass G2.5 "
                   "above (flow record 7.13). The budgets are set at the nominal corner, so a rule can be ok there and "
@@ -324,15 +514,34 @@ def s2_section(d: str, rep: dict) -> list:
         w = g9["worst"]
         L += ["", f"**PVT points (G2.9, reported):** worst first-order use {f(w.get('use_of_allowed'), 3)} × at "
                   f"{w.get('spec')} {w.get('point')}; {len(g9.get('over_allowed', []))} point-spec checks above 1."]
+        L += how("first-order use of each PVT point's allowance by the final budgets, which are set at the nominal "
+                 "corner. Above 1, the budgets would use more than that point's allowance. Where a point's margin is "
+                 "nearly zero, any use divided by it gives a very large number.")
     g10 = g.get("G2.10_model_agreement (info)", {})
     if g10:
         L += ["", f"**First order against SPICE (G2.10):** {g10.get('checks_compared')} checks compared, "
                   f"{len(g10.get('flagged', []))} flagged (sign disagreement, or a difference above "
                   f"{g10.get('flag_diff_frac_of_margin')} of the margin)."]
-    for name, cap in (("budgets.png", "Budgets against expected need."), ("budget_verification.png", "SPICE verification."),
-                      ("baselines.png", "The six budget rules.")):
+        L += how("how often S1's first-order prediction and SPICE disagree, over every check S2 simulated.")
+    plot_notes = {
+        "budgets.png": ("Budgets against expected need.",
+                        "one bar per parasitic, on a log scale: capacitance on each net (left) and between nets "
+                        "(middle), in fF, and series resistance at each transistor terminal (right), in Ω. The bar is "
+                        "the budget; the red hatched box is the expected need. A bar longer than its box leaves the "
+                        "layout room; a shorter one is a budget below what a compact layout needs."),
+        "budget_verification.png": ("SPICE verification.",
+                                    "the G2.5 table as bars, as a fraction of the whole margin. Blue: predicted; "
+                                    "orange: SPICE with all budgets inserted. The dashed line is eta (the allowance); "
+                                    "the red line is the whole margin. Orange at or under the dashed line means the "
+                                    "budgets are safe all together."),
+        "baselines.png": ("The six budget rules.",
+                          "the G2.8 table as bars. Left: the worst use ÷ allowance, first order (blue) and SPICE "
+                          "(orange); above 1 is over-committed. Middle: the share of parasitics whose budget is below "
+                          "its expected need ('starved'). Right: that share at other values of eta."),
+    }
+    for name, (cap, note) in plot_notes.items():
         if (REPO / "outputs/S2" / d / "plots" / name).exists():
-            L += ["", img(f"outputs/S2/{d}/plots/{name}", 600, name), "", f"*{cap}*"]
+            L += ["", img(f"outputs/S2/{d}/plots/{name}", 600, name), "", f"*{cap}*"] + how(note)
     return L
 
 
@@ -352,6 +561,14 @@ def s3_section(d: str, rep: dict) -> list:
                      f"{'**yes**' if v.get('relaxed') else 'no'} | {why} |")
         tot = sum((v.get("area_um2") or 0) * len(v.get("devices", [])) for v in types.values())   # as S3 counts it
         L += ["", f"Total device area (every device counted): {f(tot, 4)} µm²."]
+        L += how("S3 builds many layout cells for each device type and keeps the smallest one that stays within its "
+                 "S2 allowance; when none does, it keeps the least-bad one and flags the type (Relaxed = yes, G3.5). "
+                 "The option name says how the cell is built: nf<N> = N fingers; gtop or gboth = the gate contacted "
+                 "at the top only or at both ends (both ends lowers the gate resistance); sdfull or sdhalf = full or "
+                 "half contact coverage on source and drain; outS or outD = source or drain on the outer strips.")
+        rel = [t for t, v in types.items() if v.get("relaxed")]
+        L += here(f"{len(types) - len(rel)} of {len(types)} device types have a cell within their allowance"
+                  + (f"; {len(rel)} {'is' if len(rel) == 1 else 'are'} flagged (G3.5)." if rel else "."))
     g7 = g.get("G3.7_modes (info)", {})
     if g7.get("summary"):
         L += ["", f"**Option modes (G3.7, reported):** S3 decides in its main mode, {g7.get('main_mode')}; the others are "
@@ -369,14 +586,74 @@ def s3_section(d: str, rep: dict) -> list:
               "| Spec | Schematic | With the chosen cells | Meets the spec |", "|---|---|---|---|"]
         for k, v in g3["specs"].items():
             L.append(f"| {k} | {f(s0.get(k), 6)} | {f(v, 6)} | {'yes' if g3.get('meets', {}).get(k) else '**no**'} |")
+        L += how("the final check of S0–S3: the whole circuit simulated with every chosen cell in place (its own "
+                 "extracted capacitance and contact resistance), against each spec, next to the schematic's value.")
+        miss = [k for k in g3["specs"] if not g3.get("meets", {}).get(k)]
+        L += here(f"with every chosen cell in place, the circuit meets all {len(g3['specs'])} specs in SPICE."
+                  if not miss else f"with every chosen cell in place, the circuit misses: {', '.join(miss)}.")
     cells = [v for v in types.values() if v.get("png")]
     if cells:
         L += ["", " ".join(img(v["png"], 220, v["cell"]) for v in cells[:6]), "",
               "*Chosen cells (DRC- and LVS-signed, G3.1 and G3.2).*"]
+        L += how("the cells S3 chose, in the same colours as the S0 pictures. Each red stripe is one gate finger; the "
+                 "magenta bars at the top and bottom are metal-2 straps that join all the sources and all the drains "
+                 "(one bar per terminal). Unlike S0's bare PCells, these are complete cells, DRC-clean and LVS-checked "
+                 "for W, L and the number of fingers.")
     if (REPO / "outputs/S3" / d / "plots" / "option_space.png").exists():
-        L += ["", img(f"outputs/S3/{d}/plots/option_space.png", 600, "options"), "", "*Every option per device type: area "
-                                                                                    "against its worst use of the allowance.*"]
+        L += ["", img(f"outputs/S3/{d}/plots/option_space.png", 600, "options"), "",
+              "*Every option built per device type: area against worst slack.*"]
+        L += how("one dot per cell built for that device type. x: cell area; y: the worst slack, i.e. the room left "
+                 "on the tightest check (a spec effect or a terminal resistance) as a fraction of the margin. Above 0 "
+                 "the cell fits its allowance (green), below 0 it does not (red). Filled dots are the options of S3's "
+                 "main mode, which it chooses from: the smallest that fits, or the least-bad when none fits. Hollow "
+                 "dots are the other modes' options, reported in G3.7 but never chosen here, so a smaller green "
+                 "option that was not taken is hollow. The circle marks the choice.")
     return L
+
+
+def design_summary(d: str) -> list:
+    """The design's result in three lines, built from its reports."""
+    stages = ("S0", "S1", "S2", "S3")
+    status = {s: ((_j(REPO / "outputs/flow" / d / "flow_summary.json") or {}).get("stages", {}).get(s) or {}).get("status")
+              for s in stages}
+    rep = {s: _j(REPO / "outputs" / s / d / f"{s.lower()}_report.json") or {} for s in stages}
+    errs = [s for s in stages if status[s] == "ERROR"]
+    fails = "; ".join(f"{s} {', '.join(g.split('_')[0] for g, v in rep[s].get('gates', {}).items() if v.get('pass') is False)}"
+                      for s in stages if any(v.get("pass") is False for v in rep[s].get("gates", {}).values()))
+    out = ["- **Run:** " + (f"ERROR in {', '.join(errs)}." if errs else "all four stages ran without an ERROR; "
+                            + (f"findings, explained below: {fails}." if fails else "every gate passes."))]
+    s2 = rep["S2"]
+    el = [e for e in (_j(REPO / "outputs/S2" / d / "budgets.json") or {}).get("elements", [])
+          if e.get("budget") is not None and e.get("w")]
+    if el:
+        eta = s2.get("eta") or 0
+        r0 = min(e["budget"] / e["w"] for e in el)
+        below = sum(1 for e in el if e["budget"] < e["w"] * (1 - 1e-6))
+        over = [k for k, v in s2.get("gates", {}).get("G2.0_expected_layout_use (info)", {}).get("checks", {}).items()
+                if "@" not in k and (v.get("fraction_of_margin") or 0) > eta]
+        txt = f"- **Budgets (S2):** {len(el)} parasitics at eta = {eta}; "
+        txt += (f"every budget is at least {f(r0, 3)} × what a compact layout needs" if not below else
+                f"{below} of {len(el)} budgets are below what a compact layout needs (lowest {f(r0, 3)} ×)"
+                + (f", because a compact layout alone would use more than eta of the {and_list(over)} "
+                   f"margin{'s' if len(over) > 1 else ''}" if over else ""))
+        ok5 = s2.get("gates", {}).get("G2.5_spice_budget_verification", {}).get("pass")
+        txt += ("; in SPICE, with all of them in place at once, every check stays within its allowance (G2.5)."
+                if ok5 else "; in SPICE, with all of them in place at once, some check exceeds its allowance (G2.5).")
+        out.append(txt)
+    types = {k: v for k, v in ((_j(REPO / "outputs/S3" / d / "device_decisions.json") or {}).get("decisions") or {}).items()
+             if isinstance(v, dict) and v.get("cell")}
+    if types:
+        rel = sum(1 for v in types.values() if v.get("relaxed"))
+        area = sum((v.get("area_um2") or 0) * len(v.get("devices", [])) for v in types.values())
+        meets = rep["S3"].get("gates", {}).get("G3.3_all_chosen_devices_in_circuit", {}).get("meets") or {}
+        miss = [k for k, ok in meets.items() if not ok]
+        out.append(f"- **Devices (S3):** {len(types)} device types; "
+                   + ("each has a cell within its allowance" if not rel else
+                      f"{rel} {'has' if rel == 1 else 'have'} no cell within the allowance and {'is' if rel == 1 else 'are'} "
+                      "flagged (G3.5)")
+                   + f"; device area {f(area, 4)} µm²; with every chosen cell the circuit "
+                   + (f"misses {', '.join(miss)} (G3.3)." if miss else "meets every spec in SPICE (G3.3)."))
+    return ["", "**In short** (built from the reports):", ""] + out
 
 
 def design_section(d: str) -> list:
@@ -389,6 +666,7 @@ def design_section(d: str) -> list:
         secs = sum(x.get("seconds") or 0 for x in s.get("steps", []))
         L.append(f"| {st} | **{s.get('status', '–')}** | {s.get('started', '–')} | {secs / 60:.1f} min | "
                  f"{', '.join(x.get('step', '') for x in s.get('steps', []))} |")
+    L += design_summary(d)
     findings = []
     builders = {"S0": s0_section, "S1": s1_section, "S2": s2_section, "S3": s3_section}
     body = []
@@ -418,9 +696,10 @@ def main(argv=None) -> int:
                            text=True).stdout.strip() or "unknown")
     L = ["# S0–S3 walkthrough: what each stage does and what it produced", "",
          f"Generated by `python3 scripts/make_s0s3_walkthrough.py` from the run's own output files (repo at {head}). "
-         "Every number below is read from `outputs/`; nothing is typed by hand except the one-line meaning of each gate "
-         "and the explanation of a known finding. The flow and its rules are described in `README.md` and "
-         "`docs/flow_record.md` (section 7.13 for the current version).", "",
+         "Every number below is read from `outputs/`. Typed by hand: the meaning of each gate, the explanation of each "
+         "known finding, and the *How to read it* notes. The *What it shows here* lines and each design's summary are "
+         "built from the numbers. The flow and its rules are described in `README.md` and `docs/flow_record.md` "
+         "(section 7.13 for the current version, 7.14 for this review).", "",
          "**The four stages:**", ""]
     L += [f"- **{st}**: {txt}" for st, txt in STAGE_DOES.items()]
     L += ["", "**Status per design** (PASS: every gate passes; FAIL: a gate reports a finding, explained under the design; "
@@ -429,6 +708,7 @@ def main(argv=None) -> int:
         st = (_j(REPO / "outputs/flow" / d / "flow_summary.json") or {}).get("stages", {})
         L.append(f"| {d} | " + " | ".join(st.get(s, {}).get("status", "–") for s in ("S0", "S1", "S2", "S3")) + " |")
     L.append("")
+    L += READING_GUIDE
     for d in a.designs:
         L += design_section(d)
     out_md.write_text("\n".join(L) + "\n")

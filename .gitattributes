@@ -1,0 +1,6 @@
+# The flow runs in a Linux container, so text files are checked out with LF on every OS. Without this file, Git for
+# Windows (core.autocrlf=true) wrote CRLF into 855 files when `main` was checked out on 2026-11-02, and bash could no
+# longer parse scripts/env.sh, which every flow command sources (flow record row 66).
+* text=auto eol=lf
+# Committed with CRLF; kept byte for byte.
+docs/context/project_context_S0-S9.md -text

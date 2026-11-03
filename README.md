@@ -24,7 +24,9 @@ Inputs the upstream stages did not provide are predicted by the package scripts 
 
 **What to read first:** `docs/s0_s3_walkthrough.html` (open it in a browser; `.md` for the same text). It shows,
 for `example_ota_5t` and `loadbench_miller`, what each stage did and what came out: every gate, the main numbers
-and plots, and an explanation of each failed gate. It is generated from the committed outputs.
+and plots, and an explanation of each failed gate. It opens with a short guide to the ideas it uses (margin, eta,
+expected need). Every table and plot has a *How to read it* note and, where the numbers allow, a *What it shows here*
+line built from that design's results. It is generated from the committed outputs.
 
 **Expected result.** FAIL means a gate reported a finding, but the stage finished and wrote its report. ERROR
 (a crash) does not occur.
@@ -56,7 +58,7 @@ $env:FLOW_CONTAINER="layout-s0s3"
 .\flow.ps1 run example_ota_5t              # S0 -> S3, about 30 min
 .\flow.ps1 run loadbench_miller            # S0 -> S3, about 20 min
 .\flow.ps1 run example_ota_5t --stage S1   # one stage, from the earlier stages' outputs (S1 or S3: under a minute)
-.\flow.ps1 test                            # 134 unit tests + golden comparison with the committed outputs (~15 s)
+.\flow.ps1 test                            # 138 unit tests + golden comparison with the committed outputs (~15 s)
 ```
 
 The same inside the container: `docker exec -e IIC_OSIC_TOOLS_QUIET=1 layout-s0s3 bash -lc "cd /foss/designs &&
@@ -193,6 +195,9 @@ every PVT point, as in plan v2.
 - **Running the tests.** `./flow test`, or `.\flow.ps1 test` from PowerShell, works from any shell. The image's
   login profile sets `USER` to "1000\ndesigner"; `scripts/env.sh` keeps the part after the newline, because a
   newline in pytest's temp folder name made Netgen fail the S0 round-trip test.
+- **Line endings.** `.gitattributes` checks every text file out with LF, on Windows too. With Git for Windows'
+  default `core.autocrlf=true` and no attributes, a checkout wrote CRLF, and bash could not parse `scripts/env.sh`
+  (flow record row 66).
 
 **Repository rules:** third-party material and licences are listed in `THIRD_PARTY.md`; hypotheses and
 thresholds for the experiments are fixed in `PREREG.md` before baselines run.
@@ -200,7 +205,7 @@ thresholds for the experiments are fixed in `PREREG.md` before baselines run.
 ## Documents
 
 - **`docs/flow_record.md`**: the living record of the flow. For each stage it gives the inputs and outputs, JSON excerpts, DRC/LVS pictures and the problems met. It is updated at every stage.
-- **`docs/s0_s3_walkthrough.md`** (and `docs/s0_s3_walkthrough.html`, self-contained, images embedded): what S0–S3 did on `example_ota_5t` and `loadbench_miller` and what came out: each gate, the main numbers and plots, and an explanation of every failed gate. Every number is read from `outputs/`. Regenerate it after a run, inside the container: `python3 scripts/make_s0s3_walkthrough.py [design ...] [--no-html] [--out FILE.md]` (pandoc writes the HTML).
+- **`docs/s0_s3_walkthrough.md`** (and `docs/s0_s3_walkthrough.html`, self-contained, images embedded): what S0–S3 did on `example_ota_5t` and `loadbench_miller` and what came out: each gate, the main numbers and plots, an explanation of every failed gate, and for each table and plot how to read it and what it shows for that design. Every number is read from `outputs/`; the "How to read it" notes are the only typed explanations besides the gate meanings and the known findings. Regenerate it after a run, inside the container: `python3 scripts/make_s0s3_walkthrough.py [design ...] [--no-html] [--out FILE.md]` (pandoc writes the HTML).
 - `docs/progress_log.md`: chronological log.
 - `docs/01_inventory.md`, `docs/02_analysis.md`, `docs/03_plan_S0-S3.md`: inventory, analysis and plan.
 - `docs/04_device_generation.md` … `docs/07_stage_guide_and_sunday_baseline.md`: device generation, literature, final plan and stage guide.
@@ -434,7 +439,7 @@ Each option cell is a SKY130 Magic PCell (exact W/L), plus met2 finger straps an
 |---|---|
 | `option_table.json` | Every option |
 | `device_decisions.json` | The chosen option per device type and why |
-| `plots/option_space.png` | Area against slack for every option |
+| `plots/option_space.png` | Area against slack for every option; filled: the main mode's options, which S3 chooses from; hollow: the other modes'. `python3 scripts/replot_s3_options.py [design ...]` redraws it from a run's saved tables |
 | `s3_report.json` | All gates, with their evidence |
 
 S4 onward will be added here as it is implemented.

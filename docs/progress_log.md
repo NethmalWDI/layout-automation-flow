@@ -1034,3 +1034,31 @@ the output of every step shown. Branch `s0-s3-review` starts at `fd8d7118`, with
   - STATUS corrected: `main` is at `a8c6f7d3`, before Phase A, so the fast-forward merge brings Phase A into
     `main` too.
   - Claude Code's claim is released.
+
+## 2026-11-03 (morning): after the merge into `main` (Claude Code)
+
+- **The S3 option plot (flow record row 65).** While I was explaining the walkthrough's plots, the 5T PMOS plot
+  showed green options smaller than the chosen cell. Those are 2- and 4-finger cells, whose fingers fall in another
+  SKY130 W bin, so S3's main mode (A-bin) may not choose them; the plot drew all modes alike.
+  - The main mode's options are now filled and the others hollow. The plotting became `plot_option_space()`, and
+    `scripts/replot_s3_options.py` redrew both plots from the saved tables (no S3 re-run).
+  - The walkthrough was regenerated, with a caption explaining the marking.
+- **Windows line endings (row 66).** Redrawing the plot stopped with a bash syntax error in `scripts/env.sh`.
+  - Checking out `main` after the merge (Git for Windows, `core.autocrlf=true`, no `.gitattributes`) had written
+    CRLF into the 855 files Phase A and the review changed. bash cannot parse CRLF, so every flow command was
+    broken, although the rehearsal had passed before the merge.
+  - The files were converted back to LF and checked byte for byte against their committed blobs.
+  - `.gitattributes` (`* text=auto eol=lf`) keeps LF on every checkout.
+  - `flow status` had shown the checkout's time for every stage; it now shows the report's provenance time.
+- 4 tests added. `.\flow.ps1 test` from PowerShell: 138 passed, golden 20 of 20 OK.
+- **The walkthrough explains its results** (Imasha's request).
+  - It opens with a guide to the ideas it uses: margin, eta and the allowance, expected need, first order vs
+    SPICE, PASS/FAIL/ERROR, negative controls.
+  - Every table and plot has a *How to read it* note. These are typed, and the same for every design; the colours
+    of the layout pictures were checked in the PDK's KLayout layer file.
+  - Where the numbers allow, a *What it shows here* line is built from the design's results, e.g. the PVT misses
+    per spec and supply, the hand model's PM gap, the budgets below need, the rules' outcomes at the nominal
+    corner.
+  - Each design has an *In short* summary built from its reports.
+  - Every generated line was checked against the data. The walkthrough test now requires the notes and the
+    summaries.
