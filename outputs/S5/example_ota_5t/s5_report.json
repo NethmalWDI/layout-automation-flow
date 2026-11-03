@@ -1,0 +1,78 @@
+{
+  "run_id": "2026-11-03T21:35:55-392e1830",
+  "design": "example_ota_5t",
+  "s4_run_id": "2026-11-03T21:22:52-8b1ee339",
+  "gates": {
+    "G5.1_placement_legal": {
+      "pass": true,
+      "detail": {
+        "budget_aware": {
+          "min_separation_um": 3.0,
+          "separation_ok": true,
+          "pmos_above_nmos": true,
+          "symmetric_axes": {
+            "pmos_current_mirror_load": 0.0,
+            "nmos_differential_pair": 0.0
+          },
+          "axes_ok": true,
+          "drc_unrouted": 0
+        },
+        "area_only": {
+          "min_separation_um": 3.0,
+          "separation_ok": true,
+          "pmos_above_nmos": true,
+          "symmetric_axes": {
+            "pmos_current_mirror_load": 0.0,
+            "nmos_differential_pair": 0.0
+          },
+          "axes_ok": true,
+          "drc_unrouted": 0
+        }
+      }
+    },
+    "G5.5_area_vs_area_only (info)": {
+      "pass": null,
+      "budget_aware_area_um2": 525.797,
+      "area_only_area_um2": 525.797,
+      "area_ratio": 1.0,
+      "u_budget_aware": {
+        "OUTP": 0.0841,
+        "net1": 0.0696,
+        "net3": 0.4215
+      },
+      "u_area_only": {
+        "OUTP": 0.3579,
+        "net1": 0.3675,
+        "net3": 0.7684
+      },
+      "same_placement": false
+    },
+    "G5.2_G5.4_routing": {
+      "pass": null,
+      "note": "routing, top-level DRC/LVS and the route rules: plan v4 Phase 4"
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-11-03T20:35:55+00:00",
+    "git_commit": "1e4d166fd967a923e70f3226a3c9bbaca00e2fea",
+    "inputs": [
+      {
+        "path": "outputs/S4/example_ota_5t/blocks.json",
+        "sha256": "f43b02c7cad49e2f7be352958345aa5d561a8de2b1ecd93192e59cc18baf2216"
+      },
+      {
+        "path": "outputs/S0/example_ota_5t/circuit_ir.json",
+        "sha256": "1275e0f1474c195047e319b4cc130bf48d20df1b8f6e53c80eeb831747ec5591"
+      },
+      {
+        "path": "outputs/S2/example_ota_5t/constraints.json",
+        "sha256": "e4b6f64598b5c4d66bb0cdac04a8c0d852b15ca2d1720483c5d51f55c09458ba"
+      },
+      {
+        "path": "inputs/example_ota_5t/package.yaml",
+        "sha256": "a83a07c531161be1f5ad53cce56304639d982dd80091e8b09cbee3352c87011f"
+      }
+    ]
+  }
+}

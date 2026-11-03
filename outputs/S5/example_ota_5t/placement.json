@@ -1,0 +1,3736 @@
+{
+  "run_id": "2026-11-03T21:35:55-392e1830",
+  "design": "example_ota_5t",
+  "s4_run_id": "2026-11-03T21:22:52-8b1ee339",
+  "constants": {
+    "ROW_GAP": 3.0,
+    "BLOCK_GAP": 3.0,
+    "LAMBDA": 10.0,
+    "MU": 1.0
+  },
+  "max_length_metal3_um": {
+    "OUTP": 63.15,
+    "net1": 97.96,
+    "net3": 44.66
+  },
+  "designer_rows": {},
+  "n_candidates": 96,
+  "chosen": {
+    "budget_aware": {
+      "index": 27,
+      "cost": {
+        "area_um2": 525.797,
+        "area_term": 1.2647,
+        "hpwl_um": {
+          "net3": 18.825,
+          "VDD": 1.7,
+          "OUTP": 5.31,
+          "net1": 6.82,
+          "VSS": 37.7
+        },
+        "u": {
+          "OUTP": 0.0841,
+          "net1": 0.0696,
+          "net3": 0.4215
+        },
+        "budget_aware": 1.8399,
+        "area_only": 1.2647
+      },
+      "placement": {
+        "rows": [
+          [
+            "pmos_current_mirror_load"
+          ],
+          [
+            "nmos_differential_pair"
+          ],
+          [
+            "nmos_current_mirror_bias"
+          ]
+        ],
+        "blocks": {
+          "pmos_current_mirror_load": {
+            "variant": "AB",
+            "flip": false,
+            "origin": [
+              -2.24,
+              -11.115
+            ],
+            "bbox": [
+              -4.04,
+              -15.215,
+              4.84,
+              0.0
+            ],
+            "axis_x": 0.0,
+            "pins": [
+              {
+                "net": "net3",
+                "x0": -4.04,
+                "x1": 4.84,
+                "y": -1.3,
+                "kind": "track"
+              },
+              {
+                "net": "net3",
+                "x0": -4.04,
+                "x1": 4.84,
+                "y": -12.115,
+                "kind": "track"
+              },
+              {
+                "net": "VDD",
+                "x0": -4.04,
+                "x1": 4.84,
+                "y": -13.015,
+                "kind": "track"
+              },
+              {
+                "net": "OUTP",
+                "x0": -4.04,
+                "x1": 4.84,
+                "y": -13.915,
+                "kind": "track"
+              },
+              {
+                "net": "VDD",
+                "x0": 0.4,
+                "x1": 0.4,
+                "y": -14.715,
+                "kind": "body"
+              }
+            ]
+          },
+          "nmos_differential_pair": {
+            "variant": "AB",
+            "flip": true,
+            "origin": [
+              -2.42,
+              -21.125
+            ],
+            "bbox": [
+              -4.22,
+              -37.525,
+              4.22,
+              -18.215
+            ],
+            "axis_x": 0.0,
+            "pins": [
+              {
+                "net": "net1",
+                "x0": -4.22,
+                "x1": 4.22,
+                "y": -34.715,
+                "kind": "track"
+              },
+              {
+                "net": "INP",
+                "x0": -4.22,
+                "x1": 4.22,
+                "y": -35.615,
+                "kind": "track"
+              },
+              {
+                "net": "INN",
+                "x0": -4.22,
+                "x1": 4.22,
+                "y": -36.515,
+                "kind": "track"
+              },
+              {
+                "net": "net3",
+                "x0": -4.22,
+                "x1": 4.22,
+                "y": -20.125,
+                "kind": "track"
+              },
+              {
+                "net": "OUTP",
+                "x0": -4.22,
+                "x1": 4.22,
+                "y": -19.225,
+                "kind": "track"
+              },
+              {
+                "net": "VSS",
+                "x0": 0.0,
+                "x1": 0.0,
+                "y": -18.425,
+                "kind": "body"
+              }
+            ]
+          },
+          "nmos_current_mirror_bias": {
+            "variant": "A",
+            "flip": true,
+            "origin": [
+              -1.56,
+              -42.535
+            ],
+            "bbox": [
+              -3.36,
+              -58.035,
+              3.36,
+              -40.525
+            ],
+            "axis_x": null,
+            "pins": [
+              {
+                "net": "VSS",
+                "x0": -3.36,
+                "x1": 3.36,
+                "y": -56.125,
+                "kind": "track"
+              },
+              {
+                "net": "net2",
+                "x0": -3.36,
+                "x1": 3.36,
+                "y": -57.025,
+                "kind": "track"
+              },
+              {
+                "net": "net1",
+                "x0": -3.36,
+                "x1": 3.36,
+                "y": -41.535,
+                "kind": "track"
+              },
+              {
+                "net": "VSS",
+                "x0": 0.0,
+                "x1": 0.0,
+                "y": -40.735,
+                "kind": "body"
+              }
+            ]
+          }
+        },
+        "bbox": [
+          -4.22,
+          -58.035,
+          4.84,
+          0.0
+        ],
+        "area_um2": 525.797
+      },
+      "legal": {
+        "min_separation_um": 3.0,
+        "separation_ok": true,
+        "pmos_above_nmos": true,
+        "symmetric_axes": {
+          "pmos_current_mirror_load": 0.0,
+          "nmos_differential_pair": 0.0
+        },
+        "axes_ok": true
+      },
+      "assembled": {
+        "gds": "outputs/S5/example_ota_5t/placed_budget_aware/example_ota_5t_placed_budget_aware.gds",
+        "drc": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S5/example_ota_5t/placed_budget_aware/drc/drc_report.txt"
+        },
+        "png": "outputs/S5/example_ota_5t/placed_budget_aware/example_ota_5t_placed_budget_aware.png",
+        "gds_bbox": [
+          -4.22,
+          -58.03,
+          4.84,
+          0.0
+        ]
+      }
+    },
+    "area_only": {
+      "index": 24,
+      "cost": {
+        "area_um2": 525.797,
+        "area_term": 1.2647,
+        "hpwl_um": {
+          "net3": 34.315,
+          "VDD": 1.7,
+          "OUTP": 22.6,
+          "net1": 36.0,
+          "VSS": 20.51
+        },
+        "u": {
+          "OUTP": 0.3579,
+          "net1": 0.3675,
+          "net3": 0.7684
+        },
+        "budget_aware": 2.7585,
+        "area_only": 1.2647
+      },
+      "placement": {
+        "rows": [
+          [
+            "pmos_current_mirror_load"
+          ],
+          [
+            "nmos_differential_pair"
+          ],
+          [
+            "nmos_current_mirror_bias"
+          ]
+        ],
+        "blocks": {
+          "pmos_current_mirror_load": {
+            "variant": "AB",
+            "flip": false,
+            "origin": [
+              -2.24,
+              -11.115
+            ],
+            "bbox": [
+              -4.04,
+              -15.215,
+              4.84,
+              0.0
+            ],
+            "axis_x": 0.0,
+            "pins": [
+              {
+                "net": "net3",
+                "x0": -4.04,
+                "x1": 4.84,
+                "y": -1.3,
+                "kind": "track"
+              },
+              {
+                "net": "net3",
+                "x0": -4.04,
+                "x1": 4.84,
+                "y": -12.115,
+                "kind": "track"
+              },
+              {
+                "net": "VDD",
+                "x0": -4.04,
+                "x1": 4.84,
+                "y": -13.015,
+                "kind": "track"
+              },
+              {
+                "net": "OUTP",
+                "x0": -4.04,
+                "x1": 4.84,
+                "y": -13.915,
+                "kind": "track"
+              },
+              {
+                "net": "VDD",
+                "x0": 0.4,
+                "x1": 0.4,
+                "y": -14.715,
+                "kind": "body"
+              }
+            ]
+          },
+          "nmos_differential_pair": {
+            "variant": "AB",
+            "flip": false,
+            "origin": [
+              -2.42,
+              -34.615
+            ],
+            "bbox": [
+              -4.22,
+              -37.525,
+              4.22,
+              -18.215
+            ],
+            "axis_x": 0.0,
+            "pins": [
+              {
+                "net": "net1",
+                "x0": -4.22,
+                "x1": 4.22,
+                "y": -21.025,
+                "kind": "track"
+              },
+              {
+                "net": "INP",
+                "x0": -4.22,
+                "x1": 4.22,
+                "y": -20.125,
+                "kind": "track"
+              },
+              {
+                "net": "INN",
+                "x0": -4.22,
+                "x1": 4.22,
+                "y": -19.225,
+                "kind": "track"
+              },
+              {
+                "net": "net3",
+                "x0": -4.22,
+                "x1": 4.22,
+                "y": -35.615,
+                "kind": "track"
+              },
+              {
+                "net": "OUTP",
+                "x0": -4.22,
+                "x1": 4.22,
+                "y": -36.515,
+                "kind": "track"
+              },
+              {
+                "net": "VSS",
+                "x0": 0.0,
+                "x1": 0.0,
+                "y": -37.315,
+                "kind": "body"
+              }
+            ]
+          },
+          "nmos_current_mirror_bias": {
+            "variant": "A",
+            "flip": false,
+            "origin": [
+              -1.56,
+              -56.025
+            ],
+            "bbox": [
+              -3.36,
+              -58.035,
+              3.36,
+              -40.525
+            ],
+            "axis_x": null,
+            "pins": [
+              {
+                "net": "VSS",
+                "x0": -3.36,
+                "x1": 3.36,
+                "y": -42.435,
+                "kind": "track"
+              },
+              {
+                "net": "net2",
+                "x0": -3.36,
+                "x1": 3.36,
+                "y": -41.535,
+                "kind": "track"
+              },
+              {
+                "net": "net1",
+                "x0": -3.36,
+                "x1": 3.36,
+                "y": -57.025,
+                "kind": "track"
+              },
+              {
+                "net": "VSS",
+                "x0": 0.0,
+                "x1": 0.0,
+                "y": -57.825,
+                "kind": "body"
+              }
+            ]
+          }
+        },
+        "bbox": [
+          -4.22,
+          -58.035,
+          4.84,
+          0.0
+        ],
+        "area_um2": 525.797
+      },
+      "legal": {
+        "min_separation_um": 3.0,
+        "separation_ok": true,
+        "pmos_above_nmos": true,
+        "symmetric_axes": {
+          "pmos_current_mirror_load": 0.0,
+          "nmos_differential_pair": 0.0
+        },
+        "axes_ok": true
+      },
+      "assembled": {
+        "gds": "outputs/S5/example_ota_5t/placed_area_only/example_ota_5t_placed_area_only.gds",
+        "drc": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S5/example_ota_5t/placed_area_only/drc/drc_report.txt"
+        },
+        "png": "outputs/S5/example_ota_5t/placed_area_only/example_ota_5t_placed_area_only.png",
+        "gds_bbox": [
+          -4.22,
+          -58.03,
+          4.84,
+          0.0
+        ]
+      }
+    }
+  },
+  "candidates": [
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 681.454,
+      "budget_aware": 2.9542,
+      "area_only": 1.6391,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.1888,
+        "net3": 0.7684
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 681.454,
+      "budget_aware": 2.796,
+      "area_only": 1.6391,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.0306,
+        "net3": 0.7684
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 681.454,
+      "budget_aware": 2.1937,
+      "area_only": 1.6391,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.049,
+        "net3": 0.4215
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 681.454,
+      "budget_aware": 2.3151,
+      "area_only": 1.6391,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.1704,
+        "net3": 0.4215
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.9907,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.0398,
+        "net3": 0.7482
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 3.1305,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.1796,
+        "net3": 0.7482
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.5685,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.1979,
+        "net3": 0.4417
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.4104,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.0398,
+        "net3": 0.4417
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.9907,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.0398,
+        "net3": 0.7482
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 3.1305,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.1796,
+        "net3": 0.7482
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.5685,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.1979,
+        "net3": 0.4417
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.4104,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.0398,
+        "net3": 0.4417
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 681.454,
+      "budget_aware": 3.1136,
+      "area_only": 1.6391,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.1888,
+        "net3": 0.7281
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 681.454,
+      "budget_aware": 2.9554,
+      "area_only": 1.6391,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.0306,
+        "net3": 0.7281
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 681.454,
+      "budget_aware": 2.3531,
+      "area_only": 1.6391,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.049,
+        "net3": 0.3812
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 681.454,
+      "budget_aware": 2.4745,
+      "area_only": 1.6391,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.1704,
+        "net3": 0.3812
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 3.1501,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.0398,
+        "net3": 0.7079
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 3.2899,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.1796,
+        "net3": 0.7079
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.7279,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.1979,
+        "net3": 0.4014
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.5698,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.0398,
+        "net3": 0.4014
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 3.1501,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.0398,
+        "net3": 0.7079
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 3.2899,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.1796,
+        "net3": 0.7079
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.7279,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.1979,
+        "net3": 0.4014
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair",
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.5698,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.0398,
+        "net3": 0.4014
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 2.7585,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.3675,
+        "net3": 0.7684
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 2.6004,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.2094,
+        "net3": 0.7684
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 1.998,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.2277,
+        "net3": 0.4215
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 1.8399,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.0696,
+        "net3": 0.4215
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.8211,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.2186,
+        "net3": 0.7482
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.6629,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.0604,
+        "net3": 0.7482
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.3989,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.3767,
+        "net3": 0.4417
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.2408,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.2186,
+        "net3": 0.4417
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.8211,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.2186,
+        "net3": 0.7482
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.6629,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.0604,
+        "net3": 0.7482
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.3989,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.3767,
+        "net3": 0.4417
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.2408,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.2186,
+        "net3": 0.4417
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 2.9179,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.3675,
+        "net3": 0.7281
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 2.7598,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.2094,
+        "net3": 0.7281
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 2.1574,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.2277,
+        "net3": 0.3812
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 1.9993,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.0696,
+        "net3": 0.3812
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.9805,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.2186,
+        "net3": 0.7079
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.8223,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.0604,
+        "net3": 0.7079
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.5583,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.3767,
+        "net3": 0.4014
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.4002,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.2186,
+        "net3": 0.4014
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.9805,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.2186,
+        "net3": 0.7079
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.8223,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.0604,
+        "net3": 0.7079
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.5583,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.3767,
+        "net3": 0.4014
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_differential_pair"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.4002,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.2186,
+        "net3": 0.4014
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ]
+      },
+      "area_um2": 704.72,
+      "budget_aware": 3.0101,
+      "area_only": 1.695,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.1888,
+        "net3": 0.7684
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ]
+      },
+      "area_um2": 704.72,
+      "budget_aware": 2.8519,
+      "area_only": 1.695,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.0306,
+        "net3": 0.7684
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ]
+      },
+      "area_um2": 704.72,
+      "budget_aware": 2.2496,
+      "area_only": 1.695,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.049,
+        "net3": 0.4215
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ]
+      },
+      "area_um2": 704.72,
+      "budget_aware": 2.371,
+      "area_only": 1.695,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.1704,
+        "net3": 0.4215
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.9907,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.0398,
+        "net3": 0.7482
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 3.1305,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.1796,
+        "net3": 0.7482
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.5685,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.1979,
+        "net3": 0.4417
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.4104,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.0398,
+        "net3": 0.4417
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.9907,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.0398,
+        "net3": 0.7482
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 3.1305,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.3579,
+        "net1": 0.1796,
+        "net3": 0.7482
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.5685,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.1979,
+        "net3": 0.4417
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.4104,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.0841,
+        "net1": 0.0398,
+        "net3": 0.4417
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ]
+      },
+      "area_um2": 704.72,
+      "budget_aware": 3.1695,
+      "area_only": 1.695,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.1888,
+        "net3": 0.7281
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ]
+      },
+      "area_um2": 704.72,
+      "budget_aware": 3.0113,
+      "area_only": 1.695,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.0306,
+        "net3": 0.7281
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ]
+      },
+      "area_um2": 704.72,
+      "budget_aware": 2.409,
+      "area_only": 1.695,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.049,
+        "net3": 0.3812
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ]
+      },
+      "area_um2": 704.72,
+      "budget_aware": 2.5304,
+      "area_only": 1.695,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.1704,
+        "net3": 0.3812
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 3.1501,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.0398,
+        "net3": 0.7079
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 3.2899,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.1796,
+        "net3": 0.7079
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.7279,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.1979,
+        "net3": 0.4014
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.5698,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.0398,
+        "net3": 0.4014
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 3.1501,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.0398,
+        "net3": 0.7079
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 3.2899,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.5576,
+        "net1": 0.1796,
+        "net3": 0.7079
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.7279,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.1979,
+        "net3": 0.4014
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias",
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ]
+      },
+      "area_um2": 767.011,
+      "budget_aware": 2.5698,
+      "area_only": 1.8448,
+      "u": {
+        "OUTP": 0.2838,
+        "net1": 0.0398,
+        "net3": 0.4014
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 5.5206,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.6827,
+        "net1": 0.0696,
+        "net3": 1.2276
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 5.6787,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.6827,
+        "net1": 0.2277,
+        "net3": 1.2276
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 2.7638,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.4089,
+        "net1": 0.2094,
+        "net3": 0.8808
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 2.9219,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.4089,
+        "net1": 0.3675,
+        "net3": 0.8808
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 5.6802,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.6827,
+        "net1": 0.2186,
+        "net3": 1.2075
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 5.8383,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.6827,
+        "net1": 0.3767,
+        "net3": 1.2075
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.8666,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.4089,
+        "net1": 0.0604,
+        "net3": 0.9009
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 3.0248,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.4089,
+        "net1": 0.2186,
+        "net3": 0.9009
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 5.6802,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.6827,
+        "net1": 0.2186,
+        "net3": 1.2075
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 5.8383,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.6827,
+        "net1": 0.3767,
+        "net3": 1.2075
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 2.8666,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.4089,
+        "net1": 0.0604,
+        "net3": 0.9009
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          false
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 3.0248,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.4089,
+        "net1": 0.2186,
+        "net3": 0.9009
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 5.277,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.8824,
+        "net1": 0.0696,
+        "net3": 1.1873
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          false
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 5.4351,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.8824,
+        "net1": 0.2277,
+        "net3": 1.1873
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 2.9232,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.6086,
+        "net1": 0.2094,
+        "net3": 0.8405
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "AB",
+          true
+        ]
+      },
+      "area_um2": 525.797,
+      "budget_aware": 3.0813,
+      "area_only": 1.2647,
+      "u": {
+        "OUTP": 0.6086,
+        "net1": 0.3675,
+        "net3": 0.8405
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 5.4366,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.8824,
+        "net1": 0.2186,
+        "net3": 1.1672
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 5.5947,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.8824,
+        "net1": 0.3767,
+        "net3": 1.1672
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 3.026,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.6086,
+        "net1": 0.0604,
+        "net3": 0.8606
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABBA",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 3.1842,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.6086,
+        "net1": 0.2186,
+        "net3": 0.8606
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 5.4366,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.8824,
+        "net1": 0.2186,
+        "net3": 1.1672
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          false
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 5.5947,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.8824,
+        "net1": 0.3767,
+        "net3": 1.1672
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          false
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 3.026,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.6086,
+        "net1": 0.0604,
+        "net3": 0.8606
+      }
+    },
+    {
+      "rows": [
+        [
+          "pmos_current_mirror_load"
+        ],
+        [
+          "nmos_current_mirror_bias"
+        ],
+        [
+          "nmos_differential_pair"
+        ]
+      ],
+      "choice": {
+        "pmos_current_mirror_load": [
+          "AB",
+          true
+        ],
+        "nmos_current_mirror_bias": [
+          "A",
+          true
+        ],
+        "nmos_differential_pair": [
+          "ABAB",
+          true
+        ]
+      },
+      "area_um2": 622.135,
+      "budget_aware": 3.1842,
+      "area_only": 1.4964,
+      "u": {
+        "OUTP": 0.6086,
+        "net1": 0.2186,
+        "net3": 0.8606
+      }
+    }
+  ]
+}

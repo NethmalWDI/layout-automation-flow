@@ -486,4 +486,28 @@ python3 -m src.s4.run inputs/example_ota_5t/package.yaml      # or: ./flow run e
 | `blocks/<block>__<variant>/` | The block's GDS, `.mag`, picture, Magic script, DRC and LVS folders |
 | `s4_report.json` | Gates G4.1 (one type and body per block), G4.2 (DRC), G4.3 (LVS), G4.4 (a mirror-image variant per pair), G4.5 (latch-up tap distance), G4.6 (port C, info; comes with S6) |
 
-S5 onward will be added here as it is implemented.
+## S5: placement (plan v4, branch `s4-s5`; routing follows)
+
+```bash
+python3 -m src.s5.run inputs/example_ota_5t/package.yaml      # after S4; not yet a flow stage (it joins with routing)
+```
+
+- **Rows by device type,** PMOS above NMOS. A package's designer rows, if any, order the rows.
+- **Spacing:** blocks 3 µm apart in a row, rows 3 µm apart.
+- **Symmetry:** a symmetric block (a matched pair or mirror) puts its own axis at x = 0; a row without one is
+  centred.
+- **Enumeration:** every row partition and order, every block variant and a vertical flip of every block
+  (`src/s5/place.py`).
+- **Two costs** (PREREG amendment of 2026-11-03, late evening):
+  - *budget-aware:* area + 10 × the excess over S2's wire budgets + the budget use. Each net's half-perimeter
+    estimate is measured against `route.max_length.<net>.metal3`;
+  - *area-only:* area alone, the AICL-like baseline.
+- **Checks:** each winner's blocks are assembled into one GDS and checked with DRC before routing.
+
+| Output (`outputs/S5/<design>/`) | Content |
+|---|---|
+| `placement.json` | Every candidate with its cost terms; the two winners with rows, variants, flips, origins, pins, wire estimates and legality |
+| `placed_<budget_aware\|area_only>/` | The assembled, unrouted GDS, its picture and its DRC |
+| `s5_report.json` | G5.1 (legal: separation, PMOS above NMOS, symmetric blocks on the axis, unrouted DRC), G5.5 (area and budget use against area-only, info) |
+
+S5's routing, S6 and S7 will be added here as they are implemented.

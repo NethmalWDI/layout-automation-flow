@@ -147,3 +147,47 @@ def test_5t_blocks_signed_off_with_their_controls():
         assert v["geometry"]["tap_distance_max_um"] <= 15.0
     abba = next(v for v in vs if v["cell"] == "nmos_differential_pair__ABBA")
     assert abba["symmetry"]["mirror_image"] and abba["symmetry"]["centroid_offset_um"] == 0
+
+
+# ------------------------------------------------------------------ Phase 3: S5 placement
+def test_ordered_partitions_count_and_rows():
+    from src.s5.place import ordered_partitions
+    assert sorted(map(str, ordered_partitions(["a", "b"]))) == sorted(map(str, [[["a", "b"]], [["b", "a"]], [["a"], ["b"]], [["b"], ["a"]]]))
+    assert len(ordered_partitions(list("abcd"))) == 24 * 8
+
+
+def test_hpwl_counts_the_gap_between_tracks_not_their_span():
+    from src.s5.place import hpwl
+    a = {"x0": 0.0, "x1": 10.0, "y": 0.0}
+    assert hpwl([a, {"x0": 5.0, "x1": 12.0, "y": 4.0}]) == 4.0          # overlapping spans: vertical only
+    assert hpwl([a, {"x0": 13.0, "x1": 20.0, "y": 4.0}]) == 7.0         # 3 um gap + 4 um
+
+
+def test_realise_rejects_two_symmetric_blocks_in_a_row_and_centres_the_axis():
+    from src.s5.place import realise
+    def var(w):
+        return {"id": "AB", "geometry": {"bbox_um": [-1.0, -1.0, w + 1.0, 5.0], "row": [0.0, 0.0, w, 4.0]},
+                "pins": {"tracks": {"top": {}, "bottom": {}}, "body": {"net": "VSS", "at": [w / 2, -1.0]}}}
+    blocks = {"p": {"symmetric": True, "type": "nmos"}, "q": {"symmetric": True, "type": "nmos"},
+              "t": {"symmetric": False, "type": "nmos"}}
+    assert realise([["p", "q"]], {"p": (var(4.0), False), "q": (var(4.0), False)}, blocks) is None
+    pl = realise([["p", "t"]], {"p": (var(4.0), False), "t": (var(2.0), False)}, blocks)
+    assert abs(pl["blocks"]["p"]["axis_x"]) < 1e-9
+
+
+def test_5t_placement_legal_and_budget_aware_uses_less_wire_budget():
+    """The 5T's budget-aware placement is legal (separation, PMOS above NMOS, symmetric blocks on the axis, unrouted
+    DRC clean), stacks mirror, pair and tail with the pair and tail flipped so their shared tracks face each other,
+    and uses no more of any net's wire budget than the area-only placement."""
+    import pytest
+    f = REPO / "outputs/S5/example_ota_5t/placement.json"
+    if not f.exists():
+        pytest.skip("needs the 5T's S5 outputs")
+    rep = json.loads((REPO / "outputs/S5/example_ota_5t/s5_report.json").read_text())
+    assert rep["gates"]["G5.1_placement_legal"]["pass"]
+    ch = json.loads(f.read_text())["chosen"]
+    ba, ao = ch["budget_aware"], ch["area_only"]
+    assert ba["placement"]["rows"] == [["pmos_current_mirror_load"], ["nmos_differential_pair"], ["nmos_current_mirror_bias"]]
+    assert ba["placement"]["blocks"]["nmos_differential_pair"]["flip"] and ba["placement"]["blocks"]["nmos_current_mirror_bias"]["flip"]
+    assert all(ba["cost"]["u"][n] <= ao["cost"]["u"][n] for n in ba["cost"]["u"])
+    assert ba["cost"]["area_um2"] <= 1.25 * ao["cost"]["area_um2"]

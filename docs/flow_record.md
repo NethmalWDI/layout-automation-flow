@@ -16,7 +16,8 @@ evidence with pictures, and the problems met on the way and how they were fixed.
 - the supervisor review of S0–S3 on those two designs (7.14; its output, stage by stage, is
   [`s0_s3_walkthrough.html`](s0_s3_walkthrough.html));
 - plan v4 Phase 1, S3's unit cells without guard rings, on branch `s4-s5` (7.15);
-- plan v4 Phase 2, S4's first blocks on the 5T (7.16).
+- plan v4 Phase 2, S4's first blocks on the 5T (7.16);
+- plan v4 Phase 3, S5 placement on the 5T (7.17).
 
 The journey table runs to row 67: the S3 option plot and the line endings after the merge (65, 66), and the DRC
 negative control (67).
@@ -2351,6 +2352,37 @@ one guard ring. It follows decision D8: generator code, not search.
   - Port capacitance (G4.6) comes with S6's extraction.
   - LOADBench's blocks wait for Phase 6, where the 887 µm device will need tap rows inside its ring for the
     15 µm latch-up rule.
+
+### 7.17 Plan v4, Phase 3: S5 placement on the 5T (2026-11-03, late evening)
+
+The PREREG amendment fixed S5's constants before any S5 code was written:
+- rows by type, PMOS above NMOS, 3 µm gaps;
+- symmetric blocks on one axis;
+- full enumeration;
+- the budget-aware cost: area + 10 × the excess over S2's wire budgets + the budget use;
+- the area-only baseline;
+- the routing layers for Phase 4.
+
+S5 (`src/s5/place.py`, `src/s5/run.py`) enumerated 96 placements of the 5T's three blocks (4 row arrangements × 3
+pair variants × 8 flips).
+
+| | Budget-aware | Area-only |
+|---|---|---|
+| Rows (top to bottom) | mirror / pair / tail | mirror / pair / tail |
+| Flips | pair and tail flipped | none |
+| Area (µm²) | 525.8 | 525.8 |
+| net3 wire estimate / budget | 0.42 | 0.77 |
+| OUTP | 0.08 | 0.36 |
+| net1 | 0.07 | 0.37 |
+| Unrouted DRC | 0 (control caught) | 0 (control caught) |
+
+- **The budget-aware cost found the textbook layout without being told.** The pair flips so its net3 and OUTP
+  tracks face the mirror's, and the tail flips so its net1 faces the pair's. The area is the same; the estimated
+  use of each net's wire budget falls by half or more.
+- **The area-only baseline** takes the first candidate of that area, which ignores connectivity.
+- **Both choose the AB pair:** ABBA's 207 µm² block costs more area than its common centroid saves here, because the
+  cost has no mismatch term (the 5T's G0.10 offset is reported, not budgeted).
+- **Routing** (Phase 4) will tell whether the estimates hold.
 <!-- section7:end -->
 
 ---
@@ -2394,3 +2426,4 @@ one guard ring. It follows decision D8: generator code, not search.
 - 2026-11-03: journey rows 65 and 66 and a note in 7.14 (Claude Code, after the merge into `main`): the S3 option plot marks the options S3 may choose; Windows line endings written by the checkout restored to LF, `.gitattributes` added, `flow status` times taken from the reports.
 - 2026-11-03 (late evening): 7.15 and journey row 67 (Claude Code, plan v4 Phase 1 on branch `s4-s5`): S3's unit cells without guard rings (body labelled on the well, tap rules deferred to S4), re-run on the 5T and LOADBench; the DRC negative control moved off the layout.
 - 2026-11-03 (late evening): 7.16 (Claude Code, plan v4 Phase 2): S4 blocks on the 5T; Phase 1's LOADBench times corrected to CET (they had been written in the host's time).
+- 2026-11-03 (late evening): 7.17 (Claude Code, plan v4 Phase 3): S5 placement on the 5T, budget-aware against area-only.

@@ -5,8 +5,9 @@ Read this file first and update it when you start or stop work (see `CLAUDE.md`,
 **Last updated:** 2026-11-03 21:40 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
 routing, verification) on branch `s4-s5`**, from `main` at tag `s0s3-reviewed` (`ec359567`). The plan is
 `docs/plan_v4_S4_S7.md`; the phases are under *Plan v4 (s4-s5)* below.
-- Phases 0 and 1 are committed (`e6306879`, `a3e9277e`).
-- Phase 2 (S4 blocks on the 5T) is done and waiting for Imasha's commit.
+- Phases 0–2 are committed: `e6306879`, `a3e9277e`, and `1e4d166f`. Phase 2's commit carries an unrelated message
+  ("dementia_care_guide_sinhala (2)", a GitHub Desktop slip); its content is Phase 2's, and history is not rewritten.
+- Phase 3 (S5 placement on the 5T) is done and waiting for Imasha's commit.
 - Claude Code holds the claim below; nothing is running.
 
 `main` holds the reviewed S0–S3 state (the supervisor review, merged; `1626d11b` and Imasha's STATUS commit
@@ -166,15 +167,27 @@ checked against its budget. S3's unit cells lose their guard rings; S4's blocks 
 |---|---|---|
 | 0 | Freeze test for S0–S2; plan; PREREG amendment; STATUS | **done**, committed `e6306879` |
 | 1 | S3 without guard rings; re-run the 5T and LOADBench; compare with the reviewed S3 | **done**, committed `a3e9277e` |
-| 2 | S4 on the 5T: pair, mirror, single device; rings; variants | **done**, waiting for Imasha's commit |
-| 3 | S5 placement on the 5T; area-only baseline | pending |
+| 2 | S4 on the 5T: pair, mirror, single device; rings; variants | **done**, committed `1e4d166f` (mis-titled) |
+| 3 | S5 placement on the 5T; area-only baseline | **done**, waiting for Imasha's commit |
 | 4 | S5 router on the 5T | pending |
 | 5 | S6/S7 on the 5T | pending |
 | 6 | LOADBench through S4–S7 | pending |
 | 7 | Stabilise: goldens, walkthrough to S7, review, merge | pending |
 | 8 | Harder design (`ttsky25a_fd` or `iadc_ota`, open) | pending |
 
-Phase 2 record (2026-11-03, 21:10–21:45 CET; flow record 7.16):
+Phase 3 record (2026-11-03, 21:31–21:40 CET; flow record 7.17):
+- **PREREG amendment first.** S5's constants were fixed before any code: rows, gaps, enumeration, the budget-aware
+  cost (λ = 10, μ = 1), the area-only baseline, and the routing layers for Phase 4.
+- **S5 placement** (`src/s5/place.py`, `src/s5/run.py`; not a flow stage until routing joins).
+  - 96 candidates on the 5T.
+  - Both winners: mirror / pair / tail, 525.8 µm², unrouted DRC 0 (control caught).
+  - Budget-aware flips the pair and the tail, so shared tracks face each other. Wire-budget use falls from 0.77 →
+    0.42 (net3), 0.36 → 0.08 (OUTP) and 0.37 → 0.07 (net1) against area-only. G5.1 passes.
+- **Times corrected** from the commit timestamps: Phase 1 ran 19:20–20:55 CET and Phase 2 20:57–21:28. I had
+  written estimated end times before they happened.
+- **Tests:** 4 new (partitions, the wire estimate, the symmetric-axis rule, the 5T placement).
+
+Phase 2 record (2026-11-03, 20:57–21:28 CET; flow record 7.16):
 - **S4** (`src/s4/run.py`, `src/s4/block.py`), now a flow stage (`./flow run <d> --stage S4`).
   - Blocks: matching groups first, then S0's blocks; one type and one body net per block.
   - Variants: AB (mirror image), ABBA and ABAB (from half units built as S3 cells), A, row.
@@ -193,7 +206,7 @@ Phase 2 record (2026-11-03, 21:10–21:45 CET; flow record 7.16):
   in the progress log and in the flow record.
 - **Tests:** 4 new (the block plan for both designs, the symmetry measures, the stub sides, the 5T blocks' sign-off).
 
-Phase 1 record (2026-11-03, 19:35–21:10 CET; flow record 7.15 and row 67; times corrected in Phase 2, see above):
+Phase 1 record (2026-11-03, 19:20–20:55 CET; flow record 7.15 and row 67; times corrected in Phases 2 and 3):
 - **Ringless cells, tried by hand first** (two 5T cells, `runs/tmp/s3ng/`):
   - DRC flags only the tap rules (LU.2, LU.3, nwell.4). S3 now defers them to S4 (`options.TAP_RULES`; counted
     from Magic's per-rule list).
@@ -218,7 +231,7 @@ Phase 1 record (2026-11-03, 19:35–21:10 CET; flow record 7.15 and row 67; time
   - The S0–S3 walkthrough regenerated.
   - 3 new tests.
 
-Phase 0 record (2026-11-03, 19:10–19:30 CET; no run):
+Phase 0 record (2026-11-03, 19:10–19:17 CET; no run):
 - **Freeze.** `scripts/freeze_outputs.py` wrote `tests/frozen/s0_s2_outputs.json`: the SHA-256 of the 75 S0–S2 files
   later stages read, for both designs (top-level JSON, S0's `ref/` and `tb/`, S2's `pdk/*.json`), at `ec359567`.
   `tests/test_s4s5.py` fails if any changes; a test with one wrong and one missing entry confirmed it catches both.
@@ -1470,6 +1483,7 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-03 late evening (Claude Code): **plan v4 Phase 3 on `s4-s5`**: S5 placement on the 5T (budget-aware against area-only; textbook stack found, half the wire-budget use); PREREG constants first. Waiting for Imasha's commit.
 - 2026-11-03 late evening (Claude Code): **plan v4 Phase 2 on `s4-s5`**: S4 (blocks from S3's ringless cells, one
   guard ring each) built and signed off on the 5T; S4 is a flow stage. Waiting for Imasha's commit.
 - 2026-11-03 evening (Claude Code): **plan v4 Phase 1 on `s4-s5`**: S3's unit cells without guard rings (body labelled on the

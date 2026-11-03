@@ -217,3 +217,26 @@ After the tag, changes are allowed only as dated amendments at the end, with the
       its specs, reported as such.
   - **Constants still to fix** before the first S5 run, in a further amendment: routing layers and grid pitch, λ in
     the placement cost, and the area-only baseline's exact definition.
+
+- **2026-11-03 (late evening), plan v4: S5's constants, fixed before any S5 code or run** (as the amendment above
+  required).
+  - **Placement.** Rows by device type: PMOS rows above NMOS rows. A package's designer rows are used when it has
+    them. Rows are stacked 3.0 µm apart, and blocks in a row stand 3.0 µm apart (bounding boxes). A row with one
+    symmetric block (a matched pair or mirror) puts that block's own axis at x = 0; a row without one is centred on
+    x = 0; a row with two symmetric blocks is not allowed. Every row partition and order, every block variant and
+    a vertical flip of every block are enumerated (up to 50 000 candidates; simulated annealing over a sequence pair
+    beyond that, not needed for the 5T or LOADBench).
+  - **Wire estimate.** Per net, the half-perimeter of the box around its pins; a block's track counts as a
+    horizontal segment and a ring's body pin as a point of its body net.
+  - **Budget-aware cost** = A / A_ref + λ Σ_n max(0, u_n − 1) + μ Σ_n u_n, with λ = 10 and μ = 1.
+    - A is the placement's bounding-box area; A_ref is the sum, over the blocks, of their smallest variant's area.
+    - u_n is net n's estimated length over S2's `route.max_length.<n>.metal3`, for every net that has one.
+  - **Area-only baseline** (AICL-like, connectivity-agnostic): cost = A / A_ref; ties go to the first candidate in
+    enumeration order.
+  - **Routing (Phase 4):**
+    - Top-level wires on metal3 (horizontal, outside the block footprints only) and metal4 (vertical, also over
+      blocks, which have no metal4), joined by via3.
+    - Width 0.4 µm on a 0.8 µm grid. Nets go in order of least budget slack first.
+    - A ring's body pin is joined to its body net. Supply nets get the same width: EM is not evaluated, as in S2.
+  - **H5** is read with these definitions: G6.2 violations and area, for the budget-aware and the area-only
+    placements, each routed by the same router.
