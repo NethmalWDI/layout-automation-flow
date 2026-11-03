@@ -68,3 +68,82 @@ def test_s2_cells_step_and_v1_keep_the_ringed_cells():
     cells = dict(flow.steps("S2", "example_ota_5t", Namespace(workers=4, variant="v2")))["cells"]
     assert cells[cells.index("--guard") + 1] == "1"
     assert flow.VARIANT_ARGS["v1"]["S3"][-2:] == ["--guard", "1"]
+
+
+# ------------------------------------------------------------------ Phase 2: S4 blocks
+def _ir_groups(d):
+    ir = json.loads((REPO / f"outputs/S0/{d}/circuit_ir.json").read_text())
+    g = json.loads((REPO / f"outputs/S1/{d}/s1_report.json").read_text())["gates"]["G1.4_matching_groups"]["groups"]
+    return ir, g
+
+
+def test_block_plan_one_type_and_body_per_block():
+    """Matching groups first, then S0's blocks; one device type with one body net per block; every device once.
+    LOADBench: P5 goes to the bias bank (a matching group), so cs_stage keeps only N3."""
+    from src.s4.run import plan_blocks
+    ir, g = _ir_groups("example_ota_5t")
+    bl = {b["name"]: b for b in plan_blocks(ir, g)}
+    assert {k: sorted(v["devices"]) for k, v in bl.items()} == {
+        "pmos_current_mirror_load": ["XM3", "XM4"], "nmos_differential_pair": ["XM1", "XM2"],
+        "nmos_current_mirror_bias": ["XM5"]}
+    ir, g = _ir_groups("loadbench_miller")
+    bl = plan_blocks(ir, g)
+    names = [x for b in bl for x in b["devices"]]
+    assert sorted(names) == sorted(d["name"] for d in ir["devices"]) and len(names) == len(set(names))
+    by = {b["name"]: b for b in bl}
+    assert "XNormalTransistorPmos5" in by["pmos_bias_bank"]["devices"]
+    assert by["cs_stage"]["devices"] == ["XNormalTransistorNmos3"]
+    assert by["input_pair"]["body"] == "FirstStageYsourceTransconductance"     # its own n-well
+    devs = {d["name"]: d for d in ir["devices"]}
+    for b in bl:
+        assert len({devs[x]["type"] for x in b["devices"]}) == 1 and len({devs[x]["terminals"]["b"] for x in b["devices"]}) == 1
+
+
+def test_symmetry_measures_tell_ab_abba_abab_apart():
+    from src.s4.run import symmetry
+    cell = {"cell": "u"}
+    def geo(seq):
+        us, x = [], 0.0
+        for dev, mir in seq:
+            us.append({"device": dev, "mirror": mir, "rec": cell, "x": x, "w": 1.0})
+            x += 1.5
+        return {"units": us, "row": [0.0, 0.0, x - 0.5, 1.0]}
+    ab = symmetry(geo([("A", False), ("B", True)]), ["A", "B"])
+    abba = symmetry(geo([("A", False), ("B", False), ("B", True), ("A", True)]), ["A", "B"])
+    abab = symmetry(geo([("A", False), ("B", False), ("A", False), ("B", False)]), ["A", "B"])
+    assert ab["mirror_image"] and ab["error_um"] == 0 and ab["centroid_offset_um"] == 1.5
+    assert abba["mirror_image"] and abba["centroid_offset_um"] == 0
+    assert not abab["mirror_image"] and abab["centroid_offset_um"] == 1.5
+
+
+def test_stub_plan_sends_single_finger_strips_down_and_keeps_stubs_apart():
+    import pytest
+    from src.s4 import block as B
+    pins = {"D": {"layer": "metal1", "rect": [0.2, 0.3, 0.4, 8.0]}, "S": {"layer": "metal1", "rect": [1.5, 0.3, 1.7, 8.0]},
+            "G": {"layer": "metal1", "rect": [0.5, 8.5, 1.4, 8.7]}}
+    p = B.stub_plan(pins, 1.9, 8.8)
+    assert p["D"]["side"] == p["S"]["side"] == "bottom" and p["G"]["side"] == "top"
+    tight = {"D": {"layer": "metal1", "rect": [0.1, 0.3, 0.2, 8.0]}, "S": {"layer": "metal1", "rect": [0.35, 0.3, 0.45, 8.0]},
+             "G": {"layer": "metal1", "rect": [0.2, 8.5, 0.4, 8.7]}}
+    with pytest.raises(RuntimeError):
+        B.stub_plan(tight, 0.6, 8.8)
+
+
+def test_5t_blocks_signed_off_with_their_controls():
+    """Every 5T block variant passes DRC (nothing deferred; the control sliver caught) and LVS (the wrong-L
+    reference rejected); the pair has a common-centroid mirror-image variant (ABBA)."""
+    import pytest
+    rep_f = REPO / "outputs/S4/example_ota_5t/s4_report.json"
+    if not rep_f.exists():
+        pytest.skip("needs the 5T's S4 outputs")
+    rep = json.loads(rep_f.read_text())
+    assert rep["all_pass"] and all(g["pass"] in (True, None) for g in rep["gates"].values())
+    bl = json.loads((REPO / "outputs/S4/example_ota_5t/blocks.json").read_text())["blocks"]
+    vs = [v for b in bl for v in b["variants"]]
+    assert len(vs) == 5
+    for v in vs:
+        assert v["drc"]["errors"] == 0 and v["drc"]["neg_control_flagged"], v["cell"]
+        assert v["lvs"]["match"] and v["lvs"]["neg_control_rejected"], v["cell"]
+        assert v["geometry"]["tap_distance_max_um"] <= 15.0
+    abba = next(v for v in vs if v["cell"] == "nmos_differential_pair__ABBA")
+    assert abba["symmetry"]["mirror_image"] and abba["symmetry"]["centroid_offset_um"] == 0

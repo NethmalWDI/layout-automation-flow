@@ -1083,7 +1083,7 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   - `docs/plan_v4_S4_S7.md` sets out how decisions are taken: type and well rules, symmetry, designer rows,
     enumeration for small designs, a budget-aware cost with an area-only baseline.
   - PREREG's amendment of 2026-11-03 adds the gates, H4, H5 and the per-design predictions, before any change.
-- **Phase 1 (2026-11-03 evening to 2026-11-04 01:40): S3's unit cells without guard rings.**
+- **Phase 1 (2026-11-03, 19:35–21:10 CET): S3's unit cells without guard rings.**
   - Two ringless 5T cells were built by hand first. DRC failed only on the tap rules, and LVS on the missing body
     pin. The body is now a label on a small patch of the well: the n-well for PMOS, pwell for NMOS (substrate in
     Magic's sky130 extraction). The tap rules are deferred to S4.
@@ -1097,3 +1097,12 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
       ends).
     - Specs unchanged on both, as predicted.
   - S0–S2 byte-identical; S3 goldens refreshed; walkthrough regenerated; 3 tests.
+- **Phase 2 (2026-11-03, 21:10–21:45 CET): S4 blocks on the 5T.**
+  - `src/s4/` forms blocks: matching groups first, then S0's blocks, one type and one body net each.
+  - Each block is a row of S3's ringless units, wired by met2 stubs to one met3 track per net and closed by one tap
+    ring from the PDK's own `guard_ring_draw`. Variants: AB, ABBA, ABAB, A.
+  - All 5 5T variants pass DRC (nothing deferred) and LVS, with both negative controls caught.
+  - S4 is now a flow stage.
+  - Fixed on the way: single-finger strips go down (spacing), a column joins a net's two tracks, and G4.4 now needs a
+    geometric mirror image.
+  - Phase 1's LOADBench times had been written in the host's clock; corrected to 19:48–20:45 CET.

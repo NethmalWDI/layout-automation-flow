@@ -1,0 +1,664 @@
+{
+  "run_id": "2026-11-03T21:22:52-8b1ee339",
+  "design": "example_ota_5t",
+  "s3_run_id": "2026-11-03T19:32:06-959ab06e",
+  "blocks": [
+    {
+      "name": "pmos_current_mirror_load",
+      "kind": "mirror",
+      "type": "pmos",
+      "body": "VDD",
+      "devices": [
+        "XM3",
+        "XM4"
+      ],
+      "variants": [
+        {
+          "id": "AB",
+          "cell": "pmos_current_mirror_load__AB",
+          "arrangement": [
+            {
+              "device": "XM3",
+              "cell": "pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng",
+              "mirror": false,
+              "x": 0.0
+            },
+            {
+              "device": "XM4",
+              "cell": "pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng",
+              "mirror": true,
+              "x": 2.54
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/example_ota_5t/blocks/pmos_current_mirror_load__AB/pmos_current_mirror_load__AB.gds",
+            "rc": 0,
+            "log": "outputs/S4/example_ota_5t/blocks/pmos_current_mirror_load__AB/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/example_ota_5t/blocks/pmos_current_mirror_load__AB/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/example_ota_5t/blocks/pmos_current_mirror_load__AB/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/example_ota_5t/blocks/pmos_current_mirror_load__AB/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -4.1,
+              7.08,
+              11.115
+            ],
+            "ring": [
+              -0.8,
+              -3.6,
+              6.08,
+              10.615
+            ],
+            "row": [
+              0.0,
+              0.0,
+              4.48,
+              8.815
+            ],
+            "tap_distance_max_um": 3.34,
+            "area_um2": 135.11
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "net3": {
+                  "layer": "metal3",
+                  "y": 9.815,
+                  "x": [
+                    -1.8,
+                    7.08
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "net3": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    7.08
+                  ],
+                  "width": 0.4
+                },
+                "VDD": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    7.08
+                  ],
+                  "width": 0.4
+                },
+                "OUTP": {
+                  "layer": "metal3",
+                  "y": -2.8,
+                  "x": [
+                    -1.8,
+                    7.08
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "VDD",
+              "port": "VDD_body",
+              "layer": "locali",
+              "at": [
+                2.64,
+                -3.6
+              ]
+            }
+          },
+          "symmetry": {
+            "error_um": 0.0,
+            "centroid_offset_um": 2.54,
+            "mirror_image": true
+          },
+          "png": "outputs/S4/example_ota_5t/blocks/pmos_current_mirror_load__AB/pmos_current_mirror_load__AB.png",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "nmos_differential_pair",
+      "kind": "diff_pair",
+      "type": "nmos",
+      "body": "VSS",
+      "devices": [
+        "XM1",
+        "XM2"
+      ],
+      "variants": [
+        {
+          "id": "AB",
+          "cell": "nmos_differential_pair__AB",
+          "arrangement": [
+            {
+              "device": "XM1",
+              "cell": "nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng",
+              "mirror": false,
+              "x": 0.0
+            },
+            {
+              "device": "XM2",
+              "cell": "nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng",
+              "mirror": true,
+              "x": 2.72
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__AB/nmos_differential_pair__AB.gds",
+            "rc": 0,
+            "log": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__AB/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__AB/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__AB/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__AB/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -2.91,
+              6.64,
+              16.4
+            ],
+            "ring": [
+              -0.8,
+              -2.7,
+              5.64,
+              16.19
+            ],
+            "row": [
+              0.0,
+              0.0,
+              4.84,
+              12.59
+            ],
+            "tap_distance_max_um": 2.92,
+            "area_um2": 162.98
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "net1": {
+                  "layer": "metal3",
+                  "y": 13.59,
+                  "x": [
+                    -1.8,
+                    6.64
+                  ],
+                  "width": 0.4
+                },
+                "INP": {
+                  "layer": "metal3",
+                  "y": 14.49,
+                  "x": [
+                    -1.8,
+                    6.64
+                  ],
+                  "width": 0.4
+                },
+                "INN": {
+                  "layer": "metal3",
+                  "y": 15.39,
+                  "x": [
+                    -1.8,
+                    6.64
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "net3": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    6.64
+                  ],
+                  "width": 0.4
+                },
+                "OUTP": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    6.64
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "VSS",
+              "port": "VSS_body",
+              "layer": "locali",
+              "at": [
+                2.42,
+                -2.7
+              ]
+            }
+          },
+          "symmetry": {
+            "error_um": 0.0,
+            "centroid_offset_um": 2.72,
+            "mirror_image": true
+          },
+          "png": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__AB/nmos_differential_pair__AB.png",
+          "ok": true
+        },
+        {
+          "id": "ABBA",
+          "cell": "nmos_differential_pair__ABBA",
+          "arrangement": [
+            {
+              "device": "XM1",
+              "cell": "nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng",
+              "mirror": false,
+              "x": 0.0
+            },
+            {
+              "device": "XM2",
+              "cell": "nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng",
+              "mirror": false,
+              "x": 1.93
+            },
+            {
+              "device": "XM2",
+              "cell": "nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng",
+              "mirror": true,
+              "x": 3.86
+            },
+            {
+              "device": "XM1",
+              "cell": "nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng",
+              "mirror": true,
+              "x": 5.79
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__ABBA/nmos_differential_pair__ABBA.gds",
+            "rc": 0,
+            "log": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__ABBA/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__ABBA/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__ABBA/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__ABBA/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -3.81,
+              8.92,
+              15.5
+            ],
+            "ring": [
+              -0.8,
+              -3.6,
+              7.92,
+              15.29
+            ],
+            "row": [
+              0.0,
+              0.0,
+              7.12,
+              12.59
+            ],
+            "tap_distance_max_um": 4.06,
+            "area_um2": 207.0
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "INP": {
+                  "layer": "metal3",
+                  "y": 13.59,
+                  "x": [
+                    -1.8,
+                    8.92
+                  ],
+                  "width": 0.4
+                },
+                "INN": {
+                  "layer": "metal3",
+                  "y": 14.49,
+                  "x": [
+                    -1.8,
+                    8.92
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "net3": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    8.92
+                  ],
+                  "width": 0.4
+                },
+                "net1": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    8.92
+                  ],
+                  "width": 0.4
+                },
+                "OUTP": {
+                  "layer": "metal3",
+                  "y": -2.8,
+                  "x": [
+                    -1.8,
+                    8.92
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "VSS",
+              "port": "VSS_body",
+              "layer": "locali",
+              "at": [
+                3.56,
+                -3.6
+              ]
+            }
+          },
+          "symmetry": {
+            "error_um": 0.0,
+            "centroid_offset_um": 0.0,
+            "mirror_image": true
+          },
+          "png": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__ABBA/nmos_differential_pair__ABBA.png",
+          "ok": true
+        },
+        {
+          "id": "ABAB",
+          "cell": "nmos_differential_pair__ABAB",
+          "arrangement": [
+            {
+              "device": "XM1",
+              "cell": "nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng",
+              "mirror": false,
+              "x": 0.0
+            },
+            {
+              "device": "XM2",
+              "cell": "nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng",
+              "mirror": false,
+              "x": 1.93
+            },
+            {
+              "device": "XM1",
+              "cell": "nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng",
+              "mirror": false,
+              "x": 3.86
+            },
+            {
+              "device": "XM2",
+              "cell": "nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng",
+              "mirror": false,
+              "x": 5.79
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__ABAB/nmos_differential_pair__ABAB.gds",
+            "rc": 0,
+            "log": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__ABAB/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__ABAB/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__ABAB/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__ABAB/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -3.81,
+              8.92,
+              15.5
+            ],
+            "ring": [
+              -0.8,
+              -3.6,
+              7.92,
+              15.29
+            ],
+            "row": [
+              0.0,
+              0.0,
+              7.12,
+              12.59
+            ],
+            "tap_distance_max_um": 4.06,
+            "area_um2": 207.0
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "INP": {
+                  "layer": "metal3",
+                  "y": 13.59,
+                  "x": [
+                    -1.8,
+                    8.92
+                  ],
+                  "width": 0.4
+                },
+                "INN": {
+                  "layer": "metal3",
+                  "y": 14.49,
+                  "x": [
+                    -1.8,
+                    8.92
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "net3": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    8.92
+                  ],
+                  "width": 0.4
+                },
+                "net1": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    8.92
+                  ],
+                  "width": 0.4
+                },
+                "OUTP": {
+                  "layer": "metal3",
+                  "y": -2.8,
+                  "x": [
+                    -1.8,
+                    8.92
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "VSS",
+              "port": "VSS_body",
+              "layer": "locali",
+              "at": [
+                3.56,
+                -3.6
+              ]
+            }
+          },
+          "symmetry": {
+            "error_um": 0.0,
+            "centroid_offset_um": 1.93,
+            "mirror_image": false
+          },
+          "png": "outputs/S4/example_ota_5t/blocks/nmos_differential_pair__ABAB/nmos_differential_pair__ABAB.png",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "nmos_current_mirror_bias",
+      "kind": "nmos-current-mirror-bias",
+      "type": "nmos",
+      "body": "VSS",
+      "devices": [
+        "XM5"
+      ],
+      "variants": [
+        {
+          "id": "A",
+          "cell": "nmos_current_mirror_bias__A",
+          "arrangement": [
+            {
+              "device": "XM5",
+              "cell": "nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng",
+              "mirror": false,
+              "x": 0.0
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/example_ota_5t/blocks/nmos_current_mirror_bias__A/nmos_current_mirror_bias__A.gds",
+            "rc": 0,
+            "log": "outputs/S4/example_ota_5t/blocks/nmos_current_mirror_bias__A/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/example_ota_5t/blocks/nmos_current_mirror_bias__A/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/example_ota_5t/blocks/nmos_current_mirror_bias__A/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/example_ota_5t/blocks/nmos_current_mirror_bias__A/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -2.01,
+              4.92,
+              15.5
+            ],
+            "ring": [
+              -0.8,
+              -1.8,
+              3.92,
+              15.29
+            ],
+            "row": [
+              0.0,
+              0.0,
+              3.12,
+              12.59
+            ],
+            "tap_distance_max_um": 2.36,
+            "area_um2": 117.67
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "VSS": {
+                  "layer": "metal3",
+                  "y": 13.59,
+                  "x": [
+                    -1.8,
+                    4.92
+                  ],
+                  "width": 0.4
+                },
+                "net2": {
+                  "layer": "metal3",
+                  "y": 14.49,
+                  "x": [
+                    -1.8,
+                    4.92
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "net1": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    4.92
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "VSS",
+              "port": "VSS_body",
+              "layer": "locali",
+              "at": [
+                1.56,
+                -1.8
+              ]
+            }
+          },
+          "symmetry": {},
+          "png": "outputs/S4/example_ota_5t/blocks/nmos_current_mirror_bias__A/nmos_current_mirror_bias__A.png",
+          "ok": true
+        }
+      ]
+    }
+  ]
+}

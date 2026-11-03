@@ -1,0 +1,15 @@
+* NGSPICE file created from nmos_current_mirror_bias__A.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_9RJRPW a_229_n1231# G D0 S1 VSUBS
+X0 a_229_n1231# G S1 VSUBS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=1.74 ps=12.29 w=12 l=1
+X1 S1 G D0 VSUBS sky130_fd_pr__nfet_01v8 ad=1.74 pd=12.29 as=3.48 ps=24.58 w=12 l=1
+.ends
+
+.subckt nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng B G S D
+Xnfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng_pc D G D S B sky130_fd_pr__nfet_01v8_9RJRPW
+.ends
+
+.subckt nmos_current_mirror_bias__A VSS net2 net1 VSS_body
+Xnfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng_0 VSS_body net2 VSS net1 nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng
+.ends
+

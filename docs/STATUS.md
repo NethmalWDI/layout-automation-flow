@@ -2,11 +2,11 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-04 01:40 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
+**Last updated:** 2026-11-03 21:40 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
 routing, verification) on branch `s4-s5`**, from `main` at tag `s0s3-reviewed` (`ec359567`). The plan is
 `docs/plan_v4_S4_S7.md`; the phases are under *Plan v4 (s4-s5)* below.
-- Phase 0 is committed (`e6306879`).
-- Phase 1 (S3 without guard rings, re-run on both designs) is done and waiting for Imasha's commit.
+- Phases 0 and 1 are committed (`e6306879`, `a3e9277e`).
+- Phase 2 (S4 blocks on the 5T) is done and waiting for Imasha's commit.
 - Claude Code holds the claim below; nothing is running.
 
 `main` holds the reviewed S0–S3 state (the supervisor review, merged; `1626d11b` and Imasha's STATUS commit
@@ -56,7 +56,7 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 **Nothing.**
 - Plan v4 Phase 1's S3 runs, with ringless unit cells, have ended (results under *Plan v4*, Phase 1 record):
   - `example_ota_5t --stage S3`: 19:25–19:46 CET 2026-11-03, PASS (`runs/logs/v4_p1_5t_S3.log`).
-  - `loadbench_miller --stage S3`: 00:18–01:15 CET 2026-11-04, FAIL G3.5 only, as before
+  - `loadbench_miller --stage S3`: 19:48–20:45 CET 2026-11-03, FAIL G3.5 only, as before
     (`runs/logs/v4_p1_lb_S3.log`).
 
 **Earlier:**
@@ -165,8 +165,8 @@ checked against its budget. S3's unit cells lose their guard rings; S4's blocks 
 | Phase | Work | State |
 |---|---|---|
 | 0 | Freeze test for S0–S2; plan; PREREG amendment; STATUS | **done**, committed `e6306879` |
-| 1 | S3 without guard rings; re-run the 5T and LOADBench; compare with the reviewed S3 | **done**, waiting for Imasha's commit |
-| 2 | S4 on the 5T: pair, mirror, single device; rings; variants | pending |
+| 1 | S3 without guard rings; re-run the 5T and LOADBench; compare with the reviewed S3 | **done**, committed `a3e9277e` |
+| 2 | S4 on the 5T: pair, mirror, single device; rings; variants | **done**, waiting for Imasha's commit |
 | 3 | S5 placement on the 5T; area-only baseline | pending |
 | 4 | S5 router on the 5T | pending |
 | 5 | S6/S7 on the 5T | pending |
@@ -174,7 +174,26 @@ checked against its budget. S3's unit cells lose their guard rings; S4's blocks 
 | 7 | Stabilise: goldens, walkthrough to S7, review, merge | pending |
 | 8 | Harder design (`ttsky25a_fd` or `iadc_ota`, open) | pending |
 
-Phase 1 record (2026-11-03 19:35 to 2026-11-04 01:40 CET; flow record 7.15 and row 67):
+Phase 2 record (2026-11-03, 21:10–21:45 CET; flow record 7.16):
+- **S4** (`src/s4/run.py`, `src/s4/block.py`), now a flow stage (`./flow run <d> --stage S4`).
+  - Blocks: matching groups first, then S0's blocks; one type and one body net per block.
+  - Variants: AB (mirror image), ABBA and ABAB (from half units built as S3 cells), A, row.
+  - Template: a row of units; met2 stubs to one met3 track per net; a met2 column for a net on both sides; one tap
+    ring from the PDK's `guard_ring_draw`, labelled `<body>_body`.
+  - Sign-off: DRC with nothing deferred, LVS against the IR, both with negative controls.
+- **5T:** 5 variants in 33 s, all gates pass.
+  - Areas: mirror AB 135 µm²; pair AB 163, ABBA 207 (common centroid), ABAB 207; tail 118.
+  - The blocks are generous (track bands and ring). S5 weighs it; a denser template can follow.
+- **Fixed on the way** (flow record 7.16):
+  - A single-finger cell's strips go down: the template's own spacing check stopped the first run.
+  - A met2 column joins a net's two tracks.
+  - G4.4 now requires a geometric mirror image, because the first centroid-only measure passed ABAB.
+- **Times corrected.** Phase 1's LOADBench run had been recorded in the host's clock (Sri Lanka, CET + 4:30) as
+  "00:18–01:15 on the 4th". It ran 19:48–20:45 CET on 2026-11-03, as its report's own timestamp shows. Fixed here,
+  in the progress log and in the flow record.
+- **Tests:** 4 new (the block plan for both designs, the symmetry measures, the stub sides, the 5T blocks' sign-off).
+
+Phase 1 record (2026-11-03, 19:35–21:10 CET; flow record 7.15 and row 67; times corrected in Phase 2, see above):
 - **Ringless cells, tried by hand first** (two 5T cells, `runs/tmp/s3ng/`):
   - DRC flags only the tap rules (LU.2, LU.3, nwell.4). S3 now defers them to S4 (`options.TAP_RULES`; counted
     from Magic's per-rule list).
@@ -1451,7 +1470,9 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
-- 2026-11-04 (Claude Code): **plan v4 Phase 1 on `s4-s5`**: S3's unit cells without guard rings (body labelled on the
+- 2026-11-03 late evening (Claude Code): **plan v4 Phase 2 on `s4-s5`**: S4 (blocks from S3's ringless cells, one
+  guard ring each) built and signed off on the 5T; S4 is a flow stage. Waiting for Imasha's commit.
+- 2026-11-03 evening (Claude Code): **plan v4 Phase 1 on `s4-s5`**: S3's unit cells without guard rings (body labelled on the
   well, tap rules deferred to S4), re-run on both designs. Same verdicts, 37 % and 13 % less device area, specs
   unchanged; S3 goldens refreshed. Flow record 7.15, row 67. Waiting for Imasha's commit.
 - 2026-11-03 evening (Claude Code): **plan v4 Phase 0 on branch `s4-s5`**: freeze test for the S0–S2 outputs later

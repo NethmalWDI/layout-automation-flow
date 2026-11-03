@@ -453,4 +453,37 @@ Each option cell is a SKY130 Magic PCell (exact W/L), plus met2 finger straps an
 | `plots/option_space.png` | Area against slack for every option; filled: the main mode's options, which S3 chooses from; hollow: the other modes'. `python3 scripts/replot_s3_options.py [design ...]` redraws it from a run's saved tables |
 | `s3_report.json` | All gates, with their evidence |
 
-S4 onward will be added here as it is implemented.
+## S4: blocks (plan v4, branch `s4-s5`)
+
+S4 groups S3's chosen ringless cells into blocks and closes each block with one guard ring
+(`docs/plan_v4_S4_S7.md`, section 2). Run after S3:
+
+```bash
+python3 -m src.s4.run inputs/example_ota_5t/package.yaml      # or: ./flow run example_ota_5t --stage S4
+```
+
+- **Blocks.** S1's matching groups come first, then S0's blocks with what is left, each split so that a block holds
+  one device type with one body net.
+- **Variants:**
+  - one device: `A`;
+  - a matched pair or mirror of one size: `AB`, the second unit flipped (a mirror image). When the cell has an even
+    finger count, also `ABBA` (common centroid) and `ABAB` (interdigitated), built from half units: S3's option
+    with half the fingers at the same finger width, built and signed off as an S3 cell;
+  - otherwise, the devices side by side (`row`).
+- **Template** (`src/s4/block.py`):
+  - units in one row;
+  - each pin on a met2 stub to one met3 track per net, above or below the row. The tracks run past the ring for S5
+    and carry the net's label;
+  - a met2 column joins a net's top and bottom tracks;
+  - one tap ring from the PDK's own `sky130::guard_ring_draw`, labelled `<body>_body` (p-tap for NMOS; n-tap in an
+    n-well over the whole PMOS block).
+- **Sign-off.** Each variant gets Magic DRC with nothing deferred (the ring meets the latch-up and well-tap rules),
+  and Netgen LVS against the IR's devices. Both have negative controls.
+
+| Output (`outputs/S4/<design>/`) | Content |
+|---|---|
+| `blocks.json` | Every block and variant: arrangement, GDS, bounding box, area, pins (tracks, ring), symmetry, DRC, LVS |
+| `blocks/<block>__<variant>/` | The block's GDS, `.mag`, picture, Magic script, DRC and LVS folders |
+| `s4_report.json` | Gates G4.1 (one type and body per block), G4.2 (DRC), G4.3 (LVS), G4.4 (a mirror-image variant per pair), G4.5 (latch-up tap distance), G4.6 (port C, info; comes with S6) |
+
+S5 onward will be added here as it is implemented.

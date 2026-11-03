@@ -1,0 +1,16 @@
+* NGSPICE file created from nmos_differential_pair__AB.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_CLRSRR G D0 a_129_n1231# S1 VSUBS
+X0 a_129_n1231# G S1 VSUBS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=1.74 ps=12.29 w=12 l=0.5
+X1 S1 G D0 VSUBS sky130_fd_pr__nfet_01v8 ad=1.74 pd=12.29 as=3.48 ps=24.58 w=12 l=0.5
+.ends
+
+.subckt nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng B G S D
+Xnfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng_pc G S S D B sky130_fd_pr__nfet_01v8_CLRSRR
+.ends
+
+.subckt nmos_differential_pair__AB net1 INP INN net3 OUTP VSS_body
+Xnfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng_0 VSS_body INP net1 net3 nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng
+Xnfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng_1 VSS_body INN net1 OUTP nfet_01v8_W24_L0p5_m1__nf2_gtop_sdfull_outS_ng
+.ends
+

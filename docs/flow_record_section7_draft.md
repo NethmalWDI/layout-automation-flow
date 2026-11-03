@@ -1148,7 +1148,7 @@ Imasha's decisions:
 **Still open:** as at the end of 7.13, without the `USER` quirk and the Errno 22 retry. The three other designs
 (`ota5t_stress`, `ttsky25a_fd`, `iadc_ota`) keep their plan-v2 outputs (7.5) and were not part of this review.
 
-### 7.15 Plan v4, Phase 1: S3 unit cells without guard rings (2026-11-03 and 04)
+### 7.15 Plan v4, Phase 1: S3 unit cells without guard rings (2026-11-03)
 
 Plan v4 (`docs/plan_v4_S4_S7.md`, branch `s4-s5`) starts S4 and S5. Imasha decided that S3's unit cells lose their
 guard rings and that each S4 block gets one ring: a ring between the halves of a pair costs area and matching.
@@ -1163,7 +1163,7 @@ guard rings and that each S4 block gets one ring: a ring between the halves of a
   - The DRC negative control could hide inside the n-well's error area (row 67).
 - **Names.** Ringless cells end in `_ng`. S2's frozen budgets were built from the ringed cells, which keep their
   names; S2's "cells" step and the `v1` variant still build ringed cells (`--guard 1`).
-- **Results.** The 5T ran 19:25–19:46 CET and LOADBench 00:18–01:15 (logs `runs/logs/v4_p1_*_S3.log`).
+- **Results.** The 5T ran 19:25–19:46 CET and LOADBench 19:48–20:45 CET (logs `runs/logs/v4_p1_*_S3.log`).
 
 | | 5T, reviewed | 5T, ringless | LOADBench, reviewed | LOADBench, ringless |
 |---|---|---|---|---|
@@ -1178,3 +1178,42 @@ guard rings and that each S4 block gets one ring: a ring between the halves of a
 - **The four 5T PMOS options that do not sign off** (8 fingers, half contacts) failed the same way before: the strips
   are too short for two straps.
 - **The S0–S2 outputs are byte-identical** (the freeze test); only the two S3 goldens were refreshed.
+
+### 7.16 Plan v4, Phase 2: S4 blocks on the 5T (2026-11-03, late evening)
+
+S4 (`src/s4/`) turns S3's chosen ringless cells into blocks, one per matched group or single device, each closed by
+one guard ring. It follows decision D8: generator code, not search.
+
+- **Blocks.**
+  - Matching groups come first, then S0's blocks; one device type and one body net per block.
+  - On the 5T: the mirror (XM3, XM4), the pair (XM1, XM2), the tail (XM5).
+  - On LOADBench (planned, a test checks it): P5 goes to the bias bank, so N3 stands alone, and the input pair has
+    its own n-well.
+- **Template.**
+  - The units stand in one row. Each pin goes on a met2 stub to one met3 track per net, above or below the row; the
+    tracks run past the ring for S5.
+  - One tap ring comes from the PDK's `sky130::guard_ring_draw`, labelled `<body>_body`; PMOS blocks sit in one
+    n-well.
+  - Two placement rules came from the first run:
+    - The gate pad and two strips of a 1.08 µm single-finger unit were 0.4 µm apart on one side; their via surrounds
+      would have broken met2 spacing, which the template's own check caught before drawing. A single-finger cell's
+      strips now go down and its gate up.
+    - A net with pins on both sides (the mirror's diode, net3) gets a met2 column joining its two tracks.
+- **Results** (5T, 33 s; every DRC and LVS negative control caught):
+
+| Variant | Size (µm) | Area (µm²) | Mirror image | Centroid offset (µm) |
+|---|---|---|---|---|
+| mirror AB | 8.88 × 15.21 | 135 | yes | 2.54 |
+| pair AB | 8.44 × 19.31 | 163 | yes | 2.72 |
+| pair ABBA | 10.72 × 19.31 | 207 | yes | 0 (common centroid) |
+| pair ABAB | 10.72 × 19.31 | 207 | no (interdigitated) | 1.93 |
+| tail A | 6.72 × 17.51 | 118 | – | – |
+
+- **The symmetry measure was first too weak.** It checked only that the two centroids mirror about the centre,
+  which ABAB also satisfies. G4.4 now also requires a geometric mirror image, and the centroid offset is reported.
+- **Open.**
+  - The blocks are generous: the pair's ABBA block is 207 µm² around 53 µm² of transistors, mostly track bands and
+    the ring. S5's cost weighs it, and a denser template can follow.
+  - Port capacitance (G4.6) comes with S6's extraction.
+  - LOADBench's blocks wait for Phase 6, where the 887 µm device will need tap rows inside its ring for the
+    15 µm latch-up rule.

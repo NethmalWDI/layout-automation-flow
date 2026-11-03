@@ -1,0 +1,125 @@
+{
+  "run_id": "2026-11-03T21:22:52-8b1ee339",
+  "design": "example_ota_5t",
+  "s3_run_id": "2026-11-03T19:32:06-959ab06e",
+  "gates": {
+    "G4.1_one_type_and_body_per_block": {
+      "pass": true,
+      "blocks": {
+        "pmos_current_mirror_load": {
+          "type": "pmos",
+          "body": "VDD",
+          "devices": [
+            "XM3",
+            "XM4"
+          ]
+        },
+        "nmos_differential_pair": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XM1",
+            "XM2"
+          ]
+        },
+        "nmos_current_mirror_bias": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XM5"
+          ]
+        }
+      }
+    },
+    "G4.2_DRC_every_variant": {
+      "pass": true,
+      "detail": {
+        "pmos_current_mirror_load__AB": 0,
+        "nmos_differential_pair__AB": 0,
+        "nmos_differential_pair__ABBA": 0,
+        "nmos_differential_pair__ABAB": 0,
+        "nmos_current_mirror_bias__A": 0
+      }
+    },
+    "G4.3_LVS_every_variant": {
+      "pass": true,
+      "detail": {
+        "pmos_current_mirror_load__AB": true,
+        "nmos_differential_pair__AB": true,
+        "nmos_differential_pair__ABBA": true,
+        "nmos_differential_pair__ABAB": true,
+        "nmos_current_mirror_bias__A": true
+      }
+    },
+    "G4.4_symmetry": {
+      "pass": true,
+      "tolerance_um": 0.005,
+      "detail": {
+        "pmos_current_mirror_load__AB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.54,
+          "mirror_image": true
+        },
+        "nmos_differential_pair__AB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.72,
+          "mirror_image": true
+        },
+        "nmos_differential_pair__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "nmos_differential_pair__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 1.93,
+          "mirror_image": false
+        }
+      },
+      "note": "every two-device block has a signed-off variant that is a mirror image about its centre; centroid_offset_um is 0 for a common centroid (ABBA)"
+    },
+    "G4.5_latchup_tap_distance": {
+      "pass": true,
+      "limit_um": 15.0,
+      "detail": {
+        "pmos_current_mirror_load__AB": 3.34,
+        "nmos_differential_pair__AB": 2.92,
+        "nmos_differential_pair__ABBA": 4.06,
+        "nmos_differential_pair__ABAB": 4.06,
+        "nmos_current_mirror_bias__A": 2.36
+      },
+      "note": "the LU rules are also in the block's own DRC (G4.2), which defers nothing"
+    },
+    "G4.6_port_capacitance (info)": {
+      "pass": null,
+      "note": "block port C against S2's hierarchy.json: S6 extraction (plan Phase 5)"
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-11-03T20:22:52+00:00",
+    "git_commit": "a3e9277e4ef388cea7b08c725f7d49e401f9db1b",
+    "inputs": [
+      {
+        "path": "outputs/S0/example_ota_5t/circuit_ir.json",
+        "sha256": "1275e0f1474c195047e319b4cc130bf48d20df1b8f6e53c80eeb831747ec5591"
+      },
+      {
+        "path": "outputs/S1/example_ota_5t/s1_report.json",
+        "sha256": "4818453a22b424fa95e9d7fac8d11b11f13c624e6f7c449c9b11254e93006477"
+      },
+      {
+        "path": "outputs/S3/example_ota_5t/device_decisions.json",
+        "sha256": "a43568d69aff722cd75f2edcb25f8a66bd9600cb268bc5f7e061ff7c24a25065"
+      },
+      {
+        "path": "outputs/S2/example_ota_5t/constraints.json",
+        "sha256": "e4b6f64598b5c4d66bb0cdac04a8c0d852b15ca2d1720483c5d51f55c09458ba"
+      },
+      {
+        "path": "inputs/example_ota_5t/package.yaml",
+        "sha256": "a83a07c531161be1f5ad53cce56304639d982dd80091e8b09cbee3352c87011f"
+      }
+    ]
+  }
+}
