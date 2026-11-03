@@ -1,19 +1,25 @@
-"""S5 — placement (plan v4, Phase 3; routing follows in Phase 4).
+"""S5 — placement and routing (plan v4, Phases 3 and 4).
 
 Inputs: outputs/S4/<d>/blocks.json (signed-off block variants: bounding box, axis, pins), outputs/S0/<d>/
-circuit_ir.json (designer rows, if any), outputs/S2/<d>/constraints.json (route.max_length.<net>.metal3).
+circuit_ir.json (designer rows, if any), outputs/S0/<d>/ref/<d>_layout.spice (the layout view: ports and net names),
+outputs/S2/<d>/constraints.json (route.*), outputs/S3/<d>/device_decisions.json (the cells' access R).
 
 Every candidate of src/s5/place.py is costed twice: budget-aware (area + S2's wire budgets) and area-only (the
-AICL-like baseline). Each winner's blocks are assembled into one GDS (Magic places each block's bounding box where
-the placement puts it) and checked with DRC: unrouted, it must already be clean (spacing between rings and wells).
+AICL-like baseline). Each winner is
+  * assembled unrouted and checked with DRC (spacing between rings and wells), then
+  * routed by src/s5/route.py, drawn, and signed off: DRC (G5.2) and LVS against the layout view with the drawn finger
+    counts (G5.3), both with negative controls, and every route.* rule of S2 checked on the wires (G5.4).
+Both are routed by the same router, so H5 compares them on equal terms.
 
-usage (inside layout-s0s3): python3 -m src.s5.run inputs/<d>/package.yaml
-Writes outputs/S5/<d>/: placement.json, s5_report.json (G5.1, G5.5), placed_<rule>/ (GDS, DRC, picture).
+usage (inside layout-s0s3): python3 -m src.s5.run inputs/<d>/package.yaml   (or ./flow run <d> --stage S5)
+Writes outputs/S5/<d>/: placement.json, s5_report.json (G5.1-G5.5), placed_<rule>/ and routed_<rule>/ (GDS, DRC,
+LVS, picture).
 """
 from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -23,6 +29,7 @@ from src.common.hygiene import fresh_output_dir, gate_exit, new_run_id
 from src.common.tools import REPO, TOOL_ENV, provenance, rel, write_json
 from src.s0.ingest import load_package
 from src.s5 import place as P
+from src.s5 import route as R
 
 RULES = ("budget_aware", "area_only")
 
@@ -45,9 +52,9 @@ def designer_rows(ir: dict, blocks: dict) -> dict:
     return {b: min(where[d] for d in v["devices"]) for b, v in blocks.items() if all(d in where for d in v["devices"])}
 
 
-def assemble(name: str, pl: dict, blocks: dict, out: Path) -> dict:
-    """The placed (unrouted) blocks as one GDS: each block's bounding box at the placement's box, flipped upside
-    down ('v') when the placement flips it."""
+def assemble(name: str, pl: dict, blocks: dict, out: Path, extra: list | None = None) -> dict:
+    """The placed blocks as one GDS: each block's bounding box at the placement's box, flipped upside down ('v')
+    when the placement flips it; `extra` Magic commands (the routes) are drawn in the top cell."""
     out.mkdir(parents=True, exist_ok=True)
     c = ["drc off", "snap internal"]
     vmap = {b: next(v for v in blocks[b]["variants"] if v["id"] == p["variant"]) for b, p in pl["blocks"].items()}
@@ -57,6 +64,7 @@ def assemble(name: str, pl: dict, blocks: dict, out: Path) -> dict:
     for b, p in pl["blocks"].items():
         x0, y0 = p["bbox"][0], p["bbox"][1]
         c += [f"box {x0:.4f}um {y0:.4f}um {x0:.4f}um {y0:.4f}um", f"getcell {vmap[b]['cell']}" + (" v" if p["flip"] else "")]
+    c += ["tech unlock *"] + (extra or []) + ["tech revert"]
     c += [f"save {name}", f"gds write {name}", "quit -noprompt"]
     (out / "assemble.tcl").write_text("\n".join(c) + "\n")
     r = subprocess.run(["magic", "-dnull", "-noconsole", "-rcfile", pcell.MAGICRC, str(out / "assemble.tcl")],
@@ -72,6 +80,115 @@ def assemble(name: str, pl: dict, blocks: dict, out: Path) -> dict:
         ly.read(str(gds))
         bb = ly.top_cell().dbbox()
         res["gds_bbox"] = [round(bb.left, 3), round(bb.bottom, 3), round(bb.right, 3), round(bb.top, 3)]
+    return res
+
+
+def top_ref(ref_spice: str, pl: dict, blocks: dict, s4: Path) -> str:
+    """The layout view's netlist with each device's nf set to the fingers drawn (S3's option, split by S4's units);
+    W and L stay. nf is read from the chosen S4 variant's own LVS reference."""
+    nf = {}
+    for b, p in pl["blocks"].items():
+        v = next(v for v in blocks[b]["variants"] if v["id"] == p["variant"])
+        for ln in (REPO / v["lvs"]["report"]).parent.parent.joinpath("ref.spice").read_text().splitlines():
+            m = re.match(r"^X(\S+)\s.*\bnf=(\d+)", ln)
+            if m:
+                nf[m.group(1)] = int(m.group(2))
+    lines = []
+    for ln in ref_spice.splitlines():
+        t = ln.split()
+        if t and t[0][:1] in "Xx" and t[0] in nf:
+            ln = re.sub(r"\bnf=\d+", f"nf={nf[t[0]]}", ln)
+        lines.append(ln)
+    return "\n".join(lines) + "\n"
+
+
+def lvs_top(gds: Path, design: str, ref_text: str, out: Path) -> dict:
+    """Top-level LVS against the layout view (its ports are the top cell's labels), with a negative control: the
+    same reference with the first device's L changed by 10 % (at least 0.1 um) must fail."""
+    out.mkdir(parents=True, exist_ok=True)
+
+    def run(text, tag):
+        f = out / f"ref_{tag}.spice"
+        f.write_text(text)
+        return subprocess.run(["bash", str(pcell.SCRIPTS / "magic_lvs.sh"), str(gds), design + "_routed", str(f), design,
+                               str(out / tag)], env={**TOOL_ENV, "LVS_MODE": "top"}, capture_output=True, text=True,
+                              timeout=1200).stdout
+    m = re.search(r" L=([0-9.]+)", ref_text)
+    bad = ref_text.replace(f" L={m.group(1)}", f" L={float(m.group(1)) + max(0.1, round(0.1 * float(m.group(1)), 3)):g}", 1)
+    ok, neg = "LVS_RESULT MATCH" in run(ref_text, "lvs"), "LVS_RESULT FAIL" in run(bad, "lvs_negctl")
+    return {"match": ok, "neg_control_rejected": neg, "pass": ok and neg, "report": rel(out / "lvs" / "lvs_report.txt")}
+
+
+def route_rules(routes: dict, cons: list, nmap: dict, ir: dict, s3_dec: dict, rules: dict) -> dict:
+    """G5.4: every route.* rule of S2 checked on the top-level wires. Lengths and parallel runs are the router's own
+    geometry; series R is the wires plus their vias, against what is left after S3's cell (the block's internal
+    wiring is S6's to extract)."""
+    inv = {}
+    for k, v in nmap.items():
+        inv.setdefault(v, k)
+    L = {n: R.lengths(r) for n, r in routes.items()}
+    res = {"max_length": {}, "max_parallel": {}, "max_series_R": {}, "symmetric": {}, "not_evaluated": [],
+           "covered": "max_length on metal4 enters the metal3+metal4 sum; top-level routing uses no metal1 or metal2, "
+                      "so those layers' length and parallel rules have no top-level wire to apply to"}
+
+    def par3(a, b):   # the longest x-overlap of two nets' metal3 runs within two pitches in y
+        best = 0.0
+        for ya, xa0, xa1 in routes.get(a, {}).get("met3", []):
+            for yb, xb0, xb1 in routes.get(b, {}).get("met3", []):
+                if abs(ya - yb) <= 2 * R.GRID + 1e-6:
+                    best = max(best, min(xa1, xb1) - max(xa0, xb0))
+        return max(0.0, best)
+    for c in cons:
+        cid = c["id"]
+        if cid.startswith("route.max_length.") and cid.endswith(".metal3"):
+            n = c["targets"][0]
+            m4 = next(x["value"] for x in cons if x["id"] == f"route.max_length.{n}.metal4")
+            u = (L[n]["metal3"] / c["value"] + L[n]["metal4"] / m4) if n in L else 0.0
+            res["max_length"][n] = {"use": round(u, 4), "ok": u <= 1.0, "length_um": L.get(n)}
+        elif cid.startswith("route.max_parallel.") and cid.endswith(".metal4"):
+            a, b = c["targets"]
+            run = 0.0
+            if a in routes and b in routes:
+                sa, sb = routes[a]["spine"], routes[b]["spine"]
+                if abs(sa["x"] - sb["x"]) <= 2 * R.GRID + 1e-6:   # beyond two pitches the coupling is ignored (ASSUMPTION)
+                    run = max(0.0, min(sa["y"][1], sb["y"][1]) - max(sa["y"][0], sb["y"][0]))
+            res["max_parallel"][f"{a}~{b}"] = {"run_um": round(run, 4), "limit_um": c["value"], "ok": run <= c["value"]}
+        elif cid.startswith("route.max_parallel.") and cid.endswith(".metal3"):
+            a, b = c["targets"]
+            run = par3(a, b)
+            res["max_parallel"][f"{a}~{b}.metal3"] = {"run_um": round(run, 4), "limit_um": c["value"], "ok": run <= c["value"]}
+        elif cid.startswith(("route.max_length.", "route.max_parallel.")):
+            continue                                       # metal4 lengths in the sum; metal1/metal2 unused (covered)
+        elif cid.startswith("route.max_series_R."):
+            devs = {d["name"]: d for d in ir["devices"]}
+            types = {d: t for t, v in s3_dec.items() for d in v["devices"]}
+            worst = None
+            for tgt in c["targets"]:
+                dn, term = tgt.split(".")
+                net = nmap.get(devs[dn]["terminals"][term], devs[dn]["terminals"][term])
+                acc = s3_dec[types[dn]]["access_resistance_ohm"][term]
+                r = routes.get(net)
+                rw = 0.0 if r is None else (rules["layers"]["metal4"]["sheet_res_ohm_sq"] * L[net]["metal4"] / R.WIRE +
+                                            rules["layers"]["metal3"]["sheet_res_ohm_sq"] * L[net]["metal3"] / R.WIRE +
+                                            len(r["vias"]) * rules["contacts"]["via3"]["ohm_per_contact"])
+                left = c["value"] - acc
+                if worst is None or rw - left > worst["route_ohm"] - worst["left_ohm"]:
+                    worst = {"net": net, "route_ohm": round(rw, 3), "left_ohm": round(left, 3)}
+            res["max_series_R"][cid.split("route.max_series_R.")[1]] = {**worst, "ok": worst["route_ohm"] <= worst["left_ohm"]}
+        elif cid.startswith("route.symmetric."):
+            a, b = c["targets"]
+            if a in routes and b in routes:
+                xa, xb = routes[a]["spine"]["x"], routes[b]["spine"]["x"]
+                la, lb = L[a]["metal4"] + L[a]["metal3"], L[b]["metal4"] + L[b]["metal3"]
+                ok = abs(xa + xb) <= P.AXIS_TOL and abs(la - lb) <= R.GRID
+            else:
+                ok, xa, xb = False, None, None
+            res["symmetric"][cid] = {"class": c["class"], "x": [xa, xb], "ok": ok}
+        elif cid.startswith("route."):
+            res["not_evaluated"].append({"id": cid, "class": c["class"], "note": c.get("note")})
+    hard_ok = all(v["ok"] for k in ("max_length", "max_parallel", "max_series_R") for v in res[k].values()) and \
+        all(v["ok"] for v in res["symmetric"].values() if v["class"] == "hard")
+    res["pass"] = hard_ok
     return res
 
 
@@ -114,12 +231,32 @@ def main(argv=None) -> int:
     fresh_output_dir(out)
     out.mkdir(parents=True, exist_ok=True)
     best = {r: min(range(len(cands)), key=lambda i: (cands[i]["cost"][r], i)) for r in RULES}
+    ref_spice = (s0 / "ref" / f"{design}_layout.spice").read_text()
+    nmap = R.net_map(ir, ref_spice)
+    ports = R.ports_of(ref_spice)
+    order = sorted(max_len, key=lambda n: max_len[n])                     # least budget slack first
+    mirrored = [(*(nmap.get(t, t) for t in c["targets"]), c["class"]) for c in cons if c["id"].startswith("route.symmetric.")]
+    s3_dec = json.loads((REPO / "outputs" / "S3" / design / "device_decisions.json").read_text())["decisions"]
+    rules = json.loads((REPO / "outputs" / "S2" / "pdk" / "parasitics.json").read_text())["rules"]
     res = {}
     for r in RULES:
         c = cands[best[r]]
-        res[r] = {"index": best[r], "cost": c["cost"], "placement": c["placement"],
-                  "legal": legal(c["placement"], blocks),
-                  "assembled": assemble(f"{design}_placed_{r}", c["placement"], blocks, out / f"placed_{r}")}
+        pl = c["placement"]
+        res[r] = {"index": best[r], "cost": c["cost"], "placement": pl, "legal": legal(pl, blocks),
+                  "assembled": assemble(f"{design}_placed_{r}", pl, blocks, out / f"placed_{r}")}
+        try:
+            routes = R.plan_routes(pl, nmap, ports, order, mirrored)
+        except RuntimeError as e:
+            res[r]["routing"] = {"ok": False, "error": str(e)}
+            continue
+        d = out / f"routed_{r}"
+        asm = assemble(f"{design}_routed", pl, blocks, d, R.tcl(routes))
+        res[r]["routing"] = {"ok": True, "routes": {n: {k: v for k, v in x.items() if k != "points"} for n, x in routes.items()},
+                             "lengths": {n: R.lengths(x) for n, x in routes.items()}, "assembled": asm,
+                             "rules": route_rules(routes, cons, nmap, ir, s3_dec, rules)}
+        if asm.get("gds"):
+            (d / "ref_top.spice").write_text(top_ref(ref_spice, pl, blocks, s4))
+            res[r]["routing"]["lvs"] = lvs_top(REPO / asm["gds"], design, (d / "ref_top.spice").read_text(), d / "lvs")
     ident = {"run_id": new_run_id(), "design": design,
              "s4_run_id": json.loads((s4 / "blocks.json").read_text()).get("run_id")}
     write_json(out / "placement.json", {
@@ -142,7 +279,14 @@ def main(argv=None) -> int:
             "area_ratio": round(ba["cost"]["area_um2"] / ao["cost"]["area_um2"], 4),
             "u_budget_aware": ba["cost"]["u"], "u_area_only": ao["cost"]["u"],
             "same_placement": ba["index"] == ao["index"]},
-        "G5.2_G5.4_routing": {"pass": None, "note": "routing, top-level DRC/LVS and the route rules: plan v4 Phase 4"},
+        "G5.2_top_DRC": {"pass": all(((res[r].get("routing") or {}).get("assembled") or {}).get("drc", {}).get("pass")
+                                     for r in RULES),
+                         "detail": {r: (((res[r].get("routing") or {}).get("assembled") or {}).get("drc") or {}).get("errors")
+                                    for r in RULES}},
+        "G5.3_top_LVS": {"pass": all(((res[r].get("routing") or {}).get("lvs") or {}).get("pass") for r in RULES),
+                         "detail": {r: (res[r].get("routing") or {}).get("lvs") for r in RULES}},
+        "G5.4_route_rules": {"pass": all(((res[r].get("routing") or {}).get("rules") or {}).get("pass") for r in RULES),
+                             "detail": {r: (res[r].get("routing") or {}).get("rules") for r in RULES}},
     }
     prov = provenance([s4 / "blocks.json", s0 / "circuit_ir.json", s2 / "constraints.json", REPO / a.package])
     report = {**ident, "gates": gates, "all_pass": all(g.get("pass") in (True, None) for g in gates.values()),

@@ -1,5 +1,5 @@
 {
-  "run_id": "2026-11-03T21:35:55-392e1830",
+  "run_id": "2026-11-03T21:56:02-d3423a5d",
   "design": "example_ota_5t",
   "s4_run_id": "2026-11-03T21:22:52-8b1ee339",
   "constants": {
@@ -239,6 +239,511 @@
           4.84,
           0.0
         ]
+      },
+      "routing": {
+        "ok": true,
+        "routes": {
+          "net3": {
+            "spine": {
+              "x": -0.8,
+              "y": [
+                -20.125,
+                -1.3
+              ]
+            },
+            "vias": [
+              [
+                -0.8,
+                -1.3
+              ],
+              [
+                -0.8,
+                -12.115
+              ],
+              [
+                -0.8,
+                -20.125
+              ]
+            ],
+            "met3": [],
+            "stacks": [],
+            "port": false,
+            "n_pins": 3
+          },
+          "OUTP": {
+            "spine": {
+              "x": -1.6,
+              "y": [
+                -19.225,
+                -13.915
+              ]
+            },
+            "vias": [
+              [
+                -1.6,
+                -13.915
+              ],
+              [
+                -1.6,
+                -19.225
+              ]
+            ],
+            "met3": [],
+            "stacks": [],
+            "port": true,
+            "n_pins": 2
+          },
+          "net1": {
+            "spine": {
+              "x": -0.8,
+              "y": [
+                -41.535,
+                -34.715
+              ]
+            },
+            "vias": [
+              [
+                -0.8,
+                -34.715
+              ],
+              [
+                -0.8,
+                -41.535
+              ]
+            ],
+            "met3": [],
+            "stacks": [],
+            "port": false,
+            "n_pins": 2
+          },
+          "INN": {
+            "spine": {
+              "x": -1.6,
+              "y": [
+                -36.515,
+                -36.515
+              ]
+            },
+            "vias": [
+              [
+                -1.6,
+                -36.515
+              ]
+            ],
+            "met3": [],
+            "stacks": [],
+            "port": true,
+            "n_pins": 1
+          },
+          "INP": {
+            "spine": {
+              "x": 1.6,
+              "y": [
+                -35.615,
+                -35.615
+              ]
+            },
+            "vias": [
+              [
+                1.6,
+                -35.615
+              ]
+            ],
+            "met3": [],
+            "stacks": [],
+            "port": true,
+            "n_pins": 1
+          },
+          "VBIAS": {
+            "spine": {
+              "x": 0.0,
+              "y": [
+                -57.025,
+                -57.025
+              ]
+            },
+            "vias": [
+              [
+                0.0,
+                -57.025
+              ]
+            ],
+            "met3": [],
+            "stacks": [],
+            "port": true,
+            "n_pins": 1
+          },
+          "VDD": {
+            "spine": {
+              "x": 0.0,
+              "y": [
+                -14.715,
+                -13.015
+              ]
+            },
+            "vias": [
+              [
+                0.0,
+                -13.015
+              ],
+              [
+                0.0,
+                -14.715
+              ]
+            ],
+            "met3": [
+              [
+                -14.715,
+                0.0,
+                0.4
+              ]
+            ],
+            "stacks": [
+              [
+                0.4,
+                -14.715
+              ]
+            ],
+            "port": true,
+            "n_pins": 2
+          },
+          "VSS": {
+            "spine": {
+              "x": 0.8,
+              "y": [
+                -56.125,
+                -18.425
+              ]
+            },
+            "vias": [
+              [
+                0.8,
+                -18.425
+              ],
+              [
+                0.8,
+                -56.125
+              ],
+              [
+                0.8,
+                -40.735
+              ]
+            ],
+            "met3": [
+              [
+                -18.425,
+                0.0,
+                0.8
+              ],
+              [
+                -40.735,
+                0.0,
+                0.8
+              ]
+            ],
+            "stacks": [
+              [
+                0.0,
+                -18.425
+              ],
+              [
+                0.0,
+                -40.735
+              ]
+            ],
+            "port": true,
+            "n_pins": 3
+          }
+        },
+        "lengths": {
+          "net3": {
+            "metal4": 18.825,
+            "metal3": 0
+          },
+          "OUTP": {
+            "metal4": 5.31,
+            "metal3": 0
+          },
+          "net1": {
+            "metal4": 6.82,
+            "metal3": 0
+          },
+          "INN": {
+            "metal4": 0.0,
+            "metal3": 0
+          },
+          "INP": {
+            "metal4": 0.0,
+            "metal3": 0
+          },
+          "VBIAS": {
+            "metal4": 0.0,
+            "metal3": 0
+          },
+          "VDD": {
+            "metal4": 1.7,
+            "metal3": 0.4
+          },
+          "VSS": {
+            "metal4": 37.7,
+            "metal3": 1.6
+          }
+        },
+        "assembled": {
+          "gds": "outputs/S5/example_ota_5t/routed_budget_aware/example_ota_5t_routed.gds",
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S5/example_ota_5t/routed_budget_aware/drc/drc_report.txt"
+          },
+          "png": "outputs/S5/example_ota_5t/routed_budget_aware/example_ota_5t_routed.png",
+          "gds_bbox": [
+            -4.22,
+            -58.03,
+            4.84,
+            0.0
+          ]
+        },
+        "rules": {
+          "max_length": {
+            "OUTP": {
+              "use": 0.0841,
+              "ok": true,
+              "length_um": {
+                "metal4": 5.31,
+                "metal3": 0
+              }
+            },
+            "net1": {
+              "use": 0.0696,
+              "ok": true,
+              "length_um": {
+                "metal4": 6.82,
+                "metal3": 0
+              }
+            },
+            "net3": {
+              "use": 0.4216,
+              "ok": true,
+              "length_um": {
+                "metal4": 18.825,
+                "metal3": 0
+              }
+            }
+          },
+          "max_parallel": {
+            "OUTP~net1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 166.33,
+              "ok": true
+            },
+            "OUTP~net1": {
+              "run_um": 0.0,
+              "limit_um": 162.74,
+              "ok": true
+            },
+            "OUTP~net3.metal3": {
+              "run_um": 0.0,
+              "limit_um": 97.2,
+              "ok": true
+            },
+            "OUTP~net3": {
+              "run_um": 5.31,
+              "limit_um": 95.11,
+              "ok": true
+            },
+            "OUTP~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 37.81,
+              "ok": true
+            },
+            "OUTP~INP": {
+              "run_um": 0.0,
+              "limit_um": 36.99,
+              "ok": true
+            },
+            "OUTP~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
+            "OUTP~INN": {
+              "run_um": 0.0,
+              "limit_um": 116.36,
+              "ok": true
+            },
+            "net1~net3.metal3": {
+              "run_um": 0.0,
+              "limit_um": 153.69,
+              "ok": true
+            },
+            "net1~net3": {
+              "run_um": 0.0,
+              "limit_um": 150.38,
+              "ok": true
+            },
+            "net1~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
+            "net1~INP": {
+              "run_um": 0.0,
+              "limit_um": 116.36,
+              "ok": true
+            },
+            "net1~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
+            "net1~INN": {
+              "run_um": 0.0,
+              "limit_um": 116.36,
+              "ok": true
+            },
+            "net3~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
+            "net3~INP": {
+              "run_um": 0.0,
+              "limit_um": 116.36,
+              "ok": true
+            },
+            "net3~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 37.81,
+              "ok": true
+            },
+            "net3~INN": {
+              "run_um": 0.0,
+              "limit_um": 36.99,
+              "ok": true
+            }
+          },
+          "max_series_R": {
+            "XM3+XM4.d": {
+              "net": "net3",
+              "route_ohm": 12.442,
+              "left_ohm": 272.074,
+              "ok": true
+            },
+            "XM3+XM4.g": {
+              "net": "net3",
+              "route_ohm": 12.442,
+              "left_ohm": 574.106,
+              "ok": true
+            },
+            "XM3+XM4.s": {
+              "net": "VDD",
+              "route_ohm": 7.067,
+              "left_ohm": 104.337,
+              "ok": true
+            },
+            "XM1+XM2.d": {
+              "net": "net3",
+              "route_ohm": 12.442,
+              "left_ohm": 147.731,
+              "ok": true
+            },
+            "XM1+XM2.g": {
+              "net": "INP",
+              "route_ohm": 3.41,
+              "left_ohm": 1546.537,
+              "ok": true
+            },
+            "XM1+XM2.s": {
+              "net": "net1",
+              "route_ohm": 7.621,
+              "left_ohm": 80.69,
+              "ok": true
+            },
+            "XM5.d": {
+              "net": "net1",
+              "route_ohm": 7.621,
+              "left_ohm": 68.902,
+              "ok": true
+            },
+            "XM5.g": {
+              "net": "VBIAS",
+              "route_ohm": 3.41,
+              "left_ohm": 386.837,
+              "ok": true
+            },
+            "XM5.s": {
+              "net": "VSS",
+              "route_ohm": 14.848,
+              "left_ohm": 128.9,
+              "ok": true
+            }
+          },
+          "symmetric": {
+            "route.symmetric.inputs": {
+              "class": "hard",
+              "x": [
+                1.6,
+                -1.6
+              ],
+              "ok": true
+            },
+            "route.symmetric.pair_drains": {
+              "class": "soft",
+              "x": [
+                -1.6,
+                -0.8
+              ],
+              "ok": false
+            }
+          },
+          "not_evaluated": [
+            {
+              "id": "route.em_width.net3",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.VDD",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.OUTP",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.net1",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.VSS",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.bias_net.VBIAS",
+              "class": "soft",
+              "note": "couplings onto the bias net consume no margin in this model; the impedance of the real bias generator is needed to budget them (ASSUMPTION)"
+            },
+            {
+              "id": "route.no_cross_digital",
+              "class": "hard",
+              "note": "no digital or clock nets in this circuit"
+            }
+          ],
+          "covered": "max_length on metal4 enters the metal3+metal4 sum; top-level routing uses no metal1 or metal2, so those layers' length and parallel rules have no top-level wire to apply to",
+          "pass": true
+        },
+        "lvs": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "report": "outputs/S5/example_ota_5t/routed_budget_aware/lvs/lvs/lvs_report.txt"
+        }
       }
     },
     "area_only": {
@@ -464,6 +969,511 @@
           4.84,
           0.0
         ]
+      },
+      "routing": {
+        "ok": true,
+        "routes": {
+          "net3": {
+            "spine": {
+              "x": -0.8,
+              "y": [
+                -35.615,
+                -1.3
+              ]
+            },
+            "vias": [
+              [
+                -0.8,
+                -1.3
+              ],
+              [
+                -0.8,
+                -12.115
+              ],
+              [
+                -0.8,
+                -35.615
+              ]
+            ],
+            "met3": [],
+            "stacks": [],
+            "port": false,
+            "n_pins": 3
+          },
+          "OUTP": {
+            "spine": {
+              "x": -1.6,
+              "y": [
+                -36.515,
+                -13.915
+              ]
+            },
+            "vias": [
+              [
+                -1.6,
+                -13.915
+              ],
+              [
+                -1.6,
+                -36.515
+              ]
+            ],
+            "met3": [],
+            "stacks": [],
+            "port": true,
+            "n_pins": 2
+          },
+          "net1": {
+            "spine": {
+              "x": 0.8,
+              "y": [
+                -57.025,
+                -21.025
+              ]
+            },
+            "vias": [
+              [
+                0.8,
+                -21.025
+              ],
+              [
+                0.8,
+                -57.025
+              ]
+            ],
+            "met3": [],
+            "stacks": [],
+            "port": false,
+            "n_pins": 2
+          },
+          "INN": {
+            "spine": {
+              "x": -2.4,
+              "y": [
+                -19.225,
+                -19.225
+              ]
+            },
+            "vias": [
+              [
+                -2.4,
+                -19.225
+              ]
+            ],
+            "met3": [],
+            "stacks": [],
+            "port": true,
+            "n_pins": 1
+          },
+          "INP": {
+            "spine": {
+              "x": 2.4,
+              "y": [
+                -20.125,
+                -20.125
+              ]
+            },
+            "vias": [
+              [
+                2.4,
+                -20.125
+              ]
+            ],
+            "met3": [],
+            "stacks": [],
+            "port": true,
+            "n_pins": 1
+          },
+          "VBIAS": {
+            "spine": {
+              "x": 0.0,
+              "y": [
+                -41.535,
+                -41.535
+              ]
+            },
+            "vias": [
+              [
+                0.0,
+                -41.535
+              ]
+            ],
+            "met3": [],
+            "stacks": [],
+            "port": true,
+            "n_pins": 1
+          },
+          "VDD": {
+            "spine": {
+              "x": 0.0,
+              "y": [
+                -14.715,
+                -13.015
+              ]
+            },
+            "vias": [
+              [
+                0.0,
+                -13.015
+              ],
+              [
+                0.0,
+                -14.715
+              ]
+            ],
+            "met3": [
+              [
+                -14.715,
+                0.0,
+                0.4
+              ]
+            ],
+            "stacks": [
+              [
+                0.4,
+                -14.715
+              ]
+            ],
+            "port": true,
+            "n_pins": 2
+          },
+          "VSS": {
+            "spine": {
+              "x": -0.8,
+              "y": [
+                -57.825,
+                -37.315
+              ]
+            },
+            "vias": [
+              [
+                -0.8,
+                -37.315
+              ],
+              [
+                -0.8,
+                -42.435
+              ],
+              [
+                -0.8,
+                -57.825
+              ]
+            ],
+            "met3": [
+              [
+                -37.315,
+                -0.8,
+                0.0
+              ],
+              [
+                -57.825,
+                -0.8,
+                0.0
+              ]
+            ],
+            "stacks": [
+              [
+                0.0,
+                -37.315
+              ],
+              [
+                0.0,
+                -57.825
+              ]
+            ],
+            "port": true,
+            "n_pins": 3
+          }
+        },
+        "lengths": {
+          "net3": {
+            "metal4": 34.315,
+            "metal3": 0
+          },
+          "OUTP": {
+            "metal4": 22.6,
+            "metal3": 0
+          },
+          "net1": {
+            "metal4": 36.0,
+            "metal3": 0
+          },
+          "INN": {
+            "metal4": 0.0,
+            "metal3": 0
+          },
+          "INP": {
+            "metal4": 0.0,
+            "metal3": 0
+          },
+          "VBIAS": {
+            "metal4": 0.0,
+            "metal3": 0
+          },
+          "VDD": {
+            "metal4": 1.7,
+            "metal3": 0.4
+          },
+          "VSS": {
+            "metal4": 20.51,
+            "metal3": 1.6
+          }
+        },
+        "assembled": {
+          "gds": "outputs/S5/example_ota_5t/routed_area_only/example_ota_5t_routed.gds",
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S5/example_ota_5t/routed_area_only/drc/drc_report.txt"
+          },
+          "png": "outputs/S5/example_ota_5t/routed_area_only/example_ota_5t_routed.png",
+          "gds_bbox": [
+            -4.22,
+            -58.075,
+            4.84,
+            0.0
+          ]
+        },
+        "rules": {
+          "max_length": {
+            "OUTP": {
+              "use": 0.3579,
+              "ok": true,
+              "length_um": {
+                "metal4": 22.6,
+                "metal3": 0
+              }
+            },
+            "net1": {
+              "use": 0.3675,
+              "ok": true,
+              "length_um": {
+                "metal4": 36.0,
+                "metal3": 0
+              }
+            },
+            "net3": {
+              "use": 0.7685,
+              "ok": true,
+              "length_um": {
+                "metal4": 34.315,
+                "metal3": 0
+              }
+            }
+          },
+          "max_parallel": {
+            "OUTP~net1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 166.33,
+              "ok": true
+            },
+            "OUTP~net1": {
+              "run_um": 0.0,
+              "limit_um": 162.74,
+              "ok": true
+            },
+            "OUTP~net3.metal3": {
+              "run_um": 0.0,
+              "limit_um": 97.2,
+              "ok": true
+            },
+            "OUTP~net3": {
+              "run_um": 21.7,
+              "limit_um": 95.11,
+              "ok": true
+            },
+            "OUTP~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 37.81,
+              "ok": true
+            },
+            "OUTP~INP": {
+              "run_um": 0.0,
+              "limit_um": 36.99,
+              "ok": true
+            },
+            "OUTP~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
+            "OUTP~INN": {
+              "run_um": 0.0,
+              "limit_um": 116.36,
+              "ok": true
+            },
+            "net1~net3.metal3": {
+              "run_um": 0.0,
+              "limit_um": 153.69,
+              "ok": true
+            },
+            "net1~net3": {
+              "run_um": 14.59,
+              "limit_um": 150.38,
+              "ok": true
+            },
+            "net1~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
+            "net1~INP": {
+              "run_um": 0.0,
+              "limit_um": 116.36,
+              "ok": true
+            },
+            "net1~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
+            "net1~INN": {
+              "run_um": 0.0,
+              "limit_um": 116.36,
+              "ok": true
+            },
+            "net3~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
+            "net3~INP": {
+              "run_um": 0.0,
+              "limit_um": 116.36,
+              "ok": true
+            },
+            "net3~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 37.81,
+              "ok": true
+            },
+            "net3~INN": {
+              "run_um": 0.0,
+              "limit_um": 36.99,
+              "ok": true
+            }
+          },
+          "max_series_R": {
+            "XM3+XM4.d": {
+              "net": "net3",
+              "route_ohm": 14.262,
+              "left_ohm": 272.074,
+              "ok": true
+            },
+            "XM3+XM4.g": {
+              "net": "net3",
+              "route_ohm": 14.262,
+              "left_ohm": 574.106,
+              "ok": true
+            },
+            "XM3+XM4.s": {
+              "net": "VDD",
+              "route_ohm": 7.067,
+              "left_ohm": 104.337,
+              "ok": true
+            },
+            "XM1+XM2.d": {
+              "net": "net3",
+              "route_ohm": 14.262,
+              "left_ohm": 147.731,
+              "ok": true
+            },
+            "XM1+XM2.g": {
+              "net": "INP",
+              "route_ohm": 3.41,
+              "left_ohm": 1546.537,
+              "ok": true
+            },
+            "XM1+XM2.s": {
+              "net": "net1",
+              "route_ohm": 11.05,
+              "left_ohm": 80.69,
+              "ok": true
+            },
+            "XM5.d": {
+              "net": "net1",
+              "route_ohm": 11.05,
+              "left_ohm": 68.902,
+              "ok": true
+            },
+            "XM5.g": {
+              "net": "VBIAS",
+              "route_ohm": 3.41,
+              "left_ohm": 386.837,
+              "ok": true
+            },
+            "XM5.s": {
+              "net": "VSS",
+              "route_ohm": 12.828,
+              "left_ohm": 128.9,
+              "ok": true
+            }
+          },
+          "symmetric": {
+            "route.symmetric.inputs": {
+              "class": "hard",
+              "x": [
+                2.4,
+                -2.4
+              ],
+              "ok": true
+            },
+            "route.symmetric.pair_drains": {
+              "class": "soft",
+              "x": [
+                -1.6,
+                -0.8
+              ],
+              "ok": false
+            }
+          },
+          "not_evaluated": [
+            {
+              "id": "route.em_width.net3",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.VDD",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.OUTP",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.net1",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.VSS",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.bias_net.VBIAS",
+              "class": "soft",
+              "note": "couplings onto the bias net consume no margin in this model; the impedance of the real bias generator is needed to budget them (ASSUMPTION)"
+            },
+            {
+              "id": "route.no_cross_digital",
+              "class": "hard",
+              "note": "no digital or clock nets in this circuit"
+            }
+          ],
+          "covered": "max_length on metal4 enters the metal3+metal4 sum; top-level routing uses no metal1 or metal2, so those layers' length and parallel rules have no top-level wire to apply to",
+          "pass": true
+        },
+        "lvs": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "report": "outputs/S5/example_ota_5t/routed_area_only/lvs/lvs/lvs_report.txt"
+        }
       }
     }
   },

@@ -107,6 +107,8 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 65 | S3 (plot) | `option_space.png` drew every option built for a type, of every mode, in the same filled green or red, but S3 chooses only among its main mode's options (A-bin: each finger stays in the sized device's SKY130 W bin). On the 5T's PMOS mirror, green options of 24.8–28.6 µm² sat beside the chosen 29.1 µm² cell, so the plot seemed to contradict "smallest area that fits" | explaining the walkthrough's plots to Imasha (2026-11-03): the smaller green points are the 2- and 4-finger cells, whose fingers fall in another W bin | the plot fills the main mode's options and draws the other modes' hollow, with a title that says so; the plotting is a function (`plot_option_space`) that `scripts/replot_s3_options.py` uses to redraw a committed run from its saved tables, without re-running S3; the walkthrough caption explains it. Test: the chosen cell is a main-mode option and no main-mode option that fits is smaller by more than the 2 % tie | the decisions are unchanged; both designs' plots redrawn |
 | 66 | infra (git) | With Git for Windows' `core.autocrlf=true` and no `.gitattributes`, checking out `main` after the merge (2026-11-03) wrote CRLF into the 855 files Phase A and the review had changed. bash cannot parse CRLF, so `scripts/env.sh` failed at line 7 and every flow command with it; S3's cached decks and the logs changed too. `flow status` read the time from the report files, so every stage showed the checkout's time | the first command after the merge (redrawing the S3 plot) stopped with a syntax error in `env.sh`; `git ls-files --eol` listed 856 files with CRLF in the working tree, 855 of them committed with LF | the 855 files converted back to LF (each one's bytes checked against its committed blob: identical); `.gitattributes` (`* text=auto eol=lf`) so every checkout writes LF; `flow status` takes the time from the report's provenance. Tests: shell files are LF; the status time | 138 tests and 20 goldens pass from PowerShell; GitHub Desktop lists the 855 files as changed with empty diffs until they are committed (no content change) |
 | 67 | S3 / DRC | The DRC negative control painted its 0.05 µm met1 sliver at the origin. On a ringless PMOS cell (plan v4) the origin lies inside the n-well, whose tap-rule error (nwell.4) covers it, and Magic's merged error total did not grow, so the control read as not caught. Magic's total and its per-rule list also count differently there (total 1; list 1 + 2) | building the first ringless cells by hand before changing S3 (plan v4, Phase 1) | the sliver sits at (−20, −20) µm, away from any layout (`scripts/magic_drc.sh`); a cell's deferred tap rules are counted from the per-rule list (`pcell.drc`, `defer`) | the control is caught on every ringless cell; earlier verdicts are unchanged (their controls were caught) |
+| 68 | S5 | The router mapped the IR's nets to the layout view's names by matching devices, but keyed the layout view's instances by their name without the leading X (`XM5` → `M5`), so no device matched. The identically named nets routed anyway, while `net2` was never renamed to the port `VBIAS`, and the top-level reference kept `nf=1` instead of the fingers drawn | the first top-level LVS: devices matched uniquely, but VBIAS was "no pin, node is …/net2" | `net_map` and `top_ref` match the full instance name; a test checks `net2 → VBIAS` and the port list | top-level LVS matches uniquely, with the drawn finger counts in the reference |
+| 69 | S5 | The router's own geometry broke DRC three ways: (1) one-via port pads (0.4 × 0.4 µm metal4) and the body stack's metal3 square under the 0.24 µm² minimum area (met4.4a, met3.6); (2) growing the pads to 0.7 µm brought two pads on one column 0.2 µm apart (met4.2), because the router's clearance did not know about the growth; (3) the stack's 0.6 µm metal3 square sat 0.295 µm from the next track, 5 nm under met3.2, because the track coordinates snap to the 5 nm grid | top-level DRC on both routed layouts (6, then 12, then 2 + 8 errors), located with a KLayout space check | every metal3/metal4 piece at least 0.4 × 0.7 µm; a column needs `Y_CLEAR` = 1.2 µm between its spines; the stack's metal3 is 0.5 µm (0.25 µm², 0.35 µm from the track); a hard mirrored pair (INP/INN) is placed jointly at ±x, never both on the axis | DRC 0 on both routed layouts, the control caught |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -1248,3 +1250,46 @@ pair variants × 8 flips).
 - **Both choose the AB pair:** ABBA's 207 µm² block costs more area than its common centroid saves here, because the
   cost has no mismatch term (the 5T's G0.10 offset is reported, not budgeted).
 - **Routing** (Phase 4) will tell whether the estimates hold.
+
+### 7.18 Plan v4, Phase 4: S5 routing on the 5T (2026-11-03, late evening)
+
+S5 now routes both placements: the budget-aware winner and the area-only baseline, with the same router, so H5
+compares them on equal terms.
+
+- **The router** (`src/s5/route.py`) is a spine router for row placements, within the PREREG constants:
+  - one vertical metal4 spine per net, 0.4 µm wide on a 0.8 µm grid; metal4 may pass over the blocks, which have
+    none;
+  - a via3 onto each of the net's block tracks, or a metal3 extension along the track if it does not reach;
+  - a contact stack from local interconnect to metal3 at each ring's body pin, and a metal3 run to the spine;
+  - nets in order of least budget slack; a hard mirrored pair (INP/INN) placed jointly at ±x; a soft pair (the
+    pair's drains) tries the mirror first;
+  - port labels with the layout view's names.
+
+  It is not the general maze router of the plan: it covers the row placements S5 makes, and fails loudly otherwise.
+- **Sign-off.**
+  - Top-level DRC: 0 on both layouts, with the control caught.
+  - Top-level LVS against S0's layout view, with each device's drawn finger count: a unique match on both, with the
+    wrong-L control rejected.
+  - Every evaluated `route.*` rule of S2 passes on both: length per net (metal3 + metal4, as fractions of the
+    per-layer maximum), parallel runs on metal3 and metal4, series R (the wires and vias, against what S3's cell
+    left), and the hard input symmetry.
+  - Not evaluated, as S2 marked them: EM widths (no PDK data), bias-net coupling, digital crossings (none in the
+    5T).
+- **Three bugs found on the way** (rows 68, 69): the instance-name slip that left VBIAS unlabelled, the router's own
+  minimum-area and spacing errors, and a hard mirrored pair placed one net at a time.
+
+| Net | Budget-aware: length (µm), use of budget | Area-only: length (µm), use of budget |
+|---|---|---|
+| net3 | 18.8, 0.42 | 34.3, 0.77 |
+| OUTP | 5.3, 0.08 | 22.6, 0.36 |
+| net1 | 6.8, 0.07 | 36.0, 0.37 |
+| worst parallel run / limit | 0.06 (OUTP~net3) | 0.23 (OUTP~net3) |
+| worst series R / what is left | 0.12 (XM5.s) | 0.16 (XM5.d) |
+
+- **Reading.**
+  - On the 5T both layouts stay within every budget, because the 5T's budgets are generous (every one ≥ 3.7 × its
+    expected need).
+  - The budget-aware placement uses 2–5 times less of each net's wire budget at the same area. H5's real test, G6.2
+    on extracted parasitics, comes with S6.
+  - The soft drain-pair symmetry is not met (spines at −1.6 and −0.8 µm; the mirror spot is blocked by the mirror
+    block's VDD ring pin). It is reported, not gated.

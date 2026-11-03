@@ -2,12 +2,12 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-03 21:40 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
+**Last updated:** 2026-11-03 21:58 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
 routing, verification) on branch `s4-s5`**, from `main` at tag `s0s3-reviewed` (`ec359567`). The plan is
 `docs/plan_v4_S4_S7.md`; the phases are under *Plan v4 (s4-s5)* below.
-- Phases 0–2 are committed: `e6306879`, `a3e9277e`, and `1e4d166f`. Phase 2's commit carries an unrelated message
+- Phases 0–3 are committed: `e6306879`, `a3e9277e`, `1e4d166f` and `f26c136a`. Phase 2's commit carries an unrelated message
   ("dementia_care_guide_sinhala (2)", a GitHub Desktop slip); its content is Phase 2's, and history is not rewritten.
-- Phase 3 (S5 placement on the 5T) is done and waiting for Imasha's commit.
+- Phase 4 (S5 routing on the 5T; S5 a flow stage) is done and waiting for Imasha's commit.
 - Claude Code holds the claim below; nothing is running.
 
 `main` holds the reviewed S0–S3 state (the supervisor review, merged; `1626d11b` and Imasha's STATUS commit
@@ -168,12 +168,31 @@ checked against its budget. S3's unit cells lose their guard rings; S4's blocks 
 | 0 | Freeze test for S0–S2; plan; PREREG amendment; STATUS | **done**, committed `e6306879` |
 | 1 | S3 without guard rings; re-run the 5T and LOADBench; compare with the reviewed S3 | **done**, committed `a3e9277e` |
 | 2 | S4 on the 5T: pair, mirror, single device; rings; variants | **done**, committed `1e4d166f` (mis-titled) |
-| 3 | S5 placement on the 5T; area-only baseline | **done**, waiting for Imasha's commit |
-| 4 | S5 router on the 5T | pending |
+| 3 | S5 placement on the 5T; area-only baseline | **done**, committed `f26c136a` |
+| 4 | S5 router on the 5T | **done**, waiting for Imasha's commit |
 | 5 | S6/S7 on the 5T | pending |
 | 6 | LOADBench through S4–S7 | pending |
 | 7 | Stabilise: goldens, walkthrough to S7, review, merge | pending |
 | 8 | Harder design (`ttsky25a_fd` or `iadc_ota`, open) | pending |
+
+Phase 4 record (2026-11-03, 21:44–21:58 CET; flow record 7.18, rows 68–69):
+- **Router** (`src/s5/route.py`): a spine router for row placements.
+  - One metal4 spine per net (0.4 µm, 0.8 µm grid), via3 onto the block tracks, contact stacks from the ring body
+    pins.
+  - Nets in least-slack order; INP/INN mirrored jointly at ±x; port labels with the layout view's names.
+  - Not the plan's general maze router; it fails loudly otherwise.
+- **Both placements routed, and signed off:**
+  - top-level DRC 0 and LVS a unique match against S0's layout view (with the drawn finger counts), controls
+    caught;
+  - every evaluated `route.*` rule passes. EM, bias-net coupling and digital crossings are not evaluated, as S2
+    marked them.
+- **Budget use of the wire lengths:** budget-aware 0.42 / 0.08 / 0.07 (net3 / OUTP / net1); area-only 0.77 / 0.36 /
+  0.37. Same area.
+- **S5 is a flow stage:** `flow status` shows S0–S5 PASS for the 5T.
+- **Bugs found and fixed:**
+  - row 68: instance names, so VBIAS was unlabelled and nf was not set;
+  - row 69: the router's minimum-area and spacing DRC errors, and the hard pair placed one net at a time.
+- **Tests:** 3 new.
 
 Phase 3 record (2026-11-03, 21:31–21:40 CET; flow record 7.17):
 - **PREREG amendment first.** S5's constants were fixed before any code: rows, gaps, enumeration, the budget-aware
@@ -1483,7 +1502,9 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
-- 2026-11-03 late evening (Claude Code): **plan v4 Phase 3 on `s4-s5`**: S5 placement on the 5T (budget-aware against area-only; textbook stack found, half the wire-budget use); PREREG constants first. Waiting for Imasha's commit.
+- 2026-11-03 late evening (Claude Code): **plan v4 Phase 4 on `s4-s5`**: S5 routing on the 5T. Both placements are
+  routed, with top-level DRC and LVS clean and S2's route rules met; S5 is a flow stage. Waiting for Imasha's commit.
+- 2026-11-03 late evening (Claude Code): **plan v4 Phase 3 on `s4-s5`**: S5 placement on the 5T (budget-aware against area-only; textbook stack found, half the wire-budget use); PREREG constants first. Committed `f26c136a`.
 - 2026-11-03 late evening (Claude Code): **plan v4 Phase 2 on `s4-s5`**: S4 (blocks from S3's ringless cells, one
   guard ring each) built and signed off on the 5T; S4 is a flow stage. Waiting for Imasha's commit.
 - 2026-11-03 evening (Claude Code): **plan v4 Phase 1 on `s4-s5`**: S3's unit cells without guard rings (body labelled on the

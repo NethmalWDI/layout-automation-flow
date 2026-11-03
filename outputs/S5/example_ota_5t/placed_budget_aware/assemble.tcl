@@ -10,6 +10,8 @@ box -4.2200um -37.5250um -4.2200um -37.5250um
 getcell nmos_differential_pair__AB v
 box -3.3600um -58.0350um -3.3600um -58.0350um
 getcell nmos_current_mirror_bias__A v
+tech unlock *
+tech revert
 save example_ota_5t_placed_budget_aware
 gds write example_ota_5t_placed_budget_aware
 quit -noprompt

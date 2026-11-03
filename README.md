@@ -486,11 +486,13 @@ python3 -m src.s4.run inputs/example_ota_5t/package.yaml      # or: ./flow run e
 | `blocks/<block>__<variant>/` | The block's GDS, `.mag`, picture, Magic script, DRC and LVS folders |
 | `s4_report.json` | Gates G4.1 (one type and body per block), G4.2 (DRC), G4.3 (LVS), G4.4 (a mirror-image variant per pair), G4.5 (latch-up tap distance), G4.6 (port C, info; comes with S6) |
 
-## S5: placement (plan v4, branch `s4-s5`; routing follows)
+## S5: placement and routing (plan v4, branch `s4-s5`)
 
 ```bash
-python3 -m src.s5.run inputs/example_ota_5t/package.yaml      # after S4; not yet a flow stage (it joins with routing)
+python3 -m src.s5.run inputs/example_ota_5t/package.yaml      # or: ./flow run example_ota_5t --stage S5
 ```
+
+**Placement:**
 
 - **Rows by device type,** PMOS above NMOS. A package's designer rows, if any, order the rows.
 - **Spacing:** blocks 3 µm apart in a row, rows 3 µm apart.
@@ -504,10 +506,21 @@ python3 -m src.s5.run inputs/example_ota_5t/package.yaml      # after S4; not ye
   - *area-only:* area alone, the AICL-like baseline.
 - **Checks:** each winner's blocks are assembled into one GDS and checked with DRC before routing.
 
+**Routing** (`src/s5/route.py`), applied to both winners so H5 compares them on equal terms. A spine router for row
+placements:
+- one vertical metal4 spine per net (0.4 µm on a 0.8 µm grid; metal4 may pass over blocks);
+- a via3 onto each of the net's block tracks, or a metal3 extension along the track;
+- a contact stack and a metal3 run from each ring's body pin;
+- nets in order of least budget slack; INP/INN (a hard rule) mirrored at ±x;
+- port labels with the layout view's names (e.g. `net2` → `VBIAS`).
+
+It fails loudly on a net it cannot place; the plan's general maze router remains open for layouts that need detours.
+
 | Output (`outputs/S5/<design>/`) | Content |
 |---|---|
-| `placement.json` | Every candidate with its cost terms; the two winners with rows, variants, flips, origins, pins, wire estimates and legality |
+| `placement.json` | Every candidate with its cost terms; the two winners with rows, variants, flips, origins, pins, wire estimates, legality, and routes (spines, vias, runs, stacks, lengths, rule checks, DRC, LVS) |
 | `placed_<budget_aware\|area_only>/` | The assembled, unrouted GDS, its picture and its DRC |
-| `s5_report.json` | G5.1 (legal: separation, PMOS above NMOS, symmetric blocks on the axis, unrouted DRC), G5.5 (area and budget use against area-only, info) |
+| `routed_<budget_aware\|area_only>/` | The routed top cell (`<design>_routed.gds`), its picture, DRC, and LVS against the layout view with the drawn finger counts (`ref_top.spice`) |
+| `s5_report.json` | G5.1 (legal placement), G5.2 (top-level DRC), G5.3 (top-level LVS), G5.4 (S2's `route.*` rules: length, parallel runs on metal3/4, series R against what S3 left, symmetry; EM, bias-net coupling and digital crossings not evaluated, as S2 marked them), G5.5 (against area-only, info) |
 
-S5's routing, S6 and S7 will be added here as they are implemented.
+S6 and S7 will be added here as they are implemented.

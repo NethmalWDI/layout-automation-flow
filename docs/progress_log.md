@@ -1114,3 +1114,11 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   - Unrouted DRC clean. G5.1 passes. 4 tests.
   - Phase 2's commit has an unrelated message (a GitHub Desktop slip); noted in STATUS, history not rewritten.
   - Earlier phase times corrected from the commit timestamps.
+- **Phase 4 (2026-11-03, 21:44–21:58 CET): S5 routing on the 5T.**
+  - A spine router (`src/s5/route.py`): one metal4 spine per net onto the blocks' metal3 tracks, contact stacks
+    for the ring body pins, INP/INN mirrored, port labels with the layout view's names.
+  - Both placements pass top-level DRC and LVS against S0's layout view, and every evaluated route rule. The
+    budget-aware layout uses 2–5 times less of each net's wire-length budget than the area-only one, at the same area.
+  - Fixed on the way: an instance-name slip (VBIAS unlabelled, nf not set; row 68), and the router's own DRC errors
+    (minimum area, spacing after growing the shapes, the hard pair; row 69).
+  - S5 is a flow stage. 3 tests.

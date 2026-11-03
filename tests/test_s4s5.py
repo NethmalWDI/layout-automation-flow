@@ -191,3 +191,50 @@ def test_5t_placement_legal_and_budget_aware_uses_less_wire_budget():
     assert ba["placement"]["blocks"]["nmos_differential_pair"]["flip"] and ba["placement"]["blocks"]["nmos_current_mirror_bias"]["flip"]
     assert all(ba["cost"]["u"][n] <= ao["cost"]["u"][n] for n in ba["cost"]["u"])
     assert ba["cost"]["area_um2"] <= 1.25 * ao["cost"]["area_um2"]
+
+
+# ------------------------------------------------------------------ Phase 4: S5 routing
+def test_net_map_takes_the_layout_view_names():
+    """The layout view renames a node (net2 -> VBIAS: the internal source V1 is removed and its node is a port);
+    the router must label the port with that name (the first top-level LVS missed it)."""
+    from src.s5 import route as R
+    ir = json.loads((REPO / "outputs/S0/example_ota_5t/circuit_ir.json").read_text())
+    ref = (REPO / "outputs/S0/example_ota_5t/ref/example_ota_5t_layout.spice").read_text()
+    m = R.net_map(ir, ref)
+    assert m["net2"] == "VBIAS" and m["net1"] == "net1" and m["VSS"] == "VSS"
+    assert R.ports_of(ref) == ["VDD", "OUTP", "INP", "INN", "VSS", "VBIAS"]
+
+
+def test_router_mirrors_the_hard_pair_and_keeps_spines_apart():
+    import pytest
+    from src.s5 import route as R
+    f = REPO / "outputs/S5/example_ota_5t/placement.json"
+    if not f.exists():
+        pytest.skip("needs the 5T's S5 outputs")
+    pl = json.loads(f.read_text())["chosen"]["budget_aware"]["placement"]
+    ir = json.loads((REPO / "outputs/S0/example_ota_5t/circuit_ir.json").read_text())
+    ref = (REPO / "outputs/S0/example_ota_5t/ref/example_ota_5t_layout.spice").read_text()
+    rt = R.plan_routes(pl, R.net_map(ir, ref), R.ports_of(ref), ["net3", "OUTP", "net1"],
+                       [("INP", "INN", "hard"), ("OUTP", "net3", "soft")])
+    assert rt["INP"]["spine"]["x"] == -rt["INN"]["spine"]["x"] != 0
+    assert {"VDD", "OUTP", "INP", "INN", "VSS", "VBIAS", "net1", "net3"} <= set(rt)
+    sp = [(n, r["spine"]) for n, r in rt.items()]
+    for i, (a, s) in enumerate(sp):
+        for b, t in sp[i + 1:]:
+            if abs(s["x"] - t["x"]) < R.GRID - 1e-6:   # one column: far enough apart in y
+                assert s["y"][1] < t["y"][0] - R.Y_CLEAR + 1e-6 or t["y"][1] < s["y"][0] - R.Y_CLEAR + 1e-6, (a, b)
+
+
+def test_5t_routed_signed_off_and_area_only_needs_more_wire():
+    """Both 5T layouts pass top-level DRC and LVS (controls caught) and every evaluated route rule; the area-only
+    placement, routed by the same router, uses more of every budgeted net's wire length."""
+    import pytest
+    f = REPO / "outputs/S5/example_ota_5t/s5_report.json"
+    if not f.exists():
+        pytest.skip("needs the 5T's S5 outputs")
+    g = json.loads(f.read_text())["gates"]
+    assert all(g[k]["pass"] for k in ("G5.1_placement_legal", "G5.2_top_DRC", "G5.3_top_LVS", "G5.4_route_rules"))
+    for r in ("budget_aware", "area_only"):
+        assert g["G5.3_top_LVS"]["detail"][r]["neg_control_rejected"]
+    ba, ao = (g["G5.4_route_rules"]["detail"][r]["max_length"] for r in ("budget_aware", "area_only"))
+    assert all(ba[n]["use"] < ao[n]["use"] for n in ba)
