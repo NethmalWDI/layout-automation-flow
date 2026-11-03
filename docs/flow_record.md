@@ -18,10 +18,11 @@ evidence with pictures, and the problems met on the way and how they were fixed.
 - plan v4 Phase 1, S3's unit cells without guard rings, on branch `s4-s5` (7.15);
 - plan v4 Phase 2, S4's first blocks on the 5T (7.16);
 - plan v4 Phase 3, S5 placement on the 5T (7.17);
-- plan v4 Phase 4, S5 routing on the 5T (7.18).
+- plan v4 Phase 4, S5 routing on the 5T (7.18);
+- plan v4 Phase 5, extraction and post-layout evaluation of the 5T (7.19).
 
-The journey table runs to row 69: the S3 option plot and the line endings after the merge (65, 66), the DRC
-negative control (67), and the router's naming and geometry bugs (68, 69).
+The journey table runs to row 70: the S3 option plot and the line endings after the merge (65, 66), the DRC
+negative control (67), the router's naming and geometry bugs (68, 69), and the R+C wrapper's short (70).
 
 *Earlier (2026-10-27, evening):* section 7 (plan v2) is complete: every before/after run on the five designs, the post-hoc S3 test, the five budget rules at each design's own eta and at eta 0.9 (PREREG headline; TTSKY25a's eta 0.9 run is not valid), the hand-drawn layouts against the 'after' G2.0, a third independent review (review C) and what it changed, the journey table to row 50, an assessment (7.11) and the Plan v3 review pack (7.12, `docs/plan_v3_review_pack.md`). Figures: `flow_record/img/v2_*.png`, `plan_v3/img/*.png`.
 
@@ -1245,6 +1246,7 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 67 | S3 / DRC | The DRC negative control painted its 0.05 µm met1 sliver at the origin. On a ringless PMOS cell (plan v4) the origin lies inside the n-well, whose tap-rule error (nwell.4) covers it, and Magic's merged error total did not grow, so the control read as not caught. Magic's total and its per-rule list also count differently there (total 1; list 1 + 2) | building the first ringless cells by hand before changing S3 (plan v4, Phase 1) | the sliver sits at (−20, −20) µm, away from any layout (`scripts/magic_drc.sh`); a cell's deferred tap rules are counted from the per-rule list (`pcell.drc`, `defer`) | the control is caught on every ringless cell; earlier verdicts are unchanged (their controls were caught) |
 | 68 | S5 | The router mapped the IR's nets to the layout view's names by matching devices, but keyed the layout view's instances by their name without the leading X (`XM5` → `M5`), so no device matched. The identically named nets routed anyway, while `net2` was never renamed to the port `VBIAS`, and the top-level reference kept `nf=1` instead of the fingers drawn | the first top-level LVS: devices matched uniquely, but VBIAS was "no pin, node is …/net2" | `net_map` and `top_ref` match the full instance name; a test checks `net2 → VBIAS` and the port list | top-level LVS matches uniquely, with the drawn finger counts in the reference |
 | 69 | S5 | The router's own geometry broke DRC three ways: (1) one-via port pads (0.4 × 0.4 µm metal4) and the body stack's metal3 square under the 0.24 µm² minimum area (met4.4a, met3.6); (2) growing the pads to 0.7 µm brought two pads on one column 0.2 µm apart (met4.2), because the router's clearance did not know about the growth; (3) the stack's 0.6 µm metal3 square sat 0.295 µm from the next track, 5 nm under met3.2, because the track coordinates snap to the 5 nm grid | top-level DRC on both routed layouts (6, then 12, then 2 + 8 errors), located with a KLayout space check | every metal3/metal4 piece at least 0.4 × 0.7 µm; a column needs `Y_CLEAR` = 1.2 µm between its spines; the stack's metal3 is 0.5 µm (0.25 µm², 0.35 µm from the track); a hard mirrored pair (INP/INN) is placed jointly at ±x, never both on the axis | DRC 0 on both routed layouts, the control caught |
+| 70 | S7 | The R+C netlist (Magic extresist) exposes far more ports than the C-only one: a repeated name (VDD and OUTP twice: the top label and a block track's) and every unit's own D/G/S/B. The bench wrapper gave every port of one name the same node, which joined all the D pins of different transistors (and all S, G, B): the post-layout run drew 1.6 A (power 2.9 W) with −37 dB of gain | the first S7 run: the drawn-device and C-only views gave the schematic's numbers, the R+C view absurd ones | only the first port of each name (the top cell's label) is a circuit node; every other port gets its own node (a point inside the resistor network); a test checks it | the R+C view gives 31.70 dB, 101.3 MHz, 79.4 deg on the 5T, in line with the C-only view and the schematic |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -2429,6 +2431,56 @@ compares them on equal terms.
     on extracted parasitics, comes with S6.
   - The soft drain-pair symmetry is not met (spines at −1.6 and −0.8 µm; the mirror spot is blocked by the mirror
     block's VDD ring pin). It is reported, not gated.
+
+### 7.19 Plan v4, Phase 5: extraction (S6) and post-layout evaluation (S7) on the 5T (2026-11-03, late evening)
+
+Both routed 5T layouts of S5 (budget-aware, and the area-only baseline for H5) were extracted and simulated.
+
+**S6** (`src/s6/run.py`, the extraction code of `scripts/reference_layout.py`):
+- **Extraction.** Magic extracted the flattened top cell twice: capacitance only (21 capacitors) and R+C (extresist,
+  about 19 400 resistors).
+- **LVS of the flat extraction** matches device for device and net for net (5 devices, 8 nets). Flattening turns
+  two inner block nets into ports. That case, and only that case, is accepted, so G6.1 passes.
+- **Every capacitance is assigned** to a net's capacitance (its other side an AC ground of S2) or to a coupling
+  (two signal nets).
+- **G6.2:** every budgeted element is within its S2 budget on both layouts.
+  - Budget-aware: worst use 0.29 (the OUTP~net3 coupling); net capacitances 0.10–0.14; terminal R 0.13–0.28.
+  - Area-only: worst use 0.46 (the same coupling). Most couplings use more: net1~net3 0.24 against 0.17,
+    OUTP~net1 0.18 against 0.15.
+  - The terminal R is S3's access R plus S5's wires and vias. The blocks' own stubs and tracks are not in that sum;
+    S7's R+C run includes them.
+- **G6.3 (kpex, 2.5D):**
+  - Total capacitance within 5 % of Magic's (31.9 against 30.2 fF; 34.7 against 34.1).
+  - Couplings within about 20 %.
+  - The ground capacitance is split differently: OUTP 3.1 against 5.2 fF; INP/INN about 1 fF against 0. kpex
+    sends part of it to its own substrate node.
+  - kpex's own KLayout LVS did not match (finger handling), so two inner nets stay unnamed there.
+
+**S7** (`src/s7/run.py`): the schematic and three layout views (drawn devices only, C-only PEX, R+C PEX) in S0's own
+AC, OP and NOISE benches. V1, which the layout view removes, is put back on its port VBIAS from the IR.
+
+| Spec | Schematic | Budget-aware R+C (use of eta × margin) | Area-only R+C (use) |
+|---|---|---|---|
+| gain (dB) | 31.697 | 31.693 (0.005) | 31.685 (0.015) |
+| GBW (MHz) | 104.45 | 101.25 (0.076) | 100.67 (0.090) |
+| PM (deg) | 80.94 | 79.36 (0.151) | 79.15 (0.171) |
+| power (µW) | 152.6 | 150.5 (−0.005) | 150.5 (−0.005) |
+| noise (nV/√Hz) | 339.06 | 339.54 (0.016) | 339.53 (0.015) |
+
+- **G7.1 and G7.2 pass:** every spec met post-layout, every loss far inside eta × margin.
+- **H4 holds on the 5T:** G6.2 passed and so did G7.1 and G7.2. With budgets ≥ 3.7 × need, this is the easy case;
+  LOADBench is the hard one.
+- **H5 mostly holds:** the budget-aware layout loses less on gain, GBW and PM at the same area. Noise is a tie
+  (0.0155 against 0.0153). Two extractions of one layout differ by about 0.003 dB in gain (extresist); the table
+  gives the committed run.
+- **Resistance matters here.** From C-only to R+C, GBW falls 104.0 → 101.3 MHz and PM 80.6 → 79.4 deg.
+- **G2.0's prediction** (PREREG: within 25 % of the post-layout loss): PM within 1 % (0.075 against 0.075). GBW
+  29 % below (0.038 against 0.054), noise 40 % below, and gain far below (0.003 against 0.086). G2.0 overestimates
+  except for PM; this layout is more compact than G2.0's model of one.
+- **Not evaluated here:** device saturation (the flat extraction renames the devices, so S3's per-finger probes do
+  not apply) and PVT points.
+- **One bug found on the way** (row 70): the R+C wrapper joined same-named ports and shorted every unit's pins
+  together.
 <!-- section7:end -->
 
 ---
@@ -2474,3 +2526,4 @@ compares them on equal terms.
 - 2026-11-03 (late evening): 7.16 (Claude Code, plan v4 Phase 2): S4 blocks on the 5T; Phase 1's LOADBench times corrected to CET (they had been written in the host's time).
 - 2026-11-03 (late evening): 7.17 (Claude Code, plan v4 Phase 3): S5 placement on the 5T, budget-aware against area-only.
 - 2026-11-03 (late evening): 7.18 and rows 68–69 (Claude Code, plan v4 Phase 4): S5 routing on the 5T; top-level DRC and LVS clean for both placements; S5 a flow stage.
+- 2026-11-03 (late evening): 7.19 and row 70 (Claude Code, plan v4 Phase 5): S6 extraction against S2's budgets and S7 post-layout SPICE on the 5T; H4 holds, H5 mostly, G2.0 within 25 % for PM only.

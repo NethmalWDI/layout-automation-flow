@@ -238,3 +238,57 @@ def test_5t_routed_signed_off_and_area_only_needs_more_wire():
         assert g["G5.3_top_LVS"]["detail"][r]["neg_control_rejected"]
     ba, ao = (g["G5.4_route_rules"]["detail"][r]["max_length"] for r in ("budget_aware", "area_only"))
     assert all(ba[n]["use"] < ao[n]["use"] for n in ba)
+
+
+# ------------------------------------------------------------------ Phase 5: S6 extraction and S7 post-layout
+def test_capacitances_split_into_net_and_coupling(tmp_path):
+    """A capacitance to an AC ground counts toward its net; between two signal nets, toward their coupling; a block
+    prefix and a ring name map to the net; an unnamed node is reported, never guessed."""
+    from src.s6.run import capacitances
+    f = tmp_path / "p.spice"
+    f.write_text(".subckt x_flat OUTP VDD\nC0 OUTP VDD 1.5f\nC1 blk_0.net1 OUTP 0.25f\nC2 VSS_body blk_0.net3 2f\n"
+                 "C3 OUTP a_1_2# 0.1f\nC4 VDD VSS 9f\n.ends\n")
+    c = capacitances(f, {"OUTP", "VDD", "VSS", "net1", "net3"}, {}, {"VDD", "VSS"})
+    assert c["net"] == {"OUTP": 1.5, "net3": 2.0}
+    assert c["coupling"] == {"OUTP~net1": 0.25}
+    assert c["unassigned"] == [["OUTP", "a_1_2#", 0.1]] and c["n_caps"] == 5
+
+
+def test_flat_lvs_accepts_only_inner_nets_as_extra_ports(tmp_path):
+    from src.s6.run import flat_lvs
+    good = ("Circuits match uniquely.\nSubcircuit pins:\nblk_0.net1          |(no pin, node is net1)\n"
+            "Final result: Top level cell failed pin matching.\n")
+    bad = good.replace("node is net1)", "node is net9)")
+    prop = good + "Property errors were found.\n"
+    for txt, ok in ((good, True), (bad, False), (prop, False)):
+        f = tmp_path / "r.txt"
+        f.write_text(txt)
+        assert flat_lvs(f)["match"] is ok
+
+
+def test_wrapper_connects_only_the_first_port_of_a_name():
+    """In the R+C netlist a name repeats (VDD twice; each unit's D/G/S/B): only its first port reaches the bench,
+    every other gets its own node (the first S7 run shorted all D pins together and drew 1.6 A)."""
+    from src.s7.run import wrapped
+    net = ".subckt c_flat OUTP INN INP VBIAS VDD VSS VDD D D S\nR0 VDD D 1\n.ends\n"
+    ir = {"internal_sources": [{"name": "V1", "p": "net2", "n": "VSS", "dc": 0.75,
+                                "layout_handling": "removed in layout view; node exposed as port VBIAS"}]}
+    txt = wrapped(".lib x tt\n.subckt dut_amp INP INN OUTN VDD VSS OUTP\nXDUT a b\n.ends\n.end\n", net, "c",
+                  ir, {"net2": "VBIAS"}, set(), {})
+    x = next(l for l in txt.splitlines() if l.startswith("XDUT")).split()
+    assert x[1:7] == ["OUTP", "INN", "INP", "N_VBIAS", "VDD", "VSS"]
+    assert x[7] != "VDD" and x[8] != x[9] and len(set(x[7:11])) == 4
+    assert "VV1_layout N_VBIAS VSS 0.75" in txt and ".option rshunt=1e12" in txt
+
+
+def test_5t_post_layout_within_budgets_and_eta():
+    """The 5T's budget-aware layout: every budgeted parasitic within S2's budget (G6.2), every spec met post-layout
+    (R+C) and each spec's loss within eta x margin (G7.1, G7.2), so H4 holds on the 5T."""
+    import pytest
+    f6, f7 = REPO / "outputs/S6/example_ota_5t/s6_report.json", REPO / "outputs/S7/example_ota_5t/s7_report.json"
+    if not (f6.exists() and f7.exists()):
+        pytest.skip("needs the 5T's S6 and S7 outputs")
+    g6, g7 = json.loads(f6.read_text())["gates"], json.loads(f7.read_text())["gates"]
+    assert g6["G6.1_extracted_and_LVS"]["pass"] and g6["G6.2_parasitics_within_budgets"]["pass"]
+    assert g7["G7.1_specs_met_post_layout"]["pass"] and g7["G7.2_loss_within_eta_margin"]["pass"]
+    assert g7["H4 (info)"]["G6.2"] and g7["H4 (info)"]["G7.1_and_G7.2"]

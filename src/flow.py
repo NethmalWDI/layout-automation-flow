@@ -4,9 +4,9 @@
 Run inside the EDA image (the launchers ./flow and flow.ps1 do that for you):
 
   python3 -m src.flow list                                   designs found in inputs/
-  python3 -m src.flow run <design>|all [--stage S0..S5|all] [--from S1] [--workers 4] [--strict]
+  python3 -m src.flow run <design>|all [--stage S0..S7|all] [--from S1] [--workers 4] [--strict]
   python3 -m src.flow status <design>|all                    gate table from the stage reports
-  python3 -m src.flow test [--stage S0..S5] [--design d] [--rerun]   unit tests + golden comparison
+  python3 -m src.flow test [--stage S0..S7] [--design d] [--rerun]   unit tests + golden comparison
   python3 -m src.flow snapshot <design> [--stage Sx]         (maintainers) write tests/golden/<design>/<stage>.json
 
 A stage reads only the outputs of the stages before it (outputs/<stage>/<design>/). Status of a stage, from
@@ -31,7 +31,7 @@ import yaml
 from src.common.hygiene import EXIT_GATE_FAIL, EXIT_PASS
 from src.common.tools import REPO
 
-STAGES = ["S0", "S1", "S2", "S3", "S4", "S5"]   # S4 blocks, S5 placement and routing (plan v4, branch s4-s5)
+STAGES = ["S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7"]   # S4 blocks, S5 place and route, S6 extraction, S7 post-layout (plan v4)
 PY = sys.executable
 
 
@@ -102,6 +102,10 @@ def steps(stage: str, design: str, a) -> list[tuple[str, list[str]]]:
         return [("run", [PY, "-m", "src.s4.run", pkg] + w)]
     if stage == "S5":   # placement and routing, budget-aware and the area-only baseline (plan v4)
         return [("run", [PY, "-m", "src.s5.run", pkg])]
+    if stage == "S6":   # extraction (Magic C and R+C; kpex cross-check) against S2's budgets (plan v4)
+        return [("run", [PY, "-m", "src.s6.run", pkg])]
+    if stage == "S7":   # post-layout simulation in the flow's own benches (plan v4)
+        return [("run", [PY, "-m", "src.s7.run", pkg] + w)]
     raise ValueError(stage)
 
 

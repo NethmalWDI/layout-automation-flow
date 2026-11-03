@@ -1,0 +1,57 @@
+*********************************************************
+*** NGSPICE file created by KLayout-PEX 0.6.8
+*** -----------------------------------------------------
+***     Extraction Engine: KPEX/2.5D
+***     Technology: sky130a
+***     Date: 2026-11-03 22:33:13
+*********************************************************
+
+.SUBCKT example_ota_5t_routed INN INP OUTP VBIAS VDD VSS sky130_gnd
+X$1 VDD \$6 \$6 VDD sky130_fd_pr__pfet_01v8 l=1 w=8 as=2.32 ad=2.32 ps=16.58
++ pd=16.58
+X$2 VDD \$6 OUTP VDD sky130_fd_pr__pfet_01v8 l=1 w=8 as=2.32 ad=2.32 ps=16.58
++ pd=16.58
+X$3 \$6 INP \$8 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=1.74
++ ps=24.58 pd=12.29
+X$4 \$8 INP \$6 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=1.74 ad=3.48
++ ps=12.29 pd=24.58
+X$5 OUTP INN \$8 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=1.74
++ ps=24.58 pd=12.29
+X$6 \$8 INN OUTP sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=1.74 ad=3.48
++ ps=12.29 pd=24.58
+X$7 VSS VBIAS \$8 sky130_gnd sky130_fd_pr__nfet_01v8 l=1 w=12 as=3.48 ad=1.74
++ ps=24.58 pd=12.29
+X$8 \$8 VBIAS VSS sky130_gnd sky130_fd_pr__nfet_01v8 l=1 w=12 as=1.74 ad=3.48
++ ps=12.29 pd=24.58
+Cext_1 \$6 \$8 1.35653f
+Cext_2 \$6 INN 33.5257a
+Cext_3 \$6 INP 1.16485f
+Cext_4 \$6 OUTP 1.58705f
+Cext_5 \$6 VDD 4.75747f
+Cext_6 \$6 VSS 254.566a
+Cext_7 \$6 sky130_gnd 1.93324f
+Cext_8 \$8 INN 1.50224f
+Cext_9 \$8 INP 1.81207f
+Cext_10 \$8 OUTP 1.31943f
+Cext_11 \$8 VBIAS 1.73549f
+Cext_12 \$8 VDD 0.962131a
+Cext_13 \$8 VSS 2.59695f
+Cext_14 \$8 sky130_gnd 4.76402f
+Cext_15 INN INP 546.6a
+Cext_16 INN OUTP 1.12398f
+Cext_17 INN VDD 0.109832a
+Cext_18 INN VSS 306.874a
+Cext_19 INN sky130_gnd 992.244a
+Cext_20 INP OUTP 10.9554a
+Cext_21 INP VDD 0.10484a
+Cext_22 INP VSS 238.217a
+Cext_23 INP sky130_gnd 691.379a
+Cext_24 OUTP VDD 1.70596f
+Cext_25 OUTP VSS 300.835a
+Cext_26 OUTP sky130_gnd 1.12843f
+Cext_27 VBIAS VSS 2.55884f
+Cext_28 VBIAS sky130_gnd 1.20999f
+Cext_29 VDD VSS 54.0066a
+Cext_30 VDD sky130_gnd 1.52607f
+Cext_31 VSS sky130_gnd 7.89255f
+.ENDS example_ota_5t_routed

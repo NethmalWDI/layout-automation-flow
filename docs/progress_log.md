@@ -1122,3 +1122,15 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   - Fixed on the way: an instance-name slip (VBIAS unlabelled, nf not set; row 68), and the router's own DRC errors
     (minimum area, spacing after growing the shapes, the hard pair; row 69).
   - S5 is a flow stage. 3 tests.
+- **Phase 5 (2026-11-03, 22:21–22:38 CET): S6 extraction and S7 post-layout evaluation of the 5T.**
+  - S6: Magic C-only and R+C extraction of both routed layouts. Every budgeted net capacitance, coupling and
+    terminal R is within its S2 budget: worst use 0.29 for the budget-aware layout, 0.46 for area-only. kpex's
+    total capacitance is within 5 % of Magic's.
+  - S7: in S0's own benches, the budget-aware layout's R+C netlist meets every spec. Its worst loss is 0.15 of eta ×
+    margin (PM 80.9 → 79.4°, GBW 104.5 → 101.3 MHz).
+  - H4 holds on the 5T; H5 mostly (noise a tie). G2.0's prediction is within 25 % for PM only.
+  - Fixed: the R+C wrapper had joined same-named ports and shorted every unit's pins (row 70).
+  - S6 and S7 are flow stages; `flow status` shows S0–S7 PASS for the 5T.
+  - `.gitignore`: the `.prev` folders of S4–S7 and S7's R+C bench netlists (3 MB copies of S6's netlist) are now
+    ignored, so the commit holds 6.5 MB instead of 49 MB. Phases 2–4 committed 190 `.prev` files of S4 and S5 by
+    mistake; they stay in history, and untracking them is Imasha's call.

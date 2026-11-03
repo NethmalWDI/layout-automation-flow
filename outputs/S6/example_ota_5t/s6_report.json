@@ -1,0 +1,168 @@
+{
+  "run_id": "2026-11-03T22:33:33-d3e1f9ca",
+  "design": "example_ota_5t",
+  "s5_run_id": "2026-11-03T21:56:02-d3423a5d",
+  "ac_grounds": [
+    "VDD",
+    "VSS",
+    "net2"
+  ],
+  "gates": {
+    "G6.1_extracted_and_LVS": {
+      "pass": true,
+      "detail": {
+        "budget_aware": {
+          "lvs": true,
+          "caps": 21,
+          "rc_resistors": 19388,
+          "unassigned_caps": 0
+        },
+        "area_only": {
+          "lvs": true,
+          "caps": 23,
+          "rc_resistors": 19393,
+          "unassigned_caps": 0
+        }
+      }
+    },
+    "G6.2_parasitics_within_budgets": {
+      "pass": true,
+      "violations": [],
+      "worst": [
+        [
+          0.2899,
+          "OUTP~net3"
+        ],
+        [
+          0.2829,
+          "XM3+XM4.g"
+        ],
+        [
+          0.2677,
+          "XM5.g"
+        ],
+        [
+          0.2611,
+          "XM3+XM4.s"
+        ],
+        [
+          0.256,
+          "net1~INP"
+        ]
+      ],
+      "area_only_violations (H5)": [],
+      "note": "the budget-aware layout is gated; the area-only baseline is reported for H5"
+    },
+    "G6.3_kpex_cross_check (info)": {
+      "pass": null,
+      "detail": {
+        "budget_aware": {
+          "ran": true,
+          "netlist": "outputs/S6/example_ota_5t/budget_aware/kpex/example_ota_5t_routed__example_ota_5t_routed/example_ota_5t_routed_k25d_pex_netlist.spice",
+          "kpex_lvs_matched": false,
+          "unnamed_nets": [
+            "$6",
+            "$8"
+          ],
+          "net_fF": {
+            "INN": {
+              "magic": 0.0,
+              "kpex": 1.2992
+            },
+            "INP": {
+              "magic": 0.0,
+              "kpex": 0.9297
+            },
+            "OUTP": {
+              "magic": 5.2063,
+              "kpex": 3.1352
+            }
+          },
+          "coupling_fF": {
+            "INN~INP": {
+              "magic": 0.476,
+              "kpex": 0.5466
+            },
+            "INN~OUTP": {
+              "magic": 0.9303,
+              "kpex": 1.124
+            },
+            "INP~OUTP": {
+              "magic": 0.008,
+              "kpex": 0.011
+            }
+          },
+          "total_fF": {
+            "magic": 30.235,
+            "kpex": 31.864
+          }
+        },
+        "area_only": {
+          "ran": true,
+          "netlist": "outputs/S6/example_ota_5t/area_only/kpex/example_ota_5t_routed__example_ota_5t_routed/example_ota_5t_routed_k25d_pex_netlist.spice",
+          "kpex_lvs_matched": false,
+          "unnamed_nets": [
+            "$10",
+            "$11"
+          ],
+          "net_fF": {
+            "INN": {
+              "magic": 0.0388,
+              "kpex": 1.0942
+            },
+            "INP": {
+              "magic": 0.0063,
+              "kpex": 0.7687
+            },
+            "OUTP": {
+              "magic": 5.5459,
+              "kpex": 3.225
+            }
+          },
+          "coupling_fF": {
+            "INN~INP": {
+              "magic": 0.4601,
+              "kpex": 0.5266
+            },
+            "INN~OUTP": {
+              "magic": 1.0748,
+              "kpex": 1.2709
+            },
+            "INP~OUTP": {
+              "magic": 0.1498,
+              "kpex": 0.1679
+            }
+          },
+          "total_fF": {
+            "magic": 34.125,
+            "kpex": 34.7
+          }
+        }
+      },
+      "note": "kpex 2.5D against Magic on the nets both name; kpex leaves a net it cannot match in its own LVS unnamed"
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-11-03T21:33:33+00:00",
+    "git_commit": "3089366a7f35ec8886830bcf0f5ab32cd03d3616",
+    "inputs": [
+      {
+        "path": "outputs/S5/example_ota_5t/s5_report.json",
+        "sha256": "e02bd2574a65e1abf3587dbc060ebc5d19a4d966ae7bdd7f345774cb4c125832"
+      },
+      {
+        "path": "outputs/S2/example_ota_5t/budgets.json",
+        "sha256": "6b012d28d92c43dba8e9901cde5202b7e25caf68b871d163cec8d1b7445a8424"
+      },
+      {
+        "path": "outputs/S0/example_ota_5t/circuit_ir.json",
+        "sha256": "1275e0f1474c195047e319b4cc130bf48d20df1b8f6e53c80eeb831747ec5591"
+      },
+      {
+        "path": "inputs/example_ota_5t/package.yaml",
+        "sha256": "a83a07c531161be1f5ad53cce56304639d982dd80091e8b09cbee3352c87011f"
+      }
+    ]
+  }
+}

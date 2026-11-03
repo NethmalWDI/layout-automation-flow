@@ -523,4 +523,36 @@ It fails loudly on a net it cannot place; the plan's general maze router remains
 | `routed_<budget_aware\|area_only>/` | The routed top cell (`<design>_routed.gds`), its picture, DRC, and LVS against the layout view with the drawn finger counts (`ref_top.spice`) |
 | `s5_report.json` | G5.1 (legal placement), G5.2 (top-level DRC), G5.3 (top-level LVS), G5.4 (S2's `route.*` rules: length, parallel runs on metal3/4, series R against what S3 left, symmetry; EM, bias-net coupling and digital crossings not evaluated, as S2 marked them), G5.5 (against area-only, info) |
 
-S6 and S7 will be added here as they are implemented.
+## S6: extraction against the budgets, and S7: post-layout evaluation (plan v4, branch `s4-s5`)
+
+```bash
+./flow run example_ota_5t --from S6          # or: python3 -m src.s6.run / src.s7.run inputs/<d>/package.yaml
+```
+
+Both routed layouts of S5 are evaluated: the budget-aware one (gated) and the area-only baseline (reported, for H5).
+
+**S6** (`src/s6/run.py`):
+- Magic extracts the flattened top cell twice, capacitance only and R+C (extresist, tolerance 100), with the code of
+  `scripts/reference_layout.py`.
+- LVS of the flat extraction against S5's reference (G6.1). An inner block net that flattening exposes as a port is
+  accepted; nothing else is.
+- Each capacitance goes to a net (its other side an AC ground of S2) or to a coupling (two signal nets).
+- G6.2 compares every budgeted net capacitance, coupling and terminal R with its S2 budget. R is S3's access R plus
+  S5's wires and vias.
+- G6.3 (info) is a kpex 2.5D cross-check on the nets both tools name.
+
+**S7** (`src/s7/run.py`):
+- The schematic and three layout views run in S0's AC, OP and NOISE benches: drawn devices only, C-only PEX, and
+  R+C PEX (the post-layout result).
+- A removed internal source (e.g. V1 on VBIAS) is put back from the IR. Only the first port of each name is a bench
+  node.
+- G7.1: every spec met. G7.2: each spec's loss within eta × margin (× 1.02). G7.3 (info): G2.0's prediction against
+  the loss. H4 and H5 are reported.
+- Device saturation and PVT points are not evaluated here.
+
+| Output | Content |
+|---|---|
+| `outputs/S6/<design>/<rule>/` | Netlists (`*_lvs.spice`, `*_pex.spice`, `*_pexrc.spice`), flat LVS report, kpex output |
+| `outputs/S6/<design>/parasitics_vs_budgets.json` | Per layout: net and coupling capacitances, every budgeted element against its budget, kpex comparison |
+| `outputs/S7/<design>/metrics.json` | Every view's measurements, and per spec the loss, its use of eta × margin, and G2.0's prediction |
+| `outputs/S6/<design>/s6_report.json`, `outputs/S7/<design>/s7_report.json` | Gates G6.1–G6.3 and G7.1–G7.4, H4, H5 |

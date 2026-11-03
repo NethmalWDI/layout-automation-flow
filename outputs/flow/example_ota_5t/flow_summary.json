@@ -170,6 +170,49 @@
    "status": "PASS",
    "failed_gates": [],
    "seconds": 39.2
+  },
+  "S6": {
+   "stage": "S6",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 0,
+     "seconds": 35.8,
+     "log": "runs/logs/flow/example_ota_5t/S6_run.log"
+    }
+   ],
+   "started": "2026-11-03T22:32:57",
+   "gates": {
+    "G6.1_extracted_and_LVS": true,
+    "G6.2_parasitics_within_budgets": true,
+    "G6.3_kpex_cross_check (info)": null
+   },
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 35.8
+  },
+  "S7": {
+   "stage": "S7",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 0,
+     "seconds": 113.9,
+     "log": "runs/logs/flow/example_ota_5t/S7_run.log"
+    }
+   ],
+   "started": "2026-11-03T22:33:33",
+   "gates": {
+    "G7.1_specs_met_post_layout": true,
+    "G7.2_loss_within_eta_margin": true,
+    "G7.3_G2.0_prediction (info)": null,
+    "G7.4_pvt (info)": null,
+    "H4 (info)": null,
+    "H5 (info)": null
+   },
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 113.9
   }
  }
 }
