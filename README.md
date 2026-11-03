@@ -206,6 +206,7 @@ thresholds for the experiments are fixed in `PREREG.md` before baselines run.
 
 - **`docs/flow_record.md`**: the living record of the flow. For each stage it gives the inputs and outputs, JSON excerpts, DRC/LVS pictures and the problems met. It is updated at every stage.
 - **`docs/s0_s3_walkthrough.md`** (and `docs/s0_s3_walkthrough.html`, self-contained, images embedded): what S0–S3 did on `example_ota_5t` and `loadbench_miller` and what came out: each gate, the main numbers and plots, an explanation of every failed gate, and for each table and plot how to read it and what it shows for that design. Every number is read from `outputs/`; the "How to read it" notes are the only typed explanations besides the gate meanings and the known findings. Regenerate it after a run, inside the container: `python3 scripts/make_s0s3_walkthrough.py [design ...] [--no-html] [--out FILE.md]` (pandoc writes the HTML).
+- **`docs/plan_v4_S4_S7.md`** (branch `s4-s5`): the plan for S4 (blocks), S5 (placement and routing), S6 (sign-off and extraction) and S7 (post-layout evaluation) on the 5T and LOADBench. While it is built, the S0–S2 outputs later stages read are frozen: `python3 scripts/freeze_outputs.py --check` (and `tests/test_s4s5.py`) fails if any of them changes.
 - `docs/progress_log.md`: chronological log.
 - `docs/01_inventory.md`, `docs/02_analysis.md`, `docs/03_plan_S0-S3.md`: inventory, analysis and plan.
 - `docs/04_device_generation.md` … `docs/07_stage_guide_and_sunday_baseline.md`: device generation, literature, final plan and stage guide.

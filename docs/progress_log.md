@@ -1062,3 +1062,24 @@ the output of every step shown. Branch `s0-s3-review` starts at `fd8d7118`, with
   - Each design has an *In short* summary built from its reports.
   - Every generated line was checked against the data. The walkthrough test now requires the notes and the
     summaries.
+
+## 2026-11-03 (evening): plan v4, S4–S7, Phase 0 on branch `s4-s5` (Claude Code)
+
+Goal (Imasha): S4 and S5 (block placement, overall placement and routing) on the 5T and LOADBench, with the final
+layouts checked by extraction and SPICE; stabilise; then a more complex design. `main` keeps the reviewed S0–S3 state
+(tag `s0s3-reviewed`).
+
+- **Engine.** Our own, as decision D8 set out in October.
+  - Read against the two papers Imasha shared. AICL Co-pilot (JKU) uses a rectangle-packing annealer that ignores
+    connectivity, a relative placer, and a layer-constrained Steiner router; its authors call them proof-of-concept.
+    The McMaster multi-agent flow optimises a hand-written gdsfactory generator for area and checks per-net budgets
+    with KLayout and kpex after each trial.
+  - Neither drives placement and routing with joint parasitic budgets, which is what S2 provides.
+  - The image has gdsfactory, KLayout's Python API, kpex (with `sky130A`), nevergrad and OpenROAD (digital). It has
+    no analog placer, and no RALF.
+- **Guard rings** (Imasha's decision): off S3's unit cells, one per S4 block.
+- **Phase 0:**
+  - `scripts/freeze_outputs.py` and `tests/test_s4s5.py` freeze the 75 S0–S2 files later stages read.
+  - `docs/plan_v4_S4_S7.md` sets out how decisions are taken: type and well rules, symmetry, designer rows,
+    enumeration for small designs, a budget-aware cost with an area-only baseline.
+  - PREREG's amendment of 2026-11-03 adds the gates, H4, H5 and the per-design predictions, before any change.

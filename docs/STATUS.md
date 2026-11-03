@@ -2,13 +2,13 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-03, by Claude Code. The review is merged into `main` (`973661c5`, pushed). After the
-merge, Claude Code fixed the S3 option plot (row 65) and the Windows line endings the checkout had written (row 66;
-`.gitattributes` added), and the walkthrough now explains each result; see *After the merge* below. Imasha
-committed and pushed all of it as `1626d11b` on `main`. No claim is held and nothing is running.
-**Now: the supervisor-review finalisation, on branch
-`s0-s3-review`** (Imasha's plan of 2026-11-02 evening: S0–S3 without errors on the 5T and LOADBench, and the
-output of every step shown). The phases and progress are under *Supervisor review (s0-s3-review)* below.
+**Last updated:** 2026-11-03 19:30 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
+routing, verification) on branch `s4-s5`**, from `main` at tag `s0s3-reviewed` (`ec359567`). The plan is
+`docs/plan_v4_S4_S7.md`; the phases are under *Plan v4 (s4-s5)* below. Phase 0 (freeze test, plan, PREREG
+amendment) is done and waiting for Imasha's commit. Claude Code holds the claim below; nothing is running.
+
+`main` holds the reviewed S0–S3 state (the supervisor review, merged; `1626d11b` and Imasha's STATUS commit
+`ec359567`) and is not touched until a review merges `s4-s5`.
 
 **Plan v3 Phase A is complete and committed** (`docs/plan_v3_phaseA.md`, tag `phaseA-v3a`).
 - Steps 0–13 and the sky130A environment change are committed. The environment change is commit `70279125`, named
@@ -139,11 +139,44 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
+| Claude Code | Plan v4 on branch `s4-s5`: `src/s3/`, new `src/s4/`–`src/s7/`, `src/flow.py`, `scripts/`, `tests/`, `outputs/S3`–`S7` for `example_ota_5t` and `loadbench_miller`, `PREREG.md`, docs (plan v4, README, STATUS, progress log, flow record). S0–S2 outputs are frozen (`tests/frozen/`), not claimed | 2026-11-03 19:10 CET |
 | Claude Code | **released 2026-11-02 23:20 CET**: supervisor review on branch `s0-s3-review`, phases 1–6 done (the rehearsal included). Held since 2026-11-02 18:15 CET, narrowed after phase 5 | 2026-11-02 18:15 CET |
 | Claude Code | Plan v3 Phase A: `src/`, `scripts/benchlib.py`, `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`, `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`; plus the doc updates the plan's steps ask for (README, progress log, flow record section 7 draft) | **released 2026-11-02 14:50 CET**: Phase A done (steps 0–13). Held since 2026-11-01 16:10, paused overnight 22:05, resumed 2026-11-02 12:12 |
 | Cowork | **released 2026-11-01**: Phase A plan written (`docs/plan_v3_phaseA.md`; `docs/HANDOFF.md` rewritten; this file; progress log). No code or outputs changed. **Next: Claude Code claims Phase A at its step 0** | 2026-11-01 |
 | Cowork (earlier) | **released 2026-10-27 17:15 CET**: Plan v3 review pack done (`docs/plan_v3_review_pack.md`, `docs/plan_v3/`, flow record 7.12 and rows 46–50, project doc 14). Earlier: the documentation pass (released 14:20). No runs, no flow code changed | 2026-10-27 |
 | Claude Code | **released 2026-10-27 13:35 CET**: the runs are finished; the write-up goes to Cowork (Imasha's decision) | 2026-10-27 |
+
+## Plan v4 (s4-s5), from 2026-11-03
+
+**Goal** (Imasha): S4 and S5 (block placement, overall placement and routing) on the 5T and LOADBench, with the final
+layouts checked by extraction and SPICE (S6, S7); stabilise; then a more complex design. Our own engine (decision
+D8), keeping the flow's novelty: S2's joint budgets drive placement and routing, and every extracted parasitic is
+checked against its budget. S3's unit cells lose their guard rings; S4's blocks get one each. Plan:
+`docs/plan_v4_S4_S7.md`; PREREG amendment of 2026-11-03.
+
+| Phase | Work | State |
+|---|---|---|
+| 0 | Freeze test for S0–S2; plan; PREREG amendment; STATUS | **done**, waiting for Imasha's commit |
+| 1 | S3 without guard rings; re-run the 5T and LOADBench; compare with the reviewed S3 | pending |
+| 2 | S4 on the 5T: pair, mirror, single device; rings; variants | pending |
+| 3 | S5 placement on the 5T; area-only baseline | pending |
+| 4 | S5 router on the 5T | pending |
+| 5 | S6/S7 on the 5T | pending |
+| 6 | LOADBench through S4–S7 | pending |
+| 7 | Stabilise: goldens, walkthrough to S7, review, merge | pending |
+| 8 | Harder design (`ttsky25a_fd` or `iadc_ota`, open) | pending |
+
+Phase 0 record (2026-11-03, 19:10–19:30 CET; no run):
+- **Freeze.** `scripts/freeze_outputs.py` wrote `tests/frozen/s0_s2_outputs.json`: the SHA-256 of the 75 S0–S2 files
+  later stages read, for both designs (top-level JSON, S0's `ref/` and `tb/`, S2's `pdk/*.json`), at `ec359567`.
+  `tests/test_s4s5.py` fails if any changes; a test with one wrong and one missing entry confirmed it catches both.
+- **Plan** `docs/plan_v4_S4_S7.md`: the stages, how decisions are taken (type and well rules, symmetry, designer
+  rows, a budget-aware cost), the inputs, each design's blocks, the gates, the phases, and the open questions.
+- **PREREG amendment of 2026-11-03**, before any S3 change or S4–S7 code: the S3 change, the gates, H4 (a layout
+  within its budgets meets the specs within eta), H5 (budget-aware against area-only placement), and per-design
+  predictions (the 5T passes; LOADBench fails G7.2 on gain).
+- **FEEDBACK NEEDED** (plan section 8; not blocking Phase 1): LOADBench's PMOS bank ratio; drawing the ideal Miller
+  capacitor as a MIM capacitor; dummies; RALF (needs a download); the harder design.
 
 ## Supervisor review (s0-s3-review), from 2026-11-02 evening
 
@@ -1385,6 +1418,9 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-03 evening (Claude Code): **plan v4 Phase 0 on branch `s4-s5`**: freeze test for the S0–S2 outputs later
+  stages read, `docs/plan_v4_S4_S7.md`, and PREREG's amendment of 2026-11-03 (gates, H4, H5, predictions), written
+  before any S3 change or S4–S7 code. Waiting for Imasha's commit.
 - 2026-11-03 morning (Claude Code): **after the merge into `main`**: the S3 option plot marks the options S3 may
   choose (row 65); the CRLF line endings written by the checkout are restored to LF and `.gitattributes` keeps LF
   (row 66); `flow status` shows the reports' own times; the walkthrough explains how to read each table and plot,

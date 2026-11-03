@@ -195,3 +195,25 @@ After the tag, changes are allowed only as dated amendments at the end, with the
       closure step would otherwise change the budgets.
   - **Decision.** Imasha's, 2026-11-02, choosing this over declaring G2.8 nominal-only. It was made after the
     Phase A results were seen.
+
+- **2026-11-03, plan v4: S3 without guard rings and the new stages S4–S7, written before any S3 change or S4–S7
+  code or run** (`docs/plan_v4_S4_S7.md`; branch `s4-s5` from tag `s0s3-reviewed`).
+  - **S3 change (Imasha's decision).** S3's unit cells are drawn without a guard ring (`guard 0`); S4 draws one ring
+    per block. S3's choice rule, modes, tolerance (`TOL_USE`) and the relaxed-type rule are unchanged.
+    - Predicted: every chosen cell gets smaller, and the circuit with every chosen cell still meets every spec in
+      SPICE (G3.3) on both designs.
+    - The relaxed types may change; whatever they are is reported against the reviewed S3, not tuned.
+  - **Gates** as listed in the plan, section 5 (G4.1–G4.6, G5.1–G5.5, G6.1–G6.3, G7.1–G7.4). The latch-up gate uses
+    S2's `place.latchup_tap_distance` (15 µm). G7.2 uses the existing `TOL_USE` (0.02 of eta × margin).
+  - **H4 (layout within budgets).** On the 5T, a layout that passes G6.2 (every extracted C, coupling and R within its
+    S2 budget) also passes G7.1 and G7.2 at the nominal corner. A failure of G7.2 with G6.2 passing refutes H4.
+  - **H5 (budgets in the placement cost).** The budget-aware placement cost gives a layout whose G6.2 violations are
+    no more than those of the area-only cost, on both designs, at no more than 25 % more area. Reported per design.
+  - **G2.0 validity** (hypothesis of 2026-10-26) is evaluated on these two designs: the post-layout use of each spec's
+    margin (S7) against G2.0's prediction, within 25 % relative.
+  - **Predictions per design.**
+    - 5T: G6.2, G7.1 and G7.2 pass (G2.0 shares at most 0.13; every budget ≥ 3.73 × its expected need).
+    - LOADBench: G7.2 fails on gain_db (G2.0 = 0.999 at eta 0.5, 29 of 40 budgets below need). That is a finding about
+      its specs, reported as such.
+  - **Constants still to fix** before the first S5 run, in a further amendment: routing layers and grid pitch, λ in
+    the placement cost, and the area-only baseline's exact definition.
