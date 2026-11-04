@@ -13,8 +13,9 @@ routing, verification) on branch `s4-s5`**, from `main` at tag `s0s3-reviewed` (
   Part 2 done: grid-routed (DRC 0, LVS match), S6 G6.1 PASS (C-only), S7: every spec met, G7.2 FAIL on GBW (within
   η with the MIM double count cancelled); flow record 7.23, rows 87–91. Part 2 committed (`7839123d`).
   8.7 done: independent review (row 92, fixes), all three designs re-run from S4 (5T and LOADBench goldens unchanged),
-  walkthrough covers ttsky (flow record 7.24). **Waiting for Imasha's commit of 8.7.** Then: the independent-LLM
-  comparison (needs her permission for the API connection).
+  walkthrough covers ttsky (flow record 7.24). 8.7 committed (`f99774b4`). The full report for any reader:
+  `docs/ttsky25a_fd_report.html` (`scripts/make_ttsky_report.py`). **Waiting for Imasha's review and commit.**
+  The independent-LLM comparison waits (Imasha, 14:25).
 - Phase 6 (LOADBench through S4–S7), 02:36–04:10 CET 2026-11-04: LOADBench runs S0–S7: S4 and S5's sign-off pass; G5.4, G6.2 and G7.2 (GBW) fail;
   every spec is met post-layout. The 5T, re-run with the new code, still passes S0–S7.
   ASSUMPTIONS until Imasha answers plan questions 3–5: the PMOS bank drawn side by side as S3 sized it; no dummies.
@@ -1309,7 +1310,9 @@ Step 0 record:
 2. To fit 250 × 200 µm, matched pairs inside a macro may share a row and lose the single shared axis (plan section 10).
    Keep the outline first, or is the shared axis worth a bigger outline?
 
-**FEEDBACK NEEDED (Claude Code, 2026-11-04 14:20, Phase 8.7):**
+**Answered 2026-11-04 14:25 (Imasha), Phase 8.7:** (1) matching stays "common centroid or interdigitated as needed": the variant follows the spec- and area-driven cost, no extra rule without a reason (no change; G5.7 reports the result). (2) Not the independent-LLM comparison yet: first a full ttsky report for any reader, with the layouts, post-layout results and the hand-layout comparison (done: `docs/ttsky25a_fd_report.html`).
+
+~~**FEEDBACK NEEDED (Claude Code, 2026-11-04 14:20, Phase 8.7):**~~ (answered above)
 1. S5 may choose an interdigitated (ABAB) variant for a matched block when it costs less; on `ttsky25a_fd` 7 of 20
    matched blocks (budget-aware) are not common-centroid, among them the signal-path `pmos_matched_cascode_pair`
    (G5.7; flow record 7.24). Keep it (your "common centroid or interdigitated as needed"), or keep only the
@@ -1644,6 +1647,10 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-04 afternoon (Claude Code): **the ttsky report** (`docs/ttsky25a_fd_report.md` and `.html`,
+  `scripts/make_ttsky_report.py`, `scripts/report_layout_png.py`): the layouts, matching, post-layout results and
+  the comparison with the hand-drawn tile, for any reader, every number read from `outputs/`. The tile's op-amp
+  measured in its GDS: 156.8 × 218.0 µm. Imasha's matching answer recorded (no change).
 - 2026-11-04 afternoon (Claude Code): **Phase 8.7**: independent review of Phase 8 (flow record row 92): S7's
   C-only fallback limited to `rc_extraction: false`, S5's symmetric flag only for mirror-image blocks, three latent
   fixes, G5.7 (info) for matched blocks' centring. All three designs re-run from S4: the 5T and LOADBench goldens

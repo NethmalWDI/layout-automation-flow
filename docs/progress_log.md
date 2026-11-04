@@ -1231,3 +1231,11 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   - Correction: part 1's entry above said 55 S4 variants; there are 53.
   - 189 tests pass; 32 golden comparisons match. FEEDBACK NEEDED: keep interdigitated variants for matched blocks or
     only common centroid; the API connection for the independent-LLM comparison.
+- **The ttsky report (2026-11-04, 14:25–14:35 CET).** Imasha: keep matching "common centroid or interdigitated as
+  needed", chosen by the spec- and area-driven cost (no change); the independent-LLM comparison waits. New
+  `scripts/make_ttsky_report.py` writes `docs/ttsky25a_fd_report.md` and a self-contained HTML copy: summary, the
+  circuit and specs, how the layout was made (stages, who decides), blocks and matching (G5.7), the layouts at one
+  scale (`scripts/report_layout_png.py`, klayout), post-layout results, the MIM double count, the comparison with the
+  hand-drawn tile (area of its op-amp, 156.8 × 218.0 µm read from its GDS; drawn → C-only losses), failed gates,
+  assumptions, open questions and a glossary. Every number is read from `outputs/`. Two charts (area; wiring loss)
+  with the validated reference palette.

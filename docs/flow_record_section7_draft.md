@@ -1628,3 +1628,9 @@ C-only post-layout view, every MIM capacitor and G5.7. Long budget tables list t
 LOADBench's pages are unchanged apart from shared wording.
 
 **Corrections.** 7.22 said 55 S4 variants; there are 53 (`blocks.json`, both runs).
+
+**The report** (2026-11-04, afternoon). `docs/ttsky25a_fd_report.html` (`scripts/make_ttsky_report.py`) tells this
+design's layout for a reader who does not know the flow, with the comparison against the hand-drawn tile. The tile's
+op-amp (`Diff_Opamp`) measures 156.8 × 218.0 µm (34 182 µm²) in its GDS: the flow's layouts are 1.31 × (budget-aware)
+and 1.06 × (area-only) that area. Imasha kept the matching rule as it is (common centroid or interdigitated, chosen
+by the cost).
