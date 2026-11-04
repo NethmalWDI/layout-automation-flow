@@ -1682,6 +1682,11 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-05 (Claude Code, branch `gui-tools`): **the detailed iadc report** (`docs/iadc_ota_report.html`,
+  `scripts/make_iadc_report.py`), in ttsky's section order: iadc's own schematics with every block marked, all
+  blocks and variants, the layouts in the tile, the main nodes and budgets, the exact algorithms, who decides
+  what, the performance after layout beside the hand layout's (drawn, C-only, R+C), and pictures of the final
+  design's DRC and LVS reports.
 - 2026-11-05 (Claude Code, branch `gui-tools`): **iadc_ota through S0–S7 in the Tiny Tapeout tile** (158.7 × 213.5
   µm inside 161 × 225.77): a multi-row array for its m = 96 devices (Imasha's choice, row 97), S5 packing fixes
   (rows 98, 99), S7's bench wrapper and S6's relabel search (row 100). Every spec met except GBW (180.3 against

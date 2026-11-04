@@ -24,14 +24,17 @@ LAYER = {"top": 7, "x1": 8, "x2": 9, "res_packs": 10}
 LABEL_LAYER = 11
 
 
-def _work(repo: Path) -> Path:
+def _work(repo: Path, src_rel: str = SRC_REL, designer_path: str | None = DESIGNER_PATH) -> Path:
+    """A scratch copy of a design's xschem folder; absolute symbol paths of the designer's machine (ttsky) point to
+    it; relative ones (iadc_ota's) resolve there, as xschem runs in it."""
     w = repo / "runs" / "tmp" / "report_sch"
     if w.exists():
         shutil.rmtree(w)
     w.mkdir(parents=True)
-    for f in (repo / SRC_REL).iterdir():
+    for f in (repo / src_rel).iterdir():
         if f.suffix in (".sch", ".sym"):
-            (w / f.name).write_text(f.read_text().replace(DESIGNER_PATH, str(w) + "/"))
+            t = f.read_text()
+            (w / f.name).write_text(t.replace(designer_path, str(w) + "/") if designer_path else t)
     return w
 
 
@@ -83,6 +86,8 @@ def schematic(repo: Path, work: Path, base: str, boxes: list, out_png: Path, col
     txt = svg.read_text()
     # the sub-circuit layers: a light fill and a clear outline in the report's colours; the labels in dark ink
     for macro, layer in LAYER.items():
+        if macro not in colors:          # a design without this sub-circuit (iadc_ota has no res_packs)
+            continue
         c = colors[macro]
         txt = re.sub(rf"\.l{layer}\{{[^}}]*\}}", f".l{layer}{{fill: {c}; fill-opacity: 0.13; stroke: {c}; "
                      "stroke-width: 2.2; stroke-linecap:round; stroke-linejoin:round;}", txt)

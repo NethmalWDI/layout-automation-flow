@@ -78,7 +78,8 @@ ids and timestamps change. Discarding the changes in GitHub Desktop returns to t
 `docs/s4_s7_walkthrough.html` is its companion (`python3 scripts/make_s4s7_walkthrough.py`).
 `docs/ttsky25a_fd_report.html` is the full report on `ttsky25a_fd`'s layout for any reader, with the comparison
 against the hand layout (`python3 scripts/make_ttsky_report.py`, after `source scripts/env.sh`; its pictures go to
-`outputs/report/ttsky25a_fd/`, all three layouts at one scale). `scripts/report_figures.py` draws the designer's
+`outputs/report/ttsky25a_fd/`, all three layouts at one scale). `docs/iadc_ota_report.html` is the same report for `iadc_ota` in its Tiny Tapeout tile
+(`python3 scripts/make_iadc_report.py`), with the tools' DRC and LVS reports of the final design as pictures. `scripts/report_figures.py` draws the designer's
 schematics from a scratch copy (`runs/tmp/report_sch/`; the sources stay untouched) with every block marked, and
 the annotated layouts).
 

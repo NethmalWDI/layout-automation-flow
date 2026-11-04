@@ -1287,3 +1287,10 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   - S7 (C-only): gain 53.60 dB and PM 73.0° met; GBW 180.3 MHz misses ≥ 188.9 (an ASSUMPTION spec); the wiring takes
     12.0 % of GBW, the hand layout 9.1 %. Goldens S4–S7 taken; simple report `docs/reports/iadc_ota_report.html`.
   - ttsky's placement checked identical with the new code (both costs); 199 tests pass; 36 goldens match.
+- **The detailed iadc report (2026-11-05).** `scripts/make_iadc_report.py` writes `docs/iadc_ota_report.md` and a
+  self-contained HTML copy in ttsky's section order, reusing `make_ttsky_report.py`'s pictures, charts and tables:
+  iadc's own xschem sheets (ota, bias, core, CMFB) with every laid-out device boxed and numbered; every block and
+  variant; the layouts at one scale and annotated, inside the tile; the hand layout with its CMFB outlined; the main
+  nodes and budgets; the exact S4/S5 algorithms with iadc's options; who decides what; performance after layout
+  beside the hand layout's (drawn, C-only, R+C); pictures of the final design's Magic DRC and Netgen LVS reports (and
+  the negative control, and S6's flat LVS). `report_figures.py` takes any design's xschem folder.
