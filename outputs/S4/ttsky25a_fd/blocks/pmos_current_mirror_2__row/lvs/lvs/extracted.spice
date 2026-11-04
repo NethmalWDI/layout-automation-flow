@@ -1,0 +1,27 @@
+* NGSPICE file created from pmos_current_mirror_2__row.ext - technology: sky130A
+
+.subckt sky130_fd_pr__pfet_01v8_lvt_G794LM G w_n594_n198# D S
+X0 S G D w_n594_n198# sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+.ends
+
+.subckt pfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng S G D B
+Xpfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng_pc G B D S sky130_fd_pr__pfet_01v8_lvt_G794LM
+.ends
+
+.subckt sky130_fd_pr__pfet_01v8_lvt_KRZAMB G D w_n194_n698# S
+X0 S G D w_n194_n698# sky130_fd_pr__pfet_01v8_lvt ad=1.74 pd=12.58 as=1.74 ps=12.58 w=6 l=1
+.ends
+
+.subckt pfet_01v8_lvt_W6_L1_m2__nf1_gtop_sdfull_ng D B S G
+Xpfet_01v8_lvt_W6_L1_m2__nf1_gtop_sdfull_ng_pc G D B S sky130_fd_pr__pfet_01v8_lvt_KRZAMB
+.ends
+
+.subckt pmos_current_mirror_2__row Vdd x2_Vbiasp x2_net1 Vdd_body
+Xpfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng_0 Vdd x2_Vbiasp x2_net1 Vdd_body pfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng
+Xpfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng_1 Vdd x2_Vbiasp x2_net1 Vdd_body pfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng
+Xpfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng_2 Vdd Vdd Vdd Vdd_body pfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng
+Xpfet_01v8_lvt_W6_L1_m2__nf1_gtop_sdfull_ng_0 Vdd Vdd_body Vdd Vdd pfet_01v8_lvt_W6_L1_m2__nf1_gtop_sdfull_ng
+Xpfet_01v8_lvt_W6_L1_m2__nf1_gtop_sdfull_ng_1 x2_Vbiasp Vdd_body Vdd x2_Vbiasp pfet_01v8_lvt_W6_L1_m2__nf1_gtop_sdfull_ng
+Xpfet_01v8_lvt_W6_L1_m2__nf1_gtop_sdfull_ng_2 x2_Vbiasp Vdd_body Vdd x2_Vbiasp pfet_01v8_lvt_W6_L1_m2__nf1_gtop_sdfull_ng
+.ends
+

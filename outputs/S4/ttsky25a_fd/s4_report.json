@@ -1,0 +1,728 @@
+{
+  "run_id": "2026-11-04T09:52:09-6a45b360",
+  "design": "ttsky25a_fd",
+  "s3_run_id": "2026-11-04T08:21:00-9cb3e1b0",
+  "layout_options": {
+    "matching": "centroid",
+    "dummies": true,
+    "pack_internal": true,
+    "resistor_blocks": [
+      {
+        "name": "res_packs",
+        "members": [
+          "XX2_X1_R",
+          "XX2_X2_R"
+        ],
+        "body": "Vss"
+      }
+    ],
+    "outline_um": [
+      250,
+      200
+    ]
+  },
+  "gates": {
+    "G4.1_one_type_and_body_per_block": {
+      "pass": true,
+      "blocks": {
+        "nmos_differential_pair": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX1_M5",
+            "XX1_M6"
+          ]
+        },
+        "nmos_differential_pair_2": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX1_M18",
+            "XX1_M16"
+          ]
+        },
+        "nmos_differential_pair_3": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX1_M10",
+            "XX1_M17"
+          ]
+        },
+        "pmos_differential_pair": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XX2_M7",
+            "XX2_M8"
+          ]
+        },
+        "nmos_current_mirror": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XM33",
+            "XM37",
+            "XM41"
+          ]
+        },
+        "mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX1_M1",
+            "XX1_M2",
+            "XX1_M7",
+            "XX1_M9"
+          ]
+        },
+        "mirror_XX1_M22_XX1_M15": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX1_M22",
+            "XX1_M15"
+          ]
+        },
+        "nmos_current_mirror_2": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX1_M23",
+            "XX1_M24"
+          ]
+        },
+        "nmos_current_mirror_3": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX2_M10",
+            "XX2_M11"
+          ]
+        },
+        "nmos_current_mirror_load": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX2_M5",
+            "XX2_M6"
+          ]
+        },
+        "pmos_current_mirror": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XM39",
+            "XM38"
+          ]
+        },
+        "pmos_current_mirror_load": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XX1_M20",
+            "XX1_M21"
+          ]
+        },
+        "nmos_current_mirror_4": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX1_M46"
+          ]
+        },
+        "pmos_current_mirror_2": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XX2_M12",
+            "XX2_M3"
+          ]
+        },
+        "nmos_matched_cascode_pair": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX1_M19",
+            "XX1_M4"
+          ]
+        },
+        "nmos_matched_cascode_pair_2": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX1_M3",
+            "XX1_M8"
+          ]
+        },
+        "nmos_matched_current_source_pair": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX2_M2",
+            "XX2_M1"
+          ]
+        },
+        "pmos_matched_current_source_pair": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XM32",
+            "XM34"
+          ]
+        },
+        "pmos_matched_current_source_pair_2": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XM43",
+            "XM44"
+          ]
+        },
+        "pmos_matched_current_source_pair_3": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XM45",
+            "XM54"
+          ]
+        },
+        "pmos_matched_cascode_pair": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XX1_M11",
+            "XX1_M12"
+          ]
+        },
+        "pmos_matched_current_source_pair_4": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XX1_M13",
+            "XX1_M14"
+          ]
+        },
+        "nmos_diode": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XM35"
+          ]
+        },
+        "nmos_single": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XM36"
+          ]
+        },
+        "nmos_single_2": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XM40"
+          ]
+        },
+        "pmos_diode": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XM42"
+          ]
+        },
+        "pmos_diode_2": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XX1_M25"
+          ]
+        },
+        "nmos_diode_2": {
+          "type": "nmos",
+          "body": "Vss",
+          "devices": [
+            "XX1_M47"
+          ]
+        },
+        "pmos_single": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XX2_M4"
+          ]
+        },
+        "pmos_single_2": {
+          "type": "pmos",
+          "body": "Vdd",
+          "devices": [
+            "XX2_M9"
+          ]
+        },
+        "XC1": {
+          "type": "cap",
+          "body": null,
+          "devices": [
+            "XC1"
+          ]
+        },
+        "XC2": {
+          "type": "cap",
+          "body": null,
+          "devices": [
+            "XC2"
+          ]
+        },
+        "res_packs": {
+          "type": "res",
+          "body": "Vss",
+          "devices": [
+            "XX2_X1_R1",
+            "XX2_X1_R2",
+            "XX2_X1_R3",
+            "XX2_X1_R4",
+            "XX2_X1_R5",
+            "XX2_X1_R10",
+            "XX2_X1_R9",
+            "XX2_X1_R8",
+            "XX2_X1_R7",
+            "XX2_X1_R6",
+            "XX2_X1_R11",
+            "XX2_X1_R12",
+            "XX2_X1_R13",
+            "XX2_X1_R14",
+            "XX2_X1_R15",
+            "XX2_X1_R20",
+            "XX2_X1_R19",
+            "XX2_X1_R18",
+            "XX2_X1_R17",
+            "XX2_X1_R16",
+            "XX2_X2_R16",
+            "XX2_X2_R17",
+            "XX2_X2_R18",
+            "XX2_X2_R19",
+            "XX2_X2_R20",
+            "XX2_X2_R15",
+            "XX2_X2_R14",
+            "XX2_X2_R13",
+            "XX2_X2_R12",
+            "XX2_X2_R11",
+            "XX2_X2_R6",
+            "XX2_X2_R7",
+            "XX2_X2_R8",
+            "XX2_X2_R9",
+            "XX2_X2_R10",
+            "XX2_X2_R5",
+            "XX2_X2_R4",
+            "XX2_X2_R3",
+            "XX2_X2_R2",
+            "XX2_X2_R1"
+          ]
+        }
+      }
+    },
+    "G4.2_DRC_every_variant": {
+      "pass": true,
+      "detail": {
+        "nmos_differential_pair__ABBA": 0,
+        "nmos_differential_pair__ABAB": 0,
+        "nmos_differential_pair_2__ABBA": 0,
+        "nmos_differential_pair_2__ABAB": 0,
+        "nmos_differential_pair_3__ABBA": 0,
+        "nmos_differential_pair_3__ABAB": 0,
+        "pmos_differential_pair__ABBA": 0,
+        "pmos_differential_pair__ABAB": 0,
+        "nmos_current_mirror__centroid": 0,
+        "nmos_current_mirror__interdigitated": 0,
+        "mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__centroid": 0,
+        "mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__interdigitated": 0,
+        "mirror_XX1_M22_XX1_M15__ABBA": 0,
+        "mirror_XX1_M22_XX1_M15__ABAB": 0,
+        "nmos_current_mirror_2__ABBA": 0,
+        "nmos_current_mirror_2__ABAB": 0,
+        "nmos_current_mirror_3__ABBA": 0,
+        "nmos_current_mirror_3__ABAB": 0,
+        "nmos_current_mirror_load__ABBA": 0,
+        "nmos_current_mirror_load__ABAB": 0,
+        "pmos_current_mirror__ABBA": 0,
+        "pmos_current_mirror__ABAB": 0,
+        "pmos_current_mirror_load__ABBA": 0,
+        "pmos_current_mirror_load__ABAB": 0,
+        "nmos_current_mirror_4__A": 0,
+        "pmos_current_mirror_2__row": 0,
+        "nmos_matched_cascode_pair__ABBA": 0,
+        "nmos_matched_cascode_pair__ABAB": 0,
+        "nmos_matched_cascode_pair_2__ABBA": 0,
+        "nmos_matched_cascode_pair_2__ABAB": 0,
+        "nmos_matched_current_source_pair__mirror": 0,
+        "nmos_matched_current_source_pair__ABAB": 0,
+        "pmos_matched_current_source_pair__ABBA": 0,
+        "pmos_matched_current_source_pair__ABAB": 0,
+        "pmos_matched_current_source_pair_2__ABBA": 0,
+        "pmos_matched_current_source_pair_2__ABAB": 0,
+        "pmos_matched_current_source_pair_3__ABBA": 0,
+        "pmos_matched_current_source_pair_3__ABAB": 0,
+        "pmos_matched_cascode_pair__ABBA": 0,
+        "pmos_matched_cascode_pair__ABAB": 0,
+        "pmos_matched_current_source_pair_4__ABBA": 0,
+        "pmos_matched_current_source_pair_4__ABAB": 0,
+        "nmos_diode__A": 0,
+        "nmos_single__A": 0,
+        "nmos_single_2__A": 0,
+        "pmos_diode__A": 0,
+        "pmos_diode_2__A": 0,
+        "nmos_diode_2__A": 0,
+        "pmos_single__A": 0,
+        "pmos_single_2__A": 0,
+        "XC1__A": 0,
+        "XC2__A": 0,
+        "res_packs__interleaved": 0
+      }
+    },
+    "G4.3_LVS_every_variant": {
+      "pass": true,
+      "detail": {
+        "nmos_differential_pair__ABBA": true,
+        "nmos_differential_pair__ABAB": true,
+        "nmos_differential_pair_2__ABBA": true,
+        "nmos_differential_pair_2__ABAB": true,
+        "nmos_differential_pair_3__ABBA": true,
+        "nmos_differential_pair_3__ABAB": true,
+        "pmos_differential_pair__ABBA": true,
+        "pmos_differential_pair__ABAB": true,
+        "nmos_current_mirror__centroid": true,
+        "nmos_current_mirror__interdigitated": true,
+        "mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__centroid": true,
+        "mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__interdigitated": true,
+        "mirror_XX1_M22_XX1_M15__ABBA": true,
+        "mirror_XX1_M22_XX1_M15__ABAB": true,
+        "nmos_current_mirror_2__ABBA": true,
+        "nmos_current_mirror_2__ABAB": true,
+        "nmos_current_mirror_3__ABBA": true,
+        "nmos_current_mirror_3__ABAB": true,
+        "nmos_current_mirror_load__ABBA": true,
+        "nmos_current_mirror_load__ABAB": true,
+        "pmos_current_mirror__ABBA": true,
+        "pmos_current_mirror__ABAB": true,
+        "pmos_current_mirror_load__ABBA": true,
+        "pmos_current_mirror_load__ABAB": true,
+        "nmos_current_mirror_4__A": true,
+        "pmos_current_mirror_2__row": true,
+        "nmos_matched_cascode_pair__ABBA": true,
+        "nmos_matched_cascode_pair__ABAB": true,
+        "nmos_matched_cascode_pair_2__ABBA": true,
+        "nmos_matched_cascode_pair_2__ABAB": true,
+        "nmos_matched_current_source_pair__mirror": true,
+        "nmos_matched_current_source_pair__ABAB": true,
+        "pmos_matched_current_source_pair__ABBA": true,
+        "pmos_matched_current_source_pair__ABAB": true,
+        "pmos_matched_current_source_pair_2__ABBA": true,
+        "pmos_matched_current_source_pair_2__ABAB": true,
+        "pmos_matched_current_source_pair_3__ABBA": true,
+        "pmos_matched_current_source_pair_3__ABAB": true,
+        "pmos_matched_cascode_pair__ABBA": true,
+        "pmos_matched_cascode_pair__ABAB": true,
+        "pmos_matched_current_source_pair_4__ABBA": true,
+        "pmos_matched_current_source_pair_4__ABAB": true,
+        "nmos_diode__A": true,
+        "nmos_single__A": true,
+        "nmos_single_2__A": true,
+        "pmos_diode__A": true,
+        "pmos_diode_2__A": true,
+        "nmos_diode_2__A": true,
+        "pmos_single__A": true,
+        "pmos_single_2__A": true,
+        "XC1__A": true,
+        "XC2__A": true,
+        "res_packs__interleaved": true
+      }
+    },
+    "G4.4_symmetry": {
+      "pass": true,
+      "tolerance_um": 0.005,
+      "detail": {
+        "nmos_differential_pair__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "nmos_differential_pair__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 5.43,
+          "mirror_image": false
+        },
+        "nmos_differential_pair_2__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "nmos_differential_pair_2__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 21.43,
+          "mirror_image": false
+        },
+        "nmos_differential_pair_3__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "nmos_differential_pair_3__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 21.43,
+          "mirror_image": false
+        },
+        "pmos_differential_pair__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "pmos_differential_pair__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 11.54,
+          "mirror_image": false
+        },
+        "mirror_XX1_M22_XX1_M15__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "mirror_XX1_M22_XX1_M15__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 21.43,
+          "mirror_image": false
+        },
+        "nmos_current_mirror_2__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "nmos_current_mirror_2__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.43,
+          "mirror_image": false
+        },
+        "nmos_current_mirror_3__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "nmos_current_mirror_3__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.43,
+          "mirror_image": false
+        },
+        "nmos_current_mirror_load__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "nmos_current_mirror_load__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 21.43,
+          "mirror_image": false
+        },
+        "pmos_current_mirror__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "pmos_current_mirror__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.54,
+          "mirror_image": false
+        },
+        "pmos_current_mirror_load__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "pmos_current_mirror_load__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 11.54,
+          "mirror_image": false
+        },
+        "pmos_current_mirror_2__row": {
+          "error_um": 4.0,
+          "centroid_offset_um": 9.08,
+          "mirror_image": false
+        },
+        "nmos_matched_cascode_pair__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "nmos_matched_cascode_pair__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.43,
+          "mirror_image": false
+        },
+        "nmos_matched_cascode_pair_2__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "nmos_matched_cascode_pair_2__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.43,
+          "mirror_image": false
+        },
+        "nmos_matched_current_source_pair__mirror": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.43,
+          "mirror_image": true
+        },
+        "nmos_matched_current_source_pair__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.43,
+          "mirror_image": false
+        },
+        "pmos_matched_current_source_pair__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "pmos_matched_current_source_pair__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.54,
+          "mirror_image": false
+        },
+        "pmos_matched_current_source_pair_2__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "pmos_matched_current_source_pair_2__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.54,
+          "mirror_image": false
+        },
+        "pmos_matched_current_source_pair_3__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "pmos_matched_current_source_pair_3__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.54,
+          "mirror_image": false
+        },
+        "pmos_matched_cascode_pair__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "pmos_matched_cascode_pair__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 11.83,
+          "mirror_image": false
+        },
+        "pmos_matched_current_source_pair_4__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "pmos_matched_current_source_pair_4__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 11.83,
+          "mirror_image": false
+        }
+      },
+      "not_matched": [
+        "pmos_current_mirror_2"
+      ],
+      "note": "every two-device block of one device type (a matched pair or mirror of one size) has a signed-off variant that is a mirror image about its centre; centroid_offset_um is 0 for a common centroid (ABBA). Two devices of different sizes (not_matched) cannot be mirror images"
+    },
+    "G4.5_latchup_tap_distance": {
+      "pass": true,
+      "limit_um": 15.0,
+      "detail": {
+        "nmos_differential_pair__ABBA": 6.448,
+        "nmos_differential_pair__ABAB": 6.448,
+        "nmos_differential_pair_2__ABBA": 6.946,
+        "nmos_differential_pair_2__ABAB": 6.946,
+        "nmos_differential_pair_3__ABBA": 6.946,
+        "nmos_differential_pair_3__ABAB": 6.946,
+        "pmos_differential_pair__ABBA": 5.002,
+        "pmos_differential_pair__ABAB": 5.002,
+        "nmos_current_mirror__centroid": 6.559,
+        "nmos_current_mirror__interdigitated": 6.559,
+        "mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__centroid": 4.62,
+        "mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__interdigitated": 4.62,
+        "mirror_XX1_M22_XX1_M15__ABBA": 4.071,
+        "mirror_XX1_M22_XX1_M15__ABAB": 4.071,
+        "nmos_current_mirror_2__ABBA": 3.63,
+        "nmos_current_mirror_2__ABAB": 3.63,
+        "nmos_current_mirror_3__ABBA": 3.63,
+        "nmos_current_mirror_3__ABAB": 3.63,
+        "nmos_current_mirror_load__ABBA": 3.836,
+        "nmos_current_mirror_load__ABAB": 3.836,
+        "pmos_current_mirror__ABBA": 5.987,
+        "pmos_current_mirror__ABAB": 5.987,
+        "pmos_current_mirror_load__ABBA": 4.103,
+        "pmos_current_mirror_load__ABAB": 4.103,
+        "nmos_current_mirror_4__A": 3.171,
+        "pmos_current_mirror_2__row": 6.486,
+        "nmos_matched_cascode_pair__ABBA": 4.62,
+        "nmos_matched_cascode_pair__ABAB": 4.62,
+        "nmos_matched_cascode_pair_2__ABBA": 4.62,
+        "nmos_matched_cascode_pair_2__ABAB": 4.62,
+        "nmos_matched_current_source_pair__mirror": 4.071,
+        "nmos_matched_current_source_pair__ABAB": 4.071,
+        "pmos_matched_current_source_pair__ABBA": 5.987,
+        "pmos_matched_current_source_pair__ABAB": 5.987,
+        "pmos_matched_current_source_pair_2__ABBA": 5.987,
+        "pmos_matched_current_source_pair_2__ABAB": 5.987,
+        "pmos_matched_current_source_pair_3__ABBA": 5.987,
+        "pmos_matched_current_source_pair_3__ABAB": 5.987,
+        "pmos_matched_cascode_pair__ABBA": 5.002,
+        "pmos_matched_cascode_pair__ABAB": 5.002,
+        "pmos_matched_current_source_pair_4__ABBA": 4.103,
+        "pmos_matched_current_source_pair_4__ABAB": 4.103,
+        "nmos_diode__A": 3.23,
+        "nmos_single__A": 3.63,
+        "nmos_single_2__A": 1.584,
+        "pmos_diode__A": 3.096,
+        "pmos_diode_2__A": 3.453,
+        "nmos_diode_2__A": 2.953,
+        "pmos_single__A": 3.203,
+        "pmos_single_2__A": 3.203,
+        "XC1__A": null,
+        "XC2__A": null,
+        "res_packs__interleaved": null
+      },
+      "tap_strips": {},
+      "note": "the LU rules are also in the block's own DRC (G4.2), which defers nothing; a capacitor block has no diffusion (None)"
+    },
+    "G4.6_port_capacitance (info)": {
+      "pass": null,
+      "note": "block port C against S2's hierarchy.json: S6 extraction (plan Phase 5)"
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-11-04T08:52:09+00:00",
+    "git_commit": "a5b250de0e6e41457e029cd18ab240da31694add",
+    "inputs": [
+      {
+        "path": "outputs/S0/ttsky25a_fd/circuit_ir.json",
+        "sha256": "99c8894cf21f5a82bf390511d3d26ff0b7efeede453b5f1f28ae831a8537e71b"
+      },
+      {
+        "path": "outputs/S1/ttsky25a_fd/s1_report.json",
+        "sha256": "8dffb8c2c066129188386c3ad0d64f551585de4da830df60ea83ae8ee70d5b16"
+      },
+      {
+        "path": "outputs/S3/ttsky25a_fd/device_decisions.json",
+        "sha256": "f13cca5481c37002ae546917279bdf4d07c7e9ce7f5119563092ef1bb29d0b0f"
+      },
+      {
+        "path": "outputs/S2/ttsky25a_fd/constraints.json",
+        "sha256": "ed590c84cfead95bcb1814a420acc1cd728bd84312d1978db4e737c394286360"
+      },
+      {
+        "path": "inputs/ttsky25a_fd/package.yaml",
+        "sha256": "14d3a0672ec07f68247590346eb07cd37b5be35ad22b916e03fedd0ade60d4ac"
+      }
+    ]
+  }
+}

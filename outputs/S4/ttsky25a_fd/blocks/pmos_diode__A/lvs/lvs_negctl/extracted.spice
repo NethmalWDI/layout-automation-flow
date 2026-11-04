@@ -1,0 +1,15 @@
+* NGSPICE file created from pmos_diode__A.ext - technology: sky130A
+
+.subckt sky130_fd_pr__pfet_01v8_lvt_4N9G9U G D S w_n2094_n198#
+X0 S G D w_n2094_n198# sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=20
+.ends
+
+.subckt pfet_01v8_lvt_W1_L20_m2__nf1_gtop_sdfull_ng G D B S
+Xpfet_01v8_lvt_W1_L20_m2__nf1_gtop_sdfull_ng_pc G D S B sky130_fd_pr__pfet_01v8_lvt_4N9G9U
+.ends
+
+.subckt pmos_diode__A net3 Vdd Vdd_body
+Xpfet_01v8_lvt_W1_L20_m2__nf1_gtop_sdfull_ng_0 net3 net3 Vdd_body Vdd pfet_01v8_lvt_W1_L20_m2__nf1_gtop_sdfull_ng
+Xpfet_01v8_lvt_W1_L20_m2__nf1_gtop_sdfull_ng_1 net3 net3 Vdd_body Vdd pfet_01v8_lvt_W1_L20_m2__nf1_gtop_sdfull_ng
+.ends
+

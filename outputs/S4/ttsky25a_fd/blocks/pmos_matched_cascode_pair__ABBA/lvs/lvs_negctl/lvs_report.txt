@@ -1,0 +1,52 @@
+
+Circuit 1 cell sky130_fd_pr__pfet_01v8_lvt and Circuit 2 cell sky130_fd_pr__pfet_01v8_lvt are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__pfet_01v8_lvt is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__pfet_01v8_lvt is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__pfet_01v8_lvt     |Circuit 2: sky130_fd_pr__pfet_01v8_lvt     
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__pfet_01v8_lvt and sky130_fd_pr__pfet_01v8_lvt are equivalent.
+Flattening unmatched subcell pfet_01v8_lvt_W2_L5_m2__nf2_gboth_sdfull_outS_ng in circuit pmos_matched_cascode_pair__ABBA (0)(6 instances)
+Flattening unmatched subcell sky130_fd_pr__pfet_01v8_lvt_26VEAH in circuit pmos_matched_cascode_pair__ABBA (0)(6 instances)
+
+Class pmos_matched_cascode_pair__ABBA (0):  Merged 9 parallel devices.
+Class pmos_matched_cascode_pair__ABBA (1):  Merged 1 parallel devices.
+Subcircuit summary:
+Circuit 1: pmos_matched_cascode_pair__ABBA |Circuit 2: pmos_matched_cascode_pair__ABBA 
+-------------------------------------------|-------------------------------------------
+sky130_fd_pr__pfet_01v8_lvt (12->3)        |sky130_fd_pr__pfet_01v8_lvt (6->3)         
+Number of devices: 3                       |Number of devices: 3                       
+Number of nets: 7                          |Number of nets: 7                          
+---------------------------------------------------------------------------------------
+Resolving symmetries by property value.
+Resolving symmetries by pin name.
+Resolving symmetries by net name.
+Netlists match with 2 symmetries with property errors.
+pfet_01v8_lvt_W2_L5_m2__nf2_gboth_sdfull_outS_ng_2/sky130_fd_pr__pfet_01v8_lvt_26VEAH:pfet_01v8_lvt_W2_L5_m2__nf2_gboth_sdfull_outS_ng_pc/sky130_fd_pr__pfet_01v8_lvt:0 vs. sky130_fd_pr__pfet_01v8_lvt:XX1_M11:
+ l circuit1: 5   circuit2: 5.5   (delta=9.52%, cutoff=1%)
+
+Subcircuit pins:
+Circuit 1: pmos_matched_cascode_pair__ABBA |Circuit 2: pmos_matched_cascode_pair__ABBA 
+-------------------------------------------|-------------------------------------------
+x1_Vbias                                   |x1_Vbias                                   
+Vom1                                       |Vop1 **Mismatch**                          
+x1_net1                                    |x1_Vtest2 **Mismatch**                     
+Vop1                                       |Vom1 **Mismatch**                          
+x1_Vtest2                                  |x1_net1 **Mismatch**                       
+Vdd_body                                   |Vdd_body                                   
+Vdd                                        |Vdd                                        
+---------------------------------------------------------------------------------------
+Cell pin lists for pmos_matched_cascode_pair__ABBA and pmos_matched_cascode_pair__ABBA altered to match.
+Device classes pmos_matched_cascode_pair__ABBA and pmos_matched_cascode_pair__ABBA are equivalent.
+
+Final result: Top level cell failed pin matching.
+
+The following cells had property errors:
+ pmos_matched_cascode_pair__ABBA

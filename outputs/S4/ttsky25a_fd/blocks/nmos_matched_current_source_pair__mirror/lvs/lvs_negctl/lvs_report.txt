@@ -1,0 +1,48 @@
+
+Circuit 1 cell sky130_fd_pr__nfet_01v8_lvt and Circuit 2 cell sky130_fd_pr__nfet_01v8_lvt are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8_lvt is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8_lvt is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__nfet_01v8_lvt     |Circuit 2: sky130_fd_pr__nfet_01v8_lvt     
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__nfet_01v8_lvt and sky130_fd_pr__nfet_01v8_lvt are equivalent.
+Flattening unmatched subcell nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng in circuit nmos_matched_current_source_pair__mirror (0)(20 instances)
+Flattening unmatched subcell sky130_fd_pr__nfet_01v8_lvt_YU23CF in circuit nmos_matched_current_source_pair__mirror (0)(20 instances)
+
+Class nmos_matched_current_source_pair__mirror (0):  Merged 17 parallel devices.
+Class nmos_matched_current_source_pair__mirror (1):  Merged 1 parallel devices.
+Subcircuit summary:
+Circuit 1: nmos_matched_current_source_pai |Circuit 2: nmos_matched_current_source_pai 
+-------------------------------------------|-------------------------------------------
+sky130_fd_pr__nfet_01v8_lvt (20->3)        |sky130_fd_pr__nfet_01v8_lvt (20->3)        
+Number of devices: 3                       |Number of devices: 3                       
+Number of nets: 5                          |Number of nets: 5                          
+---------------------------------------------------------------------------------------
+Resolving symmetries by property value.
+Netlists match uniquely with property errors.
+nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_2/sky130_fd_pr__nfet_01v8_lvt_YU23CF:nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_pc/sky130_fd_pr__nfet_01v8_lvt:0 vs. sky130_fd_pr__nfet_01v8_lvt:XX2_M2:
+ l circuit1: 1   circuit2: 1.1   (delta=9.52%, cutoff=1%)
+
+Subcircuit pins:
+Circuit 1: nmos_matched_current_source_pai |Circuit 2: nmos_matched_current_source_pai 
+-------------------------------------------|-------------------------------------------
+Vom                                        |Vop **Mismatch**                           
+Vop                                        |Vom **Mismatch**                           
+x2_Vout                                    |x2_Vout                                    
+Vss_body                                   |Vss_body                                   
+Vss                                        |Vss                                        
+---------------------------------------------------------------------------------------
+Cell pin lists for nmos_matched_current_source_pair__mirror and nmos_matched_current_source_pair__mirror altered to match.
+Device classes nmos_matched_current_source_pair__mirror and nmos_matched_current_source_pair__mirror are equivalent.
+
+Final result: Top level cell failed pin matching.
+
+The following cells had property errors:
+ nmos_matched_current_source_pair__mirror

@@ -1,0 +1,21 @@
+* NGSPICE file created from nmos_current_mirror__interdigitated.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_lvt_ZCNT58 G D S VSUBS
+X0 S G D VSUBS sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+.ends
+
+.subckt nfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng B S G D
+Xnfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_lvt_ZCNT58
+.ends
+
+.subckt nmos_current_mirror__interdigitated Vss NBias PBias net3 Vss_body
+Xnfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng_0 Vss_body Vss Vss Vss nfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng_1 Vss_body Vss NBias NBias nfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng_2 Vss_body Vss NBias PBias nfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng_3 Vss_body Vss NBias net3 nfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng_5 Vss_body Vss NBias PBias nfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng_4 Vss_body Vss NBias NBias nfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng_6 Vss_body Vss NBias net3 nfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng_7 Vss_body Vss Vss Vss nfet_01v8_lvt_W5_L2_m2__nf1_gboth_sdfull_ng
+.ends
+

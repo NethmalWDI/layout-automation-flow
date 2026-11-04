@@ -1,0 +1,45 @@
+
+Circuit 1 cell sky130_fd_pr__pfet_01v8_lvt and Circuit 2 cell sky130_fd_pr__pfet_01v8_lvt are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__pfet_01v8_lvt is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__pfet_01v8_lvt is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__pfet_01v8_lvt     |Circuit 2: sky130_fd_pr__pfet_01v8_lvt     
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__pfet_01v8_lvt and sky130_fd_pr__pfet_01v8_lvt are equivalent.
+Flattening unmatched subcell pfet_01v8_lvt_W1_L20_m2__nf1_gtop_sdfull_ng in circuit pmos_diode__A (0)(2 instances)
+Flattening unmatched subcell sky130_fd_pr__pfet_01v8_lvt_4N9G9U in circuit pmos_diode__A (0)(2 instances)
+
+Class pmos_diode__A (0):  Merged 1 parallel devices.
+Subcircuit summary:
+Circuit 1: pmos_diode__A                   |Circuit 2: pmos_diode__A                   
+-------------------------------------------|-------------------------------------------
+sky130_fd_pr__pfet_01v8_lvt (2->1)         |sky130_fd_pr__pfet_01v8_lvt (2->1)         
+Number of devices: 1                       |Number of devices: 1                       
+Number of nets: 3                          |Number of nets: 3                          
+---------------------------------------------------------------------------------------
+Netlists match uniquely with property errors.
+pfet_01v8_lvt_W1_L20_m2__nf1_gtop_sdfull_ng_0/sky130_fd_pr__pfet_01v8_lvt_4N9G9U:pfet_01v8_lvt_W1_L20_m2__nf1_gtop_sdfull_ng_pc/sky130_fd_pr__pfet_01v8_lvt:0 vs. sky130_fd_pr__pfet_01v8_lvt:XM42:
+ l circuit1: 20   circuit2: 22   (delta=9.52%, cutoff=1%)
+
+Subcircuit pins:
+Circuit 1: pmos_diode__A                   |Circuit 2: pmos_diode__A                   
+-------------------------------------------|-------------------------------------------
+Vdd                                        |Vdd                                        
+Vdd_body                                   |Vdd_body                                   
+net3                                       |net3                                       
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes pmos_diode__A and pmos_diode__A are equivalent.
+
+Final result: Circuits match uniquely.
+Property errors were found.
+
+The following cells had property errors:
+ pmos_diode__A

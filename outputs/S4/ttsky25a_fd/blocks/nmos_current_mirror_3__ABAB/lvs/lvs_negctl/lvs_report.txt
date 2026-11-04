@@ -1,0 +1,47 @@
+
+Circuit 1 cell sky130_fd_pr__nfet_01v8_lvt and Circuit 2 cell sky130_fd_pr__nfet_01v8_lvt are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8_lvt is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8_lvt is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__nfet_01v8_lvt     |Circuit 2: sky130_fd_pr__nfet_01v8_lvt     
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__nfet_01v8_lvt and sky130_fd_pr__nfet_01v8_lvt are equivalent.
+Flattening unmatched subcell nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng in circuit nmos_current_mirror_3__ABAB (0)(6 instances)
+Flattening unmatched subcell sky130_fd_pr__nfet_01v8_lvt_MHCJX9 in circuit nmos_current_mirror_3__ABAB (0)(6 instances)
+
+Class nmos_current_mirror_3__ABAB (0):  Merged 3 parallel devices.
+Class nmos_current_mirror_3__ABAB (1):  Merged 1 parallel devices.
+Subcircuit summary:
+Circuit 1: nmos_current_mirror_3__ABAB     |Circuit 2: nmos_current_mirror_3__ABAB     
+-------------------------------------------|-------------------------------------------
+sky130_fd_pr__nfet_01v8_lvt (6->3)         |sky130_fd_pr__nfet_01v8_lvt (6->3)         
+Number of devices: 3                       |Number of devices: 3                       
+Number of nets: 4                          |Number of nets: 4                          
+---------------------------------------------------------------------------------------
+Netlists match uniquely with property errors.
+nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_1/sky130_fd_pr__nfet_01v8_lvt_MHCJX9:nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_pc/sky130_fd_pr__nfet_01v8_lvt:0 vs. sky130_fd_pr__nfet_01v8_lvt:XX2_M10:
+ l circuit1: 1   circuit2: 1.1   (delta=9.52%, cutoff=1%)
+
+Subcircuit pins:
+Circuit 1: nmos_current_mirror_3__ABAB     |Circuit 2: nmos_current_mirror_3__ABAB     
+-------------------------------------------|-------------------------------------------
+x2_Vbiasp                                  |x2_Vbiasp                                  
+Vss                                        |Vss                                        
+net7                                       |net7                                       
+Vss_body                                   |Vss_body                                   
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes nmos_current_mirror_3__ABAB and nmos_current_mirror_3__ABAB are equivalent.
+
+Final result: Circuits match uniquely.
+Property errors were found.
+
+The following cells had property errors:
+ nmos_current_mirror_3__ABAB

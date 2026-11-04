@@ -21,12 +21,14 @@ evidence with pictures, and the problems met on the way and how they were fixed.
 - plan v4 Phase 4, S5 routing on the 5T (7.18);
 - plan v4 Phase 5, extraction and post-layout evaluation of the 5T (7.19);
 - plan v4 Phase 6, LOADBench through S4–S7 (7.20);
-- plan v4 Phase 7, stabilising S4–S7: the MIM capacitor's double-counted coupling, a review, goldens (7.21).
+- plan v4 Phase 7, stabilising S4–S7: the MIM capacitor's double-counted coupling, a review, goldens (7.21);
+- plan v4 Phase 8, part 1: `ttsky25a_fd` through S4 and S5's placement (7.22).
 
-The journey table runs to row 80: the S3 option plot and the line endings after the merge (65, 66), the DRC
+The journey table runs to row 84: the S3 option plot and the line endings after the merge (65, 66), the DRC
 negative control (67), the router's naming and geometry bugs (68, 69), the R+C wrapper's short (70), and LOADBench's
 latch-up strip, MIM block, router gaps, the C-only netlist's missing gate capacitance and S7's port map and memory
-(71–76), the MIM capacitor's double count and the review's findings (77–80).
+(71–76), the MIM capacitor's double count and the review's findings (77–80), and `ttsky25a_fd`'s PM convention, Magic's
+file scale, repeated block names and G4.4's scope (81–84).
 
 *Earlier (2026-10-27, evening):* section 7 (plan v2) is complete: every before/after run on the five designs, the post-hoc S3 test, the five budget rules at each design's own eta and at eta 0.9 (PREREG headline; TTSKY25a's eta 0.9 run is not valid), the hand-drawn layouts against the 'after' G2.0, a third independent review (review C) and what it changed, the journey table to row 50, an assessment (7.11) and the Plan v3 review pack (7.12, `docs/plan_v3_review_pack.md`). Figures: `flow_record/img/v2_*.png`, `plan_v3/img/*.png`.
 
@@ -1261,6 +1263,10 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 78 | S6 | Row 75's fix was incomplete: G6.2 still read a gate net the C-only netlist leaves at 0 fF as 0 and within budget (LOADBench's FirstStageYout1 and outFirstStage, about 37 and 21 fF in the .ext against budgets of 12.4 and 7.5 fF). G6.2 failed on other rows, so the verdict held, but its violation list left both out | the independent review of S4–S7 (Phase 7) | a net's capacitance to ground is the larger of the netlist's and the .ext's, with its source recorded; G6.4 also lists nets the netlist reads more than 5 % low (ibias 54 against 58 fF). Test | see 7.21 |
 | 79 | S6 / S7 | (1) `flat_lvs` missed Netgen's pin rows whose names its 43-character columns cut (no closing parenthesis), and never checked a row pairing two different pins. (2) The G7.5 jobs were added after S7 had built its run lists, so they would never have run and G7.5 would have read empty. (3) A spec with no post-layout measurement was skipped, and G7.1/G7.2 passed on the rest | the same review; (2) before any run used it | `flat_lvs` reads every pin-table row, compares a cut name as a prefix and fails a row with two different pins; the G7.5 jobs join the list first; a missing measurement fails G7.1 and G7.2. Tests | LOADBench's flat LVS counts 3 inner nets (was 2), still a match |
 | 80 | S4 / S5 | Latent, found by the same review: (1) a device with m > 1 is drawn once by S3 and S4's block LVS compared it with W and nf only, so a block holding 1/m of the transistor passed (`ttsky25a_fd` m = 2, `iadc_ota` m = 6); (2) splitting an ABBA half unit used the full device's width; (3) one matching group split into two blocks of one type got one name twice; (4) the router's least-slack order used IR names, so renamed nets (`IBIAS`, `VBIAS`) went last | the review | (1) a block with an m > 1 device fails S4 with a message, until S4 draws arrays; (2) a unit's width follows its own fingers; (3) the body names the block too; (4) the order uses the layout view's names. Tests | none of the 5T's or LOADBench's results depended on them, except the 5T's routing order (VBIAS) |
+| 81 | S1 | `ttsky25a_fd`'s re-run (plan v4 Phase 8.1) failed G1.2 on PM (2.27° against a 2° tolerance), which had passed on 2026-10-26. Since plan v3 Phase A step 7 the linear model's PM is taken from the 1 Hz phase rounded to the nearest 180°, while S0's frozen benches keep the unrounded 1 Hz phase; this amplifier (98 dB) has −2.3° at 1 Hz, so the two conventions differ by 2.3° here and by almost nothing on the 5T and LOADBench | reading G1.2's own report: with one convention on both sides the model and SPICE agree within 0.06° (75.96 against 75.91°; 78.30 against 78.23°) | not fixed: S1 is a reviewed stage (Imasha's call, FEEDBACK NEEDED). S2 uses PM's sensitivities, which a constant offset does not change | reported as a finding |
+| 82 | S4 | `unit_pins` read every `.mag` at 0.005 µm per unit (`magscale 1 2`). Magic writes that line only when a cell has half-lambda geometry; `ttsky25a_fd`'s new cells have none, so their unit is 0.01 µm and every pin came out at half its place: a gate pad mid-cell, two stubs 0.5 µm apart | S4 stopped ("stubs too close"); scanning every cell's stub plan, then reading one cell's metal and labels | each file's own `magscale` (0.01 µm without one). Every 5T and LOADBench cell has `magscale 1 2`, so their blocks do not change. The stub-spacing check now uses the real rule (a 0.36 µm patch plus met1's 0.14 µm) and a single-finger strip can be taken at the top | S4 runs on `ttsky25a_fd` |
+| 83 | S4 | S0 gives several blocks one name (`ttsky25a_fd`: four `pmos_matched_current_source_pair`); S4 drew them in parallel into one folder, and one build removed another's files (row 80 had covered only a group split into two blocks) | S4 crashed reading a GDS another thread had deleted | repeated names are numbered in order (`_2`, `_3`, …) | 32 blocks, 32 names |
+| 84 | S4 | G4.4 asked every two-device block for a mirror-image variant, also two devices of different sizes (`ttsky25a_fd`'s `pmos_current_mirror_2`: 6/1 and 1/5 µm), which cannot be mirror images | the first full S4 run: every variant signed off, G4.4 failed on that block | G4.4 covers pairs of one device type, as the plan meant; the others are listed (`not_matched`). The 5T and LOADBench have none | S4 PASS on `ttsky25a_fd` |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -2608,6 +2614,45 @@ router's spacing model is a little short for body stacks and bridges (DRC catche
   margin) and PM 64.77° (0.21; less Miller capacitance, less pole splitting), gain unchanged: every spec within eta.
   LOADBench's G7.2 failure rests on the coupling Magic very likely counts twice.
 - Tests: 176 pass; 28 golden comparisons (S0–S7 for the 5T and LOADBench, S0–S3 for the other three designs) match.
+
+### 7.22 Plan v4, Phase 8 (part 1): `ttsky25a_fd` through S4 and S5's placement (2026-11-04)
+
+Imasha chose `ttsky25a_fd`, her taped-out fully differential op-amp, with its own hierarchy, and decided the matching,
+dummies and a hard outline of 250 × 200 µm (`docs/plan_v5_ttsky25a.md`, section 0; PREREG amendment of 2026-11-04).
+
+**S0–S3 re-run with today's code** (their outputs dated from 2026-10-26/27): S0 PASS; S1 FAIL G1.2 (row 81, a PM
+convention, not the model); S2 PASS (it had failed G2.7 before Phase A); S3 FAIL G3.3/G3.5 with every spec met (9 of 22
+types use their least-bad cell). Goldens S1–S3 refreshed on purpose.
+
+**S4** (switched on by `inputs/ttsky25a_fd/layout.yaml`; the 5T's and LOADBench's plans are unchanged unit for unit):
+- m copies as units: 139 transistor copies; Netgen merges drawn copies against `m=` in the reference.
+- Matched devices only as common centroid (ABBA; A B C C B A for groups) or interdigitated; the four m = 9 devices
+  get a mirror-image row (two odd counts cannot share a centroid).
+- A dummy at each end of every matched row; Netgen keeps them, and S5's top-level reference lists them.
+- The two res_packs (2 × 20 poly resistors, 0.5 × 40 µm) in one block, interleaved A B B A, each string
+  alternating orientation, its 38 inner nodes on short packed tracks: 50 × 55 µm.
+- Each Miller capacitor as 5 MIM units: 78 × 14 µm.
+- **S4 PASS:** 33 blocks, 55 variants, every one DRC 0 and LVS-matched with its negative control; G4.5 with no strip.
+  Three bugs found on the way (rows 82–84).
+
+**S5's placement** (`src/s5/macro.py`): the blocks grouped into four macros by the hierarchy (x1, x2, top, and the
+res_packs block); each macro placed by seeded annealing (enumeration up to 6 blocks) under three width limits; every
+arrangement of the macros' shapes enumerated inside the outline. A first dry run did not fit; two changes were fixed
+in PREREG before any layout was drawn (shared rows inside a macro, three shapes per macro; plan section 10).
+
+| | Budget-aware | Area-only |
+|---|---|---|
+| Size (µm) | 227.0 × 196.7 | 210.8 × 169.8 |
+| Area (µm²) | 44 652 | 35 786 |
+| Σ of wire-budget use u (all nets) | 119.3 | 188.5 |
+| Worst net (u) | net6, 33.5 | net6, 47.3 |
+
+- Both are legal (G5.1) and inside the outline (G5.6); unrouted DRC 0 for both.
+- The budget-aware placement uses 37 % less of the wire budgets at 24.8 % more area (PREREG's H5 allows 25 %).
+- Every net that crosses sub-circuits is far over S2's length budget (u up to 33), so G5.4 and G6.2 will fail: S2's
+  budgets for this design assume a far more compact layout than blocks with rings and 3 µm gaps.
+- **Routing is not done:** the spine router serves one column of blocks ("no spine for net Vom"). The grid router
+  (plan 8.5) is next.
 <!-- section7:end -->
 
 ---
@@ -2656,3 +2701,4 @@ router's spacing model is a little short for body stacks and bridges (DRC catche
 - 2026-11-03 (late evening): 7.19 and row 70 (Claude Code, plan v4 Phase 5): S6 extraction against S2's budgets and S7 post-layout SPICE on the 5T; H4 holds, H5 mostly, G2.0 within 25 % for PM only.
 - 2026-11-04 (early morning): 7.20 and rows 71–76 (Claude Code, plan v4 Phase 6): LOADBench through S4–S7; S4 and the top-level layout signed off, G6.2 and G7.2 (GBW) fail, every spec met post-layout; the 5T re-run keeps its verdicts.
 - 2026-11-04 (morning): 7.21 and rows 77–80 (Claude Code, plan v4 Phase 7): the MIM capacitor's plate coupling very likely counted twice by Magic (G6.5, G7.5: without it LOADBench is within eta); an independent review's fixes; S4–S7 goldens; the S4–S7 walkthrough.
+- 2026-11-04 (morning): 7.22 and rows 81–84 (Claude Code, plan v4 Phase 8, part 1): `ttsky25a_fd` S0–S3 re-run, S4 PASS (m-arrays, centroid rows, dummies, interleaved resistors, MIM arrays), S5 placement by macros inside 250 × 200 µm; routing next.

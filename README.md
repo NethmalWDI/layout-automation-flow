@@ -482,6 +482,12 @@ python3 -m src.s4.run inputs/example_ota_5t/package.yaml      # or: ./flow run e
   - a vertical tap strip between two units where the ring alone would leave a diffusion farther from a tap than S2's
     `place.latchup_tap_distance` (less 0.5 µm). A unit too wide even for that is split into two half units. Only
     LOADBench's PMOS bank needs one.
+- **Per-design options** (`inputs/<d>/layout.yaml`, read only by S4 and S5; without one, the plan v4 defaults; plan v4
+  Phase 8, `docs/plan_v5_ttsky25a.md`): `matching: centroid` (matched devices only as ABBA / A B C C B A or
+  interdigitated rows, from whole copies when m ≥ 2), `dummies: true` (a dummy at each end of every matched row),
+  `pack_internal: true` (nets only one block uses get short packed tracks), `resistor_blocks` (matched resistor
+  strings interleaved A B B A in one block), `outline_um` (S5's hard outline) and `hierarchy: upstream` (S5 by
+  sub-circuits). Devices with m > 1 are always drawn as m copies.
 - **Capacitors.** A capacitor that S0 binds to a MIM device for the layout view (LOADBench's Capacitor2, a PREDICTED
   binding) is a block of its own: the PDK's generator draws it, and each plate reaches a met3 track (the top plate up,
   the bottom plate down), 1.45 µm from the top plate (capm.11). Its met3 and met4 are keep-outs for S5's router.
@@ -527,6 +533,12 @@ placements:
   spacing rule, a metal3 bridge merges the two.
 
 It fails loudly on a net it cannot place; the plan's general maze router remains open for layouts that need detours.
+
+**A design with its own hierarchy** (`hierarchy: upstream`; `src/s5/macro.py`): the blocks are grouped by the
+sub-circuit of their devices (`circuits/<d>/upstream/hierarchy.json`); each group (a macro) is placed by seeded
+simulated annealing (enumeration up to 6 blocks) under three width limits; every arrangement of the macros' shapes is
+enumerated; anything outside `outline_um` is rejected (G5.6). Inside a macro, matched blocks may share a row. The
+routing of such a layout (a grid router) is not built yet (plan v4 Phase 8.5).
 
 | Output (`outputs/S5/<design>/`) | Content |
 |---|---|

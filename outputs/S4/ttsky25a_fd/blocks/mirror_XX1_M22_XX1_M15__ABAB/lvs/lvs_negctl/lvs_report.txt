@@ -1,0 +1,49 @@
+
+Circuit 1 cell sky130_fd_pr__nfet_01v8_lvt and Circuit 2 cell sky130_fd_pr__nfet_01v8_lvt are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8_lvt is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8_lvt is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__nfet_01v8_lvt     |Circuit 2: sky130_fd_pr__nfet_01v8_lvt     
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__nfet_01v8_lvt and sky130_fd_pr__nfet_01v8_lvt are equivalent.
+Flattening unmatched subcell nfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull_ng in circuit mirror_XX1_M22_XX1_M15__ABAB (0)(6 instances)
+Flattening unmatched subcell sky130_fd_pr__nfet_01v8_lvt_YRHGMU in circuit mirror_XX1_M22_XX1_M15__ABAB (0)(6 instances)
+
+Class mirror_XX1_M22_XX1_M15__ABAB (0):  Merged 3 parallel devices.
+Class mirror_XX1_M22_XX1_M15__ABAB (1):  Merged 1 parallel devices.
+Subcircuit summary:
+Circuit 1: mirror_XX1_M22_XX1_M15__ABAB    |Circuit 2: mirror_XX1_M22_XX1_M15__ABAB    
+-------------------------------------------|-------------------------------------------
+sky130_fd_pr__nfet_01v8_lvt (6->3)         |sky130_fd_pr__nfet_01v8_lvt (6->3)         
+Number of devices: 3                       |Number of devices: 3                       
+Number of nets: 5                          |Number of nets: 5                          
+---------------------------------------------------------------------------------------
+Resolving symmetries by property value.
+Netlists match uniquely with property errors.
+nfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull_ng_1/sky130_fd_pr__nfet_01v8_lvt_YRHGMU:nfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull_ng_pc/sky130_fd_pr__nfet_01v8_lvt:0 vs. sky130_fd_pr__nfet_01v8_lvt:XX1_M22:
+ l circuit1: 20   circuit2: 22   (delta=9.52%, cutoff=1%)
+
+Subcircuit pins:
+Circuit 1: mirror_XX1_M22_XX1_M15__ABAB    |Circuit 2: mirror_XX1_M22_XX1_M15__ABAB    
+-------------------------------------------|-------------------------------------------
+x1_net7                                    |x1_net7                                    
+x1_net8                                    |x1_net8                                    
+net4                                       |net4                                       
+Vss_body                                   |Vss_body                                   
+Vss                                        |Vss                                        
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes mirror_XX1_M22_XX1_M15__ABAB and mirror_XX1_M22_XX1_M15__ABAB are equivalent.
+
+Final result: Circuits match uniquely.
+Property errors were found.
+
+The following cells had property errors:
+ mirror_XX1_M22_XX1_M15__ABAB
