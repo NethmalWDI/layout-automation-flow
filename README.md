@@ -58,7 +58,7 @@ $env:FLOW_CONTAINER="layout-s0s3"
 .\flow.ps1 run example_ota_5t              # S0 -> S3, about 30 min
 .\flow.ps1 run loadbench_miller            # S0 -> S3, about 20 min
 .\flow.ps1 run example_ota_5t --stage S1   # one stage, from the earlier stages' outputs (S1 or S3: under a minute)
-.\flow.ps1 test                            # 188 unit tests + golden comparison with the committed outputs (~15 s)
+.\flow.ps1 test                            # 189 unit tests + golden comparison with the committed outputs (~15 s)
 ```
 
 The same inside the container: `docker exec -e IIC_OSIC_TOOLS_QUIET=1 layout-s0s3 bash -lc "cd /foss/designs &&
@@ -553,7 +553,7 @@ of a symmetric pair is not attempted (G5.4 reports it).
 | `candidates.json.gz` | Every candidate with its rows, choices and cost terms (gzipped: 20 736 on LOADBench) |
 | `placed_<budget_aware\|area_only>/` | The assembled, unrouted GDS, its picture and its DRC |
 | `routed_<budget_aware\|area_only>/` | The routed top cell (`<design>_routed.gds`), its picture, DRC, and LVS against the layout view with the drawn finger counts (`ref_top.spice`) |
-| `s5_report.json` | G5.1 (legal placement), G5.2 (top-level DRC), G5.3 (top-level LVS), G5.4 (S2's `route.*` rules: length, parallel runs on metal3/4, series R against what S3 left, symmetry; EM, bias-net coupling and digital crossings not evaluated, as S2 marked them), G5.5 (against area-only, info) |
+| `s5_report.json` | G5.1 (legal placement), G5.2 (top-level DRC), G5.3 (top-level LVS), G5.4 (S2's `route.*` rules: length, parallel runs on metal3/4, series R against what S3 left, symmetry; EM, bias-net coupling and digital crossings not evaluated, as S2 marked them), G5.5 (against area-only, info), G5.6 (inside the hard outline, with `outline_um`), G5.7 (info: each matched block's chosen variant and its devices' centroid offsets from the row centre) |
 
 ## S6: extraction against the budgets, and S7: post-layout evaluation (plan v4, branch `s4-s5`)
 

@@ -1,5 +1,22 @@
 * NGSPICE file created from ttsky25a_fd_routed.ext - technology: sky130A
 
+.subckt sky130_fd_pr__nfet_01v8_lvt_MHCJX9 G D S VSUBS
+X0 S G D VSUBS sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+.ends
+
+.subckt nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng B G D S
+Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_lvt_MHCJX9
+.ends
+
+.subckt nmos_current_mirror_3__ABBA net7 Vss x2_Vbiasp Vss_body
+Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_0 Vss_body Vss Vss Vss nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng
+Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_1 Vss_body net7 net7 Vss nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng
+Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_2 Vss_body net7 x2_Vbiasp Vss nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng
+Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_3 Vss_body net7 x2_Vbiasp Vss nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng
+Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_4 Vss_body net7 net7 Vss nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng
+Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_5 Vss_body Vss Vss Vss nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng
+.ends
+
 .subckt sky130_fd_pr__pfet_01v8_lvt_26VEAH G D0 w_n1123_n200# a_1029_n100# S1
 X0 a_1029_n100# G S1 w_n1123_n200# sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
 X1 S1 G D0 w_n1123_n200# sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
@@ -44,23 +61,6 @@ Xpfet_01v8_lvt_W2_L5_m2__nf2_gboth_sdfull_outS_ng_4 Vdd_body Vom1 x1_Vbias x1_ne
 Xpfet_01v8_lvt_W2_L5_m2__nf2_gboth_sdfull_outS_ng_5 Vdd_body Vdd Vdd Vdd pfet_01v8_lvt_W2_L5_m2__nf2_gboth_sdfull_outS_ng
 .ends
 
-.subckt sky130_fd_pr__nfet_01v8_lvt_MHCJX9 G D S VSUBS
-X0 S G D VSUBS sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
-.ends
-
-.subckt nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng B G D S
-Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_lvt_MHCJX9
-.ends
-
-.subckt nmos_current_mirror_3__ABAB net7 Vss Vss_body x2_Vbiasp
-Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_0 Vss_body Vss Vss Vss nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng
-Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_1 Vss_body net7 net7 Vss nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng
-Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_2 Vss_body net7 x2_Vbiasp Vss nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng
-Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_3 Vss_body net7 net7 Vss nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng
-Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_4 Vss_body net7 x2_Vbiasp Vss nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng
-Xnfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng_5 Vss_body Vss Vss Vss nfet_01v8_lvt_W0p6_L1_m2__nf1_gtop_sdfull_ng
-.ends
-
 .subckt sky130_fd_pr__pfet_01v8_lvt_G794LM G w_n594_n198# D S
 X0 S G D w_n594_n198# sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
 .ends
@@ -77,7 +77,7 @@ X0 S G D w_n194_n698# sky130_fd_pr__pfet_01v8_lvt ad=1.74 pd=12.58 as=1.74 ps=12
 Xpfet_01v8_lvt_W6_L1_m2__nf1_gtop_sdfull_ng_pc G D B S sky130_fd_pr__pfet_01v8_lvt_KRZAMB
 .ends
 
-.subckt pmos_current_mirror_2__row x2_net1 Vdd_body Vdd x2_Vbiasp
+.subckt pmos_current_mirror_2__row Vdd x2_net1 Vdd_body x2_Vbiasp
 Xpfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng_0 Vdd x2_Vbiasp x2_net1 Vdd_body pfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng
 Xpfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng_1 Vdd x2_Vbiasp x2_net1 Vdd_body pfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng
 Xpfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng_2 Vdd Vdd Vdd Vdd_body pfet_01v8_lvt_W1_L5_m2__nf1_gtop_sdfull_ng
@@ -136,6 +136,37 @@ Xpfet_01v8_lvt_W5_L1_m2__nf1_gtop_sdfull_ng_2 net2 PBias Vdd Vdd_body pfet_01v8_
 Xpfet_01v8_lvt_W5_L1_m2__nf1_gtop_sdfull_ng_4 net2 PBias Vdd Vdd_body pfet_01v8_lvt_W5_L1_m2__nf1_gtop_sdfull_ng
 Xpfet_01v8_lvt_W5_L1_m2__nf1_gtop_sdfull_ng_3 net2 net2 Vdd Vdd_body pfet_01v8_lvt_W5_L1_m2__nf1_gtop_sdfull_ng
 Xpfet_01v8_lvt_W5_L1_m2__nf1_gtop_sdfull_ng_5 Vdd Vdd Vdd Vdd_body pfet_01v8_lvt_W5_L1_m2__nf1_gtop_sdfull_ng
+.ends
+
+.subckt sky130_fd_pr__nfet_01v8_lvt_YU23CF G D S VSUBS
+X0 S G D VSUBS sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+.ends
+
+.subckt nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng G D B S
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_lvt_YU23CF
+.ends
+
+.subckt nmos_matched_current_source_pair__ABAB Vop x2_Vout Vss Vom Vss_body
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_0 Vss Vss Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_1 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_2 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_3 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_10 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_4 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_11 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_5 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_12 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_6 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_13 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_7 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_14 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_8 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_15 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_9 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_16 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_17 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_18 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_19 Vss Vss Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
 .ends
 
 .subckt sky130_fd_pr__cap_mim_m3_1_DHLNXX C1_4 C1_3 C1_2 C1_1 C1_0 C2_4 C2_3 C2_2
@@ -228,10 +259,6 @@ Xnfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng_4 Vm x1_Vtest2 Vss_body x1_net2 nfe
 Xnfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng_5 Vss Vss Vss_body Vss nfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng
 .ends
 
-.subckt sky130_fd_pr__nfet_01v8_lvt_YU23CF G D S VSUBS
-X0 S G D VSUBS sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
-.ends
-
 .subckt nfet_01v8_lvt_W1_L1_m2__nf1_gboth_sdfull_ng D B S G
 Xnfet_01v8_lvt_W1_L1_m2__nf1_gboth_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_lvt_YU23CF
 .ends
@@ -281,27 +308,6 @@ Xnfet_01v8_lvt_W1_L1_m2__nf1_gboth_sdfull_ng_4 x1_net2 Vss_body x1_net3 net5 nfe
 Xnfet_01v8_lvt_W1_L1_m2__nf1_gboth_sdfull_ng_5 Vss Vss_body Vss Vss nfet_01v8_lvt_W1_L1_m2__nf1_gboth_sdfull_ng
 .ends
 
-.subckt sky130_fd_pr__pfet_01v8_lvt_2HDQYB G w_n323_n200# D0 a_229_n100# S1
-X0 S1 G D0 w_n323_n200# sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
-X1 a_229_n100# G S1 w_n323_n200# sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
-.ends
-
-.subckt pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng G D S B
-Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_pc G B S S D sky130_fd_pr__pfet_01v8_lvt_2HDQYB
-.ends
-
-.subckt pmos_single_2__A Vom1 Vop Vdd Vdd_body
-Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_0 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
-Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_1 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
-Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_2 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
-Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_3 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
-Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_4 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
-Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_5 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
-Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_7 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
-Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_6 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
-Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_8 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
-.ends
-
 .subckt sky130_fd_pr__res_generic_po_5GPU7X R2 R1
 X0 R1 R2 sky130_fd_pr__res_generic_po w=0.5 l=40
 .ends
@@ -311,7 +317,7 @@ Xres_generic_po_W0p5_L40_pc res_generic_po_W0p5_L40_pc/R2 res_generic_po_W0p5_L4
 + sky130_fd_pr__res_generic_po_5GPU7X
 .ends
 
-.subckt res_packs__interleaved x2_Vcm Vop Vss Vom
+.subckt res_packs__interleaved Vss Vop Vom x2_Vcm
 Xres_generic_po_W0p5_L40_6 x2_x2_net5 x2_x2_net6 res_generic_po_W0p5_L40
 Xres_generic_po_W0p5_L40_7 x2_x2_net7 x2_x2_net6 res_generic_po_W0p5_L40
 Xres_generic_po_W0p5_L40_8 x2_x1_net7 x2_x1_net6 res_generic_po_W0p5_L40
@@ -356,6 +362,27 @@ Xres_generic_po_W0p5_L40_4 x2_x1_net5 x2_x1_net4 res_generic_po_W0p5_L40
 Xres_generic_po_W0p5_L40_5 x2_x1_net5 x2_x1_net6 res_generic_po_W0p5_L40
 .ends
 
+.subckt sky130_fd_pr__pfet_01v8_lvt_2HDQYB G w_n323_n200# D0 a_229_n100# S1
+X0 S1 G D0 w_n323_n200# sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X1 a_229_n100# G S1 w_n323_n200# sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+.ends
+
+.subckt pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng G D S B
+Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_pc G B S S D sky130_fd_pr__pfet_01v8_lvt_2HDQYB
+.ends
+
+.subckt pmos_single_2__A Vom1 Vdd Vdd_body Vop
+Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_0 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
+Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_1 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
+Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_2 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
+Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_3 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
+Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_4 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
+Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_5 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
+Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_7 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
+Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_6 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
+Xpfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng_8 Vom1 Vop Vdd Vdd_body pfet_01v8_lvt_W2_L1_m9__nf2_gboth_sdfull_outS_ng
+.ends
+
 .subckt sky130_fd_pr__nfet_01v8_lvt_KUHQTA G D S VSUBS
 X0 S G D VSUBS sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=20
 .ends
@@ -382,6 +409,23 @@ XXC1_mim_pc XC1_mim_pc/C1_4 XC1_mim_pc/C1_3 XC1_mim_pc/C1_2 XC1_mim_pc/C1_1 XC1_
 
 .subckt XC1__A Vom Vop1
 XXC1_mim_0 Vom Vom Vom Vom Vom Vop1 Vop1 Vop1 Vop1 Vop1 XC1_mim
+.ends
+
+.subckt sky130_fd_pr__nfet_01v8_lvt_8GTBD2 G D S VSUBS
+X0 S G D VSUBS sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=20
+.ends
+
+.subckt nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng B S G D
+Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_lvt_8GTBD2
+.ends
+
+.subckt nmos_current_mirror_load__ABBA x2_Vtest Vss_body Vss x2_Vout
+Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_0 Vss_body Vss Vss Vss nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_1 Vss_body Vss x2_Vtest x2_Vtest nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_2 Vss_body Vss x2_Vtest x2_Vout nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_3 Vss_body Vss x2_Vtest x2_Vout nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_4 Vss_body Vss x2_Vtest x2_Vtest nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_5 Vss_body Vss Vss Vss nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng
 .ends
 
 .subckt pmos_single__A Vdd_body Vdd Vom Vop1
@@ -415,50 +459,6 @@ Xnfet_01v8_lvt_W2_L1_m1__nf1_gtop_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_l
 
 .subckt nmos_single_2__A NBias net3 PBias Vss_body
 Xnfet_01v8_lvt_W2_L1_m1__nf1_gtop_sdfull_ng_0 Vss_body net3 PBias NBias nfet_01v8_lvt_W2_L1_m1__nf1_gtop_sdfull_ng
-.ends
-
-.subckt sky130_fd_pr__nfet_01v8_lvt_8GTBD2 G D S VSUBS
-X0 S G D VSUBS sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=20
-.ends
-
-.subckt nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng B S G D
-Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_lvt_8GTBD2
-.ends
-
-.subckt nmos_current_mirror_load__ABAB x2_Vtest Vss x2_Vout Vss_body
-Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_0 Vss_body Vss Vss Vss nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_1 Vss_body Vss x2_Vtest x2_Vtest nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_2 Vss_body Vss x2_Vtest x2_Vout nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_3 Vss_body Vss x2_Vtest x2_Vtest nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_4 Vss_body Vss x2_Vtest x2_Vout nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng_5 Vss_body Vss Vss Vss nfet_01v8_lvt_W0p5_L20_m2__nf1_gboth_sdfull_ng
-.ends
-
-.subckt nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng G D B S
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_lvt_YU23CF
-.ends
-
-.subckt nmos_matched_current_source_pair__mirror Vop Vom x2_Vout Vss Vss_body
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_0 Vss Vss Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_1 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_2 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_3 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_10 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_4 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_11 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_5 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_12 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_6 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_13 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_7 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_14 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_8 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_15 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_9 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_16 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_17 x2_Vout Vop Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_18 x2_Vout Vom Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
-Xnfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng_19 Vss Vss Vss_body Vss nfet_01v8_lvt_W1_L1_m9__nf1_gboth_sdfull_ng
 .ends
 
 .subckt nmos_current_mirror__centroid NBias net3 PBias Vss_body Vss
@@ -511,7 +511,8 @@ Xnfet_01v8_lvt_W5_L20_m2__nf1_gboth_sdfull_ng_4 Vss_body x1_net7 Vom1 x1_net9 nf
 Xnfet_01v8_lvt_W5_L20_m2__nf1_gboth_sdfull_ng_5 Vss_body Vss Vss Vss nfet_01v8_lvt_W5_L20_m2__nf1_gboth_sdfull_ng
 .ends
 
-.subckt pmos_differential_pair__ABBA x2_Vout x2_Vtest x2_Vcm Vdd_body Vref Vdd x2_net1
+.subckt pmos_differential_pair__ABBA x2_net1 x2_Vtest x2_Vcm x2_Vout Vdd_body Vref
++ Vdd
 Xpfet_01v8_lvt_W1_L10_m2__nf1_gboth_sdfull_ng_0 Vdd Vdd Vdd Vdd_body pfet_01v8_lvt_W1_L10_m2__nf1_gboth_sdfull_ng
 Xpfet_01v8_lvt_W1_L10_m2__nf1_gboth_sdfull_ng_1 x2_net1 x2_Vcm x2_Vtest Vdd_body pfet_01v8_lvt_W1_L10_m2__nf1_gboth_sdfull_ng
 Xpfet_01v8_lvt_W1_L10_m2__nf1_gboth_sdfull_ng_2 x2_net1 Vref x2_Vout Vdd_body pfet_01v8_lvt_W1_L10_m2__nf1_gboth_sdfull_ng
@@ -538,14 +539,14 @@ Xnfet_01v8_lvt_W1_L20_m2__nf1_gboth_sdfull_ng_5 Vss Vss_body Vss Vss nfet_01v8_l
 .ends
 
 .subckt ttsky25a_fd_routed Vom Vop RGM VREF Vdd Vm Vp Vss
+Xnmos_current_mirror_3__ABBA_0 nmos_current_mirror_3__ABBA_0/net7 Vss pmos_current_mirror_2__row_0/x2_Vbiasp
++ Vss nmos_current_mirror_3__ABBA
 Xpmos_matched_current_source_pair_4__ABBA_0 nmos_differential_pair__ABBA_0/x1_Vtest2
 + nmos_differential_pair__ABBA_0/x1_net1 pmos_current_mirror_load__ABAB_0/x1_Vout
 + Vdd Vdd pmos_matched_current_source_pair_4__ABBA
 Xpmos_matched_cascode_pair__ABAB_0 Vdd pmos_diode_2__A_0/x1_Vbias nmos_differential_pair__ABBA_0/x1_Vtest2
 + XC2__A_0/Vom1 Vdd nmos_differential_pair__ABBA_0/x1_net1 XC1__A_0/Vop1 pmos_matched_cascode_pair__ABAB
-Xnmos_current_mirror_3__ABAB_0 nmos_current_mirror_3__ABAB_0/net7 Vss Vss pmos_current_mirror_2__row_0/x2_Vbiasp
-+ nmos_current_mirror_3__ABAB
-Xpmos_current_mirror_2__row_0 pmos_current_mirror_2__row_0/x2_net1 Vdd Vdd pmos_current_mirror_2__row_0/x2_Vbiasp
+Xpmos_current_mirror_2__row_0 Vdd pmos_current_mirror_2__row_0/x2_net1 Vdd pmos_current_mirror_2__row_0/x2_Vbiasp
 + pmos_current_mirror_2__row
 Xnmos_single__A_0 nmos_diode__A_0/net1 nmos_single__A_0/net2 Vss Vss nmos_single__A
 Xnmos_diode__A_0 RGM Vss nmos_diode__A_0/net1 nmos_diode__A
@@ -553,9 +554,11 @@ Xnmos_current_mirror_2__ABBA_0 pmos_diode_2__A_0/x1_Vbias nmos_current_mirror_2_
 + Vss Vss nmos_current_mirror_2__ABBA
 Xpmos_current_mirror__ABAB_0 nmos_single_2__A_0/PBias Vdd Vdd nmos_single__A_0/net2
 + pmos_current_mirror__ABAB
+Xnmos_matched_current_source_pair__ABAB_0 Vop pmos_differential_pair__ABBA_0/x2_Vout
++ Vss Vom Vss nmos_matched_current_source_pair__ABAB
 XXC2__A_0 Vop XC2__A_0/Vom1 XC2__A
 Xpmos_matched_current_source_pair_3__ABBA_0 nmos_current_mirror_2__ABBA_0/net6 Vdd
-+ nmos_single_2__A_0/PBias Vdd nmos_current_mirror_3__ABAB_0/net7 pmos_matched_current_source_pair_3__ABBA
++ nmos_single_2__A_0/PBias Vdd nmos_current_mirror_3__ABBA_0/net7 pmos_matched_current_source_pair_3__ABBA
 Xmirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__interdigitated_0 nmos_current_mirror_4__A_0/net4
 + Vss nmos_matched_cascode_pair_2__ABBA_0/x1_net6 nmos_matched_cascode_pair__ABBA_0/x1_net5
 + nmos_matched_cascode_pair_2__ABBA_0/x1_net4 Vss nmos_matched_cascode_pair__ABBA_0/x1_net3
@@ -573,21 +576,19 @@ Xpmos_diode__A_0 Vdd Vdd pmos_diode__A_0/net3 pmos_diode__A
 Xnmos_matched_cascode_pair__ABBA_0 nmos_matched_cascode_pair__ABBA_0/x1_net5 Vss Vss
 + nmos_diode_2__A_0/net5 nmos_matched_cascode_pair__ABBA_0/x1_net3 nmos_differential_pair__ABBA_0/x1_net2
 + XC1__A_0/Vop1 nmos_matched_cascode_pair__ABBA
-Xpmos_single_2__A_0 XC2__A_0/Vom1 Vop Vdd Vdd pmos_single_2__A
-Xres_packs__interleaved_0 res_packs__interleaved_0/x2_Vcm Vop Vss Vom res_packs__interleaved
+Xres_packs__interleaved_0 Vss Vop Vom res_packs__interleaved_0/x2_Vcm res_packs__interleaved
+Xpmos_single_2__A_0 XC2__A_0/Vom1 Vdd Vdd Vop pmos_single_2__A
 Xnmos_differential_pair_3__ABBA_0 pmos_current_mirror_load__ABAB_0/x1_net9 VREF Vss
 + mirror_XX1_M22_XX1_M15__ABBA_0/x1_net8 pmos_current_mirror_load__ABAB_0/x1_Vout
 + Vss XC1__A_0/Vop1 nmos_differential_pair_3__ABBA
 XXC1__A_0 Vom XC1__A_0/Vop1 XC1__A
+Xnmos_current_mirror_load__ABBA_0 pmos_differential_pair__ABBA_0/x2_Vtest Vss Vss
++ pmos_differential_pair__ABBA_0/x2_Vout nmos_current_mirror_load__ABBA
 Xpmos_single__A_0 Vdd Vdd Vom XC1__A_0/Vop1 pmos_single__A
 Xpmos_matched_current_source_pair_2__ABAB_0 nmos_diode_2__A_0/net5 nmos_single_2__A_0/PBias
 + Vdd Vdd nmos_current_mirror_4__A_0/net4 pmos_matched_current_source_pair_2__ABAB
 Xnmos_single_2__A_0 nmos_single_2__A_0/NBias pmos_diode__A_0/net3 nmos_single_2__A_0/PBias
 + Vss nmos_single_2__A
-Xnmos_current_mirror_load__ABAB_0 pmos_differential_pair__ABBA_0/x2_Vtest Vss pmos_differential_pair__ABBA_0/x2_Vout
-+ Vss nmos_current_mirror_load__ABAB
-Xnmos_matched_current_source_pair__mirror_0 Vop Vom pmos_differential_pair__ABBA_0/x2_Vout
-+ Vss Vss nmos_matched_current_source_pair__mirror
 Xnmos_current_mirror__centroid_0 nmos_single_2__A_0/NBias pmos_diode__A_0/net3 nmos_single_2__A_0/PBias
 + Vss Vss nmos_current_mirror__centroid
 Xpmos_current_mirror_load__ABAB_0 pmos_current_mirror_load__ABAB_0/x1_Vout Vdd pmos_current_mirror_load__ABAB_0/x1_net9
@@ -596,9 +597,9 @@ Xpmos_diode_2__A_0 Vdd Vdd pmos_diode_2__A_0/x1_Vbias pmos_diode_2__A
 Xnmos_differential_pair_2__ABBA_0 pmos_current_mirror_load__ABAB_0/x1_Vout VREF Vss
 + mirror_XX1_M22_XX1_M15__ABBA_0/x1_net7 XC2__A_0/Vom1 pmos_current_mirror_load__ABAB_0/x1_net9
 + Vss nmos_differential_pair_2__ABBA
-Xpmos_differential_pair__ABBA_0 pmos_differential_pair__ABBA_0/x2_Vout pmos_differential_pair__ABBA_0/x2_Vtest
-+ res_packs__interleaved_0/x2_Vcm Vdd VREF Vdd pmos_current_mirror_2__row_0/x2_net1
-+ pmos_differential_pair__ABBA
+Xpmos_differential_pair__ABBA_0 pmos_current_mirror_2__row_0/x2_net1 pmos_differential_pair__ABBA_0/x2_Vtest
++ res_packs__interleaved_0/x2_Vcm pmos_differential_pair__ABBA_0/x2_Vout Vdd VREF
++ Vdd pmos_differential_pair__ABBA
 Xmirror_XX1_M22_XX1_M15__ABBA_0 nmos_current_mirror_4__A_0/net4 Vss mirror_XX1_M22_XX1_M15__ABBA_0/x1_net8
 + mirror_XX1_M22_XX1_M15__ABBA_0/x1_net7 Vss mirror_XX1_M22_XX1_M15__ABBA
 .ends

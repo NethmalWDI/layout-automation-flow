@@ -1,7 +1,7 @@
 {
-  "run_id": "2026-11-04T05:17:02-126f89a3",
+  "run_id": "2026-11-04T13:33:04-e442debb",
   "design": "example_ota_5t",
-  "s4_run_id": "2026-11-04T05:16:23-367cec42",
+  "s4_run_id": "2026-11-04T13:32:15-5fe80641",
   "gates": {
     "G5.1_placement_legal": {
       "pass": true,
@@ -29,6 +29,48 @@
           "drc_unrouted": 0
         }
       }
+    },
+    "G5.7_matched_centring (info)": {
+      "pass": null,
+      "detail": {
+        "budget_aware": {
+          "pmos_current_mirror_load": {
+            "variant": "AB",
+            "centroid_offset_um": {
+              "XM3": -1.27,
+              "XM4": 1.27
+            },
+            "common_centroid": false
+          },
+          "nmos_differential_pair": {
+            "variant": "AB",
+            "centroid_offset_um": {
+              "XM1": -1.36,
+              "XM2": 1.36
+            },
+            "common_centroid": false
+          }
+        },
+        "area_only": {
+          "pmos_current_mirror_load": {
+            "variant": "AB",
+            "centroid_offset_um": {
+              "XM3": -1.27,
+              "XM4": 1.27
+            },
+            "common_centroid": false
+          },
+          "nmos_differential_pair": {
+            "variant": "AB",
+            "centroid_offset_um": {
+              "XM1": -1.36,
+              "XM2": 1.36
+            },
+            "common_centroid": false
+          }
+        }
+      },
+      "note": "each matched transistor block's chosen variant and its devices' centroid offsets from the row centre (dummies left out); 0 is common centroid. Interdigitated variants are allowed (layout.yaml matching: centroid allows common-centroid or interdigitated rows)"
     },
     "G5.5_area_vs_area_only (info)": {
       "pass": null,
@@ -545,12 +587,12 @@
   },
   "all_pass": true,
   "provenance": {
-    "created": "2026-11-04T04:17:02+00:00",
-    "git_commit": "6d0c6bb731b93f4b9c09c886fcb89852fe5ba298",
+    "created": "2026-11-04T12:33:04+00:00",
+    "git_commit": "7839123d4200f43f64f116afade99c2cb31c8da7",
     "inputs": [
       {
         "path": "outputs/S4/example_ota_5t/blocks.json",
-        "sha256": "d4710a8fd24d7c57bceae644f6db0a445c55643f4854286325bf2ed50ee39c0c"
+        "sha256": "1624d9086d18e2e4a1dec89a957c965618a19246e512761365126ed4fe302bdb"
       },
       {
         "path": "outputs/S0/example_ota_5t/circuit_ir.json",

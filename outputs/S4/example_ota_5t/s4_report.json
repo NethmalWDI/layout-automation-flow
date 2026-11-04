@@ -1,7 +1,8 @@
 {
-  "run_id": "2026-11-04T05:16:23-367cec42",
+  "run_id": "2026-11-04T13:32:15-5fe80641",
   "design": "example_ota_5t",
   "s3_run_id": "2026-11-03T19:32:06-959ab06e",
+  "layout_options": {},
   "gates": {
     "G4.1_one_type_and_body_per_block": {
       "pass": true,
@@ -76,7 +77,8 @@
           "mirror_image": false
         }
       },
-      "note": "every two-device block has a signed-off variant that is a mirror image about its centre; centroid_offset_um is 0 for a common centroid (ABBA)"
+      "not_matched": [],
+      "note": "every two-device block of one device type (a matched pair or mirror of one size) has a signed-off variant that is a mirror image about its centre; centroid_offset_um is 0 for a common centroid (ABBA). Two devices of different sizes (not_matched) cannot be mirror images"
     },
     "G4.5_latchup_tap_distance": {
       "pass": true,
@@ -98,8 +100,8 @@
   },
   "all_pass": true,
   "provenance": {
-    "created": "2026-11-04T04:16:23+00:00",
-    "git_commit": "6d0c6bb731b93f4b9c09c886fcb89852fe5ba298",
+    "created": "2026-11-04T12:32:15+00:00",
+    "git_commit": "7839123d4200f43f64f116afade99c2cb31c8da7",
     "inputs": [
       {
         "path": "outputs/S0/example_ota_5t/circuit_ir.json",

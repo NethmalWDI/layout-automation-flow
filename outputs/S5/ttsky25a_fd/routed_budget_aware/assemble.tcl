@@ -25,14 +25,14 @@ gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_matched_cascode_pair__
 gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_current_mirror_4__A/nmos_current_mirror_4__A.gds
 gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__interdigitated/mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__interdigitated.gds
 gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_matched_cascode_pair_2__ABBA/nmos_matched_cascode_pair_2__ABBA.gds
-gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/res_packs__interleaved/res_packs__interleaved.gds
 gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/pmos_differential_pair__ABBA/pmos_differential_pair__ABBA.gds
-gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/pmos_single_2__A/pmos_single_2__A.gds
 gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/pmos_current_mirror_2__row/pmos_current_mirror_2__row.gds
+gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/pmos_single_2__A/pmos_single_2__A.gds
 gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/pmos_single__A/pmos_single__A.gds
-gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_matched_current_source_pair__mirror/nmos_matched_current_source_pair__mirror.gds
-gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_current_mirror_3__ABAB/nmos_current_mirror_3__ABAB.gds
-gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_current_mirror_load__ABAB/nmos_current_mirror_load__ABAB.gds
+gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_current_mirror_3__ABBA/nmos_current_mirror_3__ABBA.gds
+gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_matched_current_source_pair__ABAB/nmos_matched_current_source_pair__ABAB.gds
+gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_current_mirror_load__ABBA/nmos_current_mirror_load__ABBA.gds
+gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/res_packs__interleaved/res_packs__interleaved.gds
 load ttsky25a_fd_routed -silent
 box -91.6700um -70.9350um -91.6700um -70.9350um
 getcell pmos_diode__A v
@@ -84,22 +84,22 @@ box -12.1200um -125.5700um -12.1200um -125.5700um
 getcell mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__interdigitated
 box 38.1400um -139.0100um 38.1400um -139.0100um
 getcell nmos_matched_cascode_pair_2__ABBA v
-box -93.0900um -196.6700um -93.0900um -196.6700um
-getcell res_packs__interleaved
-box -10.4200um -156.7750um -10.4200um -156.7750um
+box -63.4200um -156.7750um -63.4200um -156.7750um
 getcell pmos_differential_pair__ABBA
-box -29.8900um -173.8900um -29.8900um -173.8900um
-getcell pmos_single_2__A
-box 10.5800um -173.8900um 10.5800um -173.8900um
+box -83.6900um -173.8900um -83.6900um -173.8900um
 getcell pmos_current_mirror_2__row v
-box 45.4200um -173.8900um 45.4200um -173.8900um
+box -48.8500um -173.8900um -48.8500um -173.8900um
+getcell pmos_single_2__A
+box -8.3800um -173.8900um -8.3800um -173.8900um
 getcell pmos_single__A
-box -11.5900um -185.5300um -11.5900um -185.5300um
-getcell nmos_matched_current_source_pair__mirror v
-box 43.8100um -185.5300um 43.8100um -185.5300um
-getcell nmos_current_mirror_3__ABAB v
-box -40.0900um -196.6700um -40.0900um -196.6700um
-getcell nmos_current_mirror_load__ABAB v
+box -64.5900um -185.5300um -64.5900um -185.5300um
+getcell nmos_current_mirror_3__ABBA v
+box -42.4100um -185.5300um -42.4100um -185.5300um
+getcell nmos_matched_current_source_pair__ABAB v
+box -93.0900um -196.6700um -93.0900um -196.6700um
+getcell nmos_current_mirror_load__ABBA v
+box 43.0900um -196.6700um 43.0900um -196.6700um
+getcell res_packs__interleaved
 tech unlock *
 box 39.0000um -124.2000um 39.4000um -111.0000um
 paint metal4
@@ -199,103 +199,95 @@ box -17.8000um -68.3100um -17.4000um -67.3900um
 paint metal4
 box -17.8000um -67.9000um -17.4000um -67.5000um
 paint via3
-box 41.4000um -173.8000um 45.0000um -173.4000um
+box -64.2000um -178.6000um -63.8000um -172.6000um
+paint metal4
+box -64.2000um -178.8900um -63.8000um -178.0900um
+paint metal4
+box -64.2000um -178.7800um -63.8000um -178.3800um
+paint via3
+box -64.2000um -173.1100um -63.8000um -172.2800um
+paint metal4
+box -64.2000um -172.7900um -63.8000um -172.3900um
+paint via3
+box 27.8000um -174.6000um 44.2000um -174.2000um
 paint metal3
-box 41.4000um -173.8000um 41.8000um -172.6000um
+box -24.2000um -177.8000um -23.8000um -103.0000um
 paint metal4
-box 44.6000um -178.6000um 45.0000um -173.4000um
+box -7.4000um -177.8000um -7.0000um -172.6000um
 paint metal4
-box 44.6000um -173.8000um 45.0000um -173.4000um
+box 27.8000um -174.6000um 28.2000um -172.6000um
+paint metal4
+box 43.8000um -196.2000um 44.2000um -174.2000um
+paint metal4
+box 27.8000um -174.6000um 28.2000um -174.2000um
 paint via3
-box 41.4000um -173.8000um 41.8000um -173.4000um
+box 43.8000um -174.6000um 44.2000um -174.2000um
 paint via3
-box 44.6000um -178.8900um 45.0000um -178.0900um
+box 43.8000um -196.3100um 44.2000um -195.3500um
 paint metal4
-box 44.6000um -178.7800um 45.0000um -178.3800um
+box 43.8000um -195.8600um 44.2000um -195.4600um
 paint via3
-box 41.4000um -173.1100um 41.8000um -172.2800um
+box 27.8000um -173.1100um 28.2000um -172.2800um
 paint metal4
-box 41.4000um -172.7900um 41.8000um -172.3900um
+box 27.8000um -172.7900um 28.2000um -172.3900um
 paint via3
-box -44.2000um -181.0000um -10.2000um -180.6000um
-paint metal3
-box 39.8000um -174.6000um 46.6000um -174.2000um
-paint metal3
-box -44.2000um -196.2000um -43.8000um -180.6000um
+box -7.4000um -173.1100um -7.0000um -172.2800um
 paint metal4
-box -24.2000um -181.0000um -23.8000um -103.0000um
-paint metal4
-box -10.6000um -181.0000um -10.2000um -177.4000um
-paint metal4
-box 39.8000um -177.8000um 40.2000um -174.2000um
-paint metal4
-box 46.2000um -174.6000um 46.6000um -172.6000um
-paint metal4
-box 46.2000um -174.6000um 46.6000um -174.2000um
+box -7.4000um -172.7900um -7.0000um -172.3900um
 paint via3
-box -24.2000um -181.0000um -23.8000um -180.6000um
-paint via3
-box -10.6000um -181.0000um -10.2000um -180.6000um
-paint via3
-box -44.2000um -181.0000um -43.8000um -180.6000um
-paint via3
-box 39.8000um -174.6000um 40.2000um -174.2000um
-paint via3
-box -44.2000um -196.3100um -43.8000um -195.3500um
+box -7.4000um -178.2100um -7.0000um -177.2900um
 paint metal4
-box -44.2000um -195.8600um -43.8000um -195.4600um
+box -7.4000um -178.1000um -7.0000um -177.7000um
 paint via3
-box -10.6000um -178.2100um -10.2000um -177.2900um
+box -24.2000um -178.2100um -23.8000um -177.2900um
 paint metal4
-box -10.6000um -178.1000um -10.2000um -177.7000um
-paint via3
-box 39.8000um -178.2100um 40.2000um -177.2900um
-paint metal4
-box 39.8000um -178.1000um 40.2000um -177.7000um
-paint via3
-box 46.2000um -173.1100um 46.6000um -172.2800um
-paint metal4
-box 46.2000um -172.7900um 46.6000um -172.3900um
+box -24.2000um -178.1000um -23.8000um -177.7000um
 paint via3
 box -24.2000um -103.8600um -23.8000um -102.8900um
 paint metal4
 box -24.2000um -103.7500um -23.8000um -103.3500um
 paint via3
-box -44.0500um -196.0500um -43.9500um -195.9500um
+box 43.9500um -196.0500um 44.0500um -195.9500um
 label Vom c metal4
-box -45.0000um -174.6000um -28.6000um -174.2000um
+box 8.6000um -181.0000um 45.0000um -180.6000um
 paint metal3
-box -45.0000um -193.8000um -44.6000um -139.0000um
+box -48.2000um -173.0000um -47.8000um -139.0000um
 paint metal4
-box -29.0000um -174.6000um -28.6000um -172.6000um
+box -41.8000um -178.6000um -41.4000um -172.6000um
 paint metal4
-box -9.8000um -178.6000um -9.4000um -172.6000um
+box 8.6000um -181.0000um 9.0000um -178.2000um
 paint metal4
-box -29.0000um -174.6000um -28.6000um -174.2000um
+box 44.6000um -193.8000um 45.0000um -180.6000um
+paint metal4
+box 8.6000um -181.0000um 9.0000um -180.6000um
 paint via3
-box -45.0000um -174.6000um -44.6000um -174.2000um
+box 44.6000um -181.0000um 45.0000um -180.6000um
 paint via3
-box -45.0000um -194.1700um -44.6000um -193.2900um
+box 44.6000um -194.1700um 45.0000um -193.2900um
 paint metal4
-box -45.0000um -194.0600um -44.6000um -193.6600um
+box 44.6000um -194.0600um 45.0000um -193.6600um
 paint via3
-box -29.0000um -173.1100um -28.6000um -172.2800um
+box 8.6000um -179.1100um 9.0000um -178.0900um
 paint metal4
-box -29.0000um -172.7900um -28.6000um -172.3900um
+box 8.6000um -179.0000um 9.0000um -178.6000um
 paint via3
-box -9.8000um -173.1100um -9.4000um -172.2800um
+box -41.8000um -179.1100um -41.4000um -178.0900um
 paint metal4
-box -9.8000um -172.7900um -9.4000um -172.3900um
+box -41.8000um -179.0000um -41.4000um -178.6000um
 paint via3
-box -9.8000um -179.1100um -9.4000um -178.0900um
+box -41.8000um -173.1100um -41.4000um -172.2800um
 paint metal4
-box -9.8000um -179.0000um -9.4000um -178.6000um
+box -41.8000um -172.7900um -41.4000um -172.3900um
 paint via3
-box -45.0000um -139.5100um -44.6000um -138.5000um
+box -48.2000um -173.1100um -47.8000um -172.2800um
 paint metal4
-box -45.0000um -139.0100um -44.6000um -138.6100um
+box -48.2000um -172.7900um -47.8000um -172.3900um
 paint via3
-box -44.8500um -193.6500um -44.7500um -193.5500um
+box -48.2000um -139.5100um -47.8000um -138.5000um
+paint metal4
+box -48.2000um -139.0100um -47.8000um -138.6100um
+paint via3
+box 44.7500um -193.6500um 44.8500um -193.5500um
 label Vop c metal4
 box 6.2000um -30.6000um 12.2000um -30.2000um
 paint metal3
@@ -389,27 +381,29 @@ box 51.8000um -41.1100um 52.2000um -40.3300um
 paint metal4
 box 51.8000um -40.8400um 52.2000um -40.4400um
 paint via3
-box -30.6000um -126.6000um -18.2000um -126.2000um
+box -30.6000um -105.0000um -18.2000um -104.6000um
 paint metal3
-box -30.6000um -126.6000um -30.2000um -125.4000um
+box -45.8000um -168.2000um -45.4000um -125.4000um
 paint metal4
-box -29.0000um -168.2000um -28.6000um -126.2000um
+box -30.6000um -125.8000um -30.2000um -104.6000um
 paint metal4
-box -18.6000um -126.6000um -18.2000um -96.6000um
+box -18.6000um -105.0000um -18.2000um -96.6000um
 paint metal4
 box 10.2000um -97.0000um 10.6000um -34.2000um
 paint metal4
 box 42.2000um -130.6000um 42.6000um -96.6000um
 paint metal4
-box -18.6000um -126.6000um -18.2000um -126.2000um
+box -18.6000um -105.0000um -18.2000um -104.6000um
 paint via3
-box -30.6000um -126.6000um -30.2000um -126.2000um
+box -30.6000um -105.0000um -30.2000um -104.6000um
 paint via3
-box -29.0000um -126.6000um -28.6000um -126.2000um
-paint via3
-box -29.0000um -168.3100um -28.6000um -167.3700um
+box -45.8000um -168.3100um -45.4000um -167.3700um
 paint metal4
-box -29.0000um -167.8800um -28.6000um -167.4800um
+box -45.8000um -167.8800um -45.4000um -167.4800um
+paint via3
+box -45.8000um -125.9100um -45.4000um -125.2000um
+paint metal4
+box -45.8000um -125.7100um -45.4000um -125.3100um
 paint via3
 box -30.6000um -125.9100um -30.2000um -125.2000um
 paint metal4
@@ -435,6 +429,8 @@ box 10.2000um -34.7400um 10.6000um -34.0900um
 paint metal4
 box 10.2000um -34.6300um 10.6000um -34.2300um
 paint via3
+box 27.8000um -113.0000um 41.0000um -112.6000um
+paint metal3
 box -24.2000um -73.0000um -18.2000um -72.6000um
 paint metal3
 box -24.2000um -90.6000um -23.8000um -72.6000um
@@ -443,21 +439,21 @@ box -18.6000um -73.0000um -18.2000um -55.8000um
 paint metal4
 box 11.0000um -56.2000um 11.4000um -33.4000um
 paint metal4
-box 40.6000um -110.6000um 41.0000um -55.8000um
+box 27.8000um -168.2000um 28.2000um -112.6000um
 paint metal4
-box 46.2000um -168.2000um 46.6000um -110.2000um
+box 40.6000um -113.0000um 41.0000um -55.8000um
 paint metal4
 box -24.2000um -73.0000um -23.8000um -72.6000um
 paint via3
+box 40.6000um -113.0000um 41.0000um -112.6000um
+paint via3
 box -18.6000um -73.0000um -18.2000um -72.6000um
 paint via3
-box 46.2000um -168.3100um 46.6000um -167.3700um
-paint metal4
-box 46.2000um -167.8800um 46.6000um -167.4800um
+box 27.8000um -113.0000um 28.2000um -112.6000um
 paint via3
-box 46.2000um -110.7100um 46.6000um -109.9100um
+box 27.8000um -168.3100um 28.2000um -167.3700um
 paint metal4
-box 46.2000um -110.4200um 46.6000um -110.0200um
+box 27.8000um -167.8800um 28.2000um -167.4800um
 paint via3
 box 40.6000um -110.7100um 41.0000um -109.9100um
 paint metal4
@@ -483,33 +479,33 @@ box -24.2000um -90.7100um -23.8000um -89.9400um
 paint metal4
 box -24.2000um -90.4500um -23.8000um -90.0500um
 paint via3
-box 11.0000um -161.0000um 11.4000um -154.2000um
+box -62.6000um -161.0000um -62.2000um -154.2000um
 paint metal4
-box 11.0000um -161.3850um 11.4000um -160.4900um
+box -62.6000um -161.3850um -62.2000um -160.4900um
 paint metal4
-box 11.0000um -161.2750um 11.4000um -160.8750um
+box -62.6000um -161.2750um -62.2000um -160.8750um
 paint via3
-box 11.0000um -154.8850um 11.4000um -154.0900um
+box -62.6000um -154.8850um -62.2000um -154.0900um
 paint metal4
-box 11.0000um -154.7750um 11.4000um -154.3750um
+box -62.6000um -154.7750um -62.2000um -154.3750um
 paint via3
-box -49.0000um -89.0000um 45.8000um -88.6000um
+box -59.4000um -105.0000um -55.0000um -104.6000um
 paint metal3
-box -49.0000um -89.0000um -48.6000um -85.4000um
+box -59.4000um -179.4000um -59.0000um -104.6000um
 paint metal4
-box 45.4000um -179.4000um 45.8000um -88.6000um
+box -55.4000um -105.0000um -55.0000um -85.4000um
 paint metal4
-box -49.0000um -89.0000um -48.6000um -88.6000um
+box -55.4000um -105.0000um -55.0000um -104.6000um
 paint via3
-box 45.4000um -89.0000um 45.8000um -88.6000um
+box -59.4000um -105.0000um -59.0000um -104.6000um
 paint via3
-box 45.4000um -179.7900um 45.8000um -178.8900um
+box -59.4000um -179.7900um -59.0000um -178.8900um
 paint metal4
-box 45.4000um -179.6800um 45.8000um -179.2800um
+box -59.4000um -179.6800um -59.0000um -179.2800um
 paint via3
-box -49.0000um -86.0600um -48.6000um -85.2900um
+box -55.4000um -86.0600um -55.0000um -85.2900um
 paint metal4
-box -49.0000um -85.9500um -48.6000um -85.5500um
+box -55.4000um -85.9500um -55.0000um -85.5500um
 paint via3
 box -110.6000um -95.4000um -110.2000um -85.4000um
 paint metal4
@@ -625,23 +621,23 @@ box -70.6000um -85.1600um -70.2000um -84.4900um
 paint metal4
 box -70.6000um -85.0500um -70.2000um -84.6500um
 paint via3
-box -45.8000um -149.8000um -9.4000um -149.4000um
+box 8.6000um -149.8000um 45.8000um -149.4000um
 paint metal3
-box -45.8000um -194.6000um -45.4000um -149.4000um
+box 8.6000um -149.8000um 9.0000um -147.8000um
 paint metal4
-box -9.8000um -149.8000um -9.4000um -147.8000um
+box 45.4000um -194.6000um 45.8000um -149.4000um
 paint metal4
-box -45.8000um -149.8000um -45.4000um -149.4000um
+box 8.6000um -149.8000um 9.0000um -149.4000um
 paint via3
-box -9.8000um -149.8000um -9.4000um -149.4000um
+box 45.4000um -149.8000um 45.8000um -149.4000um
 paint via3
-box -45.8000um -195.0700um -45.4000um -194.0900um
+box 45.4000um -195.0700um 45.8000um -194.0900um
 paint metal4
-box -45.8000um -194.9600um -45.4000um -194.5600um
+box 45.4000um -194.9600um 45.8000um -194.5600um
 paint via3
-box -9.8000um -148.3100um -9.4000um -147.5550um
+box 8.6000um -148.3100um 9.0000um -147.5550um
 paint metal4
-box -9.8000um -148.0650um -9.4000um -147.6650um
+box 8.6000um -148.0650um 9.0000um -147.6650um
 paint via3
 box -16.2000um -87.4000um -15.8000um -68.6000um
 paint metal4
@@ -683,7 +679,7 @@ box -70.6000um -75.4000um -70.2000um -74.2000um
 paint metal4
 box -65.8000um -75.4000um -65.4000um -74.2000um
 paint metal4
-box -55.4000um -110.6000um -55.0000um -75.0000um
+box -54.6000um -110.6000um -54.2000um -75.0000um
 paint metal4
 box -49.0000um -75.4000um -48.6000um -74.2000um
 paint metal4
@@ -713,13 +709,13 @@ box -73.0000um -110.9900um -72.6000um -110.0900um
 paint metal4
 box -73.0000um -110.8800um -72.6000um -110.4800um
 paint via3
-box -55.4000um -110.9900um -55.0000um -110.0900um
+box -54.6000um -110.9900um -54.2000um -110.0900um
 paint metal4
-box -55.4000um -110.8800um -55.0000um -110.4800um
+box -54.6000um -110.8800um -54.2000um -110.4800um
 paint via3
-box -55.4000um -75.5450um -55.0000um -74.8900um
+box -54.6000um -75.5450um -54.2000um -74.8900um
 paint metal4
-box -55.4000um -75.4350um -55.0000um -75.0350um
+box -54.6000um -75.4350um -54.2000um -75.0350um
 paint via3
 box -65.8000um -75.5450um -65.4000um -74.8900um
 paint metal4
@@ -745,35 +741,35 @@ box -92.2000um -75.5450um -91.8000um -74.8900um
 paint metal4
 box -92.2000um -75.4350um -91.8000um -75.0350um
 paint via3
-box -9.0000um -190.6000um -8.6000um -153.4000um
+box -61.8000um -190.6000um -61.4000um -153.4000um
 paint metal4
-box -9.0000um -190.7500um -8.6000um -190.0900um
+box -61.8000um -190.7500um -61.4000um -190.0900um
 paint metal4
-box -9.0000um -190.6400um -8.6000um -190.2400um
+box -61.8000um -190.6400um -61.4000um -190.2400um
 paint via3
-box -9.0000um -153.9850um -8.6000um -153.2900um
+box -61.8000um -153.9850um -61.4000um -153.2900um
 paint metal4
-box -9.0000um -153.8750um -8.6000um -153.4750um
+box -61.8000um -153.8750um -61.4000um -153.4750um
 paint via3
-box -10.6000um -189.8000um -10.2000um -184.6000um
+box -41.8000um -189.8000um -41.4000um -184.6000um
 paint metal4
-box -8.2000um -185.0000um -7.8000um -155.0000um
+box -41.0000um -185.0000um -40.6000um -155.0000um
 paint metal4
-box -10.6000um -189.9100um -10.2000um -189.2300um
+box -41.8000um -189.9100um -41.4000um -189.2300um
 paint metal4
-box -10.6000um -189.7400um -10.2000um -189.3400um
+box -41.8000um -189.7400um -41.4000um -189.3400um
 paint via3
-box -10.6000um -185.1100um -10.2000um -184.2100um
+box -41.8000um -185.1100um -41.4000um -184.2100um
 paint metal4
-box -10.6000um -184.7200um -10.2000um -184.3200um
+box -41.8000um -184.7200um -41.4000um -184.3200um
 paint via3
-box -8.2000um -185.1100um -7.8000um -184.2100um
+box -41.0000um -185.1100um -40.6000um -184.2100um
 paint metal4
-box -8.2000um -184.7200um -7.8000um -184.3200um
+box -41.0000um -184.7200um -40.6000um -184.3200um
 paint via3
-box -8.2000um -155.7850um -7.8000um -154.8900um
+box -41.0000um -155.7850um -40.6000um -154.8900um
 paint metal4
-box -8.2000um -155.6750um -7.8000um -155.2750um
+box -41.0000um -155.6750um -40.6000um -155.2750um
 paint via3
 box -27.4000um -82.6000um -17.4000um -82.2000um
 paint metal3
@@ -835,17 +831,17 @@ box -69.8000um -69.9450um -69.4000um -69.2900um
 paint metal4
 box -69.8000um -69.8350um -69.4000um -69.4350um
 paint via3
+box -17.8000um -147.4000um -17.4000um -97.4000um
+paint metal4
 box -15.4000um -97.8000um -15.0000um -56.6000um
 paint metal4
-box -9.0000um -147.4000um -8.6000um -97.4000um
+box -17.8000um -147.5100um -17.4000um -146.6550um
 paint metal4
-box -9.0000um -147.5100um -8.6000um -146.6550um
-paint metal4
-box -9.0000um -147.1650um -8.6000um -146.7650um
+box -17.8000um -147.1650um -17.4000um -146.7650um
 paint via3
-box -9.0000um -97.9900um -8.6000um -97.2900um
+box -17.8000um -97.9900um -17.4000um -97.2900um
 paint metal4
-box -9.0000um -97.8800um -8.6000um -97.4800um
+box -17.8000um -97.8800um -17.4000um -97.4800um
 paint via3
 box -15.4000um -97.9900um -15.0000um -97.2900um
 paint metal4
@@ -855,9 +851,9 @@ box -15.4000um -57.3900um -15.0000um -56.4900um
 paint metal4
 box -15.4000um -57.2800um -15.0000um -56.8800um
 paint via3
-box -8.8500um -147.2500um -8.7500um -147.1500um
+box -17.6500um -147.2500um -17.5500um -147.1500um
 label VREF c metal4
-box -23.4000um -91.4000um -7.8000um -91.0000um
+box -12.2000um -169.8000um -7.0000um -169.4000um
 paint metal3
 box -28.2000um -88.2000um -23.0000um -87.8000um
 paint metal3
@@ -875,37 +871,39 @@ box -89.8000um -65.0000um -89.4000um -63.8000um
 paint metal4
 box -86.6000um -86.6000um -86.2000um -64.6000um
 paint metal4
+box -81.8000um -163.4000um -81.4000um -159.8000um
+paint metal4
 box -65.0000um -76.2000um -64.6000um -64.6000um
+paint metal4
+box -61.0000um -160.2000um -60.6000um -148.6000um
 paint metal4
 box -49.8000um -86.6000um -49.4000um -75.8000um
 paint metal4
-box -42.6000um -86.6000um -42.2000um -75.8000um
+box -47.4000um -173.8000um -47.0000um -155.8000um
 paint metal4
-box -28.2000um -173.8000um -27.8000um -168.6000um
+box -42.6000um -86.6000um -42.2000um -75.8000um
 paint metal4
 box -28.2000um -88.2000um -27.8000um -86.2000um
 paint metal4
 box -26.6000um -76.2000um -26.2000um -35.8000um
 paint metal4
-box -23.4000um -91.4000um -23.0000um -87.8000um
+box -23.4000um -149.0000um -23.0000um -87.8000um
 paint metal4
 box -19.4000um -36.2000um -19.0000um -34.2000um
 paint metal4
 box -17.8000um -35.4000um -17.4000um -34.2000um
 paint metal4
+box -12.2000um -169.8000um -11.8000um -168.6000um
+paint metal4
 box -12.2000um -34.6000um -11.8000um -18.2000um
 paint metal4
-box -8.2000um -149.0000um -7.8000um -91.0000um
+box -7.4000um -169.8000um -7.0000um -168.6000um
 paint metal4
-box -7.4000um -169.0000um -7.0000um -148.6000um
-paint metal4
-box 12.6000um -163.4000um 13.0000um -155.8000um
+box -6.6000um -173.8000um -6.2000um -168.6000um
 paint metal4
 box 13.4000um -35.4000um 13.8000um -20.6000um
 paint metal4
 box 13.4000um -18.6000um 13.8000um -6.2000um
-paint metal4
-box 47.0000um -173.8000um 47.4000um -155.8000um
 paint metal4
 box -86.6000um -78.6000um -86.2000um -78.2000um
 paint via3
@@ -917,63 +915,67 @@ box -28.2000um -88.2000um -27.8000um -87.8000um
 paint via3
 box -93.0000um -78.6000um -92.6000um -78.2000um
 paint via3
-box -8.2000um -91.4000um -7.8000um -91.0000um
-paint via3
-box -23.4000um -91.4000um -23.0000um -91.0000um
-paint via3
 box -23.4000um -88.2000um -23.0000um -87.8000um
 paint via3
 box -19.4000um -36.2000um -19.0000um -35.8000um
 paint via3
+box -12.2000um -169.8000um -11.8000um -169.4000um
+paint via3
 box -49.8000um -77.8000um -49.4000um -77.4000um
 paint via3
-box -28.2000um -173.9100um -27.8000um -173.0800um
-paint metal4
-box -28.2000um -173.5900um -27.8000um -173.1900um
+box -7.4000um -169.8000um -7.0000um -169.4000um
 paint via3
-box -28.2000um -169.1100um -27.8000um -168.2700um
+box -47.4000um -173.9100um -47.0000um -173.0800um
 paint metal4
-box -28.2000um -168.7800um -27.8000um -168.3800um
+box -47.4000um -173.5900um -47.0000um -173.1900um
+paint via3
+box -47.4000um -169.1100um -47.0000um -168.2700um
+paint metal4
+box -47.4000um -168.7800um -47.0000um -168.3800um
+paint via3
+box -12.2000um -169.1100um -11.8000um -168.2700um
+paint metal4
+box -12.2000um -168.7800um -11.8000um -168.3800um
 paint via3
 box -7.4000um -169.1100um -7.0000um -168.2700um
 paint metal4
 box -7.4000um -168.7800um -7.0000um -168.3800um
 paint via3
-box -7.4000um -156.5850um -7.0000um -155.6900um
+box -6.6000um -169.1100um -6.2000um -168.2700um
 paint metal4
-box -7.4000um -156.4750um -7.0000um -156.0750um
+box -6.6000um -168.7800um -6.2000um -168.3800um
 paint via3
-box 12.6000um -156.5850um 13.0000um -155.6900um
+box -6.6000um -173.9100um -6.2000um -173.0800um
 paint metal4
-box 12.6000um -156.4750um 13.0000um -156.0750um
+box -6.6000um -173.5900um -6.2000um -173.1900um
 paint via3
-box 12.6000um -160.5850um 13.0000um -159.6900um
+box -47.4000um -156.5850um -47.0000um -155.6900um
 paint metal4
-box 12.6000um -160.4750um 13.0000um -160.0750um
+box -47.4000um -156.4750um -47.0000um -156.0750um
 paint via3
-box 12.6000um -163.5100um 13.0000um -162.5650um
+box -61.0000um -156.5850um -60.6000um -155.6900um
 paint metal4
-box 12.6000um -163.0750um 13.0000um -162.6750um
+box -61.0000um -156.4750um -60.6000um -156.0750um
 paint via3
-box -7.4000um -149.1100um -7.0000um -148.4550um
+box -61.0000um -160.5850um -60.6000um -159.6900um
 paint metal4
-box -7.4000um -148.9650um -7.0000um -148.5650um
+box -61.0000um -160.4750um -60.6000um -160.0750um
 paint via3
-box 47.0000um -156.5850um 47.4000um -155.6900um
+box -81.8000um -160.5850um -81.4000um -159.6900um
 paint metal4
-box 47.0000um -156.4750um 47.4000um -156.0750um
+box -81.8000um -160.4750um -81.4000um -160.0750um
 paint via3
-box 47.0000um -169.1100um 47.4000um -168.2700um
+box -81.8000um -163.5100um -81.4000um -162.5650um
 paint metal4
-box 47.0000um -168.7800um 47.4000um -168.3800um
+box -81.8000um -163.0750um -81.4000um -162.6750um
 paint via3
-box 47.0000um -173.9100um 47.4000um -173.0800um
+box -61.0000um -149.1100um -60.6000um -148.4550um
 paint metal4
-box 47.0000um -173.5900um 47.4000um -173.1900um
+box -61.0000um -148.9650um -60.6000um -148.5650um
 paint via3
-box -8.2000um -149.1100um -7.8000um -148.4550um
+box -23.4000um -149.1100um -23.0000um -148.4550um
 paint metal4
-box -8.2000um -148.9650um -7.8000um -148.5650um
+box -23.4000um -148.9650um -23.0000um -148.5650um
 paint via3
 box -28.2000um -86.8600um -27.8000um -86.0900um
 paint metal4
@@ -1087,65 +1089,65 @@ box 13.4000um -35.5400um 13.8000um -34.8900um
 paint metal4
 box 13.4000um -35.4300um 13.8000um -35.0300um
 paint via3
-box -28.2500um -173.6400um -27.7500um -173.1400um
+box -47.4500um -173.6400um -46.9500um -173.1400um
 paint locali
-box -28.1700um -173.5600um -27.8300um -173.2200um
+box -47.3700um -173.5600um -47.0300um -173.2200um
 paint mcon
-box -28.1700um -173.5600um -27.8300um -173.2200um
+box -47.3700um -173.5600um -47.0300um -173.2200um
 paint m2c
-box -28.2000um -173.5900um -27.8000um -173.1900um
+box -47.4000um -173.5900um -47.0000um -173.1900um
 paint m3c
-box -28.2500um -173.6400um -27.7500um -173.1400um
+box -47.4500um -173.6400um -46.9500um -173.1400um
 paint metal3
-box -7.4500um -156.5250um -6.9500um -156.0250um
+box -6.6500um -173.6400um -6.1500um -173.1400um
 paint locali
-box -7.3700um -156.4450um -7.0300um -156.1050um
+box -6.5700um -173.5600um -6.2300um -173.2200um
 paint mcon
-box -7.3700um -156.4450um -7.0300um -156.1050um
+box -6.5700um -173.5600um -6.2300um -173.2200um
 paint m2c
-box -7.4000um -156.4750um -7.0000um -156.0750um
+box -6.6000um -173.5900um -6.2000um -173.1900um
 paint m3c
-box -7.4500um -156.5250um -6.9500um -156.0250um
+box -6.6500um -173.6400um -6.1500um -173.1400um
 paint metal3
-box 12.5500um -156.5250um 13.0500um -156.0250um
+box -47.4500um -156.5250um -46.9500um -156.0250um
 paint locali
-box 12.6300um -156.4450um 12.9700um -156.1050um
+box -47.3700um -156.4450um -47.0300um -156.1050um
 paint mcon
-box 12.6300um -156.4450um 12.9700um -156.1050um
+box -47.3700um -156.4450um -47.0300um -156.1050um
 paint m2c
-box 12.6000um -156.4750um 13.0000um -156.0750um
+box -47.4000um -156.4750um -47.0000um -156.0750um
 paint m3c
-box 12.5500um -156.5250um 13.0500um -156.0250um
+box -47.4500um -156.5250um -46.9500um -156.0250um
 paint metal3
-box 12.5500um -160.5250um 13.0500um -160.0250um
+box -61.0500um -156.5250um -60.5500um -156.0250um
 paint locali
-box 12.6300um -160.4450um 12.9700um -160.1050um
+box -60.9700um -156.4450um -60.6300um -156.1050um
 paint mcon
-box 12.6300um -160.4450um 12.9700um -160.1050um
+box -60.9700um -156.4450um -60.6300um -156.1050um
 paint m2c
-box 12.6000um -160.4750um 13.0000um -160.0750um
+box -61.0000um -156.4750um -60.6000um -156.0750um
 paint m3c
-box 12.5500um -160.5250um 13.0500um -160.0250um
+box -61.0500um -156.5250um -60.5500um -156.0250um
 paint metal3
-box 46.9500um -156.5250um 47.4500um -156.0250um
+box -61.0500um -160.5250um -60.5500um -160.0250um
 paint locali
-box 47.0300um -156.4450um 47.3700um -156.1050um
+box -60.9700um -160.4450um -60.6300um -160.1050um
 paint mcon
-box 47.0300um -156.4450um 47.3700um -156.1050um
+box -60.9700um -160.4450um -60.6300um -160.1050um
 paint m2c
-box 47.0000um -156.4750um 47.4000um -156.0750um
+box -61.0000um -160.4750um -60.6000um -160.0750um
 paint m3c
-box 46.9500um -156.5250um 47.4500um -156.0250um
+box -61.0500um -160.5250um -60.5500um -160.0250um
 paint metal3
-box 46.9500um -173.6400um 47.4500um -173.1400um
+box -81.8500um -160.5250um -81.3500um -160.0250um
 paint locali
-box 47.0300um -173.5600um 47.3700um -173.2200um
+box -81.7700um -160.4450um -81.4300um -160.1050um
 paint mcon
-box 47.0300um -173.5600um 47.3700um -173.2200um
+box -81.7700um -160.4450um -81.4300um -160.1050um
 paint m2c
-box 47.0000um -173.5900um 47.4000um -173.1900um
+box -81.8000um -160.4750um -81.4000um -160.0750um
 paint m3c
-box 46.9500um -173.6400um 47.4500um -173.1400um
+box -81.8500um -160.5250um -81.3500um -160.0250um
 paint metal3
 box -28.2500um -86.8000um -27.7500um -86.3000um
 paint locali
@@ -1257,7 +1259,7 @@ box 13.4000um -35.4300um 13.8000um -35.0300um
 paint m3c
 box 13.3500um -35.4800um 13.8500um -34.9800um
 paint metal3
-box -28.0500um -173.6500um -27.9500um -173.5500um
+box -47.2500um -173.6500um -47.1500um -173.5500um
 label Vdd c metal4
 box 50.1500um -50.6500um 50.6500um -50.1500um
 paint metal4
@@ -1275,7 +1277,7 @@ box 51.0000um -51.3600um 51.4000um -50.9600um
 paint via3
 box 51.1500um -51.2500um 51.2500um -51.1500um
 label Vp c metal4
-box -45.0000um -197.8000um -39.0000um -197.4000um
+box 39.0000um -197.8000um 45.0000um -197.4000um
 paint metal3
 box -88.2000um -119.4000um -80.6000um -119.0000um
 paint metal3
@@ -1291,7 +1293,7 @@ box -111.4000um -93.8000um -111.0000um -92.6000um
 paint metal4
 box -105.8000um -105.8000um -105.4000um -93.4000um
 paint metal4
-box -92.2000um -143.4000um -91.8000um -122.2000um
+box -91.4000um -191.4000um -91.0000um -188.6000um
 paint metal4
 box -88.2000um -122.6000um -87.8000um -119.0000um
 paint metal4
@@ -1301,21 +1303,19 @@ box -80.2000um -115.4000um -79.8000um -105.4000um
 paint metal4
 box -71.4000um -113.0000um -71.0000um -107.8000um
 paint metal4
-box -45.0000um -197.8000um -44.6000um -196.6000um
+box -63.4000um -189.0000um -63.0000um -179.8000um
+paint metal4
+box -62.6000um -180.2000um -62.2000um -177.4000um
 paint metal4
 box -43.4000um -113.8000um -43.0000um -112.6000um
 paint metal4
-box -39.4000um -197.8000um -39.0000um -191.0000um
-paint metal4
-box -38.6000um -191.4000um -38.2000um -188.6000um
+box -40.2000um -189.0000um -39.8000um -176.6000um
 paint metal4
 box -14.6000um -96.2000um -14.2000um -65.4000um
 paint metal4
 box -11.4000um -117.0000um -11.0000um -113.4000um
 paint metal4
-box -10.6000um -125.8000um -10.2000um -116.6000um
-paint metal4
-box -7.4000um -189.0000um -7.0000um -176.6000um
+box -10.6000um -177.0000um -10.2000um -116.6000um
 paint metal4
 box 9.4000um -65.8000um 9.8000um -44.6000um
 paint metal4
@@ -1325,15 +1325,15 @@ box 30.2000um -49.0000um 30.6000um -46.2000um
 paint metal4
 box 31.8000um -46.6000um 32.2000um -45.4000um
 paint metal4
-box 39.0000um -177.0000um 39.4000um -132.6000um
+box 39.0000um -197.8000um 39.4000um -191.0000um
 paint metal4
 box 39.8000um -107.4000um 40.2000um -95.8000um
 paint metal4
-box 43.8000um -133.0000um 44.2000um -125.4000um
+box 43.8000um -143.4000um 44.2000um -125.4000um
 paint metal4
 box 43.8000um -117.0000um 44.2000um -107.0000um
 paint metal4
-box 46.2000um -189.0000um 46.6000um -177.4000um
+box 44.6000um -197.8000um 45.0000um -196.6000um
 paint metal4
 box 52.6000um -65.8000um 53.0000um -39.0000um
 paint metal4
@@ -1345,9 +1345,9 @@ box -71.4000um -108.2000um -71.0000um -107.8000um
 paint via3
 box -11.4000um -113.8000um -11.0000um -113.4000um
 paint via3
-box -45.0000um -197.8000um -44.6000um -197.4000um
-paint via3
 box -88.2000um -119.4000um -87.8000um -119.0000um
+paint via3
+box 44.6000um -197.8000um 45.0000um -197.4000um
 paint via3
 box -80.2000um -105.8000um -79.8000um -105.4000um
 paint via3
@@ -1359,73 +1359,73 @@ box -81.0000um -119.4000um -80.6000um -119.0000um
 paint via3
 box -105.8000um -105.8000um -105.4000um -105.4000um
 paint via3
+box 39.0000um -197.8000um 39.4000um -197.4000um
+paint via3
 box 26.2000um -49.0000um 26.6000um -48.6000um
 paint via3
-box -39.4000um -197.8000um -39.0000um -197.4000um
-paint via3
-box -45.0000um -197.1100um -44.6000um -196.1500um
+box 44.6000um -197.1100um 45.0000um -196.1500um
 paint metal4
-box -45.0000um -196.6600um -44.6000um -196.2600um
+box 44.6000um -196.6600um 45.0000um -196.2600um
 paint via3
-box -39.4000um -191.6500um -39.0000um -190.8900um
+box 39.0000um -191.6500um 39.4000um -190.8900um
 paint metal4
-box -39.4000um -191.5400um -39.0000um -191.1400um
+box 39.0000um -191.5400um 39.4000um -191.1400um
 paint via3
-box -38.6000um -191.6500um -38.2000um -190.8900um
+box -91.4000um -191.6500um -91.0000um -190.8900um
 paint metal4
-box -38.6000um -191.5400um -38.2000um -191.1400um
+box -91.4000um -191.5400um -91.0000um -191.1400um
 paint via3
-box -38.6000um -189.1100um -38.2000um -188.4300um
+box -91.4000um -189.1100um -91.0000um -188.4300um
 paint metal4
-box -38.6000um -188.9400um -38.2000um -188.5400um
+box -91.4000um -188.9400um -91.0000um -188.5400um
 paint via3
-box -7.4000um -189.1100um -7.0000um -188.4300um
+box -63.4000um -189.1100um -63.0000um -188.4300um
 paint metal4
-box -7.4000um -188.9400um -7.0000um -188.5400um
+box -63.4000um -188.9400um -63.0000um -188.5400um
 paint via3
-box -7.4000um -180.3100um -7.0000um -179.3900um
+box -63.4000um -180.6900um -63.0000um -179.6900um
 paint metal4
-box -7.4000um -179.9000um -7.0000um -179.5000um
+box -63.4000um -180.5800um -63.0000um -180.1800um
 paint via3
-box -7.4000um -177.4100um -7.0000um -176.4900um
+box -62.6000um -180.6900um -62.2000um -179.6900um
 paint metal4
-box -7.4000um -177.3000um -7.0000um -176.9000um
+box -62.6000um -180.5800um -62.2000um -180.1800um
 paint via3
-box 46.2000um -189.1100um 46.6000um -188.4300um
+box -62.6000um -178.0900um -62.2000um -177.2900um
 paint metal4
-box 46.2000um -188.9400um 46.6000um -188.5400um
+box -62.6000um -177.9800um -62.2000um -177.5800um
 paint via3
-box 46.2000um -180.6900um 46.6000um -179.6900um
+box -40.2000um -189.1100um -39.8000um -188.4300um
 paint metal4
-box 46.2000um -180.5800um 46.6000um -180.1800um
+box -40.2000um -188.9400um -39.8000um -188.5400um
 paint via3
-box 46.2000um -178.0900um 46.6000um -177.2900um
+box -40.2000um -180.3100um -39.8000um -179.3900um
 paint metal4
-box 46.2000um -177.9800um 46.6000um -177.5800um
+box -40.2000um -179.9000um -39.8000um -179.5000um
 paint via3
-box 39.0000um -177.4100um 39.4000um -176.4900um
+box -40.2000um -177.4100um -39.8000um -176.4900um
 paint metal4
-box 39.0000um -177.3000um 39.4000um -176.9000um
+box -40.2000um -177.3000um -39.8000um -176.9000um
 paint via3
-box 39.0000um -133.4900um 39.4000um -132.4900um
+box -10.6000um -177.4100um -10.2000um -176.4900um
 paint metal4
-box 39.0000um -133.3800um 39.4000um -132.9800um
+box -10.6000um -177.3000um -10.2000um -176.9000um
 paint via3
-box 43.8000um -133.4900um 44.2000um -132.4900um
+box -10.6000um -125.9100um -10.2000um -125.0500um
 paint metal4
-box 43.8000um -133.3800um 44.2000um -132.9800um
-paint via3
-box 43.8000um -129.1100um 44.2000um -128.4700um
-paint metal4
-box 43.8000um -128.9800um 44.2000um -128.5800um
+box -10.6000um -125.5600um -10.2000um -125.1600um
 paint via3
 box 43.8000um -125.9100um 44.2000um -125.0500um
 paint metal4
 box 43.8000um -125.5600um 44.2000um -125.1600um
 paint via3
-box -10.6000um -125.9100um -10.2000um -125.0500um
+box 43.8000um -129.1100um 44.2000um -128.4700um
 paint metal4
-box -10.6000um -125.5600um -10.2000um -125.1600um
+box 43.8000um -128.9800um 44.2000um -128.5800um
+paint via3
+box 43.8000um -133.4900um 44.2000um -132.4900um
+paint metal4
+box 43.8000um -133.3800um 44.2000um -132.9800um
 paint via3
 box -10.6000um -117.3500um -10.2000um -116.4900um
 paint metal4
@@ -1454,6 +1454,10 @@ paint via3
 box 61.4000um -111.5100um 61.8000um -110.8100um
 paint metal4
 box 61.4000um -111.3200um 61.8000um -110.9200um
+paint via3
+box 43.8000um -143.5100um 44.2000um -142.7100um
+paint metal4
+box 43.8000um -143.2200um 44.2000um -142.8200um
 paint via3
 box 39.8000um -107.8300um 40.2000um -106.8900um
 paint metal4
@@ -1555,14 +1559,6 @@ box -88.2000um -122.7100um -87.8000um -121.7900um
 paint metal4
 box -88.2000um -122.3000um -87.8000um -121.9000um
 paint via3
-box -92.2000um -122.7100um -91.8000um -121.7900um
-paint metal4
-box -92.2000um -122.3000um -91.8000um -121.9000um
-paint via3
-box -92.2000um -143.5100um -91.8000um -142.7100um
-paint metal4
-box -92.2000um -143.2200um -91.8000um -142.8200um
-paint via3
 box -105.8000um -94.2300um -105.4000um -93.2900um
 paint metal4
 box -105.8000um -94.1200um -105.4000um -93.7200um
@@ -1575,85 +1571,85 @@ box -111.4000um -93.4300um -111.0000um -92.4900um
 paint metal4
 box -111.4000um -93.3200um -111.0000um -92.9200um
 paint via3
-box -45.0500um -196.7100um -44.5500um -196.2100um
+box 44.5500um -196.7100um 45.0500um -196.2100um
 paint locali
-box -44.9700um -196.6300um -44.6300um -196.2900um
+box 44.6300um -196.6300um 44.9700um -196.2900um
 paint mcon
-box -44.9700um -196.6300um -44.6300um -196.2900um
+box 44.6300um -196.6300um 44.9700um -196.2900um
 paint m2c
-box -45.0000um -196.6600um -44.6000um -196.2600um
+box 44.6000um -196.6600um 45.0000um -196.2600um
 paint m3c
-box -45.0500um -196.7100um -44.5500um -196.2100um
+box 44.5500um -196.7100um 45.0500um -196.2100um
 paint metal3
-box -38.6500um -188.9900um -38.1500um -188.4900um
+box -91.4500um -188.9900um -90.9500um -188.4900um
 paint locali
-box -38.5700um -188.9100um -38.2300um -188.5700um
+box -91.3700um -188.9100um -91.0300um -188.5700um
 paint mcon
-box -38.5700um -188.9100um -38.2300um -188.5700um
+box -91.3700um -188.9100um -91.0300um -188.5700um
 paint m2c
-box -38.6000um -188.9400um -38.2000um -188.5400um
+box -91.4000um -188.9400um -91.0000um -188.5400um
 paint m3c
-box -38.6500um -188.9900um -38.1500um -188.4900um
+box -91.4500um -188.9900um -90.9500um -188.4900um
 paint metal3
-box -7.4500um -188.9900um -6.9500um -188.4900um
+box -63.4500um -188.9900um -62.9500um -188.4900um
 paint locali
-box -7.3700um -188.9100um -7.0300um -188.5700um
+box -63.3700um -188.9100um -63.0300um -188.5700um
 paint mcon
-box -7.3700um -188.9100um -7.0300um -188.5700um
+box -63.3700um -188.9100um -63.0300um -188.5700um
 paint m2c
-box -7.4000um -188.9400um -7.0000um -188.5400um
+box -63.4000um -188.9400um -63.0000um -188.5400um
 paint m3c
-box -7.4500um -188.9900um -6.9500um -188.4900um
+box -63.4500um -188.9900um -62.9500um -188.4900um
 paint metal3
-box -7.4500um -177.3500um -6.9500um -176.8500um
+box -62.6500um -178.0300um -62.1500um -177.5300um
 paint locali
-box -7.3700um -177.2700um -7.0300um -176.9300um
+box -62.5700um -177.9500um -62.2300um -177.6100um
 paint mcon
-box -7.3700um -177.2700um -7.0300um -176.9300um
+box -62.5700um -177.9500um -62.2300um -177.6100um
 paint m2c
-box -7.4000um -177.3000um -7.0000um -176.9000um
+box -62.6000um -177.9800um -62.2000um -177.5800um
 paint m3c
-box -7.4500um -177.3500um -6.9500um -176.8500um
+box -62.6500um -178.0300um -62.1500um -177.5300um
 paint metal3
-box 46.1500um -188.9900um 46.6500um -188.4900um
+box -40.2500um -188.9900um -39.7500um -188.4900um
 paint locali
-box 46.2300um -188.9100um 46.5700um -188.5700um
+box -40.1700um -188.9100um -39.8300um -188.5700um
 paint mcon
-box 46.2300um -188.9100um 46.5700um -188.5700um
+box -40.1700um -188.9100um -39.8300um -188.5700um
 paint m2c
-box 46.2000um -188.9400um 46.6000um -188.5400um
+box -40.2000um -188.9400um -39.8000um -188.5400um
 paint m3c
-box 46.1500um -188.9900um 46.6500um -188.4900um
+box -40.2500um -188.9900um -39.7500um -188.4900um
 paint metal3
-box 46.1500um -178.0300um 46.6500um -177.5300um
+box -40.2500um -177.3500um -39.7500um -176.8500um
 paint locali
-box 46.2300um -177.9500um 46.5700um -177.6100um
+box -40.1700um -177.2700um -39.8300um -176.9300um
 paint mcon
-box 46.2300um -177.9500um 46.5700um -177.6100um
+box -40.1700um -177.2700um -39.8300um -176.9300um
 paint m2c
-box 46.2000um -177.9800um 46.6000um -177.5800um
+box -40.2000um -177.3000um -39.8000um -176.9000um
 paint m3c
-box 46.1500um -178.0300um 46.6500um -177.5300um
+box -40.2500um -177.3500um -39.7500um -176.8500um
 paint metal3
-box 38.9500um -177.3500um 39.4500um -176.8500um
+box -10.6500um -177.3500um -10.1500um -176.8500um
 paint locali
-box 39.0300um -177.2700um 39.3700um -176.9300um
+box -10.5700um -177.2700um -10.2300um -176.9300um
 paint mcon
-box 39.0300um -177.2700um 39.3700um -176.9300um
+box -10.5700um -177.2700um -10.2300um -176.9300um
 paint m2c
-box 39.0000um -177.3000um 39.4000um -176.9000um
+box -10.6000um -177.3000um -10.2000um -176.9000um
 paint m3c
-box 38.9500um -177.3500um 39.4500um -176.8500um
+box -10.6500um -177.3500um -10.1500um -176.8500um
 paint metal3
-box 43.7500um -129.0300um 44.2500um -128.5300um
+box -10.6500um -125.6100um -10.1500um -125.1100um
 paint locali
-box 43.8300um -128.9500um 44.1700um -128.6100um
+box -10.5700um -125.5300um -10.2300um -125.1900um
 paint mcon
-box 43.8300um -128.9500um 44.1700um -128.6100um
+box -10.5700um -125.5300um -10.2300um -125.1900um
 paint m2c
-box 43.8000um -128.9800um 44.2000um -128.5800um
+box -10.6000um -125.5600um -10.2000um -125.1600um
 paint m3c
-box 43.7500um -129.0300um 44.2500um -128.5300um
+box -10.6500um -125.6100um -10.1500um -125.1100um
 paint metal3
 box 43.7500um -125.6100um 44.2500um -125.1100um
 paint locali
@@ -1665,15 +1661,15 @@ box 43.8000um -125.5600um 44.2000um -125.1600um
 paint m3c
 box 43.7500um -125.6100um 44.2500um -125.1100um
 paint metal3
-box -10.6500um -125.6100um -10.1500um -125.1100um
+box 43.7500um -129.0300um 44.2500um -128.5300um
 paint locali
-box -10.5700um -125.5300um -10.2300um -125.1900um
+box 43.8300um -128.9500um 44.1700um -128.6100um
 paint mcon
-box -10.5700um -125.5300um -10.2300um -125.1900um
+box 43.8300um -128.9500um 44.1700um -128.6100um
 paint m2c
-box -10.6000um -125.5600um -10.2000um -125.1600um
+box 43.8000um -128.9800um 44.2000um -128.5800um
 paint m3c
-box -10.6500um -125.6100um -10.1500um -125.1100um
+box 43.7500um -129.0300um 44.2500um -128.5300um
 paint metal3
 box 43.7500um -112.1700um 44.2500um -111.6700um
 paint locali
@@ -1795,16 +1791,6 @@ box -88.2000um -122.3000um -87.8000um -121.9000um
 paint m3c
 box -88.2500um -122.3500um -87.7500um -121.8500um
 paint metal3
-box -92.2500um -122.3500um -91.7500um -121.8500um
-paint locali
-box -92.1700um -122.2700um -91.8300um -121.9300um
-paint mcon
-box -92.1700um -122.2700um -91.8300um -121.9300um
-paint m2c
-box -92.2000um -122.3000um -91.8000um -121.9000um
-paint m3c
-box -92.2500um -122.3500um -91.7500um -121.8500um
-paint metal3
 box -111.4500um -93.3700um -110.9500um -92.8700um
 paint locali
 box -111.3700um -93.2900um -111.0300um -92.9500um
@@ -1815,7 +1801,7 @@ box -111.4000um -93.3200um -111.0000um -92.9200um
 paint m3c
 box -111.4500um -93.3700um -110.9500um -92.8700um
 paint metal3
-box -44.8500um -196.8500um -44.7500um -196.7500um
+box 44.7500um -196.8500um 44.8500um -196.7500um
 label Vss c metal4
 tech revert
 save ttsky25a_fd_routed

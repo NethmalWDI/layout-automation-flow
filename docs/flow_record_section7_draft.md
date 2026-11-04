@@ -131,6 +131,7 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 89 | flow | The flow crashed after S4 passed: `src/flow.py` wrote `flow_summary.json` with `Path.write_text`, not the retrying `write_text` of rows 40 and 61, and the Windows mount gave Errno 22 | the run's traceback | `flow.py` uses `write_text` (now ten tries, about 27 s). Every JSON (gates, reports) goes through `write_json`, which retries; about 100 direct writes of Tcl, SPICE and logs in `src/` and `scripts/` do not, and are left for now | the S5–S7 re-run |
 | 90 | S6 | With row 88's fix Netgen matched both `ttsky25a_fd` layouts ("with 3 symmetries"), but `flat_lvs` still failed them. (1) Netgen cuts a pin name at 42 characters and pads the column with a space; row 79's test took a cut name to fill all 43 characters, so `nmos_matched_cascode_pair_2__ABBA_0.x1_net` (the label x1_net4) read as a wrong label. (2) On the area-only layout Netgen paired the labels x1_net3 and x1_net4 crosswise: the two nets are the middle nodes of two identical stacks (M1 + M19, M2 + M3) between x1_net2 and Vss, so either pairing is right, and Netgen broke the symmetry its own way | reading Netgen's pin table, then the reference's devices on the four nets | (1) a name of 42 characters or more is compared as a prefix. (2) Crossed labels are accepted only when Netgen reports symmetries, the rows form a permutation of reference nets (a cut label resolved among them), and that permutation maps the reference's devices onto themselves (`symmetric_relabel`, recorded in the report); x1_net3 against x1_net5, for example, is still rejected. Tests | G6.1 PASS on both layouts; the 5T and LOADBench unchanged |
 | 91 | S7 | G7.5 (the post-layout AC with each MIM capacitor's own plate coupling cancelled, Phase 7) read only the R+C netlist and gave up on a design with more than one MIM capacitor, so on `ttsky25a_fd` (C-only, two Miller capacitors of 5 units each) it was silently empty | S7's report: G7.5's detail `{}` | G7.5 uses S7's post-layout view (R+C, else C-only); each MIM device line goes to the capacitor whose top and bottom nets it names, and the coupling is split over that capacitor's units; a line no capacitor claims still gives no G7.5. LOADBench's deck is unchanged. Test | see 7.23 |
+| 92 | S4–S7 | The independent review of Phase 8 found no gate passing wrongly on `ttsky25a_fd`, and: (1) S7 took the C-only netlist whenever an R+C one was missing, for any design, so a failed R+C extraction on the 5T or LOADBench would have let G7.1 pass on C-only; (2) S5 called every two-device block symmetric, also `ttsky25a_fd`'s unmatched `pmos_current_mirror_2`, which then took part in the axis rules; (3) an internal net with stubs on both sides got one track span for both (latent: no such net in `ttsky25a_fd`); (4) a node a removed source leaves as a port (VREF for net Vref) could be taken as internal and lose its pin (latent); (5) S5's dummies would go into the first subcircuit of a hierarchical layout view (latent); (6) a pair with unequal m would fall to the half-unit ABBA (unreachable: S3's type ids include m). Also reported: S5 may choose an interdigitated variant for a matched block, and no gate showed which | the review (an independent agent reading the diff and the committed outputs) | (1) C-only only when the design's `rc_extraction` is false; (2) symmetric only with a signed-off mirror-image variant; (3) spans per side; (4) the removed sources' nodes are never internal; (5) dummies before the top cell's `.ends`; (6) whole copies whenever either m ≥ 2. G5.7 (info) lists each matched block's chosen variant and its devices' centroid offsets. Left as known limits: a single-point grid square (0.5 µm) can stand 0.25–0.3 µm from an obstacle (DRC catches it; 0 errors here); each resistor string's direction follows its end nodes' names; a cut pin name shared by two rows is resolved by elimination (S4's block LVS ties every label to its terminal). Test | see 7.24 |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -1496,7 +1497,7 @@ types use their least-bad cell). Goldens S1–S3 refreshed on purpose.
 - The two res_packs (2 × 20 poly resistors, 0.5 × 40 µm) in one block, interleaved A B B A, each string
   alternating orientation, its 38 inner nodes on short packed tracks: 50 × 55 µm.
 - Each Miller capacitor as 5 MIM units: 78 × 14 µm.
-- **S4 PASS:** 33 blocks, 55 variants, every one DRC 0 and LVS-matched with its negative control; G4.5 with no strip.
+- **S4 PASS:** 33 blocks, 53 variants, every one DRC 0 and LVS-matched with its negative control; G4.5 with no strip.
   Three bugs found on the way (rows 82–84).
 
 **S5's placement** (`src/s5/macro.py`): the blocks grouped into four macros by the hierarchy (x1, x2, top, and the
@@ -1581,3 +1582,49 @@ The flow loses less GBW than the hand layout and about 1.5° more phase margin, 
 
 Also found: `src/flow.py` wrote its summary without the retry for the Windows mount, and a run crashed after S4 (row
 89).
+
+### 7.24 Plan v4, Phase 8.7: review, re-runs and the walkthrough (2026-11-04, afternoon)
+
+**Review.** An independent agent read Phase 8's diff and the committed outputs. It confirmed the res_pack interleaving,
+the centroid rows with their dummies, the flattening of the macros, the outline, the flat LVS's device counts, the
+symmetric relabelling (a real automorphism) and G7.5's split of the MIM coupling. No gate on `ttsky25a_fd` passed
+wrongly. Its findings and what was done are row 92; the main ones:
+- S7 would have judged the 5T or LOADBench on C-only if their R+C extraction failed: now only a design's own
+  `rc_extraction: false` does that.
+- S5 counted every two-device block as symmetric, also the unmatched `pmos_current_mirror_2`: now only blocks with a
+  mirror-image variant.
+- Three latent bugs fixed (spans per side, exposed source nodes never internal, dummies in the top cell); one
+  unreachable case made safe; three known limits recorded.
+- **Matched blocks are not all common-centroid in the final layouts.** `matching: centroid` offers common-centroid
+  *and* interdigitated rows, as Imasha asked ("common centroid or interdigitated as needed"), and S5 picks among them
+  by area and wire cost. The new G5.7 (info) shows the result. **FEEDBACK NEEDED:** should S5 keep only the
+  common-centroid variant where a block has one?
+
+**Re-runs** (from S4, all three designs, after the fixes):
+- **The 5T and LOADBench:** every golden S0–S7 matches. Phase 8 left them unchanged (the R+C numbers move within
+  their tolerance, as before).
+- **`ttsky25a_fd`:** S4 unchanged. With `pmos_current_mirror_2` no longer symmetric, the annealing inside the macros
+  takes other paths, so both placements changed a little.
+
+| | Budget-aware | Area-only |
+|---|---|---|
+| Size (µm) | 227.0 × 196.7 | 188.8 × 191.4 |
+| Area (µm²) | 44 652 | 36 152 |
+| Σ wire-budget use u | 119.3 | 199.0 |
+| Top-level wire (µm) | 1 746 | 2 601 |
+| Nets over length budget (G5.4) | 16 of 69 | 17 of 69 |
+| Elements over capacitance budget (G6.2) | 195 | 209 |
+| Matched blocks common-centroid (G5.7) | 13 of 20 | 6 of 20 |
+| GBW, C-only (MHz; use of allowance) | 1.922 (1.27) | 1.918 (1.30) |
+| PM, C-only (°; use) | 73.68 (0.50) | 73.34 (0.54) |
+| GBW with the MIM double count cancelled (G7.5) | 2.005 (0.46) | – |
+
+- S5 DRC 0 and LVS match on both; S6 G6.1 PASS; S7 G7.1 PASS, G7.2 FAIL on GBW: the conclusions of 7.23 hold.
+- Drawn → C-only: GBW −6.0 % and PM −4.4° (budget-aware), −6.1 % and −4.8° (area-only); the hand tile −6.8 % and −3.0°.
+- The budget-aware layout uses 40 % less of the wire budgets at 24 % more area, and loses less on GBW and PM (H5).
+
+**Walkthrough.** `scripts/make_s4s7_walkthrough.py` now covers `ttsky25a_fd`. It shows macros, the grid router, the
+C-only post-layout view, every MIM capacitor and G5.7. Long budget tables list the 40 most used elements. The 5T's and
+LOADBench's pages are unchanged apart from shared wording.
+
+**Corrections.** 7.22 said 55 S4 variants; there are 53 (`blocks.json`, both runs).

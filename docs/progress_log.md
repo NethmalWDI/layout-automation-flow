@@ -1217,3 +1217,17 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   - Goldens S5–S7 of `ttsky25a_fd` taken. 188 tests pass; 32 golden comparisons match. README (layout options for S6
     and S7), CLAUDE.md (counts), STATUS updated. FEEDBACK NEEDED: R+C for this design, G7.2's MIM number, the other
     direct writes.
+- **Phase 8.7 (2026-11-04, 12:50–14:20 CET).** Review, re-runs and the walkthrough (flow record 7.24, row 92).
+  - Independent review of Phase 8's diff and outputs (an agent; no gate on `ttsky25a_fd` passed wrongly). Fixed:
+    S7's C-only fallback only for `rc_extraction: false`; S5's symmetric flag only for blocks with a mirror-image
+    variant (`ttsky25a_fd`'s unmatched `pmos_current_mirror_2` had it); internal-track spans per side; exposed
+    source nodes never internal; S5's dummies in the top cell; whole copies whenever either m ≥ 2. New G5.7 (info):
+    each matched block's chosen variant and centroid offsets. Known limits recorded (grid squares near obstacles,
+    resistor string direction, cut pin names resolved by elimination).
+  - All three designs re-run from S4 (13:16–14:13): every 5T and LOADBench golden S0–S7 matches; `ttsky25a_fd` S4
+    unchanged, its placements changed a little (budget-aware GBW use 1.27, area-only 188.8 × 191.4 µm), conclusions
+    of 7.23 hold; its S5–S7 goldens retaken.
+  - `scripts/make_s4s7_walkthrough.py` covers `ttsky25a_fd` (macros, grid router, C-only view, several MIMs, G5.7).
+  - Correction: part 1's entry above said 55 S4 variants; there are 53.
+  - 189 tests pass; 32 golden comparisons match. FEEDBACK NEEDED: keep interdigitated variants for matched blocks or
+    only common centroid; the API connection for the independent-LLM comparison.

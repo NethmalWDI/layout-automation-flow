@@ -36,16 +36,19 @@ GATE_MEANING = {
     "G5.3": "the routed top cell passes LVS against S0's layout view with the drawn finger counts (control caught)",
     "G5.4": "the routes meet S2's route rules: length, parallel runs, series R against what S3 left, symmetry",
     "G5.5": "budget-aware against the area-only baseline (reported)",
-    "G6.1": "both layouts extracted (C-only and R+C) and the flat extraction LVS-matched",
+    "G5.6": "both placements inside the design's hard outline (`outline_um` in its layout.yaml)",
+    "G5.7": "each matched block's chosen variant and how far its devices' centroids sit from the row centre (reported)",
+    "G6.1": "both layouts extracted (C-only, and R+C unless the design's layout.yaml switches it off) and the flat "
+            "extraction LVS-matched",
     "G6.2": "every budgeted net capacitance, coupling and terminal R of the budget-aware layout within S2's budget",
     "G6.3": "kpex 2.5D against Magic (reported)",
     "G6.4": "Magic's C-only netlist against its own .ext (reported)",
     "G6.5": "a MIM capacitor's plate-to-plate coupling extracted alone (reported)",
-    "G7.1": "every spec met post-layout (R+C), with no failed simulation",
+    "G7.1": "every spec met post-layout (R+C, or C-only where R+C is off), with no failed simulation",
     "G7.2": "each spec loses at most eta × margin from schematic to post-layout",
     "G7.3": "S2's G2.0 prediction against the actual loss (reported)",
     "G7.4": "PVT points post-layout (reported: not simulated here)",
-    "G7.5": "post-layout AC with the MIM capacitor's own plate coupling cancelled (reported)",
+    "G7.5": "post-layout AC with each MIM capacitor's own plate coupling cancelled (reported)",
     "H4": "hypothesis: parasitics within their budgets (G6.2) keep every spec within eta × margin (G7.1, G7.2)",
     "H5": "hypothesis: the budget-aware placement loses less than the area-only one (reported per spec)",
 }
@@ -53,15 +56,19 @@ STAGE_DOES = {
     "S4": "Blocks: groups S3's ringless cells into blocks (matching groups first; one device type and one body per "
           "block), draws the variants (A, AB mirror image, ABBA common centroid, ABAB interdigitated, or a row), closes "
           "each with one tap ring (tap strips where a row is too wide), draws a bound MIM capacitor as its own block, "
-          "and signs every variant off with DRC and LVS.",
+          "and signs every variant off with DRC and LVS. A design's `inputs/<d>/layout.yaml` can ask for more (Phase 8): "
+          "m copies drawn as units in common-centroid or interdigitated rows only, a dummy at each end of every matched "
+          "row, matched resistor strings interleaved in one block, and MIM arrays.",
     "S5": "Placement and routing: enumerates every row partition (PMOS above NMOS, in the designer's row order), "
           "variant and flip, scores each twice (budget-aware: area plus S2's wire budgets; area-only: the AICL-like "
           "baseline), routes both winners with one metal-4 spine per net, and signs them off (DRC, LVS, S2's route "
-          "rules).",
-    "S6": "Extraction: Magic extracts each routed layout capacitance-only and R+C, LVS-checks the extraction, and "
-          "compares every budgeted parasitic of S2 with what was extracted.",
+          "rules). A design with its own hierarchy (`hierarchy: upstream`) is placed by macros instead: each "
+          "sub-circuit placed by seeded annealing in three shapes, every arrangement of the shapes tried inside the "
+          "hard outline, then routed on a metal3/metal4 grid.",
+    "S6": "Extraction: Magic extracts each routed layout capacitance-only and R+C (unless the design switches R+C "
+          "off), LVS-checks the extraction, and compares every budgeted parasitic of S2 with what was extracted.",
     "S7": "Post-layout SPICE: the schematic, the drawn devices, the C-only and the R+C netlists in S0's own benches; "
-          "each spec's loss against eta × margin.",
+          "each spec's loss against eta × margin (on the C-only netlist where there is no R+C).",
 }
 # Known findings, typed by hand: (design, gate) -> explanation.
 KNOWN = {
@@ -75,6 +82,16 @@ KNOWN = {
         "out~outFirstStage coupling sits beside the 0.5 pF Miller capacitor; most of it is the capacitor's own "
         "plate-to-plate coupling as Magic extracts it, very likely counted twice (G6.5). With that coupling "
         "cancelled (G7.5) every spec stays within eta × margin; every spec is met either way (G7.1).",
+    ("ttsky25a_fd", "G5.4"): "S2's length budgets assume a far more compact layout than blocks with tap rings, dummies "
+        "and 3 µm gaps in a 250 × 200 µm outline: every net that crosses sub-circuits is over (net6 and Vom the most). "
+        "The rest of the gate (series R through S3's cells, the symmetric-route rules the grid router does not draw) "
+        "fails as on LOADBench.",
+    ("ttsky25a_fd", "G6.2"): "follows from G5.4: the long cross-sub-circuit nets and their couplings, and the Miller "
+        "capacitors' own plate coupling (G6.5), are over S2's capacitance budgets.",
+    ("ttsky25a_fd", "G7.2"): "GBW loses 0.13 MHz, 63 % of its 0.205 MHz margin, above eta = 0.5; every spec is still "
+        "met (G7.1). About two thirds of it is the Miller capacitors' plate coupling that Magic very likely counts "
+        "twice: with it cancelled (G7.5) GBW uses 0.45 of the allowance. Measured C-only (R+C is off for this design, "
+        "flow record row 87), like the hand-drawn tile.",
 }
 
 
@@ -96,9 +113,11 @@ def s4_section(d: str, rep: dict) -> list:
     L = ["| Block | Devices | Variant | Area (µm²) | Worst tap distance (µm) | Tap strips | DRC errors | LVS | Mirror image |",
          "|---|---|---|---|---|---|---|---|---|"]
     for b in bj.get("blocks", []):
+        devs = [x.replace('XNormalTransistor', '').replace('XDiodeTransistor', '') for x in b["devices"]]
+        devs = ", ".join(devs) if len(devs) <= 6 else f"{', '.join(devs[:3])}, … ({len(devs)} devices)"
         for v in b["variants"]:
             g, sym = v.get("geometry") or {}, v.get("symmetry") or {}
-            L.append(f"| {b['name']} | {', '.join(x.replace('XNormalTransistor', '').replace('XDiodeTransistor', '') for x in b['devices'])} | "
+            L.append(f"| {b['name']} | {devs} | "
                      f"{v['id']} | {W.f(g.get('area_um2'), 4)} | {W.f(g.get('tap_distance_max_um'))} | {len(g.get('strips') or [])} | "
                      f"{(v.get('drc') or {}).get('errors')} | {W.f((v.get('lvs') or {}).get('match'))} | "
                      f"{W.f(sym.get('mirror_image')) if sym else '–'} |")
@@ -112,10 +131,15 @@ def s4_section(d: str, rep: dict) -> list:
     txt = f"{len(bj.get('blocks', []))} blocks, {n} variants, " + \
         ("all signed off" if all(v.get("ok") for b in bj.get("blocks", []) for v in b["variants"]) else "not all signed off")
     txt += (f"; {W.and_list(list(strips))} needed a tap strip" if strips else "; no block needed a tap strip")
-    if caps:
-        bd = caps[0]["binding"]
-        txt += (f"; {caps[0]['name']} is drawn as {bd['model']} ({W.f(bd['params'].get('W'))} × {W.f(bd['params'].get('L'))} µm, "
-                f"{bd.get('status')}), top plate on {bd['top']}, bottom plate on {bd['bottom']}")
+    for c in caps:
+        bd = c["binding"]
+        units = bd["params"].get("M") or bd["params"].get("MF")
+        txt += (f"; {c['name']} is drawn as {bd['model']} ({W.f(bd['params'].get('W'))} × {W.f(bd['params'].get('L'))} µm"
+                + (f", {units} units" if units and str(units) != "1" else "")
+                + f", {bd.get('status')}), top plate on {bd['top']}, bottom plate on {bd['bottom']}")
+    for b in bj.get("blocks", []):
+        if b.get("kind") == "resistors":
+            txt += f"; {b['name']} holds {len(b['devices'])} resistors as matched strings, interleaved in one block"
     L += W.here(txt + ".")
     pics = []
     for b in bj.get("blocks", []):
@@ -133,12 +157,29 @@ def s5_section(d: str, rep: dict) -> list:
     pj = _load("S5", d, "placement.json") or {}
     ch = pj.get("chosen") or {}
     nets = sorted(set().union(*(set(c["cost"]["u"]) for c in ch.values()))) if ch else []
-    L = [f"{pj.get('n_candidates')} candidate placements were scored.", "",
+    macros = {r: ch[r]["placement"].get("macros") for r in RULES if ch.get(r)}
+    hier = any(macros.values())
+    L = [("Placed by macros, one per sub-circuit of the design's hierarchy: each placed by seeded annealing (or "
+          "enumeration, up to 6 blocks) in three widths, then every arrangement of the macros' shapes tried inside "
+          "the outline." if hier else f"{pj.get('n_candidates')} candidate placements were scored."), "",
          "| | " + " | ".join(r.replace("_", "-") for r in RULES) + " |", "|---|" + "---|" * len(RULES)]
-    L.append("| Rows (top to bottom) | " + " | ".join(" / ".join(", ".join(row) for row in ch[r]["placement"]["rows"])
-                                                     for r in RULES) + " |")
-    L.append("| Variants (flipped) | " + " | ".join(", ".join(f"{b} {x['variant']}{' (flipped)' if x['flip'] else ''}"
-                                                            for b, x in ch[r]["placement"]["blocks"].items()) for r in RULES) + " |")
+    L.append(("| Macros (top to bottom) | " if hier else "| Rows (top to bottom) | ")
+             + " | ".join(" / ".join(", ".join(row) for row in ch[r]["placement"]["rows"]) for r in RULES) + " |")
+    if hier:
+        for mname in sorted(set().union(*(set(m or {}) for m in macros.values()))):
+            cells = []
+            for r in RULES:
+                m = (macros[r] or {}).get(mname) or {}
+                blk = ch[r]["placement"]["blocks"]
+                cells.append(f"shape {m.get('shape')}, {m.get('method')}: " + " / ".join(
+                    ", ".join(f"{b} {blk[b]['variant']}" if b in blk else b for b in row) for row in m.get("rows", [])))
+            L.append(f"| Macro {mname} (rows, variants) | " + " | ".join(cells) + " |")
+        L.append("| Size (µm) | " + " | ".join(
+            "{} × {}".format(*(W.f(x, 4) for x in ((lambda b: (b[2] - b[0], b[3] - b[1]))(ch[r]["placement"]["bbox"]))))
+            for r in RULES) + " |")
+    else:
+        L.append("| Variants (flipped) | " + " | ".join(", ".join(f"{b} {x['variant']}{' (flipped)' if x['flip'] else ''}"
+                                                                for b, x in ch[r]["placement"]["blocks"].items()) for r in RULES) + " |")
     L.append("| Area (µm²) | " + " | ".join(W.f(ch[r]["cost"]["area_um2"], 5) for r in RULES) + " |")
     lr = (rep["gates"].get("G5.4_route_rules") or {}).get("detail") or {}
     for n in nets:
@@ -149,7 +190,7 @@ def s5_section(d: str, rep: dict) -> list:
             cells.append(f"{W.f(ch[r]['cost']['u'].get(n))} → {W.f(rn['use']) if rn else '–'}")
         L.append(f"| {n}: wire-budget use, estimate → routed | " + " | ".join(cells) + " |")
     L += W.how("each column is the winner of one cost. A net's wire-budget use is its length over S2's maximum length "
-               "for it (1.0 = the limit): first the placer's half-perimeter estimate, then the routed spine and runs. "
+               "for it (1.0 = the limit): first the placer's half-perimeter estimate, then the routed wires. "
                "The budget-aware cost adds 10 × any excess and the uses themselves to the area; the area-only cost is "
                "the area alone.")
     g5 = rep["gates"].get("G5.5_area_vs_area_only (info)") or {}
@@ -161,15 +202,28 @@ def s5_section(d: str, rep: dict) -> list:
         txt = (f"at {W.f(g5.get('area_ratio'))} × the area-only area, the budget-aware placement uses less of the budget "
                f"on {W.and_list(less) if less else 'no net'}")
     over = [n for n, x in ((lr.get("budget_aware") or {}).get("max_length") or {}).items() if not x.get("ok")]
-    txt += ("; after routing, " + (f"{W.and_list(over)} still exceed{'s' if len(over) == 1 else ''} its budget"
+    txt += ("; after routing, " + ((f"{W.and_list(over)} still exceeds its budget" if len(over) == 1 else
+                                    f"{len(over)} nets still exceed their budgets: {W.and_list(over)}")
                                    if over else "every net is within its length budget"))
+    cen = (rep["gates"].get("G5.7_matched_centring (info)") or {}).get("detail") or {}
+    if any(cen.values()):
+        parts = []
+        for r in RULES:
+            m = cen.get(r) or {}
+            off = [f"{b} {x['variant']}" for b, x in m.items() if not x["common_centroid"]]
+            parts.append(f"{r.replace('_', '-')}: {len(m) - len(off)} of {len(m)} matched blocks common-centroid"
+                         + (f" (the others: {W.and_list(off)})" if off else ""))
+        txt += "; G5.7: " + "; ".join(parts)
     L += W.here(txt + ".")
     pics = [W.img(f"outputs/S5/{d}/routed_{r}/{d}_routed.png", 300, r) for r in RULES
             if (REPO / f"outputs/S5/{d}/routed_{r}/{d}_routed.png").exists()]
     if pics:
         L += ["", " ".join(pics)]
-        L += W.how("the routed layouts, budget-aware first. PMOS blocks are above NMOS; the vertical purple lines are the "
-                   "metal-4 spines, one per net, joined to the blocks' metal-3 tracks by vias.")
+        L += W.how("the routed layouts, budget-aware first. " + (
+            "Each sub-circuit is a group of rows (PMOS above NMOS inside it); the top-level nets run on a 0.8 µm grid, "
+            "metal-3 horizontal and metal-4 vertical, joined to the blocks' metal-3 tracks by metal-4 stubs and vias."
+            if hier else "PMOS blocks are above NMOS; the vertical purple lines are the metal-4 spines, one per net, "
+            "joined to the blocks' metal-3 tracks by vias."))
     return L
 
 
@@ -180,7 +234,10 @@ def s6_section(d: str, rep: dict) -> list:
     rows = {r: {x["id"]: x for x in lay[r]["budgets"]["rows"]} for r in RULES if r in lay}
     L = ["| Element | Kind | Budget | Budget-aware | Use | " + ("" if same else "Area-only | Use |"),
          "|---|---|---|---|---|" + ("" if same else "---|---|")]
-    for k, x in rows["budget_aware"].items():
+    shown = list(rows["budget_aware"].items())
+    if len(shown) > 60:     # ttsky25a_fd: about 2 700 elements; the 40 most used are shown
+        shown = sorted(shown, key=lambda kv: -(kv[1]["use"] or 0))[:40]
+    for k, x in shown:
         line = (f"| {k} | {x['kind'].replace('_', ' ')} | {W.f(x['budget'], 4)} {x.get('units') or ''} | {W.f(x['value'], 4)} | "
                 f"{'**' if not x['ok'] else ''}{W.f(x['use'])}{'**' if not x['ok'] else ''} |")
         if not same:
@@ -189,7 +246,9 @@ def s6_section(d: str, rep: dict) -> list:
         L.append(line)
     L += W.how("every parasitic S2 budgeted, as extracted from the routed layout: net capacitance to an AC ground, "
                "coupling between two signal nets (fF), and terminal resistance (Ω, S3's cell plus S5's wires and vias). "
-               "Use is extracted / budget; bold marks an element over its budget.")
+               "Use is extracted / budget; bold marks an element over its budget."
+               + (f" Only the {len(shown)} most used of {len(rows['budget_aware'])} elements are listed; all are in "
+                  f"`outputs/S6/{d}/parasitics_vs_budgets.json`." if len(shown) < len(rows["budget_aware"]) else ""))
     v = rep["gates"]["G6.2_parasitics_within_budgets"]
     txt = (f"{len(v.get('violations') or [])} of {len(rows['budget_aware'])} elements are over budget"
            + (f", the worst {v['worst'][0][1]} at {W.f(v['worst'][0][0])} ×" if v.get("worst") else ""))
@@ -212,21 +271,26 @@ def s7_section(d: str, rep: dict) -> list:
     ba = (m.get("metrics") or {}).get("budget_aware") or {}
     ao = (m.get("metrics") or {}).get("area_only") or {}
     mm = ((rep["gates"].get("G7.5_mim_self_coupling_cancelled (info)") or {}).get("detail") or {}).get("budget_aware") or {}
-    L = ["| Spec | Limit | Schematic | Drawn devices | C-only | R+C | Loss / (eta × margin) | Area-only R+C (use) |"
-         + (" R+C, MIM self-coupling cancelled (use) |" if mm else ""),
+    rc = (m.get("post_layout_view") or "pex_rc") == "pex_rc"
+    pv = "R+C" if rc else "C-only"
+    L = [f"| Spec | Limit | Schematic | Drawn devices | C-only | {'R+C' if rc else 'R+C (off)'} | Loss / (eta × margin) | "
+         f"Area-only {pv} (use) |" + (f" {pv}, MIM self-coupling cancelled (use) |" if mm else ""),
          "|---|---|---|---|---|---|---|---|" + ("---|" if mm else "")]
     for k, x in ba.items():
         unit = W.SPEC_UNITS.get(k.rsplit("_", 1)[-1], "")
         y = ao.get(k) or {}
         z = mm.get(k)
         L.append(f"| {k.rsplit('_', 1)[0]} ({unit}) | {'≥' if x['kind'] == 'min' else '≤'} {W.f(x['limit'], 5)} | "
-                 f"{W.f(x['schematic'], 5)} | {W.f(x['drawn'], 5)} | {W.f(x['pex_c'], 5)} | {W.f(x['post_layout_rc'], 5)} | "
+                 f"{W.f(x['schematic'], 5)} | {W.f(x['drawn'], 5)} | {W.f(x['pex_c'], 5)} | "
+                 f"{W.f(x['post_layout_rc'], 5) if rc else '–'} | "
                  f"{'**' if not x['within_allowed'] else ''}{W.f(x['use_of_allowed'])}{'**' if not x['within_allowed'] else ''} | "
                  f"{W.f(y.get('post_layout_rc'), 5)} ({W.f(y.get('use_of_allowed'))}) |"
                  + (f" {W.f(z['value'], 5)} ({W.f(z['use_of_allowed'])}) |" if z else (" – |" if mm else "")))
     L += W.how("the same benches as S0, with the circuit replaced by each view of the layout: drawn devices only, then "
                "every capacitance, then capacitance and wire resistance (the post-layout result). The loss is how much of "
-               "the margin the layout takes; 1.0 is all that eta allows (bold: more).")
+               "the margin the layout takes; 1.0 is all that eta allows (bold: more)."
+               + ("" if rc else " This design has no R+C extraction, so the C-only netlist is the post-layout result "
+                                "and the loss is measured on it."))
     g = rep["gates"]
     worst = max(ba.items(), key=lambda kv: kv[1]["use_of_allowed"] or 0) if ba else None
     txt = ("every spec is met post-layout" if g["G7.1_specs_met_post_layout"]["pass"] else "a spec is missed post-layout")
@@ -237,7 +301,8 @@ def s7_section(d: str, rep: dict) -> list:
     txt += (f"; H4: G6.2 {'passed' if h4.get('G6.2') else 'failed'} and G7.1/G7.2 "
             f"{'passed' if h4.get('G7.1_and_G7.2') else 'did not both pass'}")
     if mm:
-        txt += ("; with the capacitor's own plate coupling cancelled, " +
+        many = len((rep["gates"].get("G7.5_mim_self_coupling_cancelled (info)") or {}).get("capacitors") or {}) > 1
+        txt += (("; with the capacitors' own" if many else "; with the capacitor's own") + " plate coupling cancelled, " +
                 ", ".join(f"{k} uses {W.f(z['use_of_allowed'])}" for k, z in mm.items()))
     L += W.here(txt + ".")
     return L
@@ -273,7 +338,7 @@ def design_section(d: str) -> list:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("designs", nargs="*", default=["example_ota_5t", "loadbench_miller"])
+    ap.add_argument("designs", nargs="*", default=["example_ota_5t", "loadbench_miller", "ttsky25a_fd"])
     ap.add_argument("--no-html", action="store_true")
     ap.add_argument("--out", default=str(OUT_MD), help="Markdown file to write (the HTML goes next to it)")
     a = ap.parse_args(argv)
@@ -286,8 +351,9 @@ def main(argv=None) -> int:
          f"Generated by `python3 scripts/make_s4s7_walkthrough.py` from the run's own output files (repo at {head}). "
          "Every number below is read from `outputs/`. Typed by hand: the meaning of each gate, the explanation of each "
          "known finding, and the *How to read it* notes. The companion page `docs/s0_s3_walkthrough.html` covers "
-         "S0–S3 (its reading guide applies here too); the plan is `docs/plan_v4_S4_S7.md`, the record "
-         "`docs/flow_record.md` sections 7.15–7.20.", "", "**The four stages:**", ""]
+         "S0–S3 (its reading guide applies here too); the plans are `docs/plan_v4_S4_S7.md` and, for "
+         "`ttsky25a_fd`, `docs/plan_v5_ttsky25a.md`; the record is `docs/flow_record.md` sections 7.15–7.23.", "",
+         "**The four stages:**", ""]
     L += [f"- **{st}**: {txt}" for st, txt in STAGE_DOES.items()]
     L += ["", "**Status per design:**", "", "| Design | S4 | S5 | S6 | S7 |", "|---|---|---|---|---|"]
     for d in a.designs:

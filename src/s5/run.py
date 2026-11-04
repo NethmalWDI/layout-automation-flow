@@ -44,7 +44,9 @@ def load_blocks(s4: Path) -> dict:
         if not ok:
             raise RuntimeError(f"block {b['name']} has no signed-off variant")
         out[b["name"]] = {"type": b["type"], "body": b["body"], "devices": b["devices"],
-                          "symmetric": any(v.get("symmetry") for v in ok), "variants": ok}
+                          # symmetric only with a signed-off mirror-image variant (review of plan v4 Phase 8: any
+                          # two-device block counted, also an unmatched pair such as ttsky25a_fd's pmos_current_mirror_2)
+                          "symmetric": any((v.get("symmetry") or {}).get("mirror_image") for v in ok), "variants": ok}
     return out
 
 
@@ -85,10 +87,11 @@ def assemble(name: str, pl: dict, blocks: dict, out: Path, extra: list | None = 
     return res
 
 
-def top_ref(ref_spice: str, pl: dict, blocks: dict, s4: Path, nmap: dict | None = None) -> str:
+def top_ref(ref_spice: str, pl: dict, blocks: dict, s4: Path, nmap: dict | None = None, top: str | None = None) -> str:
     """The layout view's netlist with each device's nf set to the fingers drawn (S3's option, split by S4's units);
     W, L and m stay. nf is read from the chosen S4 variant's own LVS reference, and so are its dummies (plan v4
-    Phase 8), added with every terminal on their body net in the layout view's name."""
+    Phase 8), added with every terminal on their body net in the layout view's name, inside the top cell `top`
+    (the first subcircuit when not given)."""
     nmap = nmap or {}
     nf, dummies = {}, []
     for b, p in pl["blocks"].items():
@@ -102,12 +105,15 @@ def top_ref(ref_spice: str, pl: dict, blocks: dict, s4: Path, nmap: dict | None 
                 dummies.append(" ".join([t[0]] + nets + t[k:]))
             elif m:
                 nf[m.group(1)] = int(m.group(2))
-    lines = []
+    lines, cur = [], None
     for ln in ref_spice.splitlines():
         t = ln.split()
         if t and t[0][:1] in "Xx" and t[0] in nf:
             ln = re.sub(r"\bnf=\d+", f"nf={nf[t[0]]}", ln)
-        if dummies and re.match(r"^\.ends\b", ln):
+        if t and t[0].lower() == ".subckt" and len(t) > 1:
+            cur = t[1]
+        # in the top cell (review of plan v4 Phase 8: the first .ends would be a sub-circuit's in a hierarchical view)
+        if dummies and re.match(r"^\.ends\b", ln) and (top is None or cur == top):
             lines += dummies
             dummies = []
         lines.append(ln)
@@ -245,6 +251,35 @@ def legal(pl: dict, blocks: dict) -> dict:
             "pmos_above_nmos": above, "symmetric_axes": axis, "axes_ok": axes_ok}
 
 
+def matched_centring(pl: dict, s4: Path) -> dict:
+    """For every matched transistor block (two or more devices of one type; S4's G4.4 `not_matched` left out): the
+    variant S5 chose and each device's centroid offset from the row's centre, dummies left out (0 = common centroid).
+    Reported, not gated (review of plan v4 Phase 8: G4.4 asks only that some variant be a mirror image, and S5 may
+    choose an interdigitated one)."""
+    bj = json.loads((s4 / "blocks.json").read_text())
+    rep = json.loads((s4 / "s4_report.json").read_text())
+    skip = set((rep["gates"].get("G4.4_symmetry") or {}).get("not_matched") or [])
+    out = {}
+    for b in bj["blocks"]:
+        if b["name"] not in pl["blocks"] or b["name"] in skip or b.get("kind") in ("mim_cap", "resistors") \
+                or len(b["devices"]) < 2:
+            continue
+        vid = pl["blocks"][b["name"]]["variant"]
+        arr = next((v.get("arrangement") or [] for v in b["variants"] if v["id"] == vid), [])
+        if not arr:
+            continue
+        xs = [a["x"] for a in arr]
+        c = (min(xs) + max(xs)) / 2
+        cen = {}
+        for a in arr:
+            if a["device"] in b["devices"]:
+                cen.setdefault(a["device"], []).append(a["x"])
+        off = {d: round(sum(x) / len(x) - c, 3) for d, x in cen.items()}
+        out[b["name"]] = {"variant": vid, "centroid_offset_um": off,
+                          "common_centroid": max(abs(x) for x in off.values()) < 0.01}
+    return out
+
+
 def signature(pl: dict) -> list:
     """What makes two placements the same: every block's variant, flip and place."""
     return sorted((b, p["variant"], p["flip"], tuple(p["origin"])) for b, p in pl["blocks"].items())
@@ -314,7 +349,7 @@ def main(argv=None) -> int:
                              "lengths": lens, "assembled": asm,
                              "rules": route_rules(routes, cons, nmap, ir, s3_dec, rules)}
         if asm.get("gds"):
-            (d / "ref_top.spice").write_text(top_ref(ref_spice, pl, blocks, s4, nmap))
+            (d / "ref_top.spice").write_text(top_ref(ref_spice, pl, blocks, s4, nmap, design))
             res[r]["routing"]["lvs"] = lvs_top(REPO / asm["gds"], design, (d / "ref_top.spice").read_text(), d / "lvs")
     ident = {"run_id": new_run_id(), "design": design,
              "s4_run_id": json.loads((s4 / "blocks.json").read_text()).get("run_id")}
@@ -335,6 +370,11 @@ def main(argv=None) -> int:
         "G5.1_placement_legal": {"pass": all(ok(r) for r in RULES),
                                  "detail": {r: {**res[r]["legal"], "drc_unrouted": (res[r]["assembled"].get("drc") or {}).get("errors")}
                                             for r in RULES}},
+        "G5.7_matched_centring (info)": {
+            "pass": None, "detail": {r: matched_centring(res[r]["placement"], s4) for r in RULES},
+            "note": "each matched transistor block's chosen variant and its devices' centroid offsets from the row "
+                    "centre (dummies left out); 0 is common centroid. Interdigitated variants are allowed "
+                    "(layout.yaml matching: centroid allows common-centroid or interdigitated rows)"},
         "G5.5_area_vs_area_only (info)": {
             "pass": None, "budget_aware_area_um2": ba["cost"]["area_um2"], "area_only_area_um2": ao["cost"]["area_um2"],
             "area_ratio": round(ba["cost"]["area_um2"] / ao["cost"]["area_um2"], 4),

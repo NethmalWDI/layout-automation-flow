@@ -158,10 +158,10 @@ def layout(units: list, tap_limit: float | None = None, internal: set | None = N
         placed.append({**u, "x": round(x, 3), "w": w, "h": h, "stubs": stubs})
         x += w + GAP
     row_w, row_h = round(x - GAP, 3), max(p["h"] for p in placed)
-    tracks, spans = {}, {}
+    tracks, spans = {}, {"top": {}, "bottom": {}}   # an internal net's track span on each side it has stubs
     internal = internal or set()
     for side in ("top", "bottom"):
-        nets, xs = [], {}
+        nets, xs, sp_ = [], {}, spans[side]
         for p in placed:
             for s in sorted(p["stubs"], key=lambda s: s["x"]):
                 if s["side"] == side:
@@ -178,9 +178,9 @@ def layout(units: list, tap_limit: float | None = None, internal: set | None = N
                 rows.append(hi)
                 k = len(rows) - 1
             rows[k] = hi
-            spans[n] = [round(lo, 3), round(hi, 3), k]
+            sp_[n] = [round(lo, 3), round(hi, 3), k]
         ext = [n for n in nets if n not in internal]
-        order = {n: spans[n][2] for n in nets if n in internal} | {n: len(rows) + i for i, n in enumerate(ext)}
+        order = {n: sp_[n][2] for n in nets if n in internal} | {n: len(rows) + i for i, n in enumerate(ext)}
         tracks[side] = {n: round(row_h + FIRST + order[n] * PITCH, 3) if side == "top" else round(-FIRST - order[n] * PITCH, 3)
                         for n in nets}
     # a net with pins on both sides: a met2 column right of the row joins its top and bottom tracks
@@ -190,12 +190,14 @@ def layout(units: list, tap_limit: float | None = None, internal: set | None = N
     bot = min(tracks["bottom"].values(), default=0.0) - RING_GAP
     right = max([row_w] + list(columns.values())) + RING_GAP
     ring = [round(-RING_GAP, 3), round(bot, 3), round(right, 3), round(top, 3)]
-    for n, x in columns.items():                    # an internal net's short track reaches its column
-        if n in spans:
-            spans[n][1] = max(spans[n][1], x + 0.3)
+    for n, x in columns.items():                    # an internal net's short tracks reach its column
+        for sp_ in spans.values():
+            if n in sp_:
+                sp_[n][1] = max(sp_[n][1], x + 0.3)
+    # spans per side (review of plan v4 Phase 8: one dict for both sides gave a two-sided net the bottom's span on top)
     return {"units": placed, "row": [0.0, 0.0, row_w, row_h], "tracks": tracks, "columns": columns, "ring": ring,
             "strips": strips, "track_span": [round(ring[0] - EXT, 3), round(ring[2] + EXT, 3)],
-            "spans": {n: v[:2] for n, v in spans.items()}}
+            "spans": {side: {n: v[:2] for n, v in sp_.items()} for side, sp_ in spans.items()}}
 
 
 def _b(x0, y0, x1, y1) -> str:
@@ -233,7 +235,7 @@ def tcl(name: str, geo: dict, dtype: str, body_net: str) -> str:
             c += [_b(cx - VIA2 / 2, ty - VIA2 / 2, cx + VIA2 / 2, ty + VIA2 / 2), "paint m3c"]
     for side in ("top", "bottom"):
         for net, ty in geo["tracks"][side].items():
-            x0, x1 = geo.get("spans", {}).get(net) or geo["track_span"]
+            x0, x1 = (geo.get("spans") or {}).get(side, {}).get(net) or geo["track_span"]
             c += [_b(x0, ty - TRACK_W / 2, x1, ty + TRACK_W / 2), "paint metal3",
                   _b(x0 + 0.1, ty - 0.05, x0 + 0.2, ty + 0.05), f"label {net} c metal3"]
     rx0, ry0, rx1, ry1 = geo["ring"]

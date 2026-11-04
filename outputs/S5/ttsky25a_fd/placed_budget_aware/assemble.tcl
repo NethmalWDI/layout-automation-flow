@@ -25,14 +25,14 @@ gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_matched_cascode_pair__
 gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_current_mirror_4__A/nmos_current_mirror_4__A.gds
 gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__interdigitated/mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__interdigitated.gds
 gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_matched_cascode_pair_2__ABBA/nmos_matched_cascode_pair_2__ABBA.gds
-gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/res_packs__interleaved/res_packs__interleaved.gds
 gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/pmos_differential_pair__ABBA/pmos_differential_pair__ABBA.gds
-gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/pmos_single_2__A/pmos_single_2__A.gds
 gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/pmos_current_mirror_2__row/pmos_current_mirror_2__row.gds
+gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/pmos_single_2__A/pmos_single_2__A.gds
 gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/pmos_single__A/pmos_single__A.gds
-gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_matched_current_source_pair__mirror/nmos_matched_current_source_pair__mirror.gds
-gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_current_mirror_3__ABAB/nmos_current_mirror_3__ABAB.gds
-gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_current_mirror_load__ABAB/nmos_current_mirror_load__ABAB.gds
+gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_current_mirror_3__ABBA/nmos_current_mirror_3__ABBA.gds
+gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_matched_current_source_pair__ABAB/nmos_matched_current_source_pair__ABAB.gds
+gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/nmos_current_mirror_load__ABBA/nmos_current_mirror_load__ABBA.gds
+gds read /foss/designs/outputs/S4/ttsky25a_fd/blocks/res_packs__interleaved/res_packs__interleaved.gds
 load ttsky25a_fd_placed_budget_aware -silent
 box -91.6700um -70.9350um -91.6700um -70.9350um
 getcell pmos_diode__A v
@@ -84,22 +84,22 @@ box -12.1200um -125.5700um -12.1200um -125.5700um
 getcell mirror_XX1_M1_XX1_M2_XX1_M7_XX1_M9__interdigitated
 box 38.1400um -139.0100um 38.1400um -139.0100um
 getcell nmos_matched_cascode_pair_2__ABBA v
-box -93.0900um -196.6700um -93.0900um -196.6700um
-getcell res_packs__interleaved
-box -10.4200um -156.7750um -10.4200um -156.7750um
+box -63.4200um -156.7750um -63.4200um -156.7750um
 getcell pmos_differential_pair__ABBA
-box -29.8900um -173.8900um -29.8900um -173.8900um
-getcell pmos_single_2__A
-box 10.5800um -173.8900um 10.5800um -173.8900um
+box -83.6900um -173.8900um -83.6900um -173.8900um
 getcell pmos_current_mirror_2__row v
-box 45.4200um -173.8900um 45.4200um -173.8900um
+box -48.8500um -173.8900um -48.8500um -173.8900um
+getcell pmos_single_2__A
+box -8.3800um -173.8900um -8.3800um -173.8900um
 getcell pmos_single__A
-box -11.5900um -185.5300um -11.5900um -185.5300um
-getcell nmos_matched_current_source_pair__mirror v
-box 43.8100um -185.5300um 43.8100um -185.5300um
-getcell nmos_current_mirror_3__ABAB v
-box -40.0900um -196.6700um -40.0900um -196.6700um
-getcell nmos_current_mirror_load__ABAB v
+box -64.5900um -185.5300um -64.5900um -185.5300um
+getcell nmos_current_mirror_3__ABBA v
+box -42.4100um -185.5300um -42.4100um -185.5300um
+getcell nmos_matched_current_source_pair__ABAB v
+box -93.0900um -196.6700um -93.0900um -196.6700um
+getcell nmos_current_mirror_load__ABBA v
+box 43.0900um -196.6700um 43.0900um -196.6700um
+getcell res_packs__interleaved
 tech unlock *
 tech revert
 save ttsky25a_fd_placed_budget_aware

@@ -644,3 +644,43 @@ def test_flat_lvs_accepts_crossed_labels_only_on_interchangeable_nets(tmp_path):
     assert not flat_lvs(report([("blk_0.n3", "n4"), ("blk_0.n4", "n3")]))["match"]
     # a name cut at 42 characters is read as a prefix
     assert flat_lvs(report([("x" * 36 + "_0.net", "net7")]), ref)["match"]
+
+
+def test_phase8_review_fixes(tmp_path):
+    """The review of plan v4 Phase 8 (flow record row 92): (1) an internal net with stubs on both sides gets its own
+    track span on each side; (2) a node a removed source leaves as a port is never internal; (3) S5 calls a block
+    symmetric only with a mirror-image variant; (4) S5's dummies go into the top cell, not the first subcircuit."""
+    from src.s4 import run as S, block as B
+    from src.s5 import run as R
+    ir, groups, dd, rules, lu = _s4_inputs("example_ota_5t")
+    blk = next(b for b in S.plan_blocks(ir, groups) if b["name"] == "pmos_current_mirror_load")
+    v = next(v for v in S.variants(blk, ir, dd["decisions"], REPO / "outputs/S3/_cells", rules, lu, {}) if v["id"] == "AB")
+    g = B.layout(v["units"], tap_limit=lu, internal={"net3", "OUTP"})
+    cx = g["columns"]["net3"]
+    for side in ("top", "bottom"):
+        xs = [s["x"] for u in g["units"] for s in u["stubs"] if s["side"] == side and s["net"] == "net3"]
+        lo, hi = g["spans"][side]["net3"]
+        assert xs and lo <= min(xs) and hi >= max(xs) and hi >= cx       # covers its own side's stubs and the column
+    # (2) a port node: 5T's VBIAS is net2, the node of the removed source V1
+    assert "net2" in {s["p"] for s in ir["internal_sources"]}
+    fake = {"devices": [{"name": "M1", "terminals": {"d": "x", "g": "net2", "s": "VSS", "b": "VSS"}},
+                        {"name": "M2", "terminals": {"d": "y", "g": "x", "s": "VSS", "b": "VSS"}}],
+            "ports": [{"name": "VBIAS"}], "internal_sources": ir["internal_sources"]}
+    assert S.internal_nets({"devices": ["M1", "M2"], "body": "VSS"}, fake) == {"x", "y"}
+    # (3) ttsky25a_fd's unmatched pair (6/1 against 1/5 um) is not symmetric; the 5T's pairs still are
+    tt = R.load_blocks(REPO / "outputs/S4/ttsky25a_fd")
+    assert not tt["pmos_current_mirror_2"]["symmetric"] and tt["nmos_differential_pair"]["symmetric"]
+    five = R.load_blocks(REPO / "outputs/S4/example_ota_5t")
+    assert five["nmos_differential_pair"]["symmetric"] and five["pmos_current_mirror_load"]["symmetric"]
+    # (4) dummies inside the top cell of a hierarchical view
+    vdir = tmp_path / "v"
+    (vdir / "lvs").mkdir(parents=True)
+    (vdir / "ref.spice").write_text(".subckt b d g s VSS_body\nXb_DUMMY0 VSS_body VSS_body VSS_body VSS_body "
+                                    "sky130_fd_pr__nfet_01v8 L=1 W=1 nf=1\nXXM1 d g s VSS_body sky130_fd_pr__nfet_01v8 "
+                                    "L=1 W=1 nf=2\n.ends\n")
+    blocks = {"b": {"variants": [{"id": "A", "lvs": {"report": str(vdir / "lvs" / "lvs_report.txt")}}]}}
+    ref = ".subckt sub a b\nR1 a b 1\n.ends\n.subckt top a VSS\nXM1 a a VSS VSS sky130_fd_pr__nfet_01v8 L=1 W=1 nf=1\n.ends\n"
+    out = R.top_ref(ref, {"blocks": {"b": {"variant": "A"}}}, blocks, tmp_path, {}, "top").splitlines()
+    dummy = next(i for i, ln in enumerate(out) if "_DUMMY0" in ln)
+    assert out.index(".subckt top a VSS") < dummy and out[dummy].split()[1:5] == ["VSS"] * 4
+    assert "nf=2" in out[out.index(".subckt top a VSS") + 1]

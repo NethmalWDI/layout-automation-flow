@@ -7,10 +7,10 @@ box 0.000um 0.000um 0.000um 0.000um
 getcell Capacitor2_mim
 box 7.830um 15.465um 8.230um 17.710um
 paint metal4
-box 7.830um 17.310um 8.230um 17.710um
-paint via3
 box 17.360um -1.650um 17.760um 0.260um
 paint metal4
+box 7.830um 17.310um 8.230um 17.710um
+paint via3
 box 17.360um -1.650um 17.760um -1.250um
 paint via3
 box -1.800um 17.310um 19.620um 17.710um

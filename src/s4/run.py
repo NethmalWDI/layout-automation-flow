@@ -306,7 +306,9 @@ def _variants(blk: dict, ir: dict, dec: dict, cells: Path, rules: dict, opts: di
         out = []
         if not centroid:   # as before (the 5T, LOADBench): the mirror image AB, then ABBA/ABAB from half units
             out.append({"id": "AB", "units": row([a] * counts[a] + [b] * counts[b], True)})
-        if counts[a] >= 2:   # whole copies (plan v4 Phase 8): most of ttsky25a_fd's devices have m = 2
+        # whole copies (plan v4 Phase 8): most of ttsky25a_fd's devices have m = 2. Either device with m >= 2 (review
+        # of Phase 8: m_a = 1, m_b = 2 fell to the half-unit ABBA, one copy of b against m = 2 in the reference)
+        if max(counts.values()) >= 2:
             seq = centroid_sequence(counts)
             if seq:
                 out.append({"id": "ABBA", "units": row(seq, True)})
@@ -414,6 +416,9 @@ def internal_nets(blk: dict, ir: dict) -> set:
     ends += [(p["name"], [p["a"], p["b"]]) for p in ir.get("passives", [])]
     inside = {n for nm, ns in ends if nm in mine for n in ns}
     outside = {n for nm, ns in ends if nm not in mine for n in ns} | {p["name"] for p in ir["ports"]}
+    # a source removed in the layout view leaves its nodes as ports under other names (VREF for net Vref; review of
+    # plan v4 Phase 8): they are never internal
+    outside |= {s[k] for s in ir.get("internal_sources", []) for k in ("p", "n") if s.get(k)}
     return inside - outside - {blk["body"]}
 
 
@@ -468,7 +473,7 @@ def build_variant(blk: dict, v: dict, ir: dict, out: Path, lu: float | None = No
                    "body": {"net": blk["body"], "port": body_port, "layer": "locali",
                             "at": [round((geo["ring"][0] + geo["ring"][2]) / 2, 3), geo["ring"][1]]}}
     res["geometry"]["keepouts"] = [                # internal short tracks: S5's met3 runs keep clear
-        {"layer": "metal3", "box": [geo["spans"][n][0], y - B.TRACK_W / 2, geo["spans"][n][1], y + B.TRACK_W / 2],
+        {"layer": "metal3", "box": [geo["spans"][side][n][0], y - B.TRACK_W / 2, geo["spans"][side][n][1], y + B.TRACK_W / 2],
          "net": n} for side in ("top", "bottom") for n, y in geo["tracks"][side].items() if n in inner]
     if blk["kind"] == "resistors":
         res["geometry"]["tap_distance_max_um"] = None   # poly on field oxide: no diffusion to tap

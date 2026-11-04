@@ -1,7 +1,7 @@
 {
-  "run_id": "2026-11-04T05:21:01-256344ac",
+  "run_id": "2026-11-04T13:37:54-08081f88",
   "design": "loadbench_miller",
-  "s4_run_id": "2026-11-04T05:19:48-234e50c4",
+  "s4_run_id": "2026-11-04T13:36:22-c3bc1d7c",
   "gates": {
     "G5.1_placement_legal": {
       "pass": true,
@@ -29,6 +29,66 @@
           "drc_unrouted": 0
         }
       }
+    },
+    "G5.7_matched_centring (info)": {
+      "pass": null,
+      "detail": {
+        "budget_aware": {
+          "input_pair": {
+            "variant": "AB",
+            "centroid_offset_um": {
+              "XNormalTransistorPmos7": -1.805,
+              "XNormalTransistorPmos6": 1.805
+            },
+            "common_centroid": false
+          },
+          "nmos_mirror_load": {
+            "variant": "AB",
+            "centroid_offset_um": {
+              "XDiodeTransistorNmos1": -9.85,
+              "XNormalTransistorNmos4": 9.85
+            },
+            "common_centroid": false
+          },
+          "pmos_bias_bank": {
+            "variant": "row",
+            "centroid_offset_um": {
+              "XDiodeTransistorPmos2": -6.385,
+              "XNormalTransistorPmos8": -4.105,
+              "XNormalTransistorPmos5": 6.385
+            },
+            "common_centroid": false
+          }
+        },
+        "area_only": {
+          "input_pair": {
+            "variant": "AB",
+            "centroid_offset_um": {
+              "XNormalTransistorPmos7": -1.805,
+              "XNormalTransistorPmos6": 1.805
+            },
+            "common_centroid": false
+          },
+          "nmos_mirror_load": {
+            "variant": "AB",
+            "centroid_offset_um": {
+              "XDiodeTransistorNmos1": -9.85,
+              "XNormalTransistorNmos4": 9.85
+            },
+            "common_centroid": false
+          },
+          "pmos_bias_bank": {
+            "variant": "row",
+            "centroid_offset_um": {
+              "XDiodeTransistorPmos2": -6.385,
+              "XNormalTransistorPmos8": -4.105,
+              "XNormalTransistorPmos5": 6.385
+            },
+            "common_centroid": false
+          }
+        }
+      },
+      "note": "each matched transistor block's chosen variant and its devices' centroid offsets from the row centre (dummies left out); 0 is common centroid. Interdigitated variants are allowed (layout.yaml matching: centroid allows common-centroid or interdigitated rows)"
     },
     "G5.5_area_vs_area_only (info)": {
       "pass": null,
@@ -877,12 +937,12 @@
   },
   "all_pass": false,
   "provenance": {
-    "created": "2026-11-04T04:21:02+00:00",
-    "git_commit": "6d0c6bb731b93f4b9c09c886fcb89852fe5ba298",
+    "created": "2026-11-04T12:37:55+00:00",
+    "git_commit": "7839123d4200f43f64f116afade99c2cb31c8da7",
     "inputs": [
       {
         "path": "outputs/S4/loadbench_miller/blocks.json",
-        "sha256": "bcc0acd4bf4e65db55da3c0d7bc5df7c2e92453b462d9e74c38425b74342cade"
+        "sha256": "f32baa757908d7e58a584749beeaec1aff70720462866636f07d54d256d1828e"
       },
       {
         "path": "outputs/S0/loadbench_miller/circuit_ir.json",

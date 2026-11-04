@@ -170,7 +170,10 @@ def main(argv=None) -> int:
                 keys.append((r, view, kind))
     # the post-layout view: R+C, or C-only where S6 did no R+C extraction (layout.yaml rc_extraction: false; plan v4
     # Phase 8, ttsky25a_fd). The key post_layout_rc keeps its name; post_layout_view says which view it is
-    post_view = "pex_rc" if all(s6p["layouts"][r]["netlists"].get("pex_rc") for r in RULES) else "pex_c"
+    # Only the design's own option chooses C-only (review of plan v4 Phase 8): a missing R+C netlist otherwise stays
+    # missing, and G7.1 fails on it
+    from src.s4.run import layout_options
+    post_view = "pex_rc" if layout_options(design).get("rc_extraction", True) else "pex_c"
     mim_view = f"{post_view}_mim_cancelled"
     mims = s6p.get("mim_self") or {}
     if mims:   # G7.5 (info): the post-layout AC with the capacitor's own plate coupling cancelled (S6's G6.5)
