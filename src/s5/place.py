@@ -51,7 +51,9 @@ def local(variant: dict, flip: bool) -> dict:
             pins.append({"net": net, "x0": t["x"][0], "x1": t["x"][1], "y": s * t["y"], "kind": "track"})
     b = variant["pins"]["body"]
     if b:   # a capacitor block has no ring
-        pins.append({"net": b["net"], "x0": b["at"][0], "x1": b["at"][0], "y": s * b["at"][1], "kind": "body"})
+        ring = variant["geometry"].get("ring")   # the ring's bottom edge, for the grid router (plan v4 Phase 8);
+        pins.append({"net": b["net"], "x0": b["at"][0], "x1": b["at"][0], "y": s * b["at"][1], "kind": "body",
+                     **({"rx0": ring[0], "rx1": ring[2]} if ring else {})})   # the wire estimate reads x0, x1 only
     keep = [{**k, "box": [k["box"][0], min(s * k["box"][1], s * k["box"][3]), k["box"][2], max(s * k["box"][1], s * k["box"][3])]}
             for k in variant["geometry"].get("keepouts", [])]
     return {"bbox": [x0, min(s * y0, s * y1), x1, max(s * y0, s * y1)], "axis": (row[0] + row[2]) / 2, "pins": pins,
@@ -86,7 +88,7 @@ def realise(rows: list, choice: dict, blocks: dict, shared_rows: bool = False) -
                          "bbox": [round(g["bbox"][0] + tx, 4), round(g["bbox"][1] + ty, 4),
                                   round(g["bbox"][2] + tx, 4), round(g["bbox"][3] + ty, 4)],
                          "axis_x": round(g["axis"] + tx, 4) if blocks[b]["symmetric"] else None,
-                         "pins": [{**p, "x0": round(p["x0"] + tx, 4), "x1": round(p["x1"] + tx, 4),
+                         "pins": [{**p, **{k: round(p[k] + tx, 4) for k in ("x0", "x1", "rx0", "rx1") if k in p},
                                    "y": round(p["y"] + ty, 4)} for p in g["pins"]],
                          **({"keepouts": [{**k, "box": [round(k["box"][0] + tx, 4), round(k["box"][1] + ty, 4),
                                                         round(k["box"][2] + tx, 4), round(k["box"][3] + ty, 4)]}

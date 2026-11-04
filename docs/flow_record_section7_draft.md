@@ -124,6 +124,13 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 82 | S4 | `unit_pins` read every `.mag` at 0.005 µm per unit (`magscale 1 2`). Magic writes that line only when a cell has half-lambda geometry; `ttsky25a_fd`'s new cells have none, so their unit is 0.01 µm and every pin came out at half its place: a gate pad mid-cell, two stubs 0.5 µm apart | S4 stopped ("stubs too close"); scanning every cell's stub plan, then reading one cell's metal and labels | each file's own `magscale` (0.01 µm without one). Every 5T and LOADBench cell has `magscale 1 2`, so their blocks do not change. The stub-spacing check now uses the real rule (a 0.36 µm patch plus met1's 0.14 µm) and a single-finger strip can be taken at the top | S4 runs on `ttsky25a_fd` |
 | 83 | S4 | S0 gives several blocks one name (`ttsky25a_fd`: four `pmos_matched_current_source_pair`); S4 drew them in parallel into one folder, and one build removed another's files (row 80 had covered only a group split into two blocks) | S4 crashed reading a GDS another thread had deleted | repeated names are numbered in order (`_2`, `_3`, …) | 32 blocks, 32 names |
 | 84 | S4 | G4.4 asked every two-device block for a mirror-image variant, also two devices of different sizes (`ttsky25a_fd`'s `pmos_current_mirror_2`: 6/1 and 1/5 µm), which cannot be mirror images | the first full S4 run: every variant signed off, G4.4 failed on that block | G4.4 covers pairs of one device type, as the plan meant; the others are listed (`not_matched`). The 5T and LOADBench have none | S4 PASS on `ttsky25a_fd` |
+| 85 | S5 (grid router) | The first grid-routed layouts had DRC errors and a short: a ring's contact stack was placed after other nets were routed, so its metal3 square could land 0.2 µm from a wire (met3.2; the area-only layout shorted Vdd to x1_Vbias, LVS 33 nets against 36), and a stack 0.42 µm in from a ring's corner brought its li 0.085 µm from the ring's side (li.3) | the first routed DRC (12 and 14 errors) and LVS; locating each error box against the routes | a band along every ring's bottom edge is kept free of metal3 for every net before routing; a stack's centre stands at least 0.6 µm in from a ring's corners (0.25 + 0.085 + 0.17) | top-level DRC 0 and LVS match on both layouts |
+| 86 | S5 (grid router) | With the stack 1.0 µm in from the corners plus the track ends' via margin, a narrow block's ring had no grid column left, and Vss could not be routed on the area-only layout | the second run: "grid router: no route for ['Vss']" | 0.6 µm from the corners (the li rule's need), no via margin on a ring | both layouts routed |
+| 87 | S6 | R+C extraction of `ttsky25a_fd`'s routed layout: Magic's `extresist all` ran past 2.37 GB on the supply nets (rings and straps over 250 × 200 µm) and had to be killed. `extresist ignore Vdd Vss` does not hold against `all`; listing the other nets with `extresist include` (Magic takes at most 200 arguments and 2048 characters a command, so 25 names a command) gave a netlist whose ports were left unconnected; without `all`, no resistors at all | the first S6 run (watching its memory), then three trial extractions in `runs/tmp/` | not fixed: `rc_extraction: false` in `inputs/ttsky25a_fd/layout.yaml`. S6 extracts C only, S7 evaluates the C-only netlist as the post-layout view and records which view it used. The hand layout was measured C-only too (7.7), so the comparison holds. **FEEDBACK NEEDED** whether R+C is needed for this design | see 7.23 |
+| 88 | S6 | The flat LVS of `ttsky25a_fd` failed on the res_packs: the flat extraction makes every labelled inner node of the two 20-resistor strings a port, so Netgen cannot merge the layout's resistors in series, while it merges the reference's. Removing the inner labels made it merge, but Magic then could not place 199 coupling capacitances (no node names), so that was reverted | S6's G6.1 report (resistor counts 40 against 2); the C-only netlist after the unlabelling | `lvs_no_series: [sky130_fd_pr__res_generic_po]`: the LVS setup disables series merging of that device on both sides (`property … series disable`), and `flat_lvs` accepts Netgen's "Netlists match with N symmetries" (the two strings are interchangeable). Test | see 7.23 |
+| 89 | flow | The flow crashed after S4 passed: `src/flow.py` wrote `flow_summary.json` with `Path.write_text`, not the retrying `write_text` of rows 40 and 61, and the Windows mount gave Errno 22 | the run's traceback | `flow.py` uses `write_text` (now ten tries, about 27 s). Every JSON (gates, reports) goes through `write_json`, which retries; about 100 direct writes of Tcl, SPICE and logs in `src/` and `scripts/` do not, and are left for now | the S5–S7 re-run |
+| 90 | S6 | With row 88's fix Netgen matched both `ttsky25a_fd` layouts ("with 3 symmetries"), but `flat_lvs` still failed them. (1) Netgen cuts a pin name at 42 characters and pads the column with a space; row 79's test took a cut name to fill all 43 characters, so `nmos_matched_cascode_pair_2__ABBA_0.x1_net` (the label x1_net4) read as a wrong label. (2) On the area-only layout Netgen paired the labels x1_net3 and x1_net4 crosswise: the two nets are the middle nodes of two identical stacks (M1 + M19, M2 + M3) between x1_net2 and Vss, so either pairing is right, and Netgen broke the symmetry its own way | reading Netgen's pin table, then the reference's devices on the four nets | (1) a name of 42 characters or more is compared as a prefix. (2) Crossed labels are accepted only when Netgen reports symmetries, the rows form a permutation of reference nets (a cut label resolved among them), and that permutation maps the reference's devices onto themselves (`symmetric_relabel`, recorded in the report); x1_net3 against x1_net5, for example, is still rejected. Tests | G6.1 PASS on both layouts; the 5T and LOADBench unchanged |
+| 91 | S7 | G7.5 (the post-layout AC with each MIM capacitor's own plate coupling cancelled, Phase 7) read only the R+C netlist and gave up on a design with more than one MIM capacitor, so on `ttsky25a_fd` (C-only, two Miller capacitors of 5 units each) it was silently empty | S7's report: G7.5's detail `{}` | G7.5 uses S7's post-layout view (R+C, else C-only); each MIM device line goes to the capacitor whose top and bottom nets it names, and the coupling is split over that capacitor's units; a line no capacitor claims still gives no G7.5. LOADBench's deck is unchanged. Test | see 7.23 |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -1510,3 +1517,67 @@ in PREREG before any layout was drawn (shared rows inside a macro, three shapes 
   budgets for this design assume a far more compact layout than blocks with rings and 3 µm gaps.
 - **Routing is not done:** the spine router serves one column of blocks ("no spine for net Vom"). The grid router
   (plan 8.5) is next.
+
+### 7.23 Plan v4, Phase 8 (part 2): `ttsky25a_fd` routed, extracted and simulated (2026-11-04)
+
+**Routing** (the grid router, `src/s5/grid.py`). The spine router could not serve blocks spread over several columns, so
+S5 routes `ttsky25a_fd` on a 0.8 µm grid: metal3 horizontal, metal4 vertical, each net an A* tree (cost: length plus
+2 µm a via), every block's tracks, keep-outs and ring contacts as obstacles. Two bugs on the way (rows 85, 86).
+
+| | Budget-aware | Area-only |
+|---|---|---|
+| Routed size (µm) | 227.0 × 197.8 | 210.8 × 170.6 |
+| Top-level wire (µm, metal3 + metal4) | 1 836 | 2 586 |
+| Nets over S2's length budget (G5.4) | 17 of 69 | 18 of 69 |
+| Top-level DRC / LVS (G5.2, G5.3) | 0 / match | 0 / match |
+| Nets or pairs over S2's capacitance budgets (G6.2) | 200 | 212 |
+
+Both fit the 250 × 200 µm outline (G5.6). G5.4 and G6.2 fail as 7.22 expected: S2's budgets assume a far more compact
+layout.
+
+**Extraction** (S6). Three problems:
+- R+C extraction ran past 2 GB on the supply rings and could not be limited to the signal nets (row 87). Not fixed:
+  `rc_extraction: false`, so S6 extracts C only and S7 evaluates the C-only netlist. The hand layout was measured the
+  same way (7.7). **FEEDBACK NEEDED.**
+- The flat LVS could not merge the res_pack strings in the layout (row 88): series merging of that resistor is now off
+  on both sides.
+- `flat_lvs` misread Netgen's 42-character names and two interchangeable nets Netgen had paired crosswise (row 90).
+
+**S6: G6.1 PASS** on both layouts (flat LVS matched, 0 capacitances Magic could not place); G6.2 FAIL.
+
+**Post-layout** (S7, C-only; specs 0.9 × the schematic, η = 0.5):
+
+| | Schematic | Drawn | C-only, budget-aware | C-only, area-only | Spec |
+|---|---|---|---|---|---|
+| GBW (MHz) | 2.052 | 2.043 | 1.922 | 1.914 | ≥ 1.85 |
+| PM (°) | 78.23 | 78.13 | 73.69 | 72.91 | ≥ 60 |
+| Gain (dB) | 98.39 | 98.25 | 98.25 | 98.25 | ≥ 97.40 |
+| Power (µW) | 452.0 | 456.3 | 456.3 | 456.3 | ≤ 497.2 |
+| Loss as a share of the η allowance, budget-aware (area-only) | | | GBW 1.26 (1.34), PM 0.50 (0.58), gain 0.28 (0.28), power 0.19 (0.19) | | |
+
+- **G7.1 PASS:** every spec is met after layout.
+- **G7.2 FAIL on GBW:** the layout costs 0.130 MHz, 63 % of the 0.205 MHz margin, above η = 0.5. The other three are
+  within.
+- **G7.5 (info), the Miller capacitors' own plate coupling cancelled** (48.5 fF each, very likely counted twice by
+  Magic; row 91): GBW 2.005 MHz, a loss of 0.45 of the allowance, and PM 72.83° (0.59); all within η. On these
+  numbers about two thirds of the GBW loss is that double count. G7.2 keeps Magic's netlist; **FEEDBACK NEEDED** which
+  number G7.2 should use (Phase 7 asked the same for LOADBench).
+- **H5:** the area-only layout loses more on every measure (GBW 1.34 against 1.26 of the allowance, PM 0.58 against
+  0.50), at 20 % less area.
+- **H4** is not tested: G6.2 fails, so its premise does not hold.
+- **G7.3 (G2.0's prediction):** PM within 17 %, gain within 18 %; GBW 2.0 × under (G2.0 predicted 31 % of the margin,
+  the layout took 63 %). With the MIM double count cancelled it took 23 %.
+
+**Against the hand layout** (7.7, the taped-out tile, also C-only). The tile is not the repository's schematic (7.7,
+point 2), so only drawn → PEX losses compare:
+
+| Drawn → C-only PEX | GBW | PM |
+|---|---|---|
+| Hand-drawn tile | −6.8 to −6.9 % | −2.9 to −3.0° |
+| Flow, budget-aware | −5.9 % | −4.4° |
+| Flow, area-only | −6.3 % | −5.2° |
+
+The flow loses less GBW than the hand layout and about 1.5° more phase margin, in an outline Imasha set.
+
+Also found: `src/flow.py` wrote its summary without the retry for the Windows mount, and a run crashed after S4 (row
+89).

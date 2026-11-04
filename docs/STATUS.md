@@ -9,8 +9,10 @@ routing, verification) on branch `s4-s5`**, from `main` at tag `s0s3-reviewed` (
   ("dementia_care_guide_sinhala (2)", a GitHub Desktop slip); its content is Phase 2's, and history is not rewritten.
 - Phases 5, 6 and 7 are committed (`27a075a6`, `6d0c6bb7`, `a5b250de`). The merge of `s4-s5` into `main` is Imasha's.
 - **Phase 8 (`ttsky25a_fd`), branch `s5-ttsky`:** plan and PREREG agreed; 8.1 (S0–S3) done; 8.2 S4 PASS; 8.3 S5's
-  placement fits the 250 × 200 µm outline for both costs (legal, unrouted DRC 0). **Next: the grid router (8.5).** Waiting
-  for Imasha's commit of part 1 (flow record 7.22).
+  placement fits the 250 × 200 µm outline for both costs (legal, unrouted DRC 0). Part 1 committed (`76a92ba9`).
+  Part 2 done: grid-routed (DRC 0, LVS match), S6 G6.1 PASS (C-only), S7: every spec met, G7.2 FAIL on GBW (within
+  η with the MIM double count cancelled); flow record 7.23, rows 87–91. **Waiting for Imasha's commit of part 2.**
+  Then 8.7 (stabilise, review, walkthrough).
 - Phase 6 (LOADBench through S4–S7), 02:36–04:10 CET 2026-11-04: LOADBench runs S0–S7: S4 and S5's sign-off pass; G5.4, G6.2 and G7.2 (GBW) fail;
   every spec is met post-layout. The 5T, re-run with the new code, still passes S0–S7.
   ASSUMPTIONS until Imasha answers plan questions 3–5: the PMOS bank drawn side by side as S3 sized it; no dummies.
@@ -60,15 +62,23 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 
 ## Running (container `layout-s0s3`)
 
-**Nothing.**
+- Nothing running (12:42 CET 2026-11-04).
 
-Plan v4 Phase 8's runs so far (2026-11-04, CET):
+Plan v4 Phase 8's runs have ended (2026-11-04, CET):
 - Plan v4 Phase 8.1 ended (`runs/logs/v4_p8_tt_S0S3.log`): S0 PASS (06:21–06:43), S1 FAIL G1.2, S2 PASS (77 min),
   S3 FAIL G3.3/G3.5 (53 min). Goldens S1–S3 of `ttsky25a_fd` refreshed on purpose (S0 unchanged).
 - Plan v4 Phase 8.2: `ttsky25a_fd --stage S4`: first run 09:33, ERROR (stubs too close: a gate pad at the bottom next to
   a strip); second run: the same ERROR (its cause: unit_pins read the .mag at 0.005 um/unit; these cells have no magscale line, 0.01 um). Third run: ERROR (S0 gives four blocks one name; parallel builds overwrote each other). Fourth: every variant DRC/LVS clean, G4.4 FAIL on a pair of two sizes (gate fixed: matched pairs only). Fifth: S4 PASS (55 variants DRC/LVS clean).
 - Plan v4 Phase 8.3: `ttsky25a_fd --stage S5` (macros, three shapes), 10:03–10:08 CET (`runs/logs/v4_p8_tt_S5.log`):
   placement legal and inside the outline; routing failed (the spine router; the grid router is next).
+- Plan v4 Phase 8.5: `ttsky25a_fd --stage S5` with the grid router: first run DRC 12/14 (stacks near rings and wires), LVS budget-aware match, area-only short. Second: budget-aware DRC 0 and LVS match; area-only unroutable (Vss: a narrow ring had no stack column). Third: both layouts routed, top-level DRC 0 and LVS match (controls caught); G5.4 FAIL (budgets).
+- Plan v4 Phase 8.6: `ttsky25a_fd --from S6`, first run 11:12–11:38: stopped by Claude Code (the R+C extraction's .res.ext passed
+  2.37 GB on the supplies). Second run 11:45–11:50 (supplies left out of R+C): the R+C netlist's ports came out unconnected
+  and the flat LVS did not merge the resistor strings. R+C switched off for this design; internal tracks unlabelled.
+- Plan v4 Phase 8.6: `ttsky25a_fd --from S4` (S4–S7), 11:54–12:09: S6 flat LVS failed (resistor strings not merged across
+  labelled nodes; with the labels removed, 199 capacitances lost their nets). Labels back, series merging off in S6's LVS.
+- Plan v4 Phase 8.6: `ttsky25a_fd --from S5` (S5–S7), 12:18–12:33 CET (`runs/logs/v4_p8_tt_S5S7.log`): S5 FAIL G5.4 only; S6 FAIL G6.1 (`flat_lvs` misread cut names and a crossed symmetric pair, row 90) and G6.2; S7 FAIL G7.2, G7.5 empty (row 91). The run from 12:12 passed S4, then the `flow_summary.json` write hit Errno 22: `src/flow.py` wrote it without the retrying `write_text` (now it uses it, ten tries).
+- Plan v4 Phase 8.6: `ttsky25a_fd --from S6`, 12:34–12:40 CET (`runs/logs/v4_p8_tt_S6S7c.log`): S6 FAIL G6.2 only (G6.1 PASS); S7 FAIL G7.2 on GBW (1.26 of the allowance), G7.1 PASS, G7.5 within η. Goldens S5–S7 taken.
 
 Plan v4 Phase 7's runs have ended (2026-11-04, CET):
 - Plan v4 Phase 7: `example_ota_5t --from S5`, ended 05:09 CET after about 3.5 min (`runs/logs/v4_p7_5t_S5S7.log`): PASS (before the review fixes).
@@ -184,6 +194,7 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
+| Claude Code | Plan v4 Phase 8 on branch `s5-ttsky`: `src/s4/`–`src/s7/`, `inputs/ttsky25a_fd/layout.yaml`, `tests/`, `outputs/S4`–`S7` (and S0–S3 re-runs) for `ttsky25a_fd`, `PREREG.md`, docs (plan v5, README, STATUS, progress log, flow record) | 2026-11-04 06:10 CET |
 | Claude Code | Plan v4 on branch `s4-s5`: `src/s3/`, new `src/s4/`–`src/s7/`, `src/flow.py`, `scripts/`, `tests/`, `outputs/S3`–`S7` for `example_ota_5t` and `loadbench_miller`, `PREREG.md`, docs (plan v4, README, STATUS, progress log, flow record). S0–S2 outputs are frozen (`tests/frozen/`), not claimed | 2026-11-03 19:10 CET |
 | Claude Code | **released 2026-11-02 23:20 CET**: supervisor review on branch `s0-s3-review`, phases 1–6 done (the rehearsal included). Held since 2026-11-02 18:15 CET, narrowed after phase 5 | 2026-11-02 18:15 CET |
 | Claude Code | Plan v3 Phase A: `src/`, `scripts/benchlib.py`, `scripts/compare_before_after.py`, `inputs/example_ota_5t/`, `inputs/loadbench_miller/`, `outputs/*/example_ota_5t/`, `outputs/*/loadbench_miller/`, `PREREG.md`, `tests/`; plus the doc updates the plan's steps ask for (README, progress log, flow record section 7 draft) | **released 2026-11-02 14:50 CET**: Phase A done (steps 0–13). Held since 2026-11-01 16:10, paused overnight 22:05, resumed 2026-11-02 12:12 |
@@ -1295,6 +1306,15 @@ Step 0 record:
 2. To fit 250 × 200 µm, matched pairs inside a macro may share a row and lose the single shared axis (plan section 10).
    Keep the outline first, or is the shared axis worth a bigger outline?
 
+**FEEDBACK NEEDED (Claude Code, 2026-11-04 12:42, Phase 8 part 2):**
+1. R+C extraction is off for `ttsky25a_fd` (Magic's extresist ran past 2 GB on the supply rings; flow record row 87).
+   S7 evaluates the C-only netlist, as the hand layout was measured. Accept C-only for this design, or should R+C be
+   tried another way (e.g. per sub-circuit, or with a coarser tolerance)?
+2. G7.2 fails on GBW with Magic's netlist (1.26 of the allowance) and passes with the Miller capacitors' own plate
+   coupling cancelled (0.45). The same question as LOADBench's (Phase 6, question 2): which number should G7.2 use?
+3. About 100 direct file writes in `src/` and `scripts/` still have no Errno 22 retry (row 89). Convert them all
+   (a mechanical change across reviewed stages), or leave them until one fails?
+
 **Answered 2026-11-04 (Imasha), Phase 8 plan:** the code arranges the floorplan; specs as recommended (kept); res_packs
 interleaved, matched transistors common-centroid or interdigitated; dummies; a hard outline of 250 × 200 µm; books may
 follow; a branch for Phase 8; an independent LLM after Phase 8. **Still open:** the outline's orientation (ASSUMPTION:
@@ -1614,6 +1634,10 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-04 midday (Claude Code): **Phase 8, part 2**: `ttsky25a_fd` grid-routed, extracted (C only) and simulated
+  (flow record 7.23, rows 85–91). S5: DRC 0, LVS match, inside the outline; S6 G6.1 PASS; S7 G7.1 PASS, G7.2 FAIL on
+  GBW; the drawn → C-only GBW loss (−5.9 %) is below the hand layout's (−6.8 %). `flat_lvs` and G7.5 fixed;
+  `flow.py` retries its summary write. 188 tests pass; 32 golden comparisons match. Waiting for Imasha's commit.
 - 2026-11-04 morning (Claude Code): **Phase 8, part 1**: `ttsky25a_fd` S0–S3 re-run, S4 PASS, S5 placement inside the
   outline (flow record 7.22, rows 81–84); routing next. Waiting for Imasha's commit on `s5-ttsky`.
 - 2026-11-04 morning (Claude Code): **Phase 8 plan** for `ttsky25a_fd` (`docs/plan_v5_ttsky25a.md`): the design's own

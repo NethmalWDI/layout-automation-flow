@@ -84,6 +84,10 @@ def wrapped(bench_txt: str, netlist: str, cell: str, ir: dict, nmap: dict, nets:
             p, n = nmap.get(s["p"], s["p"]), nmap.get(s["n"], s["n"])
             kind = s.get("kind", "V")
             lines.append(f"{kind}{s['name']}_layout {first.get(p, p)} {first.get(n, n)} {s['dc']}")
+    for x in ir.get("passives", []):   # an off-chip element S0 removed from the layout view (ttsky25a_fd's 12 kohm
+        if "removed in the layout view" in ((x.get("layout_binding") or {}).get("status") or ""):   # Rgm_ext; Phase 8)
+            a, b = nmap.get(x["a"], x["a"]), nmap.get(x["b"], x["b"])
+            lines.append(f"{x['kind']}{x['name']}_layout {first.get(a, a)} {first.get(b, b)} {x['value']}")
     sub = ".subckt dut_amp " + " ".join(wrapper) + "\n" + "\n".join(lines) + "\n.ends"
     txt = re.sub(r"^\.subckt dut_amp .*?^\.ends\s*$", lambda _: sub, shunted(bench_txt), count=1, flags=re.S | re.M)
     body = netlist.replace(".end\n", "")
@@ -91,20 +95,35 @@ def wrapped(bench_txt: str, netlist: str, cell: str, ir: dict, nmap: dict, nets:
 
 
 def mim_cancelled(netlist: str, mims: dict) -> str | None:
-    """The R+C netlist with each MIM device's plate-to-plate coupling, as S6 extracted it from the capacitor block alone
-    (G6.5), cancelled by an equal negative capacitor across the device's own two terminals; None without one."""
-    lines, n = netlist.splitlines(), 0
-    found = [ln for ln in lines if len(ln.split()) > 3 and ln[:1] in "Xx" and
-             ln.split()[3] in {m["model"] for m in mims.values()}]
-    if len(found) != 1 or len(mims) != 1:   # more than one MIM: which coupling belongs to which device is not known
-        return None
-    for i, ln in enumerate(list(lines)):
+    """The post-layout netlist with each MIM capacitor's plate-to-plate coupling, as S6 extracted it from the capacitor
+    block alone (G6.5), cancelled by negative capacitors across the device's own terminals; None if not possible.
+    A capacitor drawn as several units (ttsky25a_fd: 5 per Miller capacitor) gives several device lines: each line
+    goes to the capacitor whose top and bottom nets its terminals name (after a flattened block prefix such as
+    'XC1__A_0.'), and the coupling is split evenly over that capacitor's lines. With one MIM capacitor, every MIM line
+    is its own (an R+C netlist names sub-nodes). A line no capacitor claims: None (plan v4 Phase 8)."""
+    lines = netlist.splitlines()
+    models = {m["model"] for m in mims.values()}
+    base = lambda n: n.rsplit(".", 1)[-1]                   # noqa: E731
+    owner = {}
+    for i, ln in enumerate(lines):
         t = ln.split()
-        for m in mims.values():
-            if len(t) > 3 and t[0][:1] in "Xx" and t[3] == m["model"] and m["plate_coupling_fF"] > 0:
-                lines.insert(i + 1 + n, f"Cmimself{n} {t[1]} {t[2]} -{m['plate_coupling_fF']}f")
-                n += 1
-    return "\n".join(lines) + "\n" if n else None
+        if len(t) > 3 and t[0][:1] in "Xx" and t[3] in models:
+            hit = [c for c, m in mims.items() if t[3] == m["model"] and len(mims) == 1 or
+                   {base(t[1]), base(t[2])} == {m.get("top"), m.get("bottom")}]
+            if len(hit) != 1:
+                return None
+            owner[i] = hit[0]
+    count = {c: list(owner.values()).count(c) for c in mims}
+    out, n = [], 0
+    for i, ln in enumerate(lines):
+        out.append(ln)
+        c = owner.get(i)
+        if c is not None and mims[c]["plate_coupling_fF"] > 0:
+            t = ln.split()
+            v = mims[c]["plate_coupling_fF"] if count[c] == 1 else round(mims[c]["plate_coupling_fF"] / count[c], 6)
+            out.append(f"Cmimself{n} {t[1]} {t[2]} -{v}f")
+            n += 1
+    return "\n".join(out) + "\n" if n else None
 
 
 def run_view(job):
@@ -149,15 +168,19 @@ def main(argv=None) -> int:
                 jobs.append((wrapped(bench(tb, kind).read_text(), net, cell, ir, nmap, nets, inv),
                              out / "sim" / r / view / kind, kind))
                 keys.append((r, view, kind))
+    # the post-layout view: R+C, or C-only where S6 did no R+C extraction (layout.yaml rc_extraction: false; plan v4
+    # Phase 8, ttsky25a_fd). The key post_layout_rc keeps its name; post_layout_view says which view it is
+    post_view = "pex_rc" if all(s6p["layouts"][r]["netlists"].get("pex_rc") for r in RULES) else "pex_c"
+    mim_view = f"{post_view}_mim_cancelled"
     mims = s6p.get("mim_self") or {}
     if mims:   # G7.5 (info): the post-layout AC with the capacitor's own plate coupling cancelled (S6's G6.5)
         for r in RULES:
-            nl = s6p["layouts"][r]["netlists"].get("pex_rc")
+            nl = s6p["layouts"][r]["netlists"].get(post_view)
             fixed = mim_cancelled((REPO / nl).read_text(), mims) if nl else None
             if fixed:
                 jobs.append((wrapped(bench(tb, "AC").read_text(), fixed, cell, ir, nmap, nets, inv),
-                             out / "sim" / r / "pex_rc_mim_cancelled" / "AC", "AC"))
-                keys.append((r, "pex_rc_mim_cancelled", "AC"))
+                             out / "sim" / r / mim_view / "AC", "AC"))
+                keys.append((r, mim_view, "AC"))
     # a large deck (LOADBench's R+C netlist: 315 000 resistors, 79 MB) runs on its own: four at once ran the container
     # (5 GB) out of memory and the kernel killed the AC runs (flow record row 76)
     # an identical deck (both rules chose the same placement, as on LOADBench) is simulated once; its other folders get
@@ -189,7 +212,7 @@ def main(argv=None) -> int:
     metrics = {}
     missing = {}
     for r in RULES:
-        post = meas.get(r, {}).get("pex_rc") or {}
+        post = meas.get(r, {}).get(post_view) or {}
         rows = {}
         for k, mg in margins.items():
             if post.get(k) is None or sch.get(k) is None:
@@ -210,7 +233,7 @@ def main(argv=None) -> int:
         metrics[r] = rows
     metrics_mim = {}
     for r in RULES:
-        cm = meas.get(r, {}).get("pex_rc_mim_cancelled") or {}
+        cm = meas.get(r, {}).get(mim_view) or {}
         rows = {}
         for k in ("gain_db", "gbw_mhz", "pm_deg"):
             mg = margins.get(k)
@@ -222,7 +245,8 @@ def main(argv=None) -> int:
                        "within_allowed": lost <= allowed * (1 + TOL_USE)}
         if rows:
             metrics_mim[r] = rows
-    ident = {"run_id": new_run_id(), "design": design, "s6_run_id": s6p.get("run_id"), "eta": eta, "TOL_USE": TOL_USE}
+    ident = {"run_id": new_run_id(), "design": design, "s6_run_id": s6p.get("run_id"), "eta": eta, "TOL_USE": TOL_USE,
+             "post_layout_view": post_view}
     write_json(out / "metrics.json", {**ident, "views": meas, "metrics": metrics, "failed_runs": failed,
                                       "not_evaluated": "device saturation (S2's sat_* checks); PVT points"})
     ba = metrics["budget_aware"]
@@ -231,7 +255,7 @@ def main(argv=None) -> int:
     gates = {
         "G7.1_specs_met_post_layout": {"pass": bool(ba) and all(x["meets_spec"] for x in ba.values()) and
                                        not missing.get("budget_aware") and
-                                       not [f for f in failed if f["view"] != "pex_rc_mim_cancelled"],
+                                       not [f for f in failed if f["view"] != mim_view],
                                        "missing_measurements": missing,
                                        "detail": {k: [x["post_layout_rc"], x["limit"], x["meets_spec"]] for k, x in ba.items()},
                                        "failed_runs": failed},
@@ -246,8 +270,10 @@ def main(argv=None) -> int:
             "pass": None, "capacitors": mims, "detail": metrics_mim,
             "budget_aware_within_eta": (all(x["within_allowed"] for x in metrics_mim["budget_aware"].values())
                                         if metrics_mim.get("budget_aware") else None),
-            "note": "the R+C AC run with each MIM capacitor's own plate-to-plate coupling cancelled (S6 G6.5: very likely "
-                    "counted twice by Magic's sky130 rules); G7.1 and G7.2 keep Magic's netlist"},
+            "view": mim_view,
+            "note": "the post-layout AC run (R+C, or C-only without R+C extraction) with each MIM capacitor's own "
+                    "plate-to-plate coupling cancelled (S6 G6.5: very likely counted twice by Magic's sky130 rules); "
+                    "G7.1 and G7.2 keep Magic's netlist"},
         "H4 (info)": {"pass": None, "G6.2": g62,
                       "G7.1_and_G7.2": bool(ba) and all(x["meets_spec"] and x["within_allowed"] for x in ba.values()),
                       "note": "H4 holds if G6.2 passing implies G7.1 and G7.2 passing"},

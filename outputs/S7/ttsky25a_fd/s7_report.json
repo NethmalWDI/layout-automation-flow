@@ -1,0 +1,200 @@
+{
+  "run_id": "2026-11-04T12:39:50-029010a9",
+  "design": "ttsky25a_fd",
+  "s6_run_id": "2026-11-04T12:38:42-f983fc1d",
+  "eta": 0.5,
+  "TOL_USE": 0.02,
+  "post_layout_view": "pex_c",
+  "gates": {
+    "G7.1_specs_met_post_layout": {
+      "pass": true,
+      "missing_measurements": {},
+      "detail": {
+        "pm_deg": [
+          73.6884,
+          60,
+          true
+        ],
+        "gain_db": [
+          98.2518,
+          97.401,
+          true
+        ],
+        "gbw_mhz": [
+          1.92197,
+          1.8465,
+          true
+        ],
+        "power_uw": [
+          456.271,
+          497.1824,
+          true
+        ]
+      },
+      "failed_runs": []
+    },
+    "G7.2_loss_within_eta_margin": {
+      "pass": false,
+      "detail": {
+        "pm_deg": 0.4983,
+        "gain_db": 0.2796,
+        "gbw_mhz": 1.2645,
+        "power_uw": 0.1897
+      }
+    },
+    "G7.3_G2.0_prediction (info)": {
+      "pass": null,
+      "detail": {
+        "pm_deg": [
+          0.24915,
+          0.21281134198389295,
+          0.1708
+        ],
+        "gain_db": [
+          0.1398,
+          0.17038780153956407,
+          -0.1795
+        ],
+        "gbw_mhz": [
+          0.63223,
+          0.30921110918667916,
+          1.0447
+        ],
+        "power_uw": [
+          0.09485,
+          null,
+          null
+        ]
+      },
+      "note": "[post-layout loss / margin, G2.0's predicted share, relative error]; PREREG: within 25 %"
+    },
+    "G7.4_pvt (info)": {
+      "pass": null,
+      "note": "PVT points are not simulated post-layout here"
+    },
+    "G7.5_mim_self_coupling_cancelled (info)": {
+      "pass": null,
+      "capacitors": {
+        "XC1": {
+          "top": "Vop1",
+          "bottom": "Vom",
+          "plate_coupling_fF": 48.5305,
+          "bottom_to_substrate_fF": 26.9377,
+          "netlist": "outputs/S6/ttsky25a_fd/mim_self/XC1/XC1__A_pex.spice",
+          "model": "sky130_fd_pr__cap_mim_m3_1",
+          "params": {
+            "W": "10",
+            "L": "10",
+            "MF": "5",
+            "M": "5"
+          }
+        },
+        "XC2": {
+          "top": "Vom1",
+          "bottom": "Vop",
+          "plate_coupling_fF": 48.5305,
+          "bottom_to_substrate_fF": 26.9377,
+          "netlist": "outputs/S6/ttsky25a_fd/mim_self/XC2/XC2__A_pex.spice",
+          "model": "sky130_fd_pr__cap_mim_m3_1",
+          "params": {
+            "W": "10",
+            "L": "10",
+            "MF": "5",
+            "M": "5"
+          }
+        }
+      },
+      "detail": {
+        "budget_aware": {
+          "gain_db": {
+            "value": 98.2524,
+            "lost": 0.1392,
+            "use_of_allowed": 0.2784,
+            "within_allowed": true
+          },
+          "gbw_mhz": {
+            "value": 2.00545,
+            "lost": 0.04626,
+            "use_of_allowed": 0.4509,
+            "within_allowed": true
+          },
+          "pm_deg": {
+            "value": 72.8321,
+            "lost": 5.3994,
+            "use_of_allowed": 0.5922,
+            "within_allowed": true
+          }
+        },
+        "area_only": {
+          "gain_db": {
+            "value": 98.2524,
+            "lost": 0.1392,
+            "use_of_allowed": 0.2784,
+            "within_allowed": true
+          },
+          "gbw_mhz": {
+            "value": 1.99677,
+            "lost": 0.05494,
+            "use_of_allowed": 0.5355,
+            "within_allowed": true
+          },
+          "pm_deg": {
+            "value": 72.0341,
+            "lost": 6.1974,
+            "use_of_allowed": 0.6798,
+            "within_allowed": true
+          }
+        }
+      },
+      "budget_aware_within_eta": true,
+      "view": "pex_c_mim_cancelled",
+      "note": "the post-layout AC run (R+C, or C-only without R+C extraction) with each MIM capacitor's own plate-to-plate coupling cancelled (S6 G6.5: very likely counted twice by Magic's sky130 rules); G7.1 and G7.2 keep Magic's netlist"
+    },
+    "H4 (info)": {
+      "pass": null,
+      "G6.2": false,
+      "G7.1_and_G7.2": false,
+      "note": "H4 holds if G6.2 passing implies G7.1 and G7.2 passing"
+    },
+    "H5 (info)": {
+      "pass": null,
+      "use_of_allowed": {
+        "budget_aware": {
+          "pm_deg": 0.4983,
+          "gain_db": 0.2796,
+          "gbw_mhz": 1.2645,
+          "power_uw": 0.1897
+        },
+        "area_only": {
+          "pm_deg": 0.5832,
+          "gain_db": 0.2798,
+          "gbw_mhz": 1.3392,
+          "power_uw": 0.1897
+        }
+      }
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-11-04T11:39:50+00:00",
+    "git_commit": "76a92ba90b11b488ee1af334dd8fdaff072febbe",
+    "inputs": [
+      {
+        "path": "outputs/S6/ttsky25a_fd/parasitics_vs_budgets.json",
+        "sha256": "c6a3c82a0db56419ec80639e9204dd2fb66dde1fa1851c6407d30709224d8598"
+      },
+      {
+        "path": "outputs/S0/ttsky25a_fd/circuit_ir.json",
+        "sha256": "99c8894cf21f5a82bf390511d3d26ff0b7efeede453b5f1f28ae831a8537e71b"
+      },
+      {
+        "path": "outputs/S2/ttsky25a_fd/s2_report.json",
+        "sha256": "888160787321632c8ed1f30bd7fdcb10d4fd9134f12f2e4c7110b1c517a71a14"
+      },
+      {
+        "path": "inputs/ttsky25a_fd/package.yaml",
+        "sha256": "14d3a0672ec07f68247590346eb07cd37b5be35ad22b916e03fedd0ade60d4ac"
+      }
+    ]
+  }
+}

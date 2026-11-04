@@ -73,9 +73,10 @@ def provenance(inputs: list, extra: dict | None = None) -> dict:
     }
 
 
-def write_text(path: Path, text: str, tries: int = 5) -> None:
+def write_text(path: Path, text: str, tries: int = 10) -> None:
     """Path.write_text with a short retry on OSError EINVAL (Errno 22). Writes into the repo, which the container
-    mounts from Windows, now and then fail that way (flow record rows 40 and 61); a retry has always worked."""
+    mounts from Windows, now and then fail that way (flow record rows 40, 61 and 89; five tries over 7.5 s once all
+    failed, so ten tries over about 27 s)."""
     for k in range(tries):
         try:
             Path(path).write_text(text)

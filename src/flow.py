@@ -29,7 +29,7 @@ from pathlib import Path
 import yaml
 
 from src.common.hygiene import EXIT_GATE_FAIL, EXIT_PASS
-from src.common.tools import REPO
+from src.common.tools import REPO, write_text
 
 STAGES = ["S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7"]   # S4 blocks, S5 place and route, S6 extraction, S7 post-layout (plan v4)
 PY = sys.executable
@@ -172,7 +172,7 @@ def cmd_run(a) -> int:
                 + (f"  ({rec['reason']})" if rec.get("reason") else "")
             print(f"  {st}: {msg}")
             summ_f.parent.mkdir(parents=True, exist_ok=True)
-            summ_f.write_text(json.dumps(summ, indent=1) + "\n")
+            write_text(summ_f, json.dumps(summ, indent=1) + "\n")   # retries Errno 22 (flow record row 89)
             if rec["status"] == "ERROR":
                 worst = max(worst, 2)
                 break

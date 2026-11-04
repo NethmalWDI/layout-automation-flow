@@ -429,6 +429,17 @@ def test_mim_self_coupling_is_cancelled_across_the_device_terminals():
     fixed = mim_cancelled(net, mims).splitlines()
     assert fixed[2] == "Cmimself0 a.t5 out -22.47f" and fixed[1].startswith("X0")
     assert mim_cancelled(".subckt c_flat out\nR0 a b 1\n.ends\n", mims) is None
+    # two capacitors drawn as units (ttsky25a_fd, plan v4 Phase 8): each line goes to the capacitor its nets name, and
+    # the coupling is split over that capacitor's units; a line neither claims gives None
+    m = "sky130_fd_pr__cap_mim_m3_1"
+    two = {"XC1": {"model": m, "top": "Vop1", "bottom": "Vom", "plate_coupling_fF": 40.0},
+           "XC2": {"model": m, "top": "Vom1", "bottom": "Vop", "plate_coupling_fF": 30.0}}
+    net = "".join(f"X{i} {a} {b} {m} l=10 w=10\n" for i, (a, b) in
+                  enumerate([("XC1__A_0.Vop1", "Vom"), ("XC2__A_0.Vom1", "Vop")] * 2 + [("XC1__A_0.Vop1", "Vom")]))
+    neg = [ln.split() for ln in mim_cancelled(net, two).splitlines() if ln.startswith("Cmimself")]
+    assert abs(sum(float(t[3][:-1]) for t in neg if t[2] == "Vom") + 40.0) < 1e-4
+    assert abs(sum(float(t[3][:-1]) for t in neg if t[2] == "Vop") + 30.0) < 1e-4 and len(neg) == 5
+    assert mim_cancelled(net + f"X9 n1 n2 {m} l=10 w=10\n", two) is None
 
 
 def test_g62_never_reads_a_net_lower_than_the_ext_and_flat_lvs_reads_cut_names(tmp_path):
@@ -557,3 +568,79 @@ def test_shared_rows_only_when_asked_and_macros_flatten_by_their_origin():
     flat = flatten(top, {"m": {"w100": {"placement": pl, "method": "enumeration", "cost": 1.0}}})
     assert flat["blocks"]["p"]["origin"][0] == round(pl["blocks"]["p"]["origin"][0] + 10.0, 4)
     assert flat["blocks"]["q"]["macro"] == "m" and flat["macros"]["m"]["shape"] == "w100"
+
+
+def test_wrapper_puts_back_an_off_chip_passive():
+    """ttsky25a_fd: S0 removed the off-chip 12 kohm Rgm_ext from the layout view and exposed its node as RGM; S7's
+    bench puts it back between RGM and the bench's VSS, as it puts Vref_ext back on VREF (plan v4 Phase 8)."""
+    from src.s7.run import wrapped
+    tb = (REPO / "outputs/S0/ttsky25a_fd/tb/dido_amp_AC.spice").read_text()
+    ir = json.loads((REPO / "outputs/S0/ttsky25a_fd/circuit_ir.json").read_text())
+    net = ".subckt c_flat Vop Vm Vdd Vss Vom Vp RGM VREF\nR0 Vop Vm 1\n.ends\n"
+    txt = wrapped(tb, net, "c", ir, {"Rgm": "RGM", "Vref": "VREF"}, set(), {"RGM": "Rgm", "VREF": "Vref"})
+    assert "RRgm_ext_layout N_RGM VSS 12000.0" in txt and "VVref_ext_layout N_VREF VSS 0.9" in txt
+
+
+def test_grid_router_joins_pins_and_keeps_wires_clear_of_tracks():
+    """Plan v4 Phase 8.5: two blocks side by side; net a has a track in each; port p has one pin. The router joins
+    a's pins (a stub and a via3 down to each track), gives p a stub for its label, and no metal3 wire comes within
+    SPACE of any track."""
+    from src.s5 import grid as GR
+
+    def blk(x, nets):
+        return {"pins": [{"net": n, "kind": "track", "x0": x, "x1": x + 6.0, "y": y} for n, y in nets],
+                "bbox": [x, -2.0, x + 6.0, 6.0]}
+    pl = {"bbox": [0.0, -2.0, 20.0, 6.0],
+          "blocks": {"L": blk(0.0, [("a", 5.05), ("b", 4.15)]), "R": blk(14.0, [("a", -1.05), ("p", 5.05)])}}
+    res = GR.route(pl, {}, ["p"], ["a"])
+    assert not res["failed"] and set(res["routes"]) == {"a", "p"}
+    a = res["routes"]["a"]
+    assert len(a["stubs"]) == 2 and {round(y, 2) for _, _, y in a["stubs"]} == {5.05, -1.05}
+    assert len(res["routes"]["p"]["stubs"]) == 1
+    tracks = [(q["y"], q["x0"], q["x1"]) for b in pl["blocks"].values() for q in b["pins"]]
+    for n, r in res["routes"].items():
+        for y, x0, x1 in GR.segments(r)["metal3"]:
+            for ty, tx0, tx1 in tracks:
+                if x1 + GR.WIRE / 2 > tx0 and x0 - GR.WIRE / 2 < tx1:
+                    assert abs(y - ty) >= GR.WIRE + GR.SPACE - 1e-9, (n, y, ty)
+
+
+def test_flat_lvs_accepts_a_symmetric_match(tmp_path):
+    from src.s6.run import flat_lvs
+    f = tmp_path / "r.txt"
+    f.write_text("Netlists match with 3 symmetries.\nSubcircuit pins:\nblk_0.x1_net3 |(no pin, node is x1_net3)\n"
+                 "Final result: Top level cell failed pin matching.\n")
+    assert flat_lvs(f)["match"]
+    f.write_text("Netlists do not match.\n")
+    assert not flat_lvs(f)["match"]
+
+
+def test_flat_lvs_accepts_crossed_labels_only_on_interchangeable_nets(tmp_path):
+    """Flow record row 90: Netgen cuts a name at 42 characters plus a space, and with symmetries it can pair two
+    interchangeable nets crosswise (ttsky25a_fd's x1_net3 / x1_net4, two identical stacks between x1_net2 and Vss)."""
+    from src.s6.run import flat_lvs
+    ref = tmp_path / "ref.spice"
+    ref.write_text(".subckt top a b g\n"
+                   "M1 n3 g b b nfet L=10 W=1\nM2 n4 g b b nfet L=10 W=1\n"
+                   "M19 a g n3 b nfet L=1 W=1\nM3 a g n4 b nfet L=1 W=1\n"
+                   "M4 b g n5 b nfet L=1 W=1\nM7 n5 g b b nfet L=10 W=1\n.ends\n")
+    def report(rows, head="Netlists match with 3 symmetries.\n"):
+        f = tmp_path / "r.txt"
+        f.write_text(head + "Subcircuit pins:\nCircuit 1: x |Circuit 2: y\n---|---\n"
+                     + "".join(f"{a:<42} |(no pin, node is {b})\n" for a, b in rows)
+                     + "Final result: Top level cell failed pin matching.\n")
+        return f
+    cut = "c" * 38 + "_0.n"                         # 42 characters: Netgen cut the label n4 to "n"
+    assert len(cut) == 42
+    # n3 and n4 cross: interchangeable, so accepted; the cut label is resolved to n4
+    r = flat_lvs(report([("blk_0.n3", "n4"), (cut, "n3")]), ref)
+    assert r["match"] and r["symmetric_relabel"] == {"n4": "n3", "n3": "n4"}
+    r = flat_lvs(report([("blk_0.n3", "n4"), ("blk_0.n4", "n3")]), ref)
+    assert r["match"] and r["symmetric_relabel"] == {"n4": "n3", "n3": "n4"}
+    assert not flat_lvs(report([("blk_0.n3", "n4"), ("blk_0.n4", "n3")], "Circuits match uniquely.\n"), ref)["match"]
+    # n3 and n5 are not interchangeable (M19's drain is a, M4's is b): a label on the wrong net
+    assert not flat_lvs(report([("blk_0.n3", "n5"), ("blk_0.n5", "n3")]), ref)["match"]
+    # without the reference, or without symmetries, a crossing fails
+    assert not flat_lvs(report([("blk_0.n3", "n4"), ("blk_0.n4", "n3")]))["match"]
+    # a name cut at 42 characters is read as a prefix
+    assert flat_lvs(report([("x" * 36 + "_0.net", "net7")]), ref)["match"]

@@ -172,7 +172,7 @@ def flatten(top: dict, shapes: dict) -> dict:
                        "bbox": [round(q["bbox"][0] + tx, 4), round(q["bbox"][1] + ty, 4),
                                 round(q["bbox"][2] + tx, 4), round(q["bbox"][3] + ty, 4)],
                        "axis_x": None if q.get("axis_x") is None else round(q["axis_x"] + tx, 4),
-                       "pins": [{**x, "x0": round(x["x0"] + tx, 4), "x1": round(x["x1"] + tx, 4),
+                       "pins": [{**x, **{k: round(x[k] + tx, 4) for k in ("x0", "x1", "rx0", "rx1") if k in x},
                                  "y": round(x["y"] + ty, 4)} for x in q["pins"]],
                        **({"keepouts": [{**k, "box": [round(k["box"][0] + tx, 4), round(k["box"][1] + ty, 4),
                                                       round(k["box"][2] + tx, 4), round(k["box"][3] + ty, 4)]}

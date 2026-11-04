@@ -1,0 +1,965 @@
+* ttsky25a_fd on dido_amp_OP
+.lib $PDK_ROOT/sky130A/libs.tech/combined/sky130.lib.spice tt
+.option rshunt=1e12
+.param VDD_V=1.8 VCM_V=0.9 CL_F=529f
+.temp 27
+
+**.subckt dido_amp_OP
+x1 INP INN OUTN VDD 0 OUTP dut_amp
+Vsup VDD 0 'VDD_V'
+* AC drive through 1 F couplers; DC set by unity feedback through 1 GH chokes (OUTP->INN, OUTN->INP)
+Vacp ACP 0 dc 0 ac 0
+Vacn ACN 0 dc 0 ac 0
+Cinp ACP INP 1
+Cinn ACN INN 1
+Lfbp OUTP INN 1G
+Lfbn OUTN INP 1G
+Cloadp OUTP 0 'CL_F'
+Cloadn OUTN 0 'CL_F'
+.control
+  save all
+  op
+  let isup    = abs(i(vsup))
+  let isup_ua = isup * 1e6
+  let power_uw = isup * v(VDD) * 1e6
+  let vout_v  = v(OUTP) - v(OUTN)
+  echo MEAS isup_ua $&isup_ua
+  echo MEAS power_uw $&power_uw
+  echo MEAS vout_v $&vout_v
+  let voutcm_v = (v(OUTP) + v(OUTN)) / 2
+  echo MEAS voutcm_v $&voutcm_v
+  write
+  quit 0
+.endc
+**.ends
+
+.subckt dut_amp INP INN OUTN VDD VSS OUTP
+XDUT OUTN OUTP N_RGM N_VREF VDD INN INP VSS N_net3 N_Vop1 N_Vom1 N_net1 N_PBias N_NBias N_net2 N_x2_x1_net4 N_x2_x2_net4 N_x2_x1_net6 N_x2_x2_net6 N_x2_x1_net1 N_x2_x2_net1 N_x2_x1_net10 N_x2_x2_net10 N_x2_x1_net8 N_x2_x2_net8 N_x2_x1_net12 N_x2_x2_net12 N_x2_x1_net14 N_x2_x2_net14 N_x2_x1_net3 N_x2_x2_net3 N_x2_x1_net18 N_x2_x2_net18 N_x2_x1_net16 N_x2_x2_net16 N_x2_Vcm N_x2_x2_net5 N_x2_x1_net5 N_x2_x2_net7 N_x2_x1_net7 N_x2_x2_net11 N_x2_x1_net11 N_x2_x2_net9 N_x2_x1_net9 N_x2_x2_net2 N_x2_x1_net2 N_x2_x2_net13 N_x2_x1_net13 N_x2_x2_net15 N_x2_x1_net15 N_x2_x2_net19 N_x2_x1_net19 N_x2_x2_net17 N_x2_x1_net17 N_net7 N_x2_Vtest N_x2_Vout N_x2_Vbiasp N_x2_net1 N_x1_Vtest2 N_x1_net2 N_x1_net1 N_x1_net4 N_x1_net6 N_net4 N_x1_net9 N_x1_Vout N_x1_Vbias N_net6 N_x1_net3 N_x1_net5 N_net5 N_x1_net7 N_x1_net8 ttsky25a_fd_routed_flat
+VVref_ext_layout N_VREF VSS 0.9
+RRgm_ext_layout N_RGM VSS 12000.0
+.ends
+.subckt ttsky25a_fd Vop Vm Vdd Vss Vom Vp
+XM32 NBias PBias Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=1 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XM33 NBias NBias Vss Vss sky130_fd_pr__nfet_01v8_lvt L=2 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XM34 net1 PBias Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=1 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XM35 net1 net1 Rgm Vss sky130_fd_pr__nfet_01v8_lvt L=1 W=10 NF=1 AD=2.9 AS=2.9 PD=20.58 PS=20.58 NRD=0.029 NRS=0.029 SA=0 SB=0 SD=0 MULT=2 M=2
+XM36 net2 net1 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=2 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XM37 PBias NBias Vss Vss sky130_fd_pr__nfet_01v8_lvt L=2 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XM38 PBias net2 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=1 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XM39 net2 net2 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=1 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XM40 PBias net3 NBias Vss sky130_fd_pr__nfet_01v8_lvt L=1 W=2 NF=1 AD=0.58 AS=0.58 PD=4.58 PS=4.58 NRD=0.145 NRS=0.145 SA=0 SB=0 SD=0 MULT=1
+XM41 net3 NBias Vss Vss sky130_fd_pr__nfet_01v8_lvt L=2 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XM42 net3 net3 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=20 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XM43 net4 PBias Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=1 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XM44 net5 PBias Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=1 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XM45 net6 PBias Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=1 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XM54 net7 PBias Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=1 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M5 x1_Vtest2 Vm x1_net2 Vss sky130_fd_pr__nfet_01v8_lvt L=4 W=4 NF=1 AD=1.16 AS=1.16 PD=8.58 PS=8.58 NRD=0.0725 NRS=0.0725 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M6 x1_net1 Vp x1_net2 Vss sky130_fd_pr__nfet_01v8_lvt L=4 W=4 NF=1 AD=1.16 AS=1.16 PD=8.58 PS=8.58 NRD=0.0725 NRS=0.0725 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M11 Vop1 x1_Vbias x1_Vtest2 Vdd sky130_fd_pr__pfet_01v8_lvt L=5 W=2 NF=1 AD=0.58 AS=0.58 PD=4.58 PS=4.58 NRD=0.145 NRS=0.145 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M12 Vom1 x1_Vbias x1_net1 Vdd sky130_fd_pr__pfet_01v8_lvt L=5 W=2 NF=1 AD=0.58 AS=0.58 PD=4.58 PS=4.58 NRD=0.145 NRS=0.145 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M13 x1_Vtest2 x1_Vout Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=5 W=2 NF=1 AD=0.58 AS=0.58 PD=4.58 PS=4.58 NRD=0.145 NRS=0.145 SA=0 SB=0 SD=0 MULT=4 M=4
+XX1_M14 x1_net1 x1_Vout Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=5 W=2 NF=1 AD=0.58 AS=0.58 PD=4.58 PS=4.58 NRD=0.145 NRS=0.145 SA=0 SB=0 SD=0 MULT=4 M=4
+XX1_M19 x1_net2 net5 x1_net3 Vss sky130_fd_pr__nfet_01v8_lvt L=1 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M1 x1_net3 net4 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=10 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M2 x1_net4 net4 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=10 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M3 x1_net2 net5 x1_net4 Vss sky130_fd_pr__nfet_01v8_lvt L=1 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M4 Vop1 net5 x1_net5 Vss sky130_fd_pr__nfet_01v8_lvt L=1 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M7 x1_net5 net4 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=10 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M8 Vom1 net5 x1_net6 Vss sky130_fd_pr__nfet_01v8_lvt L=1 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M9 x1_net6 net4 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=10 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M10 x1_Vout Vref x1_net8 Vss sky130_fd_pr__nfet_01v8_lvt L=20 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M17 x1_net9 Vop1 x1_net8 Vss sky130_fd_pr__nfet_01v8_lvt L=20 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M18 x1_net9 Vom1 x1_net7 Vss sky130_fd_pr__nfet_01v8_lvt L=20 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M22 x1_net7 net4 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=20 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M20 x1_net9 x1_net9 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=10 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M21 x1_Vout x1_net9 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=10 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M15 x1_net8 net4 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=20 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M16 x1_Vout Vref x1_net7 Vss sky130_fd_pr__nfet_01v8_lvt L=20 W=5 NF=1 AD=1.45 AS=1.45 PD=10.58 PS=10.58 NRD=0.058 NRS=0.058 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M46 net4 net4 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=2 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M47 net5 net5 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=5 W=0.6 NF=1 AD=0.174 AS=0.174 PD=1.78 PS=1.78 NRD=0.483333 NRS=0.483333 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M23 net6 net6 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=1 W=0.6 NF=1 AD=0.174 AS=0.174 PD=1.78 PS=1.78 NRD=0.483333 NRS=0.483333 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M24 x1_Vbias net6 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=1 W=0.6 NF=1 AD=0.174 AS=0.174 PD=1.78 PS=1.78 NRD=0.483333 NRS=0.483333 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M25 x1_Vbias x1_Vbias Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=10 W=1.5 NF=1 AD=0.435 AS=0.435 PD=3.58 PS=3.58 NRD=0.193333 NRS=0.193333 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M9 Vop Vom1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=1 W=2 NF=1 AD=0.58 AS=0.58 PD=4.58 PS=4.58 NRD=0.145 NRS=0.145 SA=0 SB=0 SD=0 MULT=9 M=9
+XX2_M4 Vom Vop1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=1 W=2 NF=1 AD=0.58 AS=0.58 PD=4.58 PS=4.58 NRD=0.145 NRS=0.145 SA=0 SB=0 SD=0 MULT=9 M=9
+XX2_M2 Vop x2_Vout Vss Vss sky130_fd_pr__nfet_01v8_lvt L=1 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=9 M=9
+XX2_M1 Vom x2_Vout Vss Vss sky130_fd_pr__nfet_01v8_lvt L=1 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=9 M=9
+XX2_M3 x2_net1 x2_Vbiasp Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=5 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M7 x2_Vtest x2_Vcm x2_net1 Vdd sky130_fd_pr__pfet_01v8_lvt L=10 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M8 x2_Vout Vref x2_net1 Vdd sky130_fd_pr__pfet_01v8_lvt L=10 W=1 NF=1 AD=0.29 AS=0.29 PD=2.58 PS=2.58 NRD=0.29 NRS=0.29 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M5 x2_Vtest x2_Vtest Vss Vss sky130_fd_pr__nfet_01v8_lvt L=20 W=0.5 NF=1 AD=0.145 AS=0.145 PD=1.58 PS=1.58 NRD=0.58 NRS=0.58 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M6 x2_Vout x2_Vtest Vss Vss sky130_fd_pr__nfet_01v8_lvt L=20 W=0.5 NF=1 AD=0.145 AS=0.145 PD=1.58 PS=1.58 NRD=0.58 NRS=0.58 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M10 net7 net7 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=1 W=0.6 NF=1 AD=0.174 AS=0.174 PD=1.78 PS=1.78 NRD=0.483333 NRS=0.483333 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M11 x2_Vbiasp net7 Vss Vss sky130_fd_pr__nfet_01v8_lvt L=1 W=0.6 NF=1 AD=0.174 AS=0.174 PD=1.78 PS=1.78 NRD=0.483333 NRS=0.483333 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M12 x2_Vbiasp x2_Vbiasp Vdd Vdd sky130_fd_pr__pfet_01v8_lvt L=1 W=6 NF=1 AD=1.74 AS=1.74 PD=12.58 PS=12.58 NRD=0.0483333 NRS=0.0483333 SA=0 SB=0 SD=0 MULT=2 M=2
+Vref_ext Vref Vss 0.9
+XC1 Vop1 Vom sky130_fd_pr__cap_mim_m3_1 W=10 L=10 MF=5 M=5
+XC2 Vom1 Vop sky130_fd_pr__cap_mim_m3_1 W=10 L=10 MF=5 M=5
+XX2_X1_R1 x2_x1_net4 Vop sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R2 x2_x1_net5 x2_x1_net4 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R3 x2_x1_net6 x2_x1_net5 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R4 x2_x1_net7 x2_x1_net6 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R5 x2_x1_net1 x2_x1_net7 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R6 x2_x1_net8 x2_x1_net2 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R7 x2_x1_net9 x2_x1_net8 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R8 x2_x1_net10 x2_x1_net9 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R9 x2_x1_net11 x2_x1_net10 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R10 x2_x1_net1 x2_x1_net11 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R11 x2_x1_net12 x2_x1_net2 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R12 x2_x1_net13 x2_x1_net12 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R13 x2_x1_net14 x2_x1_net13 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R14 x2_x1_net15 x2_x1_net14 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R16 x2_x1_net16 x2_Vcm sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R17 x2_x1_net17 x2_x1_net16 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R18 x2_x1_net18 x2_x1_net17 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R19 x2_x1_net19 x2_x1_net18 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R20 x2_x1_net3 x2_x1_net19 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X1_R15 x2_x1_net3 x2_x1_net15 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R1 x2_x2_net4 x2_Vcm sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R2 x2_x2_net5 x2_x2_net4 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R3 x2_x2_net6 x2_x2_net5 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R4 x2_x2_net7 x2_x2_net6 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R5 x2_x2_net1 x2_x2_net7 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R6 x2_x2_net8 x2_x2_net2 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R7 x2_x2_net9 x2_x2_net8 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R8 x2_x2_net10 x2_x2_net9 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R9 x2_x2_net11 x2_x2_net10 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R10 x2_x2_net1 x2_x2_net11 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R11 x2_x2_net12 x2_x2_net2 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R12 x2_x2_net13 x2_x2_net12 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R13 x2_x2_net14 x2_x2_net13 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R14 x2_x2_net15 x2_x2_net14 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R16 x2_x2_net16 Vom sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R17 x2_x2_net17 x2_x2_net16 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R18 x2_x2_net18 x2_x2_net17 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R19 x2_x2_net19 x2_x2_net18 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R20 x2_x2_net3 x2_x2_net19 sky130_fd_pr__res_generic_po W=0.5 L=40
+XX2_X2_R15 x2_x2_net3 x2_x2_net15 sky130_fd_pr__res_generic_po W=0.5 L=40
+Rgm_ext Rgm Vss 12000
+.ends ttsky25a_fd
+* NGSPICE file created from ttsky25a_fd_routed_flat.ext - technology: sky130A
+
+.subckt ttsky25a_fd_routed_flat Vom Vop RGM VREF Vdd Vm Vp Vss pmos_diode__A_0.net3
++ XC1__A_0.Vop1 XC2__A_0.Vom1 nmos_diode__A_0.net1 nmos_single_2__A_0.PBias nmos_single_2__A_0.NBias
++ nmos_single__A_0.net2 res_packs__interleaved_0.x2_x1_net4 res_packs__interleaved_0.x2_x2_net4
++ res_packs__interleaved_0.x2_x1_net6 res_packs__interleaved_0.x2_x2_net6 res_packs__interleaved_0.x2_x1_net1
++ res_packs__interleaved_0.x2_x2_net1 res_packs__interleaved_0.x2_x1_net10 res_packs__interleaved_0.x2_x2_net10
++ res_packs__interleaved_0.x2_x1_net8 res_packs__interleaved_0.x2_x2_net8 res_packs__interleaved_0.x2_x1_net12
++ res_packs__interleaved_0.x2_x2_net12 res_packs__interleaved_0.x2_x1_net14 res_packs__interleaved_0.x2_x2_net14
++ res_packs__interleaved_0.x2_x1_net3 res_packs__interleaved_0.x2_x2_net3 res_packs__interleaved_0.x2_x1_net18
++ res_packs__interleaved_0.x2_x2_net18 res_packs__interleaved_0.x2_x1_net16 res_packs__interleaved_0.x2_x2_net16
++ res_packs__interleaved_0.x2_Vcm res_packs__interleaved_0.x2_x2_net5 res_packs__interleaved_0.x2_x1_net5
++ res_packs__interleaved_0.x2_x2_net7 res_packs__interleaved_0.x2_x1_net7 res_packs__interleaved_0.x2_x2_net11
++ res_packs__interleaved_0.x2_x1_net11 res_packs__interleaved_0.x2_x2_net9 res_packs__interleaved_0.x2_x1_net9
++ res_packs__interleaved_0.x2_x2_net2 res_packs__interleaved_0.x2_x1_net2 res_packs__interleaved_0.x2_x2_net13
++ res_packs__interleaved_0.x2_x1_net13 res_packs__interleaved_0.x2_x2_net15 res_packs__interleaved_0.x2_x1_net15
++ res_packs__interleaved_0.x2_x2_net19 res_packs__interleaved_0.x2_x1_net19 res_packs__interleaved_0.x2_x2_net17
++ res_packs__interleaved_0.x2_x1_net17 nmos_current_mirror_3__ABAB_0.net7 pmos_differential_pair__ABBA_0.x2_Vtest
++ pmos_differential_pair__ABBA_0.x2_Vout pmos_current_mirror_2__row_0.x2_Vbiasp pmos_current_mirror_2__row_0.x2_net1
++ nmos_differential_pair__ABAB_0.x1_Vtest2 nmos_differential_pair__ABAB_0.x1_net2
++ nmos_differential_pair__ABAB_0.x1_net1 nmos_matched_cascode_pair_2__ABAB_0.x1_net4
++ nmos_matched_cascode_pair_2__ABAB_0.x1_net6 nmos_current_mirror_4__A_0.net4 pmos_current_mirror_load__ABAB_0.x1_net9
++ pmos_current_mirror_load__ABAB_0.x1_Vout pmos_diode_2__A_0.x1_Vbias nmos_current_mirror_2__ABBA_0.net6
++ nmos_matched_cascode_pair__ABBA_0.x1_net3 nmos_matched_cascode_pair__ABBA_0.x1_net5
++ nmos_diode_2__A_0.net5 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8
+X0 nmos_differential_pair__ABAB_0.x1_net1 pmos_current_mirror_load__ABAB_0.x1_Vout Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
+X1 nmos_current_mirror_2__ABBA_0.net6 nmos_current_mirror_2__ABBA_0.net6 Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X2 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=53.012 ps=424.76001 w=1 l=10
+X3 Vop pmos_differential_pair__ABBA_0.x2_Vout Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X4 Vss nmos_current_mirror_3__ABAB_0.net7 pmos_current_mirror_2__row_0.x2_Vbiasp Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X5 Vss pmos_differential_pair__ABBA_0.x2_Vout Vop Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X6 res_packs__interleaved_0.x2_x1_net1 res_packs__interleaved_0.x2_x1_net7 sky130_fd_pr__res_generic_po w=0.5 l=40
+X7 Vss nmos_current_mirror_3__ABAB_0.net7 pmos_current_mirror_2__row_0.x2_Vbiasp Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X8 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=78.01 ps=607.59998 w=1 l=5
+X9 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 XC2__A_0.Vom1 pmos_current_mirror_load__ABAB_0.x1_net9 Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=20
+X10 Vop pmos_differential_pair__ABBA_0.x2_Vout Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X11 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X12 nmos_differential_pair__ABAB_0.x1_Vtest2 pmos_current_mirror_load__ABAB_0.x1_Vout Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
+X13 XC2__A_0.Vom1 Vop sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X14 nmos_single_2__A_0.NBias nmos_single_2__A_0.PBias Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X15 Vss nmos_single_2__A_0.NBias nmos_single_2__A_0.PBias Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X16 Vdd nmos_single_2__A_0.PBias nmos_diode__A_0.net1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X17 Vss nmos_current_mirror_4__A_0.net4 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X18 Vom XC1__A_0.Vop1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X19 Vss pmos_differential_pair__ABBA_0.x2_Vtest pmos_differential_pair__ABBA_0.x2_Vout Vss sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=20
+X20 Vom pmos_differential_pair__ABBA_0.x2_Vout Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X21 Vss nmos_single_2__A_0.NBias nmos_single_2__A_0.PBias Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X22 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0 ps=0 w=1 l=5
+X23 Vdd pmos_current_mirror_load__ABAB_0.x1_Vout nmos_differential_pair__ABAB_0.x1_Vtest2 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
+X24 Vom pmos_differential_pair__ABBA_0.x2_Vout Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X25 Vdd nmos_single_2__A_0.PBias nmos_current_mirror_3__ABAB_0.net7 Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X26 Vdd pmos_current_mirror_load__ABAB_0.x1_Vout nmos_differential_pair__ABAB_0.x1_Vtest2 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
+X27 Vdd XC1__A_0.Vop1 Vom Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X28 Vom pmos_differential_pair__ABBA_0.x2_Vout Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X29 Vop XC2__A_0.Vom1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X30 Vss pmos_differential_pair__ABBA_0.x2_Vout Vom Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X31 Vss Vss sky130_fd_pr__res_generic_po w=0.5 l=40
+X32 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X33 Vop XC2__A_0.Vom1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X34 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X35 Vss pmos_differential_pair__ABBA_0.x2_Vtest pmos_differential_pair__ABBA_0.x2_Vtest Vss sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=20
+X36 Vop pmos_differential_pair__ABBA_0.x2_Vout Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X37 res_packs__interleaved_0.x2_x2_net16 Vom sky130_fd_pr__res_generic_po w=0.5 l=40
+X38 res_packs__interleaved_0.x2_x2_net14 res_packs__interleaved_0.x2_x2_net13 sky130_fd_pr__res_generic_po w=0.5 l=40
+X39 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X40 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X41 Vdd pmos_current_mirror_load__ABAB_0.x1_Vout nmos_differential_pair__ABAB_0.x1_Vtest2 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
+X42 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 nmos_diode_2__A_0.net5 nmos_differential_pair__ABAB_0.x1_net2 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X43 Vss pmos_differential_pair__ABBA_0.x2_Vout Vom Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X44 Vop pmos_differential_pair__ABBA_0.x2_Vout Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X45 res_packs__interleaved_0.x2_x2_net4 res_packs__interleaved_0.x2_Vcm sky130_fd_pr__res_generic_po w=0.5 l=40
+X46 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X47 res_packs__interleaved_0.x2_x2_net12 res_packs__interleaved_0.x2_x2_net2 sky130_fd_pr__res_generic_po w=0.5 l=40
+X48 nmos_differential_pair__ABAB_0.x1_net1 pmos_current_mirror_load__ABAB_0.x1_Vout Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
+X49 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=20
+X50 Vss nmos_single_2__A_0.NBias pmos_diode__A_0.net3 Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X51 Vss nmos_single_2__A_0.NBias nmos_single_2__A_0.NBias Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X52 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X53 Vdd XC1__A_0.Vop1 Vom Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X54 Vdd pmos_current_mirror_2__row_0.x2_Vbiasp pmos_current_mirror_2__row_0.x2_Vbiasp Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.74 pd=12.58 as=1.74 ps=12.58 w=6 l=1
+X55 Vdd XC2__A_0.Vom1 Vop Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X56 res_packs__interleaved_0.x2_x1_net18 res_packs__interleaved_0.x2_x1_net19 sky130_fd_pr__res_generic_po w=0.5 l=40
+X57 res_packs__interleaved_0.x2_x1_net8 res_packs__interleaved_0.x2_x1_net2 sky130_fd_pr__res_generic_po w=0.5 l=40
+X58 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.74 pd=12.58 as=0 ps=0 w=6 l=1
+X59 res_packs__interleaved_0.x2_x2_net6 res_packs__interleaved_0.x2_x2_net7 sky130_fd_pr__res_generic_po w=0.5 l=40
+X60 nmos_differential_pair__ABAB_0.x1_net2 Vm nmos_differential_pair__ABAB_0.x1_Vtest2 Vss sky130_fd_pr__nfet_01v8_lvt ad=1.16 pd=8.58 as=1.16 ps=8.58 w=4 l=4
+X61 Vss pmos_differential_pair__ABBA_0.x2_Vout Vop Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X62 nmos_differential_pair__ABAB_0.x1_net1 pmos_current_mirror_load__ABAB_0.x1_Vout Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
+X63 Vss nmos_current_mirror_4__A_0.net4 nmos_matched_cascode_pair__ABBA_0.x1_net5 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X64 XC2__A_0.Vom1 Vop sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X65 Vss pmos_differential_pair__ABBA_0.x2_Vout Vop Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X66 Vdd pmos_current_mirror_load__ABAB_0.x1_net9 pmos_current_mirror_load__ABAB_0.x1_net9 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X67 Vss pmos_differential_pair__ABBA_0.x2_Vout Vop Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X68 Vom XC1__A_0.Vop1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X69 res_packs__interleaved_0.x2_x2_net10 res_packs__interleaved_0.x2_x2_net11 sky130_fd_pr__res_generic_po w=0.5 l=40
+X70 Vss nmos_diode__A_0.net1 nmos_single__A_0.net2 Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X71 Vom XC1__A_0.Vop1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X72 Vss nmos_current_mirror_4__A_0.net4 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=20
+X73 Vdd pmos_current_mirror_load__ABAB_0.x1_Vout nmos_differential_pair__ABAB_0.x1_Vtest2 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
+X74 Vss nmos_diode_2__A_0.net5 nmos_diode_2__A_0.net5 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=5
+X75 res_packs__interleaved_0.x2_x1_net6 res_packs__interleaved_0.x2_x1_net7 sky130_fd_pr__res_generic_po w=0.5 l=40
+X76 Vss nmos_diode_2__A_0.net5 nmos_diode_2__A_0.net5 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=5
+X77 Vss pmos_differential_pair__ABBA_0.x2_Vtest pmos_differential_pair__ABBA_0.x2_Vout Vss sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=20
+X78 Vss nmos_diode__A_0.net1 nmos_single__A_0.net2 Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X79 nmos_differential_pair__ABAB_0.x1_net1 pmos_current_mirror_load__ABAB_0.x1_Vout Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
+X80 Vss nmos_current_mirror_4__A_0.net4 nmos_current_mirror_4__A_0.net4 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=2
+X81 res_packs__interleaved_0.x2_x1_net16 res_packs__interleaved_0.x2_Vcm sky130_fd_pr__res_generic_po w=0.5 l=40
+X82 res_packs__interleaved_0.x2_x2_net14 res_packs__interleaved_0.x2_x2_net15 sky130_fd_pr__res_generic_po w=0.5 l=40
+X83 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X84 XC2__A_0.Vom1 Vop sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X85 Vdd nmos_single__A_0.net2 nmos_single_2__A_0.PBias Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X86 Vdd XC1__A_0.Vop1 Vom Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X87 Vop XC2__A_0.Vom1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X88 res_packs__interleaved_0.x2_x2_net16 res_packs__interleaved_0.x2_x2_net17 sky130_fd_pr__res_generic_po w=0.5 l=40
+X89 res_packs__interleaved_0.x2_x1_net14 res_packs__interleaved_0.x2_x1_net13 sky130_fd_pr__res_generic_po w=0.5 l=40
+X90 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X91 Vop XC2__A_0.Vom1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X92 XC1__A_0.Vop1 Vom sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X93 res_packs__interleaved_0.x2_x1_net1 res_packs__interleaved_0.x2_x1_net11 sky130_fd_pr__res_generic_po w=0.5 l=40
+X94 Vdd XC1__A_0.Vop1 Vom Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X95 XC1__A_0.Vop1 Vom sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X96 res_packs__interleaved_0.x2_x1_net4 Vop sky130_fd_pr__res_generic_po w=0.5 l=40
+X97 XC1__A_0.Vop1 pmos_diode_2__A_0.x1_Vbias nmos_differential_pair__ABAB_0.x1_Vtest2 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
+X98 XC1__A_0.Vop1 Vom sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X99 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 XC1__A_0.Vop1 pmos_current_mirror_load__ABAB_0.x1_net9 Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=20
+X100 RGM nmos_diode__A_0.net1 nmos_diode__A_0.net1 Vss sky130_fd_pr__nfet_01v8_lvt ad=2.9 pd=20.58 as=2.9 ps=20.58 w=10 l=1
+X101 Vom XC1__A_0.Vop1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X102 res_packs__interleaved_0.x2_x2_net8 res_packs__interleaved_0.x2_x2_net2 sky130_fd_pr__res_generic_po w=0.5 l=40
+X103 Vss nmos_single_2__A_0.NBias nmos_single_2__A_0.NBias Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X104 Vdd XC2__A_0.Vom1 Vop Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X105 res_packs__interleaved_0.x2_x2_net6 res_packs__interleaved_0.x2_x2_net5 sky130_fd_pr__res_generic_po w=0.5 l=40
+X106 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X107 Vom XC1__A_0.Vop1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X108 Vdd pmos_current_mirror_load__ABAB_0.x1_net9 pmos_current_mirror_load__ABAB_0.x1_net9 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X109 Vss nmos_current_mirror_3__ABAB_0.net7 nmos_current_mirror_3__ABAB_0.net7 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X110 Vss nmos_current_mirror_3__ABAB_0.net7 nmos_current_mirror_3__ABAB_0.net7 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X111 nmos_differential_pair__ABAB_0.x1_net1 pmos_diode_2__A_0.x1_Vbias XC2__A_0.Vom1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
+X112 Vdd XC1__A_0.Vop1 Vom Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X113 Vdd pmos_current_mirror_load__ABAB_0.x1_Vout nmos_differential_pair__ABAB_0.x1_net1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
+X114 res_packs__interleaved_0.x2_x1_net10 res_packs__interleaved_0.x2_x1_net11 sky130_fd_pr__res_generic_po w=0.5 l=40
+X115 Vss nmos_current_mirror_4__A_0.net4 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X116 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X117 Vdd nmos_single_2__A_0.PBias nmos_current_mirror_2__ABBA_0.net6 Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X118 Vdd nmos_single__A_0.net2 nmos_single_2__A_0.PBias Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X119 Vss nmos_current_mirror_4__A_0.net4 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=20
+X120 Vdd nmos_single_2__A_0.PBias nmos_current_mirror_4__A_0.net4 Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X121 Vdd pmos_diode__A_0.net3 pmos_diode__A_0.net3 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=20
+X122 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 nmos_diode_2__A_0.net5 nmos_differential_pair__ABAB_0.x1_net2 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X123 Vom XC1__A_0.Vop1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X124 Vdd XC2__A_0.Vom1 Vop Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X125 Vdd pmos_current_mirror_load__ABAB_0.x1_net9 pmos_current_mirror_load__ABAB_0.x1_Vout Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X126 Vdd pmos_current_mirror_load__ABAB_0.x1_Vout nmos_differential_pair__ABAB_0.x1_net1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
+X127 Vss nmos_single_2__A_0.NBias pmos_diode__A_0.net3 Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=2
+X128 Vom pmos_differential_pair__ABBA_0.x2_Vout Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X129 res_packs__interleaved_0.x2_x1_net3 res_packs__interleaved_0.x2_x1_net19 sky130_fd_pr__res_generic_po w=0.5 l=40
+X130 Vop XC2__A_0.Vom1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X131 Vom pmos_differential_pair__ABBA_0.x2_Vout Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X132 nmos_matched_cascode_pair__ABBA_0.x1_net5 nmos_current_mirror_4__A_0.net4 Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X133 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 nmos_diode_2__A_0.net5 XC2__A_0.Vom1 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X134 Vdd XC1__A_0.Vop1 Vom Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X135 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 nmos_current_mirror_4__A_0.net4 Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X136 Vss nmos_current_mirror_4__A_0.net4 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=20
+X137 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X138 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=20
+X139 nmos_differential_pair__ABAB_0.x1_Vtest2 pmos_current_mirror_load__ABAB_0.x1_Vout Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
+X140 res_packs__interleaved_0.x2_x2_net3 res_packs__interleaved_0.x2_x2_net15 sky130_fd_pr__res_generic_po w=0.5 l=40
+X141 res_packs__interleaved_0.x2_x1_net8 res_packs__interleaved_0.x2_x1_net9 sky130_fd_pr__res_generic_po w=0.5 l=40
+X142 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X143 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 VREF pmos_current_mirror_load__ABAB_0.x1_Vout Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=20
+X144 nmos_differential_pair__ABAB_0.x1_net2 Vp nmos_differential_pair__ABAB_0.x1_net1 Vss sky130_fd_pr__nfet_01v8_lvt ad=1.16 pd=8.58 as=1.16 ps=8.58 w=4 l=4
+X145 Vdd pmos_current_mirror_2__row_0.x2_Vbiasp pmos_current_mirror_2__row_0.x2_net1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X146 nmos_differential_pair__ABAB_0.x1_Vtest2 pmos_current_mirror_load__ABAB_0.x1_Vout Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
+X147 pmos_differential_pair__ABBA_0.x2_Vtest res_packs__interleaved_0.x2_Vcm pmos_current_mirror_2__row_0.x2_net1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X148 Vdd XC2__A_0.Vom1 Vop Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X149 Vss nmos_current_mirror_4__A_0.net4 nmos_matched_cascode_pair__ABBA_0.x1_net3 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X150 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X151 Vom XC1__A_0.Vop1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X152 res_packs__interleaved_0.x2_x1_net12 res_packs__interleaved_0.x2_x1_net13 sky130_fd_pr__res_generic_po w=0.5 l=40
+X153 nmos_matched_cascode_pair__ABBA_0.x1_net5 nmos_diode_2__A_0.net5 XC1__A_0.Vop1 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X154 res_packs__interleaved_0.x2_x2_net1 res_packs__interleaved_0.x2_x2_net11 sky130_fd_pr__res_generic_po w=0.5 l=40
+X155 nmos_differential_pair__ABAB_0.x1_Vtest2 pmos_current_mirror_load__ABAB_0.x1_Vout Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
+X156 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X157 Vop XC2__A_0.Vom1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X158 Vss Vss sky130_fd_pr__res_generic_po w=0.5 l=40
+X159 nmos_differential_pair__ABAB_0.x1_net1 pmos_diode_2__A_0.x1_Vbias XC2__A_0.Vom1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
+X160 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=20
+X161 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=1.16 pd=8.58 as=0 ps=0 w=4 l=4
+X162 nmos_differential_pair__ABAB_0.x1_Vtest2 pmos_diode_2__A_0.x1_Vbias XC1__A_0.Vop1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
+X163 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=20
+X164 Vop XC2__A_0.Vom1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X165 Vdd nmos_single__A_0.net2 nmos_single__A_0.net2 Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X166 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 nmos_diode_2__A_0.net5 XC2__A_0.Vom1 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X167 res_packs__interleaved_0.x2_x2_net8 res_packs__interleaved_0.x2_x2_net9 sky130_fd_pr__res_generic_po w=0.5 l=40
+X168 Vdd nmos_single__A_0.net2 nmos_single__A_0.net2 Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X169 res_packs__interleaved_0.x2_x1_net6 res_packs__interleaved_0.x2_x1_net5 sky130_fd_pr__res_generic_po w=0.5 l=40
+X170 Vdd pmos_current_mirror_load__ABAB_0.x1_Vout nmos_differential_pair__ABAB_0.x1_net1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
+X171 Vdd XC2__A_0.Vom1 Vop Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X172 XC1__A_0.Vop1 Vom sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X173 Vdd pmos_current_mirror_load__ABAB_0.x1_net9 pmos_current_mirror_load__ABAB_0.x1_Vout Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X174 Vdd pmos_current_mirror_load__ABAB_0.x1_Vout nmos_differential_pair__ABAB_0.x1_net1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
+X175 Vss nmos_current_mirror_4__A_0.net4 nmos_current_mirror_4__A_0.net4 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=2
+X176 Vdd XC2__A_0.Vom1 Vop Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X177 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0 ps=0 w=1 l=5
+X178 Vdd XC1__A_0.Vop1 Vom Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X179 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=20
+X180 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X181 nmos_differential_pair__ABAB_0.x1_net2 nmos_diode_2__A_0.net5 nmos_matched_cascode_pair__ABBA_0.x1_net3 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X182 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=1.16 pd=8.58 as=0 ps=0 w=4 l=4
+X183 pmos_current_mirror_2__row_0.x2_net1 VREF pmos_differential_pair__ABBA_0.x2_Vout Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X184 res_packs__interleaved_0.x2_x1_net16 res_packs__interleaved_0.x2_x1_net17 sky130_fd_pr__res_generic_po w=0.5 l=40
+X185 Vdd XC1__A_0.Vop1 Vom Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X186 Vss pmos_differential_pair__ABBA_0.x2_Vout Vop Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X187 nmos_matched_cascode_pair__ABBA_0.x1_net3 nmos_diode_2__A_0.net5 nmos_differential_pair__ABAB_0.x1_net2 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X188 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X189 res_packs__interleaved_0.x2_x2_net18 res_packs__interleaved_0.x2_x2_net17 sky130_fd_pr__res_generic_po w=0.5 l=40
+X190 Vdd XC2__A_0.Vom1 Vop Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X191 XC1__A_0.Vop1 pmos_diode_2__A_0.x1_Vbias nmos_differential_pair__ABAB_0.x1_Vtest2 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
+X192 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X193 res_packs__interleaved_0.x2_x2_net3 res_packs__interleaved_0.x2_x2_net19 sky130_fd_pr__res_generic_po w=0.5 l=40
+X194 nmos_single_2__A_0.NBias pmos_diode__A_0.net3 nmos_single_2__A_0.PBias Vss sky130_fd_pr__nfet_01v8_lvt ad=0.58 pd=4.58 as=0.58 ps=4.58 w=2 l=1
+X195 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X196 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X197 Vdd nmos_single_2__A_0.PBias nmos_diode_2__A_0.net5 Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X198 Vdd nmos_single_2__A_0.PBias nmos_current_mirror_3__ABAB_0.net7 Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X199 Vom XC1__A_0.Vop1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X200 Vdd nmos_single_2__A_0.PBias nmos_diode_2__A_0.net5 Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X201 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X202 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 XC2__A_0.Vom1 pmos_current_mirror_load__ABAB_0.x1_net9 Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=20
+X203 res_packs__interleaved_0.x2_x1_net3 res_packs__interleaved_0.x2_x1_net15 sky130_fd_pr__res_generic_po w=0.5 l=40
+X204 res_packs__interleaved_0.x2_x1_net10 res_packs__interleaved_0.x2_x1_net9 sky130_fd_pr__res_generic_po w=0.5 l=40
+X205 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X206 Vss nmos_current_mirror_2__ABBA_0.net6 nmos_current_mirror_2__ABBA_0.net6 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X207 Vop XC2__A_0.Vom1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X208 nmos_diode__A_0.net1 nmos_single_2__A_0.PBias Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X209 Vdd pmos_diode__A_0.net3 pmos_diode__A_0.net3 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=20
+X210 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 XC1__A_0.Vop1 pmos_current_mirror_load__ABAB_0.x1_net9 Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=20
+X211 XC2__A_0.Vom1 Vop sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X212 Vdd nmos_single_2__A_0.PBias nmos_single_2__A_0.NBias Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X213 Vss nmos_current_mirror_2__ABBA_0.net6 pmos_diode_2__A_0.x1_Vbias Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X214 nmos_differential_pair__ABAB_0.x1_net2 Vm nmos_differential_pair__ABAB_0.x1_Vtest2 Vss sky130_fd_pr__nfet_01v8_lvt ad=1.16 pd=8.58 as=1.16 ps=8.58 w=4 l=4
+X215 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 VREF pmos_current_mirror_load__ABAB_0.x1_Vout Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=20
+X216 res_packs__interleaved_0.x2_x2_net4 res_packs__interleaved_0.x2_x2_net5 sky130_fd_pr__res_generic_po w=0.5 l=40
+X217 Vdd nmos_single_2__A_0.PBias nmos_current_mirror_2__ABBA_0.net6 Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X218 Vdd nmos_single_2__A_0.PBias nmos_current_mirror_4__A_0.net4 Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=1
+X219 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X220 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 VREF pmos_current_mirror_load__ABAB_0.x1_Vout Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=20
+X221 Vss pmos_differential_pair__ABBA_0.x2_Vout Vom Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X222 res_packs__interleaved_0.x2_x2_net12 res_packs__interleaved_0.x2_x2_net13 sky130_fd_pr__res_generic_po w=0.5 l=40
+X223 res_packs__interleaved_0.x2_x2_net1 res_packs__interleaved_0.x2_x2_net7 sky130_fd_pr__res_generic_po w=0.5 l=40
+X224 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 nmos_current_mirror_4__A_0.net4 Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X225 Vss pmos_differential_pair__ABBA_0.x2_Vout Vom Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X226 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=2
+X227 XC1__A_0.Vop1 nmos_diode_2__A_0.net5 nmos_matched_cascode_pair__ABBA_0.x1_net5 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=1
+X228 XC1__A_0.Vop1 Vom sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X229 Vdd XC1__A_0.Vop1 Vom Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X230 Vdd pmos_diode_2__A_0.x1_Vbias pmos_diode_2__A_0.x1_Vbias Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.435 pd=3.58 as=0.435 ps=3.58 w=1.5 l=10
+X231 nmos_differential_pair__ABAB_0.x1_net2 Vp nmos_differential_pair__ABAB_0.x1_net1 Vss sky130_fd_pr__nfet_01v8_lvt ad=1.16 pd=8.58 as=1.16 ps=8.58 w=4 l=4
+X232 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 VREF pmos_current_mirror_load__ABAB_0.x1_Vout Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=1.45 ps=10.58 w=5 l=20
+X233 pmos_current_mirror_2__row_0.x2_net1 res_packs__interleaved_0.x2_Vcm pmos_differential_pair__ABBA_0.x2_Vtest Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X234 res_packs__interleaved_0.x2_x1_net4 res_packs__interleaved_0.x2_x1_net5 sky130_fd_pr__res_generic_po w=0.5 l=40
+X235 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=20
+X236 Vss pmos_differential_pair__ABBA_0.x2_Vtest pmos_differential_pair__ABBA_0.x2_Vtest Vss sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0.145 ps=1.58 w=0.5 l=20
+X237 Vdd pmos_current_mirror_2__row_0.x2_Vbiasp pmos_current_mirror_2__row_0.x2_Vbiasp Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.74 pd=12.58 as=1.74 ps=12.58 w=6 l=1
+X238 XC2__A_0.Vom1 pmos_diode_2__A_0.x1_Vbias nmos_differential_pair__ABAB_0.x1_net1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
+X239 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0 ps=0 w=1 l=5
+X240 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+X241 nmos_matched_cascode_pair__ABBA_0.x1_net3 nmos_current_mirror_4__A_0.net4 Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X242 Vss nmos_current_mirror_4__A_0.net4 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=20
+X243 Vdd XC2__A_0.Vom1 Vop Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X244 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.145 pd=1.58 as=0 ps=0 w=0.5 l=20
+X245 nmos_differential_pair__ABAB_0.x1_Vtest2 pmos_diode_2__A_0.x1_Vbias XC1__A_0.Vop1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=5
+X246 pmos_diode_2__A_0.x1_Vbias nmos_current_mirror_2__ABBA_0.net6 Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0.174 ps=1.78 w=0.6 l=1
+X247 Vom XC1__A_0.Vop1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X248 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=5
+X249 XC2__A_0.Vom1 Vop sky130_fd_pr__cap_mim_m3_1 l=10 w=10
+X250 res_packs__interleaved_0.x2_x1_net18 res_packs__interleaved_0.x2_x1_net17 sky130_fd_pr__res_generic_po w=0.5 l=40
+X251 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=1
+X252 Vdd pmos_diode_2__A_0.x1_Vbias pmos_diode_2__A_0.x1_Vbias Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.435 pd=3.58 as=0.435 ps=3.58 w=1.5 l=10
+X253 Vop XC2__A_0.Vom1 Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=1
+X254 res_packs__interleaved_0.x2_x2_net18 res_packs__interleaved_0.x2_x2_net19 sky130_fd_pr__res_generic_po w=0.5 l=40
+X255 res_packs__interleaved_0.x2_x1_net12 res_packs__interleaved_0.x2_x1_net2 sky130_fd_pr__res_generic_po w=0.5 l=40
+X256 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0 ps=0 w=1 l=10
+X257 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=20
+X258 pmos_differential_pair__ABBA_0.x2_Vout VREF pmos_current_mirror_2__row_0.x2_net1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=10
+X259 Vdd pmos_current_mirror_2__row_0.x2_Vbiasp pmos_current_mirror_2__row_0.x2_net1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.29 ps=2.58 w=1 l=5
+X260 XC2__A_0.Vom1 pmos_diode_2__A_0.x1_Vbias nmos_differential_pair__ABAB_0.x1_net1 Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.145 pd=1.29 as=0.29 ps=2.58 w=1 l=5
+X261 Vdd XC2__A_0.Vom1 Vop Vdd sky130_fd_pr__pfet_01v8_lvt ad=0.29 pd=2.58 as=0.145 ps=1.29 w=1 l=1
+X262 res_packs__interleaved_0.x2_x1_net14 res_packs__interleaved_0.x2_x1_net15 sky130_fd_pr__res_generic_po w=0.5 l=40
+X263 res_packs__interleaved_0.x2_x2_net10 res_packs__interleaved_0.x2_x2_net9 sky130_fd_pr__res_generic_po w=0.5 l=40
+X264 Vdd Vdd Vdd Vdd sky130_fd_pr__pfet_01v8_lvt ad=1.45 pd=10.58 as=0 ps=0 w=5 l=1
+X265 RGM nmos_diode__A_0.net1 nmos_diode__A_0.net1 Vss sky130_fd_pr__nfet_01v8_lvt ad=2.9 pd=20.58 as=2.9 ps=20.58 w=10 l=1
+X266 Vss Vss Vss Vss sky130_fd_pr__nfet_01v8_lvt ad=0.174 pd=1.78 as=0 ps=0 w=0.6 l=1
+C0 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x2_net4 0
+C1 nmos_matched_cascode_pair__ABBA_0.x1_net5 nmos_diode_2__A_0.net5 0.27801f
+C2 Vm nmos_differential_pair__ABAB_0.x1_net2 0.8788f
+C3 RGM Vom 0
+C4 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 0.06497f
+C5 res_packs__interleaved_0.x2_Vcm res_packs__interleaved_0.x2_x1_net17 0.00196f
+C6 pmos_differential_pair__ABBA_0.x2_Vout XC1__A_0.Vop1 0.57919f
+C7 nmos_matched_cascode_pair__ABBA_0.x1_net5 nmos_current_mirror_2__ABBA_0.net6 0.00124f
+C8 res_packs__interleaved_0.x2_x2_net11 res_packs__interleaved_0.x2_x2_net7 0.16037f
+C9 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 XC2__A_0.Vom1 1.35162f
+C10 res_packs__interleaved_0.x2_x1_net4 res_packs__interleaved_0.x2_x2_net4 0.51069f
+C11 pmos_current_mirror_load__ABAB_0.x1_net9 XC2__A_0.Vom1 2.29342f
+C12 nmos_diode_2__A_0.net5 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 0.16691f
+C13 pmos_current_mirror_2__row_0.x2_Vbiasp VREF 0
+C14 nmos_diode_2__A_0.net5 Vdd 2.8635f
+C15 Vop Vdd 5.82586f
+C16 nmos_matched_cascode_pair__ABBA_0.x1_net5 nmos_matched_cascode_pair__ABBA_0.x1_net3 0.23673f
+C17 res_packs__interleaved_0.x2_x1_net19 res_packs__interleaved_0.x2_Vcm 0.00135f
+C18 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x2_net6 0
+C19 nmos_current_mirror_2__ABBA_0.net6 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 0.65346f
+C20 nmos_current_mirror_4__A_0.net4 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 0.55398f
+C21 nmos_current_mirror_2__ABBA_0.net6 Vdd 4.29278f
+C22 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x1_net14 0.00137f
+C23 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 pmos_current_mirror_load__ABAB_0.x1_Vout 0.04859f
+C24 res_packs__interleaved_0.x2_x1_net7 res_packs__interleaved_0.x2_Vcm 0.00135f
+C25 res_packs__interleaved_0.x2_x1_net18 res_packs__interleaved_0.x2_x2_net18 0.51069f
+C26 nmos_matched_cascode_pair__ABBA_0.x1_net5 nmos_differential_pair__ABAB_0.x1_Vtest2 0.00133f
+C27 nmos_matched_cascode_pair__ABBA_0.x1_net3 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 0
+C28 Vm nmos_differential_pair__ABAB_0.x1_net1 0.0798f
+C29 Vop res_packs__interleaved_0.x2_x2_net9 0.0031f
+C30 nmos_matched_cascode_pair__ABBA_0.x1_net3 Vdd 0.08487f
+C31 XC1__A_0.Vop1 Vom 53.8789f
+C32 Vop nmos_diode_2__A_0.net5 0.04608f
+C33 res_packs__interleaved_0.x2_x2_net3 res_packs__interleaved_0.x2_x1_net3 0.41702f
+C34 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_Vcm 0.05741f
+C35 res_packs__interleaved_0.x2_x1_net11 res_packs__interleaved_0.x2_x2_net11 0.51022f
+C36 XC1__A_0.Vop1 nmos_matched_cascode_pair__ABBA_0.x1_net5 1.44103f
+C37 pmos_differential_pair__ABBA_0.x2_Vout nmos_current_mirror_4__A_0.net4 0.18247f
+C38 nmos_differential_pair__ABAB_0.x1_Vtest2 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 0.15193f
+C39 nmos_diode__A_0.net1 nmos_single__A_0.net2 1.36636f
+C40 XC2__A_0.Vom1 VREF 6.54755f
+C41 res_packs__interleaved_0.x2_x1_net13 res_packs__interleaved_0.x2_Vcm 0.00135f
+C42 nmos_diode_2__A_0.net5 nmos_current_mirror_2__ABBA_0.net6 0.15319f
+C43 Vop RGM 0.06928f
+C44 nmos_differential_pair__ABAB_0.x1_Vtest2 Vdd 17.594f
+C45 XC2__A_0.Vom1 nmos_single__A_0.net2 0.16959f
+C46 res_packs__interleaved_0.x2_x2_net12 res_packs__interleaved_0.x2_x1_net14 0.00925f
+C47 pmos_current_mirror_2__row_0.x2_Vbiasp res_packs__interleaved_0.x2_Vcm 0.72475f
+C48 res_packs__interleaved_0.x2_x1_net4 res_packs__interleaved_0.x2_Vcm 0.06766f
+C49 pmos_differential_pair__ABBA_0.x2_Vtest VREF 0.06524f
+C50 nmos_diode_2__A_0.net5 nmos_matched_cascode_pair__ABBA_0.x1_net3 0.31391f
+C51 XC1__A_0.Vop1 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 1.605f
+C52 Vp XC2__A_0.Vom1 0.00332f
+C53 nmos_matched_cascode_pair__ABBA_0.x1_net5 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 0
+C54 XC1__A_0.Vop1 Vdd 23.6132f
+C55 res_packs__interleaved_0.x2_x2_net1 res_packs__interleaved_0.x2_x1_net6 0.02074f
+C56 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x1_net6 0
+C57 pmos_differential_pair__ABBA_0.x2_Vout pmos_current_mirror_2__row_0.x2_net1 3.43187f
+C58 nmos_matched_cascode_pair__ABBA_0.x1_net3 nmos_current_mirror_2__ABBA_0.net6 0.00112f
+C59 res_packs__interleaved_0.x2_x1_net1 res_packs__interleaved_0.x2_x2_net6 0.00925f
+C60 nmos_differential_pair__ABAB_0.x1_Vtest2 nmos_diode_2__A_0.net5 0.07233f
+C61 XC2__A_0.Vom1 nmos_differential_pair__ABAB_0.x1_net2 0.37178f
+C62 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 5.70829f
+C63 res_packs__interleaved_0.x2_x1_net7 res_packs__interleaved_0.x2_x2_net7 0.41644f
+C64 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 Vdd 0.18271f
+C65 nmos_single_2__A_0.PBias nmos_single__A_0.net2 1.92677f
+C66 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x2_net18 0
+C67 nmos_differential_pair__ABAB_0.x1_Vtest2 nmos_current_mirror_2__ABBA_0.net6 0.1364f
+C68 res_packs__interleaved_0.x2_x1_net4 res_packs__interleaved_0.x2_x1_net6 0.16069f
+C69 nmos_current_mirror_4__A_0.net4 nmos_matched_cascode_pair__ABBA_0.x1_net5 0.40646f
+C70 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x1_net18 0
+C71 Vom res_packs__interleaved_0.x2_x2_net11 0
+C72 res_packs__interleaved_0.x2_x1_net9 res_packs__interleaved_0.x2_x2_net11 0.00925f
+C73 XC1__A_0.Vop1 nmos_diode_2__A_0.net5 0.80023f
+C74 Vop XC1__A_0.Vop1 0.01336f
+C75 nmos_matched_cascode_pair__ABBA_0.x1_net5 pmos_current_mirror_load__ABAB_0.x1_Vout 0.04304f
+C76 nmos_diode__A_0.net1 res_packs__interleaved_0.x2_Vcm 0
+C77 XC2__A_0.Vom1 res_packs__interleaved_0.x2_Vcm 0.07994f
+C78 res_packs__interleaved_0.x2_x1_net2 res_packs__interleaved_0.x2_x2_net13 0.02074f
+C79 nmos_single_2__A_0.NBias nmos_single__A_0.net2 0.54657f
+C80 nmos_differential_pair__ABAB_0.x1_Vtest2 nmos_matched_cascode_pair__ABBA_0.x1_net3 0.00133f
+C81 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x1_net12 0.00118f
+C82 RGM XC1__A_0.Vop1 0
+C83 XC1__A_0.Vop1 nmos_current_mirror_2__ABBA_0.net6 0.58677f
+C84 nmos_current_mirror_4__A_0.net4 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 0.65695f
+C85 pmos_differential_pair__ABBA_0.x2_Vtest res_packs__interleaved_0.x2_Vcm 0.32757f
+C86 pmos_current_mirror_2__row_0.x2_net1 Vom 0.08153f
+C87 pmos_current_mirror_load__ABAB_0.x1_Vout mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 6.03388f
+C88 nmos_current_mirror_4__A_0.net4 Vdd 4.35685f
+C89 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 nmos_diode_2__A_0.net5 0.22818f
+C90 pmos_current_mirror_load__ABAB_0.x1_net9 pmos_diode_2__A_0.x1_Vbias 0.0056f
+C91 Vdd pmos_current_mirror_load__ABAB_0.x1_Vout 52.3808f
+C92 res_packs__interleaved_0.x2_x1_net3 res_packs__interleaved_0.x2_x1_net14 0.16069f
+C93 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x2_net8 0.00106f
+C94 XC1__A_0.Vop1 nmos_matched_cascode_pair__ABBA_0.x1_net3 1.10759f
+C95 res_packs__interleaved_0.x2_x2_net3 res_packs__interleaved_0.x2_x1_net14 0.00925f
+C96 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 nmos_current_mirror_2__ABBA_0.net6 0.16322f
+C97 nmos_differential_pair__ABAB_0.x1_net1 XC2__A_0.Vom1 1.48623f
+C98 res_packs__interleaved_0.x2_x1_net15 Vom 0.00112f
+C99 res_packs__interleaved_0.x2_x2_net12 res_packs__interleaved_0.x2_x1_net12 0.41702f
+C100 nmos_single_2__A_0.PBias res_packs__interleaved_0.x2_Vcm 0
+C101 res_packs__interleaved_0.x2_x1_net18 res_packs__interleaved_0.x2_x1_net16 0.16069f
+C102 XC1__A_0.Vop1 nmos_differential_pair__ABAB_0.x1_Vtest2 1.47137f
+C103 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 nmos_matched_cascode_pair__ABBA_0.x1_net3 0
+C104 pmos_current_mirror_2__row_0.x2_net1 Vdd 3.96669f
+C105 nmos_current_mirror_4__A_0.net4 nmos_diode_2__A_0.net5 4.48361f
+C106 res_packs__interleaved_0.x2_x1_net17 res_packs__interleaved_0.x2_x2_net17 0.51022f
+C107 pmos_current_mirror_load__ABAB_0.x1_net9 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 0.08251f
+C108 res_packs__interleaved_0.x2_x2_net2 res_packs__interleaved_0.x2_x1_net13 0.00925f
+C109 nmos_diode_2__A_0.net5 pmos_current_mirror_load__ABAB_0.x1_Vout 0.1465f
+C110 Vom res_packs__interleaved_0.x2_x1_net17 0.01232f
+C111 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x2_net1 0
+C112 res_packs__interleaved_0.x2_x2_net9 res_packs__interleaved_0.x2_x2_net11 0.16037f
+C113 nmos_single_2__A_0.NBias res_packs__interleaved_0.x2_Vcm 0
+C114 nmos_current_mirror_4__A_0.net4 nmos_current_mirror_2__ABBA_0.net6 0.27745f
+C115 Vop res_packs__interleaved_0.x2_x2_net11 0.00207f
+C116 pmos_differential_pair__ABBA_0.x2_Vout nmos_current_mirror_3__ABAB_0.net7 2.32972f
+C117 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 nmos_differential_pair__ABAB_0.x1_Vtest2 0.06491f
+C118 res_packs__interleaved_0.x2_x2_net5 res_packs__interleaved_0.x2_x1_net7 0.00925f
+C119 nmos_current_mirror_2__ABBA_0.net6 pmos_current_mirror_load__ABAB_0.x1_Vout 0.23861f
+C120 res_packs__interleaved_0.x2_x2_net15 res_packs__interleaved_0.x2_x2_net13 0.16037f
+C121 res_packs__interleaved_0.x2_x1_net19 res_packs__interleaved_0.x2_x2_net17 0.00925f
+C122 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x2_net10 0
+C123 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x2_net14 0.00166f
+C124 Vom res_packs__interleaved_0.x2_x1_net19 0
+C125 nmos_current_mirror_4__A_0.net4 nmos_matched_cascode_pair__ABBA_0.x1_net3 0.54882f
+C126 Vom pmos_diode__A_0.net3 0.33931f
+C127 pmos_current_mirror_2__row_0.x2_net1 nmos_diode_2__A_0.net5 0.72591f
+C128 pmos_current_mirror_2__row_0.x2_net1 Vop 0.00514f
+C129 pmos_differential_pair__ABBA_0.x2_Vout pmos_current_mirror_2__row_0.x2_Vbiasp 0.00543f
+C130 nmos_matched_cascode_pair__ABBA_0.x1_net3 pmos_current_mirror_load__ABAB_0.x1_Vout 0.04304f
+C131 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x1_net4 0
+C132 XC1__A_0.Vop1 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 0.15429f
+C133 res_packs__interleaved_0.x2_x1_net7 Vom 0
+C134 pmos_current_mirror_2__row_0.x2_net1 nmos_current_mirror_2__ABBA_0.net6 0.08959f
+C135 nmos_current_mirror_4__A_0.net4 nmos_differential_pair__ABAB_0.x1_Vtest2 0.07393f
+C136 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x2_net12 0
+C137 XC2__A_0.Vom1 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 1.21423f
+C138 Vop res_packs__interleaved_0.x2_x1_net15 0.0031f
+C139 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 VREF 0
+C140 nmos_differential_pair__ABAB_0.x1_Vtest2 pmos_current_mirror_load__ABAB_0.x1_Vout 3.63809f
+C141 res_packs__interleaved_0.x2_x1_net18 res_packs__interleaved_0.x2_x1_net3 0.16069f
+C142 pmos_current_mirror_load__ABAB_0.x1_net9 VREF 1.31789f
+C143 nmos_current_mirror_3__ABAB_0.net7 Vom 0.07745f
+C144 res_packs__interleaved_0.x2_x2_net3 res_packs__interleaved_0.x2_x1_net18 0.00925f
+C145 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x1_net16 0.00239f
+C146 Vdd pmos_diode__A_0.net3 16.1624f
+C147 Vom res_packs__interleaved_0.x2_x1_net13 0
+C148 nmos_current_mirror_4__A_0.net4 XC1__A_0.Vop1 0.20881f
+C149 res_packs__interleaved_0.x2_x1_net8 res_packs__interleaved_0.x2_x1_net10 0.16069f
+C150 XC1__A_0.Vop1 pmos_current_mirror_load__ABAB_0.x1_Vout 0.33414f
+C151 pmos_current_mirror_load__ABAB_0.x1_net9 Vp 0
+C152 res_packs__interleaved_0.x2_x1_net2 res_packs__interleaved_0.x2_Vcm 0.00171f
+C153 pmos_current_mirror_2__row_0.x2_Vbiasp Vom 0.29122f
+C154 Vop res_packs__interleaved_0.x2_x1_net17 0.0031f
+C155 res_packs__interleaved_0.x2_x2_net1 res_packs__interleaved_0.x2_x1_net1 0.51069f
+C156 res_packs__interleaved_0.x2_x1_net4 Vom 0.00104f
+C157 pmos_differential_pair__ABBA_0.x2_Vout XC2__A_0.Vom1 0.20672f
+C158 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x1_net1 0
+C159 res_packs__interleaved_0.x2_x2_net19 res_packs__interleaved_0.x2_x2_net15 0.16037f
+C160 nmos_current_mirror_4__A_0.net4 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 0.74723f
+C161 res_packs__interleaved_0.x2_x1_net16 res_packs__interleaved_0.x2_x2_net16 0.41702f
+C162 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 nmos_differential_pair__ABAB_0.x1_net2 1.11859f
+C163 nmos_current_mirror_3__ABAB_0.net7 Vdd 2.0869f
+C164 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 pmos_current_mirror_load__ABAB_0.x1_Vout 7.59614f
+C165 pmos_current_mirror_load__ABAB_0.x1_net9 nmos_differential_pair__ABAB_0.x1_net2 0.13367f
+C166 pmos_differential_pair__ABBA_0.x2_Vout pmos_differential_pair__ABBA_0.x2_Vtest 6.56907f
+C167 Vop res_packs__interleaved_0.x2_x1_net19 0.00207f
+C168 nmos_diode_2__A_0.net5 pmos_diode__A_0.net3 0
+C169 Vop pmos_diode__A_0.net3 0.10325f
+C170 pmos_current_mirror_2__row_0.x2_net1 XC1__A_0.Vop1 0
+C171 res_packs__interleaved_0.x2_Vcm res_packs__interleaved_0.x2_x2_net13 0.00171f
+C172 pmos_diode_2__A_0.x1_Vbias nmos_differential_pair__ABAB_0.x1_net1 4.96191f
+C173 Vop res_packs__interleaved_0.x2_x1_net7 0.00207f
+C174 RGM pmos_diode__A_0.net3 0.00126f
+C175 nmos_current_mirror_2__ABBA_0.net6 pmos_diode__A_0.net3 0
+C176 pmos_current_mirror_2__row_0.x2_Vbiasp Vdd 12.923f
+C177 res_packs__interleaved_0.x2_x1_net5 res_packs__interleaved_0.x2_Vcm 0.01316f
+C178 nmos_diode__A_0.net1 Vom 0.51523f
+C179 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x1_net3 0
+C180 Vp VREF 0
+C181 nmos_current_mirror_3__ABAB_0.net7 nmos_diode_2__A_0.net5 0.09539f
+C182 Vom XC2__A_0.Vom1 0.73641f
+C183 nmos_current_mirror_4__A_0.net4 pmos_current_mirror_load__ABAB_0.x1_Vout 2.23048f
+C184 Vop nmos_current_mirror_3__ABAB_0.net7 0.06155f
+C185 res_packs__interleaved_0.x2_x2_net3 nmos_current_mirror_3__ABAB_0.net7 0
+C186 Vm nmos_differential_pair__ABAB_0.x1_Vtest2 0.85164f
+C187 Vop res_packs__interleaved_0.x2_x1_net13 0.00207f
+C188 nmos_matched_cascode_pair__ABBA_0.x1_net5 XC2__A_0.Vom1 0.08237f
+C189 res_packs__interleaved_0.x2_x2_net14 res_packs__interleaved_0.x2_x1_net3 0.02074f
+C190 Vom pmos_differential_pair__ABBA_0.x2_Vtest 0.29625f
+C191 nmos_current_mirror_3__ABAB_0.net7 nmos_current_mirror_2__ABBA_0.net6 0.99162f
+C192 res_packs__interleaved_0.x2_x2_net15 res_packs__interleaved_0.x2_Vcm 0.00135f
+C193 pmos_current_mirror_2__row_0.x2_Vbiasp nmos_diode_2__A_0.net5 0.33017f
+C194 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 nmos_differential_pair__ABAB_0.x1_net1 0.00736f
+C195 Vop pmos_current_mirror_2__row_0.x2_Vbiasp 0.85958f
+C196 nmos_differential_pair__ABAB_0.x1_net2 VREF 2.35084f
+C197 res_packs__interleaved_0.x2_x1_net4 Vop 0.00348f
+C198 pmos_current_mirror_load__ABAB_0.x1_net9 nmos_differential_pair__ABAB_0.x1_net1 0.13257f
+C199 pmos_current_mirror_2__row_0.x2_net1 nmos_current_mirror_4__A_0.net4 0.08493f
+C200 XC1__A_0.Vop1 Vm 0.08016f
+C201 XC2__A_0.Vom1 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 0.15473f
+C202 nmos_diode__A_0.net1 Vdd 2.11861f
+C203 XC2__A_0.Vom1 Vdd 20.5828f
+C204 res_packs__interleaved_0.x2_x1_net12 res_packs__interleaved_0.x2_x1_net14 0.16069f
+C205 Vp nmos_differential_pair__ABAB_0.x1_net2 0.89077f
+C206 XC1__A_0.Vop1 pmos_diode__A_0.net3 1.09258f
+C207 res_packs__interleaved_0.x2_x2_net4 res_packs__interleaved_0.x2_Vcm 0.00365f
+C208 res_packs__interleaved_0.x2_Vcm VREF 3.28052f
+C209 nmos_single_2__A_0.PBias Vom 0.71395f
+C210 res_packs__interleaved_0.x2_x2_net19 res_packs__interleaved_0.x2_Vcm 0.00171f
+C211 Vdd pmos_differential_pair__ABBA_0.x2_Vtest 5.20627f
+C212 Vm mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 0
+C213 res_packs__interleaved_0.x2_x1_net5 res_packs__interleaved_0.x2_x2_net7 0.02074f
+C214 res_packs__interleaved_0.x2_x1_net2 res_packs__interleaved_0.x2_x2_net2 0.51022f
+C215 nmos_single_2__A_0.NBias Vom 0.44573f
+C216 Vop nmos_diode__A_0.net1 0.8183f
+C217 XC2__A_0.Vom1 nmos_diode_2__A_0.net5 0.76885f
+C218 Vop XC2__A_0.Vom1 52.3133f
+C219 nmos_current_mirror_3__ABAB_0.net7 XC1__A_0.Vop1 0
+C220 nmos_differential_pair__ABAB_0.x1_net1 VREF 0.30656f
+C221 res_packs__interleaved_0.x2_x1_net6 res_packs__interleaved_0.x2_x2_net4 0.02074f
+C222 nmos_single_2__A_0.PBias Vdd 17.5987f
+C223 RGM nmos_diode__A_0.net1 2.80136f
+C224 nmos_diode_2__A_0.net5 pmos_differential_pair__ABBA_0.x2_Vtest 0.16586f
+C225 XC2__A_0.Vom1 nmos_current_mirror_2__ABBA_0.net6 0.76635f
+C226 Vop pmos_differential_pair__ABBA_0.x2_Vtest 0
+C227 Vm pmos_current_mirror_load__ABAB_0.x1_Vout 0
+C228 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x2_net6 0
+C229 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 1.4073f
+C230 nmos_differential_pair__ABAB_0.x1_net1 Vp 0.88116f
+C231 pmos_current_mirror_load__ABAB_0.x1_net9 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 0.09339f
+C232 res_packs__interleaved_0.x2_x2_net2 res_packs__interleaved_0.x2_x2_net13 0.16037f
+C233 nmos_current_mirror_4__A_0.net4 pmos_diode__A_0.net3 0
+C234 nmos_current_mirror_2__ABBA_0.net6 pmos_differential_pair__ABBA_0.x2_Vtest 0.28458f
+C235 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x1_net14 0
+C236 nmos_single_2__A_0.NBias Vdd 3.54457f
+C237 XC2__A_0.Vom1 nmos_matched_cascode_pair__ABBA_0.x1_net3 0.09402f
+C238 res_packs__interleaved_0.x2_x2_net14 res_packs__interleaved_0.x2_x1_net14 0.51069f
+C239 res_packs__interleaved_0.x2_x1_net4 res_packs__interleaved_0.x2_x2_net6 0.00925f
+C240 pmos_current_mirror_2__row_0.x2_Vbiasp mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 0
+C241 nmos_single_2__A_0.PBias nmos_diode_2__A_0.net5 0.58672f
+C242 nmos_differential_pair__ABAB_0.x1_net1 nmos_differential_pair__ABAB_0.x1_net2 2.26884f
+C243 Vop nmos_single_2__A_0.PBias 0.08427f
+C244 XC2__A_0.Vom1 nmos_differential_pair__ABAB_0.x1_Vtest2 0.20419f
+C245 res_packs__interleaved_0.x2_x1_net7 res_packs__interleaved_0.x2_x2_net11 0.00925f
+C246 nmos_current_mirror_4__A_0.net4 nmos_current_mirror_3__ABAB_0.net7 0.21608f
+C247 RGM nmos_single_2__A_0.PBias 0.00563f
+C248 nmos_single_2__A_0.PBias nmos_current_mirror_2__ABBA_0.net6 0.56574f
+C249 res_packs__interleaved_0.x2_x1_net2 Vom 0.00112f
+C250 nmos_single_2__A_0.NBias nmos_diode_2__A_0.net5 0
+C251 Vop nmos_single_2__A_0.NBias 0.08147f
+C252 XC1__A_0.Vop1 nmos_diode__A_0.net1 0.13322f
+C253 XC1__A_0.Vop1 XC2__A_0.Vom1 3.67417f
+C254 res_packs__interleaved_0.x2_x1_net5 res_packs__interleaved_0.x2_x2_net5 0.51022f
+C255 RGM nmos_single_2__A_0.NBias 0.00503f
+C256 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 VREF 0
+C257 nmos_single_2__A_0.NBias nmos_current_mirror_2__ABBA_0.net6 0
+C258 pmos_current_mirror_2__row_0.x2_Vbiasp pmos_current_mirror_load__ABAB_0.x1_Vout 0.21942f
+C259 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x1_net8 0.00156f
+C260 XC1__A_0.Vop1 pmos_differential_pair__ABBA_0.x2_Vtest 0.29857f
+C261 res_packs__interleaved_0.x2_x1_net12 res_packs__interleaved_0.x2_x2_net8 0.02074f
+C262 res_packs__interleaved_0.x2_x1_net8 res_packs__interleaved_0.x2_x2_net10 0.00925f
+C263 Vom res_packs__interleaved_0.x2_x2_net13 0.00112f
+C264 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 XC2__A_0.Vom1 1.7483f
+C265 res_packs__interleaved_0.x2_x1_net5 Vom 0.00123f
+C266 pmos_diode_2__A_0.x1_Vbias Vdd 30.7852f
+C267 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x1_net10 0
+C268 res_packs__interleaved_0.x2_Vcm res_packs__interleaved_0.x2_x2_net7 0.00171f
+C269 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x2_net4 0
+C270 pmos_current_mirror_2__row_0.x2_net1 pmos_current_mirror_2__row_0.x2_Vbiasp 1.77699f
+C271 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 nmos_matched_cascode_pair__ABBA_0.x1_net5 5.08787f
+C272 pmos_differential_pair__ABBA_0.x2_Vout VREF 0.29042f
+C273 pmos_current_mirror_load__ABAB_0.x1_net9 nmos_matched_cascode_pair__ABBA_0.x1_net5 0.08237f
+C274 res_packs__interleaved_0.x2_x1_net10 res_packs__interleaved_0.x2_x2_net10 0.41702f
+C275 XC1__A_0.Vop1 nmos_single_2__A_0.PBias 1.30259f
+C276 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x1_net18 0
+C277 nmos_differential_pair__ABAB_0.x1_net2 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 0.29803f
+C278 res_packs__interleaved_0.x2_x1_net8 res_packs__interleaved_0.x2_x2_net12 0.00925f
+C279 res_packs__interleaved_0.x2_x1_net2 res_packs__interleaved_0.x2_x2_net9 0.02074f
+C280 nmos_current_mirror_4__A_0.net4 XC2__A_0.Vom1 0.49319f
+C281 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x1_net12 0
+C282 Vop res_packs__interleaved_0.x2_x1_net2 0.0031f
+C283 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 0.07293f
+C284 Vom res_packs__interleaved_0.x2_x2_net15 0
+C285 XC2__A_0.Vom1 pmos_current_mirror_load__ABAB_0.x1_Vout 1.35223f
+C286 pmos_current_mirror_load__ABAB_0.x1_net9 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 6.33217f
+C287 XC1__A_0.Vop1 nmos_single_2__A_0.NBias 0.63772f
+C288 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 Vdd 0.08377f
+C289 res_packs__interleaved_0.x2_x2_net14 res_packs__interleaved_0.x2_x1_net12 0.02074f
+C290 pmos_current_mirror_load__ABAB_0.x1_net9 Vdd 28.914f
+C291 nmos_current_mirror_4__A_0.net4 pmos_differential_pair__ABBA_0.x2_Vtest 0.32337f
+C292 res_packs__interleaved_0.x2_x1_net18 res_packs__interleaved_0.x2_x2_net16 0.00925f
+C293 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x2_net8 0
+C294 pmos_diode_2__A_0.x1_Vbias nmos_current_mirror_2__ABBA_0.net6 1.01467f
+C295 res_packs__interleaved_0.x2_x2_net2 res_packs__interleaved_0.x2_Vcm 0.00135f
+C296 res_packs__interleaved_0.x2_x2_net19 res_packs__interleaved_0.x2_x2_net17 0.16037f
+C297 Vom res_packs__interleaved_0.x2_x2_net4 0
+C298 res_packs__interleaved_0.x2_x1_net11 res_packs__interleaved_0.x2_Vcm 0.00171f
+C299 Vom VREF 0
+C300 nmos_current_mirror_3__ABAB_0.net7 pmos_diode__A_0.net3 0
+C301 res_packs__interleaved_0.x2_x2_net19 Vom 0.00112f
+C302 Vom nmos_single__A_0.net2 1.41209f
+C303 pmos_current_mirror_2__row_0.x2_net1 XC2__A_0.Vom1 0.11128f
+C304 Vop res_packs__interleaved_0.x2_x2_net13 0.0031f
+C305 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 nmos_diode_2__A_0.net5 0.37175f
+C306 nmos_current_mirror_4__A_0.net4 nmos_single_2__A_0.PBias 0.56873f
+C307 Vop res_packs__interleaved_0.x2_x1_net5 0.00351f
+C308 nmos_differential_pair__ABAB_0.x1_net1 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 0.00736f
+C309 pmos_current_mirror_2__row_0.x2_net1 pmos_differential_pair__ABBA_0.x2_Vtest 3.28628f
+C310 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_Vcm 0.09011f
+C311 pmos_current_mirror_load__ABAB_0.x1_net9 nmos_diode_2__A_0.net5 0.18998f
+C312 res_packs__interleaved_0.x2_x1_net10 res_packs__interleaved_0.x2_x1_net1 0.16069f
+C313 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x2_net1 0
+C314 pmos_diode_2__A_0.x1_Vbias nmos_differential_pair__ABAB_0.x1_Vtest2 5.13285f
+C315 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 nmos_current_mirror_2__ABBA_0.net6 0.00134f
+C316 VREF mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 1.10627f
+C317 pmos_current_mirror_load__ABAB_0.x1_net9 nmos_current_mirror_2__ABBA_0.net6 0.22505f
+C318 nmos_current_mirror_4__A_0.net4 nmos_single_2__A_0.NBias 0
+C319 Vdd VREF 11.1132f
+C320 res_packs__interleaved_0.x2_x2_net5 res_packs__interleaved_0.x2_Vcm 0.16229f
+C321 nmos_single__A_0.net2 Vdd 8.01497f
+C322 res_packs__interleaved_0.x2_x2_net14 nmos_current_mirror_3__ABAB_0.net7 0
+C323 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 nmos_matched_cascode_pair__ABBA_0.x1_net3 4.99404f
+C324 Vop res_packs__interleaved_0.x2_x2_net15 0.00207f
+C325 pmos_current_mirror_load__ABAB_0.x1_net9 nmos_matched_cascode_pair__ABBA_0.x1_net3 0.08237f
+C326 XC1__A_0.Vop1 pmos_diode_2__A_0.x1_Vbias 2.71315f
+C327 nmos_matched_cascode_pair__ABBA_0.x1_net5 nmos_differential_pair__ABAB_0.x1_net2 0.18635f
+C328 pmos_current_mirror_2__row_0.x2_Vbiasp nmos_current_mirror_3__ABAB_0.net7 1.0297f
+C329 res_packs__interleaved_0.x2_x1_net4 nmos_current_mirror_3__ABAB_0.net7 0
+C330 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x1_net6 0.00237f
+C331 res_packs__interleaved_0.x2_Vcm res_packs__interleaved_0.x2_x2_net17 0.00199f
+C332 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x2_net16 0
+C333 Vom res_packs__interleaved_0.x2_Vcm 2.58098f
+C334 res_packs__interleaved_0.x2_x1_net9 res_packs__interleaved_0.x2_Vcm 0.00135f
+C335 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 nmos_differential_pair__ABAB_0.x1_Vtest2 0.00133f
+C336 res_packs__interleaved_0.x2_x1_net11 res_packs__interleaved_0.x2_x2_net7 0.02074f
+C337 pmos_current_mirror_load__ABAB_0.x1_net9 nmos_differential_pair__ABAB_0.x1_Vtest2 0.172f
+C338 Vop res_packs__interleaved_0.x2_x2_net4 0
+C339 nmos_diode__A_0.net1 pmos_diode__A_0.net3 0.31538f
+C340 nmos_differential_pair__ABAB_0.x1_net2 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 0.19085f
+C341 nmos_diode_2__A_0.net5 VREF 0.49768f
+C342 XC2__A_0.Vom1 pmos_diode__A_0.net3 0.08853f
+C343 Vop res_packs__interleaved_0.x2_x2_net19 0.0031f
+C344 Vop nmos_single__A_0.net2 0.97493f
+C345 nmos_differential_pair__ABAB_0.x1_net2 Vdd 0.09526f
+C346 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 XC1__A_0.Vop1 0.09536f
+C347 nmos_current_mirror_2__ABBA_0.net6 VREF 0.38581f
+C348 RGM nmos_single__A_0.net2 0
+C349 pmos_current_mirror_load__ABAB_0.x1_net9 XC1__A_0.Vop1 1.2625f
+C350 Vdd res_packs__interleaved_0.x2_Vcm 15.5266f
+C351 nmos_current_mirror_3__ABAB_0.net7 XC2__A_0.Vom1 0.09829f
+C352 nmos_current_mirror_4__A_0.net4 pmos_diode_2__A_0.x1_Vbias 0
+C353 nmos_matched_cascode_pair__ABBA_0.x1_net5 nmos_differential_pair__ABAB_0.x1_net1 0.00736f
+C354 res_packs__interleaved_0.x2_x2_net5 res_packs__interleaved_0.x2_x2_net7 0.16037f
+C355 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 0.06639f
+C356 nmos_differential_pair__ABAB_0.x1_net2 nmos_diode_2__A_0.net5 0.96252f
+C357 pmos_diode_2__A_0.x1_Vbias pmos_current_mirror_load__ABAB_0.x1_Vout 0.00521f
+C358 pmos_current_mirror_load__ABAB_0.x1_net9 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 6.12895f
+C359 nmos_current_mirror_3__ABAB_0.net7 pmos_differential_pair__ABBA_0.x2_Vtest 1.33264f
+C360 nmos_single_2__A_0.PBias pmos_diode__A_0.net3 3.69585f
+C361 pmos_current_mirror_2__row_0.x2_Vbiasp XC2__A_0.Vom1 0.03787f
+C362 nmos_differential_pair__ABAB_0.x1_Vtest2 VREF 0.11978f
+C363 res_packs__interleaved_0.x2_x2_net18 res_packs__interleaved_0.x2_x1_net16 0.02074f
+C364 nmos_differential_pair__ABAB_0.x1_net2 nmos_current_mirror_2__ABBA_0.net6 0.09495f
+C365 nmos_differential_pair__ABAB_0.x1_net1 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 0.107f
+C366 res_packs__interleaved_0.x2_x1_net6 res_packs__interleaved_0.x2_x1_net1 0.16069f
+C367 res_packs__interleaved_0.x2_x2_net9 res_packs__interleaved_0.x2_Vcm 0.00171f
+C368 nmos_differential_pair__ABAB_0.x1_net1 Vdd 11.9311f
+C369 Vom res_packs__interleaved_0.x2_x2_net7 0.00112f
+C370 nmos_diode_2__A_0.net5 res_packs__interleaved_0.x2_Vcm 0.11634f
+C371 Vop res_packs__interleaved_0.x2_Vcm 5.55812f
+C372 pmos_current_mirror_2__row_0.x2_Vbiasp pmos_differential_pair__ABBA_0.x2_Vtest 0
+C373 nmos_single_2__A_0.NBias pmos_diode__A_0.net3 5.44938f
+C374 Vp nmos_differential_pair__ABAB_0.x1_Vtest2 0.21479f
+C375 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 nmos_current_mirror_4__A_0.net4 0.52901f
+C376 nmos_differential_pair__ABAB_0.x1_net2 nmos_matched_cascode_pair__ABBA_0.x1_net3 1.25806f
+C377 XC1__A_0.Vop1 VREF 6.73632f
+C378 pmos_current_mirror_load__ABAB_0.x1_net9 nmos_current_mirror_4__A_0.net4 1.50558f
+C379 XC1__A_0.Vop1 nmos_single__A_0.net2 0.03829f
+C380 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 pmos_current_mirror_load__ABAB_0.x1_Vout 0.04318f
+C381 nmos_current_mirror_3__ABAB_0.net7 nmos_single_2__A_0.PBias 0.56349f
+C382 nmos_current_mirror_2__ABBA_0.net6 res_packs__interleaved_0.x2_Vcm 0.07994f
+C383 pmos_current_mirror_load__ABAB_0.x1_net9 pmos_current_mirror_load__ABAB_0.x1_Vout 5.02434f
+C384 XC1__A_0.Vop1 Vp 0.31177f
+C385 nmos_differential_pair__ABAB_0.x1_Vtest2 nmos_differential_pair__ABAB_0.x1_net2 2.1041f
+C386 nmos_differential_pair__ABAB_0.x1_net1 nmos_diode_2__A_0.net5 0.05769f
+C387 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 VREF 1.49386f
+C388 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x2_net10 0.00115f
+C389 nmos_current_mirror_3__ABAB_0.net7 nmos_single_2__A_0.NBias 0
+C390 nmos_matched_cascode_pair__ABBA_0.x1_net5 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 5.08594f
+C391 res_packs__interleaved_0.x2_x2_net2 Vom 0
+C392 res_packs__interleaved_0.x2_x1_net9 res_packs__interleaved_0.x2_x2_net2 0.00925f
+C393 nmos_differential_pair__ABAB_0.x1_net1 nmos_current_mirror_2__ABBA_0.net6 0.06976f
+C394 Vom res_packs__interleaved_0.x2_x1_net11 0.00112f
+C395 XC1__A_0.Vop1 nmos_differential_pair__ABAB_0.x1_net2 3.54376f
+C396 Vp mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 0
+C397 res_packs__interleaved_0.x2_x1_net15 res_packs__interleaved_0.x2_x2_net13 0.02074f
+C398 XC2__A_0.Vom1 pmos_differential_pair__ABBA_0.x2_Vtest 0.29212f
+C399 res_packs__interleaved_0.x2_x1_net3 res_packs__interleaved_0.x2_x2_net18 0.02074f
+C400 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x2_net12 0
+C401 nmos_differential_pair__ABAB_0.x1_net1 nmos_matched_cascode_pair__ABBA_0.x1_net3 0.00736f
+C402 nmos_current_mirror_4__A_0.net4 VREF 0.78776f
+C403 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 0.59379f
+C404 pmos_differential_pair__ABBA_0.x2_Vout Vom 1.01712f
+C405 Vop res_packs__interleaved_0.x2_x2_net7 0.0031f
+C406 pmos_current_mirror_load__ABAB_0.x1_Vout VREF 2.63768f
+C407 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 Vdd 0.09618f
+C408 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 nmos_differential_pair__ABAB_0.x1_net2 0.35231f
+C409 nmos_diode__A_0.net1 nmos_single_2__A_0.PBias 0.70919f
+C410 nmos_differential_pair__ABAB_0.x1_net1 nmos_differential_pair__ABAB_0.x1_Vtest2 9.48056f
+C411 nmos_single_2__A_0.PBias XC2__A_0.Vom1 0.2067f
+C412 res_packs__interleaved_0.x2_x2_net5 Vom 0.00114f
+C413 Vp pmos_current_mirror_load__ABAB_0.x1_Vout 0
+C414 res_packs__interleaved_0.x2_x1_net15 res_packs__interleaved_0.x2_x2_net15 0.51022f
+C415 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x1_net1 0
+C416 pmos_current_mirror_2__row_0.x2_net1 VREF 0.30732f
+C417 pmos_current_mirror_load__ABAB_0.x1_net9 Vm 0
+C418 nmos_diode__A_0.net1 nmos_single_2__A_0.NBias 1.15124f
+C419 XC1__A_0.Vop1 nmos_differential_pair__ABAB_0.x1_net1 0.20678f
+C420 nmos_single_2__A_0.NBias XC2__A_0.Vom1 0.0843f
+C421 pmos_differential_pair__ABBA_0.x2_Vout Vdd 2.86688f
+C422 nmos_current_mirror_4__A_0.net4 nmos_differential_pair__ABAB_0.x1_net2 0.54895f
+C423 nmos_diode_2__A_0.net5 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 0.37903f
+C424 res_packs__interleaved_0.x2_x1_net8 res_packs__interleaved_0.x2_x1_net12 0.16069f
+C425 res_packs__interleaved_0.x2_x1_net1 res_packs__interleaved_0.x2_x2_net10 0.00925f
+C426 Vom res_packs__interleaved_0.x2_x2_net17 0.16133f
+C427 nmos_differential_pair__ABAB_0.x1_net2 pmos_current_mirror_load__ABAB_0.x1_Vout 0.08979f
+C428 res_packs__interleaved_0.x2_x2_net2 res_packs__interleaved_0.x2_x2_net9 0.16037f
+C429 res_packs__interleaved_0.x2_x1_net9 Vom 0
+C430 res_packs__interleaved_0.x2_x2_net9 res_packs__interleaved_0.x2_x1_net11 0.02074f
+C431 Vop res_packs__interleaved_0.x2_x2_net2 0.00207f
+C432 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 nmos_current_mirror_2__ABBA_0.net6 0.74915f
+C433 res_packs__interleaved_0.x2_x2_net19 res_packs__interleaved_0.x2_x1_net15 0.02074f
+C434 Vop res_packs__interleaved_0.x2_x1_net11 0.0031f
+C435 res_packs__interleaved_0.x2_x1_net8 res_packs__interleaved_0.x2_x2_net8 0.51069f
+C436 nmos_differential_pair__ABAB_0.x1_net1 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 0.04988f
+C437 nmos_current_mirror_4__A_0.net4 res_packs__interleaved_0.x2_Vcm 0.19383f
+C438 res_packs__interleaved_0.x2_x1_net6 res_packs__interleaved_0.x2_x2_net6 0.41702f
+C439 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 nmos_matched_cascode_pair__ABBA_0.x1_net3 0.11011f
+C440 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x1_net3 0
+C441 pmos_differential_pair__ABBA_0.x2_Vout nmos_diode_2__A_0.net5 0.17179f
+C442 pmos_differential_pair__ABBA_0.x2_Vout Vop 0.7846f
+C443 res_packs__interleaved_0.x2_x1_net19 res_packs__interleaved_0.x2_x2_net15 0.00925f
+C444 res_packs__interleaved_0.x2_x1_net13 res_packs__interleaved_0.x2_x2_net13 0.41644f
+C445 pmos_differential_pair__ABBA_0.x2_Vout res_packs__interleaved_0.x2_x2_net3 0
+C446 res_packs__interleaved_0.x2_x2_net11 res_packs__interleaved_0.x2_Vcm 0.00135f
+C447 res_packs__interleaved_0.x2_x1_net10 res_packs__interleaved_0.x2_x2_net8 0.02074f
+C448 res_packs__interleaved_0.x2_x2_net19 res_packs__interleaved_0.x2_x1_net17 0.02074f
+C449 nmos_single_2__A_0.NBias nmos_single_2__A_0.PBias 5.7154f
+C450 Vom Vdd 7.17033f
+C451 pmos_differential_pair__ABBA_0.x2_Vout nmos_current_mirror_2__ABBA_0.net6 0.16548f
+C452 nmos_matched_cascode_pair__ABBA_0.x1_net5 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 0.00647f
+C453 Vm VREF 0
+C454 nmos_differential_pair__ABAB_0.x1_Vtest2 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 0.00133f
+C455 Vop res_packs__interleaved_0.x2_x2_net5 0.00301f
+C456 nmos_current_mirror_4__A_0.net4 nmos_differential_pair__ABAB_0.x1_net1 0.06535f
+C457 nmos_matched_cascode_pair__ABBA_0.x1_net5 Vdd 0.08622f
+C458 pmos_current_mirror_2__row_0.x2_net1 res_packs__interleaved_0.x2_Vcm 0.40708f
+C459 pmos_current_mirror_load__ABAB_0.x1_net9 pmos_current_mirror_2__row_0.x2_Vbiasp 0
+C460 nmos_differential_pair__ABAB_0.x1_net1 pmos_current_mirror_load__ABAB_0.x1_Vout 5.49964f
+C461 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x1_net8 0
+C462 res_packs__interleaved_0.x2_x2_net19 res_packs__interleaved_0.x2_x1_net19 0.41644f
+C463 nmos_single__A_0.net2 pmos_diode__A_0.net3 0.69275f
+C464 Vm Vp 1.76344f
+C465 pmos_diode_2__A_0.x1_Vbias XC2__A_0.Vom1 1.82549f
+C466 XC1__A_0.Vop1 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 0.44232f
+C467 Vop res_packs__interleaved_0.x2_x2_net17 0.00207f
+C468 res_packs__interleaved_0.x2_x2_net9 Vom 0.00112f
+C469 res_packs__interleaved_0.x2_x1_net9 res_packs__interleaved_0.x2_x2_net9 0.41644f
+C470 res_packs__interleaved_0.x2_x1_net13 res_packs__interleaved_0.x2_x2_net15 0.00925f
+C471 Vdd mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 0.17439f
+C472 res_packs__interleaved_0.x2_x1_net15 res_packs__interleaved_0.x2_Vcm 0.00171f
+C473 Vom nmos_diode_2__A_0.net5 0.2927f
+C474 res_packs__interleaved_0.x2_x1_net10 res_packs__interleaved_0.x2_x2_net1 0.02074f
+C475 Vop Vom 6.38112f
+C476 Vop res_packs__interleaved_0.x2_x1_net9 0.00207f
+C477 nmos_current_mirror_3__ABAB_0.net7 res_packs__interleaved_0.x2_x1_net10 0
+C478 res_packs__interleaved_0.x2_x2_net16 Vss 1.02076f
+C479 res_packs__interleaved_0.x2_x1_net16 Vss 1.49015f
+C480 res_packs__interleaved_0.x2_x1_net17 Vss 1.10261f
+C481 res_packs__interleaved_0.x2_x2_net17 Vss 1.16246f
+C482 res_packs__interleaved_0.x2_x2_net18 Vss 1.09142f
+C483 res_packs__interleaved_0.x2_x1_net18 Vss 1.15012f
+C484 res_packs__interleaved_0.x2_x1_net19 Vss 0.99661f
+C485 res_packs__interleaved_0.x2_x2_net19 Vss 1.28412f
+C486 res_packs__interleaved_0.x2_x2_net3 Vss 0.99723f
+C487 res_packs__interleaved_0.x2_x1_net3 Vss 1.2881f
+C488 res_packs__interleaved_0.x2_x1_net15 Vss 1.08817f
+C489 res_packs__interleaved_0.x2_x2_net15 Vss 1.14752f
+C490 res_packs__interleaved_0.x2_x2_net14 Vss 1.08774f
+C491 res_packs__interleaved_0.x2_x1_net14 Vss 1.14631f
+C492 res_packs__interleaved_0.x2_x1_net13 Vss 0.99662f
+C493 res_packs__interleaved_0.x2_x2_net13 Vss 1.28412f
+C494 res_packs__interleaved_0.x2_x2_net12 Vss 0.99754f
+C495 res_packs__interleaved_0.x2_x1_net12 Vss 1.28789f
+C496 res_packs__interleaved_0.x2_x1_net2 Vss 1.08817f
+C497 res_packs__interleaved_0.x2_x2_net2 Vss 1.14752f
+C498 res_packs__interleaved_0.x2_x2_net8 Vss 1.08966f
+C499 res_packs__interleaved_0.x2_x1_net8 Vss 1.14579f
+C500 res_packs__interleaved_0.x2_x1_net9 Vss 0.99662f
+C501 res_packs__interleaved_0.x2_x2_net9 Vss 1.28412f
+C502 res_packs__interleaved_0.x2_x2_net10 Vss 0.9952f
+C503 res_packs__interleaved_0.x2_x1_net10 Vss 1.28856f
+C504 res_packs__interleaved_0.x2_x1_net11 Vss 1.08818f
+C505 res_packs__interleaved_0.x2_x2_net11 Vss 1.14751f
+C506 res_packs__interleaved_0.x2_x2_net1 Vss 1.09094f
+C507 res_packs__interleaved_0.x2_x1_net1 Vss 1.14953f
+C508 res_packs__interleaved_0.x2_x1_net7 Vss 0.99894f
+C509 res_packs__interleaved_0.x2_x2_net7 Vss 1.2874f
+C510 res_packs__interleaved_0.x2_x2_net6 Vss 1.00243f
+C511 res_packs__interleaved_0.x2_x1_net6 Vss 1.29345f
+C512 res_packs__interleaved_0.x2_x1_net5 Vss 1.11573f
+C513 res_packs__interleaved_0.x2_x2_net5 Vss 1.18142f
+C514 res_packs__interleaved_0.x2_x2_net4 Vss 1.17837f
+C515 res_packs__interleaved_0.x2_x1_net4 Vss 1.42739f
+C516 RGM Vss 1.67429f
+C517 Vop Vss 42.71575f
+C518 pmos_current_mirror_2__row_0.x2_net1 Vss 4.47215f
+C519 Vom Vss 67.46712f
+C520 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net8 Vss 36.25635f
+C521 mirror_XX1_M22_XX1_M15__ABAB_0.x1_net7 Vss 38.6561f
+C522 nmos_differential_pair__ABAB_0.x1_net2 Vss 36.55169f
+C523 nmos_matched_cascode_pair_2__ABAB_0.x1_net6 Vss 55.66553f
+C524 nmos_matched_cascode_pair__ABBA_0.x1_net5 Vss 4.64826f
+C525 nmos_matched_cascode_pair_2__ABAB_0.x1_net4 Vss 21.006f
+C526 nmos_matched_cascode_pair__ABBA_0.x1_net3 Vss 8.97656f
+C527 nmos_differential_pair__ABAB_0.x1_net1 Vss 22.15872f
+C528 nmos_differential_pair__ABAB_0.x1_Vtest2 Vss 25.28325f
+.ends
+
+
+.end

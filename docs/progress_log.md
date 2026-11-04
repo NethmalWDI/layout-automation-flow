@@ -1202,3 +1202,18 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   inside a macro and three shapes per macro (PREREG amendment, plan section 10); both costs fit 250 × 200 µm
   (227 × 197 and 211 × 170 µm), legal, unrouted DRC 0; the budget-aware one uses 37 % less wire budget at 24.8 % more
   area. Routing next (the grid router). 181 tests, 29 goldens pass.
+- **Phase 8, part 2 (2026-11-04, 10:10–12:42 CET).** `ttsky25a_fd` routed, extracted and simulated (flow record 7.23).
+  - S5's grid router (`src/s5/grid.py`; metal3/metal4 on a 0.8 µm grid, A* trees): both layouts routed, top-level
+    DRC 0 and LVS match, inside the outline (227.0 × 197.8 and 210.8 × 170.6 µm); G5.4 fails (budgets). Two fixes
+    on the way (rows 85, 86).
+  - S6: R+C extraction ran past 2 GB on the supplies and could not be restricted (row 87): `rc_extraction: false` in
+    `inputs/ttsky25a_fd/layout.yaml`, C only. The flat LVS needed series merging of the poly resistors off
+    (`lvs_no_series`, row 88), and `flat_lvs` now reads 42-character cut names and accepts crossed labels only on nets
+    the reference shows interchangeable (row 90). G6.1 PASS; G6.2 FAIL.
+  - S7 (C-only): every spec met (G7.1 PASS); G7.2 FAIL on GBW (0.130 MHz lost, 1.26 of η × margin). G7.5 now works
+    on the C-only view and on several MIM capacitors (row 91): with the Miller capacitors' plate coupling cancelled,
+    GBW loses 0.45 of the allowance. Drawn → C-only: GBW −5.9 %, PM −4.4° (the hand layout: −6.8 %, −3.0°).
+  - `src/flow.py` writes its summary through the retrying `write_text` (ten tries); a run had crashed after S4 (row 89).
+  - Goldens S5–S7 of `ttsky25a_fd` taken. 188 tests pass; 32 golden comparisons match. README (layout options for S6
+    and S7), CLAUDE.md (counts), STATUS updated. FEEDBACK NEEDED: R+C for this design, G7.2's MIM number, the other
+    direct writes.

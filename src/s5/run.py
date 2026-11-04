@@ -138,7 +138,9 @@ def route_rules(routes: dict, cons: list, nmap: dict, ir: dict, s3_dec: dict, ru
     inv = {}
     for k, v in nmap.items():
         inv.setdefault(v, k)
-    L = {n: R.lengths(r) for n, r in routes.items()}
+    L = {n: ({"metal4": round(sum(y1 - y0 for _, y0, y1 in r["m4segs"]), 4),
+              "metal3": round(sum(x1 - x0 for _, x0, x1 in r["met3"]), 4)} if r.get("grid") else R.lengths(r))
+         for n, r in routes.items()}
     res = {"max_length": {}, "max_parallel": {}, "max_series_R": {}, "symmetric": {}, "not_evaluated": [],
            "covered": "max_length on metal4 enters the metal3+metal4 sum; top-level routing uses no metal1 or metal2, "
                       "so those layers' length and parallel rules have no top-level wire to apply to"}
@@ -161,7 +163,12 @@ def route_rules(routes: dict, cons: list, nmap: dict, ir: dict, s3_dec: dict, ru
         elif cid.startswith("route.max_parallel.") and cid.endswith(".metal4"):
             a, b = tg
             run = 0.0
-            if a in routes and b in routes:
+            if a in routes and b in routes and routes[a].get("grid"):   # the grid router's metal4 runs (Phase 8)
+                for xa, ya0, ya1 in routes[a]["m4segs"]:
+                    for xb, yb0, yb1 in routes[b]["m4segs"]:
+                        if abs(xa - xb) <= 2 * R.GRID + 1e-6:
+                            run = max(run, min(ya1, yb1) - max(ya0, yb0))
+            elif a in routes and b in routes:
                 sa, sb = routes[a]["spine"], routes[b]["spine"]
                 if abs(sa["x"] - sb["x"]) <= 2 * R.GRID + 1e-6:   # beyond two pitches the coupling is ignored (ASSUMPTION)
                     run = max(0.0, min(sa["y"][1], sb["y"][1]) - max(sa["y"][0], sb["y"][0]))
@@ -190,7 +197,9 @@ def route_rules(routes: dict, cons: list, nmap: dict, ir: dict, s3_dec: dict, ru
             res["max_series_R"][cid.split("route.max_series_R.")[1]] = {**worst, "ok": worst["route_ohm"] <= worst["left_ohm"]}
         elif cid.startswith("route.symmetric."):
             a, b = tg
-            if a in routes and b in routes:
+            if a in routes and b in routes and routes[a].get("grid"):   # not routed as mirror images (Phase 8)
+                ok, xa, xb = False, None, None
+            elif a in routes and b in routes:
                 xa, xb = routes[a]["spine"]["x"], routes[b]["spine"]["x"]
                 la, lb = L[a]["metal4"] + L[a]["metal3"], L[b]["metal4"] + L[b]["metal3"]
                 ok = abs(xa + xb) <= P.AXIS_TOL and abs(la - lb) <= R.GRID
@@ -283,15 +292,26 @@ def main(argv=None) -> int:
         pl = c["placement"]
         res[r] = {"index": c["index"], "cost": c["cost"], "placement": pl, "legal": legal(pl, blocks),
                   "assembled": assemble(f"{design}_placed_{r}", pl, blocks, out / f"placed_{r}")}
-        try:
-            routes = R.plan_routes(pl, nmap, ports, order, mirrored, par_limit)
-        except RuntimeError as e:
-            res[r]["routing"] = {"ok": False, "error": str(e)}
-            continue
+        if opts.get("hierarchy") == "upstream":     # the grid router (plan v4 Phase 8.5)
+            from src.s5 import grid as GR
+            gr = GR.route(pl, nmap, ports, order, outline)
+            if gr["failed"]:
+                res[r]["routing"] = {"ok": False, "error": f"grid router: no route for {gr['failed']}"}
+                continue
+            raw = gr["routes"]
+            routes = {n: GR.rules_view(x) for n, x in raw.items()}
+            draw, lens = GR.tcl(raw), {n: GR.lengths(x) for n, x in raw.items()}
+        else:
+            try:
+                routes = R.plan_routes(pl, nmap, ports, order, mirrored, par_limit)
+            except RuntimeError as e:
+                res[r]["routing"] = {"ok": False, "error": str(e)}
+                continue
+            raw, draw, lens = routes, R.tcl(routes), {n: R.lengths(x) for n, x in routes.items()}
         d = out / f"routed_{r}"
-        asm = assemble(f"{design}_routed", pl, blocks, d, R.tcl(routes))
-        res[r]["routing"] = {"ok": True, "routes": {n: {k: v for k, v in x.items() if k != "points"} for n, x in routes.items()},
-                             "lengths": {n: R.lengths(x) for n, x in routes.items()}, "assembled": asm,
+        asm = assemble(f"{design}_routed", pl, blocks, d, draw)
+        res[r]["routing"] = {"ok": True, "routes": {n: {k: v for k, v in x.items() if k != "points"} for n, x in raw.items()},
+                             "lengths": lens, "assembled": asm,
                              "rules": route_rules(routes, cons, nmap, ir, s3_dec, rules)}
         if asm.get("gds"):
             (d / "ref_top.spice").write_text(top_ref(ref_spice, pl, blocks, s4, nmap))

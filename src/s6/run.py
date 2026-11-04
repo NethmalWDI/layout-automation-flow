@@ -204,15 +204,63 @@ def kpex_cross_check(gds: Path, cell: str, ref_top: Path, design: str, out: Path
             "total_fF": {"magic": round(tot_m, 3), "kpex": round(tot_k, 3)}}
 
 
-def flat_lvs(report: Path) -> dict:
+def _device_multiset(ref_text: str, perm: dict) -> list:
+    """The reference's devices, each as (model, nets, parameters) with `perm` applied to the nets; a resistor's or
+    capacitor's two ends and a transistor's drain and source are interchangeable, so they are sorted."""
+    keys = []
+    for ln in ref_text.splitlines():
+        t = ln.split()
+        if not t or t[0][0].upper() not in "XMRC" or t[0].startswith("."):
+            continue
+        pos = [x for x in t[1:] if "=" not in x]
+        model, nets = pos[-1], [perm.get(n, n) for n in pos[:-1]]
+        if len(nets) == 2:
+            nets = sorted(nets)
+        elif len(nets) == 4 and "fet" in model:
+            nets = [*sorted((nets[0], nets[2])), nets[1], nets[3]]
+        keys.append((model, tuple(nets), tuple(sorted(x for x in t if "=" in x))))
+    return sorted(keys)
+
+
+def symmetric_relabel(swaps: list, ref_text: str) -> dict | None:
+    """Rows where a layout label (left) meets another reference net (right). Netgen breaks a symmetry by a choice of
+    its own, so two interchangeable nets can come out crossed (`ttsky25a_fd`, area-only: x1_net3 and x1_net4 are the
+    nodes of two identical stacks between x1_net2 and Vss). Accepted only if the rows form a permutation of the
+    reference's net names (a cut label resolved by prefix among them) and that permutation maps the reference's
+    devices onto themselves; otherwise None (a label on the wrong net)."""
+    names = [r for _, r in swaps]
+    if len(set(names)) != len(names):
+        return None
+    full = {}
+    for left, _ in swaps:                                    # exact labels first
+        if left in names:
+            full[left] = left
+    for left, _ in swaps:
+        if left not in full:
+            c = [n for n in names if n.startswith(left) and n not in full.values()]
+            if len(c) != 1:
+                return None
+            full[left] = c[0]
+    perm = {r: full[left] for left, r in swaps}             # reference net -> the net its layout label names
+    if sorted(perm.values()) != sorted(perm) or _device_multiset(ref_text, perm) != _device_multiset(ref_text, {}):
+        return None
+    return perm
+
+
+def flat_lvs(report: Path, ref: Path | None = None) -> dict:
     """The flat extraction's LVS. Flattening makes every inner label a port, so a block net (e.g.
     '<block>_0.net1') can appear as a layout port where the layout view has an internal net. Accepted only when Netgen
-    matches the netlists uniquely and every row of its pin tables either pairs one name with itself or is such an
-    inner net (same name after the block prefix). Netgen cuts each column at 43 characters, so a cut name is compared
-    as a prefix (review of plan v4 Phase 7: a cut row was skipped before)."""
+    matches the netlists (uniquely, or with symmetries) and every row of its pin tables either pairs one name with
+    itself or is such an inner net (same name after the block prefix). Netgen cuts a name at 42 characters, then pads
+    the column with a space, so such a name is compared as a prefix (review of plan v4 Phase 7; flow record row 90).
+    With symmetries, inner rows whose names cross are accepted when `symmetric_relabel` shows the nets
+    interchangeable in the reference `ref`."""
     txt = report.read_text() if report.exists() else ""
-    unique = "match uniquely" in txt and "property errors" not in txt.lower()
-    odd, other, inner = [], [], 0
+    # a fully differential circuit has interchangeable inner nets: Netgen's "match with N symmetries" is a match
+    # (ttsky25a_fd, plan v4 Phase 8; the named ports anchor it)
+    sym = re.search(r"Netlists match with \d+ symmetr", txt) is not None
+    unique = ("match uniquely" in txt or sym) and "property errors" not in txt.lower()
+    odd, other, crossed, by_prefix, inner = [], [], [], [], 0
 
     def same(a, b, cut):
         return a == b or (cut and (a.startswith(b) or b.startswith(a)))
@@ -223,7 +271,7 @@ def flat_lvs(report: Path) -> dict:
                     break                                   # past the table
                 continue
             left, right = (x.strip() for x in ln.split("|", 1))
-            cut = len(ln.split("|", 1)[0]) >= 43 and not ln.split("|", 1)[0].endswith(" ")
+            cut = len(left) >= 42
             if left.startswith("(no pin"):
                 other.append(ln.strip())                    # a reference port the layout lacks
                 continue
@@ -233,11 +281,24 @@ def flat_lvs(report: Path) -> dict:
                 cut_r = not name.endswith(")")
                 inner += 1
                 if not same(base, name.rstrip(")"), cut or cut_r):
-                    odd.append([left, name])
+                    (odd if cut_r else crossed).append([base, name.rstrip(")")] if not cut_r else [left, name])
+                elif cut and not cut_r and base != name.rstrip(")"):
+                    by_prefix.append([base, name.rstrip(")")])  # a cut label: which net it names is not certain
             elif not same(left, right, cut or len(right) >= 42):
                 odd.append([left, right])                   # two different pins paired
+    perm = None
+    while True:                                             # a cut row on a crossed net is part of the crossing
+        nets = {n for row in crossed for n in row}
+        more = [row for row in by_prefix if row[1] in nets and row not in crossed]
+        if not more:
+            break
+        crossed += more
+    if crossed and sym and ref is not None and ref.exists():
+        perm = symmetric_relabel(crossed, ref.read_text())
+    if crossed and perm is None:
+        odd += crossed
     return {"match": bool(unique and not odd and not other), "inner_nets_as_ports": inner,
-            "other_pin_errors": odd + other, "report": rel(report)}
+            "symmetric_relabel": perm or {}, "other_pin_errors": odd + other, "report": rel(report)}
 
 
 def against_budgets(caps: dict, budgets: dict, s5_rules: dict, s3_dec: dict, ir: dict, ext_net: dict | None = None) -> dict:
@@ -297,6 +358,11 @@ def main(argv=None) -> int:
     cell = f"{design}_routed"
     res = {}
     same = (s5_rep["gates"].get("G5.5_area_vs_area_only (info)") or {}).get("same_placement")
+    from src.s4.run import layout_options
+    # layout.yaml rc_extraction: false (ttsky25a_fd, plan v4 Phase 8; flow record row 87): Magic's extresist ran its
+    # supply network past 2 GB, and restricted to the signal nets it wrote every terminal under a block alias,
+    # leaving the ports unconnected; S7 then takes the C-only view as post-layout
+    with_rc = layout_options(design).get("rc_extraction", True)
     for r in RULES:
         gds = s5 / f"routed_{r}" / f"{cell}.gds"
         d = out / r
@@ -308,9 +374,10 @@ def main(argv=None) -> int:
             res[r] = {**res["budget_aware"], "same_as": "budget_aware"}
             continue
         ex = RL.extract(gds.resolve(), cell, d)
-        rc = RL.extract_rc(gds.resolve(), cell, d, a.rc_tol)
-        RL.lvs(ex["lvs"], cell, s5 / f"routed_{r}" / "ref_top.spice", design, d)
-        lv = flat_lvs(d / "lvs_report.txt")
+        rc = RL.extract_rc(gds.resolve(), cell, d, a.rc_tol) if with_rc else d / "NO_RC_EXTRACTION"
+        RL.lvs(ex["lvs"], cell, s5 / f"routed_{r}" / "ref_top.spice", design, d,
+               no_series=layout_options(design).get("lvs_no_series"))
+        lv = flat_lvs(d / "lvs_report.txt", s5 / f"routed_{r}" / "ref_top.spice")
         caps = capacitances(ex["pex"], nets, inv, gnd)
         ce = ext_capacitances(d / f"{cell}_flat.ext", nets, inv, gnd)
         tot_nl = netlist_total(ex["pex"])
@@ -346,8 +413,9 @@ def main(argv=None) -> int:
     write_json(out / "parasitics_vs_budgets.json", {**ident, "mim_self": mims, "layouts": res})
     ba = res["budget_aware"]
     gates = {
-        "G6.1_extracted_and_LVS": {"pass": all(x["lvs"]["match"] and x["netlists"]["pex_rc"] and not x["unassigned_caps"]
-                                               for x in res.values()),
+        "G6.1_extracted_and_LVS": {"pass": all(x["lvs"]["match"] and (x["netlists"]["pex_rc"] or not with_rc)
+                                               and not x["unassigned_caps"] for x in res.values()),
+                                   "rc_extraction": with_rc,
                                    "detail": {r: {"lvs": x["lvs"]["match"], "caps": x["n_caps"], "rc_resistors": x["n_resistors_rc"],
                                                   "unassigned_caps": len(x["unassigned_caps"])} for r, x in res.items()}},
         "G6.2_parasitics_within_budgets": {

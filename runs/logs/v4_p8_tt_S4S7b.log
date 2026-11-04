@@ -1,0 +1,21 @@
+== ttsky25a_fd
+  S4/run             rc=0    210.3 s  log: runs/logs/flow/ttsky25a_fd/S4_run.log
+  S4: PASS
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/foss/designs/src/flow.py", line 300, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/foss/designs/src/flow.py", line 296, in main
+    return {"run": cmd_run, "status": cmd_status, "list": cmd_list, "test": cmd_test, "snapshot": cmd_snapshot}[a.cmd](a)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/foss/designs/src/flow.py", line 175, in cmd_run
+    summ_f.write_text(json.dumps(summ, indent=1) + "\n")
+  File "/usr/lib/python3.12/pathlib.py", line 1049, in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 22] Invalid argument: '/foss/designs/outputs/flow/ttsky25a_fd/flow_summary.json'

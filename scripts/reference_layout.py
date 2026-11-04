@@ -104,10 +104,20 @@ def shorted_ports(netlist_file: Path) -> dict:
     return groups
 
 
-def lvs(layout: Path, cell: str, ref: Path, ref_cell: str, out: Path) -> dict:
+def lvs(layout: Path, cell: str, ref: Path, ref_cell: str, out: Path, no_series: list | None = None) -> dict:
+    """Netgen LVS of the flat extraction. `no_series`: device classes whose series merging is switched off on both
+    sides (plan v4 Phase 8: a flat extraction makes every label a port, which stops Netgen merging a string of
+    resistors in the layout while it still merges the reference's; one by one, each resistor is compared)."""
     rep = out / "lvs_report.txt"
+    setup = f"{PDK_ROOT}/sky130A/libs.tech/netgen/sky130A_setup.tcl"
+    if no_series:
+        local = out / "netgen_setup.tcl"
+        local.write_text(f"source {setup}\n" + "".join(
+            f'catch {{property "-circuit1 {d}" series disable}}\ncatch {{property "-circuit2 {d}" series disable}}\n'
+            for d in no_series))
+        setup = str(local)
     subprocess.run(["netgen", "-batch", "lvs", f"{layout} {cell}_flat", f"{ref} {ref_cell}",
-                    f"{PDK_ROOT}/sky130A/libs.tech/netgen/sky130A_setup.tcl", str(rep)],
+                    setup, str(rep)],
                    cwd=out, env=TOOL_ENV, capture_output=True, text=True, timeout=1800)
     txt = rep.read_text() if rep.exists() else ""
     return {"match": "Circuits match uniquely" in txt and "property errors" not in txt.lower(),

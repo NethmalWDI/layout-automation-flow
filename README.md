@@ -58,7 +58,7 @@ $env:FLOW_CONTAINER="layout-s0s3"
 .\flow.ps1 run example_ota_5t              # S0 -> S3, about 30 min
 .\flow.ps1 run loadbench_miller            # S0 -> S3, about 20 min
 .\flow.ps1 run example_ota_5t --stage S1   # one stage, from the earlier stages' outputs (S1 or S3: under a minute)
-.\flow.ps1 test                            # 176 unit tests + golden comparison with the committed outputs (~15 s)
+.\flow.ps1 test                            # 188 unit tests + golden comparison with the committed outputs (~15 s)
 ```
 
 The same inside the container: `docker exec -e IIC_OSIC_TOOLS_QUIET=1 layout-s0s3 bash -lc "cd /foss/designs &&
@@ -130,7 +130,7 @@ Each stage writes to `outputs/<stage>/<design>/` and logs to `runs/logs/flow/<de
 | **ERROR** | anything else, e.g. 1 from a crash; or no fresh report | the stage did not finish; it stops at that command |
 
 The committed outputs are the reference results; `./flow test` fails if a re-run moves any of them beyond its
-tolerance (`tests/golden/`). S4–S7 have snapshots for the 5T and LOADBench (plan v4 Phase 7); their R+C results keep
+tolerance (`tests/golden/`). S4–S7 have snapshots for the 5T and LOADBench (plan v4 Phase 7) and `ttsky25a_fd` (Phase 8, C-only); their R+C results keep
 0.5 % (and 0.03 of eta × margin), because Magic's extresist varies a little from run to run.
 
 **Clean runs.**
@@ -482,12 +482,15 @@ python3 -m src.s4.run inputs/example_ota_5t/package.yaml      # or: ./flow run e
   - a vertical tap strip between two units where the ring alone would leave a diffusion farther from a tap than S2's
     `place.latchup_tap_distance` (less 0.5 µm). A unit too wide even for that is split into two half units. Only
     LOADBench's PMOS bank needs one.
-- **Per-design options** (`inputs/<d>/layout.yaml`, read only by S4 and S5; without one, the plan v4 defaults; plan v4
+- **Per-design options** (`inputs/<d>/layout.yaml`, read only by S4–S7; without one, the plan v4 defaults; plan v4
   Phase 8, `docs/plan_v5_ttsky25a.md`): `matching: centroid` (matched devices only as ABBA / A B C C B A or
   interdigitated rows, from whole copies when m ≥ 2), `dummies: true` (a dummy at each end of every matched row),
   `pack_internal: true` (nets only one block uses get short packed tracks), `resistor_blocks` (matched resistor
   strings interleaved A B B A in one block), `outline_um` (S5's hard outline) and `hierarchy: upstream` (S5 by
-  sub-circuits). Devices with m > 1 are always drawn as m copies.
+  sub-circuits). Devices with m > 1 are always drawn as m copies. Two options for S6 and S7:
+  `rc_extraction: false` (S6 extracts C only; S7 then evaluates the C-only netlist as the post-layout view and
+  records which view it used) and `lvs_no_series: [<device>, …]` (S6's flat LVS stops Netgen merging those devices
+  in series, so they are compared one by one).
 - **Capacitors.** A capacitor that S0 binds to a MIM device for the layout view (LOADBench's Capacitor2, a PREDICTED
   binding) is a block of its own: the PDK's generator draws it, and each plate reaches a met3 track (the top plate up,
   the bottom plate down), 1.45 µm from the top plate (capm.11). Its met3 and met4 are keep-outs for S5's router.
@@ -537,8 +540,12 @@ It fails loudly on a net it cannot place; the plan's general maze router remains
 **A design with its own hierarchy** (`hierarchy: upstream`; `src/s5/macro.py`): the blocks are grouped by the
 sub-circuit of their devices (`circuits/<d>/upstream/hierarchy.json`); each group (a macro) is placed by seeded
 simulated annealing (enumeration up to 6 blocks) under three width limits; every arrangement of the macros' shapes is
-enumerated; anything outside `outline_um` is rejected (G5.6). Inside a macro, matched blocks may share a row. The
-routing of such a layout (a grid router) is not built yet (plan v4 Phase 8.5).
+enumerated; anything outside `outline_um` is rejected (G5.6). Inside a macro, matched blocks may share a row. Such a
+layout is routed by the grid router (`src/s5/grid.py`): metal3 horizontal and metal4 vertical on the 0.8 µm grid,
+via3 between them; every pin (a block's track, a ring's bottom edge with a contact stack) is reached by a short metal4
+stub and a via3 from a grid point over it; every track, keep-out and stack is an obstacle for every net; each net is
+an A* tree (length + 2 µm per via), nets in order of least budget slack, all inside the outline. Mirror-image routing
+of a symmetric pair is not attempted (G5.4 reports it).
 
 | Output (`outputs/S5/<design>/`) | Content |
 |---|---|
