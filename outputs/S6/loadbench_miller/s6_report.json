@@ -1,0 +1,273 @@
+{
+  "run_id": "2026-11-04T03:42:52-04db6a25",
+  "design": "loadbench_miller",
+  "s5_run_id": "2026-11-04T02:59:48-d6dfed33",
+  "ac_grounds": [
+    "sourceNmos",
+    "sourcePmos"
+  ],
+  "gates": {
+    "G6.1_extracted_and_LVS": {
+      "pass": true,
+      "detail": {
+        "budget_aware": {
+          "lvs": true,
+          "caps": 26,
+          "rc_resistors": 315153,
+          "unassigned_caps": 0
+        },
+        "area_only": {
+          "lvs": true,
+          "caps": 26,
+          "rc_resistors": 315153,
+          "unassigned_caps": 0
+        }
+      }
+    },
+    "G6.2_parasitics_within_budgets": {
+      "pass": false,
+      "violations": [
+        "out",
+        "FirstStageYout1~out",
+        "FirstStageYout1~outFirstStage",
+        "FirstStageYout1~in1",
+        "FirstStageYsourceTransconductance~out",
+        "FirstStageYsourceTransconductance~outFirstStage",
+        "FirstStageYsourceTransconductance~in2",
+        "ibias~out",
+        "out~outFirstStage",
+        "out~in1",
+        "out~in2",
+        "outFirstStage~in2",
+        "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+        "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+        "XNormalTransistorNmos3.d",
+        "XNormalTransistorNmos3.s",
+        "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+        "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+        "XNormalTransistorPmos7+XNormalTransistorPmos6.s"
+      ],
+      "worst": [
+        [
+          11.235,
+          "FirstStageYsourceTransconductance~out"
+        ],
+        [
+          6.1844,
+          "out~outFirstStage"
+        ],
+        [
+          4.4308,
+          "out~in1"
+        ],
+        [
+          4.0983,
+          "FirstStageYout1~outFirstStage"
+        ],
+        [
+          3.1245,
+          "out~in2"
+        ]
+      ],
+      "area_only_violations (H5)": [
+        "out",
+        "FirstStageYout1~out",
+        "FirstStageYout1~outFirstStage",
+        "FirstStageYout1~in1",
+        "FirstStageYsourceTransconductance~out",
+        "FirstStageYsourceTransconductance~outFirstStage",
+        "FirstStageYsourceTransconductance~in2",
+        "ibias~out",
+        "out~outFirstStage",
+        "out~in1",
+        "out~in2",
+        "outFirstStage~in2",
+        "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+        "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+        "XNormalTransistorNmos3.d",
+        "XNormalTransistorNmos3.s",
+        "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+        "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+        "XNormalTransistorPmos7+XNormalTransistorPmos6.s"
+      ],
+      "note": "the budget-aware layout is gated; the area-only baseline is reported for H5"
+    },
+    "G6.4_c_only_netlist_complete (info)": {
+      "pass": null,
+      "detail": {
+        "budget_aware": {
+          "netlist_total_fF": 488.833,
+          "ext_total_fF": 536.412,
+          "netlist_short_of_ext": 0.0887,
+          "complete": false,
+          "tolerance": 0.05,
+          "substrate_net": "sourceNmos",
+          "ext_net_fF_approx": {
+            "outFirstStage": 20.6755,
+            "FirstStageYout1": 37.0595,
+            "in2": 0.4009,
+            "in1": 0.1886,
+            "out": 56.6346,
+            "ibias": 58.04,
+            "FirstStageYsourceTransconductance": 25.6116
+          },
+          "nets_without_ground_C_in_netlist": [
+            "FirstStageYout1",
+            "outFirstStage"
+          ]
+        },
+        "area_only": {
+          "netlist_total_fF": 488.833,
+          "ext_total_fF": 536.412,
+          "netlist_short_of_ext": 0.0887,
+          "complete": false,
+          "tolerance": 0.05,
+          "substrate_net": "sourceNmos",
+          "ext_net_fF_approx": {
+            "outFirstStage": 20.6755,
+            "FirstStageYout1": 37.0595,
+            "in2": 0.4009,
+            "in1": 0.1886,
+            "out": 56.6346,
+            "ibias": 58.04,
+            "FirstStageYsourceTransconductance": 25.6116
+          },
+          "nets_without_ground_C_in_netlist": [
+            "FirstStageYout1",
+            "outFirstStage"
+          ]
+        }
+      },
+      "note": "Magic's C-only netlist against its own .ext (totals): ext2spice leaves out the capacitance to ground of nets that are transistor gates (flow record row 71); G6.2 reads the netlist, so a net listed under nets_without_ground_C_in_netlist reads low there. S7's R+C netlist carries it"
+    },
+    "G6.3_kpex_cross_check (info)": {
+      "pass": null,
+      "detail": {
+        "budget_aware": {
+          "ran": true,
+          "netlist": "outputs/S6/loadbench_miller/budget_aware/kpex/loadbench_miller_routed__loadbench_miller_routed/loadbench_miller_routed_k25d_pex_netlist.spice",
+          "kpex_lvs_matched": false,
+          "unnamed_nets": [
+            "$13",
+            "$17",
+            "$9"
+          ],
+          "net_fF": {
+            "ibias": {
+              "magic": 54.1455,
+              "kpex": 63.196
+            },
+            "in1": {
+              "magic": 0.0063,
+              "kpex": 0.1519
+            },
+            "in2": {
+              "magic": 0.0458,
+              "kpex": 0.4268
+            },
+            "out": {
+              "magic": 67.0611,
+              "kpex": 54.2053
+            }
+          },
+          "coupling_fF": {
+            "ibias~out": {
+              "magic": 22.8083,
+              "kpex": 26.9981
+            },
+            "in1~in2": {
+              "magic": 0.5402,
+              "kpex": 0.5781
+            },
+            "in1~out": {
+              "magic": 0.2069,
+              "kpex": 0.2453
+            },
+            "in2~out": {
+              "magic": 0.1459,
+              "kpex": 0.1494
+            }
+          },
+          "total_fF": {
+            "magic": 230.193,
+            "kpex": 758.289
+          }
+        },
+        "area_only": {
+          "ran": true,
+          "netlist": "outputs/S6/loadbench_miller/budget_aware/kpex/loadbench_miller_routed__loadbench_miller_routed/loadbench_miller_routed_k25d_pex_netlist.spice",
+          "kpex_lvs_matched": false,
+          "unnamed_nets": [
+            "$13",
+            "$17",
+            "$9"
+          ],
+          "net_fF": {
+            "ibias": {
+              "magic": 54.1455,
+              "kpex": 63.196
+            },
+            "in1": {
+              "magic": 0.0063,
+              "kpex": 0.1519
+            },
+            "in2": {
+              "magic": 0.0458,
+              "kpex": 0.4268
+            },
+            "out": {
+              "magic": 67.0611,
+              "kpex": 54.2053
+            }
+          },
+          "coupling_fF": {
+            "ibias~out": {
+              "magic": 22.8083,
+              "kpex": 26.9981
+            },
+            "in1~in2": {
+              "magic": 0.5402,
+              "kpex": 0.5781
+            },
+            "in1~out": {
+              "magic": 0.2069,
+              "kpex": 0.2453
+            },
+            "in2~out": {
+              "magic": 0.1459,
+              "kpex": 0.1494
+            }
+          },
+          "total_fF": {
+            "magic": 230.193,
+            "kpex": 758.289
+          }
+        }
+      },
+      "note": "kpex 2.5D against Magic on the nets both name; kpex leaves a net it cannot match in its own LVS unnamed"
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-11-04T02:42:52+00:00",
+    "git_commit": "49a65808dfbc12b09a171c01a591626d086a8428",
+    "inputs": [
+      {
+        "path": "outputs/S5/loadbench_miller/s5_report.json",
+        "sha256": "b891380a0866ff05dfd11178c2a33127eef7bfd33d76f0188ca0ec6cf364d48b"
+      },
+      {
+        "path": "outputs/S2/loadbench_miller/budgets.json",
+        "sha256": "3a0c33b3b7e2b8ab38503acdb04c41cf71e9a696dbd46af201b6b2932c79127a"
+      },
+      {
+        "path": "outputs/S0/loadbench_miller/circuit_ir.json",
+        "sha256": "61d5a9a0de9faa8a4ea3056cfb0c341e2891dc5e292f05fd6a7b33f6f7948292"
+      },
+      {
+        "path": "inputs/loadbench_miller/package.yaml",
+        "sha256": "bd0dd6728a99edf7011a2972bce39f487728463e14083b7aa44691f3c00e33a4"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1241 @@
+{
+  "run_id": "2026-11-04T02:49:05-112fb8e4",
+  "design": "loadbench_miller",
+  "s3_run_id": "2026-11-03T20:06:04-51379e33",
+  "blocks": [
+    {
+      "name": "input_pair",
+      "kind": "diff_pair",
+      "type": "pmos",
+      "body": "FirstStageYsourceTransconductance",
+      "devices": [
+        "XNormalTransistorPmos7",
+        "XNormalTransistorPmos6"
+      ],
+      "variants": [
+        {
+          "id": "AB",
+          "cell": "input_pair__AB",
+          "arrangement": [
+            {
+              "device": "XNormalTransistorPmos7",
+              "cell": "pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng",
+              "mirror": false,
+              "x": 0.0
+            },
+            {
+              "device": "XNormalTransistorPmos6",
+              "cell": "pfet_01v8_lvt_W14p21_L0p89_m1__nf2_gboth_sdfull_outS_ng",
+              "mirror": true,
+              "x": 3.61
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/loadbench_miller/blocks/input_pair__AB/input_pair__AB.gds",
+            "rc": 0,
+            "log": "outputs/S4/loadbench_miller/blocks/input_pair__AB/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/input_pair__AB/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/input_pair__AB/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/loadbench_miller/blocks/input_pair__AB/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -3.2,
+              8.42,
+              12.22
+            ],
+            "ring": [
+              -0.8,
+              -2.7,
+              7.42,
+              11.72
+            ],
+            "row": [
+              0.0,
+              0.0,
+              6.62,
+              8.12
+            ],
+            "strips": [],
+            "tap_distance_max_um": 3.81,
+            "area_um2": 157.59
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "FirstStageYsourceTransconductance": {
+                  "layer": "metal3",
+                  "y": 9.12,
+                  "x": [
+                    -1.8,
+                    8.42
+                  ],
+                  "width": 0.4
+                },
+                "in1": {
+                  "layer": "metal3",
+                  "y": 10.02,
+                  "x": [
+                    -1.8,
+                    8.42
+                  ],
+                  "width": 0.4
+                },
+                "in2": {
+                  "layer": "metal3",
+                  "y": 10.92,
+                  "x": [
+                    -1.8,
+                    8.42
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "FirstStageYout1": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    8.42
+                  ],
+                  "width": 0.4
+                },
+                "outFirstStage": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    8.42
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "FirstStageYsourceTransconductance",
+              "port": "FirstStageYsourceTransconductance_body",
+              "layer": "locali",
+              "at": [
+                3.31,
+                -2.7
+              ]
+            }
+          },
+          "symmetry": {
+            "error_um": 0.0,
+            "centroid_offset_um": 3.61,
+            "mirror_image": true
+          },
+          "png": "outputs/S4/loadbench_miller/blocks/input_pair__AB/input_pair__AB.png",
+          "ok": true
+        },
+        {
+          "id": "ABBA",
+          "cell": "input_pair__ABBA",
+          "arrangement": [
+            {
+              "device": "XNormalTransistorPmos7",
+              "cell": "pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng",
+              "mirror": false,
+              "x": 0.0
+            },
+            {
+              "device": "XNormalTransistorPmos6",
+              "cell": "pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng",
+              "mirror": false,
+              "x": 2.43
+            },
+            {
+              "device": "XNormalTransistorPmos6",
+              "cell": "pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng",
+              "mirror": true,
+              "x": 4.86
+            },
+            {
+              "device": "XNormalTransistorPmos7",
+              "cell": "pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng",
+              "mirror": true,
+              "x": 7.29
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/loadbench_miller/blocks/input_pair__ABBA/input_pair__ABBA.gds",
+            "rc": 0,
+            "log": "outputs/S4/loadbench_miller/blocks/input_pair__ABBA/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/input_pair__ABBA/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/input_pair__ABBA/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/loadbench_miller/blocks/input_pair__ABBA/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -4.1,
+              10.92,
+              11.32
+            ],
+            "ring": [
+              -0.8,
+              -3.6,
+              9.92,
+              10.82
+            ],
+            "row": [
+              0.0,
+              0.0,
+              9.12,
+              8.12
+            ],
+            "strips": [],
+            "tap_distance_max_um": 5.06,
+            "area_um2": 196.14
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "in1": {
+                  "layer": "metal3",
+                  "y": 9.12,
+                  "x": [
+                    -1.8,
+                    10.92
+                  ],
+                  "width": 0.4
+                },
+                "in2": {
+                  "layer": "metal3",
+                  "y": 10.02,
+                  "x": [
+                    -1.8,
+                    10.92
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "FirstStageYout1": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    10.92
+                  ],
+                  "width": 0.4
+                },
+                "FirstStageYsourceTransconductance": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    10.92
+                  ],
+                  "width": 0.4
+                },
+                "outFirstStage": {
+                  "layer": "metal3",
+                  "y": -2.8,
+                  "x": [
+                    -1.8,
+                    10.92
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "FirstStageYsourceTransconductance",
+              "port": "FirstStageYsourceTransconductance_body",
+              "layer": "locali",
+              "at": [
+                4.56,
+                -3.6
+              ]
+            }
+          },
+          "symmetry": {
+            "error_um": 0.0,
+            "centroid_offset_um": 0.0,
+            "mirror_image": true
+          },
+          "png": "outputs/S4/loadbench_miller/blocks/input_pair__ABBA/input_pair__ABBA.png",
+          "ok": true
+        },
+        {
+          "id": "ABAB",
+          "cell": "input_pair__ABAB",
+          "arrangement": [
+            {
+              "device": "XNormalTransistorPmos7",
+              "cell": "pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng",
+              "mirror": false,
+              "x": 0.0
+            },
+            {
+              "device": "XNormalTransistorPmos6",
+              "cell": "pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng",
+              "mirror": false,
+              "x": 2.43
+            },
+            {
+              "device": "XNormalTransistorPmos7",
+              "cell": "pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng",
+              "mirror": false,
+              "x": 4.86
+            },
+            {
+              "device": "XNormalTransistorPmos6",
+              "cell": "pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng",
+              "mirror": false,
+              "x": 7.29
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/loadbench_miller/blocks/input_pair__ABAB/input_pair__ABAB.gds",
+            "rc": 0,
+            "log": "outputs/S4/loadbench_miller/blocks/input_pair__ABAB/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/input_pair__ABAB/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/input_pair__ABAB/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/loadbench_miller/blocks/input_pair__ABAB/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -4.1,
+              10.92,
+              11.32
+            ],
+            "ring": [
+              -0.8,
+              -3.6,
+              9.92,
+              10.82
+            ],
+            "row": [
+              0.0,
+              0.0,
+              9.12,
+              8.12
+            ],
+            "strips": [],
+            "tap_distance_max_um": 5.06,
+            "area_um2": 196.14
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "in1": {
+                  "layer": "metal3",
+                  "y": 9.12,
+                  "x": [
+                    -1.8,
+                    10.92
+                  ],
+                  "width": 0.4
+                },
+                "in2": {
+                  "layer": "metal3",
+                  "y": 10.02,
+                  "x": [
+                    -1.8,
+                    10.92
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "FirstStageYout1": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    10.92
+                  ],
+                  "width": 0.4
+                },
+                "FirstStageYsourceTransconductance": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    10.92
+                  ],
+                  "width": 0.4
+                },
+                "outFirstStage": {
+                  "layer": "metal3",
+                  "y": -2.8,
+                  "x": [
+                    -1.8,
+                    10.92
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "FirstStageYsourceTransconductance",
+              "port": "FirstStageYsourceTransconductance_body",
+              "layer": "locali",
+              "at": [
+                4.56,
+                -3.6
+              ]
+            }
+          },
+          "symmetry": {
+            "error_um": 0.0,
+            "centroid_offset_um": 2.43,
+            "mirror_image": false
+          },
+          "png": "outputs/S4/loadbench_miller/blocks/input_pair__ABAB/input_pair__ABAB.png",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "nmos_mirror_load",
+      "kind": "mirror",
+      "type": "nmos",
+      "body": "sourceNmos",
+      "devices": [
+        "XDiodeTransistorNmos1",
+        "XNormalTransistorNmos4"
+      ],
+      "variants": [
+        {
+          "id": "AB",
+          "cell": "nmos_mirror_load__AB",
+          "arrangement": [
+            {
+              "device": "XDiodeTransistorNmos1",
+              "cell": "nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng",
+              "mirror": false,
+              "x": 0.0
+            },
+            {
+              "device": "XNormalTransistorNmos4",
+              "cell": "nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng",
+              "mirror": true,
+              "x": 19.7
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__AB/nmos_mirror_load__AB.gds",
+            "rc": 0,
+            "log": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__AB/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__AB/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__AB/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__AB/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -2.91,
+              41.4,
+              12.1
+            ],
+            "ring": [
+              -0.8,
+              -2.7,
+              40.4,
+              11.89
+            ],
+            "row": [
+              0.0,
+              0.0,
+              38.8,
+              9.19
+            ],
+            "strips": [],
+            "tap_distance_max_um": 7.295,
+            "area_um2": 648.43
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "sourceNmos": {
+                  "layer": "metal3",
+                  "y": 10.19,
+                  "x": [
+                    -1.8,
+                    41.4
+                  ],
+                  "width": 0.4
+                },
+                "FirstStageYout1": {
+                  "layer": "metal3",
+                  "y": 11.09,
+                  "x": [
+                    -1.8,
+                    41.4
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "FirstStageYout1": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    41.4
+                  ],
+                  "width": 0.4
+                },
+                "outFirstStage": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    41.4
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "sourceNmos",
+              "port": "sourceNmos_body",
+              "layer": "locali",
+              "at": [
+                19.8,
+                -2.7
+              ]
+            }
+          },
+          "symmetry": {
+            "error_um": 0.0,
+            "centroid_offset_um": 19.7,
+            "mirror_image": true
+          },
+          "png": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__AB/nmos_mirror_load__AB.png",
+          "ok": true
+        },
+        {
+          "id": "ABBA",
+          "cell": "nmos_mirror_load__ABBA",
+          "arrangement": [
+            {
+              "device": "XDiodeTransistorNmos1",
+              "cell": "nfet_01v8_lvt_W33p065_L2p03_m1__nf4_gboth_sdfull_outS_ng",
+              "mirror": false,
+              "x": 0.0
+            },
+            {
+              "device": "XNormalTransistorNmos4",
+              "cell": "nfet_01v8_lvt_W33p065_L2p03_m1__nf4_gboth_sdfull_outS_ng",
+              "mirror": false,
+              "x": 10.42
+            },
+            {
+              "device": "XNormalTransistorNmos4",
+              "cell": "nfet_01v8_lvt_W33p065_L2p03_m1__nf4_gboth_sdfull_outS_ng",
+              "mirror": true,
+              "x": 20.84
+            },
+            {
+              "device": "XDiodeTransistorNmos1",
+              "cell": "nfet_01v8_lvt_W33p065_L2p03_m1__nf4_gboth_sdfull_outS_ng",
+              "mirror": true,
+              "x": 31.26
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__ABBA/nmos_mirror_load__ABBA.gds",
+            "rc": 0,
+            "log": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__ABBA/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__ABBA/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__ABBA/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__ABBA/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -2.91,
+              43.68,
+              12.1
+            ],
+            "ring": [
+              -0.8,
+              -2.7,
+              42.68,
+              11.89
+            ],
+            "row": [
+              0.0,
+              0.0,
+              41.08,
+              9.19
+            ],
+            "strips": [],
+            "tap_distance_max_um": 7.295,
+            "area_um2": 682.65
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "sourceNmos": {
+                  "layer": "metal3",
+                  "y": 10.19,
+                  "x": [
+                    -1.8,
+                    43.68
+                  ],
+                  "width": 0.4
+                },
+                "FirstStageYout1": {
+                  "layer": "metal3",
+                  "y": 11.09,
+                  "x": [
+                    -1.8,
+                    43.68
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "FirstStageYout1": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    43.68
+                  ],
+                  "width": 0.4
+                },
+                "outFirstStage": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    43.68
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "sourceNmos",
+              "port": "sourceNmos_body",
+              "layer": "locali",
+              "at": [
+                20.94,
+                -2.7
+              ]
+            }
+          },
+          "symmetry": {
+            "error_um": 0.0,
+            "centroid_offset_um": 0.0,
+            "mirror_image": true
+          },
+          "png": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__ABBA/nmos_mirror_load__ABBA.png",
+          "ok": true
+        },
+        {
+          "id": "ABAB",
+          "cell": "nmos_mirror_load__ABAB",
+          "arrangement": [
+            {
+              "device": "XDiodeTransistorNmos1",
+              "cell": "nfet_01v8_lvt_W33p065_L2p03_m1__nf4_gboth_sdfull_outS_ng",
+              "mirror": false,
+              "x": 0.0
+            },
+            {
+              "device": "XNormalTransistorNmos4",
+              "cell": "nfet_01v8_lvt_W33p065_L2p03_m1__nf4_gboth_sdfull_outS_ng",
+              "mirror": false,
+              "x": 10.42
+            },
+            {
+              "device": "XDiodeTransistorNmos1",
+              "cell": "nfet_01v8_lvt_W33p065_L2p03_m1__nf4_gboth_sdfull_outS_ng",
+              "mirror": false,
+              "x": 20.84
+            },
+            {
+              "device": "XNormalTransistorNmos4",
+              "cell": "nfet_01v8_lvt_W33p065_L2p03_m1__nf4_gboth_sdfull_outS_ng",
+              "mirror": false,
+              "x": 31.26
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__ABAB/nmos_mirror_load__ABAB.gds",
+            "rc": 0,
+            "log": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__ABAB/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__ABAB/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__ABAB/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__ABAB/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -2.91,
+              43.68,
+              12.1
+            ],
+            "ring": [
+              -0.8,
+              -2.7,
+              42.68,
+              11.89
+            ],
+            "row": [
+              0.0,
+              0.0,
+              41.08,
+              9.19
+            ],
+            "strips": [],
+            "tap_distance_max_um": 7.295,
+            "area_um2": 682.65
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "sourceNmos": {
+                  "layer": "metal3",
+                  "y": 10.19,
+                  "x": [
+                    -1.8,
+                    43.68
+                  ],
+                  "width": 0.4
+                },
+                "FirstStageYout1": {
+                  "layer": "metal3",
+                  "y": 11.09,
+                  "x": [
+                    -1.8,
+                    43.68
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "FirstStageYout1": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    43.68
+                  ],
+                  "width": 0.4
+                },
+                "outFirstStage": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    43.68
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "sourceNmos",
+              "port": "sourceNmos_body",
+              "layer": "locali",
+              "at": [
+                20.94,
+                -2.7
+              ]
+            }
+          },
+          "symmetry": {
+            "error_um": 0.0,
+            "centroid_offset_um": 10.42,
+            "mirror_image": false
+          },
+          "png": "outputs/S4/loadbench_miller/blocks/nmos_mirror_load__ABAB/nmos_mirror_load__ABAB.png",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "pmos_bias_bank",
+      "kind": "mirror",
+      "type": "pmos",
+      "body": "sourcePmos",
+      "devices": [
+        "XDiodeTransistorPmos2",
+        "XNormalTransistorPmos8",
+        "XNormalTransistorPmos5"
+      ],
+      "variants": [
+        {
+          "id": "row",
+          "cell": "pmos_bias_bank__row",
+          "arrangement": [
+            {
+              "device": "XDiodeTransistorPmos2",
+              "cell": "pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng",
+              "mirror": false,
+              "x": 0.0
+            },
+            {
+              "device": "XNormalTransistorPmos8",
+              "cell": "pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng",
+              "mirror": false,
+              "x": 2.28
+            },
+            {
+              "device": "XNormalTransistorPmos5",
+              "cell": "pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng",
+              "mirror": false,
+              "x": 12.77
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/loadbench_miller/blocks/pmos_bias_bank__row/pmos_bias_bank__row.gds",
+            "rc": 0,
+            "log": "outputs/S4/loadbench_miller/blocks/pmos_bias_bank__row/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/pmos_bias_bank__row/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/pmos_bias_bank__row/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/loadbench_miller/blocks/pmos_bias_bank__row/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -5.0,
+              33.3,
+              59.65
+            ],
+            "ring": [
+              -0.8,
+              -4.5,
+              32.3,
+              59.15
+            ],
+            "row": [
+              0.0,
+              0.0,
+              29.9,
+              56.45
+            ],
+            "strips": [
+              11.97
+            ],
+            "tap_distance_max_um": 10.121,
+            "area_um2": 2269.21
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "ibias": {
+                  "layer": "metal3",
+                  "y": 57.45,
+                  "x": [
+                    -1.8,
+                    33.3
+                  ],
+                  "width": 0.4
+                },
+                "sourcePmos": {
+                  "layer": "metal3",
+                  "y": 58.35,
+                  "x": [
+                    -1.8,
+                    33.3
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "ibias": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    33.3
+                  ],
+                  "width": 0.4
+                },
+                "sourcePmos": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    33.3
+                  ],
+                  "width": 0.4
+                },
+                "FirstStageYsourceTransconductance": {
+                  "layer": "metal3",
+                  "y": -2.8,
+                  "x": [
+                    -1.8,
+                    33.3
+                  ],
+                  "width": 0.4
+                },
+                "out": {
+                  "layer": "metal3",
+                  "y": -3.7,
+                  "x": [
+                    -1.8,
+                    33.3
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "sourcePmos",
+              "port": "sourcePmos_body",
+              "layer": "locali",
+              "at": [
+                15.75,
+                -4.5
+              ]
+            }
+          },
+          "symmetry": {},
+          "png": "outputs/S4/loadbench_miller/blocks/pmos_bias_bank__row/pmos_bias_bank__row.png",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "cs_stage",
+      "kind": "common-source-stage",
+      "type": "nmos",
+      "body": "sourceNmos",
+      "devices": [
+        "XNormalTransistorNmos3"
+      ],
+      "variants": [
+        {
+          "id": "A",
+          "cell": "cs_stage__A",
+          "arrangement": [
+            {
+              "device": "XNormalTransistorNmos3",
+              "cell": "nfet_01v8_lvt_W484p2_L0p24_m1__nf32_gtop_sdhalf_outS_ng",
+              "mirror": false,
+              "x": 0.0
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/loadbench_miller/blocks/cs_stage__A/cs_stage__A.gds",
+            "rc": 0,
+            "log": "outputs/S4/loadbench_miller/blocks/cs_stage__A/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/cs_stage__A/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/cs_stage__A/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/loadbench_miller/blocks/cs_stage__A/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -2.01,
+              19.3,
+              18.68
+            ],
+            "ring": [
+              -0.8,
+              -1.8,
+              18.3,
+              18.47
+            ],
+            "row": [
+              0.0,
+              0.0,
+              17.5,
+              15.77
+            ],
+            "strips": [],
+            "tap_distance_max_um": 9.55,
+            "area_um2": 436.56
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "sourceNmos": {
+                  "layer": "metal3",
+                  "y": 16.77,
+                  "x": [
+                    -1.8,
+                    19.3
+                  ],
+                  "width": 0.4
+                },
+                "outFirstStage": {
+                  "layer": "metal3",
+                  "y": 17.67,
+                  "x": [
+                    -1.8,
+                    19.3
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "out": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    19.3
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "sourceNmos",
+              "port": "sourceNmos_body",
+              "layer": "locali",
+              "at": [
+                8.75,
+                -1.8
+              ]
+            }
+          },
+          "symmetry": {},
+          "png": "outputs/S4/loadbench_miller/blocks/cs_stage__A/cs_stage__A.png",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "Capacitor2",
+      "kind": "mim_cap",
+      "type": "cap",
+      "body": null,
+      "devices": [
+        "Capacitor2"
+      ],
+      "binding": {
+        "model": "sky130_fd_pr__cap_mim_m3_1",
+        "params": {
+          "W": 15.66,
+          "L": 15.66
+        },
+        "status": "PREDICTED binding (ASSUMPTION)",
+        "top": "outFirstStage",
+        "bottom": "out"
+      },
+      "variants": [
+        {
+          "id": "A",
+          "cell": "Capacitor2__A",
+          "arrangement": [
+            {
+              "device": "Capacitor2",
+              "cell": "Capacitor2_mim",
+              "mirror": false,
+              "x": 0.0
+            }
+          ],
+          "binding": {
+            "model": "sky130_fd_pr__cap_mim_m3_1",
+            "params": {
+              "W": 15.66,
+              "L": 15.66
+            },
+            "status": "PREDICTED binding (ASSUMPTION)",
+            "top": "outFirstStage",
+            "bottom": "out"
+          },
+          "build": {
+            "gds": "outputs/S4/loadbench_miller/blocks/Capacitor2__A/Capacitor2__A.gds",
+            "rc": 0,
+            "log": "outputs/S4/loadbench_miller/blocks/Capacitor2__A/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/Capacitor2__A/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/loadbench_miller/blocks/Capacitor2__A/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/loadbench_miller/blocks/Capacitor2__A/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -1.65,
+              19.62,
+              17.71
+            ],
+            "ring": [
+              -0.8,
+              -2.25,
+              18.62,
+              18.31
+            ],
+            "row": [
+              0.0,
+              0.0,
+              17.82,
+              16.06
+            ],
+            "strips": [],
+            "tap_distance_max_um": null,
+            "keepouts": [
+              {
+                "layer": "metal3",
+                "box": [
+                  -0.9,
+                  -0.9,
+                  17.82,
+                  16.96
+                ],
+                "net": null
+              },
+              {
+                "layer": "metal4",
+                "box": [
+                  0.395,
+                  0.06,
+                  17.8,
+                  16.0
+                ],
+                "net": null
+              },
+              {
+                "layer": "metal4",
+                "box": [
+                  7.83,
+                  15.465,
+                  8.23,
+                  17.71
+                ],
+                "net": "outFirstStage"
+              },
+              {
+                "layer": "metal4",
+                "box": [
+                  17.36,
+                  -1.65,
+                  17.76,
+                  0.26
+                ],
+                "net": "out"
+              }
+            ],
+            "area_um2": 414.69
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "outFirstStage": {
+                  "layer": "metal3",
+                  "y": 17.51,
+                  "x": [
+                    -1.8,
+                    19.62
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "out": {
+                  "layer": "metal3",
+                  "y": -1.45,
+                  "x": [
+                    -1.8,
+                    19.62
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": null
+          },
+          "symmetry": {},
+          "png": "outputs/S4/loadbench_miller/blocks/Capacitor2__A/Capacitor2__A.png",
+          "ok": true
+        }
+      ]
+    }
+  ]
+}

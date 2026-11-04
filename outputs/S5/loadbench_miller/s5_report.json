@@ -1,0 +1,901 @@
+{
+  "run_id": "2026-11-04T02:59:48-d6dfed33",
+  "design": "loadbench_miller",
+  "s4_run_id": "2026-11-04T02:49:05-112fb8e4",
+  "gates": {
+    "G5.1_placement_legal": {
+      "pass": true,
+      "detail": {
+        "budget_aware": {
+          "min_separation_um": 3.0,
+          "separation_ok": true,
+          "pmos_above_nmos": true,
+          "symmetric_axes": {
+            "input_pair": -0.0,
+            "nmos_mirror_load": 0.0
+          },
+          "axes_ok": true,
+          "drc_unrouted": 0
+        },
+        "area_only": {
+          "min_separation_um": 3.0,
+          "separation_ok": true,
+          "pmos_above_nmos": true,
+          "symmetric_axes": {
+            "input_pair": -0.0,
+            "nmos_mirror_load": 0.0
+          },
+          "axes_ok": true,
+          "drc_unrouted": 0
+        }
+      }
+    },
+    "G5.5_area_vs_area_only (info)": {
+      "pass": null,
+      "budget_aware_area_um2": 5679.53,
+      "area_only_area_um2": 5679.53,
+      "area_ratio": 1.0,
+      "u_budget_aware": {
+        "FirstStageYout1": 0.4988,
+        "FirstStageYsourceTransconductance": 0.286,
+        "ibias": 0.0,
+        "out": 0.7898,
+        "outFirstStage": 1.6486
+      },
+      "u_area_only": {
+        "FirstStageYout1": 0.4988,
+        "FirstStageYsourceTransconductance": 0.286,
+        "ibias": 0.0,
+        "out": 0.7898,
+        "outFirstStage": 1.6486
+      },
+      "same_placement": true
+    },
+    "G5.2_top_DRC": {
+      "pass": true,
+      "detail": {
+        "budget_aware": 0,
+        "area_only": 0
+      }
+    },
+    "G5.3_top_LVS": {
+      "pass": true,
+      "detail": {
+        "budget_aware": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "report": "outputs/S5/loadbench_miller/routed_budget_aware/lvs/lvs/lvs_report.txt"
+        },
+        "area_only": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "report": "outputs/S5/loadbench_miller/routed_area_only/lvs/lvs/lvs_report.txt"
+        }
+      }
+    },
+    "G5.4_route_rules": {
+      "pass": false,
+      "detail": {
+        "budget_aware": {
+          "max_length": {
+            "FirstStageYout1": {
+              "use": 0.4988,
+              "ok": true,
+              "length_um": {
+                "metal4": 6.21,
+                "metal3": 0
+              }
+            },
+            "FirstStageYsourceTransconductance": {
+              "use": 0.2974,
+              "ok": true,
+              "length_um": {
+                "metal4": 20.12,
+                "metal3": 0.8
+              }
+            },
+            "IBIAS": {
+              "use": 0.0,
+              "ok": true,
+              "length_um": {
+                "metal4": 0.0,
+                "metal3": 0
+              }
+            },
+            "out": {
+              "use": 0.7997,
+              "ok": true,
+              "length_um": {
+                "metal4": 61.22,
+                "metal3": 3.8
+              }
+            },
+            "outFirstStage": {
+              "use": 1.6978,
+              "ok": false,
+              "length_um": {
+                "metal4": 23.84,
+                "metal3": 3.8
+              }
+            }
+          },
+          "max_parallel": {
+            "FirstStageYout1~FirstStageYsourceTransconductance.metal3": {
+              "run_um": 0.0,
+              "limit_um": 156.67,
+              "ok": true
+            },
+            "FirstStageYout1~FirstStageYsourceTransconductance": {
+              "run_um": 1.7,
+              "limit_um": 153.29,
+              "ok": true
+            },
+            "FirstStageYout1~IBIAS.metal3": {
+              "run_um": 0.0,
+              "limit_um": 8.54,
+              "ok": true
+            },
+            "FirstStageYout1~IBIAS": {
+              "run_um": 0.0,
+              "limit_um": 8.36,
+              "ok": true
+            },
+            "FirstStageYout1~out.metal3": {
+              "run_um": 0.0,
+              "limit_um": 8.54,
+              "ok": true
+            },
+            "FirstStageYout1~out": {
+              "run_um": 6.21,
+              "limit_um": 8.36,
+              "ok": true
+            },
+            "FirstStageYout1~outFirstStage.metal3": {
+              "run_um": 0.0,
+              "limit_um": 44.58,
+              "ok": true
+            },
+            "FirstStageYout1~outFirstStage": {
+              "run_um": 0.0,
+              "limit_um": 43.62,
+              "ok": true
+            },
+            "FirstStageYout1~in1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 12.06,
+              "ok": true
+            },
+            "FirstStageYout1~in1": {
+              "run_um": 0.0,
+              "limit_um": 11.8,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~IBIAS.metal3": {
+              "run_um": 0.0,
+              "limit_um": 318.32,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~IBIAS": {
+              "run_um": 0.0,
+              "limit_um": 311.45,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~out.metal3": {
+              "run_um": 0.0,
+              "limit_um": 3.8,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~out": {
+              "run_um": 0.0,
+              "limit_um": 3.72,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~outFirstStage.metal3": {
+              "run_um": 0.0,
+              "limit_um": 11.56,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~outFirstStage": {
+              "run_um": 0.8,
+              "limit_um": 11.31,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~in1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 113.09,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~in1": {
+              "run_um": 0.0,
+              "limit_um": 110.65,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~in2.metal3": {
+              "run_um": 0.0,
+              "limit_um": 21.48,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~in2": {
+              "run_um": 0.0,
+              "limit_um": 21.01,
+              "ok": true
+            },
+            "IBIAS~out.metal3": {
+              "run_um": 0.0,
+              "limit_um": 385.7,
+              "ok": true
+            },
+            "IBIAS~out": {
+              "run_um": 0.0,
+              "limit_um": 377.38,
+              "ok": true
+            },
+            "IBIAS~outFirstStage.metal3": {
+              "run_um": 0.0,
+              "limit_um": 9.58,
+              "ok": true
+            },
+            "IBIAS~outFirstStage": {
+              "run_um": 0.0,
+              "limit_um": 9.37,
+              "ok": true
+            },
+            "IBIAS~in1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 17.78,
+              "ok": true
+            },
+            "IBIAS~in1": {
+              "run_um": 0.0,
+              "limit_um": 17.4,
+              "ok": true
+            },
+            "out~outFirstStage.metal3": {
+              "run_um": 0.0,
+              "limit_um": 89.52,
+              "ok": true
+            },
+            "out~outFirstStage": {
+              "run_um": 0.0,
+              "limit_um": 87.59,
+              "ok": true
+            },
+            "out~in1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.88,
+              "ok": true
+            },
+            "out~in1": {
+              "run_um": 0.0,
+              "limit_um": 0.86,
+              "ok": true
+            },
+            "out~in2.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.88,
+              "ok": true
+            },
+            "out~in2": {
+              "run_um": 0.0,
+              "limit_um": 0.86,
+              "ok": true
+            },
+            "outFirstStage~in1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.88,
+              "ok": true
+            },
+            "outFirstStage~in1": {
+              "run_um": 0.0,
+              "limit_um": 0.86,
+              "ok": true
+            },
+            "outFirstStage~in2.metal3": {
+              "run_um": 0.0,
+              "limit_um": 9.49,
+              "ok": true
+            },
+            "outFirstStage~in2": {
+              "run_um": 0.0,
+              "limit_um": 9.29,
+              "ok": true
+            }
+          },
+          "max_series_R": {
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": {
+              "net": "outFirstStage",
+              "route_ohm": 16.888,
+              "left_ohm": 6.553,
+              "ok": false
+            },
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": {
+              "net": "FirstStageYout1",
+              "route_ohm": 7.55,
+              "left_ohm": 11.839,
+              "ok": true
+            },
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": {
+              "net": "sourceNmos",
+              "route_ohm": 19.42,
+              "left_ohm": 8.474,
+              "ok": false
+            },
+            "XDiodeTransistorPmos2.d": {
+              "net": "IBIAS",
+              "route_ohm": 3.41,
+              "left_ohm": 202.919,
+              "ok": true
+            },
+            "XDiodeTransistorPmos2.s": {
+              "net": "sourcePmos",
+              "route_ohm": 14.299,
+              "left_ohm": 156.219,
+              "ok": true
+            },
+            "XNormalTransistorNmos3.d": {
+              "net": "out",
+              "route_ohm": 17.87,
+              "left_ohm": 15.622,
+              "ok": false
+            },
+            "XNormalTransistorNmos3.g": {
+              "net": "outFirstStage",
+              "route_ohm": 16.888,
+              "left_ohm": 314.942,
+              "ok": true
+            },
+            "XNormalTransistorNmos3.s": {
+              "net": "sourceNmos",
+              "route_ohm": 19.42,
+              "left_ohm": 15.384,
+              "ok": false
+            },
+            "XNormalTransistorPmos5.d": {
+              "net": "out",
+              "route_ohm": 17.87,
+              "left_ohm": 27.354,
+              "ok": true
+            },
+            "XNormalTransistorPmos5.g": {
+              "net": "IBIAS",
+              "route_ohm": 3.41,
+              "left_ohm": 746.797,
+              "ok": true
+            },
+            "XNormalTransistorPmos5.s": {
+              "net": "sourcePmos",
+              "route_ohm": 14.299,
+              "left_ohm": 35.005,
+              "ok": true
+            },
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.d": {
+              "net": "outFirstStage",
+              "route_ohm": 16.888,
+              "left_ohm": -14.146,
+              "ok": false
+            },
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.g": {
+              "net": "in2",
+              "route_ohm": 3.41,
+              "left_ohm": -0.0,
+              "ok": false
+            },
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.s": {
+              "net": "FirstStageYsourceTransconductance",
+              "route_ohm": 12.688,
+              "left_ohm": -0.0,
+              "ok": false
+            },
+            "XNormalTransistorPmos8.d": {
+              "net": "FirstStageYsourceTransconductance",
+              "route_ohm": 12.688,
+              "left_ohm": 92.34,
+              "ok": true
+            },
+            "XNormalTransistorPmos8.g": {
+              "net": "IBIAS",
+              "route_ohm": 3.41,
+              "left_ohm": 21.683,
+              "ok": true
+            },
+            "XNormalTransistorPmos8.s": {
+              "net": "sourcePmos",
+              "route_ohm": 14.299,
+              "left_ohm": 67.871,
+              "ok": true
+            }
+          },
+          "symmetric": {
+            "route.symmetric.inputs": {
+              "class": "hard",
+              "x": [
+                -2.4,
+                2.4
+              ],
+              "ok": true
+            },
+            "route.symmetric.pair_drains": {
+              "class": "soft",
+              "x": [
+                -0.8,
+                1.6
+              ],
+              "ok": false
+            }
+          },
+          "not_evaluated": [
+            {
+              "id": "route.em_width.FirstStageYout1",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.em_width.sourceNmos",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.em_width.ibias",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.em_width.sourcePmos",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.em_width.out",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.em_width.outFirstStage",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.em_width.FirstStageYsourceTransconductance",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.bias_net.IBIAS",
+              "class": "soft",
+              "note": "couplings onto the bias net consume no margin in this model; the impedance of the real bias generator is needed to budget them (ASSUMPTION)"
+            },
+            {
+              "id": "route.no_cross_digital",
+              "class": "hard",
+              "note": "no digital or clock nets in this circuit"
+            }
+          ],
+          "covered": "max_length on metal4 enters the metal3+metal4 sum; top-level routing uses no metal1 or metal2, so those layers' length and parallel rules have no top-level wire to apply to",
+          "pass": false
+        },
+        "area_only": {
+          "max_length": {
+            "FirstStageYout1": {
+              "use": 0.4988,
+              "ok": true,
+              "length_um": {
+                "metal4": 6.21,
+                "metal3": 0
+              }
+            },
+            "FirstStageYsourceTransconductance": {
+              "use": 0.2974,
+              "ok": true,
+              "length_um": {
+                "metal4": 20.12,
+                "metal3": 0.8
+              }
+            },
+            "IBIAS": {
+              "use": 0.0,
+              "ok": true,
+              "length_um": {
+                "metal4": 0.0,
+                "metal3": 0
+              }
+            },
+            "out": {
+              "use": 0.7997,
+              "ok": true,
+              "length_um": {
+                "metal4": 61.22,
+                "metal3": 3.8
+              }
+            },
+            "outFirstStage": {
+              "use": 1.6978,
+              "ok": false,
+              "length_um": {
+                "metal4": 23.84,
+                "metal3": 3.8
+              }
+            }
+          },
+          "max_parallel": {
+            "FirstStageYout1~FirstStageYsourceTransconductance.metal3": {
+              "run_um": 0.0,
+              "limit_um": 156.67,
+              "ok": true
+            },
+            "FirstStageYout1~FirstStageYsourceTransconductance": {
+              "run_um": 1.7,
+              "limit_um": 153.29,
+              "ok": true
+            },
+            "FirstStageYout1~IBIAS.metal3": {
+              "run_um": 0.0,
+              "limit_um": 8.54,
+              "ok": true
+            },
+            "FirstStageYout1~IBIAS": {
+              "run_um": 0.0,
+              "limit_um": 8.36,
+              "ok": true
+            },
+            "FirstStageYout1~out.metal3": {
+              "run_um": 0.0,
+              "limit_um": 8.54,
+              "ok": true
+            },
+            "FirstStageYout1~out": {
+              "run_um": 6.21,
+              "limit_um": 8.36,
+              "ok": true
+            },
+            "FirstStageYout1~outFirstStage.metal3": {
+              "run_um": 0.0,
+              "limit_um": 44.58,
+              "ok": true
+            },
+            "FirstStageYout1~outFirstStage": {
+              "run_um": 0.0,
+              "limit_um": 43.62,
+              "ok": true
+            },
+            "FirstStageYout1~in1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 12.06,
+              "ok": true
+            },
+            "FirstStageYout1~in1": {
+              "run_um": 0.0,
+              "limit_um": 11.8,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~IBIAS.metal3": {
+              "run_um": 0.0,
+              "limit_um": 318.32,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~IBIAS": {
+              "run_um": 0.0,
+              "limit_um": 311.45,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~out.metal3": {
+              "run_um": 0.0,
+              "limit_um": 3.8,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~out": {
+              "run_um": 0.0,
+              "limit_um": 3.72,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~outFirstStage.metal3": {
+              "run_um": 0.0,
+              "limit_um": 11.56,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~outFirstStage": {
+              "run_um": 0.8,
+              "limit_um": 11.31,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~in1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 113.09,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~in1": {
+              "run_um": 0.0,
+              "limit_um": 110.65,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~in2.metal3": {
+              "run_um": 0.0,
+              "limit_um": 21.48,
+              "ok": true
+            },
+            "FirstStageYsourceTransconductance~in2": {
+              "run_um": 0.0,
+              "limit_um": 21.01,
+              "ok": true
+            },
+            "IBIAS~out.metal3": {
+              "run_um": 0.0,
+              "limit_um": 385.7,
+              "ok": true
+            },
+            "IBIAS~out": {
+              "run_um": 0.0,
+              "limit_um": 377.38,
+              "ok": true
+            },
+            "IBIAS~outFirstStage.metal3": {
+              "run_um": 0.0,
+              "limit_um": 9.58,
+              "ok": true
+            },
+            "IBIAS~outFirstStage": {
+              "run_um": 0.0,
+              "limit_um": 9.37,
+              "ok": true
+            },
+            "IBIAS~in1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 17.78,
+              "ok": true
+            },
+            "IBIAS~in1": {
+              "run_um": 0.0,
+              "limit_um": 17.4,
+              "ok": true
+            },
+            "out~outFirstStage.metal3": {
+              "run_um": 0.0,
+              "limit_um": 89.52,
+              "ok": true
+            },
+            "out~outFirstStage": {
+              "run_um": 0.0,
+              "limit_um": 87.59,
+              "ok": true
+            },
+            "out~in1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.88,
+              "ok": true
+            },
+            "out~in1": {
+              "run_um": 0.0,
+              "limit_um": 0.86,
+              "ok": true
+            },
+            "out~in2.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.88,
+              "ok": true
+            },
+            "out~in2": {
+              "run_um": 0.0,
+              "limit_um": 0.86,
+              "ok": true
+            },
+            "outFirstStage~in1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.88,
+              "ok": true
+            },
+            "outFirstStage~in1": {
+              "run_um": 0.0,
+              "limit_um": 0.86,
+              "ok": true
+            },
+            "outFirstStage~in2.metal3": {
+              "run_um": 0.0,
+              "limit_um": 9.49,
+              "ok": true
+            },
+            "outFirstStage~in2": {
+              "run_um": 0.0,
+              "limit_um": 9.29,
+              "ok": true
+            }
+          },
+          "max_series_R": {
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.d": {
+              "net": "outFirstStage",
+              "route_ohm": 16.888,
+              "left_ohm": 6.553,
+              "ok": false
+            },
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.g": {
+              "net": "FirstStageYout1",
+              "route_ohm": 7.55,
+              "left_ohm": 11.839,
+              "ok": true
+            },
+            "XDiodeTransistorNmos1+XNormalTransistorNmos4.s": {
+              "net": "sourceNmos",
+              "route_ohm": 19.42,
+              "left_ohm": 8.474,
+              "ok": false
+            },
+            "XDiodeTransistorPmos2.d": {
+              "net": "IBIAS",
+              "route_ohm": 3.41,
+              "left_ohm": 202.919,
+              "ok": true
+            },
+            "XDiodeTransistorPmos2.s": {
+              "net": "sourcePmos",
+              "route_ohm": 14.299,
+              "left_ohm": 156.219,
+              "ok": true
+            },
+            "XNormalTransistorNmos3.d": {
+              "net": "out",
+              "route_ohm": 17.87,
+              "left_ohm": 15.622,
+              "ok": false
+            },
+            "XNormalTransistorNmos3.g": {
+              "net": "outFirstStage",
+              "route_ohm": 16.888,
+              "left_ohm": 314.942,
+              "ok": true
+            },
+            "XNormalTransistorNmos3.s": {
+              "net": "sourceNmos",
+              "route_ohm": 19.42,
+              "left_ohm": 15.384,
+              "ok": false
+            },
+            "XNormalTransistorPmos5.d": {
+              "net": "out",
+              "route_ohm": 17.87,
+              "left_ohm": 27.354,
+              "ok": true
+            },
+            "XNormalTransistorPmos5.g": {
+              "net": "IBIAS",
+              "route_ohm": 3.41,
+              "left_ohm": 746.797,
+              "ok": true
+            },
+            "XNormalTransistorPmos5.s": {
+              "net": "sourcePmos",
+              "route_ohm": 14.299,
+              "left_ohm": 35.005,
+              "ok": true
+            },
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.d": {
+              "net": "outFirstStage",
+              "route_ohm": 16.888,
+              "left_ohm": -14.146,
+              "ok": false
+            },
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.g": {
+              "net": "in2",
+              "route_ohm": 3.41,
+              "left_ohm": -0.0,
+              "ok": false
+            },
+            "XNormalTransistorPmos7+XNormalTransistorPmos6.s": {
+              "net": "FirstStageYsourceTransconductance",
+              "route_ohm": 12.688,
+              "left_ohm": -0.0,
+              "ok": false
+            },
+            "XNormalTransistorPmos8.d": {
+              "net": "FirstStageYsourceTransconductance",
+              "route_ohm": 12.688,
+              "left_ohm": 92.34,
+              "ok": true
+            },
+            "XNormalTransistorPmos8.g": {
+              "net": "IBIAS",
+              "route_ohm": 3.41,
+              "left_ohm": 21.683,
+              "ok": true
+            },
+            "XNormalTransistorPmos8.s": {
+              "net": "sourcePmos",
+              "route_ohm": 14.299,
+              "left_ohm": 67.871,
+              "ok": true
+            }
+          },
+          "symmetric": {
+            "route.symmetric.inputs": {
+              "class": "hard",
+              "x": [
+                -2.4,
+                2.4
+              ],
+              "ok": true
+            },
+            "route.symmetric.pair_drains": {
+              "class": "soft",
+              "x": [
+                -0.8,
+                1.6
+              ],
+              "ok": false
+            }
+          },
+          "not_evaluated": [
+            {
+              "id": "route.em_width.FirstStageYout1",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.em_width.sourceNmos",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.em_width.ibias",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.em_width.sourcePmos",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.em_width.out",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.em_width.outFirstStage",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.em_width.FirstStageYsourceTransconductance",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 310.2 uA."
+            },
+            {
+              "id": "route.bias_net.IBIAS",
+              "class": "soft",
+              "note": "couplings onto the bias net consume no margin in this model; the impedance of the real bias generator is needed to budget them (ASSUMPTION)"
+            },
+            {
+              "id": "route.no_cross_digital",
+              "class": "hard",
+              "note": "no digital or clock nets in this circuit"
+            }
+          ],
+          "covered": "max_length on metal4 enters the metal3+metal4 sum; top-level routing uses no metal1 or metal2, so those layers' length and parallel rules have no top-level wire to apply to",
+          "pass": false
+        }
+      }
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-11-04T01:59:49+00:00",
+    "git_commit": "49a65808dfbc12b09a171c01a591626d086a8428",
+    "inputs": [
+      {
+        "path": "outputs/S4/loadbench_miller/blocks.json",
+        "sha256": "026a910e11a49d4b9fd0688b7de5d2cdd29004a26268887607c5728f909096a4"
+      },
+      {
+        "path": "outputs/S0/loadbench_miller/circuit_ir.json",
+        "sha256": "61d5a9a0de9faa8a4ea3056cfb0c341e2891dc5e292f05fd6a7b33f6f7948292"
+      },
+      {
+        "path": "outputs/S2/loadbench_miller/constraints.json",
+        "sha256": "d159d9590704436a4df696eff60d432cce47655dd33ae0c98d35be3746562230"
+      },
+      {
+        "path": "inputs/loadbench_miller/package.yaml",
+        "sha256": "bd0dd6728a99edf7011a2972bce39f487728463e14083b7aa44691f3c00e33a4"
+      }
+    ]
+  }
+}

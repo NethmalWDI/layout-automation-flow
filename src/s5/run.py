@@ -140,13 +140,14 @@ def route_rules(routes: dict, cons: list, nmap: dict, ir: dict, s3_dec: dict, ru
         return max(0.0, best)
     for c in cons:
         cid = c["id"]
+        tg = [nmap.get(t, t) for t in c["targets"]]       # S2 names IR nets; the routes carry the layout view's
         if cid.startswith("route.max_length.") and cid.endswith(".metal3"):
-            n = c["targets"][0]
-            m4 = next(x["value"] for x in cons if x["id"] == f"route.max_length.{n}.metal4")
+            n = tg[0]
+            m4 = next(x["value"] for x in cons if x["id"] == f"route.max_length.{c['targets'][0]}.metal4")
             u = (L[n]["metal3"] / c["value"] + L[n]["metal4"] / m4) if n in L else 0.0
             res["max_length"][n] = {"use": round(u, 4), "ok": u <= 1.0, "length_um": L.get(n)}
         elif cid.startswith("route.max_parallel.") and cid.endswith(".metal4"):
-            a, b = c["targets"]
+            a, b = tg
             run = 0.0
             if a in routes and b in routes:
                 sa, sb = routes[a]["spine"], routes[b]["spine"]
@@ -154,7 +155,7 @@ def route_rules(routes: dict, cons: list, nmap: dict, ir: dict, s3_dec: dict, ru
                     run = max(0.0, min(sa["y"][1], sb["y"][1]) - max(sa["y"][0], sb["y"][0]))
             res["max_parallel"][f"{a}~{b}"] = {"run_um": round(run, 4), "limit_um": c["value"], "ok": run <= c["value"]}
         elif cid.startswith("route.max_parallel.") and cid.endswith(".metal3"):
-            a, b = c["targets"]
+            a, b = tg
             run = par3(a, b)
             res["max_parallel"][f"{a}~{b}.metal3"] = {"run_um": round(run, 4), "limit_um": c["value"], "ok": run <= c["value"]}
         elif cid.startswith(("route.max_length.", "route.max_parallel.")):
@@ -176,7 +177,7 @@ def route_rules(routes: dict, cons: list, nmap: dict, ir: dict, s3_dec: dict, ru
                     worst = {"net": net, "route_ohm": round(rw, 3), "left_ohm": round(left, 3)}
             res["max_series_R"][cid.split("route.max_series_R.")[1]] = {**worst, "ok": worst["route_ohm"] <= worst["left_ohm"]}
         elif cid.startswith("route.symmetric."):
-            a, b = c["targets"]
+            a, b = tg
             if a in routes and b in routes:
                 xa, xb = routes[a]["spine"]["x"], routes[b]["spine"]["x"]
                 la, lb = L[a]["metal4"] + L[a]["metal3"], L[b]["metal4"] + L[b]["metal3"]
@@ -236,6 +237,8 @@ def main(argv=None) -> int:
     ports = R.ports_of(ref_spice)
     order = sorted(max_len, key=lambda n: max_len[n])                     # least budget slack first
     mirrored = [(*(nmap.get(t, t) for t in c["targets"]), c["class"]) for c in cons if c["id"].startswith("route.symmetric.")]
+    par_limit = {frozenset(nmap.get(t, t) for t in c["targets"]): c["value"] for c in cons
+                 if c["id"].startswith("route.max_parallel.") and c["id"].endswith(".metal4")}
     s3_dec = json.loads((REPO / "outputs" / "S3" / design / "device_decisions.json").read_text())["decisions"]
     rules = json.loads((REPO / "outputs" / "S2" / "pdk" / "parasitics.json").read_text())["rules"]
     res = {}
@@ -245,7 +248,7 @@ def main(argv=None) -> int:
         res[r] = {"index": best[r], "cost": c["cost"], "placement": pl, "legal": legal(pl, blocks),
                   "assembled": assemble(f"{design}_placed_{r}", pl, blocks, out / f"placed_{r}")}
         try:
-            routes = R.plan_routes(pl, nmap, ports, order, mirrored)
+            routes = R.plan_routes(pl, nmap, ports, order, mirrored, par_limit)
         except RuntimeError as e:
             res[r]["routing"] = {"ok": False, "error": str(e)}
             continue

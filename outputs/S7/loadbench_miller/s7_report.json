@@ -1,0 +1,120 @@
+{
+  "run_id": "2026-11-04T04:05:03-d76de716",
+  "design": "loadbench_miller",
+  "s6_run_id": "2026-11-04T03:42:52-04db6a25",
+  "eta": 0.5,
+  "TOL_USE": 0.02,
+  "gates": {
+    "G7.1_specs_met_post_layout": {
+      "pass": true,
+      "detail": {
+        "pm_deg": [
+          65.2587,
+          60,
+          true
+        ],
+        "power_uw": [
+          553.273,
+          614.2,
+          true
+        ],
+        "gain_db": [
+          57.9829,
+          56.9997,
+          true
+        ],
+        "gbw_mhz": [
+          22.1247,
+          21.0484,
+          true
+        ]
+      },
+      "failed_runs": []
+    },
+    "G7.2_loss_within_eta_margin": {
+      "pass": false,
+      "detail": {
+        "pm_deg": 0.0243,
+        "power_uw": -0.1856,
+        "gain_db": 0.0336,
+        "gbw_mhz": 1.0796
+      }
+    },
+    "G7.3_G2.0_prediction (info)": {
+      "pass": null,
+      "detail": {
+        "pm_deg": [
+          0.01214,
+          0.7928823297267972,
+          -0.9847
+        ],
+        "power_uw": [
+          -0.09278,
+          null,
+          null
+        ],
+        "gain_db": [
+          0.0168,
+          0.9991383635851795,
+          -0.9832
+        ],
+        "gbw_mhz": [
+          0.53979,
+          0.3399921466621188,
+          0.5876
+        ]
+      },
+      "note": "[post-layout loss / margin, G2.0's predicted share, relative error]; PREREG: within 25 %"
+    },
+    "G7.4_pvt (info)": {
+      "pass": null,
+      "note": "PVT points are not simulated post-layout here"
+    },
+    "H4 (info)": {
+      "pass": null,
+      "G6.2": false,
+      "G7.1_and_G7.2": false,
+      "note": "H4 holds if G6.2 passing implies G7.1 and G7.2 passing"
+    },
+    "H5 (info)": {
+      "pass": null,
+      "use_of_allowed": {
+        "budget_aware": {
+          "pm_deg": 0.0243,
+          "power_uw": -0.1856,
+          "gain_db": 0.0336,
+          "gbw_mhz": 1.0796
+        },
+        "area_only": {
+          "pm_deg": 0.0243,
+          "power_uw": -0.1856,
+          "gain_db": 0.0336,
+          "gbw_mhz": 1.0796
+        }
+      }
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-11-04T03:05:03+00:00",
+    "git_commit": "49a65808dfbc12b09a171c01a591626d086a8428",
+    "inputs": [
+      {
+        "path": "outputs/S6/loadbench_miller/parasitics_vs_budgets.json",
+        "sha256": "662ca48a74b1f4efabfab6b5cfd1bf8b9d92edb063052d3ca0a4dc4da38a7938"
+      },
+      {
+        "path": "outputs/S0/loadbench_miller/circuit_ir.json",
+        "sha256": "61d5a9a0de9faa8a4ea3056cfb0c341e2891dc5e292f05fd6a7b33f6f7948292"
+      },
+      {
+        "path": "outputs/S2/loadbench_miller/s2_report.json",
+        "sha256": "f6c85b891ea241dcac95621cd6298ad0420cef49bf47291e97683bee14bb75db"
+      },
+      {
+        "path": "inputs/loadbench_miller/package.yaml",
+        "sha256": "bd0dd6728a99edf7011a2972bce39f487728463e14083b7aa44691f3c00e33a4"
+      }
+    ]
+  }
+}

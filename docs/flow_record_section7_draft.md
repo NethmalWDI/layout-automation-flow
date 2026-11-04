@@ -110,6 +110,12 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 68 | S5 | The router mapped the IR's nets to the layout view's names by matching devices, but keyed the layout view's instances by their name without the leading X (`XM5` → `M5`), so no device matched. The identically named nets routed anyway, while `net2` was never renamed to the port `VBIAS`, and the top-level reference kept `nf=1` instead of the fingers drawn | the first top-level LVS: devices matched uniquely, but VBIAS was "no pin, node is …/net2" | `net_map` and `top_ref` match the full instance name; a test checks `net2 → VBIAS` and the port list | top-level LVS matches uniquely, with the drawn finger counts in the reference |
 | 69 | S5 | The router's own geometry broke DRC three ways: (1) one-via port pads (0.4 × 0.4 µm metal4) and the body stack's metal3 square under the 0.24 µm² minimum area (met4.4a, met3.6); (2) growing the pads to 0.7 µm brought two pads on one column 0.2 µm apart (met4.2), because the router's clearance did not know about the growth; (3) the stack's 0.6 µm metal3 square sat 0.295 µm from the next track, 5 nm under met3.2, because the track coordinates snap to the 5 nm grid | top-level DRC on both routed layouts (6, then 12, then 2 + 8 errors), located with a KLayout space check | every metal3/metal4 piece at least 0.4 × 0.7 µm; a column needs `Y_CLEAR` = 1.2 µm between its spines; the stack's metal3 is 0.5 µm (0.25 µm², 0.35 µm from the track); a hard mirrored pair (INP/INN) is placed jointly at ±x, never both on the axis | DRC 0 on both routed layouts, the control caught |
 | 70 | S7 | The R+C netlist (Magic extresist) exposes far more ports than the C-only one: a repeated name (VDD and OUTP twice: the top label and a block track's) and every unit's own D/G/S/B. The bench wrapper gave every port of one name the same node, which joined all the D pins of different transistors (and all S, G, B): the post-layout run drew 1.6 A (power 2.9 W) with −37 dB of gain | the first S7 run: the drawn-device and C-only views gave the schematic's numbers, the R+C view absurd ones | only the first port of each name (the top cell's label) is a circuit node; every other port gets its own node (a point inside the resistor network); a test checks it | the R+C view gives 31.70 dB, 101.3 MHz, 79.4 deg on the 5T, in line with the C-only view and the schematic |
+| 71 | S4 | LOADBench's PMOS bias bank failed DRC with 3 latch-up errors (LU.3: P-diff more than 15 µm from an N-tap). P5 (887 µm) is drawn as 16 fingers of 55 µm, and the ring alone left the middle of the row 16.0 µm from a tap | the first LOADBench S4 run (2026-11-04): G4.2 and G4.5 failed on `pmos_bias_bank__row` only | a vertical tap strip, drawn like one side of the PDK's ring, between two units wherever the taps on either side of a unit would stand more than 2 × (15 − 0.5) µm apart; a unit that a strip on each side cannot cover is split into its half units. A unit already within reach of the ring above and below it needs none, so no 5T block and no other LOADBench block changes. Test: only the bank gets a strip | the bank passes with one strip (worst distance 10.1 µm); S4 PASS on LOADBench |
+| 72 | S4 | The MIM capacitor block's tracks stood 1.0 µm from the top plate (capm), under capm.11's 1.34 µm to unrelated metal3 | the second LOADBench S4 run: the new capacitor block failed DRC with 2 errors | the tracks stand 1.45 µm from capm, read from the PDK cell's own geometry; S5's router keeps every other net's metal3 1.4 µm from capm and its metal4 off the plate | the block passes DRC and LVS (negative control caught) |
+| 73 | S5 | Three router gaps showed on LOADBench: (1) a net's two tracks that one block already joins (by its met2 column) were both connected, so FirstStageYout1's spine ran across the mirror block (18.3 µm against a 12.45 µm budget); (2) spines were placed without S2's parallel-run limits (FirstStageYout1 beside out for 18.3 µm, limit 8.36 µm); (3) `route_rules` looked S2's targets up by IR names, so a net the layout view renames (`ibias` → `IBIAS`; the 5T's `net2` → `VBIAS`) read as unused | the first LOADBench S5 run's G5.4 detail | one connection per joined pair of tracks (the one nearer the net's other pins; the placer's wire estimate does the same); a spine within two pitches of another may run beside it only as far as S2 allows; S2's targets mapped to the layout view's names | FirstStageYout1's estimate 1.47 → 0.50 of its budget; no parallel-run violation |
+| 74 | S5 | Magic checks metal3 spacing by geometry, not by net. Two shapes of one net 0.0–0.3 µm apart (cs_stage's and the capacitor's outFirstStage tracks, one row, 0.4 µm apart in height) failed met3.2; forbidding that left no spine for outFirstStage at all; and a short run that the drawing lengthens to the 0.7 µm minimum stuck out 0.02 µm past the bridge computed from its unlengthened ends | top-level DRC (2 errors, located with a Magic error list), then "no spine for net outFirstStage", then DRC 2 again | where a run passes its own net's shape closer than the spacing without touching it, the router draws a met3 bridge that merges them; the checks and bridges use the drawn (lengthened) extent | top-level DRC 0 and LVS match on both LOADBench layouts |
+| 75 | S6 | Magic's C-only netlist (ext2spice) leaves out the capacitance to ground of nets that are transistor gates. Its total is 8.9 % below the .ext's on LOADBench (FirstStageYout1, outFirstStage, ibias: 0 fF in the netlist, 37, 21 and 4 fF in the .ext) and 3.6 % on the 5T (INP, INN; kpex had shown "INP/INN about 1 fF against 0" in 7.19). The R+C netlist carries it | LOADBench's G6.2 read 0.000 fF on FirstStageYout1 and outFirstStage, impossible for nets that long; the .ext's node records had the capacitance | G6.4 (info) compares the netlist's total with the .ext's and lists the gate nets the netlist leaves without ground capacitance; G6.2 still reads the netlist (an .ext reading by node misplaces the part over an n-well), so those nets read low there. Test: the .ext reading | LOADBench's G6.2 fails on other elements anyway; the 5T's verdict is unchanged |
+| 76 | S7 | (1) The bench wrapper took the 5T's port names (INP, INN, …) as the DUT's; LOADBench's bench connects `in1 in2 out sourceNmos sourcePmos` to `INN INP OUTP VSS VDD`, and has a current source (Ibias) where the 5T has a voltage source. (2) Four R+C runs at once (79 MB decks, 315 000 resistors) ran the 5 GB container out of memory; the kernel killed both AC runs (rc −9) | reading S7 before its first LOADBench run; then the run's failed-runs list, whose AC logs end right after the operating point | the ports map through the bench's own XDUT line; a removed source goes back as what it was (V or I); a deck over 20 MB runs on its own after the others. Tests: the LOADBench map, the current source | see 7.20 |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -1344,3 +1350,74 @@ AC, OP and NOISE benches. V1, which the layout view removes, is put back on its 
   not apply) and PVT points.
 - **One bug found on the way** (row 70): the R+C wrapper joined same-named ports and shorted every unit's pins
   together.
+
+### 7.20 Plan v4, Phase 6: LOADBench through S4–S7 (2026-11-04, early morning)
+
+LOADBench is the harder of the two designs: a two-stage Miller op-amp with one 887 µm and one 484 µm transistor, a
+PMOS input pair in its own n-well, a bias current source, and an ideal 0.5 pF Miller capacitor. Its margins are thin
+(gain 1 dB, GBW 2.34 MHz, PM 5.3°), and S2's G2.0 had predicted that a layout would use 0.999 of the gain margin.
+
+**Assumptions** (plan questions 3–5 are still open): the PMOS bank's three devices side by side as S3 sized them;
+no dummies. The Miller capacitor is drawn as S0's PREDICTED binding for the layout view
+(`sky130_fd_pr__cap_mim_m3_1`, 15.66 × 15.66 µm), top plate on outFirstStage and bottom plate on out, in the layout
+view's order; the bottom plate, with its parasitic to the substrate, sits on the node the second stage drives.
+
+**S4** (9 variants, all signed off with their negative controls):
+- Blocks: the PMOS bias bank (P2, P8, P5; `row`), the PMOS input pair (AB, ABBA, ABAB; its own n-well, body
+  FirstStageYsourceTransconductance), the NMOS mirror (AB, ABBA, ABAB), N3 alone (`cs_stage`), and the capacitor.
+- **The bank and the latch-up rule** (row 71). P5 is drawn as 16 fingers of 55 µm, and with the ring alone the
+  middle of the row stood 16.0 µm from a tap (LU.3 asks under 15). A tap strip between P8 and P5, drawn like a side
+  of the ring, brings the worst distance to 10.1 µm. Blocks whose ring is within reach above and below get no strip,
+  so no 5T block changed.
+- **The capacitor block** (row 72): the PDK's generator draws it; each plate goes to a metal3 track 1.45 µm from the
+  top plate (capm.11 asks 1.34). Its metal3 and metal4 are keep-outs for the router.
+- Areas: bank 2269 µm² (with the strip), mirror 648–683, cs_stage 437, capacitor 415, input pair 158–196.
+
+**S5**:
+- 20 736 candidates (row partitions within the designer rows, variants, flips). **Both costs chose the same
+  placement**, 5680 µm²: bank / input pair / mirror / cs_stage and capacitor side by side.
+- The reason is in the budgets: outFirstStage joins the pair, the mirror, N3's gate and the capacitor, and S2 allows
+  it 16.3 µm of metal3. The best candidate of all needs 1.65 × that; the smallest one is also the least over budget,
+  so area and budgets agree, and H5 cannot be tested on LOADBench.
+- Routed: top-level DRC 0 and LVS match on both. G5.4 fails on outFirstStage's length (1.70 ×) and on series R the
+  input pair's access R had already used up in S3 (the known G3.5 relaxation). FirstStageYout1, at 1.47 × after the
+  first route, came to 0.50 × once the router stopped connecting tracks a block already joins (row 73).
+- Four router gaps were fixed on the way (rows 73–74).
+
+**S6**:
+- Extracted once (both rules chose one layout); flat LVS matches; 315 000 resistors in the R+C netlist.
+- **G6.2 fails on 19 of 38 elements.** The largest are at the Miller capacitor: out~outFirstStage 29.3 fF against
+  4.7 fF, out to ground 67 fF against 40 fF. The capacitor's own fringe and bottom-plate capacitance lands on exactly
+  these nets, and S2's budgets were set without it. The input pair's terminal R is over because S3's cells already
+  used the budget.
+- **G6.4 (new, info; row 75)**: Magic's C-only netlist is 8.9 % below its own .ext; FirstStageYout1 and outFirstStage
+  have no ground capacitance in it (37 and 21 fF in the .ext). The same gap on the 5T is 3.6 % (INN); 7.19's kpex
+  note ("INP/INN about 1 fF against 0") was the same effect. S7's R+C netlist carries it.
+- G6.3 (kpex): 758 fF against Magic's 230 fF; the difference is about the 0.5 pF of the MIM capacitor, which kpex's
+  2.5D engine counts as a capacitance between its plates, and kpex's own LVS does not match (three nets unnamed).
+
+**S7** (the large R+C decks one at a time, each deck simulated once; 22 min):
+
+| Spec (margin) | Schematic | Drawn devices | C-only | R+C (post-layout) | Loss / (eta × margin) | G2.0 predicted share of margin |
+|---|---|---|---|---|---|---|
+| gain, dB (1.0) | 58.000 | 58.014 | 58.014 | 57.983 | 0.034 | 0.999 (actual 0.017) |
+| GBW, MHz (2.34) | 23.387 | 23.492 | 22.454 | 22.125 | **1.080** | 0.340 (actual 0.540) |
+| PM, deg (5.32) | 65.32 | 65.87 | 65.79 | 65.26 | 0.024 | 0.793 (actual 0.012) |
+| power, µW (55.8) | 558.4 | 557.4 | 557.4 | 553.3 | −0.186 | – |
+
+- **G7.1 passes**: every spec is met post-layout (GBW 22.12 MHz against 21.05).
+- **G7.2 fails on GBW**: the layout takes 54 % of GBW's margin, eta allows 50 %. Gain and PM lose almost nothing.
+  PREREG had predicted the failure on gain (G2.0: 0.999 of the gain margin); it came on GBW instead.
+- **Where GBW goes.** Drawn devices alone change little (+0.1 MHz); capacitance takes 1.04 MHz and resistance
+  0.33 MHz more. GBW of a Miller op-amp is about gm1 / Cc, and the out~outFirstStage coupling (29.3 fF) sits in
+  parallel with the 500 fF Cc: 6 % more Cc, about 6 % less GBW. Extracting the capacitor block alone gives 22.5 fF of
+  that coupling between its own plates (and 10.2 fF from the bottom plate to the substrate), on top of the device's
+  0.5 pF. Whether Magic double-counts here (the MIM model's perimeter term already covers fringe) is open: if it
+  does, the true GBW loss is about a quarter of this.
+- **H4** cannot be confirmed or refuted here: G6.2 failed, and so did G7.2, which is the direction H4 expects (budgets
+  exceeded, loss beyond eta). G7.1 still passing shows how much of the margin eta keeps back.
+- **H5 is not testable** on LOADBench: both costs chose the same placement.
+- **G2.0** over-predicts gain and PM loss by about 98 % and under-predicts GBW loss by 59 %: its model of a layout
+  does not include a drawn Miller capacitor's own parasitics, which dominate here.
+- The 5T, re-run with this phase's code, keeps every verdict (7.19), with slightly better numbers (PM 79.42°, GBW
+  101.32 MHz) because the PMOS mirror's joined tracks are now connected once.

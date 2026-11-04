@@ -11,7 +11,13 @@ connected blocks overlap in x:
     `route.symmetric.*` pair get spines mirrored about the axis (only that position for a hard rule; tried first for
     a soft one, whose miss G5.4 reports); nets go in order of least budget slack first;
   * a port net gets its port label (the layout view's name) on its spine; a port net with a single pin gets a
-    one-via pad.
+    one-via pad;
+  * a block's keep-outs (a capacitor's met3 plate and met4; plan v4 Phase 6) are kept MET3_SPACE clear by every
+    spine and met3 run, except a keep-out that belongs to the net itself (a plate's neck);
+  * a net's two tracks that one block already joins (src/s5/place.joined_once) get one connection, the nearer;
+  * a spine within two pitches of another net's spine runs beside it no longer than S2's
+    route.max_parallel.<a>~<b>.metal4 allows (the length G5.4 measures); a met3 run keeps MET3_SPACE from every
+    met3 shape it does not overlap, its own net's included (Magic checks spacing by geometry, not by net).
 A net the router cannot place raises, so a failure is never silent. This is not a general maze router: it covers
 the row placements S5 makes, and the plan's maze router stays open for layouts that need detours (plan, section 8).
 All lengths in um.
@@ -51,19 +57,40 @@ def ports_of(ref_spice: str) -> list:
     return m.group(1).split() if m else []
 
 
+def drawn(x0: float, x1: float) -> tuple:
+    """The x extent Magic draws for a met3 run from x0 to x1: WIRE/2 past each end, lengthened about its middle to
+    at least MIN_LEN."""
+    a, b = x0 - WIRE / 2, x1 + WIRE / 2
+    pad = max(0.0, (MIN_LEN - (b - a)) / 2)
+    return a - pad, b + pad
+
+
 def _snap(x: float) -> float:
     return round(round(x / GRID) * GRID, 4)
 
 
-def plan_routes(pl: dict, nmap: dict, ports: list, order: list, mirrored: list) -> dict:
-    """pl: a placement (src/s5/place.realise). Returns {net: route} with the spine, vias, extensions and stacks."""
+def plan_routes(pl: dict, nmap: dict, ports: list, order: list, mirrored: list, par_limit: dict | None = None) -> dict:
+    """pl: a placement (src/s5/place.realise); par_limit: {frozenset({a, b}): um} from S2's metal4 parallel rules.
+    Returns {net: route} with the spine, vias, extensions and stacks."""
+    from src.s5.place import joined_once
     pins = {}
     for b, p in pl["blocks"].items():
         for q in p["pins"]:
             pins.setdefault(nmap.get(q["net"], q["net"]), []).append({**q, "block": b})
+    every = pins                                      # all tracks are drawn, the joined ones too
+    pins = {n: joined_once(qs) for n, qs in pins.items()}
+    par_limit = par_limit or {}
     nets = [n for n in pins if len(pins[n]) > 1 or n in ports]
     nets.sort(key=lambda n: (order.index(n) if n in order else len(order), n))
-    tracks = [(n, q) for n, qs in pins.items() for q in qs if q["kind"] == "track"]
+    tracks = [(n, q) for n, qs in every.items() for q in qs if q["kind"] == "track"]
+    keep = [{**k, "net": nmap.get(k["net"], k["net"]) if k["net"] else None}
+            for p in pl["blocks"].values() for k in p.get("keepouts", [])]
+
+    def kept_out(layer, net, x0, y0, x1, y1):
+        """True if the box [x0, y0, x1, y1] comes within MET3_SPACE of another net's keep-out on the layer."""
+        return any(k["layer"] == layer and k["net"] != net and x0 < k["box"][2] + MET3_SPACE and
+                   x1 > k["box"][0] - MET3_SPACE and y0 < k["box"][3] + MET3_SPACE and y1 > k["box"][1] - MET3_SPACE
+                   for k in keep)
     spines, routes = {}, {}
     pair_of = {a: (b, cls) for a, b, cls in mirrored} | {b: (a, cls) for a, b, cls in mirrored}
 
@@ -72,8 +99,15 @@ def plan_routes(pl: dict, nmap: dict, ports: list, order: list, mirrored: list) 
         return min(ys), max(ys)
 
     def free(x, net, lo, hi):
+        pad = max(VIA3, MIN_LEN) / 2
+        if kept_out("metal4", net, x - WIRE / 2, lo - pad, x + WIRE / 2, hi + pad):
+            return False
         for m, s in spines.items():
             if m != net and abs(s["x"] - x) < GRID - 1e-6 and not (hi < s["y"][0] - Y_CLEAR or lo > s["y"][1] + Y_CLEAR):
+                return False
+            lim = par_limit.get(frozenset((m, net)))
+            if m != net and lim is not None and abs(s["x"] - x) <= 2 * GRID + 1e-6 and \
+                    min(hi, s["y"][1]) - max(lo, s["y"][0]) > lim:
                 return False
         for m, r in routes.items():   # other nets' stacks and vias
             if m != net and any(abs(px - x) < GRID - 1e-6 and lo - GRID <= py <= hi + GRID for px, py in r["points"]):
@@ -84,16 +118,29 @@ def plan_routes(pl: dict, nmap: dict, ports: list, order: list, mirrored: list) 
                 return False
         return True
 
-    def ext_ok(y, xa, xb, net):
-        lo, hi = min(xa, xb) - WIRE / 2, max(xa, xb) + WIRE / 2
-        for m, q in tracks:
-            if m != net and abs(q["y"] - y) < WIRE + MET3_SPACE and not (hi < q["x0"] or lo > q["x1"]):
-                return False
-        for m, r in routes.items():
-            for (ey, ex0, ex1) in r["met3"]:
-                if m != net and abs(ey - y) < WIRE + MET3_SPACE and not (hi < ex0 or lo > ex1):
-                    return False
-        return True
+    def ext_ok(y, xa, xb, net, mine=()):
+        """None if a met3 run at y from xa to xb comes within MET3_SPACE of another net's met3 (or a keep-out); else
+        the met3 fills that merge it with its own net's shapes it passes closer than that without touching (Magic
+        checks spacing by geometry). mine: the runs this attempt has already planned."""
+        lo, hi = drawn(min(xa, xb), max(xa, xb))
+        if kept_out("metal3", net, lo, y - WIRE / 2, hi, y + WIRE / 2):
+            return None
+        shapes = [(m, q["y"], q["x0"], q["x1"]) for m, q in tracks]
+        shapes += [(m, ey, *drawn(ex0, ex1)) for m, r in routes.items() for ey, ex0, ex1 in r["met3"]]
+        shapes += [(net, ey, *drawn(ex0, ex1)) for ey, ex0, ex1 in mine]
+        fills = []
+        for m, oy, ox0, ox1 in shapes:
+            dy = abs(oy - y)
+            if dy >= WIRE + MET3_SPACE or hi < ox0 or lo > ox1:
+                continue
+            if m != net:
+                return None
+            if dy > 1e-6:
+                a, b = max(lo, ox0), min(hi, ox1)
+                c = (a + b) / 2
+                a, b = min(a, c - WIRE / 2), max(b, c + WIRE / 2)
+                fills.append((round(a, 4), round(min(y, oy) - WIRE / 2, 4), round(b, 4), round(max(y, oy) + WIRE / 2, 4)))
+        return fills
 
     def cost_of(x, qs):
         c = 0.0
@@ -110,27 +157,32 @@ def plan_routes(pl: dict, nmap: dict, ports: list, order: list, mirrored: list) 
         lo, hi = y_range(qs)
         if not free(x, net, lo, hi):
             return None
-        met3 = []
+        met3, fills = [], []
         for q in qs:
             if q["kind"] == "track" and not (q["x0"] + VIA3 <= x <= q["x1"] - VIA3):
                 end = q["x1"] - VIA3 if x > q["x1"] else q["x0"] + VIA3
-                if not ext_ok(q["y"], end, x, net):
-                    return None
-                met3.append((q["y"], min(end, x), max(end, x)))
+                run = (q["y"], min(end, x), max(end, x))
             elif q["kind"] == "body":
-                if not ext_ok(q["y"], q["x0"], x, net):
-                    return None
-                met3.append((q["y"], min(q["x0"], x), max(q["x0"], x)))
-        return met3
+                run = (q["y"], min(q["x0"], x), max(q["x0"], x))
+            else:
+                continue
+            f = ext_ok(run[0], run[1], run[2], net, met3)
+            if f is None:
+                return None
+            met3.append(run)
+            fills += f
+        return met3, fills
 
-    def commit(net, x, met3):
+    def commit(net, x, plan):
+        met3, fills = plan
         qs = pins[net]
         lo, hi = y_range(qs)
         vias = [(x, q["y"]) for q in qs]
         stacks = [(q["x0"], q["y"]) for q in qs if q["kind"] == "body"]
         spines[net] = {"x": x, "y": [round(lo, 4), round(hi, 4)]}
         routes[net] = {"spine": spines[net], "vias": vias, "met3": [m for m in met3 if m[2] - m[1] > 1e-6],
-                       "stacks": stacks, "points": vias + stacks, "port": net in ports, "n_pins": len(qs)}
+                       "fills": fills, "stacks": stacks, "points": vias + stacks, "port": net in ports,
+                       "n_pins": len(qs)}
 
     def candidates(net):
         qs = pins[net]
@@ -195,8 +247,10 @@ def tcl(routes: dict) -> list:
         for vx, vy in r["vias"]:
             c += [box(vx - VIA3 / 2, vy - VIA3 / 2, vx + VIA3 / 2, vy + VIA3 / 2), "paint via3"]
         for y, x0, x1 in r["met3"]:
-            xa, xb = grow(x0 - WIRE / 2, x1 + WIRE / 2)
+            xa, xb = drawn(x0, x1)
             c += [box(xa, y - WIRE / 2, xb, y + WIRE / 2), "paint metal3"]
+        for f in r.get("fills", []):
+            c += [box(*f), "paint metal3"]
         for sx, sy in r["stacks"]:
             for layer, s in STACK.items():
                 c += [box(sx - s / 2, sy - s / 2, sx + s / 2, sy + s / 2), f"paint {layer}"]

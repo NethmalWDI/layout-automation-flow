@@ -1,0 +1,62 @@
+* NGSPICE file created from pmos_bias_bank__row.ext - technology: sky130A
+
+.subckt sky130_fd_pr__pfet_01v8_lvt_CBAHUX G D6 a_795_n1133# D4 D2 w_n889_n1233# D0
++ S7 S5 S3 S1
+X0 S7 G D6 w_n889_n1233# sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X1 a_795_n1133# G S7 w_n889_n1233# sky130_fd_pr__pfet_01v8_lvt ad=3.2857 pd=23.24 as=1.64285 ps=11.62 w=11.33 l=0.74
+X2 D4 G S3 w_n889_n1233# sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X3 D6 G S5 w_n889_n1233# sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X4 S1 G D0 w_n889_n1233# sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=3.2857 ps=23.24 w=11.33 l=0.74
+X5 D2 G S1 w_n889_n1233# sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X6 S3 G D2 w_n889_n1233# sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X7 S5 G D4 w_n889_n1233# sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+.ends
+
+.subckt pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng D G S B
+Xpfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng_pc G S S S S B S D D D D
++ sky130_fd_pr__pfet_01v8_lvt_CBAHUX
+.ends
+
+.subckt sky130_fd_pr__pfet_01v8_lvt_7S7S4Q G D w_n168_n3830# S
+X0 S G D w_n168_n3830# sky130_fd_pr__pfet_01v8_lvt ad=10.817 pd=75.18 as=10.817 ps=75.18 w=37.3 l=0.74
+.ends
+
+.subckt pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng B G D S
+Xpfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng_pc G D B S sky130_fd_pr__pfet_01v8_lvt_7S7S4Q
+.ends
+
+.subckt sky130_fd_pr__pfet_01v8_lvt_2BKEHH D10 S15 G S13 S11 D8 D6 D4 D2 D0 a_1619_n5544#
++ S9 w_n1713_n5644# S7 S5 S3 D14 S1 D12
+X0 S15 G D14 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X1 D2 G S1 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X2 S1 G D0 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=16.0776 ps=111.46 w=55.44 l=0.74
+X3 S5 G D4 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X4 D14 G S13 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X5 D4 G S3 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X6 S3 G D2 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X7 S13 G D12 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X8 D6 G S5 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X9 S7 G D6 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X10 S9 G D8 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X11 S11 G D10 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X12 D12 G S11 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X13 D8 G S7 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X14 a_1619_n5544# G S15 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=16.0776 pd=111.46 as=8.0388 ps=55.73 w=55.44 l=0.74
+X15 D10 G S9 w_n1713_n5644# sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+.ends
+
+.subckt pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng B G D S
+Xpfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng_pc S D G D D S S S S S
++ S D B D D D S D S sky130_fd_pr__pfet_01v8_lvt_2BKEHH
+.ends
+
+.subckt pmos_bias_bank__row ibias sourcePmos FirstStageYsourceTransconductance out
++ sourcePmos_body
+Xpfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng_0 FirstStageYsourceTransconductance
++ ibias sourcePmos sourcePmos_body pfet_01v8_lvt_W90p63_L0p74_m1__nf8_gboth_sdfull_outS_ng
+Xpfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng_0 sourcePmos_body ibias ibias sourcePmos
++ pfet_01v8_lvt_W37p3_L0p74_m1__nf1_gboth_sdhalf_ng
+Xpfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng_0 sourcePmos_body ibias
++ out sourcePmos pfet_01v8_lvt_W887p03_L0p74_m1__nf16_gboth_sdhalf_outS_ng
+.ends
+

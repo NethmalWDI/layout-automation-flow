@@ -1,0 +1,26 @@
+* NGSPICE file created from nmos_mirror_load__AB.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_lvt_4LZ4RL G D6 D4 D2 D0 a_1827_n827# S7 S5 S3 S1
++ VSUBS
+X0 S1 G D0 VSUBS sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=2.3983 ps=17.12 w=8.27 l=2.03
+X1 D2 G S1 VSUBS sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X2 S7 G D6 VSUBS sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X3 D6 G S5 VSUBS sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X4 a_1827_n827# G S7 VSUBS sky130_fd_pr__nfet_01v8_lvt ad=2.3983 pd=17.12 as=1.19915 ps=8.56 w=8.27 l=2.03
+X5 S5 G D4 VSUBS sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X6 D4 G S3 VSUBS sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X7 S3 G D2 VSUBS sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+.ends
+
+.subckt nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng B G S D
+Xnfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng_pc G S S S S S D D D D B
++ sky130_fd_pr__nfet_01v8_lvt_4LZ4RL
+.ends
+
+.subckt nmos_mirror_load__AB sourceNmos FirstStageYout1 outFirstStage sourceNmos_body
+Xnfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng_1 sourceNmos_body FirstStageYout1
++ sourceNmos outFirstStage nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng
+Xnfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng_0 sourceNmos_body FirstStageYout1
++ sourceNmos FirstStageYout1 nfet_01v8_lvt_W66p13_L2p03_m1__nf8_gboth_sdfull_outS_ng
+.ends
+

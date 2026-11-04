@@ -50,8 +50,12 @@ def local(variant: dict, flip: bool) -> dict:
         for net, t in variant["pins"]["tracks"][side].items():
             pins.append({"net": net, "x0": t["x"][0], "x1": t["x"][1], "y": s * t["y"], "kind": "track"})
     b = variant["pins"]["body"]
-    pins.append({"net": b["net"], "x0": b["at"][0], "x1": b["at"][0], "y": s * b["at"][1], "kind": "body"})
-    return {"bbox": [x0, min(s * y0, s * y1), x1, max(s * y0, s * y1)], "axis": (row[0] + row[2]) / 2, "pins": pins}
+    if b:   # a capacitor block has no ring
+        pins.append({"net": b["net"], "x0": b["at"][0], "x1": b["at"][0], "y": s * b["at"][1], "kind": "body"})
+    keep = [{**k, "box": [k["box"][0], min(s * k["box"][1], s * k["box"][3]), k["box"][2], max(s * k["box"][1], s * k["box"][3])]}
+            for k in variant["geometry"].get("keepouts", [])]
+    return {"bbox": [x0, min(s * y0, s * y1), x1, max(s * y0, s * y1)], "axis": (row[0] + row[2]) / 2, "pins": pins,
+            "keepouts": keep}
 
 
 def realise(rows: list, choice: dict, blocks: dict) -> dict | None:
@@ -79,12 +83,36 @@ def realise(rows: list, choice: dict, blocks: dict) -> dict | None:
                                   round(g["bbox"][2] + tx, 4), round(g["bbox"][3] + ty, 4)],
                          "axis_x": round(g["axis"] + tx, 4) if blocks[b]["symmetric"] else None,
                          "pins": [{**p, "x0": round(p["x0"] + tx, 4), "x1": round(p["x1"] + tx, 4),
-                                   "y": round(p["y"] + ty, 4)} for p in g["pins"]]}
+                                   "y": round(p["y"] + ty, 4)} for p in g["pins"]],
+                         **({"keepouts": [{**k, "box": [round(k["box"][0] + tx, 4), round(k["box"][1] + ty, 4),
+                                                        round(k["box"][2] + tx, 4), round(k["box"][3] + ty, 4)]}
+                                          for k in g["keepouts"]]} if g["keepouts"] else {})}
         y_top = y_bot - ROW_GAP
     bb = [min(p["bbox"][0] for p in placed.values()), min(p["bbox"][1] for p in placed.values()),
           max(p["bbox"][2] for p in placed.values()), max(p["bbox"][3] for p in placed.values())]
     return {"rows": rows, "blocks": placed, "bbox": [round(v, 4) for v in bb],
             "area_um2": round((bb[2] - bb[0]) * (bb[3] - bb[1]), 3)}
+
+
+def joined_once(pins: list) -> list:
+    """A net's track pins that S4 already joined inside one block (its tracks on both sides, tied by the block's met2
+    column) need one connection: the track nearest the median height of the net's pins in other blocks is kept (the
+    first, when no other block has the net). Body pins all stay. Pins carry their 'block'. Plan v4 Phase 6."""
+    keep = []
+    for p in pins:
+        same = [q for q in pins if q["kind"] == "track" and p["kind"] == "track" and q["block"] == p["block"]]
+        if len(same) < 2:
+            keep.append(p)
+            continue
+        others = sorted(q["y"] for q in pins if q["block"] != p["block"])
+        if not others:
+            if p is same[0]:
+                keep.append(p)
+            continue
+        t = others[len(others) // 2]
+        if p is min(same, key=lambda q: abs(q["y"] - t)):
+            keep.append(p)
+    return keep
 
 
 def hpwl(pins: list) -> float:
@@ -96,11 +124,12 @@ def hpwl(pins: list) -> float:
 
 def wires(pl: dict) -> dict:
     """{net: half-perimeter estimate} for every net with pins in two or more places (the pins of one block's track and
-    its own ring count as two places)."""
+    its own ring count as two places; two tracks a block already joins count once, see joined_once)."""
     by = {}
     for b, p in pl["blocks"].items():
         for q in p["pins"]:
-            by.setdefault(q["net"], []).append(q)
+            by.setdefault(q["net"], []).append({**q, "block": b})
+    by = {n: joined_once(ps) for n, ps in by.items()}
     return {n: round(hpwl(ps), 4) for n, ps in by.items() if len(ps) > 1}
 
 

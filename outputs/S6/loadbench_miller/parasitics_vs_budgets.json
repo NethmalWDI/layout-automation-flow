@@ -1,0 +1,1100 @@
+{
+  "run_id": "2026-11-04T03:42:52-04db6a25",
+  "design": "loadbench_miller",
+  "s5_run_id": "2026-11-04T02:59:48-d6dfed33",
+  "ac_grounds": [
+    "sourceNmos",
+    "sourcePmos"
+  ],
+  "layouts": {
+    "budget_aware": {
+      "netlists": {
+        "lvs": "outputs/S6/loadbench_miller/budget_aware/loadbench_miller_routed_lvs.spice",
+        "pex_c": "outputs/S6/loadbench_miller/budget_aware/loadbench_miller_routed_pex.spice",
+        "pex_rc": "outputs/S6/loadbench_miller/budget_aware/loadbench_miller_routed_pexrc.spice"
+      },
+      "lvs": {
+        "match": true,
+        "inner_nets_as_ports": 2,
+        "other_pin_errors": [],
+        "report": "outputs/S6/loadbench_miller/budget_aware/lvs_report.txt"
+      },
+      "n_caps": 26,
+      "n_resistors_rc": 315153,
+      "unassigned_caps": [],
+      "net_fF": {
+        "ibias": 54.1455,
+        "out": 67.0611,
+        "FirstStageYsourceTransconductance": 27.8275,
+        "in2": 0.0458,
+        "in1": 0.0063
+      },
+      "coupling_fF": {
+        "FirstStageYout1~FirstStageYsourceTransconductance": 1.4419,
+        "FirstStageYout1~in2": 0.0948,
+        "FirstStageYout1~in1": 1.0682,
+        "ibias~out": 22.8083,
+        "FirstStageYout1~outFirstStage": 9.657,
+        "FirstStageYsourceTransconductance~ibias": 5.0984,
+        "ibias~in2": 0.0,
+        "FirstStageYsourceTransconductance~out": 2.2551,
+        "in2~out": 0.1459,
+        "in1~out": 0.2069,
+        "FirstStageYsourceTransconductance~in2": 2.561,
+        "out~outFirstStage": 29.2637,
+        "FirstStageYsourceTransconductance~in1": 2.8032,
+        "in1~in2": 0.5402,
+        "FirstStageYsourceTransconductance~outFirstStage": 1.4047,
+        "in2~outFirstStage": 0.981,
+        "in1~outFirstStage": 0.0087,
+        "FirstStageYout1~out": 0.7677
+      },
+      "c_only_vs_ext": {
+        "netlist_total_fF": 488.833,
+        "ext_total_fF": 536.412,
+        "netlist_short_of_ext": 0.0887,
+        "complete": false,
+        "tolerance": 0.05,
+        "substrate_net": "sourceNmos",
+        "ext_net_fF_approx": {
+          "outFirstStage": 20.6755,
+          "FirstStageYout1": 37.0595,
+          "in2": 0.4009,
+          "in1": 0.1886,
+          "out": 56.6346,
+          "ibias": 58.04,
+          "FirstStageYsourceTransconductance": 25.6116
+        },
+        "nets_without_ground_C_in_netlist": [
+          "FirstStageYout1",
+          "outFirstStage"
+        ]
+      },
+      "budgets": {
+        "rows": [
+          {
+            "id": "FirstStageYout1",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 0.0,
+            "budget": 12.3582,
+            "use": 0.0,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYsourceTransconductance",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 27.8275,
+            "budget": 55.8414,
+            "use": 0.4983,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "ibias",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 54.1455,
+            "budget": 451.7212,
+            "use": 0.1199,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "out",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 67.0611,
+            "budget": 40.3369,
+            "use": 1.6625,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "outFirstStage",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 0.0,
+            "budget": 7.5381,
+            "use": 0.0,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYout1~FirstStageYsourceTransconductance",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.4419,
+            "budget": 8.2812,
+            "use": 0.1741,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYout1~ibias",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.0,
+            "budget": 0.4514,
+            "use": 0.0,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYout1~out",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.7677,
+            "budget": 0.4514,
+            "use": 1.7006,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYout1~outFirstStage",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 9.657,
+            "budget": 2.3564,
+            "use": 4.0983,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYout1~in1",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.0682,
+            "budget": 0.6376,
+            "use": 1.6753,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYsourceTransconductance~ibias",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 5.0984,
+            "budget": 16.8257,
+            "use": 0.303,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYsourceTransconductance~out",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 2.2551,
+            "budget": 0.2007,
+            "use": 11.235,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYsourceTransconductance~outFirstStage",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.4047,
+            "budget": 0.6111,
+            "use": 2.2987,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYsourceTransconductance~in1",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 2.8032,
+            "budget": 5.9778,
+            "use": 0.4689,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYsourceTransconductance~in2",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 2.561,
+            "budget": 1.1351,
+            "use": 2.2561,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "ibias~out",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 22.8083,
+            "budget": 20.3872,
+            "use": 1.1188,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "ibias~outFirstStage",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.0,
+            "budget": 0.5065,
+            "use": 0.0,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "ibias~in1",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.0,
+            "budget": 0.9399,
+            "use": 0.0,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "out~outFirstStage",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 29.2637,
+            "budget": 4.7319,
+            "use": 6.1844,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "out~in1",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.2069,
+            "budget": 0.0467,
+            "use": 4.4308,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "out~in2",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.1459,
+            "budget": 0.0467,
+            "use": 3.1245,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "outFirstStage~in1",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.0087,
+            "budget": 0.0467,
+            "use": 0.1863,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "outFirstStage~in2",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.981,
+            "budget": 0.5017,
+            "use": 1.9552,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 20.3725,
+            "budget": 10.0383,
+            "use": 2.0295,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 11.2941,
+            "budget": 15.5833,
+            "use": 0.7248,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 22.2076,
+            "budget": 11.2625,
+            "use": 1.9718,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XDiodeTransistorPmos2.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 17.8657,
+            "budget": 217.3745,
+            "use": 0.0822,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XDiodeTransistorPmos2.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 28.7547,
+            "budget": 170.6753,
+            "use": 0.1685,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorNmos3.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 18.7966,
+            "budget": 16.5487,
+            "use": 1.1358,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorNmos3.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 53.5834,
+            "budget": 351.6371,
+            "use": 0.1524,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorNmos3.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 20.2921,
+            "budget": 16.2556,
+            "use": 1.2483,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos5.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 19.9382,
+            "budget": 29.4224,
+            "use": 0.6777,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos5.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 24.7379,
+            "budget": 768.1254,
+            "use": 0.0322,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos5.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 16.1374,
+            "budget": 36.8434,
+            "use": 0.438,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 50.874,
+            "budget": 19.8402,
+            "use": 2.5642,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 39.6053,
+            "budget": 36.1953,
+            "use": 1.0942,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 29.681,
+            "budget": 16.993,
+            "use": 1.7467,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos8.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 18.7737,
+            "budget": 98.4256,
+            "use": 0.1907,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos8.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 16.1371,
+            "budget": 34.4097,
+            "use": 0.469,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos8.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 19.1676,
+            "budget": 72.7397,
+            "use": 0.2635,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          }
+        ],
+        "violations": [
+          "out",
+          "FirstStageYout1~out",
+          "FirstStageYout1~outFirstStage",
+          "FirstStageYout1~in1",
+          "FirstStageYsourceTransconductance~out",
+          "FirstStageYsourceTransconductance~outFirstStage",
+          "FirstStageYsourceTransconductance~in2",
+          "ibias~out",
+          "out~outFirstStage",
+          "out~in1",
+          "out~in2",
+          "outFirstStage~in2",
+          "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+          "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+          "XNormalTransistorNmos3.d",
+          "XNormalTransistorNmos3.s",
+          "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+          "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+          "XNormalTransistorPmos7+XNormalTransistorPmos6.s"
+        ],
+        "unbudgeted_couplings_fF": {
+          "FirstStageYout1~in2": 0.0948,
+          "ibias~in2": 0.0,
+          "in1~in2": 0.5402
+        }
+      },
+      "kpex": {
+        "ran": true,
+        "netlist": "outputs/S6/loadbench_miller/budget_aware/kpex/loadbench_miller_routed__loadbench_miller_routed/loadbench_miller_routed_k25d_pex_netlist.spice",
+        "kpex_lvs_matched": false,
+        "unnamed_nets": [
+          "$13",
+          "$17",
+          "$9"
+        ],
+        "net_fF": {
+          "ibias": {
+            "magic": 54.1455,
+            "kpex": 63.196
+          },
+          "in1": {
+            "magic": 0.0063,
+            "kpex": 0.1519
+          },
+          "in2": {
+            "magic": 0.0458,
+            "kpex": 0.4268
+          },
+          "out": {
+            "magic": 67.0611,
+            "kpex": 54.2053
+          }
+        },
+        "coupling_fF": {
+          "ibias~out": {
+            "magic": 22.8083,
+            "kpex": 26.9981
+          },
+          "in1~in2": {
+            "magic": 0.5402,
+            "kpex": 0.5781
+          },
+          "in1~out": {
+            "magic": 0.2069,
+            "kpex": 0.2453
+          },
+          "in2~out": {
+            "magic": 0.1459,
+            "kpex": 0.1494
+          }
+        },
+        "total_fF": {
+          "magic": 230.193,
+          "kpex": 758.289
+        }
+      }
+    },
+    "area_only": {
+      "netlists": {
+        "lvs": "outputs/S6/loadbench_miller/budget_aware/loadbench_miller_routed_lvs.spice",
+        "pex_c": "outputs/S6/loadbench_miller/budget_aware/loadbench_miller_routed_pex.spice",
+        "pex_rc": "outputs/S6/loadbench_miller/budget_aware/loadbench_miller_routed_pexrc.spice"
+      },
+      "lvs": {
+        "match": true,
+        "inner_nets_as_ports": 2,
+        "other_pin_errors": [],
+        "report": "outputs/S6/loadbench_miller/budget_aware/lvs_report.txt"
+      },
+      "n_caps": 26,
+      "n_resistors_rc": 315153,
+      "unassigned_caps": [],
+      "net_fF": {
+        "ibias": 54.1455,
+        "out": 67.0611,
+        "FirstStageYsourceTransconductance": 27.8275,
+        "in2": 0.0458,
+        "in1": 0.0063
+      },
+      "coupling_fF": {
+        "FirstStageYout1~FirstStageYsourceTransconductance": 1.4419,
+        "FirstStageYout1~in2": 0.0948,
+        "FirstStageYout1~in1": 1.0682,
+        "ibias~out": 22.8083,
+        "FirstStageYout1~outFirstStage": 9.657,
+        "FirstStageYsourceTransconductance~ibias": 5.0984,
+        "ibias~in2": 0.0,
+        "FirstStageYsourceTransconductance~out": 2.2551,
+        "in2~out": 0.1459,
+        "in1~out": 0.2069,
+        "FirstStageYsourceTransconductance~in2": 2.561,
+        "out~outFirstStage": 29.2637,
+        "FirstStageYsourceTransconductance~in1": 2.8032,
+        "in1~in2": 0.5402,
+        "FirstStageYsourceTransconductance~outFirstStage": 1.4047,
+        "in2~outFirstStage": 0.981,
+        "in1~outFirstStage": 0.0087,
+        "FirstStageYout1~out": 0.7677
+      },
+      "c_only_vs_ext": {
+        "netlist_total_fF": 488.833,
+        "ext_total_fF": 536.412,
+        "netlist_short_of_ext": 0.0887,
+        "complete": false,
+        "tolerance": 0.05,
+        "substrate_net": "sourceNmos",
+        "ext_net_fF_approx": {
+          "outFirstStage": 20.6755,
+          "FirstStageYout1": 37.0595,
+          "in2": 0.4009,
+          "in1": 0.1886,
+          "out": 56.6346,
+          "ibias": 58.04,
+          "FirstStageYsourceTransconductance": 25.6116
+        },
+        "nets_without_ground_C_in_netlist": [
+          "FirstStageYout1",
+          "outFirstStage"
+        ]
+      },
+      "budgets": {
+        "rows": [
+          {
+            "id": "FirstStageYout1",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 0.0,
+            "budget": 12.3582,
+            "use": 0.0,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYsourceTransconductance",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 27.8275,
+            "budget": 55.8414,
+            "use": 0.4983,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "ibias",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 54.1455,
+            "budget": 451.7212,
+            "use": 0.1199,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "out",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 67.0611,
+            "budget": 40.3369,
+            "use": 1.6625,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "outFirstStage",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 0.0,
+            "budget": 7.5381,
+            "use": 0.0,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYout1~FirstStageYsourceTransconductance",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.4419,
+            "budget": 8.2812,
+            "use": 0.1741,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYout1~ibias",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.0,
+            "budget": 0.4514,
+            "use": 0.0,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYout1~out",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.7677,
+            "budget": 0.4514,
+            "use": 1.7006,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYout1~outFirstStage",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 9.657,
+            "budget": 2.3564,
+            "use": 4.0983,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYout1~in1",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.0682,
+            "budget": 0.6376,
+            "use": 1.6753,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYsourceTransconductance~ibias",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 5.0984,
+            "budget": 16.8257,
+            "use": 0.303,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYsourceTransconductance~out",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 2.2551,
+            "budget": 0.2007,
+            "use": 11.235,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYsourceTransconductance~outFirstStage",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.4047,
+            "budget": 0.6111,
+            "use": 2.2987,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYsourceTransconductance~in1",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 2.8032,
+            "budget": 5.9778,
+            "use": 0.4689,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "FirstStageYsourceTransconductance~in2",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 2.561,
+            "budget": 1.1351,
+            "use": 2.2561,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "ibias~out",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 22.8083,
+            "budget": 20.3872,
+            "use": 1.1188,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "ibias~outFirstStage",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.0,
+            "budget": 0.5065,
+            "use": 0.0,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "ibias~in1",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.0,
+            "budget": 0.9399,
+            "use": 0.0,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "out~outFirstStage",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 29.2637,
+            "budget": 4.7319,
+            "use": 6.1844,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "out~in1",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.2069,
+            "budget": 0.0467,
+            "use": 4.4308,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "out~in2",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.1459,
+            "budget": 0.0467,
+            "use": 3.1245,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "outFirstStage~in1",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.0087,
+            "budget": 0.0467,
+            "use": 0.1863,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "outFirstStage~in2",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.981,
+            "budget": 0.5017,
+            "use": 1.9552,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 20.3725,
+            "budget": 10.0383,
+            "use": 2.0295,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XDiodeTransistorNmos1+XNormalTransistorNmos4.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 11.2941,
+            "budget": 15.5833,
+            "use": 0.7248,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 22.2076,
+            "budget": 11.2625,
+            "use": 1.9718,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XDiodeTransistorPmos2.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 17.8657,
+            "budget": 217.3745,
+            "use": 0.0822,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XDiodeTransistorPmos2.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 28.7547,
+            "budget": 170.6753,
+            "use": 0.1685,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorNmos3.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 18.7966,
+            "budget": 16.5487,
+            "use": 1.1358,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorNmos3.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 53.5834,
+            "budget": 351.6371,
+            "use": 0.1524,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorNmos3.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 20.2921,
+            "budget": 16.2556,
+            "use": 1.2483,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos5.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 19.9382,
+            "budget": 29.4224,
+            "use": 0.6777,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos5.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 24.7379,
+            "budget": 768.1254,
+            "use": 0.0322,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos5.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 16.1374,
+            "budget": 36.8434,
+            "use": 0.438,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 50.874,
+            "budget": 19.8402,
+            "use": 2.5642,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 39.6053,
+            "budget": 36.1953,
+            "use": 1.0942,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos7+XNormalTransistorPmos6.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 29.681,
+            "budget": 16.993,
+            "use": 1.7467,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos8.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 18.7737,
+            "budget": 98.4256,
+            "use": 0.1907,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos8.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 16.1371,
+            "budget": 34.4097,
+            "use": 0.469,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XNormalTransistorPmos8.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 19.1676,
+            "budget": 72.7397,
+            "use": 0.2635,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          }
+        ],
+        "violations": [
+          "out",
+          "FirstStageYout1~out",
+          "FirstStageYout1~outFirstStage",
+          "FirstStageYout1~in1",
+          "FirstStageYsourceTransconductance~out",
+          "FirstStageYsourceTransconductance~outFirstStage",
+          "FirstStageYsourceTransconductance~in2",
+          "ibias~out",
+          "out~outFirstStage",
+          "out~in1",
+          "out~in2",
+          "outFirstStage~in2",
+          "XDiodeTransistorNmos1+XNormalTransistorNmos4.d",
+          "XDiodeTransistorNmos1+XNormalTransistorNmos4.s",
+          "XNormalTransistorNmos3.d",
+          "XNormalTransistorNmos3.s",
+          "XNormalTransistorPmos7+XNormalTransistorPmos6.d",
+          "XNormalTransistorPmos7+XNormalTransistorPmos6.g",
+          "XNormalTransistorPmos7+XNormalTransistorPmos6.s"
+        ],
+        "unbudgeted_couplings_fF": {
+          "FirstStageYout1~in2": 0.0948,
+          "ibias~in2": 0.0,
+          "in1~in2": 0.5402
+        }
+      },
+      "kpex": {
+        "ran": true,
+        "netlist": "outputs/S6/loadbench_miller/budget_aware/kpex/loadbench_miller_routed__loadbench_miller_routed/loadbench_miller_routed_k25d_pex_netlist.spice",
+        "kpex_lvs_matched": false,
+        "unnamed_nets": [
+          "$13",
+          "$17",
+          "$9"
+        ],
+        "net_fF": {
+          "ibias": {
+            "magic": 54.1455,
+            "kpex": 63.196
+          },
+          "in1": {
+            "magic": 0.0063,
+            "kpex": 0.1519
+          },
+          "in2": {
+            "magic": 0.0458,
+            "kpex": 0.4268
+          },
+          "out": {
+            "magic": 67.0611,
+            "kpex": 54.2053
+          }
+        },
+        "coupling_fF": {
+          "ibias~out": {
+            "magic": 22.8083,
+            "kpex": 26.9981
+          },
+          "in1~in2": {
+            "magic": 0.5402,
+            "kpex": 0.5781
+          },
+          "in1~out": {
+            "magic": 0.2069,
+            "kpex": 0.2453
+          },
+          "in2~out": {
+            "magic": 0.1459,
+            "kpex": 0.1494
+          }
+        },
+        "total_fF": {
+          "magic": 230.193,
+          "kpex": 758.289
+        }
+      },
+      "same_as": "budget_aware"
+    }
+  }
+}

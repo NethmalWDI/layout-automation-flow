@@ -1,17 +1,17 @@
-* Extracted by KLayout with SKY130 LVS runset on : 03/11/2026 22:33
+* Extracted by KLayout with SKY130 LVS runset on : 04/11/2026 03:28
 
 .SUBCKT example_ota_5t_routed INN INP OUTP VBIAS VDD VSS sky130_gnd
 M$1 \$10 \$10 VDD VDD sky130_fd_pr__pfet_01v8 L=1 W=8 AS=2.32 AD=2.32 PS=16.58
 + PD=16.58
 M$2 OUTP \$10 VDD VDD sky130_fd_pr__pfet_01v8 L=1 W=8 AS=2.32 AD=2.32 PS=16.58
 + PD=16.58
-M$3 \$11 INP \$10 sky130_gnd sky130_fd_pr__nfet_01v8 L=0.5 W=12 AS=3.48 AD=1.74
+M$3 \$11 INN OUTP sky130_gnd sky130_fd_pr__nfet_01v8 L=0.5 W=12 AS=3.48 AD=1.74
 + PS=24.58 PD=12.29
-M$4 \$10 INP \$11 sky130_gnd sky130_fd_pr__nfet_01v8 L=0.5 W=12 AS=1.74 AD=3.48
+M$4 OUTP INN \$11 sky130_gnd sky130_fd_pr__nfet_01v8 L=0.5 W=12 AS=1.74 AD=3.48
 + PS=12.29 PD=24.58
-M$5 \$11 INN OUTP sky130_gnd sky130_fd_pr__nfet_01v8 L=0.5 W=12 AS=3.48 AD=1.74
+M$5 \$11 INP \$10 sky130_gnd sky130_fd_pr__nfet_01v8 L=0.5 W=12 AS=3.48 AD=1.74
 + PS=24.58 PD=12.29
-M$6 OUTP INN \$11 sky130_gnd sky130_fd_pr__nfet_01v8 L=0.5 W=12 AS=1.74 AD=3.48
+M$6 \$10 INP \$11 sky130_gnd sky130_fd_pr__nfet_01v8 L=0.5 W=12 AS=1.74 AD=3.48
 + PS=12.29 PD=24.58
 M$7 \$11 VBIAS VSS sky130_gnd sky130_fd_pr__nfet_01v8 L=1 W=12 AS=3.48 AD=1.74
 + PS=24.58 PD=12.29

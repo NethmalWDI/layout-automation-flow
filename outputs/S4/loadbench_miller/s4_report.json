@@ -1,0 +1,168 @@
+{
+  "run_id": "2026-11-04T02:49:05-112fb8e4",
+  "design": "loadbench_miller",
+  "s3_run_id": "2026-11-03T20:06:04-51379e33",
+  "gates": {
+    "G4.1_one_type_and_body_per_block": {
+      "pass": true,
+      "blocks": {
+        "input_pair": {
+          "type": "pmos",
+          "body": "FirstStageYsourceTransconductance",
+          "devices": [
+            "XNormalTransistorPmos7",
+            "XNormalTransistorPmos6"
+          ]
+        },
+        "nmos_mirror_load": {
+          "type": "nmos",
+          "body": "sourceNmos",
+          "devices": [
+            "XDiodeTransistorNmos1",
+            "XNormalTransistorNmos4"
+          ]
+        },
+        "pmos_bias_bank": {
+          "type": "pmos",
+          "body": "sourcePmos",
+          "devices": [
+            "XDiodeTransistorPmos2",
+            "XNormalTransistorPmos8",
+            "XNormalTransistorPmos5"
+          ]
+        },
+        "cs_stage": {
+          "type": "nmos",
+          "body": "sourceNmos",
+          "devices": [
+            "XNormalTransistorNmos3"
+          ]
+        },
+        "Capacitor2": {
+          "type": "cap",
+          "body": null,
+          "devices": [
+            "Capacitor2"
+          ]
+        }
+      }
+    },
+    "G4.2_DRC_every_variant": {
+      "pass": true,
+      "detail": {
+        "input_pair__AB": 0,
+        "input_pair__ABBA": 0,
+        "input_pair__ABAB": 0,
+        "nmos_mirror_load__AB": 0,
+        "nmos_mirror_load__ABBA": 0,
+        "nmos_mirror_load__ABAB": 0,
+        "pmos_bias_bank__row": 0,
+        "cs_stage__A": 0,
+        "Capacitor2__A": 0
+      }
+    },
+    "G4.3_LVS_every_variant": {
+      "pass": true,
+      "detail": {
+        "input_pair__AB": true,
+        "input_pair__ABBA": true,
+        "input_pair__ABAB": true,
+        "nmos_mirror_load__AB": true,
+        "nmos_mirror_load__ABBA": true,
+        "nmos_mirror_load__ABAB": true,
+        "pmos_bias_bank__row": true,
+        "cs_stage__A": true,
+        "Capacitor2__A": true
+      }
+    },
+    "G4.4_symmetry": {
+      "pass": true,
+      "tolerance_um": 0.005,
+      "detail": {
+        "input_pair__AB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 3.61,
+          "mirror_image": true
+        },
+        "input_pair__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "input_pair__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.43,
+          "mirror_image": false
+        },
+        "nmos_mirror_load__AB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 19.7,
+          "mirror_image": true
+        },
+        "nmos_mirror_load__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "nmos_mirror_load__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 10.42,
+          "mirror_image": false
+        }
+      },
+      "note": "every two-device block has a signed-off variant that is a mirror image about its centre; centroid_offset_um is 0 for a common centroid (ABBA)"
+    },
+    "G4.5_latchup_tap_distance": {
+      "pass": true,
+      "limit_um": 15.0,
+      "detail": {
+        "input_pair__AB": 3.81,
+        "input_pair__ABBA": 5.06,
+        "input_pair__ABAB": 5.06,
+        "nmos_mirror_load__AB": 7.295,
+        "nmos_mirror_load__ABBA": 7.295,
+        "nmos_mirror_load__ABAB": 7.295,
+        "pmos_bias_bank__row": 10.121,
+        "cs_stage__A": 9.55,
+        "Capacitor2__A": null
+      },
+      "tap_strips": {
+        "pmos_bias_bank__row": [
+          11.97
+        ]
+      },
+      "note": "the LU rules are also in the block's own DRC (G4.2), which defers nothing; a capacitor block has no diffusion (None)"
+    },
+    "G4.6_port_capacitance (info)": {
+      "pass": null,
+      "note": "block port C against S2's hierarchy.json: S6 extraction (plan Phase 5)"
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-11-04T01:49:05+00:00",
+    "git_commit": "49a65808dfbc12b09a171c01a591626d086a8428",
+    "inputs": [
+      {
+        "path": "outputs/S0/loadbench_miller/circuit_ir.json",
+        "sha256": "61d5a9a0de9faa8a4ea3056cfb0c341e2891dc5e292f05fd6a7b33f6f7948292"
+      },
+      {
+        "path": "outputs/S1/loadbench_miller/s1_report.json",
+        "sha256": "251ffcc1b1316f9bf081db613554cc3370762359ca924026c761b2a86cfb8379"
+      },
+      {
+        "path": "outputs/S3/loadbench_miller/device_decisions.json",
+        "sha256": "833bd01b1a72421b22df2a4b4e840d4cf89663cd8d54e5f3756663cb6531165d"
+      },
+      {
+        "path": "outputs/S2/loadbench_miller/constraints.json",
+        "sha256": "d159d9590704436a4df696eff60d432cce47655dd33ae0c98d35be3746562230"
+      },
+      {
+        "path": "inputs/loadbench_miller/package.yaml",
+        "sha256": "bd0dd6728a99edf7011a2972bce39f487728463e14083b7aa44691f3c00e33a4"
+      }
+    ]
+  }
+}

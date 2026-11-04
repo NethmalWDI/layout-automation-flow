@@ -476,7 +476,13 @@ python3 -m src.s4.run inputs/example_ota_5t/package.yaml      # or: ./flow run e
     and carry the net's label;
   - a met2 column joins a net's top and bottom tracks;
   - one tap ring from the PDK's own `sky130::guard_ring_draw`, labelled `<body>_body` (p-tap for NMOS; n-tap in an
-    n-well over the whole PMOS block).
+    n-well over the whole PMOS block);
+  - a vertical tap strip between two units where the ring alone would leave a diffusion farther from a tap than S2's
+    `place.latchup_tap_distance` (less 0.5 µm). A unit too wide even for that is split into two half units. Only
+    LOADBench's PMOS bank needs one.
+- **Capacitors.** A capacitor that S0 binds to a MIM device for the layout view (LOADBench's Capacitor2, a PREDICTED
+  binding) is a block of its own: the PDK's generator draws it, and each plate reaches a met3 track (the top plate up,
+  the bottom plate down), 1.45 µm from the top plate (capm.11). Its met3 and met4 are keep-outs for S5's router.
 - **Sign-off.** Each variant gets Magic DRC with nothing deferred (the ring meets the latch-up and well-tap rules),
   and Netgen LVS against the IR's devices. Both have negative controls.
 
@@ -512,7 +518,11 @@ placements:
 - a via3 onto each of the net's block tracks, or a metal3 extension along the track;
 - a contact stack and a metal3 run from each ring's body pin;
 - nets in order of least budget slack; INP/INN (a hard rule) mirrored at ±x;
-- port labels with the layout view's names (e.g. `net2` → `VBIAS`).
+- port labels with the layout view's names (e.g. `net2` → `VBIAS`);
+- one connection per pair of tracks that a block already joins (the placer's wire estimate counts them once too);
+- a spine runs beside another net's spine (within two pitches) no longer than S2's metal4 parallel-run limit;
+- a block's keep-outs (a MIM capacitor) are kept clear; where a metal3 run passes its own net's shape closer than the
+  spacing rule, a metal3 bridge merges the two.
 
 It fails loudly on a net it cannot place; the plan's general maze router remains open for layouts that need detours.
 
@@ -540,12 +550,21 @@ Both routed layouts of S5 are evaluated: the budget-aware one (gated) and the ar
 - G6.2 compares every budgeted net capacitance, coupling and terminal R with its S2 budget. R is S3's access R plus
   S5's wires and vias.
 - G6.3 (info) is a kpex 2.5D cross-check on the nets both tools name.
+- G6.4 (info) compares the C-only netlist's total capacitance with Magic's own `.ext`. ext2spice leaves out the
+  capacitance to ground of nets that are transistor gates (flow record row 75), so those nets read low in G6.2; the
+  R+C netlist, which S7 simulates, has it.
 
 **S7** (`src/s7/run.py`):
 - The schematic and three layout views run in S0's AC, OP and NOISE benches: drawn devices only, C-only PEX, and
   R+C PEX (the post-layout result).
-- A removed internal source (e.g. V1 on VBIAS) is put back from the IR. Only the first port of each name is a bench
-  node.
+- The extracted cell's ports connect to the bench as the bench's own `XDUT` line connects the schematic (LOADBench:
+  `in1 in2 out sourceNmos sourcePmos` → `INN INP OUTP VSS VDD`). A removed internal source is put back from the IR,
+  as a voltage or a current source (the 5T's V1 on VBIAS; LOADBench's Ibias on IBIAS). Only the first port of each
+  name is a bench node.
+- A deck larger than 20 MB (LOADBench's R+C views, 315 000 resistors) runs after the others, `--big-workers` at a
+  time (default 1): four at once ran the 5 GB container out of memory (one LOADBench R+C AC run peaks at 5.3 GB).
+  An identical deck is simulated once; when S5 chose one placement for both costs (LOADBench), S6 extracts it once.
+  LOADBench's S6 takes about 2 min and its S7 about 22 min.
 - G7.1: every spec met. G7.2: each spec's loss within eta × margin (× 1.02). G7.3 (info): G2.0's prediction against
   the loss. H4 and H5 are reported.
 - Device saturation and PVT points are not evaluated here.
@@ -555,4 +574,4 @@ Both routed layouts of S5 are evaluated: the budget-aware one (gated) and the ar
 | `outputs/S6/<design>/<rule>/` | Netlists (`*_lvs.spice`, `*_pex.spice`, `*_pexrc.spice`), flat LVS report, kpex output |
 | `outputs/S6/<design>/parasitics_vs_budgets.json` | Per layout: net and coupling capacitances, every budgeted element against its budget, kpex comparison |
 | `outputs/S7/<design>/metrics.json` | Every view's measurements, and per spec the loss, its use of eta × margin, and G2.0's prediction |
-| `outputs/S6/<design>/s6_report.json`, `outputs/S7/<design>/s7_report.json` | Gates G6.1–G6.3 and G7.1–G7.4, H4, H5 |
+| `outputs/S6/<design>/s6_report.json`, `outputs/S7/<design>/s7_report.json` | Gates G6.1–G6.4 and G7.1–G7.4, H4, H5 |

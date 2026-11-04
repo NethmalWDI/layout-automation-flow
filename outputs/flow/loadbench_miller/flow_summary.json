@@ -133,6 +133,101 @@
     "G3.5_no_relaxation"
    ],
    "seconds": 3447.2
+  },
+  "S4": {
+   "stage": "S4",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 0,
+     "seconds": 57.9,
+     "log": "runs/logs/flow/loadbench_miller/S4_run.log"
+    }
+   ],
+   "started": "2026-11-04T02:48:07",
+   "gates": {
+    "G4.1_one_type_and_body_per_block": true,
+    "G4.2_DRC_every_variant": true,
+    "G4.3_LVS_every_variant": true,
+    "G4.4_symmetry": true,
+    "G4.5_latchup_tap_distance": true,
+    "G4.6_port_capacitance (info)": null
+   },
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 57.9
+  },
+  "S5": {
+   "stage": "S5",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 3,
+     "seconds": 81.4,
+     "log": "runs/logs/flow/loadbench_miller/S5_run.log"
+    }
+   ],
+   "started": "2026-11-04T02:58:28",
+   "gates": {
+    "G5.1_placement_legal": true,
+    "G5.5_area_vs_area_only (info)": null,
+    "G5.2_top_DRC": true,
+    "G5.3_top_LVS": true,
+    "G5.4_route_rules": false
+   },
+   "status": "FAIL",
+   "failed_gates": [
+    "G5.4_route_rules"
+   ],
+   "seconds": 81.4
+  },
+  "S6": {
+   "stage": "S6",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 3,
+     "seconds": 125.8,
+     "log": "runs/logs/flow/loadbench_miller/S6_run.log"
+    }
+   ],
+   "started": "2026-11-04T03:40:46",
+   "gates": {
+    "G6.1_extracted_and_LVS": true,
+    "G6.2_parasitics_within_budgets": false,
+    "G6.4_c_only_netlist_complete (info)": null,
+    "G6.3_kpex_cross_check (info)": null
+   },
+   "status": "FAIL",
+   "failed_gates": [
+    "G6.2_parasitics_within_budgets"
+   ],
+   "seconds": 125.8
+  },
+  "S7": {
+   "stage": "S7",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 3,
+     "seconds": 1331.3,
+     "log": "runs/logs/flow/loadbench_miller/S7_run.log"
+    }
+   ],
+   "started": "2026-11-04T03:42:52",
+   "gates": {
+    "G7.1_specs_met_post_layout": true,
+    "G7.2_loss_within_eta_margin": false,
+    "G7.3_G2.0_prediction (info)": null,
+    "G7.4_pvt (info)": null,
+    "H4 (info)": null,
+    "H5 (info)": null
+   },
+   "status": "FAIL",
+   "failed_gates": [
+    "G7.2_loss_within_eta_margin"
+   ],
+   "seconds": 1331.3
   }
  }
 }

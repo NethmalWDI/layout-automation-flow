@@ -1,0 +1,84 @@
+* NGSPICE file created from loadbench_miller_routed_flat.ext - technology: sky130A
+
+.subckt loadbench_miller_routed_flat out IBIAS in1 in2 sourceNmos sourcePmos input_pair__AB_0.FirstStageYsourceTransconductance
++ input_pair__AB_0.FirstStageYout1 cs_stage__A_0.outFirstStage
+X0 sourcePmos IBIAS input_pair__AB_0.FirstStageYsourceTransconductance sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X1 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X2 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X3 input_pair__AB_0.FirstStageYout1 input_pair__AB_0.FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X4 sourceNmos input_pair__AB_0.FirstStageYout1 cs_stage__A_0.outFirstStage sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X5 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X6 out IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X7 sourceNmos input_pair__AB_0.FirstStageYout1 input_pair__AB_0.FirstStageYout1 sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X8 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X9 cs_stage__A_0.outFirstStage input_pair__AB_0.FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X10 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=4.3877 ps=30.84 w=15.13 l=0.24
+X11 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X12 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X13 sourcePmos IBIAS out sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X14 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X15 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X16 out IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=16.0776 ps=111.46 w=55.44 l=0.74
+X17 input_pair__AB_0.FirstStageYsourceTransconductance in1 input_pair__AB_0.FirstStageYout1 input_pair__AB_0.FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt ad=2.0619 pd=14.8 as=1.03095 ps=7.4 w=7.11 l=0.89
+X18 cs_stage__A_0.outFirstStage in2 input_pair__AB_0.FirstStageYsourceTransconductance input_pair__AB_0.FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt ad=1.03095 pd=7.4 as=2.0619 ps=14.8 w=7.11 l=0.89
+X19 sourceNmos input_pair__AB_0.FirstStageYout1 input_pair__AB_0.FirstStageYout1 sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X20 out IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X21 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X22 cs_stage__A_0.outFirstStage out sky130_fd_pr__cap_mim_m3_1 l=15.66 w=15.66
+X23 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X24 sourcePmos IBIAS input_pair__AB_0.FirstStageYsourceTransconductance sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X25 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X26 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X27 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X28 sourcePmos IBIAS out sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X29 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X30 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=4.3877 pd=30.84 as=2.19385 ps=15.42 w=15.13 l=0.24
+X31 input_pair__AB_0.FirstStageYsourceTransconductance IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X32 input_pair__AB_0.FirstStageYout1 input_pair__AB_0.FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=2.3983 ps=17.12 w=8.27 l=2.03
+X33 sourceNmos input_pair__AB_0.FirstStageYout1 cs_stage__A_0.outFirstStage sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X34 sourcePmos IBIAS IBIAS sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=10.817 pd=75.18 as=10.817 ps=75.18 w=37.3 l=0.74
+X35 sourcePmos IBIAS out sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X36 sourcePmos IBIAS out sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X37 cs_stage__A_0.outFirstStage input_pair__AB_0.FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=2.3983 ps=17.12 w=8.27 l=2.03
+X38 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X39 input_pair__AB_0.FirstStageYsourceTransconductance IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X40 input_pair__AB_0.FirstStageYout1 in1 input_pair__AB_0.FirstStageYsourceTransconductance input_pair__AB_0.FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt ad=1.03095 pd=7.4 as=2.0619 ps=14.8 w=7.11 l=0.89
+X41 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X42 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X43 out IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X44 out IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X45 input_pair__AB_0.FirstStageYout1 input_pair__AB_0.FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X46 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X47 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X48 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X49 sourcePmos IBIAS input_pair__AB_0.FirstStageYsourceTransconductance sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X50 sourcePmos IBIAS input_pair__AB_0.FirstStageYsourceTransconductance sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=3.2857 pd=23.24 as=1.64285 ps=11.62 w=11.33 l=0.74
+X51 out IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X52 sourceNmos input_pair__AB_0.FirstStageYout1 input_pair__AB_0.FirstStageYout1 sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X53 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X54 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X55 out IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X56 sourcePmos IBIAS out sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X57 cs_stage__A_0.outFirstStage input_pair__AB_0.FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X58 cs_stage__A_0.outFirstStage input_pair__AB_0.FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X59 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X60 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X61 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X62 input_pair__AB_0.FirstStageYsourceTransconductance IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=1.64285 ps=11.62 w=11.33 l=0.74
+X63 sourceNmos input_pair__AB_0.FirstStageYout1 cs_stage__A_0.outFirstStage sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X64 sourcePmos IBIAS out sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=16.0776 pd=111.46 as=8.0388 ps=55.73 w=55.44 l=0.74
+X65 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X66 input_pair__AB_0.FirstStageYsourceTransconductance in2 cs_stage__A_0.outFirstStage input_pair__AB_0.FirstStageYsourceTransconductance sky130_fd_pr__pfet_01v8_lvt ad=2.0619 pd=14.8 as=1.03095 ps=7.4 w=7.11 l=0.89
+X67 sourceNmos input_pair__AB_0.FirstStageYout1 input_pair__AB_0.FirstStageYout1 sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.3983 pd=17.12 as=1.19915 ps=8.56 w=8.27 l=2.03
+X68 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X69 input_pair__AB_0.FirstStageYsourceTransconductance IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=1.64285 pd=11.62 as=3.2857 ps=23.24 w=11.33 l=0.74
+X70 sourcePmos IBIAS out sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X71 sourcePmos IBIAS out sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X72 input_pair__AB_0.FirstStageYout1 input_pair__AB_0.FirstStageYout1 sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=1.19915 pd=8.56 as=1.19915 ps=8.56 w=8.27 l=2.03
+X73 sourceNmos input_pair__AB_0.FirstStageYout1 cs_stage__A_0.outFirstStage sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.3983 pd=17.12 as=1.19915 ps=8.56 w=8.27 l=2.03
+X74 sourceNmos cs_stage__A_0.outFirstStage out sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X75 out IBIAS sourcePmos sourcePmos sky130_fd_pr__pfet_01v8_lvt ad=8.0388 pd=55.73 as=8.0388 ps=55.73 w=55.44 l=0.74
+X76 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+X77 out cs_stage__A_0.outFirstStage sourceNmos sourceNmos sky130_fd_pr__nfet_01v8_lvt ad=2.19385 pd=15.42 as=2.19385 ps=15.42 w=15.13 l=0.24
+.ends
+

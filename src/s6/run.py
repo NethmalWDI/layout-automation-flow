@@ -32,6 +32,7 @@ import reference_layout as RL  # noqa: E402
 
 RULES = ("budget_aware", "area_only")
 UNIT = {"a": 1e-3, "f": 1.0, "p": 1e3, "n": 1e6, "u": 1e9, "": 1e15}    # to fF
+EXT_TOL = 0.05     # the C-only netlist's total may be this much below the .ext's (G6.4)
 
 
 def ac_grounds(ir: dict) -> set:
@@ -77,6 +78,72 @@ def capacitances(pex: Path, nets: set, inv: dict, gnd: set) -> dict:
     out["net"] = {k: round(v, 4) for k, v in out["net"].items()}
     out["coupling"] = {k: round(v, 4) for k, v in out["coupling"].items()}
     return out
+
+
+def ext_capacitances(ext: Path, nets: set, inv: dict, gnd: set) -> dict:
+    """A cross-check of the C-only netlist against Magic's .ext of the flat cell (plan v4 Phase 6, flow record row 71).
+    On LOADBench the netlist lacks the capacitance to ground of the nets that are transistor gates (FirstStageYout1,
+    outFirstStage, ibias, in1, in2): its total is 8.9 % below the .ext's. Nodes are joined through the .ext's 'equiv'
+    records; a 'node' record's capacitance is counted to the substrate (a ground net here), 'cap' records are
+    couplings; values are in aF in the .ext. This reading puts all of a node's capacitance on the substrate, where
+    Magic charges the part over an n-well to that well (the 5T's net3: 4.3 fF to VDD in the netlist), so per net it is
+    an approximation; the totals ('total_fF') are exact and are what the check compares."""
+    txt = ext.read_text()
+    parent = {}
+
+    def find(x):
+        parent.setdefault(x, x)
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+    for a, b in re.findall(r'^equiv "([^"]+)" "([^"]+)"', txt, re.M):
+        parent[find(a)] = find(b)
+    names = {}
+    for n in set(parent) | set(re.findall(r'^(?:node|substrate|port) "([^"]+)"', txt, re.M)):
+        names.setdefault(find(n), []).append(n)
+    net_of = {}
+    for g, ms in names.items():
+        found = sorted({x for x in (node_net(m, nets, inv) for m in ms) if x})
+        net_of[g] = found[0] if len(found) == 1 else None
+        if len(found) > 1:
+            net_of[g] = "|".join(found)            # two nets in one group: a short; reported, never assigned
+    sub = re.search(r'^substrate "([^"]+)"', txt, re.M)
+    sub_net = net_of.get(find(sub.group(1))) if sub else None
+    out = {"net": {}, "coupling": {}, "unassigned": [], "n_caps": 0, "substrate_net": sub_net,
+           "substrate_is_ground": sub_net in gnd}
+
+    def add(a, b, v):
+        out["n_caps"] += 1
+        na, nb = net_of.get(find(a)), net_of.get(find(b))
+        if na is None or nb is None or "|" in na or "|" in nb:
+            out["unassigned"].append([a, b, round(v, 6)])
+            return
+        if na == nb or (na in gnd and nb in gnd):
+            return
+        if na in gnd or nb in gnd:
+            n = nb if na in gnd else na
+            out["net"][n] = out["net"].get(n, 0.0) + v
+        else:
+            k = "~".join(sorted((na, nb)))
+            out["coupling"][k] = out["coupling"].get(k, 0.0) + v
+    for name, c in re.findall(r'^node "([^"]+)" \S+ (\S+)', txt, re.M):
+        if float(c) > 0 and sub:
+            add(name, sub.group(1), float(c) / 1000)
+    for a, b, c in re.findall(r'^cap "([^"]+)" "([^"]+)" (\S+)', txt, re.M):
+        add(a, b, float(c) / 1000)
+    out["net"] = {k: round(v, 4) for k, v in out["net"].items()}
+    out["coupling"] = {k: round(v, 4) for k, v in out["coupling"].items()}
+    out["total_fF"] = round(sum(float(c) for c in re.findall(r'^node "[^"]+" \S+ (\S+)', txt, re.M)) / 1000 +
+                            sum(float(c) for c in re.findall(r'^cap "[^"]+" "[^"]+" (\S+)', txt, re.M)) / 1000, 3)
+    return out
+
+
+def netlist_total(pex: Path) -> float:
+    """Every capacitance in a C-only netlist, in fF."""
+    txt = re.sub(r"\n\+", " ", pex.read_text())
+    return round(sum(float(m.group(1)) * UNIT[m.group(2)] for m in
+                     re.finditer(r"^C\S*\s+\S+\s+\S+\s+([0-9.eE+-]+)([afpnu]?)\b", txt, re.M)), 3)
 
 
 def kpex_cross_check(gds: Path, cell: str, ref_top: Path, design: str, out: Path, magic_caps: dict, nets: set,
@@ -172,22 +239,38 @@ def main(argv=None) -> int:
     out.mkdir(parents=True, exist_ok=True)
     cell = f"{design}_routed"
     res = {}
+    same = (s5_rep["gates"].get("G5.5_area_vs_area_only (info)") or {}).get("same_placement")
     for r in RULES:
         gds = s5 / f"routed_{r}" / f"{cell}.gds"
         d = out / r
         d.mkdir(parents=True, exist_ok=True)
+        if r == "area_only" and same:
+            # both rules chose one placement (LOADBench), routed by one router: extracted once, so the two layouts
+            # are not told apart by extresist's run-to-run variation, and S7 simulates their decks once
+            (d / "SAME_LAYOUT.txt").write_text("S5 chose the same placement for both rules; see ../budget_aware/\n")
+            res[r] = {**res["budget_aware"], "same_as": "budget_aware"}
+            continue
         ex = RL.extract(gds.resolve(), cell, d)
         rc = RL.extract_rc(gds.resolve(), cell, d, a.rc_tol)
         RL.lvs(ex["lvs"], cell, s5 / f"routed_{r}" / "ref_top.spice", design, d)
         lv = flat_lvs(d / "lvs_report.txt")
         caps = capacitances(ex["pex"], nets, inv, gnd)
+        ce = ext_capacitances(d / f"{cell}_flat.ext", nets, inv, gnd)
+        tot_nl = netlist_total(ex["pex"])
+        ext_check = {"netlist_total_fF": tot_nl, "ext_total_fF": ce["total_fF"],
+                     "netlist_short_of_ext": round(1 - tot_nl / ce["total_fF"], 4) if ce["total_fF"] else None,
+                     "complete": tot_nl >= ce["total_fF"] * (1 - EXT_TOL), "tolerance": EXT_TOL,
+                     "substrate_net": ce["substrate_net"], "ext_net_fF_approx": ce["net"],
+                     "nets_without_ground_C_in_netlist": sorted(n for n, v in ce["net"].items()
+                                                                if v > 1.0 and caps["net"].get(n, 0.0) == 0.0)}
         cmp_ = against_budgets(caps, budgets, s5_rep["gates"]["G5.4_route_rules"]["detail"][r] or {}, s3_dec, ir)
         n_r = len(re.findall(r"^R", rc.read_text(), re.M)) if rc.exists() else None
         kx = kpex_cross_check(gds.resolve(), cell, s5 / f"routed_{r}" / "ref_top.spice", design, d / "kpex", caps,
                               nets, inv, gnd)
         res[r] = {"netlists": {"lvs": rel(ex["lvs"]), "pex_c": rel(ex["pex"]), "pex_rc": rel(rc) if rc.exists() else None},
                   "lvs": lv, "n_caps": caps["n_caps"], "n_resistors_rc": n_r, "unassigned_caps": caps["unassigned"],
-                  "net_fF": caps["net"], "coupling_fF": caps["coupling"], "budgets": cmp_, "kpex": kx}
+                  "net_fF": caps["net"], "coupling_fF": caps["coupling"], "c_only_vs_ext": ext_check,
+                  "budgets": cmp_, "kpex": kx}
     ident = {"run_id": new_run_id(), "design": design, "s5_run_id": s5_rep.get("run_id"),
              "ac_grounds": sorted(gnd)}
     write_json(out / "parasitics_vs_budgets.json", {**ident, "layouts": res})
@@ -202,6 +285,11 @@ def main(argv=None) -> int:
             "worst": sorted(((x["use"], x["id"]) for x in ba["budgets"]["rows"]), reverse=True)[:5],
             "area_only_violations (H5)": res["area_only"]["budgets"]["violations"],
             "note": "the budget-aware layout is gated; the area-only baseline is reported for H5"},
+        "G6.4_c_only_netlist_complete (info)": {
+            "pass": None, "detail": {r: x["c_only_vs_ext"] for r, x in res.items()},
+            "note": "Magic's C-only netlist against its own .ext (totals): ext2spice leaves out the capacitance to ground "
+                    "of nets that are transistor gates (flow record row 71); G6.2 reads the netlist, so a net listed "
+                    "under nets_without_ground_C_in_netlist reads low there. S7's R+C netlist carries it"},
         "G6.3_kpex_cross_check (info)": {"pass": None, "detail": {r: x["kpex"] for r, x in res.items()},
                                          "note": "kpex 2.5D against Magic on the nets both name; kpex leaves a net it "
                                                  "cannot match in its own LVS unnamed"},

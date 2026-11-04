@@ -11,6 +11,9 @@ block holds one device type with one body net. Variants per block:
     the chosen cell has an even finger count, ABBA (common centroid, 1-D) and ABAB (interdigitated) from half units:
     S3's option with half the fingers, at the same finger width, built as an S3 cell (outputs/S3/_cells/);
   * more devices, or devices of different sizes: side by side in the S0 order.
+A unit too wide for S2's latch-up distance even with a tap strip on each side is replaced by two of its half units
+(as ABBA's), and block.py puts tap strips between units where needed (plan v4 Phase 6). A capacitor that S0 binds to
+a PDK device for the layout view (passives[].layout_binding) is a block of its own, variant A.
 Each variant is drawn (block.py), DRC'd (full) and LVS'd with negative controls.
 
 usage (inside layout-s0s3): python3 -m src.s4.run inputs/<d>/package.yaml [--workers 4]
@@ -59,6 +62,39 @@ def plan_blocks(ir: dict, groups: list) -> list:
         add(b["name"], b["devices"], b.get("primitive") or b.get("kind") or "block")
     for d in ir["devices"]:
         add(d["name"], [d["name"]], "single")
+    for p in ir.get("passives", []):
+        lb = p.get("layout_binding")
+        if lb and lb.get("model", "").startswith("sky130_fd_pr__cap_mim"):
+            out.append({"name": p["name"], "kind": "mim_cap", "type": "cap", "body": None, "devices": [p["name"]],
+                        "binding": {"model": lb["model"], "params": lb["params"], "status": lb.get("status"),
+                                    "top": p["a"], "bottom": p["b"]}})
+    return out
+
+
+def caps_of(ir: dict) -> list:
+    return [p["name"] for p in ir.get("passives", []) if (p.get("layout_binding") or {}).get("model", "").startswith(
+        "sky130_fd_pr__cap_mim")]
+
+
+def split_wide(units: list, ir: dict, dec: dict, cells: Path, rules: dict, limit: float | None) -> list:
+    """Each unit wider than 2 (limit - TAP_MARGIN - TAP_GAP), which a tap strip on each side cannot cover, becomes
+    two of its half units (repeatedly); a unit that cannot be halved stays, and G4.5 reports it."""
+    if not limit:
+        return units
+    wmax = 2 * (limit - B.TAP_MARGIN - B.TAP_GAP)
+    types = O.device_types(ir)
+    tid_of = {d: t for t, v in types.items() for d in v["devices"]}
+    out = []
+    for u in units:
+        todo = [(u["rec"], types[tid_of[u["device"]]], tid_of[u["device"]])]
+        while todo:
+            r, t, tid = todo.pop(0)
+            h = half_unit(t, tid, r["option"], cells, rules) if r["geometry"]["bbox_um"][0] > wmax else None
+            if h is None:
+                out.append({**u, "rec": r})
+                continue
+            tid_h = f"{t['model'].replace('sky130_fd_pr__', '')}_W{h[1]['W']:g}_L{t['L']:g}_m{t.get('m', 1)}".replace(".", "p")
+            todo[:0] = [(h[0], h[1], tid_h), (h[0], h[1], tid_h)]
     return out
 
 
@@ -84,7 +120,14 @@ def half_unit(t: dict, tid: str, opt: dict, cells: Path, rules: dict) -> tuple[d
     return (rec, th) if rec.get("ok") else None
 
 
-def variants(blk: dict, ir: dict, dec: dict, cells: Path, rules: dict) -> list:
+def variants(blk: dict, ir: dict, dec: dict, cells: Path, rules: dict, limit: float | None = None) -> list:
+    if blk["kind"] == "mim_cap":
+        return [{"id": "A", "units": []}]
+    vs = _variants(blk, ir, dec, cells, rules)
+    return [{**v, "units": split_wide(v["units"], ir, dec, cells, rules, limit)} for v in vs]
+
+
+def _variants(blk: dict, ir: dict, dec: dict, cells: Path, rules: dict) -> list:
     devs = {d["name"]: d for d in ir["devices"]}
     types = O.device_types(ir)
     tid_of = {d: t for t, v in types.items() for d in v["devices"]}
@@ -130,17 +173,20 @@ def symmetry(geo: dict, devices: list) -> dict:
             "mirror_image": mirror and len(us) % 2 == 0}
 
 
-def tap_distance(geo: dict) -> float:
-    """The largest distance from any point of a unit's box to the ring (sampled every 0.25 um): the latch-up rule's
-    diffusion-to-tap distance, bounded from above."""
+def tap_distance(geo: dict) -> float | None:
+    """The largest distance from any point of a unit's box to the ring or a tap strip (sampled every 0.25 um): the
+    latch-up rule's diffusion-to-tap distance, bounded from above. None for a block without units (a capacitor)."""
+    if not geo["units"]:
+        return None
     rx0, ry0, rx1, ry1 = geo["ring"]
+    strips = geo.get("strips", [])
     worst = 0.0
     for u in geo["units"]:
         nx, ny = max(2, int(u["w"] / 0.25) + 1), max(2, int(u["h"] / 0.25) + 1)
         for i in range(nx):
             for j in range(ny):
                 x, y = u["x"] + u["w"] * i / (nx - 1), u["h"] * j / (ny - 1)
-                worst = max(worst, min(x - rx0, rx1 - x, y - ry0, ry1 - y))
+                worst = max(worst, min([x - rx0, rx1 - x, y - ry0, ry1 - y] + [abs(x - s) for s in strips]))
     return round(worst, 3)
 
 
@@ -152,10 +198,46 @@ def gds_bbox(gds: Path) -> list:
     return [round(b.left, 3), round(b.bottom, 3), round(b.right, 3), round(b.top, 3)]
 
 
-def build_variant(blk: dict, v: dict, ir: dict, out: Path) -> dict:
+def build_cap(blk: dict, v: dict, out: Path) -> dict:
+    """A capacitor block: the PDK device, its plates on two tracks; DRC (full) and LVS with a negative control."""
     name = f"{blk['name']}__{v['id']}"
     d = out / "blocks" / name
-    geo = B.layout(v["units"])
+    d.mkdir(parents=True, exist_ok=True)
+    bd = blk["binding"]
+    cc = B.cap_cell(f"{blk['name']}_mim", bd["model"], bd["params"], d)
+    res = {"id": v["id"], "cell": name, "arrangement": [{"device": blk["name"], "cell": f"{blk['name']}_mim",
+                                                         "mirror": False, "x": 0.0}], "binding": bd}
+    if not cc.get("gds"):
+        return {**res, "ok": False, "error": "the PDK capacitor was not generated", "build": cc}
+    geo = B.cap_layout(cc, bd["top"], bd["bottom"])
+    b = B.cap_build(name, cc, geo, d)
+    res["build"] = b
+    if not b["gds"]:
+        return {**res, "ok": False, "error": "Magic did not write the block"}
+    gds = REPO / b["gds"]
+    dev = {"name": blk["name"], "model": bd["model"], "W": bd["params"]["W"], "L": bd["params"]["L"],
+           "nets": {"C": bd["top"], "B": bd["bottom"]}}
+    res["drc"] = pcell.drc(gds, name, d / "drc")
+    res["lvs"] = B.lvs(gds, name, B.ref_netlist(name, [dev], [bd["top"], bd["bottom"]]), d / "lvs")
+    res["geometry"] = {"bbox_um": gds_bbox(gds), "ring": geo["ring"], "row": geo["row"], "strips": [],
+                       "tap_distance_max_um": None, "keepouts": geo["keepouts"]}
+    res["geometry"]["area_um2"] = round((res["geometry"]["bbox_um"][2] - res["geometry"]["bbox_um"][0]) *
+                                        (res["geometry"]["bbox_um"][3] - res["geometry"]["bbox_um"][1]), 2)
+    res["pins"] = {"tracks": {side: {n: {"layer": "metal3", "y": y, "x": geo["track_span"], "width": B.TRACK_W}
+                                     for n, y in geo["tracks"][side].items()} for side in ("top", "bottom")},
+                   "body": None}
+    res["symmetry"] = {}
+    res["png"] = pcell.png(gds, d / f"{name}.png")
+    res["ok"] = bool(res["drc"]["pass"] and res["lvs"]["pass"])
+    return res
+
+
+def build_variant(blk: dict, v: dict, ir: dict, out: Path, lu: float | None = None) -> dict:
+    if blk["kind"] == "mim_cap":
+        return build_cap(blk, v, out)
+    name = f"{blk['name']}__{v['id']}"
+    d = out / "blocks" / name
+    geo = B.layout(v["units"], tap_limit=lu)
     res = {"id": v["id"], "cell": name, "arrangement": [{"device": u["device"], "cell": u["rec"]["cell"],
                                                          "mirror": u["mirror"], "x": u["x"]} for u in geo["units"]]}
     b = B.build(name, geo, blk["type"], blk["body"], d)
@@ -175,7 +257,7 @@ def build_variant(blk: dict, v: dict, ir: dict, out: Path) -> dict:
     ports = sorted({n for side in geo["tracks"].values() for n in side}) + [body_port]
     res["drc"] = pcell.drc(gds, name, d / "drc")
     res["lvs"] = B.lvs(gds, name, B.ref_netlist(name, dl, ports), d / "lvs")
-    res["geometry"] = {"bbox_um": gds_bbox(gds), "ring": geo["ring"], "row": geo["row"],
+    res["geometry"] = {"bbox_um": gds_bbox(gds), "ring": geo["ring"], "row": geo["row"], "strips": geo["strips"],
                        "tap_distance_max_um": tap_distance(geo)}
     res["geometry"]["area_um2"] = round((res["geometry"]["bbox_um"][2] - res["geometry"]["bbox_um"][0]) *
                                         (res["geometry"]["bbox_um"][3] - res["geometry"]["bbox_um"][1]), 2)
@@ -209,18 +291,20 @@ def main(argv=None) -> int:
     fresh_output_dir(out)
     out.mkdir(parents=True, exist_ok=True)
     blocks = plan_blocks(ir, groups)
-    jobs = [(b, v) for b in blocks for v in variants(b, ir, dd["decisions"], cells, rules)]
+    jobs = [(b, v) for b in blocks for v in variants(b, ir, dd["decisions"], cells, rules, lu)]
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
-        built = list(ex.map(lambda j: build_variant(j[0], j[1], ir, out), jobs))
+        built = list(ex.map(lambda j: build_variant(j[0], j[1], ir, out, lu), jobs))
     for b in blocks:
         b["variants"] = [r for (bb, _), r in zip(jobs, built) if bb is b]
     allv = [v for b in blocks for v in b["variants"]]
     devs = {d["name"]: d for d in ir["devices"]}
+    tblocks = [b for b in blocks if b["kind"] != "mim_cap"]
     gates = {
         "G4.1_one_type_and_body_per_block": {
             "pass": all(len({devs[x]["type"] for x in b["devices"]}) == 1 and
-                        len({devs[x]["terminals"]["b"] for x in b["devices"]}) == 1 for b in blocks) and
-            sorted(x for b in blocks for x in b["devices"]) == sorted(devs) and all(v.get("build", {}).get("gds") for v in allv),
+                        len({devs[x]["terminals"]["b"] for x in b["devices"]}) == 1 for b in tblocks) and
+            sorted(x for b in blocks for x in b["devices"]) == sorted(list(devs) + caps_of(ir)) and
+            all((v.get("build") or {}).get("gds") for v in allv),
             "blocks": {b["name"]: {"type": b["type"], "body": b["body"], "devices": b["devices"]} for b in blocks}},
         "G4.2_DRC_every_variant": {"pass": all((v.get("drc") or {}).get("pass") for v in allv),
                                    "detail": {v["cell"]: (v.get("drc") or {}).get("errors") for v in allv}},
@@ -233,9 +317,13 @@ def main(argv=None) -> int:
             "note": "every two-device block has a signed-off variant that is a mirror image about its centre; "
                     "centroid_offset_um is 0 for a common centroid (ABBA)"},
         "G4.5_latchup_tap_distance": {
-            "pass": lu is not None and all((v.get("geometry") or {}).get("tap_distance_max_um", 1e9) <= lu for v in allv),
+            "pass": lu is not None and all((v.get("geometry") or {}).get("tap_distance_max_um", 1e9) <= lu
+                                           for b in tblocks for v in b["variants"]),
             "limit_um": lu, "detail": {v["cell"]: (v.get("geometry") or {}).get("tap_distance_max_um") for v in allv},
-            "note": "the LU rules are also in the block's own DRC (G4.2), which defers nothing"},
+            "tap_strips": {v["cell"]: (v.get("geometry") or {}).get("strips") for v in allv
+                           if (v.get("geometry") or {}).get("strips")},
+            "note": "the LU rules are also in the block's own DRC (G4.2), which defers nothing; a capacitor block "
+                    "has no diffusion (None)"},
         "G4.6_port_capacitance (info)": {"pass": None, "note": "block port C against S2's hierarchy.json: S6 extraction (plan Phase 5)"},
     }
     ident = {"run_id": new_run_id(), "design": design, "s3_run_id": dd.get("run_id")}

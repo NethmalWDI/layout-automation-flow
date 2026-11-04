@@ -38,6 +38,7 @@ from src.s6.run import node_net
 RULES = ("budget_aware", "area_only")
 KINDS = ("AC", "OP", "NOISE")
 VIEWS = ("drawn", "pex_c", "pex_rc")
+BIG_DECK = 20_000_000   # characters: a deck this large runs with --big-workers (default 1) after the others
 
 
 def shunted(txt: str) -> str:
@@ -46,12 +47,25 @@ def shunted(txt: str) -> str:
     return re.sub(r"^(\.lib .*)$", r"\1\n.option rshunt=1e12", txt, count=1, flags=re.M)
 
 
+def bench_ports(bench_txt: str) -> tuple[list, dict]:
+    """The bench wrapper's ports, and {DUT port: wrapper node} from its 'XDUT <nodes> <cell>' line and that cell's
+    .subckt line (the 5T: VDD -> VDD, ...; LOADBench: in1 -> INN, in2 -> INP, out -> OUTP, sourceNmos -> VSS,
+    sourcePmos -> VDD)."""
+    m = re.search(r"^\.subckt dut_amp\s+(.*?)$\s*^XDUT\s+(.*?)$", bench_txt, re.M)
+    wrapper, xdut = m.group(1).split(), m.group(2).split()
+    sub = re.search(rf"^\.subckt\s+{re.escape(xdut[-1])}\s+(.*?)$", bench_txt, re.M)
+    if not sub:                         # the DUT cell is not in the bench: its ports are taken by name
+        return wrapper, {w: w for w in wrapper}
+    return wrapper, dict(zip(sub.group(1).split(), xdut[:-1]))
+
+
 def wrapped(bench_txt: str, netlist: str, cell: str, ir: dict, nmap: dict, nets: set, inv: dict) -> str:
-    """The bench with its DUT replaced by the extracted cell. Ports map by name to the wrapper's nodes; an inner net
-    exposed by flattening goes to its own node; a removed internal source is put back on its port."""
+    """The bench with its DUT replaced by the extracted cell. Ports map to the wrapper's nodes as the bench's own DUT
+    line maps the schematic's (a layout-view name through its IR name); an inner net exposed by flattening goes to
+    its own node; a removed internal source (V or I) is put back on its port."""
     joined = re.sub(r"\n\+", " ", netlist)
     ports = re.search(rf"^\.subckt\s+{re.escape(cell)}_flat\s+(.*?)$", joined, re.M).group(1).split()
-    wrapper = ["INP", "INN", "OUTN", "VDD", "VSS", "OUTP"]
+    wrapper, pmap = bench_ports(bench_txt)
     # Only the first port of each name (the top cell's label) is a circuit node. Every other port, a repeated name
     # (VDD twice: the top label and a block track's) or a unit's own D/G/S/B in the R+C netlist, is a point inside
     # the resistor network: it gets its own node, never the bench's, which would short the wiring between them.
@@ -59,7 +73,8 @@ def wrapped(bench_txt: str, netlist: str, cell: str, ir: dict, nmap: dict, nets:
     for i, p in enumerate(ports):
         base = re.split(r"[./]", p)[-1]
         if base not in first:
-            first[base] = base if base in wrapper else f"N_{re.sub(r'[^A-Za-z0-9_]', '_', base)}"
+            node = pmap.get(base) or pmap.get(inv.get(base, base))
+            first[base] = node if node in wrapper else f"N_{re.sub(r'[^A-Za-z0-9_]', '_', base)}"
             nodes.append(first[base])
         else:
             nodes.append(f"N{i}_{re.sub(r'[^A-Za-z0-9_]', '_', base)}")
@@ -67,7 +82,8 @@ def wrapped(bench_txt: str, netlist: str, cell: str, ir: dict, nmap: dict, nets:
     for s in ir.get("internal_sources", []):
         if "removed in layout view" in (s.get("layout_handling") or ""):
             p, n = nmap.get(s["p"], s["p"]), nmap.get(s["n"], s["n"])
-            lines.append(f"V{s['name']}_layout {first.get(p, p)} {first.get(n, n)} {s['dc']}")
+            kind = s.get("kind", "V")
+            lines.append(f"{kind}{s['name']}_layout {first.get(p, p)} {first.get(n, n)} {s['dc']}")
     sub = ".subckt dut_amp " + " ".join(wrapper) + "\n" + "\n".join(lines) + "\n.ends"
     txt = re.sub(r"^\.subckt dut_amp .*?^\.ends\s*$", lambda _: sub, shunted(bench_txt), count=1, flags=re.S | re.M)
     body = netlist.replace(".end\n", "")
@@ -84,6 +100,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("package")
     ap.add_argument("--workers", type=int, default=4)
+    ap.add_argument("--big-workers", type=int, default=1)
     a = ap.parse_args(argv)
     pkg = load_package(REPO / a.package)
     design = pkg["design"]
@@ -115,8 +132,27 @@ def main(argv=None) -> int:
                 jobs.append((wrapped(bench(tb, kind).read_text(), net, cell, ir, nmap, nets, inv),
                              out / "sim" / r / view / kind, kind))
                 keys.append((r, view, kind))
+    # a large deck (LOADBench's R+C netlist: 315 000 resistors, 79 MB) runs on its own: four at once ran the container
+    # (5 GB) out of memory and the kernel killed the AC runs (flow record row 76)
+    # an identical deck (both rules chose the same placement, as on LOADBench) is simulated once; its other folders get
+    # a note naming the folder that holds the run
+    first_of = {}
+    for i, j in enumerate(jobs):
+        first_of.setdefault(j[0], i)
+    dup = {i: first_of[j[0]] for i, j in enumerate(jobs) if first_of[j[0]] != i}
+    big = [i for i, j in enumerate(jobs) if len(j[0]) > BIG_DECK and i not in dup]
+    small = [i for i in range(len(jobs)) if i not in big and i not in dup]
+    runs = [None] * len(jobs)
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
-        runs = list(ex.map(run_view, jobs))
+        for i, r in zip(small, ex.map(run_view, [jobs[i] for i in small])):
+            runs[i] = r
+    with ThreadPoolExecutor(max_workers=a.big_workers) as ex:
+        for i, r in zip(big, ex.map(run_view, [jobs[i] for i in big])):
+            runs[i] = r
+    for i, k in dup.items():
+        runs[i] = runs[k]
+        jobs[i][1].mkdir(parents=True, exist_ok=True)
+        (jobs[i][1] / "SAME_DECK.txt").write_text(f"identical deck; simulated once in {jobs[k][1].relative_to(REPO)}\n")
     meas, failed = {}, []
     for (r, view, kind), res in zip(keys, runs):
         meas.setdefault(r, {}).setdefault(view or "schematic", {}).update(res["meas"] or {})

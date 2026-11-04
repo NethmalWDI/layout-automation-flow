@@ -3,7 +3,7 @@
 *** -----------------------------------------------------
 ***     Extraction Engine: KPEX/2.5D
 ***     Technology: sky130a
-***     Date: 2026-11-03 22:33:31
+***     Date: 2026-11-04 03:28:48
 *********************************************************
 
 .SUBCKT example_ota_5t_routed INN INP OUTP VBIAS VDD VSS sky130_gnd
@@ -11,13 +11,13 @@ X$1 VDD \$10 \$10 VDD sky130_fd_pr__pfet_01v8 l=1 w=8 as=2.32 ad=2.32 ps=16.58
 + pd=16.58
 X$2 VDD \$10 OUTP VDD sky130_fd_pr__pfet_01v8 l=1 w=8 as=2.32 ad=2.32 ps=16.58
 + pd=16.58
-X$3 \$10 INP \$11 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=1.74
+X$3 OUTP INN \$11 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=1.74
 + ps=24.58 pd=12.29
-X$4 \$11 INP \$10 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=1.74 ad=3.48
+X$4 \$11 INN OUTP sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=1.74 ad=3.48
 + ps=12.29 pd=24.58
-X$5 OUTP INN \$11 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=1.74
+X$5 \$10 INP \$11 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=1.74
 + ps=24.58 pd=12.29
-X$6 \$11 INN OUTP sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=1.74 ad=3.48
+X$6 \$11 INP \$10 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=1.74 ad=3.48
 + ps=12.29 pd=24.58
 X$7 VSS VBIAS \$11 sky130_gnd sky130_fd_pr__nfet_01v8 l=1 w=12 as=3.48 ad=1.74
 + ps=24.58 pd=12.29
@@ -26,11 +26,11 @@ X$8 \$11 VBIAS VSS sky130_gnd sky130_fd_pr__nfet_01v8 l=1 w=12 as=1.74 ad=3.48
 Cext_1 \$10 \$11 2.01046f
 Cext_2 \$10 INN 113.937a
 Cext_3 \$10 INP 1.30625f
-Cext_4 \$10 OUTP 2.46143f
+Cext_4 \$10 OUTP 2.44417f
 Cext_5 \$10 VBIAS 0.121459a
-Cext_6 \$10 VDD 4.75415f
+Cext_6 \$10 VDD 4.44724f
 Cext_7 \$10 VSS 82.0695a
-Cext_8 \$10 sky130_gnd 2.0606f
+Cext_8 \$10 sky130_gnd 1.89066f
 Cext_9 \$11 INN 1.47447f
 Cext_10 \$11 INP 1.72775f
 Cext_11 \$11 OUTP 1.66794f

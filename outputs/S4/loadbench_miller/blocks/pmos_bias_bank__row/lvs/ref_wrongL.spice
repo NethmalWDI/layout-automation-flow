@@ -1,0 +1,5 @@
+.subckt pmos_bias_bank__row FirstStageYsourceTransconductance ibias out sourcePmos sourcePmos_body
+XXDiodeTransistorPmos2 ibias ibias sourcePmos sourcePmos_body sky130_fd_pr__pfet_01v8_lvt L=0.84 W=37.3 nf=1
+XXNormalTransistorPmos8 FirstStageYsourceTransconductance ibias sourcePmos sourcePmos_body sky130_fd_pr__pfet_01v8_lvt L=0.74 W=90.63 nf=8
+XXNormalTransistorPmos5 out ibias sourcePmos sourcePmos_body sky130_fd_pr__pfet_01v8_lvt L=0.74 W=887.03 nf=16
+.ends

@@ -1,5 +1,5 @@
 {
-  "run_id": "2026-11-03T21:54:23-cc1288e8",
+  "run_id": "2026-11-03T21:56:02-d3423a5d",
   "design": "example_ota_5t",
   "s4_run_id": "2026-11-03T21:22:52-8b1ee339",
   "constants": {
@@ -533,9 +533,19 @@
             }
           },
           "max_parallel": {
+            "OUTP~net1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 166.33,
+              "ok": true
+            },
             "OUTP~net1": {
               "run_um": 0.0,
               "limit_um": 162.74,
+              "ok": true
+            },
+            "OUTP~net3.metal3": {
+              "run_um": 0.0,
+              "limit_um": 97.2,
               "ok": true
             },
             "OUTP~net3": {
@@ -543,9 +553,19 @@
               "limit_um": 95.11,
               "ok": true
             },
+            "OUTP~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 37.81,
+              "ok": true
+            },
             "OUTP~INP": {
               "run_um": 0.0,
               "limit_um": 36.99,
+              "ok": true
+            },
+            "OUTP~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
               "ok": true
             },
             "OUTP~INN": {
@@ -553,9 +573,19 @@
               "limit_um": 116.36,
               "ok": true
             },
+            "net1~net3.metal3": {
+              "run_um": 0.0,
+              "limit_um": 153.69,
+              "ok": true
+            },
             "net1~net3": {
               "run_um": 0.0,
               "limit_um": 150.38,
+              "ok": true
+            },
+            "net1~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
               "ok": true
             },
             "net1~INP": {
@@ -563,14 +593,29 @@
               "limit_um": 116.36,
               "ok": true
             },
+            "net1~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
             "net1~INN": {
               "run_um": 0.0,
               "limit_um": 116.36,
               "ok": true
             },
+            "net3~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
             "net3~INP": {
               "run_um": 0.0,
               "limit_um": 116.36,
+              "ok": true
+            },
+            "net3~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 37.81,
               "ok": true
             },
             "net3~INN": {
@@ -654,50 +699,43 @@
             }
           },
           "not_evaluated": [
-            "route.max_length.OUTP.metal1",
-            "route.max_length.OUTP.metal2",
-            "route.max_length.OUTP.metal4",
-            "route.max_length.net1.metal1",
-            "route.max_length.net1.metal2",
-            "route.max_length.net1.metal4",
-            "route.max_length.net3.metal1",
-            "route.max_length.net3.metal2",
-            "route.max_length.net3.metal4",
-            "route.max_parallel.OUTP~net1.metal1",
-            "route.max_parallel.OUTP~net1.metal2",
-            "route.max_parallel.OUTP~net1.metal3",
-            "route.max_parallel.OUTP~net3.metal1",
-            "route.max_parallel.OUTP~net3.metal2",
-            "route.max_parallel.OUTP~net3.metal3",
-            "route.max_parallel.OUTP~INP.metal1",
-            "route.max_parallel.OUTP~INP.metal2",
-            "route.max_parallel.OUTP~INP.metal3",
-            "route.max_parallel.OUTP~INN.metal1",
-            "route.max_parallel.OUTP~INN.metal2",
-            "route.max_parallel.OUTP~INN.metal3",
-            "route.max_parallel.net1~net3.metal1",
-            "route.max_parallel.net1~net3.metal2",
-            "route.max_parallel.net1~net3.metal3",
-            "route.max_parallel.net1~INP.metal1",
-            "route.max_parallel.net1~INP.metal2",
-            "route.max_parallel.net1~INP.metal3",
-            "route.max_parallel.net1~INN.metal1",
-            "route.max_parallel.net1~INN.metal2",
-            "route.max_parallel.net1~INN.metal3",
-            "route.max_parallel.net3~INP.metal1",
-            "route.max_parallel.net3~INP.metal2",
-            "route.max_parallel.net3~INP.metal3",
-            "route.max_parallel.net3~INN.metal1",
-            "route.max_parallel.net3~INN.metal2",
-            "route.max_parallel.net3~INN.metal3",
-            "route.em_width.net3",
-            "route.em_width.VDD",
-            "route.em_width.OUTP",
-            "route.em_width.net1",
-            "route.em_width.VSS",
-            "route.bias_net.VBIAS",
-            "route.no_cross_digital"
+            {
+              "id": "route.em_width.net3",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.VDD",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.OUTP",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.net1",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.VSS",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.bias_net.VBIAS",
+              "class": "soft",
+              "note": "couplings onto the bias net consume no margin in this model; the impedance of the real bias generator is needed to budget them (ASSUMPTION)"
+            },
+            {
+              "id": "route.no_cross_digital",
+              "class": "hard",
+              "note": "no digital or clock nets in this circuit"
+            }
           ],
+          "covered": "max_length on metal4 enters the metal3+metal4 sum; top-level routing uses no metal1 or metal2, so those layers' length and parallel rules have no top-level wire to apply to",
           "pass": true
         },
         "lvs": {
@@ -1225,9 +1263,19 @@
             }
           },
           "max_parallel": {
+            "OUTP~net1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 166.33,
+              "ok": true
+            },
             "OUTP~net1": {
               "run_um": 0.0,
               "limit_um": 162.74,
+              "ok": true
+            },
+            "OUTP~net3.metal3": {
+              "run_um": 0.0,
+              "limit_um": 97.2,
               "ok": true
             },
             "OUTP~net3": {
@@ -1235,9 +1283,19 @@
               "limit_um": 95.11,
               "ok": true
             },
+            "OUTP~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 37.81,
+              "ok": true
+            },
             "OUTP~INP": {
               "run_um": 0.0,
               "limit_um": 36.99,
+              "ok": true
+            },
+            "OUTP~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
               "ok": true
             },
             "OUTP~INN": {
@@ -1245,9 +1303,19 @@
               "limit_um": 116.36,
               "ok": true
             },
+            "net1~net3.metal3": {
+              "run_um": 0.0,
+              "limit_um": 153.69,
+              "ok": true
+            },
             "net1~net3": {
               "run_um": 14.59,
               "limit_um": 150.38,
+              "ok": true
+            },
+            "net1~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
               "ok": true
             },
             "net1~INP": {
@@ -1255,14 +1323,29 @@
               "limit_um": 116.36,
               "ok": true
             },
+            "net1~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
             "net1~INN": {
               "run_um": 0.0,
               "limit_um": 116.36,
               "ok": true
             },
+            "net3~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
             "net3~INP": {
               "run_um": 0.0,
               "limit_um": 116.36,
+              "ok": true
+            },
+            "net3~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 37.81,
               "ok": true
             },
             "net3~INN": {
@@ -1346,50 +1429,43 @@
             }
           },
           "not_evaluated": [
-            "route.max_length.OUTP.metal1",
-            "route.max_length.OUTP.metal2",
-            "route.max_length.OUTP.metal4",
-            "route.max_length.net1.metal1",
-            "route.max_length.net1.metal2",
-            "route.max_length.net1.metal4",
-            "route.max_length.net3.metal1",
-            "route.max_length.net3.metal2",
-            "route.max_length.net3.metal4",
-            "route.max_parallel.OUTP~net1.metal1",
-            "route.max_parallel.OUTP~net1.metal2",
-            "route.max_parallel.OUTP~net1.metal3",
-            "route.max_parallel.OUTP~net3.metal1",
-            "route.max_parallel.OUTP~net3.metal2",
-            "route.max_parallel.OUTP~net3.metal3",
-            "route.max_parallel.OUTP~INP.metal1",
-            "route.max_parallel.OUTP~INP.metal2",
-            "route.max_parallel.OUTP~INP.metal3",
-            "route.max_parallel.OUTP~INN.metal1",
-            "route.max_parallel.OUTP~INN.metal2",
-            "route.max_parallel.OUTP~INN.metal3",
-            "route.max_parallel.net1~net3.metal1",
-            "route.max_parallel.net1~net3.metal2",
-            "route.max_parallel.net1~net3.metal3",
-            "route.max_parallel.net1~INP.metal1",
-            "route.max_parallel.net1~INP.metal2",
-            "route.max_parallel.net1~INP.metal3",
-            "route.max_parallel.net1~INN.metal1",
-            "route.max_parallel.net1~INN.metal2",
-            "route.max_parallel.net1~INN.metal3",
-            "route.max_parallel.net3~INP.metal1",
-            "route.max_parallel.net3~INP.metal2",
-            "route.max_parallel.net3~INP.metal3",
-            "route.max_parallel.net3~INN.metal1",
-            "route.max_parallel.net3~INN.metal2",
-            "route.max_parallel.net3~INN.metal3",
-            "route.em_width.net3",
-            "route.em_width.VDD",
-            "route.em_width.OUTP",
-            "route.em_width.net1",
-            "route.em_width.VSS",
-            "route.bias_net.VBIAS",
-            "route.no_cross_digital"
+            {
+              "id": "route.em_width.net3",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.VDD",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.OUTP",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.net1",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.em_width.VSS",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.8 uA."
+            },
+            {
+              "id": "route.bias_net.VBIAS",
+              "class": "soft",
+              "note": "couplings onto the bias net consume no margin in this model; the impedance of the real bias generator is needed to budget them (ASSUMPTION)"
+            },
+            {
+              "id": "route.no_cross_digital",
+              "class": "hard",
+              "note": "no digital or clock nets in this circuit"
+            }
           ],
+          "covered": "max_length on metal4 enters the metal3+metal4 sum; top-level routing uses no metal1 or metal2, so those layers' length and parallel rules have no top-level wire to apply to",
           "pass": true
         },
         "lvs": {

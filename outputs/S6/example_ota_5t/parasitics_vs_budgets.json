@@ -1,7 +1,7 @@
 {
-  "run_id": "2026-11-03T22:33:33-d3e1f9ca",
+  "run_id": "2026-11-04T03:28:48-4c5d80c2",
   "design": "example_ota_5t",
-  "s5_run_id": "2026-11-03T21:56:02-d3423a5d",
+  "s5_run_id": "2026-11-04T03:28:14-53952471",
   "ac_grounds": [
     "VDD",
     "VSS",
@@ -21,14 +21,14 @@
         "report": "outputs/S6/example_ota_5t/budget_aware/lvs_report.txt"
       },
       "n_caps": 21,
-      "n_resistors_rc": 19388,
+      "n_resistors_rc": 19368,
       "unassigned_caps": [],
       "net_fF": {
+        "INN": 0.0,
         "INP": 0.0,
         "net1": 11.2307,
-        "INN": 0.0,
-        "OUTP": 5.2063,
-        "net3": 4.2992
+        "OUTP": 4.9542,
+        "net3": 4.0546
       },
       "coupling_fF": {
         "INN~OUTP": 0.9303,
@@ -37,10 +37,28 @@
         "INN~net1": 1.3052,
         "OUTP~net1": 1.3093,
         "INN~net3": 0.0477,
-        "OUTP~net3": 1.4897,
+        "OUTP~net3": 1.4769,
         "INP~net1": 1.6091,
         "INP~net3": 0.982,
         "net1~net3": 1.3411
+      },
+      "c_only_vs_ext": {
+        "netlist_total_fF": 46.438,
+        "ext_total_fF": 48.185,
+        "netlist_short_of_ext": 0.0363,
+        "complete": true,
+        "tolerance": 0.05,
+        "substrate_net": "VSS",
+        "ext_net_fF_approx": {
+          "net1": 8.4588,
+          "INN": 1.1874,
+          "INP": 0.8678,
+          "OUTP": 2.967,
+          "net3": 6.4093
+        },
+        "nets_without_ground_C_in_netlist": [
+          "INN"
+        ]
       },
       "budgets": {
         "rows": [
@@ -48,9 +66,9 @@
             "id": "OUTP",
             "kind": "net_capacitance",
             "units": "fF",
-            "value": 5.2063,
+            "value": 4.9542,
             "budget": 37.5937,
-            "use": 0.1385,
+            "use": 0.1318,
             "ok": true,
             "source": "extracted"
           },
@@ -68,9 +86,9 @@
             "id": "net3",
             "kind": "net_capacitance",
             "units": "fF",
-            "value": 4.2992,
+            "value": 4.0546,
             "budget": 44.3125,
-            "use": 0.097,
+            "use": 0.0915,
             "ok": true,
             "source": "extracted"
           },
@@ -88,9 +106,9 @@
             "id": "OUTP~net3",
             "kind": "coupling",
             "units": "fF",
-            "value": 1.4897,
+            "value": 1.4769,
             "budget": 5.1379,
-            "use": 0.2899,
+            "use": 0.2875,
             "ok": true,
             "source": "extracted"
           },
@@ -168,9 +186,9 @@
             "id": "XM3+XM4.d",
             "kind": "terminal_resistance",
             "units": "ohm",
-            "value": 39.7488,
+            "value": 35.0678,
             "budget": 299.3808,
-            "use": 0.1328,
+            "use": 0.1171,
             "ok": true,
             "source": "S3 access R + S5 top-level wires and vias"
           },
@@ -178,9 +196,9 @@
             "id": "XM3+XM4.g",
             "kind": "terminal_resistance",
             "units": "ohm",
-            "value": 221.6253,
+            "value": 216.9443,
             "budget": 783.2887,
-            "use": 0.2829,
+            "use": 0.277,
             "ok": true,
             "source": "S3 access R + S5 top-level wires and vias"
           },
@@ -198,9 +216,9 @@
             "id": "XM1+XM2.d",
             "kind": "terminal_resistance",
             "units": "ohm",
-            "value": 24.4326,
+            "value": 19.7516,
             "budget": 159.7219,
-            "use": 0.153,
+            "use": 0.1237,
             "ok": true,
             "source": "S3 access R + S5 top-level wires and vias"
           },
@@ -278,7 +296,7 @@
             "kpex": 0.9297
           },
           "OUTP": {
-            "magic": 5.2063,
+            "magic": 4.9542,
             "kpex": 3.1352
           }
         },
@@ -297,8 +315,8 @@
           }
         },
         "total_fF": {
-          "magic": 30.235,
-          "kpex": 31.864
+          "magic": 29.725,
+          "kpex": 31.37
         }
       }
     },
@@ -315,14 +333,14 @@
         "report": "outputs/S6/example_ota_5t/area_only/lvs_report.txt"
       },
       "n_caps": 23,
-      "n_resistors_rc": 19393,
+      "n_resistors_rc": 19373,
       "unassigned_caps": [],
       "net_fF": {
+        "INN": 0.0388,
+        "OUTP": 5.2938,
         "INP": 0.0063,
         "net1": 12.5996,
-        "net3": 4.293,
-        "INN": 0.0388,
-        "OUTP": 5.5459
+        "net3": 4.0484
       },
       "coupling_fF": {
         "INN~OUTP": 1.0748,
@@ -331,10 +349,26 @@
         "INN~net1": 1.2526,
         "OUTP~net1": 1.6144,
         "INN~net3": 0.1245,
-        "OUTP~net3": 2.3512,
+        "OUTP~net3": 2.3384,
         "INP~net1": 1.5302,
         "INP~net3": 1.1133,
         "net1~net3": 1.9709
+      },
+      "c_only_vs_ext": {
+        "netlist_total_fF": 50.228,
+        "ext_total_fF": 51.931,
+        "netlist_short_of_ext": 0.0328,
+        "complete": true,
+        "tolerance": 0.05,
+        "substrate_net": "VSS",
+        "ext_net_fF_approx": {
+          "net1": 10.0595,
+          "INN": 0.9912,
+          "INP": 0.7317,
+          "OUTP": 3.5028,
+          "net3": 6.3164
+        },
+        "nets_without_ground_C_in_netlist": []
       },
       "budgets": {
         "rows": [
@@ -342,9 +376,9 @@
             "id": "OUTP",
             "kind": "net_capacitance",
             "units": "fF",
-            "value": 5.5459,
+            "value": 5.2938,
             "budget": 37.5937,
-            "use": 0.1475,
+            "use": 0.1408,
             "ok": true,
             "source": "extracted"
           },
@@ -362,9 +396,9 @@
             "id": "net3",
             "kind": "net_capacitance",
             "units": "fF",
-            "value": 4.293,
+            "value": 4.0484,
             "budget": 44.3125,
-            "use": 0.0969,
+            "use": 0.0914,
             "ok": true,
             "source": "extracted"
           },
@@ -382,9 +416,9 @@
             "id": "OUTP~net3",
             "kind": "coupling",
             "units": "fF",
-            "value": 2.3512,
+            "value": 2.3384,
             "budget": 5.1379,
-            "use": 0.4576,
+            "use": 0.4551,
             "ok": true,
             "source": "extracted"
           },
@@ -462,9 +496,9 @@
             "id": "XM3+XM4.d",
             "kind": "terminal_resistance",
             "units": "ohm",
-            "value": 41.5688,
+            "value": 36.8878,
             "budget": 299.3808,
-            "use": 0.1388,
+            "use": 0.1232,
             "ok": true,
             "source": "S3 access R + S5 top-level wires and vias"
           },
@@ -472,9 +506,9 @@
             "id": "XM3+XM4.g",
             "kind": "terminal_resistance",
             "units": "ohm",
-            "value": 223.4453,
+            "value": 218.7643,
             "budget": 783.2887,
-            "use": 0.2853,
+            "use": 0.2793,
             "ok": true,
             "source": "S3 access R + S5 top-level wires and vias"
           },
@@ -492,9 +526,9 @@
             "id": "XM1+XM2.d",
             "kind": "terminal_resistance",
             "units": "ohm",
-            "value": 26.2526,
+            "value": 21.5716,
             "budget": 159.7219,
-            "use": 0.1644,
+            "use": 0.1351,
             "ok": true,
             "source": "S3 access R + S5 top-level wires and vias"
           },
@@ -572,7 +606,7 @@
             "kpex": 0.7687
           },
           "OUTP": {
-            "magic": 5.5459,
+            "magic": 5.2938,
             "kpex": 3.225
           }
         },
@@ -591,8 +625,8 @@
           }
         },
         "total_fF": {
-          "magic": 34.125,
-          "kpex": 34.7
+          "magic": 33.616,
+          "kpex": 34.206
         }
       }
     }

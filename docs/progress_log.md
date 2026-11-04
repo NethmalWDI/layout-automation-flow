@@ -1134,3 +1134,28 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   - `.gitignore`: the `.prev` folders of S4–S7 and S7's R+C bench netlists (3 MB copies of S6's netlist) are now
     ignored, so the commit holds 6.5 MB instead of 49 MB. Phases 2–4 committed 190 `.prev` files of S4 and S5 by
     mistake; they stay in history, and untracking them is Imasha's call.
+- **Phase 6 (2026-11-04, 02:35–04:05 CET): LOADBench through S4–S7.**
+  - ASSUMPTIONS while plan questions 3–5 are open: the PMOS bank drawn side by side as S3 sized it; no dummies. The
+    Miller capacitor is drawn as S0's PREDICTED binding (`sky130_fd_pr__cap_mim_m3_1`, 15.66 × 15.66 µm; top plate
+    on outFirstStage, bottom plate on out, the layout view's order).
+  - S4 PASS: 9 variants signed off. The bank needed a tap strip (LU.3; row 71); the MIM capacitor is a block of its
+    own, its tracks 1.45 µm from the top plate (capm.11; row 72).
+  - S5: 20 736 candidates; budget-aware and area-only chose the same placement (5680 µm²): no candidate keeps
+    outFirstStage within its 16.3 µm budget (best 1.65×). Top-level DRC 0 and LVS match. G5.4 fails on
+    outFirstStage's length and on series R that S3's access R already used (the known G3.5 relaxation).
+  - Router fixes on the way (rows 73–74): joined tracks connected once, S2's parallel-run limits, S2's targets mapped
+    to the layout view's names, same-net metal3 bridges, drawn extents.
+  - S6: G6.1 passes; G6.2 fails on 19 elements, the largest at the Miller capacitor (out~outFirstStage 29 fF
+    against 4.7 fF; out 67 fF against 40 fF). New G6.4 (info): Magic's C-only netlist lacks the gate nets' ground
+    capacitance (8.9 % of the total here, 3.6 % on the 5T; row 75).
+  - S7 (04:05): every spec met post-layout (G7.1 PASS); G7.2 FAIL on GBW, 54 % of its margin lost against 50 %
+    allowed (23.39 → 22.12 MHz); gain and PM almost unchanged. PREREG predicted the failure on gain; it is on GBW.
+    Most of the loss is the 29 fF out~outFirstStage coupling beside the 0.5 pF Miller capacitor, 22.5 fF of it
+    between the capacitor's own plates as Magic extracts them (open: double-counted or real). H5 not testable (one
+    placement for both costs).
+  - S7 fixes (row 76): ports mapped through the bench's own DUT line, the current source Ibias put back, large decks
+    one at a time (one R+C AC run needs 5.3 GB of the container's 5.9 GB). With one placement for both rules, S6
+    extracts once and S7 simulates each deck once.
+  - `.gitignore`: LOADBench's 75 MB R+C netlist; its 17 MB `placement.json` (every candidate) is kept for now.
+  - The 5T re-run with this code (S4–S7, 03:26–03:31): all PASS, same placements; net3's wire use falls
+    (0.42 → 0.18) because joined tracks are connected once; post-layout PM 79.36 → 79.42°, GBW 101.25 → 101.32 MHz.

@@ -79,7 +79,8 @@ def _ir_groups(d):
 
 def test_block_plan_one_type_and_body_per_block():
     """Matching groups first, then S0's blocks; one device type with one body net per block; every device once.
-    LOADBench: P5 goes to the bias bank (a matching group), so cs_stage keeps only N3."""
+    LOADBench: P5 goes to the bias bank (a matching group), so cs_stage keeps only N3; Capacitor2, which S0 binds
+    to a MIM device for the layout view, is a block of its own (plan v4 Phase 6)."""
     from src.s4.run import plan_blocks
     ir, g = _ir_groups("example_ota_5t")
     bl = {b["name"]: b for b in plan_blocks(ir, g)}
@@ -89,13 +90,16 @@ def test_block_plan_one_type_and_body_per_block():
     ir, g = _ir_groups("loadbench_miller")
     bl = plan_blocks(ir, g)
     names = [x for b in bl for x in b["devices"]]
-    assert sorted(names) == sorted(d["name"] for d in ir["devices"]) and len(names) == len(set(names))
+    assert sorted(names) == sorted([d["name"] for d in ir["devices"]] + ["Capacitor2"]) and len(names) == len(set(names))
     by = {b["name"]: b for b in bl}
     assert "XNormalTransistorPmos5" in by["pmos_bias_bank"]["devices"]
     assert by["cs_stage"]["devices"] == ["XNormalTransistorNmos3"]
     assert by["input_pair"]["body"] == "FirstStageYsourceTransconductance"     # its own n-well
     devs = {d["name"]: d for d in ir["devices"]}
+    assert by["Capacitor2"]["kind"] == "mim_cap"
     for b in bl:
+        if b["kind"] == "mim_cap":
+            continue
         assert len({devs[x]["type"] for x in b["devices"]}) == 1 and len({devs[x]["terminals"]["b"] for x in b["devices"]}) == 1
 
 
@@ -292,3 +296,125 @@ def test_5t_post_layout_within_budgets_and_eta():
     assert g6["G6.1_extracted_and_LVS"]["pass"] and g6["G6.2_parasitics_within_budgets"]["pass"]
     assert g7["G7.1_specs_met_post_layout"]["pass"] and g7["G7.2_loss_within_eta_margin"]["pass"]
     assert g7["H4 (info)"]["G6.2"] and g7["H4 (info)"]["G7.1_and_G7.2"]
+
+
+# ------------------------------------------------------------------ Phase 6: LOADBench through S4–S7
+def _s4_inputs(design):
+    from src.s3 import options as O  # noqa: F401  (the S3 cell records the plan reads)
+    ir = json.loads((REPO / "outputs/S0" / design / "circuit_ir.json").read_text())
+    groups = json.loads((REPO / "outputs/S1" / design / "s1_report.json").read_text())["gates"].get(
+        "G1.4_matching_groups", {}).get("groups", [])
+    dd = json.loads((REPO / "outputs/S3" / design / "device_decisions.json").read_text())
+    rules = json.loads((REPO / "outputs/S2/pdk/parasitics.json").read_text())["rules"]
+    cons = json.loads((REPO / "outputs/S2" / design / "constraints.json").read_text())["constraints"]
+    lu = next(c["value"] for c in cons if c["id"] == "place.latchup_tap_distance")
+    return ir, groups, dd, rules, lu
+
+
+def test_tap_strips_only_where_the_ring_is_too_far():
+    """LOADBench's PMOS bank (P5: 16 fingers of 55 um) is too wide for its ring alone (16.0 um > 15 um, LU.3): one
+    tap strip goes between P8 and P5. No 5T block, and no other LOADBench block, gets a strip (plan v4 Phase 6)."""
+    from src.s4 import block as B, run as S
+    for design in ("loadbench_miller", "example_ota_5t"):
+        ir, groups, dd, rules, lu = _s4_inputs(design)
+        for b in S.plan_blocks(ir, groups):
+            for v in S.variants(b, ir, dd["decisions"], REPO / "outputs/S3/_cells", rules, lu):
+                if not v["units"]:
+                    assert b["kind"] == "mim_cap"
+                    continue
+                g = B.layout(v["units"], tap_limit=lu)
+                assert S.tap_distance(g) <= lu - B.TAP_MARGIN + 1e-6, (b["name"], v["id"])
+                assert bool(g["strips"]) == (b["name"] == "pmos_bias_bank"), (b["name"], v["id"], g["strips"])
+
+
+def test_mim_capacitor_is_a_block_with_its_plates_on_tracks():
+    """S0's PREDICTED binding of LOADBench's ideal Capacitor2 to sky130_fd_pr__cap_mim_m3_1 makes a block of its own:
+    top plate on outFirstStage, bottom plate on out (the layout view's order), signed off, met3/met4 kept out."""
+    import pytest
+    from src.s4 import run as S
+    ir, groups, *_ = _s4_inputs("loadbench_miller")
+    cap = [b for b in S.plan_blocks(ir, groups) if b["kind"] == "mim_cap"]
+    assert len(cap) == 1 and cap[0]["binding"]["top"] == "outFirstStage" and cap[0]["binding"]["bottom"] == "out"
+    f = REPO / "outputs/S4/loadbench_miller/blocks.json"
+    if not f.exists():
+        pytest.skip("needs LOADBench's S4 outputs")
+    v = next(v for b in json.loads(f.read_text())["blocks"] if b["kind"] == "mim_cap" for v in b["variants"])
+    assert v["ok"] and v["lvs"]["neg_control_rejected"] and v["drc"]["errors"] == 0
+    assert {k["layer"] for k in v["geometry"]["keepouts"]} == {"metal3", "metal4"}
+    assert list(v["pins"]["tracks"]["top"]) == ["outFirstStage"] and list(v["pins"]["tracks"]["bottom"]) == ["out"]
+
+
+def test_joined_tracks_count_once_and_runs_are_drawn_at_least_min_len():
+    from src.s5 import route as R
+    from src.s5.place import joined_once, hpwl
+    pins = [{"block": "m", "kind": "track", "y": 0.0, "x0": 0, "x1": 5}, {"block": "m", "kind": "track", "y": 12.0, "x0": 0, "x1": 5},
+            {"block": "p", "kind": "track", "y": 15.0, "x0": 0, "x1": 5}, {"block": "m", "kind": "body", "y": -2.0, "x0": 2, "x1": 2}]
+    kept = joined_once(pins)
+    assert [p["y"] for p in kept] == [12.0, 15.0, -2.0]          # the mirror's upper track, nearer the pair
+    assert hpwl([p for p in kept if p["kind"] == "track"]) == 3.0
+    a, b = R.drawn(1.6, 1.74)
+    assert abs((b - a) - R.MIN_LEN) < 1e-9 and a < 1.6 - R.WIRE / 2
+
+
+def test_wrapper_maps_ports_as_the_bench_does_and_puts_back_a_current_source():
+    """LOADBench's bench connects its DUT as XDUT INN INP OUTP VSS VDD loadbench_miller (in1 in2 out sourceNmos
+    sourcePmos); the extracted cell's ports follow that map, and Ibias (a current source the layout view removed)
+    goes back on IBIAS."""
+    from src.s7.run import bench_ports, wrapped
+    tb = (REPO / "outputs/S0/loadbench_miller/tb/diso_amp_AC.spice").read_text()
+    w, pm = bench_ports(tb)
+    assert pm == {"in1": "INN", "in2": "INP", "out": "OUTP", "sourceNmos": "VSS", "sourcePmos": "VDD"}
+    net = ".subckt c_flat out IBIAS in1 in2 sourceNmos sourcePmos blk_0.x\nR0 out IBIAS 1\n.ends\n"
+    ir = {"internal_sources": [{"name": "Ibias", "kind": "I", "p": "ibias", "n": "sourceNmos", "dc": 1e-05,
+                                "layout_handling": "removed in layout view; node exposed as port IBIAS"}]}
+    txt = wrapped(tb, net, "c", ir, {"ibias": "IBIAS"}, set(), {"IBIAS": "ibias"})
+    x = next(l for l in txt.splitlines() if l.startswith("XDUT") and "c_flat" in l).split()
+    assert x[1:7] == ["OUTP", "N_IBIAS", "INN", "INP", "VSS", "VDD"]
+    assert "IIbias_layout N_IBIAS VSS 1e-05" in txt
+
+
+def test_ext_capacitances_total_and_gate_net(tmp_path):
+    """G6.4's .ext reading: equiv records join names into nets, a node record's capacitance goes to the substrate's
+    net (a ground), cap records are couplings; values in aF."""
+    from src.s6.run import ext_capacitances
+    f = tmp_path / "x.ext"
+    f.write_text('node "u_0.pc.G" 10 2000 0 0 li\nnode "u_0.pc.D" 10 500 0 0 li\nsubstrate "u_0.pc.S" 0 0 0 0 li\n'
+                 'equiv "u_0.pc.G" "blk_0.net2"\nequiv "u_0.pc.D" "OUTP"\nequiv "u_0.pc.S" "VSS_body"\n'
+                 'cap "u_0.pc.G" "u_0.pc.D" 250\n')
+    c = ext_capacitances(f, {"net2", "OUTP", "VSS"}, {}, {"VSS"})
+    assert c["substrate_net"] == "VSS" and c["net"] == {"net2": 2.0, "OUTP": 0.5}
+    assert c["coupling"] == {"OUTP~net2": 0.25} and c["total_fF"] == 2.75 and not c["unassigned"]
+
+
+def test_loadbench_s4_s5_signed_off_and_route_rules_report_the_upstream_misses():
+    """LOADBench: every S4 variant signed off (the bank with its strip, the MIM block); both S5 layouts legal, DRC
+    clean and LVS-matched; G5.4 fails only on rules a row placement of these blocks cannot meet (outFirstStage's
+    length) or S3 already used up (the input pair's access R), and both placements are the same one."""
+    import pytest
+    f4, f5 = REPO / "outputs/S4/loadbench_miller/s4_report.json", REPO / "outputs/S5/loadbench_miller/s5_report.json"
+    if not (f4.exists() and f5.exists()):
+        pytest.skip("needs LOADBench's S4 and S5 outputs")
+    g4, g5 = json.loads(f4.read_text())["gates"], json.loads(f5.read_text())["gates"]
+    assert all(g4[k]["pass"] for k in g4 if "(info)" not in k)
+    assert list(g4["G4.5_latchup_tap_distance"]["tap_strips"]) == ["pmos_bias_bank__row"]
+    assert all(g5[k]["pass"] for k in ("G5.1_placement_legal", "G5.2_top_DRC", "G5.3_top_LVS"))
+    assert g5["G5.5_area_vs_area_only (info)"]["same_placement"]
+    d = g5["G5.4_route_rules"]["detail"]["budget_aware"]
+    assert [n for n, v in d["max_length"].items() if not v["ok"]] == ["outFirstStage"]
+    assert all(v["ok"] for v in d["max_parallel"].values())
+
+
+def test_loadbench_post_layout_meets_specs_but_loses_more_gbw_than_eta_allows():
+    """LOADBench: one placement for both costs, so S6 extracts it once and S7 simulates it once; every spec met post-
+    layout (G7.1) with no failed run, but GBW loses more than eta x margin (G7.2), while gain and PM lose almost
+    nothing (PREREG predicted the failure on gain)."""
+    import pytest
+    f6, f7 = REPO / "outputs/S6/loadbench_miller/parasitics_vs_budgets.json", REPO / "outputs/S7/loadbench_miller/metrics.json"
+    if not (f6.exists() and f7.exists()):
+        pytest.skip("needs LOADBench's S6 and S7 outputs")
+    assert json.loads(f6.read_text())["layouts"]["area_only"]["same_as"] == "budget_aware"
+    m = json.loads(f7.read_text())
+    assert not m["failed_runs"]
+    ba = m["metrics"]["budget_aware"]
+    assert all(x["meets_spec"] for x in ba.values())
+    assert not ba["gbw_mhz"]["within_allowed"] and ba["gain_db"]["use_of_allowed"] < 0.1 and ba["pm_deg"]["use_of_allowed"] < 0.1

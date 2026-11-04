@@ -1,0 +1,22 @@
+* NGSPICE file created from input_pair__ABBA.ext - technology: sky130A
+
+.subckt sky130_fd_pr__pfet_01v8_lvt_NF2RB5 G D w_n183_n811# S
+X0 S G D w_n183_n811# sky130_fd_pr__pfet_01v8_lvt ad=2.0619 pd=14.8 as=2.0619 ps=14.8 w=7.11 l=0.89
+.ends
+
+.subckt pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng G D B S
+Xpfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng_pc G D B S sky130_fd_pr__pfet_01v8_lvt_NF2RB5
+.ends
+
+.subckt input_pair__ABBA in1 in2 FirstStageYout1 FirstStageYsourceTransconductance
++ outFirstStage FirstStageYsourceTransconductance_body
+Xpfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng_0 in1 FirstStageYout1 FirstStageYsourceTransconductance_body
++ FirstStageYsourceTransconductance pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng
+Xpfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng_1 in2 outFirstStage FirstStageYsourceTransconductance_body
++ FirstStageYsourceTransconductance pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng
+Xpfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng_2 in2 outFirstStage FirstStageYsourceTransconductance_body
++ FirstStageYsourceTransconductance pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng
+Xpfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng_3 in1 FirstStageYout1 FirstStageYsourceTransconductance_body
++ FirstStageYsourceTransconductance pfet_01v8_lvt_W7p105_L0p89_m1__nf1_gboth_sdfull_ng
+.ends
+

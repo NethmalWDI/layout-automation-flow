@@ -11,6 +11,12 @@ Template (generator code, not search; decision D8):
   * One tap ring around everything, drawn by the PDK's own sky130::guard_ring_draw: a p-tap (NMOS), or an n-tap in
     an n-well that covers the whole block (PMOS). It is labelled '<body>_body'; S5 ties it to the body net. The ring
     is what meets the tap rules S3 deferred (LU.2, LU.3, nwell.4), so the block's DRC defers nothing.
+  * Where a row is too wide for the ring alone to keep every diffusion within S2's latch-up tap distance, a vertical
+    tap STRIP (one side of the ring, drawn the same way) stands between two units, TAP_GAP from each, and joins the
+    ring at both ends (plan v4 Phase 6; LOADBench's PMOS bank). A row that meets the distance gets no strip.
+A MIM capacitor bound in S0's layout view (circuit_ir passives[].layout_binding) is a block of its own (cap_*): the
+PDK's generator draws it, and each plate goes out to a met3 track on a met4 neck and a via3 (the top plate up, the
+bottom plate's met4 strip down). It has no ring; its met3 plate and met4 are keep-outs S5's router respects.
 Magic draws the block, so its contact rules apply; Magic DRC (full) and Netgen LVS against the IR's devices sign it off.
 All lengths are in um.
 """
@@ -37,6 +43,11 @@ RING_GAP = 0.8       # from the outermost track or unit to the ring's centre lin
 EXT = 1.0            # how far each track runs past the ring
 COL0, COL_PITCH = 0.8, 0.8   # met2 columns joining a net's top and bottom tracks, right of the row
 NWELL_OVER = 0.5     # n-well beyond the ring's centre line (PMOS blocks)
+TAP_GAP = 0.8        # from a unit's edge to a tap strip's centre line (as RING_GAP to the ring)
+TAP_MARGIN = 0.5     # the strips keep every diffusion this much inside S2's latch-up distance
+VIA3 = 0.4           # via3 with its met3/met4 surround, as in src/s5/route.py
+MET_SPACE = 0.3      # met3 and met4 spacing around a capacitor's keep-outs (S5's MET3_SPACE)
+CAPM_SPACE = 1.45    # from the MIM top plate (capm) to any met3 it does not own: capm.11 asks 1.34
 
 
 def unit_pins(rec: dict) -> dict:
@@ -84,14 +95,41 @@ def stub_plan(pins: dict, w: float, h: float) -> dict:
     return plan
 
 
-def layout(units: list) -> dict:
+def layout(units: list, tap_limit: float | None = None) -> dict:
     """units: [{'device', 'rec', 'mirror', 'nets': {'D','G','S'}}] left to right. Returns the geometry: unit origins,
-    the stubs (x, pin edge, side, net), the tracks per side, the ring box and the block's extent."""
-    x, placed = 0.0, []
+    the stubs (x, pin edge, side, net), the tracks per side, the ring box, the tap strips and the block's extent.
+    With tap_limit (S2's place.latchup_tap_distance), a strip goes between two units wherever the taps on either side
+    of a unit would otherwise stand more than 2 (tap_limit - TAP_MARGIN) apart."""
+    plans = []
     for u in units:
         w, h = u["rec"]["geometry"]["bbox_um"]
         pins = unit_pins(u["rec"])
-        sp = stub_plan(pins, w, h)
+        plans.append((u, w, h, pins, stub_plan(pins, w, h)))
+    sides = {}
+    for u, *_, sp in plans:
+        for t, s in sp.items():
+            sides.setdefault(u["nets"][t], set()).add(s["side"])
+    n_cols = sum(1 for v in sides.values() if len(v) == 2)
+    col_ext = COL0 + (n_cols - 1) * COL_PITCH if n_cols else 0.0   # the right ring moves out past the columns
+    reach = 2 * (tap_limit - TAP_MARGIN) if tap_limit else None
+    # the ring's lines above and below (as computed further down): a unit whose every point is within reach of one
+    # of them needs no strip
+    n_top, n_bot = (sum(1 for v in sides.values() if side in v) for side in ("top", "bottom"))
+    hmax = max(p[2] for p in plans)
+    ry1 = hmax + (FIRST + (n_top - 1) * PITCH if n_top else 0.0) + RING_GAP
+    ry0 = -(FIRST + (n_bot - 1) * PITCH if n_bot else 0.0) - RING_GAP
+
+    def far_from_ring(h):
+        y = min(max((ry0 + ry1) / 2, 0.0), h)
+        return reach is not None and min(y - ry0, ry1 - y) > reach / 2
+    x, placed, strips, last_tap = 0.0, [], [], -RING_GAP
+    for i, (u, w, h, pins, sp) in enumerate(plans):
+        if reach and placed and far_from_ring(h):
+            nxt = x + w + (col_ext if i == len(plans) - 1 else 0.0) + RING_GAP   # the nearest tap right of the unit
+            if nxt - last_tap > reach:
+                last_tap = round(x - GAP + TAP_GAP, 3)
+                strips.append(last_tap)
+                x = last_tap + TAP_GAP
         def gx(lx): return round(x + (w - lx if u["mirror"] else lx), 3)   # noqa: E731
         stubs = []
         for t, s in sp.items():
@@ -118,7 +156,7 @@ def layout(units: list) -> dict:
     right = max([row_w] + list(columns.values())) + RING_GAP
     ring = [round(-RING_GAP, 3), round(bot, 3), round(right, 3), round(top, 3)]
     return {"units": placed, "row": [0.0, 0.0, row_w, row_h], "tracks": tracks, "columns": columns, "ring": ring,
-            "track_span": [round(ring[0] - EXT, 3), round(ring[2] + EXT, 3)]}
+            "strips": strips, "track_span": [round(ring[0] - EXT, 3), round(ring[2] + EXT, 3)]}
 
 
 def _b(x0, y0, x1, y1) -> str:
@@ -162,7 +200,12 @@ def tcl(name: str, geo: dict, dtype: str, body_net: str) -> str:
     rx0, ry0, rx1, ry1 = geo["ring"]
     if dtype == "pmos":
         c += [_b(rx0 - NWELL_OVER, ry0 - NWELL_OVER, rx1 + NWELL_OVER, ry1 + NWELL_OVER), "paint nwell"]
-    c += [_b(rx0, ry0, rx1, ry1), "sky130::guard_ring_draw " + ("nsc nsd" if dtype == "pmos" else "psc psd")]
+    ctype, dtype_ = ("nsc", "nsd") if dtype == "pmos" else ("psc", "psd")
+    c += [_b(rx0, ry0, rx1, ry1), f"sky130::guard_ring_draw {ctype} {dtype_}"]
+    for sx in geo.get("strips", []):   # one side of the ring, as sky130::guard_ring_draw paints it
+        c += [_b(sx - 0.085, ry0 - 0.085, sx + 0.085, ry1 + 0.085), "paint li",
+              _b(sx - 0.085, ry0 + 0.215, sx + 0.085, ry1 - 0.215), f"paint {ctype}",
+              _b(sx - 0.085, ry0 - 0.085, sx + 0.085, ry1 + 0.085), f"paint {dtype_}"]
     xm = (rx0 + rx1) / 2
     c += [_b(xm - 0.05, ry0 - 0.05, xm + 0.05, ry0 + 0.05), f"label {body_net}_body c locali"]
     c += ["tech revert", f"save {name}", f"gds write {name}", "quit -noprompt"]
@@ -182,12 +225,88 @@ def build(name: str, geo: dict, dtype: str, body_net: str, out: Path) -> dict:
     return {"gds": rel(gds) if gds.exists() else None, "rc": r.returncode, "log": rel(out / "build_magic.log")}
 
 
+def cap_cell(name: str, model: str, params: dict, out: Path) -> dict:
+    """The PDK's capacitor drawn alone (outputs/S4/<d>/blocks/<block>/<name>.gds) and its plates, read from the GDS:
+    the met3 bottom plate, the met4 over the top plate (the largest met4 shape) and the bottom plate's met4 strip."""
+    import klayout.db as kdb
+    g = pcell.generate([{"cell": name, "model": model, "params": {k.lower(): v for k, v in params.items()}}], out)
+    if name not in g["gds"]:
+        return {"gds": None, "log": g["log"]}
+    ly = kdb.Layout()
+    ly.read(g["gds"][name])
+    top = ly.top_cell()
+    o = top.bbox()
+
+    def boxes(layer, dt):
+        return [[round((b.left - o.left) * ly.dbu, 3), round((b.bottom - o.bottom) * ly.dbu, 3),
+                 round((b.right - o.left) * ly.dbu, 3), round((b.top - o.bottom) * ly.dbu, 3)]
+                for b in (p.bbox() for p in kdb.Region(top.begin_shapes_rec(ly.layer(layer, dt))).merged().each())]
+    m3, m4 = boxes(70, 20), sorted(boxes(71, 20), key=lambda b: (b[2] - b[0]) * (b[3] - b[1]), reverse=True)
+    capm = boxes(89, 44)
+    if len(m3) != 1 or len(m4) != 2 or len(capm) != 1:
+        raise RuntimeError(f"{name}: expected one met3 plate, two met4 shapes and one capm, got {len(m3)}, {len(m4)} "
+                           f"and {len(capm)}")
+    return {"gds": rel(Path(g["gds"][name])), "log": g["log"], "plate_m3": m3[0], "capm": capm[0], "top_m4": m4[0],
+            "bottom_m4": m4[1],
+            "bbox": [0.0, 0.0, round(o.width() * ly.dbu, 3), round(o.height() * ly.dbu, 3)]}
+
+
+def cap_layout(cc: dict, top_net: str, bottom_net: str) -> dict:
+    """A capacitor block's geometry: the cell at the origin, the top plate's net on a top track, the bottom plate's on
+    a bottom track, each reached by a met4 neck and a via3; the keep-outs S5's router must respect."""
+    px0, py0, px1, py1 = cc["plate_m3"]
+    cx0, cy0, cx1, cy1 = cc["capm"]
+    yt = round(max(py1 + FIRST, cy1 + CAPM_SPACE + TRACK_W / 2), 3)
+    yb = round(min(py0 - FIRST, cy0 - CAPM_SPACE - TRACK_W / 2), 3)
+    t, b = cc["top_m4"], cc["bottom_m4"]
+    xt, xb = round((t[0] + t[2]) / 2, 3), round((b[0] + b[2]) / 2, 3)
+    necks = {top_net: [xt - TRACK_W / 2, t[3] - 0.2, xt + TRACK_W / 2, yt + VIA3 / 2],
+             bottom_net: [xb - TRACK_W / 2, yb - VIA3 / 2, xb + TRACK_W / 2, b[1] + 0.2]}
+    m4 = [min(t[0], b[0]), min(t[1], b[1]), max(t[2], b[2]), max(t[3], b[3])]
+    ring = [round(cc["bbox"][0] - RING_GAP, 3), round(yb - RING_GAP, 3), round(cc["bbox"][2] + RING_GAP, 3),
+            round(yt + RING_GAP, 3)]
+    g3 = CAPM_SPACE - MET_SPACE - 0.05   # S5 adds MET_SPACE: other met3 stays 1.4 um from capm
+    m3 = [min(px0, cx0 - g3), min(py0, cy0 - g3), max(px1, cx1 + g3), max(py1, cy1 + g3)]
+    keep = [{"layer": "metal3", "box": [round(v, 3) for v in m3], "net": None},
+            {"layer": "metal4", "box": m4, "net": None}]
+    keep += [{"layer": "metal4", "box": [round(v, 3) for v in bx], "net": n} for n, bx in necks.items()]
+    return {"units": [], "row": cc["bbox"], "tracks": {"top": {top_net: yt}, "bottom": {bottom_net: yb}},
+            "columns": {}, "ring": ring, "strips": [], "necks": necks, "vias": {top_net: [xt, yt], bottom_net: [xb, yb]},
+            "keepouts": keep, "track_span": [round(ring[0] - EXT, 3), round(ring[2] + EXT, 3)]}
+
+
+def cap_build(name: str, cc: dict, geo: dict, out: Path) -> dict:
+    """Draw the capacitor block in out/ and return {'gds', 'rc', 'log'}."""
+    c = ["drc off", "snap internal", f"gds read {REPO / cc['gds']}", f"load {name} -silent", "tech unlock *",
+         _b(0, 0, 0, 0), f"getcell {Path(cc['gds']).stem}"]
+    for net, bx in geo["necks"].items():
+        x, y = geo["vias"][net]
+        c += [_b(*bx), "paint metal4", _b(x - VIA3 / 2, y - VIA3 / 2, x + VIA3 / 2, y + VIA3 / 2), "paint via3"]
+    x0, x1 = geo["track_span"]
+    for side in ("top", "bottom"):
+        for net, ty in geo["tracks"][side].items():
+            c += [_b(x0, ty - TRACK_W / 2, x1, ty + TRACK_W / 2), "paint metal3",
+                  _b(x0 + 0.1, ty - 0.05, x0 + 0.2, ty + 0.05), f"label {net} c metal3"]
+    c += ["tech revert", f"save {name}", f"gds write {name}", "quit -noprompt"]
+    for f in out.glob(f"{name}.*"):
+        f.unlink()
+    (out / "build.tcl").write_text("\n".join(c) + "\n")
+    r = subprocess.run(["magic", "-dnull", "-noconsole", "-rcfile", pcell.MAGICRC, str(out / "build.tcl")],
+                       cwd=out, env=TOOL_ENV, capture_output=True, text=True, timeout=600)
+    (out / "build_magic.log").write_text(r.stdout + r.stderr)
+    gds = out / f"{name}.gds"
+    return {"gds": rel(gds) if gds.exists() else None, "rc": r.returncode, "log": rel(out / "build_magic.log")}
+
+
 def ref_netlist(name: str, devices: list, ports: list) -> str:
     """The block's reference for LVS: its ports (track nets and the ring's '<body>_body') and its devices from the
     IR, each with the total finger count drawn; a device's body is the ring's port."""
     lines = [f".subckt {name} {' '.join(ports)}"]
     for d in devices:
         n = d["nets"]
+        if "C" in n:   # a capacitor: top plate, bottom plate
+            lines.append(f"X{d['name'].lstrip('X')} {n['C']} {n['B']} {d['model']} W={d['W']:g} L={d['L']:g}")
+            continue
         lines.append(f"X{d['name']} {n['D']} {n['G']} {n['S']} {d['body_port']} {d['model']} "
                      f"L={d['L']:g} W={d['W']:g} nf={d['nf']}")
     return "\n".join(lines + [".ends"]) + "\n"
