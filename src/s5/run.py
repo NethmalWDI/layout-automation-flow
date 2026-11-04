@@ -31,6 +31,7 @@ from src.common.tools import REPO, TOOL_ENV, provenance, rel, write_json
 from src.s0.ingest import load_package
 from src.s5 import place as P
 from src.s5 import route as R
+from src.s4.run import layout_options
 
 RULES = ("budget_aware", "area_only")
 
@@ -84,21 +85,31 @@ def assemble(name: str, pl: dict, blocks: dict, out: Path, extra: list | None = 
     return res
 
 
-def top_ref(ref_spice: str, pl: dict, blocks: dict, s4: Path) -> str:
+def top_ref(ref_spice: str, pl: dict, blocks: dict, s4: Path, nmap: dict | None = None) -> str:
     """The layout view's netlist with each device's nf set to the fingers drawn (S3's option, split by S4's units);
-    W and L stay. nf is read from the chosen S4 variant's own LVS reference."""
-    nf = {}
+    W, L and m stay. nf is read from the chosen S4 variant's own LVS reference, and so are its dummies (plan v4
+    Phase 8), added with every terminal on their body net in the layout view's name."""
+    nmap = nmap or {}
+    nf, dummies = {}, []
     for b, p in pl["blocks"].items():
         v = next(v for v in blocks[b]["variants"] if v["id"] == p["variant"])
         for ln in (REPO / v["lvs"]["report"]).parent.parent.joinpath("ref.spice").read_text().splitlines():
             m = re.match(r"^X(\S+)\s.*\bnf=(\d+)", ln)
-            if m:
+            t = ln.split()
+            if t and t[0].startswith("X") and "_DUMMY" in t[0]:   # a dummy transistor or resistor: its nets up to
+                k = next(i for i, x in enumerate(t) if x.startswith("sky130_fd_pr__"))   # the model, in the view's names
+                nets = [nmap.get(re.sub(r"_body$", "", x), re.sub(r"_body$", "", x)) for x in t[1:k]]
+                dummies.append(" ".join([t[0]] + nets + t[k:]))
+            elif m:
                 nf[m.group(1)] = int(m.group(2))
     lines = []
     for ln in ref_spice.splitlines():
         t = ln.split()
         if t and t[0][:1] in "Xx" and t[0] in nf:
             ln = re.sub(r"\bnf=\d+", f"nf={nf[t[0]]}", ln)
+        if dummies and re.match(r"^\.ends\b", ln):
+            lines += dummies
+            dummies = []
         lines.append(ln)
     return "\n".join(lines) + "\n"
 
@@ -205,14 +216,29 @@ def legal(pl: dict, blocks: dict) -> dict:
             gx = max(B[0] - A[2], A[0] - B[2])
             gy = max(B[1] - A[3], A[1] - B[3])
             sep.append(max(gx, gy))
-    pm = [bs[b]["bbox"] for b in bs if blocks[b]["type"] == "pmos"]
-    nm = [bs[b]["bbox"] for b in bs if blocks[b]["type"] != "pmos"]
-    above = not pm or not nm or min(b[1] for b in pm) >= max(b[3] for b in nm)
-    axis = {b: bs[b]["axis_x"] for b in bs if blocks[b]["symmetric"]}
+    # with macros (plan v4 Phase 8) the rows are a macro's own: PMOS above NMOS, and the symmetric blocks on one
+    # axis, inside each macro; without, across the layout and on x = 0, as before
+    groups = {}
+    for b, p in bs.items():
+        groups.setdefault(p.get("macro"), []).append(b)
+    above, axes_ok, axis = True, True, {}
+    for g, mem in groups.items():
+        pm = [bs[b]["bbox"] for b in mem if blocks[b]["type"] == "pmos"]
+        nm = [bs[b]["bbox"] for b in mem if blocks[b]["type"] != "pmos"]
+        above = above and (not pm or not nm or min(b[1] for b in pm) >= max(b[3] for b in nm))
+        ax = {b: bs[b]["axis_x"] for b in mem if blocks[b]["symmetric"]}
+        axis.update(ax)
+        if g is None:                               # no macros: every symmetric block's axis on x = 0
+            axes_ok = axes_ok and all(abs(x) <= P.AXIS_TOL for x in ax.values())
+        # in a macro, pairs may share a row (the hard outline, plan v4 Phase 8): their axes are reported, not gated
     return {"min_separation_um": round(min(sep), 4) if sep else None,
             "separation_ok": not sep or min(sep) >= min(P.ROW_GAP, P.BLOCK_GAP) - 1e-6,
-            "pmos_above_nmos": above, "symmetric_axes": axis,
-            "axes_ok": all(abs(x) <= P.AXIS_TOL for x in axis.values())}
+            "pmos_above_nmos": above, "symmetric_axes": axis, "axes_ok": axes_ok}
+
+
+def signature(pl: dict) -> list:
+    """What makes two placements the same: every block's variant, flip and place."""
+    return sorted((b, p["variant"], p["flip"], tuple(p["origin"])) for b, p in pl["blocks"].items())
 
 
 def main(argv=None) -> int:
@@ -229,10 +255,18 @@ def main(argv=None) -> int:
     max_len = {c["targets"][0]: c["value"] for c in cons if c["id"].startswith("route.max_length.")
                and c["id"].endswith(".metal3")}
     drow = designer_rows(ir, blocks)
-    cands = P.enumerate_candidates(blocks, max_len, drow)
+    opts = layout_options(design)
+    outline = opts.get("outline_um")
+    if opts.get("hierarchy") == "upstream":   # macros per sub-circuit, then the macros (plan v4 Phase 8)
+        from src.s5 import macro as M
+        chosen = {r: M.hierarchical(design, blocks, max_len, r, outline) for r in RULES}
+        cands = []
+    else:
+        cands = P.enumerate_candidates(blocks, max_len, drow)
+        best = {r: min(range(len(cands)), key=lambda i: (cands[i]["cost"][r], i)) for r in RULES}
+        chosen = {r: {**cands[best[r]], "index": best[r]} for r in RULES}
     fresh_output_dir(out)
     out.mkdir(parents=True, exist_ok=True)
-    best = {r: min(range(len(cands)), key=lambda i: (cands[i]["cost"][r], i)) for r in RULES}
     ref_spice = (s0 / "ref" / f"{design}_layout.spice").read_text()
     nmap = R.net_map(ir, ref_spice)
     ports = R.ports_of(ref_spice)
@@ -245,9 +279,9 @@ def main(argv=None) -> int:
     rules = json.loads((REPO / "outputs" / "S2" / "pdk" / "parasitics.json").read_text())["rules"]
     res = {}
     for r in RULES:
-        c = cands[best[r]]
+        c = chosen[r]
         pl = c["placement"]
-        res[r] = {"index": best[r], "cost": c["cost"], "placement": pl, "legal": legal(pl, blocks),
+        res[r] = {"index": c["index"], "cost": c["cost"], "placement": pl, "legal": legal(pl, blocks),
                   "assembled": assemble(f"{design}_placed_{r}", pl, blocks, out / f"placed_{r}")}
         try:
             routes = R.plan_routes(pl, nmap, ports, order, mirrored, par_limit)
@@ -260,7 +294,7 @@ def main(argv=None) -> int:
                              "lengths": {n: R.lengths(x) for n, x in routes.items()}, "assembled": asm,
                              "rules": route_rules(routes, cons, nmap, ir, s3_dec, rules)}
         if asm.get("gds"):
-            (d / "ref_top.spice").write_text(top_ref(ref_spice, pl, blocks, s4))
+            (d / "ref_top.spice").write_text(top_ref(ref_spice, pl, blocks, s4, nmap))
             res[r]["routing"]["lvs"] = lvs_top(REPO / asm["gds"], design, (d / "ref_top.spice").read_text(), d / "lvs")
     ident = {"run_id": new_run_id(), "design": design,
              "s4_run_id": json.loads((s4 / "blocks.json").read_text()).get("run_id")}
@@ -285,7 +319,16 @@ def main(argv=None) -> int:
             "pass": None, "budget_aware_area_um2": ba["cost"]["area_um2"], "area_only_area_um2": ao["cost"]["area_um2"],
             "area_ratio": round(ba["cost"]["area_um2"] / ao["cost"]["area_um2"], 4),
             "u_budget_aware": ba["cost"]["u"], "u_area_only": ao["cost"]["u"],
-            "same_placement": ba["index"] == ao["index"]},
+            "same_placement": signature(ba["placement"]) == signature(ao["placement"])},
+        **({"G5.6_outline": {
+            "pass": all(res[r]["placement"]["bbox"][2] - res[r]["placement"]["bbox"][0] <= outline[0] + 1e-6 and
+                        res[r]["placement"]["bbox"][3] - res[r]["placement"]["bbox"][1] <= outline[1] + 1e-6
+                        for r in RULES),
+            "outline_um": outline,
+            "size_um": {r: [round(res[r]["placement"]["bbox"][2] - res[r]["placement"]["bbox"][0], 3),
+                            round(res[r]["placement"]["bbox"][3] - res[r]["placement"]["bbox"][1], 3)] for r in RULES},
+            "note": "the hard outline of layout.yaml (plan v4 Phase 8): a placement outside it is rejected"}}
+           if outline else {}),
         "G5.2_top_DRC": {"pass": all(((res[r].get("routing") or {}).get("assembled") or {}).get("drc", {}).get("pass")
                                      for r in RULES),
                          "detail": {r: (((res[r].get("routing") or {}).get("assembled") or {}).get("drc") or {}).get("errors")

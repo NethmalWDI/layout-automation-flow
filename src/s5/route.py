@@ -76,7 +76,7 @@ def plan_routes(pl: dict, nmap: dict, ports: list, order: list, mirrored: list, 
     pins = {}
     for b, p in pl["blocks"].items():
         for q in p["pins"]:
-            pins.setdefault(nmap.get(q["net"], q["net"]), []).append({**q, "block": b})
+            pins.setdefault(nmap.get(q["net"], q["net"]), []).append({**q, "block": q.get("inner") or b})
     every = pins                                      # all tracks are drawn, the joined ones too
     pins = {n: joined_once(qs) for n, qs in pins.items()}
     par_limit = par_limit or {}

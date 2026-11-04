@@ -1,0 +1,208 @@
+{
+  "type": "nfet_01v8_lvt_W5_L20_m2",
+  "option": {
+    "id": "nf4_gtop_sdfull_outS",
+    "nf": 4,
+    "gate_contacts": "top",
+    "sd_cov": "full",
+    "outer": "S",
+    "magic": {
+      "topc": 1,
+      "botc": 0,
+      "diffcov": 100,
+      "viasrc": 100,
+      "viadrn": 100,
+      "guard": 0,
+      "conn_gates": 1
+    }
+  },
+  "cell": "nfet_01v8_lvt_W5_L20_m2__nf4_gtop_sdfull_outS_ng",
+  "gds": "outputs/S3/_cells/nfet_01v8_lvt_W5_L20_m2__nf4_gtop_sdfull_outS_ng/nfet_01v8_lvt_W5_L20_m2__nf4_gtop_sdfull_outS_ng.gds",
+  "gen_rc": 0,
+  "strap": {
+    "rc": 0,
+    "strapped": true,
+    "roles": [
+      "S",
+      "D",
+      "S",
+      "D",
+      "S"
+    ],
+    "gate_pad_patch": []
+  },
+  "drc": {
+    "errors": 0,
+    "neg_control_flagged": true,
+    "pass": true,
+    "report": "outputs/S3/_cells/nfet_01v8_lvt_W5_L20_m2__nf4_gtop_sdfull_outS_ng/drc/drc_report.txt",
+    "errors_total": 5,
+    "deferred": {
+      "LU.2": 5
+    }
+  },
+  "lvs": {
+    "match": true,
+    "neg_control_rejected": true,
+    "pass": true,
+    "pcell_instance": "nfet_01v8_lvt_W5_L20_m2__nf4_gtop_sdfull_outS_ng",
+    "report": "outputs/S3/_cells/nfet_01v8_lvt_W5_L20_m2__nf4_gtop_sdfull_outS_ng/lvs/lvs/lvs_report.txt",
+    "extracted": "outputs/S3/_cells/nfet_01v8_lvt_W5_L20_m2__nf4_gtop_sdfull_outS_ng/lvs/lvs/extracted.spice"
+  },
+  "geometry": {
+    "bbox_um": [
+      81.7,
+      1.89
+    ],
+    "area_um2": 308.826,
+    "n_licon_poly": 232,
+    "n_licon_diff": 15,
+    "n_mcon_diff": 15,
+    "n_mcon_gate": 220,
+    "strips": [
+      {
+        "x0": 0.015,
+        "x1": 0.275,
+        "y0": 0.13,
+        "y1": 1.3800000000000001,
+        "role": "S",
+        "n_licon": 3,
+        "n_mcon": 3,
+        "width_um": 0.26,
+        "length_um": 1.25,
+        "li_length_um": 1.25,
+        "li_width_um": 0.17
+      },
+      {
+        "x0": 20.305,
+        "x1": 20.565,
+        "y0": 0.13,
+        "y1": 1.3800000000000001,
+        "role": "D",
+        "n_licon": 3,
+        "n_mcon": 3,
+        "width_um": 0.26000000000000156,
+        "length_um": 1.25,
+        "li_length_um": 1.25,
+        "li_width_um": 0.17
+      },
+      {
+        "x0": 40.595,
+        "x1": 40.855000000000004,
+        "y0": 0.13,
+        "y1": 1.3800000000000001,
+        "role": "S",
+        "n_licon": 3,
+        "n_mcon": 3,
+        "width_um": 0.2600000000000051,
+        "length_um": 1.25,
+        "li_length_um": 1.25,
+        "li_width_um": 0.17
+      },
+      {
+        "x0": 60.885,
+        "x1": 61.145,
+        "y0": 0.13,
+        "y1": 1.3800000000000001,
+        "role": "D",
+        "n_licon": 3,
+        "n_mcon": 3,
+        "width_um": 0.2600000000000051,
+        "length_um": 1.25,
+        "li_length_um": 1.25,
+        "li_width_um": 0.17
+      },
+      {
+        "x0": 81.175,
+        "x1": 81.435,
+        "y0": 0.13,
+        "y1": 1.3800000000000001,
+        "role": "S",
+        "n_licon": 3,
+        "n_mcon": 3,
+        "width_um": 0.2600000000000051,
+        "length_um": 1.25,
+        "li_length_um": 1.25,
+        "li_width_um": 0.17
+      }
+    ],
+    "area_um2_unit": 154.413,
+    "m_copies": 2
+  },
+  "pex": {
+    "file": "outputs/S3/_cells/nfet_01v8_lvt_W5_L20_m2__nf4_gtop_sdfull_outS_ng/pex/pex.spice",
+    "subckt": "nfet_01v8_lvt_W5_L20_m2__nf4_gtop_sdfull_outS_ng",
+    "ports": [
+      "S",
+      "D",
+      "G",
+      "B"
+    ],
+    "n_devices": 4,
+    "fingers": [
+      {
+        "ad": "0.18125",
+        "pd": "1.54",
+        "as": "0.18125",
+        "ps": "1.54",
+        "w": "1.25",
+        "l": "20"
+      },
+      {
+        "ad": "0.18125",
+        "pd": "1.54",
+        "as": "0.18125",
+        "ps": "1.54",
+        "w": "1.25",
+        "l": "20"
+      },
+      {
+        "ad": "0.18125",
+        "pd": "1.54",
+        "as": "0.3625",
+        "ps": "3.08",
+        "w": "1.25",
+        "l": "20"
+      },
+      {
+        "ad": "0.3625",
+        "pd": "3.08",
+        "as": "0.18125",
+        "ps": "1.54",
+        "w": "1.25",
+        "l": "20"
+      }
+    ],
+    "n_caps": 6,
+    "sum_caps_F": 3.7157330000000004e-14,
+    "mult": 2
+  },
+  "cell_format": 2,
+  "access_resistance_ohm": {
+    "g": 0.47424340386624864,
+    "g_parts": {
+      "poly_distributed": 0.25104166666666666,
+      "ngcon": 1,
+      "poly_contacts": 232,
+      "gate_mcons": 220
+    },
+    "d": 17.366746794871794,
+    "d_strips_ohm": [
+      69.467,
+      69.467
+    ],
+    "s": 11.577831196581196,
+    "s_strips_ohm": [
+      69.467,
+      69.467,
+      69.467
+    ],
+    "unit_cell_ohm": {
+      "d": 34.73349358974359,
+      "g": 0.9484868077324973,
+      "s": 23.15566239316239
+    }
+  },
+  "png": "outputs/S3/_cells/nfet_01v8_lvt_W5_L20_m2__nf4_gtop_sdfull_outS_ng/nfet_01v8_lvt_W5_L20_m2__nf4_gtop_sdfull_outS_ng.png",
+  "ok": true
+}

@@ -2,13 +2,15 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-04 05:57 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
+**Last updated:** 2026-11-04 10:09 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
 routing, verification) on branch `s4-s5`**, from `main` at tag `s0s3-reviewed` (`ec359567`). The plan is
 `docs/plan_v4_S4_S7.md`; the phases are under *Plan v4 (s4-s5)* below.
 - Phases 0–4 are committed: `e6306879`, `a3e9277e`, `1e4d166f`, `f26c136a` and `3089366a`. Phase 2's commit carries an unrelated message
   ("dementia_care_guide_sinhala (2)", a GitHub Desktop slip); its content is Phase 2's, and history is not rewritten.
-- Phases 5 and 6 are committed (`27a075a6`, `6d0c6bb7`). **Phase 7 (stabilise) is done (05:01–05:57 CET 2026-11-04) and
-  waiting for Imasha's commit.** Then: the merge of `s4-s5` into `main` (Imasha, GitHub Desktop), and Phase 8.
+- Phases 5, 6 and 7 are committed (`27a075a6`, `6d0c6bb7`, `a5b250de`). The merge of `s4-s5` into `main` is Imasha's.
+- **Phase 8 (`ttsky25a_fd`), branch `s5-ttsky`:** plan and PREREG agreed; 8.1 (S0–S3) done; 8.2 S4 PASS; 8.3 S5's
+  placement fits the 250 × 200 µm outline for both costs (legal, unrouted DRC 0). **Next: the grid router (8.5).** Waiting
+  for Imasha's commit of part 1 (flow record 7.22).
 - Phase 6 (LOADBench through S4–S7), 02:36–04:10 CET 2026-11-04: LOADBench runs S0–S7: S4 and S5's sign-off pass; G5.4, G6.2 and G7.2 (GBW) fail;
   every spec is met post-layout. The 5T, re-run with the new code, still passes S0–S7.
   ASSUMPTIONS until Imasha answers plan questions 3–5: the PMOS bank drawn side by side as S3 sized it; no dummies.
@@ -59,6 +61,14 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+
+Plan v4 Phase 8's runs so far (2026-11-04, CET):
+- Plan v4 Phase 8.1 ended (`runs/logs/v4_p8_tt_S0S3.log`): S0 PASS (06:21–06:43), S1 FAIL G1.2, S2 PASS (77 min),
+  S3 FAIL G3.3/G3.5 (53 min). Goldens S1–S3 of `ttsky25a_fd` refreshed on purpose (S0 unchanged).
+- Plan v4 Phase 8.2: `ttsky25a_fd --stage S4`: first run 09:33, ERROR (stubs too close: a gate pad at the bottom next to
+  a strip); second run: the same ERROR (its cause: unit_pins read the .mag at 0.005 um/unit; these cells have no magscale line, 0.01 um). Third run: ERROR (S0 gives four blocks one name; parallel builds overwrote each other). Fourth: every variant DRC/LVS clean, G4.4 FAIL on a pair of two sizes (gate fixed: matched pairs only). Fifth: S4 PASS (55 variants DRC/LVS clean).
+- Plan v4 Phase 8.3: `ttsky25a_fd --stage S5` (macros, three shapes), 10:03–10:08 CET (`runs/logs/v4_p8_tt_S5.log`):
+  placement legal and inside the outline; routing failed (the spine router; the grid router is next).
 
 Plan v4 Phase 7's runs have ended (2026-11-04, CET):
 - Plan v4 Phase 7: `example_ota_5t --from S5`, ended 05:09 CET after about 3.5 min (`runs/logs/v4_p7_5t_S5S7.log`): PASS (before the review fixes).
@@ -198,8 +208,8 @@ checked against its budget. S3's unit cells lose their guard rings; S4's blocks 
 | 4 | S5 router on the 5T | **done**, committed `3089366a` |
 | 5 | S6/S7 on the 5T | **done**, committed `27a075a6` |
 | 6 | LOADBench through S4–S7 | **done**, committed `6d0c6bb7` |
-| 7 | Stabilise: goldens, walkthrough to S7, review, merge | **done** (merge: Imasha), waiting for Imasha's commit |
-| 8 | Harder design (`ttsky25a_fd` or `iadc_ota`, open) | pending |
+| 7 | Stabilise: goldens, walkthrough to S7, review, merge | **done**, committed `a5b250de` (merge: Imasha) |
+| 8 | Harder design: `ttsky25a_fd` (Imasha), its given hierarchy | **in progress**: S0–S4 done, S5 placement done; routing next |
 
 Phase 7 record (2026-11-04, 05:01–05:57 CET; flow record 7.21, rows 77–80):
 - **The MIM capacitor:** Magic's sky130 rules charge metal4 over metal3 across the top plate too, so the 22.5 fF
@@ -1278,6 +1288,18 @@ Step 0 record:
 
 ## Open questions for Imasha
 
+**FEEDBACK NEEDED (Claude Code, 2026-11-04 10:09, Phase 8):**
+1. S1's G1.2 fails on `ttsky25a_fd` because it compares two PM conventions (flow record row 81); the model agrees with
+   SPICE within 0.06° under either. Fix S1 (a reviewed stage; the 5T's and LOADBench's S1 would move by < 0.05°), or keep
+   it as a reported finding?
+2. To fit 250 × 200 µm, matched pairs inside a macro may share a row and lose the single shared axis (plan section 10).
+   Keep the outline first, or is the shared axis worth a bigger outline?
+
+**Answered 2026-11-04 (Imasha), Phase 8 plan:** the code arranges the floorplan; specs as recommended (kept); res_packs
+interleaved, matched transistors common-centroid or interdigitated; dummies; a hard outline of 250 × 200 µm; books may
+follow; a branch for Phase 8; an independent LLM after Phase 8. **Still open:** the outline's orientation (ASSUMPTION:
+250 µm wide, 200 µm tall).
+
 **FEEDBACK NEEDED (Claude Code, 2026-11-04 04:10, plan v4 Phase 6; not blocking):**
 1. Plan questions 3 and 5 still stand: the PMOS bank side by side (used), or units rounded to an integer ratio;
    dummies now or later (none used).
@@ -1592,8 +1614,12 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-04 morning (Claude Code): **Phase 8, part 1**: `ttsky25a_fd` S0–S3 re-run, S4 PASS, S5 placement inside the
+  outline (flow record 7.22, rows 81–84); routing next. Waiting for Imasha's commit on `s5-ttsky`.
+- 2026-11-04 morning (Claude Code): **Phase 8 plan** for `ttsky25a_fd` (`docs/plan_v5_ttsky25a.md`): the design's own
+  hierarchy as macros, annealing inside a macro, a grid router, m-arrays, resistor blocks; who decides what. No code.
 - 2026-11-04 morning (Claude Code): **plan v4 Phase 7 on `s4-s5`**: the MIM double count (without it LOADBench is
-  within eta), an independent review's fixes, S4–S7 goldens, the S4–S7 walkthrough. Waiting for Imasha's commit.
+  within eta), an independent review's fixes, S4–S7 goldens, the S4–S7 walkthrough. Committed `a5b250de`.
 - 2026-11-04 early morning (Claude Code): **plan v4 Phase 6 on `s4-s5`**: LOADBench through S4–S7. S4 and the
   top-level layout signed off; G5.4, G6.2 and G7.2 (GBW) fail; every spec met post-layout. Router, S6 and S7 fixes
   (rows 71–76); the 5T re-run keeps every verdict. Committed `6d0c6bb7`.

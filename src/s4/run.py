@@ -53,8 +53,11 @@ def plan_blocks(ir: dict, groups: list) -> list:
                 by.setdefault((d["type"], d["terminals"]["b"]), []).append(m)
         for (ty, body), ms in by.items():
             twin = sum(1 for t, _ in by if t == ty) > 1   # one type on two bodies: the body names the block too
-            out.append({"name": name if len(by) == 1 else (f"{name}_{ty}_{body}" if twin else f"{name}_{ty}"),
-                        "kind": kind, "type": ty, "body": body, "devices": ms})
+            nm = name if len(by) == 1 else (f"{name}_{ty}_{body}" if twin else f"{name}_{ty}")
+            k, base = 2, nm
+            while any(o["name"] == nm for o in out):      # S0 may give several blocks one name (ttsky25a_fd's four
+                nm, k = f"{base}_{k}", k + 1               # pmos_matched_current_source_pair): numbered in order
+            out.append({"name": nm, "kind": kind, "type": ty, "body": body, "devices": ms})
             used.update(ms)
     for g in groups:
         add(name_of.get(frozenset(g["devices"]), f"{g.get('kind', 'group')}_" + "_".join(g["devices"])),
@@ -75,6 +78,64 @@ def plan_blocks(ir: dict, groups: list) -> list:
 def caps_of(ir: dict) -> list:
     return [p["name"] for p in ir.get("passives", []) if (p.get("layout_binding") or {}).get("model", "").startswith(
         "sky130_fd_pr__cap_mim")]
+
+
+def resistor_blocks(ir: dict, opts: dict) -> list:
+    """layout.yaml's resistor_blocks (plan v4 Phase 8): [{name, members: [name prefix per matched pack], body}]. Each
+    becomes one block of the passives whose layout binding is a PDK resistor and whose name starts with a prefix;
+    'packs' keeps them per prefix, in the order of their string."""
+    out = []
+    pas = [p for p in ir.get("passives", []) if "res_" in (p.get("layout_binding") or {}).get("model", "")]
+    for rb in opts.get("resistor_blocks") or []:
+        packs = [chain_order([p for p in pas if p["name"].startswith(pre)]) for pre in rb["members"]]
+        out.append({"name": rb["name"], "kind": "resistors", "type": "res", "body": rb["body"],
+                    "devices": [p["name"] for pk in packs for p in pk], "packs": packs})
+    return out
+
+
+def chain_order(rs: list) -> list:
+    """A series string of resistors (a res_pack) in order from one end, each with 'first' (the node it shares with
+    the previous one, or the string's end) and 'last'."""
+    from collections import Counter
+    deg = Counter(n for r in rs for n in (r["a"], r["b"]))
+    start = sorted(n for n, c in deg.items() if c == 1)[0]
+    out, node, left = [], start, list(rs)
+    while left:
+        r = next(r for r in left if node in (r["a"], r["b"]))
+        left.remove(r)
+        nxt = r["b"] if r["a"] == node else r["a"]
+        out.append({**r, "first": node, "last": nxt})
+        node = nxt
+    return out
+
+
+def res_unit(model: str, params: dict, cells: Path) -> dict:
+    """A resistor drawn by the PDK's generator without its own guard ring (the block has one), as a unit record with
+    its two metal1 ends as pins: P at the top, N at the bottom (outputs/S4/_res/<cell>/)."""
+    import klayout.db as kdb
+    w, l = float(params["W"]), float(params["L"])
+    name = f"{model.replace('sky130_fd_pr__', '')}_W{w:g}_L{l:g}".replace(".", "p")
+    d = cells / name
+    f = d / "record.json"
+    if f.exists():
+        return json.loads(f.read_text())
+    g = pcell.generate([{"cell": name, "model": model, "params": {"w": w, "l": l, "guard": 0}}], d.resolve())
+    ly = kdb.Layout()
+    ly.read(g["gds"][name])
+    top = ly.top_cell()
+    o = top.dbbox()
+    boxes = [p.bbox() for p in kdb.Region(top.begin_shapes_rec(ly.layer(68, 20))).merged().each()]
+    m1 = sorted(([round(b.left * ly.dbu - o.left, 3), round(b.bottom * ly.dbu - o.bottom, 3),
+                  round(b.right * ly.dbu - o.left, 3), round(b.top * ly.dbu - o.bottom, 3)] for b in boxes),
+                key=lambda r: r[1])
+    if len(m1) != 2:
+        raise RuntimeError(f"{name}: expected two metal1 ends, got {len(m1)}")
+    rec = {"cell": name, "gds": rel(Path(g["gds"][name])), "kind": "resistor", "ok": True, "option": {"nf": 1},
+           "model": model, "W": w, "L": l,
+           "geometry": {"bbox_um": [round(o.width(), 3), round(o.height(), 3)], "strips": []},
+           "pins": {"P": {"layer": "metal1", "rect": m1[1]}, "N": {"layer": "metal1", "rect": m1[0]}}}
+    write_json(f, rec)
+    return rec
 
 
 def split_wide(units: list, ir: dict, dec: dict, cells: Path, rules: dict, limit: float | None) -> list:
@@ -126,17 +187,100 @@ def half_unit(t: dict, tid: str, opt: dict, cells: Path, rules: dict) -> tuple[d
     return (rec, th) if rec.get("ok") else None
 
 
-def variants(blk: dict, ir: dict, dec: dict, cells: Path, rules: dict, limit: float | None = None) -> list:
+def layout_options(design: str) -> dict:
+    """inputs/<d>/layout.yaml (plan v4 Phase 8): {matching: centroid, dummies: true}; empty when absent, which keeps
+    every design that has none (the 5T, LOADBench) exactly as before. S0-S3 never read it."""
+    import yaml
+    f = REPO / "inputs" / design / "layout.yaml"
+    return (yaml.safe_load(f.read_text()) or {}) if f.exists() else {}
+
+
+def centroid_sequence(counts: dict) -> list | None:
+    """A mirror-symmetric (palindromic) row of copies, so every device's centroid sits on the row's centre: each
+    device's count halved on each side, interleaved in turn (A B C | C B A); a device with an odd count takes the
+    centre, and two odd counts cannot be centred (None)."""
+    odd = [d for d, c in counts.items() if c % 2]
+    if len(odd) > 1:
+        return None
+    left, rest = [], {d: c // 2 for d, c in counts.items()}
+    while any(rest.values()):
+        for d in counts:
+            if rest[d]:
+                left.append(d)
+                rest[d] -= 1
+    return left + odd + left[::-1]
+
+
+def interdigitated(counts: dict) -> list:
+    """One copy of each device in turn (A B A B ...), as long as copies are left."""
+    out, rest = [], dict(counts)
+    while any(rest.values()):
+        for d in counts:
+            if rest[d]:
+                out.append(d)
+                rest[d] -= 1
+    return out
+
+
+def variants(blk: dict, ir: dict, dec: dict, cells: Path, rules: dict, limit: float | None = None,
+             opts: dict | None = None) -> list:
     if blk["kind"] == "mim_cap":
         return [{"id": "A", "units": []}]
-    vs = _variants(blk, ir, dec, cells, rules)
-    return [{**v, "units": split_wide(v["units"], ir, dec, cells, rules, limit)} for v in vs]
+    if blk["kind"] == "resistors":
+        vs = resistor_variants(blk, REPO / "outputs" / "S4" / "_res")
+        return [{**v, "units": with_dummies(v["units"], blk)} for v in vs] if (opts or {}).get("dummies") else vs
+    vs = _variants(blk, ir, dec, cells, rules, opts or {})
+    vs = [{**v, "units": split_wide(v["units"], ir, dec, cells, rules, limit)} for v in vs]
+    if (opts or {}).get("dummies") and len(blk["devices"]) >= 2:
+        vs = [{**v, "units": with_dummies(v["units"], blk)} for v in vs]
+    return vs
 
 
-def _variants(blk: dict, ir: dict, dec: dict, cells: Path, rules: dict) -> list:
+def resistor_variants(blk: dict, cells: Path) -> list:
+    """The packs of a resistor block interleaved: two packs as A B B A A B B A ... (each pack's centroid on the row's
+    centre), more packs in turn. Along each pack's string the units alternate orientation, so the node two
+    neighbours of the string share is on one side (top or bottom) of both."""
+    queues = []
+    for pk in blk["packs"]:
+        q = []
+        for k, r in enumerate(pk):
+            top, bot = (r["last"], r["first"]) if k % 2 == 0 else (r["first"], r["last"])
+            lb = r["layout_binding"]
+            q.append({"device": r["name"], "rec": res_unit(lb["model"], lb["params"], cells), "mirror": False,
+                      "nets": {"P": top, "N": bot}})
+        queues.append(q)
+    seq = []
+    if len(queues) == 2:   # the second string runs right to left, so its output end (Vom) sits near the right end,
+        # as the first's (Vop) sits at the left; the A B B A palindrome keeps both centroids on the centre
+        queues[1].reverse()
+        k = 0
+        while queues[0] or queues[1]:
+            for i in ((0, 1) if k % 2 == 0 else (1, 0)):
+                if queues[i]:
+                    seq.append(queues[i].pop(0))
+            k += 1
+    else:
+        while any(queues):
+            for q in queues:
+                if q:
+                    seq.append(q.pop(0))
+    return [{"id": "interleaved", "units": seq}]
+
+
+def with_dummies(units: list, blk: dict) -> list:
+    """One dummy unit at each end of a matched row (plan v4 Phase 8): the same cell as its neighbour, every terminal
+    on the block's body net."""
+    def dummy(u, k):
+        return {"device": f"DUMMY{k}", "rec": u["rec"], "mirror": u["mirror"], "dummy_of": u["device"],
+                "nets": {t: blk["body"] for t in u["nets"]}}
+    return [dummy(units[0], 0)] + units + [dummy(units[-1], 1)]
+
+
+def _variants(blk: dict, ir: dict, dec: dict, cells: Path, rules: dict, opts: dict) -> list:
     devs = {d["name"]: d for d in ir["devices"]}
     types = O.device_types(ir)
     tid_of = {d: t for t, v in types.items() for d in v["devices"]}
+    centroid = opts.get("matching") == "centroid"
 
     def rec(d):
         return json.loads((cells / dec[tid_of[d]]["cell"] / "record.json").read_text())
@@ -144,20 +288,44 @@ def _variants(blk: dict, ir: dict, dec: dict, cells: Path, rules: dict) -> list:
     def unit(d, r, mirror):
         t = devs[d]["terminals"]
         return {"device": d, "rec": r, "mirror": mirror, "nets": {"D": t["d"], "G": t["g"], "S": t["s"]}}
+
+    def copies(d):
+        return devs[d].get("m") or 1
+
+    def row(seq, mirrored_half=False):
+        """Units for a sequence of device names; the right half flipped when the row is a mirror image."""
+        n = len(seq)
+        return [unit(d, rec(d), mirrored_half and k >= n - n // 2) for k, d in enumerate(seq)]
     ds = blk["devices"]
     if len(ds) == 1:
-        return [{"id": "A", "units": [unit(ds[0], rec(ds[0]), False)]}]
-    if len(ds) == 2 and tid_of[ds[0]] == tid_of[ds[1]]:
+        return [{"id": "A", "units": row([ds[0]] * copies(ds[0]))}]
+    counts = {d: copies(d) for d in ds}
+    same = len({tid_of[d] for d in ds}) == 1
+    if len(ds) == 2 and same:
         a, b = ds
-        out = [{"id": "AB", "units": [unit(a, rec(a), False), unit(b, rec(b), True)]}]
-        t = types[tid_of[a]]
-        h = half_unit(t, tid_of[a], rec(a)["option"], cells, rules)
+        out = []
+        if not centroid:   # as before (the 5T, LOADBench): the mirror image AB, then ABBA/ABAB from half units
+            out.append({"id": "AB", "units": row([a] * counts[a] + [b] * counts[b], True)})
+        if counts[a] >= 2:   # whole copies (plan v4 Phase 8): most of ttsky25a_fd's devices have m = 2
+            seq = centroid_sequence(counts)
+            if seq:
+                out.append({"id": "ABBA", "units": row(seq, True)})
+            elif counts[a] == counts[b]:   # both odd (m = 9): no common centroid in one row; the best mirror image
+                left = interdigitated({a: (counts[a] + 1) // 2, b: counts[b] // 2})
+                out.append({"id": "mirror", "units": row(left + [b if x == a else a for x in reversed(left)], True)})
+            out.append({"id": "ABAB", "units": row(interdigitated(counts))})
+            return out
+        h = half_unit(types[tid_of[a]], tid_of[a], rec(a)["option"], cells, rules)
         if h:
             r = h[0]
             out.append({"id": "ABBA", "units": [unit(a, r, False), unit(b, r, False), unit(b, r, True), unit(a, r, True)]})
             out.append({"id": "ABAB", "units": [unit(a, r, False), unit(b, r, False), unit(a, r, False), unit(b, r, False)]})
         return out
-    return [{"id": "row", "units": [unit(d, rec(d), False) for d in ds]}]
+    if centroid and same:   # three or more matched devices (or unequal m): one row, centroids on its centre
+        seq = centroid_sequence(counts)
+        out = [{"id": "centroid", "units": row(seq, True)}] if seq else []
+        return out + [{"id": "interdigitated", "units": row(interdigitated(counts))}]
+    return [{"id": "row", "units": [u for d in ds for u in row([d] * counts[d])]}]
 
 
 def symmetry(geo: dict, devices: list) -> dict:
@@ -169,7 +337,7 @@ def symmetry(geo: dict, devices: list) -> dict:
     Empty for any other block."""
     if len(devices) != 2:
         return {}
-    us = geo["units"]
+    us = [u for u in geo["units"] if u["device"] in devices]   # dummies at the ends are not part of the pair
     xc = (geo["row"][0] + geo["row"][2]) / 2
     cen = {d: [u["x"] + u["w"] / 2 for u in us if u["device"] == d] for d in devices}
     ca, cb = (sum(cen[d]) / len(cen[d]) for d in devices)
@@ -221,7 +389,8 @@ def build_cap(blk: dict, v: dict, out: Path) -> dict:
     if not b["gds"]:
         return {**res, "ok": False, "error": "Magic did not write the block"}
     gds = REPO / b["gds"]
-    dev = {"name": blk["name"], "model": bd["model"], "W": bd["params"]["W"], "L": bd["params"]["L"],
+    dev = {"name": blk["name"], "model": bd["model"], "W": float(bd["params"]["W"]), "L": float(bd["params"]["L"]),
+           "m": int(float(bd["params"].get("M") or 1)),
            "nets": {"C": bd["top"], "B": bd["bottom"]}}
     res["drc"] = pcell.drc(gds, name, d / "drc")
     res["lvs"] = B.lvs(gds, name, B.ref_netlist(name, [dev], [bd["top"], bd["bottom"]]), d / "lvs")
@@ -238,17 +407,23 @@ def build_cap(blk: dict, v: dict, out: Path) -> dict:
     return res
 
 
-def build_variant(blk: dict, v: dict, ir: dict, out: Path, lu: float | None = None) -> dict:
+def internal_nets(blk: dict, ir: dict) -> set:
+    """Nets that only this block's elements use (no other device, passive or port): their tracks are short."""
+    mine = set(blk["devices"])
+    ends = [(d["name"], [d["terminals"][k] for k in "dgsb"]) for d in ir["devices"]]
+    ends += [(p["name"], [p["a"], p["b"]]) for p in ir.get("passives", [])]
+    inside = {n for nm, ns in ends if nm in mine for n in ns}
+    outside = {n for nm, ns in ends if nm not in mine for n in ns} | {p["name"] for p in ir["ports"]}
+    return inside - outside - {blk["body"]}
+
+
+def build_variant(blk: dict, v: dict, ir: dict, out: Path, lu: float | None = None, opts: dict | None = None) -> dict:
     if blk["kind"] == "mim_cap":
         return build_cap(blk, v, out)
     name = f"{blk['name']}__{v['id']}"
-    devs0 = {x["name"]: x for x in ir["devices"]}
-    multi = [dn for dn in blk["devices"] if (devs0[dn].get("m") or 1) > 1]
-    if multi:   # S3 draws one copy of an m > 1 device and S4 has no array of copies yet: fail, never under-draw
-        return {"id": v["id"], "cell": name, "ok": False, "build": {"gds": None},
-                "error": f"m > 1 not drawn yet: {', '.join(f'{d} (m={devs0[d]['m']})' for d in multi)}"}
     d = out / "blocks" / name
-    geo = B.layout(v["units"], tap_limit=lu)
+    inner = internal_nets(blk, ir) if (opts or {}).get("pack_internal") else set()
+    geo = B.layout(v["units"], tap_limit=None if blk["kind"] == "resistors" else lu, internal=inner)
     res = {"id": v["id"], "cell": name, "arrangement": [{"device": u["device"], "cell": u["rec"]["cell"],
                                                          "mirror": u["mirror"], "x": u["x"]} for u in geo["units"]]}
     b = B.build(name, geo, blk["type"], blk["body"], d)
@@ -258,13 +433,28 @@ def build_variant(blk: dict, v: dict, ir: dict, out: Path, lu: float | None = No
     gds = REPO / b["gds"]
     devs = {x["name"]: x for x in ir["devices"]}
     body_port = f"{blk['body']}_body"
-    dl = []
-    for dn in blk["devices"]:
+    dl, per_copy = [], {}
+    for dn in blk["devices"] if blk["kind"] != "resistors" else []:
         x = devs[dn]
+        m = x.get("m") or 1                        # m copies drawn, each a whole S3 cell or two half units
         nf = sum(u["rec"]["option"]["nf"] for u in geo["units"] if u["device"] == dn)
+        per_copy[dn] = nf / m
         t = x["terminals"]
-        dl.append({"name": dn, "model": x["model"], "W": x["W_um"], "L": x["L_um"], "nf": nf, "body_port": body_port,
-                   "nets": {"D": t["d"], "G": t["g"], "S": t["s"]}})
+        dl.append({"name": dn, "model": x["model"], "W": x["W_um"], "L": x["L_um"], "nf": round(nf / m), "m": m,
+                   "body_port": body_port, "nets": {"D": t["d"], "G": t["g"], "S": t["s"]}})
+    for u in geo["units"]:                         # resistors: each unit is one, its ends on the tracks
+        if blk["kind"] == "resistors":
+            r = u["rec"]
+            dum = "dummy_of" in u
+            dl.append({"name": f"{blk['name']}_{u['device']}" if dum else u["device"], "model": r["model"],
+                       "W": r["W"], "L": r["L"], "nets": dict(u["nets"]), "dummy": dum})
+    for u in geo["units"]:                         # dummies: every terminal on the body (plan v4 Phase 8)
+        if "dummy_of" in u and blk["kind"] != "resistors":
+            x = devs[u["dummy_of"]]
+            unf = u["rec"]["option"]["nf"]
+            dl.append({"name": f"{blk['name']}_{u['device']}", "model": x["model"], "L": x["L_um"],
+                       "W": round(x["W_um"] * unf / per_copy[u["dummy_of"]], 4), "nf": unf, "m": 1,
+                       "body_port": body_port, "nets": {t: blk["body"] for t in ("D", "G", "S")}, "dummy": True})
     ports = sorted({n for side in geo["tracks"].values() for n in side}) + [body_port]
     res["drc"] = pcell.drc(gds, name, d / "drc")
     res["lvs"] = B.lvs(gds, name, B.ref_netlist(name, dl, ports), d / "lvs")
@@ -273,9 +463,15 @@ def build_variant(blk: dict, v: dict, ir: dict, out: Path, lu: float | None = No
     res["geometry"]["area_um2"] = round((res["geometry"]["bbox_um"][2] - res["geometry"]["bbox_um"][0]) *
                                         (res["geometry"]["bbox_um"][3] - res["geometry"]["bbox_um"][1]), 2)
     res["pins"] = {"tracks": {side: {n: {"layer": "metal3", "y": y, "x": geo["track_span"], "width": B.TRACK_W}
-                                     for n, y in geo["tracks"][side].items()} for side in ("top", "bottom")},
+                                     for n, y in geo["tracks"][side].items() if n not in inner}
+                              for side in ("top", "bottom")},
                    "body": {"net": blk["body"], "port": body_port, "layer": "locali",
                             "at": [round((geo["ring"][0] + geo["ring"][2]) / 2, 3), geo["ring"][1]]}}
+    res["geometry"]["keepouts"] = [                # internal short tracks: S5's met3 runs keep clear
+        {"layer": "metal3", "box": [geo["spans"][n][0], y - B.TRACK_W / 2, geo["spans"][n][1], y + B.TRACK_W / 2],
+         "net": n} for side in ("top", "bottom") for n, y in geo["tracks"][side].items() if n in inner]
+    if blk["kind"] == "resistors":
+        res["geometry"]["tap_distance_max_um"] = None   # poly on field oxide: no diffusion to tap
     res["symmetry"] = symmetry(geo, blk["devices"])
     res["png"] = pcell.png(gds, d / f"{name}.png")
     res["ok"] = bool(res["drc"]["pass"] and res["lvs"]["pass"])
@@ -301,20 +497,24 @@ def main(argv=None) -> int:
     lu = next((c["value"] for c in cons if c.get("id") == "place.latchup_tap_distance"), None)
     fresh_output_dir(out)
     out.mkdir(parents=True, exist_ok=True)
-    blocks = plan_blocks(ir, groups)
-    jobs = [(b, v) for b in blocks for v in variants(b, ir, dd["decisions"], cells, rules, lu)]
+    opts = layout_options(design)
+    blocks = plan_blocks(ir, groups) + resistor_blocks(ir, opts)
+    jobs = [(b, v) for b in blocks for v in variants(b, ir, dd["decisions"], cells, rules, lu, opts)]
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
-        built = list(ex.map(lambda j: build_variant(j[0], j[1], ir, out, lu), jobs))
+        built = list(ex.map(lambda j: build_variant(j[0], j[1], ir, out, lu, opts), jobs))
     for b in blocks:
         b["variants"] = [r for (bb, _), r in zip(jobs, built) if bb is b]
     allv = [v for b in blocks for v in b["variants"]]
     devs = {d["name"]: d for d in ir["devices"]}
-    tblocks = [b for b in blocks if b["kind"] != "mim_cap"]
+    tblocks = [b for b in blocks if b["kind"] not in ("mim_cap", "resistors")]
+    bound_res = [p["name"] for p in ir.get("passives", []) if "res_" in (p.get("layout_binding") or {}).get("model", "")]
+    tid_of = {d: t for t, v in O.device_types(ir).items() for d in v["devices"]}
+    matched = [b for b in tblocks if len(b["devices"]) == 2 and tid_of[b["devices"][0]] == tid_of[b["devices"][1]]]
     gates = {
         "G4.1_one_type_and_body_per_block": {
             "pass": all(len({devs[x]["type"] for x in b["devices"]}) == 1 and
                         len({devs[x]["terminals"]["b"] for x in b["devices"]}) == 1 for b in tblocks) and
-            sorted(x for b in blocks for x in b["devices"]) == sorted(list(devs) + caps_of(ir)) and
+            sorted(x for b in blocks for x in b["devices"]) == sorted(list(devs) + caps_of(ir) + bound_res) and
             all((v.get("build") or {}).get("gds") for v in allv),
             "blocks": {b["name"]: {"type": b["type"], "body": b["body"], "devices": b["devices"]} for b in blocks}},
         "G4.2_DRC_every_variant": {"pass": all((v.get("drc") or {}).get("pass") for v in allv),
@@ -323,10 +523,12 @@ def main(argv=None) -> int:
                                    "detail": {v["cell"]: (v.get("lvs") or {}).get("match") for v in allv}},
         "G4.4_symmetry": {
             "pass": all(any(v.get("ok") and v["symmetry"].get("mirror_image") and v["symmetry"]["error_um"] <= SYM_TOL
-                            for v in b["variants"]) for b in blocks if len(b["devices"]) == 2),
+                            for v in b["variants"]) for b in matched),
             "tolerance_um": SYM_TOL, "detail": {v["cell"]: v.get("symmetry") for v in allv if v.get("symmetry")},
-            "note": "every two-device block has a signed-off variant that is a mirror image about its centre; "
-                    "centroid_offset_um is 0 for a common centroid (ABBA)"},
+            "not_matched": [b["name"] for b in tblocks if len(b["devices"]) == 2 and b not in matched],
+            "note": "every two-device block of one device type (a matched pair or mirror of one size) has a signed-off "
+                    "variant that is a mirror image about its centre; centroid_offset_um is 0 for a common centroid "
+                    "(ABBA). Two devices of different sizes (not_matched) cannot be mirror images"},
         "G4.5_latchup_tap_distance": {
             "pass": lu is not None and all((v.get("geometry") or {}).get("tap_distance_max_um", 1e9) <= lu
                                            for b in tblocks for v in b["variants"]),
@@ -337,7 +539,7 @@ def main(argv=None) -> int:
                     "has no diffusion (None)"},
         "G4.6_port_capacitance (info)": {"pass": None, "note": "block port C against S2's hierarchy.json: S6 extraction (plan Phase 5)"},
     }
-    ident = {"run_id": new_run_id(), "design": design, "s3_run_id": dd.get("run_id")}
+    ident = {"run_id": new_run_id(), "design": design, "s3_run_id": dd.get("run_id"), "layout_options": opts}
     write_json(out / "blocks.json", {**ident, "blocks": [{k: v for k, v in b.items()} for b in blocks]})
     prov = provenance([s0 / "circuit_ir.json", s1 / "s1_report.json", s3 / "device_decisions.json", s2 / "constraints.json",
                        REPO / a.package])

@@ -1,0 +1,19 @@
+* NGSPICE file created from nmos_differential_pair__ABBA.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_lvt_SAUMT6 G D S VSUBS
+X0 S G D VSUBS sky130_fd_pr__nfet_01v8_lvt ad=1.16 pd=8.58 as=1.16 ps=8.58 w=4 l=4
+.ends
+
+.subckt nfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng G D B S
+Xnfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_lvt_SAUMT6
+.ends
+
+.subckt nmos_differential_pair__ABBA Vss Vm Vp x1_Vtest2 x1_net2 x1_net1 Vss_body
+Xnfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng_0 Vss Vss Vss_body Vss nfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng_1 Vm x1_Vtest2 Vss_body x1_net2 nfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng_2 Vp x1_net1 Vss_body x1_net2 nfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng_3 Vp x1_net1 Vss_body x1_net2 nfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng_4 Vm x1_Vtest2 Vss_body x1_net2 nfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng
+Xnfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng_5 Vss Vss Vss_body Vss nfet_01v8_lvt_W4_L4_m2__nf1_gboth_sdfull_ng
+.ends
+

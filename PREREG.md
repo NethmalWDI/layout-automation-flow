@@ -240,3 +240,47 @@ After the tag, changes are allowed only as dated amendments at the end, with the
     - A ring's body pin is joined to its body net. Supply nets get the same width: EM is not evaluated, as in S2.
   - **H5** is read with these definitions: G6.2 violations and area, for the budget-aware and the area-only
     placements, each routed by the same router.
+
+- **2026-11-04 (morning), plan v4 Phase 8 (`docs/plan_v5_ttsky25a.md`): S3–S7 on `ttsky25a_fd`, fixed before any
+  Phase 8 code or run.** Imasha's decisions of 2026-11-04 (plan, section 0).
+  - **Inputs.** The flow's DUT stays the schematic (`Opamp_with_bias`), specs as now (0.9 × the schematic,
+    ASSUMPTION). S0–S3 are re-run with today's code before S4 (S3 with ringless cells); their verdicts are reported,
+    not tuned.
+  - **Hierarchy.** The design's own (`circuits/ttsky25a_fd/upstream/hierarchy.json`): `top`, `x1`, `x2`, and the two
+    res_packs. Each is placed and routed as a macro; the five macros are then placed and routed. No designer
+    floorplan: the code arranges the macros (Imasha).
+  - **Matching and dummies** (package option, `ttsky25a_fd` only; the 5T's and LOADBench's blocks unchanged): matched
+    transistor groups only as common centroid (ABBA) or interdigitated variants (AB not offered); groups of three or
+    more, or of unequal m, in one row whose sequence keeps every device's centroid on the row's centre; the two
+    res_packs in one block interleaved A B B A; one dummy unit at each end of every matched row, its terminals on the
+    body net (resistor dummies on ground, ASSUMPTION), counted in LVS and in the extraction like any device.
+  - **Search inside a macro.** Exhaustive enumeration up to 6 blocks (as now); beyond that, simulated annealing over
+    row placements: seed 20261104; 40 000 moves per cost; moves (each equally likely): swap two blocks, move a block
+    to another row, change a block's variant, flip a block (symmetric pairs move together); start temperature 0.05 ×
+    the starting placement's cost, multiplied by 0.9998 after every move; the starting placement is the blocks in S0's
+    order, PMOS rows above NMOS rows. The best placement seen is kept. Both costs (λ = 10, μ = 1, unchanged) run with
+    the same seed.
+  - **One symmetry axis.** Every P/N pair of the fully differential amplifier (blocks and macros) is mirrored about
+    one vertical axis.
+  - **Hard outline (G5.6).** The layout's bounding box at most 250 µm wide and 200 µm tall (Imasha; orientation
+    ASSUMPTION). A placement outside it is rejected, never traded against wire length; if none fits, G5.6 fails with
+    the smallest box found.
+  - **Grid router** (where the spine router does not apply): metal3 horizontal, metal4 vertical, 0.4 µm wide on a
+    0.8 µm grid; A* per net with cost = length + 2 µm per via; nets in order of least budget slack; a mirrored pair
+    routed as mirror images; keep-outs as now.
+  - **Predictions** (before any Phase 8 run): S2 still fails G2.7 at some PVT points (as on 2026-10-27); G6.2 fails
+    (budgets below what a compact layout needs); the budget-aware layout has no more G6.2 violations than the
+    area-only one (H5); the wiring loss drawn → R+C of GBW, as a share of margin, is below the hand layout's (51 %,
+    C-only) — a prediction about this flow's compactness, reported either way.
+
+- **2026-11-04 (10:03 CET), plan v4 Phase 8: two changes to S5's placement for `ttsky25a_fd`, after a dry run of the
+  placement alone** (no layout drawn, nothing simulated; `runs/tmp/p8_place.py`). With one matched block per row and one
+  shape per macro, the four macros (x1, x2, top, res_packs) came out 133 × 150, 133 × 62, 78 × 124 and 50 × 55 µm under
+  the budget-aware cost, and no arrangement fit Imasha's hard outline of 250 × 200 µm.
+  - **Shared rows inside a macro.** A row inside a macro may hold several matched blocks; such a row is centred, and
+    each pair keeps its own symmetry (common centroid or mirror image inside its block) but not a shared axis. The
+    outline is Imasha's hard constraint; the shared axis was this plan's own rule. Axes are reported, not gated.
+  - **Three shapes per macro.** Each macro is placed (seed and schedule as above) under a width limit of 100 %, 65 %
+    and 50 % of the outline's width (height: the outline's); the top level enumerates the macros' distinct shapes
+    with every arrangement and keeps the best that fits. Same for both costs.
+  - The predictions above stand.

@@ -447,13 +447,113 @@ def test_g62_never_reads_a_net_lower_than_the_ext_and_flat_lvs_reads_cut_names(t
         assert flat_lvs(f)["match"] is ok, rows_
 
 
-def test_block_names_stay_apart_and_m_gt_1_fails_loudly(tmp_path):
-    from src.s4.run import plan_blocks, build_variant
+def test_block_names_stay_apart():
+    from src.s4.run import plan_blocks
     ir = {"devices": [{"name": "XA", "type": "pmos", "terminals": {"b": "VDD", "d": "a", "g": "g", "s": "VDD"}},
                       {"name": "XB", "type": "pmos", "terminals": {"b": "w", "d": "b", "g": "g", "s": "w"}}],
           "hierarchy": {"blocks": [{"name": "pair", "devices": ["XA", "XB"]}]}}
     names = [b["name"] for b in plan_blocks(ir, [])]
     assert len(names) == len(set(names)) == 2
-    ir2 = {"devices": [{"name": "XA", "type": "pmos", "m": 2, "terminals": {"b": "VDD", "d": "a", "g": "g", "s": "VDD"}}]}
-    r = build_variant({"name": "a", "kind": "single", "devices": ["XA"]}, {"id": "A", "units": []}, ir2, tmp_path)
-    assert r["ok"] is False and "m > 1" in r["error"]
+
+
+def test_m_copies_centroid_rows_and_dummies():
+    """Plan v4 Phase 8: an m = 2 pair is drawn as its copies; with `matching: centroid` it is offered as ABBA and ABAB
+    only (no AB); with `dummies` one dummy unit, every terminal on the body, stands at each end; an odd pair (m = 9)
+    gets the mirror-image row; the LVS reference carries m."""
+    import copy
+    from src.s3 import options as O
+    from src.s4 import run as S, block as B
+    ir, groups, dd, rules, lu = _s4_inputs("example_ota_5t")
+    ir = copy.deepcopy(ir)
+    for d in ir["devices"]:
+        if d["name"] in ("XM1", "XM2"):
+            d["m"] = 2
+    blk = next(b for b in S.plan_blocks(ir, groups) if set(b["devices"]) == {"XM1", "XM2"})
+    cells = REPO / "outputs/S3/_cells"
+    old = next(v for v in dd["decisions"].values() if "XM1" in v.get("devices", []))
+
+    def decs():   # S3's type ids include m: the same decision under the patched type's id
+        return {**dd["decisions"], **{t: old for t, v in O.device_types(ir).items() if "XM1" in v["devices"]}}
+    plain = S.variants(blk, ir, decs(), cells, rules, lu, {})
+    assert [v["id"] for v in plain] == ["AB", "ABBA", "ABAB"] and len(plain[0]["units"]) == 4
+    cc = S.variants(blk, ir, decs(), cells, rules, lu, {"matching": "centroid", "dummies": True})
+    assert [v["id"] for v in cc] == ["ABBA", "ABAB"]
+    abba = cc[0]["units"]
+    assert [u["device"] for u in abba] == ["DUMMY0", "XM1", "XM2", "XM2", "XM1", "DUMMY1"]
+    assert all(u["nets"] == {"D": blk["body"], "G": blk["body"], "S": blk["body"]} for u in (abba[0], abba[-1]))
+    for d in ir["devices"]:
+        if d["name"] in ("XM1", "XM2"):
+            d["m"] = 9
+    odd = S.variants(blk, ir, decs(), cells, rules, lu, {"matching": "centroid"})
+    assert [v["id"] for v in odd] == ["mirror", "ABAB"]
+    seq = [u["device"] for u in odd[0]["units"]]
+    assert seq == [("XM2" if x == "XM1" else "XM1") for x in reversed(seq)] and seq.count("XM1") == 9
+    ref = B.ref_netlist("b", [{"name": "XM1", "model": "m", "L": 1, "W": 2, "nf": 1, "m": 2, "body_port": "VSS_body",
+                               "nets": {"D": "d", "G": "g", "S": "s"}}], ["d", "g", "s", "VSS_body"])
+    assert "nf=1 m=2" in ref
+
+
+def test_s4_plans_of_the_5t_and_loadbench_are_unchanged():
+    """Without a layout.yaml, every variant of the 5T and LOADBench is planned unit for unit as committed."""
+    from src.s4 import run as S, block as B
+    for design in ("example_ota_5t", "loadbench_miller"):
+        ir, groups, dd, rules, lu = _s4_inputs(design)
+        assert S.layout_options(design) == {}
+        got = {}
+        for b in S.plan_blocks(ir, groups):
+            for v in S.variants(b, ir, dd["decisions"], REPO / "outputs/S3/_cells", rules, lu, {}):
+                if v["units"]:
+                    g = B.layout(v["units"], tap_limit=lu)
+                    got[f"{b['name']}__{v['id']}"] = [(u["device"], u["rec"]["cell"], u["mirror"], u["x"]) for u in g["units"]]
+        blocks = json.loads((REPO / "outputs/S4" / design / "blocks.json").read_text())["blocks"]
+        want = {v["cell"]: [(a["device"], a["cell"], a["mirror"], a["x"]) for a in v["arrangement"]]
+                for b in blocks for v in b["variants"] if v.get("arrangement") and b["kind"] != "mim_cap"}
+        assert got == want, design
+
+def test_resistor_strings_interleave_mirrored_with_internal_nets_short():
+    """Plan v4 Phase 8 (ttsky25a_fd): each res_pack is one series string; its order is walked from an end, units
+    alternate orientation so a shared node sits on one side of both; two packs interleave A B B A (each pack's
+    centroid on the centre) with the second string reversed (Vom's end near the right, Vop's at the left); the strings' inner nodes are the
+    block's internal nets."""
+    import pytest
+    from collections import Counter
+    from src.s4 import run as S
+    ir = json.loads((REPO / "outputs/S0/ttsky25a_fd/circuit_ir.json").read_text())
+    opts = S.layout_options("ttsky25a_fd")
+    blk = S.resistor_blocks(ir, opts)[0]
+    a, b = blk["packs"]
+    assert len(a) == len(b) == 20 and a[0]["first"] == "Vop" and a[-1]["last"] == "x2_Vcm"
+    assert all(x["last"] == y["first"] for x, y in zip(a, a[1:]))
+    if not (REPO / "outputs/S4/_res").exists():
+        pytest.skip("needs the resistor unit (outputs/S4/_res)")
+    units = S.variants(blk, ir, {}, REPO / "outputs/S3/_cells", {}, 15.0, opts)[0]["units"]
+    real = [u for u in units if "dummy_of" not in u]
+    pat = ["A" if u["device"].startswith("XX2_X1_") else "B" for u in real]
+    assert pat == pat[::-1] and pat[:4] == ["A", "B", "B", "A"]
+    side = Counter((u["nets"]["P"], "P") for u in real) + Counter((u["nets"]["N"], "N") for u in real)
+    inner = S.internal_nets(blk, ir)
+    assert all(side[(n, "P")] in (0, 2) and side[(n, "N")] in (0, 2) for n in inner)
+    assert len(inner) == 38 and not {"Vop", "Vom", "x2_Vcm"} & inner
+    # the strings' output ends: Vop's at the left end, Vom's next to the right end (the palindrome ends on pack A)
+    assert real[0]["device"] == "XX2_X1_R1" and real[-2]["device"] == "XX2_X2_R16"
+
+
+def test_shared_rows_only_when_asked_and_macros_flatten_by_their_origin():
+    """Plan v4 Phase 8: two symmetric blocks may share a row only inside a macro (shared_rows), which is then centred;
+    a macro's blocks are placed at the macro's origin when flattened."""
+    from src.s5.place import realise
+    from src.s5.macro import flatten
+
+    def var(w):
+        return {"id": "AB", "geometry": {"bbox_um": [0.0, 0.0, w, 5.0], "row": [0.0, 0.0, w, 5.0]},
+                "pins": {"tracks": {"top": {}, "bottom": {}}, "body": None}}
+    blocks = {"p": {"symmetric": True, "type": "nmos"}, "q": {"symmetric": True, "type": "nmos"}}
+    ch = {"p": (var(4.0), False), "q": (var(6.0), False)}
+    assert realise([["p", "q"]], ch, blocks) is None
+    pl = realise([["p", "q"]], ch, blocks, shared_rows=True)
+    assert abs(pl["bbox"][0] + pl["bbox"][2]) < 1e-9          # the row is centred
+    top = {"rows": [["m"]], "bbox": [0, 0, 1, 1], "area_um2": 1,
+           "blocks": {"m": {"origin": [10.0, -2.0], "bbox": [0, 0, 1, 1], "variant": "w100"}}}
+    flat = flatten(top, {"m": {"w100": {"placement": pl, "method": "enumeration", "cost": 1.0}}})
+    assert flat["blocks"]["p"]["origin"][0] == round(pl["blocks"]["p"]["origin"][0] + 10.0, 4)
+    assert flat["blocks"]["q"]["macro"] == "m" and flat["macros"]["m"]["shape"] == "w100"

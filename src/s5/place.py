@@ -45,7 +45,7 @@ def local(variant: dict, flip: bool) -> dict:
     x0, y0, x1, y1 = variant["geometry"]["bbox_um"]
     row = variant["geometry"]["row"]
     s = -1.0 if flip else 1.0
-    pins = []
+    pins = [{**q, "y": s * q["y"]} for q in variant["pins"].get("list", [])]   # a placed macro's pins (Phase 8)
     for side in ("top", "bottom"):
         for net, t in variant["pins"]["tracks"][side].items():
             pins.append({"net": net, "x0": t["x"][0], "x1": t["x"][1], "y": s * t["y"], "kind": "track"})
@@ -58,15 +58,19 @@ def local(variant: dict, flip: bool) -> dict:
             "keepouts": keep}
 
 
-def realise(rows: list, choice: dict, blocks: dict) -> dict | None:
+def realise(rows: list, choice: dict, blocks: dict, shared_rows: bool = False) -> dict | None:
     """rows: [[block, ...], ...] top to bottom; choice: {block: (variant, flip)}. None if two symmetric blocks share
-    a row. Returns the placed blocks (origin, bounding box, pins) and the overall bounding box."""
+    a row, unless shared_rows (inside a macro under a hard outline, plan v4 Phase 8): then such a row is centred and
+    each pair keeps only its own symmetry. Returns the placed blocks (origin, bounding box, pins) and the overall
+    bounding box."""
     placed, y_top = {}, 0.0
     for row in rows:
         geo = {b: local(choice[b][0], choice[b][1]) for b in row}
         sym = [b for b in row if blocks[b]["symmetric"]]
-        if len(sym) > 1:
+        if len(sym) > 1 and not shared_rows:
             return None
+        if len(sym) > 1:
+            sym = []                                # several pairs in a row: the row is centred
         h = max(g["bbox"][3] - g["bbox"][1] for g in geo.values())
         y_bot = y_top - h
         xs, x = {}, 0.0
@@ -128,7 +132,7 @@ def wires(pl: dict) -> dict:
     by = {}
     for b, p in pl["blocks"].items():
         for q in p["pins"]:
-            by.setdefault(q["net"], []).append({**q, "block": b})
+            by.setdefault(q["net"], []).append({**q, "block": q.get("inner") or b})   # a macro's pin: its own block
     by = {n: joined_once(ps) for n, ps in by.items()}
     return {n: round(hpwl(ps), 4) for n, ps in by.items() if len(ps) > 1}
 
@@ -156,7 +160,8 @@ def enumerate_candidates(blocks: dict, max_len: dict, drow: dict | None = None) 
     pm = [b for b in blocks if blocks[b]["type"] == "pmos"]
     nm = [b for b in blocks if blocks[b]["type"] != "pmos"]
     a_ref = sum(min(v["geometry"]["area_um2"] for v in blocks[b]["variants"]) for b in blocks)
-    opts = {b: [(v, f) for v in blocks[b]["variants"] for f in (False, True)] for b in blocks}
+    opts = {b: [(v, f) for v in blocks[b]["variants"] for f in ((False,) if blocks[b]["type"] == "macro" else (False, True))]
+            for b in blocks}   # a macro (plan v4 Phase 8) is not flipped
     names = list(blocks)
     n_choice = 1
     for b in names:

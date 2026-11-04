@@ -7,17 +7,23 @@
     {
      "step": "ingest",
      "rc": 0,
-     "seconds": 20.4,
+     "seconds": 19.5,
      "log": "runs/logs/flow/ttsky25a_fd/S0_ingest.log"
     },
     {
      "step": "pcell_binding",
-     "rc": 1,
-     "seconds": 361.2,
+     "rc": 0,
+     "seconds": 599.5,
      "log": "runs/logs/flow/ttsky25a_fd/S0_pcell_binding.log"
+    },
+    {
+     "step": "pvt",
+     "rc": 0,
+     "seconds": 744.9,
+     "log": "runs/logs/flow/ttsky25a_fd/S0_pvt.log"
     }
    ],
-   "started": "2026-10-26T18:28:23",
+   "started": "2026-11-04T06:21:48",
    "gates": {
     "G0.1_inventory": true,
     "G0.2_validation": true,
@@ -26,36 +32,38 @@
     "G0.5_round_trip_lvs": true,
     "G0.6_testbench_reproduction": true,
     "G0.8_external_reference": true,
-    "G0.7_pcell_binding_drc_lvs": false
+    "G0.7_pcell_binding_drc_lvs": true,
+    "G0.9_pvt (info)": null,
+    "G0.10_mismatch_mc (info)": null
    },
-   "status": "FAIL",
-   "failed_gates": [
-    "G0.7_pcell_binding_drc_lvs"
-   ],
-   "seconds": 381.6
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 1363.9
   },
   "S1": {
    "stage": "S1",
    "steps": [
     {
      "step": "run",
-     "rc": 0,
-     "seconds": 509.9,
+     "rc": 3,
+     "seconds": 230.1,
      "log": "runs/logs/flow/ttsky25a_fd/S1_run.log"
     }
    ],
-   "started": "2026-10-26T19:41:36",
+   "started": "2026-11-04T06:44:32",
    "gates": {
     "G1.1_operating_point": true,
-    "G1.2_linear_model_vs_spice": true,
+    "G1.2_linear_model_vs_spice": false,
     "G1.3_sensitivity_vs_spice": true,
     "G1.4_matching_groups": true,
     "G1.5_symbolic_vs_spice (reported, not gated)": null,
     "G1.6_resistance_sensitivity_vs_spice": true
    },
-   "status": "PASS",
-   "failed_gates": [],
-   "seconds": 509.9
+   "status": "FAIL",
+   "failed_gates": [
+    "G1.2_linear_model_vs_spice"
+   ],
+   "seconds": 230.1
   },
   "S2": {
    "stage": "S2",
@@ -63,46 +71,45 @@
     {
      "step": "cells",
      "rc": 0,
-     "seconds": 72.5,
+     "seconds": 38.0,
      "log": "runs/logs/flow/ttsky25a_fd/S2_cells.log"
     },
     {
      "step": "run",
-     "rc": 1,
-     "seconds": 7223.9,
+     "rc": 0,
+     "seconds": 4581.8,
      "log": "runs/logs/flow/ttsky25a_fd/S2_run.log"
     }
    ],
-   "started": "2026-10-27T07:22:19",
+   "started": "2026-11-04T06:48:23",
    "gates": {
     "G2.9_pvt_constraints (info)": null,
     "G2.0_expected_layout_use (info)": null,
-    "G2.7_library_floors_feasible": false,
+    "G2.7_library_floors_feasible": true,
     "G2.3_allocation": true,
     "G2.5_spice_budget_verification": true,
     "G2.8_baselines (info)": null,
+    "G2.10_model_agreement (info)": null,
     "G2.4_linear_all_budgets_at_once": null,
     "G2.6_hierarchy_sums": true,
     "G2.1_names_resolve": true,
     "G2.2_units_and_provenance": true
    },
-   "status": "FAIL",
-   "failed_gates": [
-    "G2.7_library_floors_feasible"
-   ],
-   "seconds": 7296.4
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 4619.9
   },
   "S3": {
    "stage": "S3",
    "steps": [
     {
      "step": "run",
-     "rc": 1,
-     "seconds": 139.9,
+     "rc": 3,
+     "seconds": 3179.9,
      "log": "runs/logs/flow/ttsky25a_fd/S3_run.log"
     }
    ],
-   "started": "2026-10-27T09:23:55",
+   "started": "2026-11-04T08:05:23",
    "gates": {
     "G3.4_option_table_complete": true,
     "G3.7_modes (info)": null,
@@ -117,7 +124,57 @@
     "G3.3_all_chosen_devices_in_circuit",
     "G3.5_no_relaxation"
    ],
-   "seconds": 139.9
+   "seconds": 3179.9
+  },
+  "S4": {
+   "stage": "S4",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 0,
+     "seconds": 235.9,
+     "log": "runs/logs/flow/ttsky25a_fd/S4_run.log"
+    }
+   ],
+   "started": "2026-11-04T09:48:13",
+   "gates": {
+    "G4.1_one_type_and_body_per_block": true,
+    "G4.2_DRC_every_variant": true,
+    "G4.3_LVS_every_variant": true,
+    "G4.4_symmetry": true,
+    "G4.5_latchup_tap_distance": true,
+    "G4.6_port_capacitance (info)": null
+   },
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 235.9
+  },
+  "S5": {
+   "stage": "S5",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 3,
+     "seconds": 279.8,
+     "log": "runs/logs/flow/ttsky25a_fd/S5_run.log"
+    }
+   ],
+   "started": "2026-11-04T10:03:53",
+   "gates": {
+    "G5.1_placement_legal": true,
+    "G5.5_area_vs_area_only (info)": null,
+    "G5.6_outline": true,
+    "G5.2_top_DRC": false,
+    "G5.3_top_LVS": false,
+    "G5.4_route_rules": false
+   },
+   "status": "FAIL",
+   "failed_gates": [
+    "G5.2_top_DRC",
+    "G5.3_top_LVS",
+    "G5.4_route_rules"
+   ],
+   "seconds": 279.8
   }
  }
 }

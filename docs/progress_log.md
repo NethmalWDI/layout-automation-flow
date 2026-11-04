@@ -1178,3 +1178,27 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
     violations; G7.2 fails on GBW (22.13 MHz, 1.08 of eta × margin). With the capacitor's plate coupling cancelled
     (G7.5): GBW 22.71 MHz (0.58), PM 64.77° (0.21): within eta on every spec.
   - 176 tests pass; 28 golden comparisons match.
+- **Phase 8 plan (2026-11-04): `ttsky25a_fd`, its given hierarchy** (`docs/plan_v5_ttsky25a.md`). Imasha asked for the
+  plan first and for how decisions are taken. Facts gathered: S0–S3 outputs predate Phase A and ringless S3 (re-run
+  needed); 54 transistors (139 copies after m), 2 MIM arrays, 40 poly resistors; 32 blocks (x1 14, x2 7, top 11), none
+  crossing a sub-circuit; the tile's floorplan read from its GDS. The plan: macros per sub-circuit, seeded annealing
+  inside, enumeration on top, one symmetry axis, a grid router, m-arrays and resistor blocks; no LLM decides anything
+  in the flow. No code.
+- **Phase 8 started (2026-11-04, 06:10–06:35 CET so far).** Imasha's decisions folded into `docs/plan_v5_ttsky25a.md`
+  (section 0; how area is optimised, section 8; books, branch, independent LLM, section 9) and fixed in PREREG
+  (amendment of 2026-11-04 morning) before any Phase 8 code.
+  - 8.1: S0–S3 re-run on `ttsky25a_fd` running from 06:21 (`runs/logs/v4_p8_tt_S0S3.log`).
+  - 8.2 (S4) code, switched on by `inputs/ttsky25a_fd/layout.yaml` (S0–S3 never read it; the 5T's and LOADBench's
+    plans are unchanged unit for unit, a test checks it): m copies as units (Netgen merges them against `m=`); common
+    centroid / interdigitated rows only (ABBA, A B C C B A, and a mirror-image row for odd m such as m = 9); a dummy
+    at each end of every matched row (Netgen keeps them; they are added to S5's top-level reference); resistor blocks
+    from the PDK generator without its ring, the two res_packs interleaved A B B A with each string alternating
+    orientation and internal nets on short packed tracks (left-edge); MIM arrays (5 units). Built and signed off
+    alone: the res_packs block (42 units, 50 × 55 µm, DRC 0, LVS match), XC1 (5 units, 78 × 14 µm), and LOADBench's
+    capacitor identical to the committed one. 33 tests in `tests/test_s4s5.py` pass.
+- **Phase 8, part 1 (2026-11-04, to 10:09 CET).** 8.1 ended: S0 PASS, S1 FAIL G1.2 (a PM convention, row 81), S2 PASS,
+  S3 FAIL G3.3/G3.5 (every spec met); goldens S1–S3 of `ttsky25a_fd` refreshed. S4 PASS after three fixes (rows 82–84):
+  33 blocks, 55 variants all signed off. S5's placement by macros (`src/s5/macro.py`): after a dry run, shared rows
+  inside a macro and three shapes per macro (PREREG amendment, plan section 10); both costs fit 250 × 200 µm
+  (227 × 197 and 211 × 170 µm), legal, unrouted DRC 0; the budget-aware one uses 37 % less wire budget at 24.8 % more
+  area. Routing next (the grid router). 181 tests, 29 goldens pass.

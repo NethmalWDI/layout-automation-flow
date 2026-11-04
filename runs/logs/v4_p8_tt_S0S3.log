@@ -1,0 +1,15 @@
+== ttsky25a_fd
+  S0/ingest          rc=0     19.5 s  log: runs/logs/flow/ttsky25a_fd/S0_ingest.log
+  S0/pcell_binding   rc=0    599.5 s  log: runs/logs/flow/ttsky25a_fd/S0_pcell_binding.log
+  S0/pvt             rc=0    744.9 s  log: runs/logs/flow/ttsky25a_fd/S0_pvt.log
+  S0: PASS
+== ttsky25a_fd
+  S1/run             rc=3    230.1 s  log: runs/logs/flow/ttsky25a_fd/S1_run.log
+  S1: FAIL  failed: ['G1.2_linear_model_vs_spice']
+== ttsky25a_fd
+  S2/cells           rc=0     38.0 s  log: runs/logs/flow/ttsky25a_fd/S2_cells.log
+  S2/run             rc=0   4581.8 s  log: runs/logs/flow/ttsky25a_fd/S2_run.log
+  S2: PASS
+== ttsky25a_fd
+  S3/run             rc=3   3179.9 s  log: runs/logs/flow/ttsky25a_fd/S3_run.log
+  S3: FAIL  failed: ['G3.3_all_chosen_devices_in_circuit', 'G3.5_no_relaxation']
