@@ -37,17 +37,17 @@ if ol:
     a.fmt, a.fmt_x, a.fmt_y = "", "", ""
     view.insert_annotation(a)
     out["outline_um"] = [ow, oh]
-name = globals().get("cell")
-if name:
-    found = []
+names = [x for x in (globals().get("cell") or "").split(",") if x]   # one cell name or several, comma-separated
+if names:
+    found = {n: [] for n in names}
     it = top.begin_instances_rec()
     while not it.at_end():
-        if it.inst_cell().name == name:
+        if it.inst_cell().name in found:
             # the instance's box in the top cell: the cell's own box, through the instance and its parents
             b = it.inst_cell().dbbox().transformed(it.dtrans() * it.inst_dtrans())
-            found.append([round(b.left, 3), round(b.bottom, 3), round(b.right, 3), round(b.top, 3)])
+            found[it.inst_cell().name].append([round(b.left, 3), round(b.bottom, 3), round(b.right, 3), round(b.top, 3)])
         it.next()
-    out["cell"] = {"name": name, "bboxes_um": found}
+    out["cells"] = found
 view.zoom_box(pya.DBox(cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2))
 view.save_image(png, int(w * ppu), int(h * ppu))
 print("REPORT_PNG " + json.dumps(out))

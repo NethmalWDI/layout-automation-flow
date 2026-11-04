@@ -1239,3 +1239,12 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   hand-drawn tile (area of its op-amp, 156.8 × 218.0 µm read from its GDS; drawn → C-only losses), failed gates,
   assumptions, open questions and a glossary. Every number is read from `outputs/`. Two charts (area; wiring loss)
   with the validated reference palette.
+- **The ttsky report, expanded (2026-11-04, 14:40–15:00 CET).** Imasha asked for a comprehensive report. Added: the
+  designer's four schematics drawn by xschem from a scratch copy (the frozen sources refer to their symbols by the
+  designer's absolute paths) with every laid-out device boxed in its sub-circuit's colour and labelled with its S4
+  block number; every block pictured and numbered (B1–B33) and all 53 variants in an appendix; the layouts with the
+  sub-circuits outlined and blocks numbered; the tile's regions by its own cell names (the sub-circuit is inferred
+  from the name: ASSUMPTION, FEEDBACK NEEDED); S1/S2's main nodes (role, pole rank, sensitivity) with their budgets
+  and what the layout gave them; the exact S4 and S5 algorithms with the cost function (constants read from the
+  code); who decides what (code, Imasha, LLM); the novelty status against `docs/05`; the planned LLM integration;
+  a note on every figure. `scripts/report_figures.py`; `scripts/report_layout_png.py` measures several cells.

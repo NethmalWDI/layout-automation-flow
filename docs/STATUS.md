@@ -1310,6 +1310,10 @@ Step 0 record:
 2. To fit 250 × 200 µm, matched pairs inside a macro may share a row and lose the single shared axis (plan section 10).
    Keep the outline first, or is the shared axis worth a bigger outline?
 
+**FEEDBACK NEEDED (Claude Code, 2026-11-04 15:00, the ttsky report):** the tile's regions are matched to the
+schematic's sub-circuits by their cell names only (Diff_opamp_ly = x1, cs_p_5 = x2's PMOS, bias_dummy = bias);
+is that right, and what are block_01–04, res, res_5 and the capacitor cells? (Report section 8, question 5.)
+
 **Answered 2026-11-04 14:25 (Imasha), Phase 8.7:** (1) matching stays "common centroid or interdigitated as needed": the variant follows the spec- and area-driven cost, no extra rule without a reason (no change; G5.7 reports the result). (2) Not the independent-LLM comparison yet: first a full ttsky report for any reader, with the layouts, post-layout results and the hand-layout comparison (done: `docs/ttsky25a_fd_report.html`).
 
 ~~**FEEDBACK NEEDED (Claude Code, 2026-11-04 14:20, Phase 8.7):**~~ (answered above)
@@ -1647,6 +1651,11 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-04 afternoon (Claude Code): **the ttsky report, expanded** at Imasha's request: the schematics with the
+  sub-circuits and every block marked in colour (xschem, from a scratch copy), every block numbered (B1–B33) and
+  pictured, the layouts annotated, the tile's regions by its cell names, S1/S2's main nodes with their budgets
+  and results, the exact S4/S5 algorithms and cost, who decides what (code / Imasha / LLM), the novelty status,
+  the planned LLM integration, and every variant in an appendix. `scripts/report_figures.py`.
 - 2026-11-04 afternoon (Claude Code): **the ttsky report** (`docs/ttsky25a_fd_report.md` and `.html`,
   `scripts/make_ttsky_report.py`, `scripts/report_layout_png.py`): the layouts, matching, post-layout results and
   the comparison with the hand-drawn tile, for any reader, every number read from `outputs/`. The tile's op-amp

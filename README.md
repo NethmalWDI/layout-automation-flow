@@ -78,7 +78,9 @@ ids and timestamps change. Discarding the changes in GitHub Desktop returns to t
 `docs/s4_s7_walkthrough.html` is its companion (`python3 scripts/make_s4s7_walkthrough.py`).
 `docs/ttsky25a_fd_report.html` is the full report on `ttsky25a_fd`'s layout for any reader, with the comparison
 against the hand layout (`python3 scripts/make_ttsky_report.py`, after `source scripts/env.sh`; its pictures go to
-`outputs/report/ttsky25a_fd/`, all three layouts at one scale).
+`outputs/report/ttsky25a_fd/`, all three layouts at one scale). `scripts/report_figures.py` draws the designer's
+schematics from a scratch copy (`runs/tmp/report_sch/`; the sources stay untouched) with every block marked, and
+the annotated layouts).
 
 **Further reading:** `docs/flow_record.md` (the journey: what was built, what went wrong and how it was found;
 section 7.13 is the current version, 7.14 this review), `docs/progress_log.md`, and `PREREG.md` (hypotheses and

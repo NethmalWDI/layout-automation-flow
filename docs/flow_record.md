@@ -2777,6 +2777,9 @@ design's layout for a reader who does not know the flow, with the comparison aga
 op-amp (`Diff_Opamp`) measures 156.8 × 218.0 µm (34 182 µm²) in its GDS: the flow's layouts are 1.31 × (budget-aware)
 and 1.06 × (area-only) that area. Imasha kept the matching rule as it is (common centroid or interdigitated, chosen
 by the cost).
+The report was then expanded at Imasha's request (schematics with the blocks marked, every block, the main nodes and
+budgets, the exact algorithms, who decides what, the novelty status and the planned LLM work). Drawing the
+designer's schematics needed a scratch copy: they refer to their symbols by the designer's own absolute paths.
 <!-- section7:end -->
 
 ---
