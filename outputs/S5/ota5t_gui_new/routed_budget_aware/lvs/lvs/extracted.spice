@@ -1,0 +1,55 @@
+* NGSPICE file created from ota5t_gui_new_routed.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_5VM7HL G D S VSUBS
+X0 S G D VSUBS sky130_fd_pr__nfet_01v8 ad=6.96 pd=48.58 as=6.96 ps=48.58 w=24 l=1
+.ends
+
+.subckt nfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng S B G D
+Xnfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_5VM7HL
+.ends
+
+.subckt XM5__A net1 VSS VSS_body net2
+Xnfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng_0 VSS VSS_body net2 net1 nfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng
+.ends
+
+.subckt sky130_fd_pr__nfet_01v8_BXZS2L a_129_n1200# G D0 S1 VSUBS
+X0 S1 G D0 VSUBS sky130_fd_pr__nfet_01v8 ad=1.74 pd=12.29 as=3.48 ps=24.58 w=12 l=0.5
+X1 a_129_n1200# G S1 VSUBS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=1.74 ps=12.29 w=12 l=0.5
+.ends
+
+.subckt nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS_ng B G S D
+Xnfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS_ng_pc S G S D B sky130_fd_pr__nfet_01v8_BXZS2L
+.ends
+
+.subckt XM1__A net1 net3 INP VSS_body
+Xnfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS_ng_0 VSS_body INP net1 net3 nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS_ng
+.ends
+
+.subckt sky130_fd_pr__pfet_01v8_8HDVAE G D w_n194_n900# S
+X0 S G D w_n194_n900# sky130_fd_pr__pfet_01v8 ad=2.32 pd=16.58 as=2.32 ps=16.58 w=8 l=1
+.ends
+
+.subckt pfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng S B G D
+Xpfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng_pc G D B S sky130_fd_pr__pfet_01v8_8HDVAE
+.ends
+
+.subckt XM4__A net3 OUTP VDD_body VDD
+Xpfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng_0 VDD VDD_body net3 OUTP pfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng
+.ends
+
+.subckt XM3__A net3 VDD_body VDD
+Xpfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng_0 VDD VDD_body net3 net3 pfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng
+.ends
+
+.subckt XM2__A net1 OUTP INN VSS_body
+Xnfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS_ng_0 VSS_body INN net1 OUTP nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS_ng
+.ends
+
+.subckt ota5t_gui_new_routed OUTP INN INP VBIAS VDD VSS
+XXM5__A_0 XM5__A_0/net1 VSS VSS VBIAS XM5__A
+XXM1__A_0 XM5__A_0/net1 XM4__A_0/net3 INP VSS XM1__A
+XXM4__A_0 XM4__A_0/net3 OUTP VDD VDD XM4__A
+XXM3__A_0 XM4__A_0/net3 VDD VDD XM3__A
+XXM2__A_0 XM5__A_0/net1 OUTP INN VSS XM2__A
+.ends
+

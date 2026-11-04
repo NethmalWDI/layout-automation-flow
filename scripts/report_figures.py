@@ -107,7 +107,8 @@ def annotate(png: Path, window: list, rects: list, labels: list, out: Path, titl
     from matplotlib.patches import Patch, Rectangle
     img = mpimg.imread(str(png))
     x0, y0, x1, y1 = window
-    fig, ax = plt.subplots(figsize=(9, 9 * (y1 - y0) / (x1 - x0)), dpi=160)
+    k = 9.0 / max(x1 - x0, y1 - y0)                  # the longer side 9 inches, whatever the layout's shape
+    fig, ax = plt.subplots(figsize=(max(4.5, (x1 - x0) * k + 1.2), (y1 - y0) * k + 1.2), dpi=150)
     ax.imshow(img, extent=[x0, x1, y0, y1], interpolation="lanczos")
     halo = [pe.withStroke(linewidth=2.6, foreground="white")]
     for rect in rects:

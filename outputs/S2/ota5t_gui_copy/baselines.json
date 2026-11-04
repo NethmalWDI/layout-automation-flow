@@ -1,0 +1,1320 @@
+{
+  "run_id": "2026-11-04T16:31:20-28677abb",
+  "eta": 0.5,
+  "design": "ota5t_gui_copy",
+  "alloc": "v2",
+  "methods": {
+    "per_net": {
+      "budgets": {
+        "OUTP": 37.593721540000004,
+        "net1": 77.76243826,
+        "net3": 69.65924134,
+        "OUTP~net1": 8.791684369999999,
+        "OUTP~net3": 7.274684369999999,
+        "OUTP~INP": 1.99833842,
+        "OUTP~INN": 6.28603842,
+        "net1~net3": 10.646176270000002,
+        "net1~INP": 6.28603842,
+        "net1~INN": 6.28603842,
+        "net3~INP": 6.28603842,
+        "net3~INN": 1.99833842,
+        "XM3+XM4.d": 331.7732095802748,
+        "XM3+XM4.g": 783.2886904761904,
+        "XM3+XM4.s": 294.8484058726426,
+        "XM1+XM2.d": 206.55081182670676,
+        "XM1+XM2.g": 2861.017857142858,
+        "XM1+XM2.s": 206.55081182670676,
+        "XM5.d": 121.74832788924982,
+        "XM5.g": 523.5625000000001,
+        "XM5.s": 140.89054695304694
+      },
+      "score": {
+        "worst_use_of_allowed": 1.8941220521259348,
+        "use_of_allowed": {
+          "gain_db": 1.5878988523563724,
+          "gbw_mhz": 1.0584299088094307,
+          "pm_deg": 1.4934146723889208,
+          "vnoise_nv_rthz": 0.25436669704096837,
+          "sat_XM3": 0.03769209013850428,
+          "sat_XM4": 0.03769209013850428,
+          "sat_XM1": 0.3730775567438696,
+          "sat_XM2": 0.3730775567438696,
+          "sat_XM5": 1.8941220521259348
+        },
+        "unsafe_checks": [
+          "gain_db",
+          "gbw_mhz",
+          "pm_deg",
+          "sat_XM5"
+        ],
+        "n_elements": 21,
+        "starved": [],
+        "below_floor": [],
+        "min_ratio_to_need": 6.061847705542168,
+        "geo_mean_ratio_to_need": 9.70974305879724,
+        "spice_worst_use_of_allowed": 1.8355478331970565,
+        "spice_specs_violated": [],
+        "spice_failed_runs": [],
+        "spice_checks": 18,
+        "spice_worst_use_of_allowed_nominal": 1.8355478331970565,
+        "outcome_nominal": "unsafe",
+        "outcome": "unsafe"
+      },
+      "spice": {
+        "gain_db": {
+          "spice_use_frac_of_margin": 0.9113730111962279,
+          "first_order_use_frac_of_allowed": 1.5878988523563724,
+          "spice_use_frac_of_allowed": 1.8227460223924559,
+          "diff_frac_of_margin": 0.11742358501804172,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.1504
+        },
+        "gbw_mhz": {
+          "spice_use_frac_of_margin": 0.39295482801491916,
+          "first_order_use_frac_of_allowed": 1.0584299088094307,
+          "spice_use_frac_of_allowed": 0.7859096560298383,
+          "diff_frac_of_margin": 0.13626012638979618,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 71.268
+        },
+        "pm_deg": {
+          "spice_use_frac_of_margin": 0.5788113571660586,
+          "first_order_use_frac_of_allowed": 1.4934146723889208,
+          "spice_use_frac_of_allowed": 1.1576227143321172,
+          "diff_frac_of_margin": 0.16789597902840184,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 68.8175
+        },
+        "vnoise_nv_rthz": {
+          "spice_use_frac_of_margin": 0.11329919915977417,
+          "first_order_use_frac_of_allowed": 0.25436669704096837,
+          "spice_use_frac_of_allowed": 0.22659839831954834,
+          "diff_frac_of_margin": 0.013884149360710028,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 345.968
+        },
+        "sat_XM3": {
+          "spice_use_frac_of_margin": 0.01622696587865951,
+          "first_order_use_frac_of_allowed": 0.03769209013850428,
+          "spice_use_frac_of_allowed": 0.03245393175731902,
+          "diff_frac_of_margin": 0.002619079190592633,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 1.031912
+        },
+        "sat_XM4": {
+          "spice_use_frac_of_margin": 0.01622696587865951,
+          "first_order_use_frac_of_allowed": 0.03769209013850428,
+          "spice_use_frac_of_allowed": 0.03245393175731902,
+          "diff_frac_of_margin": 0.002619079190592633,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 1.031912
+        },
+        "sat_XM1": {
+          "spice_use_frac_of_margin": 0.18609160723237655,
+          "first_order_use_frac_of_allowed": 0.3730775567438696,
+          "spice_use_frac_of_allowed": 0.3721832144647531,
+          "diff_frac_of_margin": 0.0004471711395582351,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.1058566
+        },
+        "sat_XM2": {
+          "spice_use_frac_of_margin": 0.18609160723237655,
+          "first_order_use_frac_of_allowed": 0.3730775567438696,
+          "spice_use_frac_of_allowed": 0.3721832144647531,
+          "diff_frac_of_margin": 0.0004471711395582351,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.1058566
+        },
+        "sat_XM5": {
+          "spice_use_frac_of_margin": 0.9177739165985282,
+          "first_order_use_frac_of_allowed": 1.8941220521259348,
+          "spice_use_frac_of_allowed": 1.8355478331970565,
+          "diff_frac_of_margin": 0.029287109464439184,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.0016089999999999993
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.6212110605530274,
+          "first_order_use_frac_of_allowed": 1.8852644196932289,
+          "spice_use_frac_of_allowed": 1.2424221211060549,
+          "diff_frac_of_margin": 0.321421149293587,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.5411
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "spice_use_frac_of_margin": 0.7000106142625365,
+          "first_order_use_frac_of_allowed": 1.8449942079485453,
+          "spice_use_frac_of_allowed": 1.400021228525073,
+          "diff_frac_of_margin": 0.22248648971173618,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 65.9352
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "spice_use_frac_of_margin": 0.6975502118803437,
+          "first_order_use_frac_of_allowed": 1.8392513547983151,
+          "spice_use_frac_of_allowed": 1.3951004237606874,
+          "diff_frac_of_margin": 0.22207546551881388,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 66.031
+        },
+        "gbw_mhz@ss_v0.9_t85": {
+          "spice_use_frac_of_margin": 0.3343352751772787,
+          "first_order_use_frac_of_allowed": 2.12099804919107,
+          "spice_use_frac_of_allowed": 0.6686705503545574,
+          "diff_frac_of_margin": 0.7261637494182563,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 34.3062
+        },
+        "gbw_mhz@tt_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.39116255661801724,
+          "first_order_use_frac_of_allowed": 7.722036145343174,
+          "spice_use_frac_of_allowed": 0.7823251132360345,
+          "diff_frac_of_margin": 3.4698555160535696,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 23.0244
+        },
+        "gain_db@ss_v1_t85": {
+          "spice_use_frac_of_margin": 0.6607300482891106,
+          "first_order_use_frac_of_allowed": 1.4052629959463956,
+          "spice_use_frac_of_allowed": 1.3214600965782213,
+          "diff_frac_of_margin": 0.04190144968408709,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.6534
+        },
+        "gain_db@tt_v1_t27": {
+          "spice_use_frac_of_margin": 0.9113730111962279,
+          "first_order_use_frac_of_allowed": 1.5878988523563806,
+          "spice_use_frac_of_allowed": 1.8227460223924559,
+          "diff_frac_of_margin": 0.11742358501803753,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.1504
+        },
+        "gbw_mhz@ss_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.35711966200533923,
+          "first_order_use_frac_of_allowed": 1.6885666733229898,
+          "spice_use_frac_of_allowed": 0.7142393240106785,
+          "diff_frac_of_margin": 0.4871636746561557,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 38.8074
+        },
+        "gbw_mhz@tt_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.3835237861473988,
+          "first_order_use_frac_of_allowed": 1.5916205796168112,
+          "spice_use_frac_of_allowed": 0.7670475722947976,
+          "diff_frac_of_margin": 0.41228650366100683,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 40.3439
+        }
+      }
+    },
+    "equal": {
+      "budgets": {
+        "OUTP": 26.2222892315338,
+        "net1": 77.76243826,
+        "net3": 12.636132634274576,
+        "OUTP~net1": 8.791684369999999,
+        "OUTP~net3": 6.845390868385314,
+        "OUTP~INP": 1.99833842,
+        "OUTP~INN": 6.28603842,
+        "net1~net3": 10.646176270000002,
+        "net1~INP": 6.28603842,
+        "net1~INN": 6.28603842,
+        "net3~INP": 6.28603842,
+        "net3~INN": 1.99833842,
+        "XM3+XM4.d": 331.7732095802748,
+        "XM3+XM4.g": 783.2886904761904,
+        "XM3+XM4.s": 98.28280195754755,
+        "XM1+XM2.d": 119.11279567628581,
+        "XM1+XM2.g": 269.63067907400455,
+        "XM1+XM2.s": 28.878258079064928,
+        "XM5.d": 30.437081972312455,
+        "XM5.g": 523.5625000000001,
+        "XM5.s": 33.46259948788814
+      },
+      "score": {
+        "worst_use_of_allowed": 0.6765397056081864,
+        "use_of_allowed": {
+          "gain_db": 0.6765397056081864,
+          "gbw_mhz": 0.32077596584336754,
+          "pm_deg": 0.392040243559663,
+          "vnoise_nv_rthz": 0.04779960811204164,
+          "sat_XM3": 0.029208768393422728,
+          "sat_XM4": 0.029208768393422728,
+          "sat_XM1": 0.15742481747093695,
+          "sat_XM2": 0.15742481747093695,
+          "sat_XM5": 0.38811450501685946
+        },
+        "unsafe_checks": [],
+        "n_elements": 21,
+        "starved": [
+          "XM1+XM2.g"
+        ],
+        "below_floor": [],
+        "min_ratio_to_need": 0.9424292071468229,
+        "geo_mean_ratio_to_need": 5.769788782818517,
+        "spice_worst_use_of_allowed": 2.758409662808254,
+        "spice_specs_violated": [
+          "gbw_mhz@tt_v0.9_t27"
+        ],
+        "spice_failed_runs": [],
+        "spice_checks": 18,
+        "spice_worst_use_of_allowed_nominal": 0.7142015321154961,
+        "outcome_nominal": "ok",
+        "outcome": "unsafe"
+      },
+      "spice": {
+        "gain_db": {
+          "spice_use_frac_of_margin": 0.35710076605774804,
+          "first_order_use_frac_of_allowed": 0.6765397056081864,
+          "spice_use_frac_of_allowed": 0.7142015321154961,
+          "diff_frac_of_margin": 0.018830913253654824,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.091
+        },
+        "gbw_mhz": {
+          "spice_use_frac_of_margin": 0.14798531762477052,
+          "first_order_use_frac_of_allowed": 0.32077596584336754,
+          "spice_use_frac_of_allowed": 0.29597063524954104,
+          "diff_frac_of_margin": 0.012402665296913239,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 91.9569
+        },
+        "pm_deg": {
+          "spice_use_frac_of_margin": 0.18240919426027444,
+          "first_order_use_frac_of_allowed": 0.392040243559663,
+          "spice_use_frac_of_allowed": 0.3648183885205489,
+          "diff_frac_of_margin": 0.01361092751955704,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 77.1161
+        },
+        "vnoise_nv_rthz": {
+          "spice_use_frac_of_margin": 0.023024156492056642,
+          "first_order_use_frac_of_allowed": 0.04779960811204164,
+          "spice_use_frac_of_allowed": 0.046048312984113285,
+          "diff_frac_of_margin": 0.0008756475639641765,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 340.467
+        },
+        "sat_XM3": {
+          "spice_use_frac_of_margin": 0.014116249560267238,
+          "first_order_use_frac_of_allowed": 0.029208768393422728,
+          "spice_use_frac_of_allowed": 0.028232499120534476,
+          "diff_frac_of_margin": 0.00048813463644412644,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 1.034126
+        },
+        "sat_XM4": {
+          "spice_use_frac_of_margin": 0.014116249560267238,
+          "first_order_use_frac_of_allowed": 0.029208768393422728,
+          "spice_use_frac_of_allowed": 0.028232499120534476,
+          "diff_frac_of_margin": 0.00048813463644412644,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 1.034126
+        },
+        "sat_XM1": {
+          "spice_use_frac_of_margin": 0.07860242534960903,
+          "first_order_use_frac_of_allowed": 0.15742481747093695,
+          "spice_use_frac_of_allowed": 0.15720485069921805,
+          "diff_frac_of_margin": 0.00010998338585944765,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.11983659999999999
+        },
+        "sat_XM2": {
+          "spice_use_frac_of_margin": 0.07860242534960903,
+          "first_order_use_frac_of_allowed": 0.15742481747093695,
+          "spice_use_frac_of_allowed": 0.15720485069921805,
+          "diff_frac_of_margin": 0.00010998338585944765,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.11983659999999999
+        },
+        "sat_XM5": {
+          "spice_use_frac_of_margin": 0.1934791496320529,
+          "first_order_use_frac_of_allowed": 0.38811450501685946,
+          "spice_use_frac_of_allowed": 0.3869582992641058,
+          "diff_frac_of_margin": 0.0005781028763768365,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.01578199999999999
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.2513125656282802,
+          "first_order_use_frac_of_allowed": 0.8030702734121358,
+          "spice_use_frac_of_allowed": 0.5026251312565604,
+          "diff_frac_of_margin": 0.15022257107778764,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.0695
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "spice_use_frac_of_margin": 0.21386222687228015,
+          "first_order_use_frac_of_allowed": 0.4571424582100159,
+          "spice_use_frac_of_allowed": 0.4277244537445603,
+          "diff_frac_of_margin": 0.014709002232727817,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 75.5535
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "spice_use_frac_of_margin": 0.2138863117775382,
+          "first_order_use_frac_of_allowed": 0.4580200215940441,
+          "spice_use_frac_of_allowed": 0.4277726235550764,
+          "diff_frac_of_margin": 0.01512369901948383,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 75.6755
+        },
+        "gbw_mhz@ss_v0.9_t85": {
+          "spice_use_frac_of_margin": 0.29889817417037357,
+          "first_order_use_frac_of_allowed": 0.6501187046951608,
+          "spice_use_frac_of_allowed": 0.5977963483407471,
+          "diff_frac_of_margin": 0.026161178177206836,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 35.0678
+        },
+        "gbw_mhz@tt_v0.9_t27": {
+          "spice_use_frac_of_margin": 1.379204831404127,
+          "first_order_use_frac_of_allowed": 2.316036135925396,
+          "spice_use_frac_of_allowed": 2.758409662808254,
+          "diff_frac_of_margin": 0.22118676344142904,
+          "sign_disagrees": false,
+          "meets_spec": false,
+          "value_now": 18.1163
+        },
+        "gain_db@ss_v1_t85": {
+          "spice_use_frac_of_margin": 0.27955760942935753,
+          "first_order_use_frac_of_allowed": 0.5970073027802915,
+          "spice_use_frac_of_allowed": 0.5591152188587151,
+          "diff_frac_of_margin": 0.01894604196078816,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.3875
+        },
+        "gain_db@tt_v1_t27": {
+          "spice_use_frac_of_margin": 0.35710076605774804,
+          "first_order_use_frac_of_allowed": 0.6765397056081942,
+          "spice_use_frac_of_allowed": 0.7142015321154961,
+          "diff_frac_of_margin": 0.018830913253650897,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.091
+        },
+        "gbw_mhz@ss_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.2453913703345422,
+          "first_order_use_frac_of_allowed": 0.5182706469172602,
+          "spice_use_frac_of_allowed": 0.4907827406690844,
+          "diff_frac_of_margin": 0.013743953124087905,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 42.076
+        },
+        "gbw_mhz@tt_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.24560079756850695,
+          "first_order_use_frac_of_allowed": 0.4876710372070712,
+          "spice_use_frac_of_allowed": 0.4912015951370139,
+          "diff_frac_of_margin": 0.0017652789649713304,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 44.8954
+        }
+      }
+    },
+    "lp_sum": {
+      "budgets": {
+        "OUTP": 37.593721540000004,
+        "net1": 77.76243826,
+        "net3": 69.65924134,
+        "OUTP~net1": 8.791684369999999,
+        "OUTP~net3": 7.274684369999999,
+        "OUTP~INP": 1.99833842,
+        "OUTP~INN": 6.28603842,
+        "net1~net3": 10.646176270000002,
+        "net1~INP": 6.28603842,
+        "net1~INN": 6.28603842,
+        "net3~INP": 6.28603842,
+        "net3~INN": 1.99833842,
+        "XM3+XM4.d": 331.7732095802748,
+        "XM3+XM4.g": 783.2886904761904,
+        "XM3+XM4.s": 121.50736644101012,
+        "XM1+XM2.d": 206.55081182670676,
+        "XM1+XM2.g": 1132.9487126570832,
+        "XM1+XM2.s": 206.55081182670676,
+        "XM5.d": 15.025882358529868,
+        "XM5.g": 523.5625000000001,
+        "XM5.s": 140.89054695304694
+      },
+      "score": {
+        "worst_use_of_allowed": 1.0,
+        "use_of_allowed": {
+          "gain_db": 1.0,
+          "gbw_mhz": 0.999425173093782,
+          "pm_deg": 1.0,
+          "vnoise_nv_rthz": 0.24098747890163905,
+          "sat_XM3": 0.03710248472819482,
+          "sat_XM4": 0.03710248472819482,
+          "sat_XM1": 0.23256306095303714,
+          "sat_XM2": 0.23256306095303714,
+          "sat_XM5": 1.0
+        },
+        "unsafe_checks": [],
+        "n_elements": 21,
+        "starved": [
+          "XM5.d"
+        ],
+        "below_floor": [],
+        "min_ratio_to_need": 0.7481384925603027,
+        "geo_mean_ratio_to_need": 8.062118723588938,
+        "spice_worst_use_of_allowed": 1.0850913376546854,
+        "spice_specs_violated": [],
+        "spice_failed_runs": [],
+        "spice_checks": 18,
+        "spice_worst_use_of_allowed_nominal": 1.0850913376546854,
+        "outcome_nominal": "unsafe",
+        "outcome": "unsafe"
+      },
+      "spice": {
+        "gain_db": {
+          "spice_use_frac_of_margin": 0.5425456688273427,
+          "first_order_use_frac_of_allowed": 1.0,
+          "spice_use_frac_of_allowed": 1.0850913376546854,
+          "diff_frac_of_margin": 0.042545668827342675,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.7763
+        },
+        "gbw_mhz": {
+          "spice_use_frac_of_margin": 0.3741412586584572,
+          "first_order_use_frac_of_allowed": 0.999425173093782,
+          "spice_use_frac_of_allowed": 0.7482825173169144,
+          "diff_frac_of_margin": 0.12557132788843378,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 72.8569
+        },
+        "pm_deg": {
+          "spice_use_frac_of_margin": 0.3990580277814927,
+          "first_order_use_frac_of_allowed": 1.0,
+          "spice_use_frac_of_allowed": 0.7981160555629854,
+          "diff_frac_of_margin": 0.1009419722185073,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 72.5806
+        },
+        "vnoise_nv_rthz": {
+          "spice_use_frac_of_margin": 0.10826112642772716,
+          "first_order_use_frac_of_allowed": 0.24098747890163905,
+          "spice_use_frac_of_allowed": 0.21652225285545432,
+          "diff_frac_of_margin": 0.012232613023092365,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 345.661
+        },
+        "sat_XM3": {
+          "spice_use_frac_of_margin": 0.01608205671858908,
+          "first_order_use_frac_of_allowed": 0.03710248472819482,
+          "spice_use_frac_of_allowed": 0.03216411343717816,
+          "diff_frac_of_margin": 0.0024691856455083265,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 1.032064
+        },
+        "sat_XM4": {
+          "spice_use_frac_of_margin": 0.01608205671858908,
+          "first_order_use_frac_of_allowed": 0.03710248472819482,
+          "spice_use_frac_of_allowed": 0.03216411343717816,
+          "diff_frac_of_margin": 0.0024691856455083265,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 1.032064
+        },
+        "sat_XM1": {
+          "spice_use_frac_of_margin": 0.11610600063355565,
+          "first_order_use_frac_of_allowed": 0.23256306095303714,
+          "spice_use_frac_of_allowed": 0.2322120012671113,
+          "diff_frac_of_margin": 0.000175529842962916,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.1149589
+        },
+        "sat_XM2": {
+          "spice_use_frac_of_margin": 0.11610600063355565,
+          "first_order_use_frac_of_allowed": 0.23256306095303714,
+          "spice_use_frac_of_allowed": 0.2322120012671113,
+          "diff_frac_of_margin": 0.000175529842962916,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.1149589
+        },
+        "sat_XM5": {
+          "spice_use_frac_of_margin": 0.4930498773507762,
+          "first_order_use_frac_of_allowed": 1.0,
+          "spice_use_frac_of_allowed": 0.9860997547015524,
+          "diff_frac_of_margin": 0.006950122649223789,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.009920000000000012
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.3785089254462731,
+          "first_order_use_frac_of_allowed": 1.1868644529807586,
+          "spice_use_frac_of_allowed": 0.7570178508925463,
+          "diff_frac_of_margin": 0.21492330104410617,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.8878
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "spice_use_frac_of_margin": 0.4602192603375335,
+          "first_order_use_frac_of_allowed": 1.1919105703636501,
+          "spice_use_frac_of_allowed": 0.920438520675067,
+          "diff_frac_of_margin": 0.1357360248442915,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 70.6794
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "spice_use_frac_of_margin": 0.4641157443394097,
+          "first_order_use_frac_of_allowed": 1.1886614252505545,
+          "spice_use_frac_of_allowed": 0.9282314886788194,
+          "diff_frac_of_margin": 0.1302149682858675,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 70.6858
+        },
+        "gbw_mhz@ss_v0.9_t85": {
+          "spice_use_frac_of_margin": 0.13390347856837093,
+          "first_order_use_frac_of_allowed": 1.9151741390212726,
+          "spice_use_frac_of_allowed": 0.26780695713674185,
+          "diff_frac_of_margin": 0.8236835909422654,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 38.6138
+        },
+        "gbw_mhz@tt_v0.9_t27": {
+          "spice_use_frac_of_margin": -0.8230095621540009,
+          "first_order_use_frac_of_allowed": 6.951937894082253,
+          "spice_use_frac_of_allowed": -1.6460191243080018,
+          "diff_frac_of_margin": 4.298978509195127,
+          "sign_disagrees": true,
+          "meets_spec": true,
+          "value_now": 29.0558
+        },
+        "gain_db@ss_v1_t85": {
+          "spice_use_frac_of_margin": 0.38626096889765854,
+          "first_order_use_frac_of_allowed": 0.8872379933768102,
+          "spice_use_frac_of_allowed": 0.7725219377953171,
+          "diff_frac_of_margin": 0.057358027790746585,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.182
+        },
+        "gain_db@tt_v1_t27": {
+          "spice_use_frac_of_margin": 0.5425456688273427,
+          "first_order_use_frac_of_allowed": 1.0000000000000082,
+          "spice_use_frac_of_allowed": 1.0850913376546854,
+          "diff_frac_of_margin": 0.042545668827338554,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.7763
+        },
+        "gbw_mhz@ss_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.2070730031550269,
+          "first_order_use_frac_of_allowed": 1.525377878906806,
+          "spice_use_frac_of_allowed": 0.4141460063100538,
+          "diff_frac_of_margin": 0.555615936298376,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 43.197
+        },
+        "gbw_mhz@tt_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.23572209949606518,
+          "first_order_use_frac_of_allowed": 1.4336449573998953,
+          "spice_use_frac_of_allowed": 0.47144419899213036,
+          "diff_frac_of_margin": 0.48110037920388243,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 45.2214
+        }
+      }
+    },
+    "lp_floor": {
+      "budgets": {
+        "OUTP": 3.7593721540000002,
+        "net1": 7.776243826,
+        "net3": 6.965924134,
+        "OUTP~net1": 0.8791684369999999,
+        "OUTP~net3": 0.727468437,
+        "OUTP~INP": 0.199833842,
+        "OUTP~INN": 0.628603842,
+        "net1~net3": 1.064617627,
+        "net1~INP": 0.628603842,
+        "net1~INN": 0.628603842,
+        "net3~INP": 0.628603842,
+        "net3~INN": 0.199833842,
+        "XM3+XM4.d": 33.17732095802748,
+        "XM3+XM4.g": 78.32886904761904,
+        "XM3+XM4.s": 33.17732095802748,
+        "XM1+XM2.d": 20.655081182670678,
+        "XM1+XM2.g": 286.10178571428577,
+        "XM1+XM2.s": 20.655081182670678,
+        "XM5.d": 20.08435939060939,
+        "XM5.g": 52.35625000000001,
+        "XM5.s": 14.089054695304693
+      },
+      "score": {
+        "worst_use_of_allowed": 0.25475203422883774,
+        "use_of_allowed": {
+          "gain_db": 0.17131320331102193,
+          "gbw_mhz": 0.10723178600682601,
+          "pm_deg": 0.14937207042854445,
+          "vnoise_nv_rthz": 0.026218069043438447,
+          "sat_XM3": 0.00381290647275093,
+          "sat_XM4": 0.00381290647275093,
+          "sat_XM1": 0.040300970779226446,
+          "sat_XM2": 0.040300970779226446,
+          "sat_XM5": 0.25475203422883774
+        },
+        "unsafe_checks": [],
+        "n_elements": 21,
+        "starved": [],
+        "below_floor": [],
+        "min_ratio_to_need": 1.0,
+        "geo_mean_ratio_to_need": 1.0,
+        "floors_applied": true,
+        "spice_worst_use_of_allowed": 0.25398609975470304,
+        "spice_specs_violated": [],
+        "spice_failed_runs": [],
+        "spice_checks": 18,
+        "spice_worst_use_of_allowed_nominal": 0.25398609975470304,
+        "outcome_nominal": "ok",
+        "outcome": "ok"
+      },
+      "spice": {
+        "gain_db": {
+          "spice_use_frac_of_margin": 0.08685916322922664,
+          "first_order_use_frac_of_allowed": 0.17131320331102193,
+          "spice_use_frac_of_allowed": 0.17371832645845328,
+          "diff_frac_of_margin": 0.001202561573715678,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.5496
+        },
+        "gbw_mhz": {
+          "spice_use_frac_of_margin": 0.05267894144810844,
+          "first_order_use_frac_of_allowed": 0.10723178600682601,
+          "spice_use_frac_of_allowed": 0.10535788289621688,
+          "diff_frac_of_margin": 0.0009369515553045652,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 100.006
+        },
+        "pm_deg": {
+          "spice_use_frac_of_margin": 0.0729503028450233,
+          "first_order_use_frac_of_allowed": 0.14937207042854445,
+          "spice_use_frac_of_allowed": 0.1459006056900466,
+          "diff_frac_of_margin": 0.0017357323692489281,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 79.4076
+        },
+        "vnoise_nv_rthz": {
+          "spice_use_frac_of_margin": 0.012948011027963561,
+          "first_order_use_frac_of_allowed": 0.026218069043438447,
+          "spice_use_frac_of_allowed": 0.025896022055927122,
+          "diff_frac_of_margin": 0.00016102349375566344,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 339.853
+        },
+        "sat_XM3": {
+          "spice_use_frac_of_margin": 0.0018828657311761934,
+          "first_order_use_frac_of_allowed": 0.00381290647275093,
+          "spice_use_frac_of_allowed": 0.003765731462352387,
+          "diff_frac_of_margin": 2.3587505199271495e-05,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 1.046958
+        },
+        "sat_XM4": {
+          "spice_use_frac_of_margin": 0.0018828657311761934,
+          "first_order_use_frac_of_allowed": 0.00381290647275093,
+          "spice_use_frac_of_allowed": 0.003765731462352387,
+          "diff_frac_of_margin": 2.3587505199271495e-05,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 1.046958
+        },
+        "sat_XM1": {
+          "spice_use_frac_of_margin": 0.02013922847679057,
+          "first_order_use_frac_of_allowed": 0.040300970779226446,
+          "spice_use_frac_of_allowed": 0.04027845695358114,
+          "diff_frac_of_margin": 1.1256912822648781e-05,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.1274403
+        },
+        "sat_XM2": {
+          "spice_use_frac_of_margin": 0.02013922847679057,
+          "first_order_use_frac_of_allowed": 0.040300970779226446,
+          "spice_use_frac_of_allowed": 0.04027845695358114,
+          "diff_frac_of_margin": 1.1256912822648781e-05,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.1274403
+        },
+        "sat_XM5": {
+          "spice_use_frac_of_margin": 0.12699304987735152,
+          "first_order_use_frac_of_allowed": 0.25475203422883774,
+          "spice_use_frac_of_allowed": 0.25398609975470304,
+          "diff_frac_of_margin": 0.00038296723706733647,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.017082999999999987
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.062233111655582,
+          "first_order_use_frac_of_allowed": 0.2034036353707424,
+          "spice_use_frac_of_allowed": 0.124466223311164,
+          "diff_frac_of_margin": 0.0394687060297892,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.3396
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "spice_use_frac_of_margin": 0.08878072449923438,
+          "first_order_use_frac_of_allowed": 0.18459136376821564,
+          "spice_use_frac_of_allowed": 0.17756144899846876,
+          "diff_frac_of_margin": 0.003514957384873435,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 78.0282
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "spice_use_frac_of_margin": 0.08901983400616809,
+          "first_order_use_frac_of_allowed": 0.18399679873399574,
+          "spice_use_frac_of_allowed": 0.17803966801233617,
+          "diff_frac_of_margin": 0.0029785653608297804,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 78.1654
+        },
+        "gbw_mhz@ss_v0.9_t85": {
+          "spice_use_frac_of_margin": 0.03856855701762537,
+          "first_order_use_frac_of_allowed": 0.21837781249043606,
+          "spice_use_frac_of_allowed": 0.07713711403525074,
+          "diff_frac_of_margin": 0.07062034922759265,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 40.6627
+        },
+        "gbw_mhz@tt_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.02987418218419774,
+          "first_order_use_frac_of_allowed": 0.7989654285672033,
+          "spice_use_frac_of_allowed": 0.05974836436839548,
+          "diff_frac_of_margin": 0.3696085320994039,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 24.8191
+        },
+        "gain_db@ss_v1_t85": {
+          "spice_use_frac_of_margin": 0.06661820447582922,
+          "first_order_use_frac_of_allowed": 0.15156117719676207,
+          "spice_use_frac_of_allowed": 0.13323640895165845,
+          "diff_frac_of_margin": 0.009162384122551815,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.7976
+        },
+        "gain_db@tt_v1_t27": {
+          "spice_use_frac_of_margin": 0.08685916322922664,
+          "first_order_use_frac_of_allowed": 0.17131320331102273,
+          "spice_use_frac_of_allowed": 0.17371832645845328,
+          "diff_frac_of_margin": 0.001202561573715269,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.5496
+        },
+        "gbw_mhz@ss_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.04494631668541002,
+          "first_order_use_frac_of_allowed": 0.1734970122836355,
+          "spice_use_frac_of_allowed": 0.08989263337082004,
+          "diff_frac_of_margin": 0.04180218945640773,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 47.94
+        },
+        "gbw_mhz@tt_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.04975409314460776,
+          "first_order_use_frac_of_allowed": 0.16339602468620817,
+          "spice_use_frac_of_allowed": 0.09950818628921552,
+          "diff_frac_of_margin": 0.031943919198496325,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 51.3584
+        }
+      }
+    },
+    "lp_floor_k": {
+      "budgets": {
+        "OUTP": 37.593721540000004,
+        "net1": 77.76243826,
+        "net3": 69.65924134,
+        "OUTP~net1": 8.791684369999999,
+        "OUTP~net3": 7.274684369999999,
+        "OUTP~INP": 1.99833842,
+        "OUTP~INN": 6.28603842,
+        "net1~net3": 10.646176270000002,
+        "net1~INP": 6.28603842,
+        "net1~INN": 6.28603842,
+        "net3~INP": 6.28603842,
+        "net3~INN": 1.99833842,
+        "XM3+XM4.d": 331.7732095802748,
+        "XM3+XM4.g": 783.2886904761904,
+        "XM3+XM4.s": 121.50736644101012,
+        "XM1+XM2.d": 206.55081182670676,
+        "XM1+XM2.g": 1132.9487126570832,
+        "XM1+XM2.s": 206.55081182670676,
+        "XM5.d": 15.025882358529868,
+        "XM5.g": 523.5625000000001,
+        "XM5.s": 140.89054695304694
+      },
+      "score": {
+        "worst_use_of_allowed": 1.0,
+        "use_of_allowed": {
+          "gain_db": 1.0,
+          "gbw_mhz": 0.999425173093782,
+          "pm_deg": 1.0,
+          "vnoise_nv_rthz": 0.24098747890163905,
+          "sat_XM3": 0.03710248472819482,
+          "sat_XM4": 0.03710248472819482,
+          "sat_XM1": 0.23256306095303714,
+          "sat_XM2": 0.23256306095303714,
+          "sat_XM5": 1.0
+        },
+        "unsafe_checks": [],
+        "n_elements": 21,
+        "starved": [
+          "XM5.d"
+        ],
+        "below_floor": [],
+        "min_ratio_to_need": 0.7481384925603027,
+        "geo_mean_ratio_to_need": 8.062118723588938,
+        "floors_applied": true,
+        "spice_worst_use_of_allowed": 1.0850913376546854,
+        "spice_specs_violated": [],
+        "spice_failed_runs": [],
+        "spice_checks": 18,
+        "spice_worst_use_of_allowed_nominal": 1.0850913376546854,
+        "outcome_nominal": "unsafe",
+        "outcome": "unsafe"
+      },
+      "spice": {
+        "gain_db": {
+          "spice_use_frac_of_margin": 0.5425456688273427,
+          "first_order_use_frac_of_allowed": 1.0,
+          "spice_use_frac_of_allowed": 1.0850913376546854,
+          "diff_frac_of_margin": 0.042545668827342675,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.7763
+        },
+        "gbw_mhz": {
+          "spice_use_frac_of_margin": 0.3741412586584572,
+          "first_order_use_frac_of_allowed": 0.999425173093782,
+          "spice_use_frac_of_allowed": 0.7482825173169144,
+          "diff_frac_of_margin": 0.12557132788843378,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 72.8569
+        },
+        "pm_deg": {
+          "spice_use_frac_of_margin": 0.3990580277814927,
+          "first_order_use_frac_of_allowed": 1.0,
+          "spice_use_frac_of_allowed": 0.7981160555629854,
+          "diff_frac_of_margin": 0.1009419722185073,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 72.5806
+        },
+        "vnoise_nv_rthz": {
+          "spice_use_frac_of_margin": 0.10826112642772716,
+          "first_order_use_frac_of_allowed": 0.24098747890163905,
+          "spice_use_frac_of_allowed": 0.21652225285545432,
+          "diff_frac_of_margin": 0.012232613023092365,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 345.661
+        },
+        "sat_XM3": {
+          "spice_use_frac_of_margin": 0.01608205671858908,
+          "first_order_use_frac_of_allowed": 0.03710248472819482,
+          "spice_use_frac_of_allowed": 0.03216411343717816,
+          "diff_frac_of_margin": 0.0024691856455083265,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 1.032064
+        },
+        "sat_XM4": {
+          "spice_use_frac_of_margin": 0.01608205671858908,
+          "first_order_use_frac_of_allowed": 0.03710248472819482,
+          "spice_use_frac_of_allowed": 0.03216411343717816,
+          "diff_frac_of_margin": 0.0024691856455083265,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 1.032064
+        },
+        "sat_XM1": {
+          "spice_use_frac_of_margin": 0.11610600063355565,
+          "first_order_use_frac_of_allowed": 0.23256306095303714,
+          "spice_use_frac_of_allowed": 0.2322120012671113,
+          "diff_frac_of_margin": 0.000175529842962916,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.1149589
+        },
+        "sat_XM2": {
+          "spice_use_frac_of_margin": 0.11610600063355565,
+          "first_order_use_frac_of_allowed": 0.23256306095303714,
+          "spice_use_frac_of_allowed": 0.2322120012671113,
+          "diff_frac_of_margin": 0.000175529842962916,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.1149589
+        },
+        "sat_XM5": {
+          "spice_use_frac_of_margin": 0.4930498773507762,
+          "first_order_use_frac_of_allowed": 1.0,
+          "spice_use_frac_of_allowed": 0.9860997547015524,
+          "diff_frac_of_margin": 0.006950122649223789,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.009920000000000012
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.3785089254462731,
+          "first_order_use_frac_of_allowed": 1.1868644529807586,
+          "spice_use_frac_of_allowed": 0.7570178508925463,
+          "diff_frac_of_margin": 0.21492330104410617,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.8878
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "spice_use_frac_of_margin": 0.4602192603375335,
+          "first_order_use_frac_of_allowed": 1.1919105703636501,
+          "spice_use_frac_of_allowed": 0.920438520675067,
+          "diff_frac_of_margin": 0.1357360248442915,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 70.6794
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "spice_use_frac_of_margin": 0.4641157443394097,
+          "first_order_use_frac_of_allowed": 1.1886614252505545,
+          "spice_use_frac_of_allowed": 0.9282314886788194,
+          "diff_frac_of_margin": 0.1302149682858675,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 70.6858
+        },
+        "gbw_mhz@ss_v0.9_t85": {
+          "spice_use_frac_of_margin": 0.13390347856837093,
+          "first_order_use_frac_of_allowed": 1.9151741390212726,
+          "spice_use_frac_of_allowed": 0.26780695713674185,
+          "diff_frac_of_margin": 0.8236835909422654,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 38.6138
+        },
+        "gbw_mhz@tt_v0.9_t27": {
+          "spice_use_frac_of_margin": -0.8230095621540009,
+          "first_order_use_frac_of_allowed": 6.951937894082253,
+          "spice_use_frac_of_allowed": -1.6460191243080018,
+          "diff_frac_of_margin": 4.298978509195127,
+          "sign_disagrees": true,
+          "meets_spec": true,
+          "value_now": 29.0558
+        },
+        "gain_db@ss_v1_t85": {
+          "spice_use_frac_of_margin": 0.38626096889765854,
+          "first_order_use_frac_of_allowed": 0.8872379933768102,
+          "spice_use_frac_of_allowed": 0.7725219377953171,
+          "diff_frac_of_margin": 0.057358027790746585,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.182
+        },
+        "gain_db@tt_v1_t27": {
+          "spice_use_frac_of_margin": 0.5425456688273427,
+          "first_order_use_frac_of_allowed": 1.0000000000000082,
+          "spice_use_frac_of_allowed": 1.0850913376546854,
+          "diff_frac_of_margin": 0.042545668827338554,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.7763
+        },
+        "gbw_mhz@ss_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.2070730031550269,
+          "first_order_use_frac_of_allowed": 1.525377878906806,
+          "spice_use_frac_of_allowed": 0.4141460063100538,
+          "diff_frac_of_margin": 0.555615936298376,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 43.197
+        },
+        "gbw_mhz@tt_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.23572209949606518,
+          "first_order_use_frac_of_allowed": 1.4336449573998953,
+          "spice_use_frac_of_allowed": 0.47144419899213036,
+          "diff_frac_of_margin": 0.48110037920388243,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 45.2214
+        }
+      }
+    },
+    "ours": {
+      "budgets": {
+        "OUTP": 37.59372153999978,
+        "net1": 77.7624382599996,
+        "net3": 44.31251955358236,
+        "OUTP~net1": 8.791684369999922,
+        "OUTP~net3": 5.13786595968957,
+        "OUTP~INP": 1.9983384199999836,
+        "OUTP~INN": 6.286038419999957,
+        "net1~net3": 8.123852146734624,
+        "net1~INP": 6.286038419999955,
+        "net1~INN": 6.286038419999951,
+        "net3~INP": 6.286038419999955,
+        "net3~INN": 1.9983384199999858,
+        "XM3+XM4.d": 331.77320958027235,
+        "XM3+XM4.g": 783.288690476185,
+        "XM3+XM4.s": 145.88752652550832,
+        "XM1+XM2.d": 177.00353632316234,
+        "XM1+XM2.g": 1819.9869435699936,
+        "XM1+XM2.s": 86.68452399974373,
+        "XM5.d": 74.89691487189333,
+        "XM5.g": 523.5624999999967,
+        "XM5.s": 140.89054695304594
+      },
+      "score": {
+        "worst_use_of_allowed": 1.0000000000000004,
+        "use_of_allowed": {
+          "gain_db": 1.0000000000000004,
+          "gbw_mhz": 0.724695626237565,
+          "pm_deg": 0.999999999999999,
+          "vnoise_nv_rthz": 0.17620163701536554,
+          "sat_XM3": 0.03708528609585384,
+          "sat_XM4": 0.03708528609585384,
+          "sat_XM1": 0.2332971762676794,
+          "sat_XM2": 0.2332971762676794,
+          "sat_XM5": 0.9999999999999976
+        },
+        "unsafe_checks": [],
+        "n_elements": 21,
+        "starved": [],
+        "below_floor": [],
+        "min_ratio_to_need": 3.729116444058057,
+        "geo_mean_ratio_to_need": 8.12766783310447,
+        "spice_worst_use_of_allowed": 1.0860341779611062,
+        "spice_specs_violated": [],
+        "spice_failed_runs": [],
+        "spice_checks": 18,
+        "spice_worst_use_of_allowed_nominal": 1.0860341779611062,
+        "outcome_nominal": "unsafe",
+        "outcome": "unsafe"
+      },
+      "spice": {
+        "gain_db": {
+          "spice_use_frac_of_margin": 0.5430170889805531,
+          "first_order_use_frac_of_allowed": 1.0000000000000004,
+          "spice_use_frac_of_allowed": 1.0860341779611062,
+          "diff_frac_of_margin": 0.04301708898055286,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.7755
+        },
+        "gbw_mhz": {
+          "spice_use_frac_of_margin": 0.2945651530400805,
+          "first_order_use_frac_of_allowed": 0.724695626237565,
+          "spice_use_frac_of_allowed": 0.589130306080161,
+          "diff_frac_of_margin": 0.067782660078702,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 79.5775
+        },
+        "pm_deg": {
+          "spice_use_frac_of_margin": 0.4125427517817223,
+          "first_order_use_frac_of_allowed": 0.999999999999999,
+          "spice_use_frac_of_allowed": 0.8250855035634446,
+          "diff_frac_of_margin": 0.0874572482182772,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 72.2983
+        },
+        "vnoise_nv_rthz": {
+          "spice_use_frac_of_margin": 0.07566955494289077,
+          "first_order_use_frac_of_allowed": 0.17620163701536554,
+          "spice_use_frac_of_allowed": 0.15133910988578153,
+          "diff_frac_of_margin": 0.012431263564792001,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 343.675
+        },
+        "sat_XM3": {
+          "spice_use_frac_of_margin": 0.01608205671858908,
+          "first_order_use_frac_of_allowed": 0.03708528609585384,
+          "spice_use_frac_of_allowed": 0.03216411343717816,
+          "diff_frac_of_margin": 0.002460586329337839,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 1.032064
+        },
+        "sat_XM4": {
+          "spice_use_frac_of_margin": 0.01608205671858908,
+          "first_order_use_frac_of_allowed": 0.03708528609585384,
+          "spice_use_frac_of_allowed": 0.03216411343717816,
+          "diff_frac_of_margin": 0.002460586329337839,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 1.032064
+        },
+        "sat_XM1": {
+          "spice_use_frac_of_margin": 0.11646429790649838,
+          "first_order_use_frac_of_allowed": 0.2332971762676794,
+          "spice_use_frac_of_allowed": 0.23292859581299677,
+          "diff_frac_of_margin": 0.0001842902273413267,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.11491229999999998
+        },
+        "sat_XM2": {
+          "spice_use_frac_of_margin": 0.11646429790649838,
+          "first_order_use_frac_of_allowed": 0.2332971762676794,
+          "spice_use_frac_of_allowed": 0.23292859581299677,
+          "diff_frac_of_margin": 0.0001842902273413267,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.11491229999999998
+        },
+        "sat_XM5": {
+          "spice_use_frac_of_margin": 0.49284546197874,
+          "first_order_use_frac_of_allowed": 0.9999999999999976,
+          "spice_use_frac_of_allowed": 0.98569092395748,
+          "diff_frac_of_margin": 0.007154538021258729,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 0.009924000000000016
+        },
+        "gain_db@fs_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.3785089254462731,
+          "first_order_use_frac_of_allowed": 1.1870210858255843,
+          "spice_use_frac_of_allowed": 0.7570178508925463,
+          "diff_frac_of_margin": 0.21500161746651897,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.8878
+        },
+        "pm_deg@sf_v1.1_t-40": {
+          "spice_use_frac_of_margin": 0.49063670411985,
+          "first_order_use_frac_of_allowed": 1.2283021048946563,
+          "spice_use_frac_of_allowed": 0.9812734082397,
+          "diff_frac_of_margin": 0.1235143483274781,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 70.0776
+        },
+        "pm_deg@sf_v1.1_t27": {
+          "spice_use_frac_of_margin": 0.49511296105915087,
+          "first_order_use_frac_of_allowed": 1.2253320519512751,
+          "spice_use_frac_of_allowed": 0.9902259221183017,
+          "diff_frac_of_margin": 0.11755306491648673,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 70.0677
+        },
+        "gbw_mhz@ss_v0.9_t85": {
+          "spice_use_frac_of_margin": 0.035260287740326274,
+          "first_order_use_frac_of_allowed": 1.691702592169762,
+          "spice_use_frac_of_allowed": 0.07052057548065255,
+          "diff_frac_of_margin": 0.8105910083445547,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 40.7338
+        },
+        "gbw_mhz@tt_v0.9_t27": {
+          "spice_use_frac_of_margin": -1.136185203824861,
+          "first_order_use_frac_of_allowed": 6.415627824513424,
+          "spice_use_frac_of_allowed": -2.272370407649722,
+          "diff_frac_of_margin": 4.343999116081573,
+          "sign_disagrees": true,
+          "meets_spec": true,
+          "value_now": 30.6115
+        },
+        "gain_db@ss_v1_t85": {
+          "spice_use_frac_of_margin": 0.41326133236408963,
+          "first_order_use_frac_of_allowed": 0.8837280250485061,
+          "spice_use_frac_of_allowed": 0.8265226647281793,
+          "diff_frac_of_margin": 0.028602680160163475,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 31.13
+        },
+        "gain_db@tt_v1_t27": {
+          "spice_use_frac_of_margin": 0.5430170889805531,
+          "first_order_use_frac_of_allowed": 1.0000000000000064,
+          "spice_use_frac_of_allowed": 1.0860341779611062,
+          "diff_frac_of_margin": 0.04301708898054992,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 30.7755
+        },
+        "gbw_mhz@ss_v0.9_t27": {
+          "spice_use_frac_of_margin": 0.1234528232877226,
+          "first_order_use_frac_of_allowed": 1.319191718283869,
+          "spice_use_frac_of_allowed": 0.2469056465754452,
+          "diff_frac_of_margin": 0.536143035854212,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 45.6433
+        },
+        "gbw_mhz@tt_v0.9_t-40": {
+          "spice_use_frac_of_margin": 0.15520161937921786,
+          "first_order_use_frac_of_allowed": 1.2240128509335815,
+          "spice_use_frac_of_allowed": 0.31040323875843573,
+          "diff_frac_of_margin": 0.4568048060875729,
+          "sign_disagrees": false,
+          "meets_spec": true,
+          "value_now": 47.8786
+        }
+      }
+    }
+  },
+  "note": "S2 baselines (plan v2, recommendation A3): other ways to turn the same S1 sensitivities into budgets.\n\nAll methods get exactly the same inputs: the elements (expected need w_k), the harmful rates a_ik and the\nallowed use b_i = eta * m_i of every check i. They differ only in how b_i is shared.\n\n  per_net   each element alone may use the whole allowed use of its most limiting check:\n            x_k = min_i b_i / a_ik  (\"budget = margin_fraction x margin / per_unit\", the rule of SpiceXplorer's\n            postlayout.score_c_budgets, re-implemented here; their code is PolyForm-NC and is not vendored).\n            It ignores that the other elements consume the same margin.\n  equal     every element of a check gets an equal share of it: x_k = min_i b_i / (N_i a_ik), N_i = number of\n            elements with a_ik > 0. Safe by construction, blind to what a layout needs.\n  lp_sum    linear program: maximise sum_k x_k / w_k subject to A x <= b, 0 <= x_k <= kappa w_k (HiGHS). Its\n            optimum is a vertex: many budgets at 0 or at kappa x need, i.e. far outside the range where the\n            first-order model holds. Kept as the plain LP; not a reproduction of any published method.\n  lp_floor  the same LP made fair to the library: maximise sum_k min(x_k / w_k, 1) (a budget above its need\n            earns nothing) with x_k >= f_k, the library floor ours also gets (bounds [f_k, w_k]; [0, w_k] when\n            the floors alone are infeasible). It differs from ours only in max-sum vs max-min sharing.\n  lp_floor_k  lp_floor with ours' upper bound, kappa x need (Plan v3 Phase A; PREREG 2026-11-01, item 5): bounds\n            [f_k, kappa w_k]. With more room the max-sum optimum may move to a vertex that gives some elements\n            less than lp_floor does (on LOADBench 13 of 40, down to 0): that starving is a result, not an error.\n  ours      max-min fair progressive filling in units of expected need, phase-2 proportional fairness,\n            R19 floor and library floors (budgets.allocate/refine), i.e. what S2 outputs.\n\nScores, all first order (SPICE checks of the same budget sets are run by S2 when SPICE is enabled):\n  worst_use      max_i sum_k a_ik x_k / b_i       (> 1: the set is unsafe; the margin is over-committed)\n  starved        elements with x_k < w_k          (the budget is below what a compact layout puts there)\n  below_floor    elements with x_k < f_k          (no cell of the library can meet the budget at all)\n  min_ratio      min_k x_k / w_k                  (worst element, in units of its need)\n  geo_ratio      geometric mean of x_k / w_k\n"
+}

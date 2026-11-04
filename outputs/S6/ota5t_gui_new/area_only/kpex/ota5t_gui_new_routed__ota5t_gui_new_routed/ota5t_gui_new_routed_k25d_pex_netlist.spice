@@ -1,0 +1,56 @@
+*********************************************************
+*** NGSPICE file created by KLayout-PEX 0.6.8
+*** -----------------------------------------------------
+***     Extraction Engine: KPEX/2.5D
+***     Technology: sky130a
+***     Date: 2026-11-04 18:48:43
+*********************************************************
+
+.SUBCKT ota5t_gui_new_routed INN INP OUTP VBIAS VDD VSS sky130_gnd
+X$1 VDD \$20 \$20 VDD sky130_fd_pr__pfet_01v8 l=1 w=8 as=2.32 ad=2.32 ps=16.58
++ pd=16.58
+X$2 VDD \$20 OUTP VDD sky130_fd_pr__pfet_01v8 l=1 w=8 as=2.32 ad=2.32 ps=16.58
++ pd=16.58
+X$3 \$20 INP \$4 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=1.74
++ ps=24.58 pd=12.29
+X$4 \$4 INP \$20 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=1.74 ad=3.48
++ ps=12.29 pd=24.58
+X$5 OUTP INN \$4 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=1.74
++ ps=24.58 pd=12.29
+X$6 \$4 INN OUTP sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=1.74 ad=3.48
++ ps=12.29 pd=24.58
+X$7 VSS VBIAS \$4 sky130_gnd sky130_fd_pr__nfet_01v8 l=1 w=24 as=6.96 ad=6.96
++ ps=48.58 pd=48.58
+Cext_1 \$20 \$4 1.51136f
+Cext_2 \$20 INN 34.8936a
+Cext_3 \$20 INP 1.4694f
+Cext_4 \$20 OUTP 1.18134f
+Cext_5 \$20 VDD 5.78342f
+Cext_6 \$20 VSS 195.931a
+Cext_7 \$20 sky130_gnd 3.50071f
+Cext_8 \$4 INN 1.64675f
+Cext_9 \$4 INP 1.61975f
+Cext_10 \$4 OUTP 2.40797f
+Cext_11 \$4 VBIAS 1.76493f
+Cext_12 \$4 VDD 3.53649a
+Cext_13 \$4 VSS 3.20051f
+Cext_14 \$4 sky130_gnd 8.81683f
+Cext_15 INN INP 1.59139a
+Cext_16 INN OUTP 1.48388f
+Cext_17 INN VBIAS 2.87608a
+Cext_18 INN VSS 338.274a
+Cext_19 INN sky130_gnd 1.00976f
+Cext_20 INP OUTP 216.148a
+Cext_21 INP VDD 65.3556a
+Cext_22 INP VSS 110.379a
+Cext_23 INP sky130_gnd 1.0047f
+Cext_24 OUTP VBIAS 32.6878a
+Cext_25 OUTP VDD 1.60345f
+Cext_26 OUTP VSS 903.957a
+Cext_27 OUTP sky130_gnd 1.66055f
+Cext_28 VBIAS VSS 2.04969f
+Cext_29 VBIAS sky130_gnd 988.124a
+Cext_30 VDD VSS 19.8427a
+Cext_31 VDD sky130_gnd 3.40297f
+Cext_32 VSS sky130_gnd 14.1863f
+.ENDS ota5t_gui_new_routed

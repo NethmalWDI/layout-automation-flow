@@ -1,0 +1,946 @@
+{
+  "design": "ota5t_gui_new",
+  "gates": {
+    "G1.1_operating_point": {
+      "pass": true,
+      "numerical_warnings": [],
+      "not_saturated": [],
+      "dummies_excluded": [],
+      "saturation": {
+        "XM3": {
+          "vds": 1.39577,
+          "vdsat": 0.346625,
+          "vds_minus_vdsat_V": 1.049145,
+          "saturated": true
+        },
+        "XM4": {
+          "vds": 0.902333,
+          "vdsat": 0.346612,
+          "vds_minus_vdsat_V": 0.5557210000000001,
+          "saturated": true
+        },
+        "XM1": {
+          "vds": 0.218474,
+          "vdsat": 0.0895794,
+          "vds_minus_vdsat_V": 0.1288946,
+          "saturated": true
+        },
+        "XM2": {
+          "vds": 0.711977,
+          "vdsat": 0.0862454,
+          "vds_minus_vdsat_V": 0.6257315999999999,
+          "saturated": true
+        },
+        "XM5": {
+          "vds": 0.179637,
+          "vdsat": 0.160397,
+          "vds_minus_vdsat_V": 0.01923999999999998,
+          "saturated": true
+        }
+      },
+      "isup_uA": 84.7483,
+      "isup_achieved_uA": 84.7483,
+      "missing_params": [],
+      "missing_optional_params": [],
+      "charge_conservation_worst_rel": 2.8037514193809546e-06
+    },
+    "G1.2_linear_model_vs_spice": {
+      "pass": true,
+      "linear": {
+        "gain_db": 39.180168052592265,
+        "gbw_mhz": 104.57759390030628,
+        "pm_deg": 79.67616102492242
+      },
+      "spice": {
+        "gain_db": 39.1959,
+        "gbw_mhz": 104.034,
+        "pm_deg": 79.6622
+      },
+      "delta": {
+        "gain_db": -0.015731947407736868,
+        "gbw_rel": 0.005225156201879022,
+        "pm_deg": 0.013961024922423348
+      },
+      "tolerance": {
+        "gain_db": 0.2,
+        "gbw_rel": 0.03,
+        "pm_deg": 2.0
+      },
+      "pm_reference": {
+        "rule": "PM = 180 + phase(UGB) - reference; reference = the 1 Hz phase rounded to the nearest multiple of 180 deg (Plan v3 Phase A step 7). The frozen benches keep the unrounded 1 Hz phase.",
+        "linear_model": {
+          "phase_1hz_deg": -4.8365326232684654e-05,
+          "pm_reference_deg": 0.0,
+          "distance_deg": -4.8365326232684654e-05,
+          "pm_deg_plan_v2_reference": 79.67620939024866
+        },
+        "spice_bench": {
+          "source": "outputs/S0/ota5t_gui_new/tb/diso_amp_AC.log",
+          "phase_1hz_deg": 0.00115849,
+          "pm_reference_deg": 0.0,
+          "distance_deg": 0.00115849,
+          "distance_below_0p05_deg": true,
+          "pm_deg_bench": 79.6622,
+          "pm_deg_rounded_reference": 79.66335849
+        }
+      }
+    },
+    "G1.3_sensitivity_vs_spice": {
+      "pass": true,
+      "tolerance_rel": 0.2,
+      "tolerance_pred_frac_margin": 0.05,
+      "checks": [
+        {
+          "case": "OUTP",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": -7.105427357601002e-15
+        },
+        {
+          "case": "OUTP",
+          "spec": "gbw_mhz",
+          "linear": -0.0951911016585143,
+          "spice_5fF": -0.09500000000000171,
+          "spice_20fF": -0.09420000000000002,
+          "spice_extrapolated_0": -0.09526666666666894,
+          "rel_err_vs_extrapolated": 0.0007931946272355649,
+          "rel_err_vs_20fF": 0.010521249028814,
+          "step_consistency": 0.008492569002141062,
+          "pred_err_at_20fF_frac_of_margin": 0.0019053418276991725,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP",
+          "spec": "pm_deg",
+          "linear": 0.00926993560667455,
+          "spice_5fF": 0.00928000000000111,
+          "spice_20fF": 0.009215000000000372,
+          "spice_extrapolated_0": 0.009301666666668023,
+          "rel_err_vs_extrapolated": 0.0034113305852142076,
+          "rel_err_vs_20fF": 0.005961541690089684,
+          "step_consistency": 0.00705371676622197,
+          "pred_err_at_20fF_frac_of_margin": 5.587940990751661e-05,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net1",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "net1",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_20fF": 0.00519999999999996,
+          "linear": 0.005208260552116428
+        },
+        {
+          "case": "net1",
+          "spec": "pm_deg",
+          "linear": -0.002071514632952187,
+          "spice_5fF": -0.002080000000000837,
+          "spice_20fF": -0.0021000000000000797,
+          "spice_extrapolated_0": -0.0020733333333344227,
+          "rel_err_vs_extrapolated": 0.0008771866795343461,
+          "rel_err_vs_20fF": 0.013564460498995906,
+          "step_consistency": 0.009523809523448612,
+          "pred_err_at_20fF_frac_of_margin": 2.8974750585277827e-05,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net3",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "net3",
+          "spec": "gbw_mhz",
+          "linear": -0.05853743701489833,
+          "spice_5fF": -0.05980000000000132,
+          "spice_20fF": -0.06204999999999998,
+          "spice_extrapolated_0": -0.05905000000000177,
+          "rel_err_vs_extrapolated": 0.008680152160938563,
+          "rel_err_vs_20fF": 0.056608589606795344,
+          "step_consistency": 0.036261079774353965,
+          "pred_err_at_20fF_frac_of_margin": 0.006752721197111807,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "net3",
+          "spec": "pm_deg",
+          "linear": -0.06639953953339273,
+          "spice_5fF": -0.06617999999999995,
+          "spice_20fF": -0.06379999999999982,
+          "spice_extrapolated_0": -0.06697333333333333,
+          "rel_err_vs_extrapolated": 0.008567496515139402,
+          "rel_err_vs_20fF": 0.040745133752240106,
+          "step_consistency": 0.037304075235111894,
+          "pred_err_at_20fF_frac_of_margin": 0.002644200072619454,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP~net3",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": -1.0658141036401503e-14
+        },
+        {
+          "case": "OUTP~net3",
+          "spec": "gbw_mhz",
+          "linear": -0.24750103404242196,
+          "spice_5fF": -0.24620000000000175,
+          "spice_20fF": -0.2390900000000002,
+          "spice_extrapolated_0": -0.24857000000000226,
+          "rel_err_vs_extrapolated": 0.004300462475682054,
+          "rel_err_vs_20fF": 0.03517936359706288,
+          "step_consistency": 0.029737755656872113,
+          "pred_err_at_20fF_frac_of_margin": 0.01616977919222902,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP~net3",
+          "spec": "pm_deg",
+          "linear": -0.12427650901271647,
+          "spice_5fF": -0.1225200000000001,
+          "spice_20fF": -0.11394499999999966,
+          "spice_extrapolated_0": -0.1253783333333336,
+          "rel_err_vs_extrapolated": 0.008787996229681752,
+          "rel_err_vs_20fF": 0.09067101683019745,
+          "step_consistency": 0.07525560577471999,
+          "pred_err_at_20fF_frac_of_margin": 0.010509006126188134,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP~INP",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": -7.105427357601002e-15
+        },
+        {
+          "case": "OUTP~INP",
+          "spec": "gbw_mhz",
+          "linear": -0.11330100536070375,
+          "spice_5fF": -0.11260000000000048,
+          "spice_20fF": -0.11075000000000017,
+          "spice_extrapolated_0": -0.11321666666666724,
+          "rel_err_vs_extrapolated": 0.0007449317889284113,
+          "rel_err_vs_20fF": 0.02303390844879082,
+          "step_consistency": 0.01670428893905469,
+          "pred_err_at_20fF_frac_of_margin": 0.004904176251424699,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP~INP",
+          "spec": "pm_deg",
+          "linear": 0.06632326952413337,
+          "spice_5fF": 0.06606000000000165,
+          "spice_20fF": 0.06509000000000001,
+          "spice_extrapolated_0": 0.06638333333333553,
+          "rel_err_vs_extrapolated": 0.0009048025488650873,
+          "rel_err_vs_20fF": 0.01894714278895924,
+          "step_consistency": 0.014902442771572225,
+          "pred_err_at_20fF_frac_of_margin": 0.0012544573080666018,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP~INN",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_20fF": 0.0,
+          "linear": -7.105427357601002e-15
+        },
+        {
+          "case": "OUTP~INN",
+          "spec": "gbw_mhz",
+          "linear": -0.0951911016585143,
+          "spice_5fF": -0.09500000000000171,
+          "spice_20fF": -0.09420000000000002,
+          "spice_extrapolated_0": -0.09526666666666894,
+          "rel_err_vs_extrapolated": 0.0007931946272355649,
+          "rel_err_vs_20fF": 0.010521249028814,
+          "step_consistency": 0.008492569002141062,
+          "pred_err_at_20fF_frac_of_margin": 0.0019053418276991725,
+          "criterion": "a_derivative",
+          "pass": true
+        },
+        {
+          "case": "OUTP~INN",
+          "spec": "pm_deg",
+          "linear": 0.00926993560667455,
+          "spice_5fF": 0.00928000000000111,
+          "spice_20fF": 0.009215000000000372,
+          "spice_extrapolated_0": 0.009301666666668023,
+          "rel_err_vs_extrapolated": 0.0034113305852142076,
+          "rel_err_vs_20fF": 0.005961541690089684,
+          "step_consistency": 0.00705371676622197,
+          "pred_err_at_20fF_frac_of_margin": 5.587940990751661e-05,
+          "criterion": "a_derivative",
+          "pass": true
+        }
+      ]
+    },
+    "G1.4_matching_groups": {
+      "pass": false,
+      "rule": "diff pair: identical W, L, nf, m; mirror: same L and model (ratio allowed)",
+      "groups": [],
+      "not_matching_blocks": []
+    },
+    "G1.5_symbolic_vs_spice (reported, not gated)": {
+      "pass": null,
+      "note": "no upstream equations"
+    },
+    "G1.6_resistance_sensitivity_vs_spice": {
+      "pass": true,
+      "checks": [
+        {
+          "case": "XM3.d",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 9.999999999973141e-05,
+          "linear": 7.406358100041644e-05
+        },
+        {
+          "case": "XM3.d",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 9.75000000039472e-06,
+          "linear": 2.3301377653694998e-05
+        },
+        {
+          "case": "XM3.d",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -2.4999999999053556e-07,
+          "linear": 1.0556491005786484e-06
+        },
+        {
+          "case": "XM3.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.00045000000000005257,
+          "linear": 0.0004544392228794436
+        },
+        {
+          "case": "XM3.g",
+          "spec": "pm_deg",
+          "spice_20ohm": 0.0006750000000003808,
+          "spice_100ohm": 0.0006749999999999545,
+          "spice_extrapolated_0": 0.0006750000000004874,
+          "step_consistency": 6.31567843290459e-13,
+          "pred_err_at_100ohm_frac_of_margin": 2.710202153251546e-15,
+          "linear": 0.0006876446195803965,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.06876756526993688,
+            "spice_change": 0.06749999999999545,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM3.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": -3.552713678800501e-15
+        },
+        {
+          "case": "XM3.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": 0.01529999999999987,
+          "spice_100ohm": 0.015009999999999905,
+          "spice_extrapolated_0": 0.01537249999999986,
+          "step_consistency": 0.018954248366010874,
+          "pred_err_at_100ohm_frac_of_margin": 0.0034844377799561174,
+          "linear": 0.011201933723548052,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 1.5396502780532728,
+            "spice_change": 1.5009999999999906,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM3.s",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.004540000000000077,
+          "spice_100ohm": -0.00454899999999995,
+          "spice_extrapolated_0": -0.0045377500000001085,
+          "step_consistency": 0.0019784568036651847,
+          "pred_err_at_100ohm_frac_of_margin": 5.721638473742129e-05,
+          "linear": -0.0032959933983448763,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.4607825408569255,
+            "spice_change": -0.454899999999995,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM3.s",
+          "spec": "gain_db",
+          "spice_20ohm": 9.999999999976694e-06,
+          "spice_100ohm": 5.9999999999860165e-06,
+          "spice_extrapolated_0": 1.0999999999974363e-05,
+          "step_consistency": 0.39999999999999997,
+          "pred_err_at_100ohm_frac_of_margin": 0.0004999999999988347,
+          "linear": 0.00030092238588821376,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.0010716473082297284,
+            "spice_change": 0.0005999999999986017,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM4.d",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -0.00020250000000029188,
+          "linear": -9.9817831896587e-05
+        },
+        {
+          "case": "XM4.d",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -3.9749999999898475e-05,
+          "linear": -6.437228777542714e-05
+        },
+        {
+          "case": "XM4.d",
+          "spec": "gain_db",
+          "spice_20ohm": -9.499999999995623e-05,
+          "spice_100ohm": -9.500000000002729e-05,
+          "spice_extrapolated_0": -9.499999999993846e-05,
+          "step_consistency": 7.479568408341931e-13,
+          "pred_err_at_100ohm_frac_of_margin": 8.882326298087495e-15,
+          "linear": 7.015596580117745e-07,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.009574452372369535,
+            "spice_change": -0.009500000000002728,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM4.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -0.00039500000000060705,
+          "linear": -0.0004201232001449284
+        },
+        {
+          "case": "XM4.g",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.0007849999999997692,
+          "spice_100ohm": -0.0007840000000000202,
+          "spice_extrapolated_0": -0.0007852499999997064,
+          "step_consistency": 0.0012738853499990026,
+          "pred_err_at_100ohm_frac_of_margin": 6.357376080429357e-06,
+          "linear": -0.0007984477148752945,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.07971727533951878,
+            "spice_change": -0.07840000000000202,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM4.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": 2.1316282072803005e-15
+        },
+        {
+          "case": "XM4.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.019300000000000494,
+          "spice_100ohm": -0.01905000000000001,
+          "spice_extrapolated_0": -0.019362500000000615,
+          "step_consistency": 0.012953367875672335,
+          "pred_err_at_100ohm_frac_of_margin": 0.0030038256723821425,
+          "linear": -0.0127414417475066,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -1.9321760409910809,
+            "spice_change": -1.9050000000000011,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM4.s",
+          "spec": "pm_deg",
+          "spice_20ohm": 0.004084999999999894,
+          "spice_100ohm": 0.00397900000000007,
+          "spice_extrapolated_0": 0.0041114999999998505,
+          "step_consistency": 0.025948592411218326,
+          "pred_err_at_100ohm_frac_of_margin": 0.0006738818646935764,
+          "linear": 0.002570768552450886,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.4017772333460101,
+            "spice_change": 0.397900000000007,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM4.s",
+          "spec": "gain_db",
+          "spice_20ohm": 0.00018999999999991246,
+          "spice_100ohm": 0.00018599999999999284,
+          "spice_extrapolated_0": 0.00019099999999989237,
+          "step_consistency": 0.02105263157853403,
+          "pred_err_at_100ohm_frac_of_margin": 0.0004999999999899535,
+          "linear": 0.00012417508105713181,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.018973241456542667,
+            "spice_change": 0.018599999999999284,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM1.d",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.0029500000000005854,
+          "spice_100ohm": -0.003020000000000067,
+          "spice_extrapolated_0": -0.002932500000000715,
+          "step_consistency": 0.023178807946847665,
+          "pred_err_at_100ohm_frac_of_margin": 0.0008410711882591456,
+          "linear": -0.0010086551494936202,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.30145050777964855,
+            "spice_change": -0.3020000000000067,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM1.d",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -2.1999999999948727e-05,
+          "linear": -0.00023510353916691428
+        },
+        {
+          "case": "XM1.d",
+          "spec": "gain_db",
+          "spice_20ohm": -0.00010000000000012221,
+          "spice_100ohm": -0.00010500000000000398,
+          "spice_extrapolated_0": -9.875000000015176e-05,
+          "step_consistency": 0.04761904761791979,
+          "pred_err_at_100ohm_frac_of_margin": 0.0006249999999852213,
+          "linear": -2.1571057449421004e-05,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.010503243929420591,
+            "spice_change": -0.010500000000000398,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM1.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -0.00019750000000030353,
+          "linear": -0.0002004042720713528
+        },
+        {
+          "case": "XM1.g",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.002275000000000205,
+          "spice_100ohm": -0.0022759999999999534,
+          "spice_extrapolated_0": -0.002274750000000268,
+          "step_consistency": 0.00043936731096160734,
+          "pred_err_at_100ohm_frac_of_margin": 6.357376080426048e-06,
+          "linear": -0.0022897147251839554,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.22879707469310517,
+            "spice_change": -0.22759999999999536,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM1.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "XM1.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.046150000000000094,
+          "spice_100ohm": -0.04522000000000006,
+          "spice_extrapolated_0": -0.046382500000000104,
+          "step_consistency": 0.0201516793066096,
+          "pred_err_at_100ohm_frac_of_margin": 0.01117423150124041,
+          "linear": -0.04366665325684806,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -4.574808522135129,
+            "spice_change": -4.522000000000006,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM1.s",
+          "spec": "pm_deg",
+          "spice_20ohm": 0.002335000000000065,
+          "spice_100ohm": 0.0023570000000000847,
+          "spice_extrapolated_0": 0.00232950000000006,
+          "step_consistency": 0.009333899024191364,
+          "pred_err_at_100ohm_frac_of_margin": 0.00013986227380468564,
+          "linear": 0.0026524844906020916,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.23642156268425651,
+            "spice_change": 0.23570000000000846,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM1.s",
+          "spec": "gain_db",
+          "spice_20ohm": -0.0009299999999999642,
+          "spice_100ohm": -0.0009430000000000405,
+          "spice_extrapolated_0": -0.0009267499999999451,
+          "step_consistency": 0.013785790031893702,
+          "pred_err_at_100ohm_frac_of_margin": 0.0016250000000095398,
+          "linear": -0.0010604306323727998,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.09526610768706689,
+            "spice_change": -0.09430000000000405,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM2.d",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -0.00020000000000027992,
+          "linear": -0.00018087074323176467
+        },
+        {
+          "case": "XM2.d",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.000269999999999726,
+          "spice_100ohm": -0.00027000000000001025,
+          "spice_extrapolated_0": -0.00026999999999965496,
+          "step_consistency": 1.0526799982113489e-12,
+          "pred_err_at_100ohm_frac_of_margin": 1.8069852403266155e-15,
+          "linear": -0.00028750673217103895,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.027122947921512264,
+            "spice_change": -0.027000000000001023,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM2.d",
+          "spec": "gain_db",
+          "spice_20ohm": -0.00021500000000003184,
+          "spice_100ohm": -0.00021399999999999864,
+          "spice_extrapolated_0": -0.00021525000000004014,
+          "step_consistency": 0.004651162790851408,
+          "pred_err_at_100ohm_frac_of_margin": 0.0001250000000041501,
+          "linear": -2.881742304339241e-06,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.0213671862435163,
+            "spice_change": -0.021399999999999864,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM2.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -0.0004075000000005957,
+          "linear": -0.0003711485120703628
+        },
+        {
+          "case": "XM2.g",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.0007449999999998624,
+          "spice_100ohm": -0.0007450000000000046,
+          "spice_extrapolated_0": -0.0007449999999998269,
+          "step_consistency": 1.907904762588574e-13,
+          "pred_err_at_100ohm_frac_of_margin": 9.037683274016854e-16,
+          "linear": -0.000754295931928084,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.07530682813244027,
+            "spice_change": -0.07450000000000045,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM2.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "XM2.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.03950000000000031,
+          "spice_100ohm": -0.03872,
+          "spice_extrapolated_0": -0.03969500000000039,
+          "step_consistency": 0.0197468354430458,
+          "pred_err_at_100ohm_frac_of_margin": 0.009371936097817942,
+          "linear": -0.03974204634552194,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -3.894248266749159,
+            "spice_change": -3.872,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM2.s",
+          "spec": "pm_deg",
+          "spice_20ohm": 0.002615000000000123,
+          "spice_100ohm": 0.002627999999999986,
+          "spice_extrapolated_0": 0.0026117500000001573,
+          "step_consistency": 0.004946727549415151,
+          "pred_err_at_100ohm_frac_of_margin": 8.264588906545792e-05,
+          "linear": 0.0025632445311970288,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.2617588217742792,
+            "spice_change": 0.2627999999999986,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM2.s",
+          "spec": "gain_db",
+          "spice_20ohm": -0.0004899999999999239,
+          "spice_100ohm": -0.0004910000000000281,
+          "spice_extrapolated_0": -0.0004897499999998978,
+          "step_consistency": 0.0020366598780125434,
+          "pred_err_at_100ohm_frac_of_margin": 0.00012500000001302702,
+          "linear": -0.00040041448975216556,
+          "linear_agrees": true,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.04990155702931531,
+            "spice_change": -0.04910000000000281,
+            "agree": true
+          },
+          "mechanism": "small-signal",
+          "pass": true
+        },
+        {
+          "case": "XM5.d",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.006150000000000233,
+          "spice_100ohm": -0.006540000000000106,
+          "spice_extrapolated_0": -0.006052500000000265,
+          "step_consistency": 0.05963302752291528,
+          "pred_err_at_100ohm_frac_of_margin": 0.004685968048905553,
+          "linear": -1.4369275572789774e-05,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.6580157113984768,
+            "spice_change": -0.6540000000000106,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM5.d",
+          "spec": "pm_deg",
+          "spice_20ohm": -0.0005699999999997374,
+          "spice_100ohm": -0.000589999999999975,
+          "spice_extrapolated_0": -0.000564999999999678,
+          "step_consistency": 0.03389830508514991,
+          "pred_err_at_100ohm_frac_of_margin": 0.00012714752164201884,
+          "linear": 4.718671067394098e-05,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -0.05914577208444882,
+            "spice_change": -0.0589999999999975,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM5.d",
+          "spec": "gain_db",
+          "spice_20ohm": 4.999999999988347e-05,
+          "spice_100ohm": 5.4000000000016254e-05,
+          "spice_extrapolated_0": 4.899999999985028e-05,
+          "step_consistency": 0.07407407407651073,
+          "pred_err_at_100ohm_frac_of_margin": 0.0005000000000165977,
+          "linear": 3.20462637191099e-06,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.005490135790793715,
+            "spice_change": 0.005400000000001626,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM5.g",
+          "spec": "gbw_mhz",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 9.499999999970754e-05,
+          "linear": 0.00012580055494737508
+        },
+        {
+          "case": "XM5.g",
+          "spec": "pm_deg",
+          "status": "below_resolution",
+          "spice_extrapolated_0": -5.4999999999623127e-05,
+          "linear": -5.457118422640406e-05
+        },
+        {
+          "case": "XM5.g",
+          "spec": "gain_db",
+          "status": "below_resolution",
+          "spice_extrapolated_0": 0.0,
+          "linear": 0.0
+        },
+        {
+          "case": "XM5.s",
+          "spec": "gbw_mhz",
+          "spice_20ohm": -0.07230000000000061,
+          "spice_100ohm": -0.06819800000000001,
+          "spice_extrapolated_0": -0.07332550000000077,
+          "step_consistency": 0.056735822959897236,
+          "pred_err_at_100ohm_frac_of_margin": 0.04928677163235821,
+          "linear": 0.0004929542509586327,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": -6.893428277972191,
+            "spice_change": -6.819800000000001,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM5.s",
+          "spec": "pm_deg",
+          "spice_20ohm": 0.0020400000000002196,
+          "spice_100ohm": 0.002090000000000032,
+          "spice_extrapolated_0": 0.0020275000000002665,
+          "step_consistency": 0.023923444975986405,
+          "pred_err_at_100ohm_frac_of_margin": 0.0003178688041000775,
+          "linear": 0.0004171791951122827,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.20969215726775303,
+            "spice_change": 0.20900000000000318,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        },
+        {
+          "case": "XM5.s",
+          "spec": "gain_db",
+          "spice_20ohm": 0.001419999999999888,
+          "spice_100ohm": 0.001208999999999989,
+          "spice_extrapolated_0": 0.0014727499999998626,
+          "step_consistency": 0.14859154929571525,
+          "pred_err_at_100ohm_frac_of_margin": 0.026374999999987367,
+          "linear": 4.216068682865171e-05,
+          "linear_agrees": false,
+          "shifted_op_check": {
+            "linear_at_shifted_op_change": 0.12184561723769605,
+            "spice_change": 0.1208999999999989,
+            "agree": true
+          },
+          "mechanism": "bias shift (DC operating point), confirmed",
+          "pass": true
+        }
+      ],
+      "values_ohm": [
+        20.0,
+        100.0
+      ],
+      "note": "matched terminals varied symmetrically. Pass = SPICE slopes consistent between 20 and 100 ohm (or first-order prediction within 5 % of the margin at 100 ohm) AND the linear model explains the change: either directly (small-signal) or when re-solved at the operating point SPICE finds with the resistor inserted (bias shift)."
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-11-04T16:50:26+00:00",
+    "git_commit": "ef21cda3f5e36142f42125875156e320a0e8b176",
+    "inputs": [
+      {
+        "path": "outputs/S0/ota5t_gui_new/circuit_ir.json",
+        "sha256": "0b2f1be8130462e726b3b5ee257e5d77cb0d8e5f2a947cd881c325e28ebc329e"
+      },
+      {
+        "path": "inputs/ota5t_gui_new/package.yaml",
+        "sha256": "1f43c223cd305689a3207c52937c690d2ad19987e8a7b9113a07ff75096e390c"
+      }
+    ]
+  }
+}

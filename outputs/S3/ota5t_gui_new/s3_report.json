@@ -1,0 +1,953 @@
+{
+  "run_id": "2026-11-04T18:22:54-61b9c760",
+  "s2_run_id": "2026-11-04T17:50:33-ce91fcbb",
+  "eta": 0.5,
+  "design": "ota5t_gui_new",
+  "gates": {
+    "G3.4_option_table_complete": {
+      "pass": true,
+      "options": 84,
+      "not_signed_off": [
+        "pfet_01v8_W8_L1_m1__nf8_gboth_sdhalf_outS_ng",
+        "pfet_01v8_W8_L1_m1__nf8_gboth_sdhalf_outD_ng",
+        "pfet_01v8_W8_L1_m1__nf8_gtop_sdhalf_outS_ng",
+        "pfet_01v8_W8_L1_m1__nf8_gtop_sdhalf_outD_ng"
+      ],
+      "build_mode": "A-free",
+      "unit_cell_guard_ring": false,
+      "deferred_to_S4": [
+        "LU.2",
+        "LU.3",
+        "nwell.4"
+      ]
+    },
+    "G3.7_modes (info)": {
+      "pass": null,
+      "main_mode": "A-bin",
+      "summary": {
+        "B": {
+          "complete": true,
+          "total_area_um2": 146.85,
+          "relaxed": [
+            "nfet_01v8_W24_L0p5_m1",
+            "nfet_01v8_W24_L1_m1",
+            "pfet_01v8_W8_L1_m1"
+          ],
+          "fingers_outside_sized_bin": [],
+          "chosen": {
+            "pfet_01v8_W8_L1_m1": "nf1_gboth_sdfull",
+            "nfet_01v8_W24_L0p5_m1": "nf1_gboth_sdfull",
+            "nfet_01v8_W24_L1_m1": "nf1_gboth_sdfull"
+          },
+          "missing": []
+        },
+        "A-bin": {
+          "complete": true,
+          "total_area_um2": 135.34199999999998,
+          "relaxed": [
+            "nfet_01v8_W24_L0p5_m1",
+            "nfet_01v8_W24_L1_m1",
+            "pfet_01v8_W8_L1_m1"
+          ],
+          "fingers_outside_sized_bin": [],
+          "chosen": {
+            "pfet_01v8_W8_L1_m1": "nf1_gboth_sdfull",
+            "nfet_01v8_W24_L0p5_m1": "nf2_gboth_sdfull_outS",
+            "nfet_01v8_W24_L1_m1": "nf1_gboth_sdfull"
+          },
+          "missing": []
+        },
+        "A-free": {
+          "complete": true,
+          "total_area_um2": 131.31099999999998,
+          "relaxed": [
+            "nfet_01v8_W24_L0p5_m1",
+            "nfet_01v8_W24_L1_m1",
+            "pfet_01v8_W8_L1_m1"
+          ],
+          "fingers_outside_sized_bin": [
+            "nfet_01v8_W24_L0p5_m1",
+            "nfet_01v8_W24_L1_m1"
+          ],
+          "chosen": {
+            "pfet_01v8_W8_L1_m1": "nf1_gboth_sdfull",
+            "nfet_01v8_W24_L0p5_m1": "nf8_gboth_sdfull_outS",
+            "nfet_01v8_W24_L1_m1": "nf8_gboth_sdfull_outS"
+          },
+          "missing": []
+        },
+        "RoT": {
+          "complete": true,
+          "total_area_um2": 128.71699999999998,
+          "relaxed": [
+            "nfet_01v8_W24_L0p5_m1",
+            "nfet_01v8_W24_L1_m1",
+            "pfet_01v8_W8_L1_m1"
+          ],
+          "fingers_outside_sized_bin": [
+            "nfet_01v8_W24_L0p5_m1",
+            "nfet_01v8_W24_L1_m1",
+            "pfet_01v8_W8_L1_m1"
+          ],
+          "chosen": {
+            "pfet_01v8_W8_L1_m1": "nf2_gboth_sdfull_outD",
+            "nfet_01v8_W24_L0p5_m1": "nf8_gboth_sdfull_outD",
+            "nfet_01v8_W24_L1_m1": "nf8_gboth_sdfull_outD"
+          },
+          "missing": []
+        }
+      },
+      "w_bins": {
+        "sky130_fd_pr__nfet_01v8": [
+          {
+            "lmin_um": 8.0,
+            "lmax_um": 20.2,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 4.0,
+            "lmax_um": 8.0,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 2.0,
+            "lmax_um": 4.0,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 1.0,
+            "lmax_um": 2.0,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 0.5,
+            "lmax_um": 1.0,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 0.25,
+            "lmax_um": 0.5,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 0.18,
+            "lmax_um": 0.25,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 0.15,
+            "lmax_um": 0.18,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 8.0,
+            "lmax_um": 20.2,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 4.0,
+            "lmax_um": 8.0,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 2.0,
+            "lmax_um": 4.0,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 1.0,
+            "lmax_um": 2.0,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 0.5,
+            "lmax_um": 1.0,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 0.25,
+            "lmax_um": 0.5,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 0.18,
+            "lmax_um": 0.25,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 0.15,
+            "lmax_um": 0.18,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 8.0,
+            "lmax_um": 20.2,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 4.0,
+            "lmax_um": 8.0,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 2.0,
+            "lmax_um": 4.0,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 1.0,
+            "lmax_um": 2.0,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 0.5,
+            "lmax_um": 1.0,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 0.25,
+            "lmax_um": 0.5,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 0.18,
+            "lmax_um": 0.25,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 0.15,
+            "lmax_um": 0.18,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 8.0,
+            "lmax_um": 20.2,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 4.0,
+            "lmax_um": 8.0,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 2.0,
+            "lmax_um": 4.0,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 1.0,
+            "lmax_um": 2.0,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 0.5,
+            "lmax_um": 1.0,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 0.25,
+            "lmax_um": 0.5,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 0.18,
+            "lmax_um": 0.25,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 0.15,
+            "lmax_um": 0.18,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 8.0,
+            "lmax_um": 20.2,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 4.0,
+            "lmax_um": 8.0,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 2.0,
+            "lmax_um": 4.0,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 1.0,
+            "lmax_um": 2.0,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 0.5,
+            "lmax_um": 1.0,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 0.25,
+            "lmax_um": 0.5,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 0.18,
+            "lmax_um": 0.25,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 0.15,
+            "lmax_um": 0.18,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 8.0,
+            "lmax_um": 20.2,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 4.0,
+            "lmax_um": 8.0,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 2.0,
+            "lmax_um": 4.0,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 1.0,
+            "lmax_um": 2.0,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 0.5,
+            "lmax_um": 1.0,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 0.25,
+            "lmax_um": 0.5,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 0.18,
+            "lmax_um": 0.25,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 0.15,
+            "lmax_um": 0.18,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          }
+        ],
+        "sky130_fd_pr__pfet_01v8": [
+          {
+            "lmin_um": 8.0,
+            "lmax_um": 20.2,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 4.0,
+            "lmax_um": 8.0,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 2.0,
+            "lmax_um": 4.0,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 1.0,
+            "lmax_um": 2.0,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 0.5,
+            "lmax_um": 1.0,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 0.25,
+            "lmax_um": 0.5,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 0.18,
+            "lmax_um": 0.25,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 0.15,
+            "lmax_um": 0.18,
+            "wmin_um": 7.0,
+            "wmax_um": 1010.0
+          },
+          {
+            "lmin_um": 8.0,
+            "lmax_um": 20.2,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 4.0,
+            "lmax_um": 8.0,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 2.0,
+            "lmax_um": 4.0,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 1.0,
+            "lmax_um": 2.0,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 0.5,
+            "lmax_um": 1.0,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 0.25,
+            "lmax_um": 0.5,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 0.18,
+            "lmax_um": 0.25,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 0.15,
+            "lmax_um": 0.18,
+            "wmin_um": 5.0,
+            "wmax_um": 7.0
+          },
+          {
+            "lmin_um": 8.0,
+            "lmax_um": 20.2,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 4.0,
+            "lmax_um": 8.0,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 2.0,
+            "lmax_um": 4.0,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 1.0,
+            "lmax_um": 2.0,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 0.5,
+            "lmax_um": 1.0,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 0.25,
+            "lmax_um": 0.5,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 0.18,
+            "lmax_um": 0.25,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 0.15,
+            "lmax_um": 0.18,
+            "wmin_um": 3.0,
+            "wmax_um": 5.0
+          },
+          {
+            "lmin_um": 8.0,
+            "lmax_um": 20.2,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 4.0,
+            "lmax_um": 8.0,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 2.0,
+            "lmax_um": 4.0,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 1.0,
+            "lmax_um": 2.0,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 0.5,
+            "lmax_um": 1.0,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 0.25,
+            "lmax_um": 0.5,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 0.18,
+            "lmax_um": 0.25,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 0.15,
+            "lmax_um": 0.18,
+            "wmin_um": 1.0,
+            "wmax_um": 3.0
+          },
+          {
+            "lmin_um": 8.0,
+            "lmax_um": 20.2,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 4.0,
+            "lmax_um": 8.0,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 2.0,
+            "lmax_um": 4.0,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 1.0,
+            "lmax_um": 2.0,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 0.5,
+            "lmax_um": 1.0,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 0.25,
+            "lmax_um": 0.5,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 0.18,
+            "lmax_um": 0.25,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 0.15,
+            "lmax_um": 0.18,
+            "wmin_um": 0.55,
+            "wmax_um": 1.0
+          },
+          {
+            "lmin_um": 8.0,
+            "lmax_um": 20.2,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 4.0,
+            "lmax_um": 8.0,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 2.0,
+            "lmax_um": 4.0,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 1.0,
+            "lmax_um": 2.0,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 0.5,
+            "lmax_um": 1.0,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 0.25,
+            "lmax_um": 0.5,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 0.18,
+            "lmax_um": 0.25,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          },
+          {
+            "lmin_um": 0.15,
+            "lmax_um": 0.18,
+            "wmin_um": 0.42,
+            "wmax_um": 0.55
+          }
+        ]
+      },
+      "note": "the sky130 subcircuits pass W, not W/nf, to BSIM4; an nf-finger layout is extracted as fingers of W/nf, simulated in the bin of W/nf"
+    },
+    "G3.3_all_chosen_devices_in_circuit": {
+      "pass": true,
+      "specs": {
+        "gain_db": 39.1956,
+        "gbw_mhz": 103.3,
+        "pm_deg": 79.2135,
+        "power_uw": 151.695,
+        "vnoise_nv_rthz": 348.508
+      },
+      "meets": {
+        "gain_db": true,
+        "gbw_mhz": true,
+        "pm_deg": true,
+        "power_uw": true,
+        "vnoise_nv_rthz": true
+      },
+      "saturated": {
+        "XM3": 1.049009,
+        "XM4": 0.556777,
+        "XM1": 0.129872,
+        "XM2": 0.6255034,
+        "XM5": 0.018680000000000002
+      },
+      "margin_use_signed": {
+        "gain_db": 0.00030000000000285354,
+        "gbw_mhz": 0.7340000000000089,
+        "pm_deg": 0.4487000000000023,
+        "power_uw": -0.8520000000000039,
+        "vnoise_nv_rthz": 0.4079999999999586,
+        "sat_XM3": 0.00013599999999991397,
+        "sat_XM4": -0.0010559999999998348,
+        "sat_XM1": -0.0009773999999999894,
+        "sat_XM2": 0.0002281999999999007,
+        "sat_XM5": 0.0005599999999999772
+      },
+      "allowance_total": {
+        "gain_db": 0.4992144534384202,
+        "gbw_mhz": 5.11869609370145,
+        "pm_deg": 9.478051660160823,
+        "vnoise_nv_rthz": 25.940218537349022,
+        "sat_XM3": 0.5220642960425279,
+        "sat_XM4": 0.2756017944261993,
+        "sat_XM1": 0.06264194759421286,
+        "sat_XM2": 0.31283698700068746,
+        "sat_XM5": 0.009578212010484526,
+        "pm_deg@ff_v0.9_t-40": 15.605150000000002,
+        "pm_deg@ff_v0.9_t27": 16.429900000000004,
+        "pm_deg@ff_v0.9_t85": 16.518050000000002,
+        "gain_db@ff_v1.1_t-40": 0.9254999999999995,
+        "gbw_mhz@ff_v1.1_t-40": 11.0867,
+        "pm_deg@ff_v1.1_t-40": 9.7573,
+        "gain_db@ff_v1.1_t27": 0.5313999999999979,
+        "gbw_mhz@ff_v1.1_t27": 14.392200000000003,
+        "pm_deg@ff_v1.1_t27": 9.497149999999998,
+        "gain_db@ff_v1.1_t85": 0.10115000000000052,
+        "gbw_mhz@ff_v1.1_t85": 13.320700000000002,
+        "pm_deg@ff_v1.1_t85": 9.40645,
+        "gain_db@ff_v1_t-40": 0.7461999999999982,
+        "gbw_mhz@ff_v1_t-40": 9.350200000000001,
+        "pm_deg@ff_v1_t-40": 9.937100000000001,
+        "gain_db@ff_v1_t27": 0.2508999999999979,
+        "gbw_mhz@ff_v1_t27": 11.1297,
+        "pm_deg@ff_v1_t27": 9.866,
+        "gbw_mhz@ff_v1_t85": 8.887700000000002,
+        "pm_deg@ff_v1_t85": 9.961950000000002,
+        "gain_db@fs_v0.9_t-40": 0.7827500000000001,
+        "pm_deg@fs_v0.9_t-40": 10.668550000000003,
+        "gain_db@fs_v0.9_t27": 0.3531999999999975,
+        "pm_deg@fs_v0.9_t27": 10.389850000000003,
+        "pm_deg@fs_v0.9_t85": 10.4651,
+        "gain_db@fs_v1.1_t-40": 1.1096000000000004,
+        "pm_deg@fs_v1.1_t-40": 10.516649999999998,
+        "gain_db@fs_v1.1_t27": 0.8745999999999974,
+        "pm_deg@fs_v1.1_t27": 9.975299999999997,
+        "gain_db@fs_v1.1_t85": 0.5149499999999989,
+        "pm_deg@fs_v1.1_t85": 9.746899999999997,
+        "gain_db@fs_v1_t-40": 0.9982000000000006,
+        "pm_deg@fs_v1_t-40": 10.552700000000002,
+        "gain_db@fs_v1_t27": 0.7166999999999994,
+        "pm_deg@fs_v1_t27": 10.04775,
+        "gain_db@fs_v1_t85": 0.3085500000000003,
+        "pm_deg@fs_v1_t85": 9.85125,
+        "pm_deg@sf_v0.9_t-40": 18.637300000000003,
+        "pm_deg@sf_v0.9_t27": 18.709699999999998,
+        "pm_deg@sf_v0.9_t85": 18.53085,
+        "gain_db@sf_v1.1_t-40": 0.9535499999999999,
+        "gbw_mhz@sf_v1.1_t-40": 17.103699999999996,
+        "pm_deg@sf_v1.1_t-40": 9.562750000000001,
+        "gain_db@sf_v1.1_t27": 0.5055499999999995,
+        "gbw_mhz@sf_v1.1_t27": 18.080199999999998,
+        "pm_deg@sf_v1.1_t27": 9.424599999999998,
+        "gain_db@sf_v1.1_t85": 0.0437999999999974,
+        "gbw_mhz@sf_v1.1_t85": 15.6492,
+        "pm_deg@sf_v1.1_t85": 9.408949999999997,
+        "gain_db@sf_v1_t-40": 0.5327500000000001,
+        "gbw_mhz@sf_v1_t-40": 9.109699999999997,
+        "pm_deg@sf_v1_t-40": 10.4347,
+        "pm_deg@sf_v1_t27": 12.092100000000002,
+        "pm_deg@sf_v1_t85": 13.030050000000003,
+        "gain_db@ss_v0.9_t-40": 0.3160500000000006,
+        "pm_deg@ss_v0.9_t-40": 11.67145,
+        "pm_deg@ss_v0.9_t27": 13.7774,
+        "pm_deg@ss_v0.9_t85": 14.437600000000003,
+        "gain_db@ss_v1.1_t-40": 1.1904499999999985,
+        "pm_deg@ss_v1.1_t-40": 10.209800000000001,
+        "gain_db@ss_v1.1_t27": 0.90625,
+        "gbw_mhz@ss_v1.1_t27": 0.15370000000000061,
+        "pm_deg@ss_v1.1_t27": 9.750050000000002,
+        "gain_db@ss_v1.1_t85": 0.5213499999999982,
+        "gbw_mhz@ss_v1.1_t85": 1.5193500000000029,
+        "pm_deg@ss_v1.1_t85": 9.563600000000001,
+        "gain_db@ss_v1_t-40": 1.058049999999998,
+        "pm_deg@ss_v1_t-40": 10.280549999999998,
+        "gain_db@ss_v1_t27": 0.7110999999999983,
+        "pm_deg@ss_v1_t27": 9.897150000000003,
+        "gain_db@ss_v1_t85": 0.2605000000000004,
+        "pm_deg@ss_v1_t85": 9.784550000000003,
+        "pm_deg@tt_v0.9_t-40": 13.665849999999999,
+        "pm_deg@tt_v0.9_t27": 15.391449999999999,
+        "pm_deg@tt_v0.9_t85": 15.659300000000002,
+        "gain_db@tt_v1.1_t-40": 1.0705999999999989,
+        "gbw_mhz@tt_v1.1_t-40": 1.8466999999999985,
+        "pm_deg@tt_v1.1_t-40": 9.960299999999997,
+        "gain_db@tt_v1.1_t27": 0.728749999999998,
+        "gbw_mhz@tt_v1.1_t27": 7.143700000000003,
+        "pm_deg@tt_v1.1_t27": 9.601349999999996,
+        "gain_db@tt_v1.1_t85": 0.31984999999999886,
+        "gbw_mhz@tt_v1.1_t85": 7.352699999999999,
+        "pm_deg@tt_v1.1_t85": 9.463549999999998,
+        "gain_db@tt_v1_t-40": 0.9185499999999998,
+        "gbw_mhz@tt_v1_t-40": 0.8247999999999962,
+        "pm_deg@tt_v1_t-40": 10.07365,
+        "gain_db@tt_v1_t27": 0.5,
+        "gbw_mhz@tt_v1_t27": 5.201700000000002,
+        "pm_deg@tt_v1_t27": 9.8311,
+        "gain_db@tt_v1_t85": 0.010649999999998272,
+        "gbw_mhz@tt_v1_t85": 4.701700000000002,
+        "pm_deg@tt_v1_t85": 9.8046
+      },
+      "within_allowance_harmful": {
+        "gain_db": true,
+        "gbw_mhz": true,
+        "pm_deg": true,
+        "power_uw": true,
+        "vnoise_nv_rthz": true,
+        "sat_XM3": true,
+        "sat_XM4": true,
+        "sat_XM1": true,
+        "sat_XM2": true,
+        "sat_XM5": true
+      },
+      "do_no_harm_checks": [],
+      "failed_runs": null
+    },
+    "G3.1_chosen_DRC": {
+      "pass": true,
+      "detail": {
+        "pfet_01v8_W8_L1_m1": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng/drc/drc_report.txt",
+          "errors_total": 1,
+          "deferred": {
+            "nwell.4": 1,
+            "LU.3": 2
+          }
+        },
+        "nfet_01v8_W24_L0p5_m1": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS_ng/drc/drc_report.txt",
+          "errors_total": 3,
+          "deferred": {
+            "LU.2": 3
+          }
+        },
+        "nfet_01v8_W24_L1_m1": {
+          "errors": 0,
+          "neg_control_flagged": true,
+          "pass": true,
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng/drc/drc_report.txt",
+          "errors_total": 2,
+          "deferred": {
+            "LU.2": 2
+          }
+        }
+      }
+    },
+    "G3.2_chosen_LVS_W_L_nf": {
+      "pass": true,
+      "detail": {
+        "pfet_01v8_W8_L1_m1": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "pcell_instance": "pfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng",
+          "report": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/pfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng/lvs/lvs/extracted.spice"
+        },
+        "nfet_01v8_W24_L0p5_m1": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "pcell_instance": "nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS_ng",
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS_ng/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS_ng/lvs/lvs/extracted.spice"
+        },
+        "nfet_01v8_W24_L1_m1": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "pcell_instance": "nfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng",
+          "report": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng/lvs/lvs/lvs_report.txt",
+          "extracted": "outputs/S3/_cells/nfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng/lvs/lvs/extracted.spice"
+        }
+      }
+    },
+    "G3.5_no_relaxation": {
+      "pass": false,
+      "relaxed": [
+        "pfet_01v8_W8_L1_m1",
+        "nfet_01v8_W24_L0p5_m1",
+        "nfet_01v8_W24_L1_m1"
+      ],
+      "fallback": "least-bad"
+    },
+    "G3.6_model_has_no_gate_resistance": {
+      "pass": true,
+      "detail": {
+        "sky130_fd_pr__pfet_01v8": {
+          "file": "/foss/pdks/sky130A/libs.ref/sky130_fd_pr/spice/sky130_fd_pr__pfet_01v8__tt.pm3.spice",
+          "rgatemod_values": [
+            "0.0"
+          ]
+        },
+        "sky130_fd_pr__nfet_01v8": {
+          "file": "/foss/pdks/sky130A/libs.ref/sky130_fd_pr/spice/sky130_fd_pr__nfet_01v8__tt.pm3.spice",
+          "rgatemod_values": [
+            "0.0"
+          ]
+        }
+      }
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-11-04T17:46:19+00:00",
+    "git_commit": "ef21cda3f5e36142f42125875156e320a0e8b176",
+    "inputs": [
+      {
+        "path": "outputs/S0/ota5t_gui_new/circuit_ir.json",
+        "sha256": "0b2f1be8130462e726b3b5ee257e5d77cb0d8e5f2a947cd881c325e28ebc329e"
+      },
+      {
+        "path": "outputs/S2/ota5t_gui_new/budgets.json",
+        "sha256": "a78432c0dfc70ff9adc798a6e78f87a23db61da1bf829aacb9b1d508444116f8"
+      },
+      {
+        "path": "outputs/S2/pdk/parasitics.json",
+        "sha256": "2166464e52376c741755c5342120953cbe428c8a0d3099715616ed0cb9c169c1"
+      },
+      {
+        "path": "inputs/ota5t_gui_new/package.yaml",
+        "sha256": "1f43c223cd305689a3207c52937c690d2ad19987e8a7b9113a07ff75096e390c"
+      }
+    ]
+  }
+}

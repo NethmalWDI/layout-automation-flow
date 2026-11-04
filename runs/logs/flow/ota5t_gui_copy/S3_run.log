@@ -1,0 +1,12 @@
+$ /usr/bin/python3 -m src.s3.run inputs/ota5t_gui_copy/package.yaml --workers 4
+G3.1_chosen_DRC                          PASS
+G3.2_chosen_LVS_W_L_nf                   PASS
+G3.3_all_chosen_devices_in_circuit       PASS
+G3.4_option_table_complete               PASS
+G3.5_no_relaxation                       PASS
+G3.6_model_has_no_gate_resistance        PASS
+G3.7_modes (info)                        FAIL
+  pfet_01v8_W8_L1_m1           -> nf1_gtop_sdfull          area 17.1 um2  R(d,g,s)=27.3, 209.2, 27.3 ohm
+  nfet_01v8_W24_L0p5_m1        -> nf2_gtop_sdfull_outS     area 26.7 um2  R(d,g,s)=12.0, 273.5, 6.0 ohm
+  nfet_01v8_W24_L1_m1          -> nf2_gtop_sdfull_outD     area 39.3 um2  R(d,g,s)=6.0, 136.7, 12.0 ohm
+S3 PASS -> outputs/S3/ota5t_gui_copy

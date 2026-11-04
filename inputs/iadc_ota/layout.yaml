@@ -1,0 +1,18 @@
+# Layout options for S4-S7 of iadc_ota (Imasha, 2026-11-04: lay it out to fit a Tiny Tapeout analog tile).
+# Read only by S4-S7 (the last two options by S6/S7): S0-S3 never read this file.
+# The matching and dummy choices repeat Imasha's decisions for ttsky25a_fd (2026-11-04); for this design they are an
+# ASSUMPTION until she confirms them (the netlist already holds the designer's own top-level dummies).
+matching: centroid        # matched transistors only as common centroid or interdigitated rows, chosen by the cost
+dummies: true             # one dummy unit at each end of every matched row (ASSUMPTION for this design, see above)
+pack_internal: true       # a net only one block uses gets a short track, packed in rows (left-edge)
+outline_um: [161.0, 225.77]   # the Tiny Tapeout 1x2 analog tile, width x height, as read from the taped-out tile
+                          # tt_um_diff (circuits/ttsky25a_fd/upstream_src/gds/tt_um_diff.gds: 161.0 x 225.77 um).
+                          # ASSUMPTION: the whole tile is available to the OTA; the tile's power straps (VDPWR,
+                          # VGND, left edge) and its analog pins ua[0..7] (bottom edge, metal4) are not routed
+hierarchy: upstream       # S5 places x1 (bias), x2 (core) and top (CMFB capacitors, dummies) as macros
+pin_origin: bbox          # unit pins measured from the cell's bounding-box corner, where Magic places it (flow record
+                          # row 95); iadc's single-finger W 1.2 / L 0.2 cell needs it. The finished designs keep the old
+                          # way until Imasha decides (their stubs sit up to 0.125 um off their strips' centres)
+search_from_outside: true # S5's annealing may start outside the outline and walk back in (flow record row 96); x1's
+                          # start (a row per matched block) is far taller than the tile. Opt-in, like pin_origin
+rc_extraction: false      # C-only, as for ttsky25a_fd (flow record row 87) and as the hand layout was measured (7.8)

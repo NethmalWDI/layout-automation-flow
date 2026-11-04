@@ -1,0 +1,52 @@
+$ /usr/bin/python3 -m src.s6.run inputs/ota5t_gui_copy/package.yaml
+== budget_aware: lvs=True caps=19 rc_R=72891 unassigned=0
+   OUTP             net_capacitance           7.245 /     37.594 fF   use=0.1927 ok
+   net1             net_capacitance          11.127 /     77.762 fF   use=0.1431 ok
+   net3             net_capacitance           9.986 /     44.312 fF   use=0.2254 ok
+   OUTP~net1        coupling                  3.072 /      8.792 fF   use=0.3495 ok
+   OUTP~net3        coupling                  1.646 /      5.138 fF   use=0.3203 ok
+   OUTP~INP         coupling                  0.001 /      1.998 fF   use=0.0007 ok
+   OUTP~INN         coupling                  0.862 /      6.286 fF   use=0.1372 ok
+   net1~net3        coupling                  2.257 /      8.124 fF   use=0.2778 ok
+   net1~INP         coupling                  0.891 /      6.286 fF   use=0.1417 ok
+   net1~INN         coupling                  0.890 /      6.286 fF   use=0.1415 ok
+   net3~INP         coupling                  0.863 /      6.286 fF   use=0.1373 ok
+   net3~INN         coupling                  0.006 /      1.998 fF   use=0.003 ok
+   XM3+XM4.d        terminal_resistance      35.068 /    299.381 ohm  use=0.1171 ok
+   XM3+XM4.g        terminal_resistance     216.944 /    783.289 ohm  use=0.277 ok
+   XM3+XM4.s        terminal_resistance      35.703 /    131.644 ohm  use=0.2712 ok
+   XM1+XM2.d        terminal_resistance      19.752 /    159.722 ohm  use=0.1237 ok
+   XM1+XM2.g        terminal_resistance     276.860 /   1819.987 ohm  use=0.1521 ok
+   XM1+XM2.s        terminal_resistance      13.579 /     86.684 ohm  use=0.1567 ok
+   XM5.d            terminal_resistance      13.579 /     74.897 ohm  use=0.1813 ok
+   XM5.g            terminal_resistance     140.135 /    523.562 ohm  use=0.2677 ok
+   XM5.s            terminal_resistance      29.960 /    140.891 ohm  use=0.2126 ok
+   unbudgeted couplings: {'INN~INP': 0.8481}
+== area_only: lvs=True caps=21 rc_R=69595 unassigned=0
+   OUTP             net_capacitance           7.723 /     37.594 fF   use=0.2054 ok
+   net1             net_capacitance          12.090 /     77.762 fF   use=0.1555 ok
+   net3             net_capacitance          10.684 /     44.312 fF   use=0.2411 ok
+   OUTP~net1        coupling                  3.376 /      8.792 fF   use=0.384 ok
+   OUTP~net3        coupling                  2.501 /      5.138 fF   use=0.4869 ok
+   OUTP~INP         coupling                  0.098 /      1.998 fF   use=0.0491 ok
+   OUTP~INN         coupling                  1.131 /      6.286 fF   use=0.18 ok
+   net1~net3        coupling                  2.267 /      8.124 fF   use=0.279 ok
+   net1~INP         coupling                  0.888 /      6.286 fF   use=0.1413 ok
+   net1~INN         coupling                  0.888 /      6.286 fF   use=0.1413 ok
+   net3~INP         coupling                  0.966 /      6.286 fF   use=0.1537 ok
+   net3~INN         coupling                  0.119 /      1.998 fF   use=0.0598 ok
+   XM3+XM4.d        terminal_resistance      36.994 /    299.381 ohm  use=0.1236 ok
+   XM3+XM4.g        terminal_resistance     218.764 /    783.289 ohm  use=0.2793 ok
+   XM3+XM4.s        terminal_resistance      35.703 /    131.644 ohm  use=0.2712 ok
+   XM1+XM2.d        terminal_resistance      21.678 /    159.722 ohm  use=0.1357 ok
+   XM1+XM2.g        terminal_resistance     276.860 /   1819.987 ohm  use=0.1521 ok
+   XM1+XM2.s        terminal_resistance      15.331 /     86.684 ohm  use=0.1769 ok
+   XM5.d            terminal_resistance      15.331 /     74.897 ohm  use=0.2047 ok
+   XM5.g            terminal_resistance     140.135 /    523.562 ohm  use=0.2677 ok
+   XM5.s            terminal_resistance      28.593 /    140.891 ohm  use=0.2029 ok
+   unbudgeted couplings: {'INN~INP': 0.8414}
+G6.1_extracted_and_LVS             True
+G6.2_parasitics_within_budgets     True
+G6.4_c_only_netlist_complete (info) None
+G6.5_mim_self_coupling (info)      None
+G6.3_kpex_cross_check (info)       None

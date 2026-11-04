@@ -1,0 +1,462 @@
+{
+  "schema": "circuit_ir/v1",
+  "design": "ota5t_gui_new",
+  "description": "GUI test: the 5T OTA entered as a brand-new design (netlist and config only; benches generated; specs from its own results)",
+  "subckt": "example_ota_5t_sized",
+  "ports": [
+    {
+      "name": "VDD",
+      "role": "supply",
+      "direction": "inout",
+      "testbench_port": "VDD"
+    },
+    {
+      "name": "OUTP",
+      "role": "output",
+      "direction": "output",
+      "testbench_port": "OUTP"
+    },
+    {
+      "name": "INP",
+      "role": "input",
+      "direction": "input",
+      "testbench_port": "INP"
+    },
+    {
+      "name": "INN",
+      "role": "input",
+      "direction": "input",
+      "testbench_port": "INN"
+    },
+    {
+      "name": "VSS",
+      "role": "ground",
+      "direction": "inout",
+      "testbench_port": "VSS"
+    },
+    {
+      "name": "VBIAS",
+      "role": "bias",
+      "direction": "input",
+      "testbench_port": null,
+      "note": "node of internal source V1, exposed for layout"
+    }
+  ],
+  "nets": [
+    {
+      "name": "INN",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XM2",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "INP",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XM1",
+          "terminal": "g"
+        }
+      ]
+    },
+    {
+      "name": "OUTP",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XM4",
+          "terminal": "d"
+        },
+        {
+          "element": "XM2",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "VDD",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XM3",
+          "terminal": "s"
+        },
+        {
+          "element": "XM3",
+          "terminal": "b"
+        },
+        {
+          "element": "XM4",
+          "terminal": "s"
+        },
+        {
+          "element": "XM4",
+          "terminal": "b"
+        }
+      ]
+    },
+    {
+      "name": "VSS",
+      "kind": "port",
+      "connections": [
+        {
+          "element": "XM1",
+          "terminal": "b"
+        },
+        {
+          "element": "XM2",
+          "terminal": "b"
+        },
+        {
+          "element": "XM5",
+          "terminal": "s"
+        },
+        {
+          "element": "XM5",
+          "terminal": "b"
+        },
+        {
+          "element": "V1",
+          "terminal": "n"
+        }
+      ]
+    },
+    {
+      "name": "net1",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM1",
+          "terminal": "s"
+        },
+        {
+          "element": "XM2",
+          "terminal": "s"
+        },
+        {
+          "element": "XM5",
+          "terminal": "d"
+        }
+      ]
+    },
+    {
+      "name": "net2",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM5",
+          "terminal": "g"
+        },
+        {
+          "element": "V1",
+          "terminal": "p"
+        }
+      ]
+    },
+    {
+      "name": "net3",
+      "kind": "internal",
+      "connections": [
+        {
+          "element": "XM3",
+          "terminal": "d"
+        },
+        {
+          "element": "XM3",
+          "terminal": "g"
+        },
+        {
+          "element": "XM4",
+          "terminal": "g"
+        },
+        {
+          "element": "XM1",
+          "terminal": "d"
+        }
+      ]
+    }
+  ],
+  "devices": [
+    {
+      "name": "XM3",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "terminals": {
+        "d": "net3",
+        "g": "net3",
+        "s": "VDD",
+        "b": "VDD"
+      },
+      "W_um": 8.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "2.32",
+        "AS": "2.32",
+        "PD": "16.58",
+        "PS": "16.58",
+        "NRD": "0.03625",
+        "NRS": "0.03625",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 8
+    },
+    {
+      "name": "XM4",
+      "type": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "terminals": {
+        "d": "OUTP",
+        "g": "net3",
+        "s": "VDD",
+        "b": "VDD"
+      },
+      "W_um": 8.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "2.32",
+        "AS": "2.32",
+        "PD": "16.58",
+        "PS": "16.58",
+        "NRD": "0.03625",
+        "NRS": "0.03625",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 10
+    },
+    {
+      "name": "XM1",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "terminals": {
+        "d": "net3",
+        "g": "INP",
+        "s": "net1",
+        "b": "VSS"
+      },
+      "W_um": 24.0,
+      "L_um": 0.5,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "6.96",
+        "AS": "6.96",
+        "PD": "48.58",
+        "PS": "48.58",
+        "NRD": "0.0120833333333333",
+        "NRS": "0.0120833333333333",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 12
+    },
+    {
+      "name": "XM2",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "terminals": {
+        "d": "OUTP",
+        "g": "INN",
+        "s": "net1",
+        "b": "VSS"
+      },
+      "W_um": 24.0,
+      "L_um": 0.5,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "6.96",
+        "AS": "6.96",
+        "PD": "48.58",
+        "PS": "48.58",
+        "NRD": "0.0120833333333333",
+        "NRS": "0.0120833333333333",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 14
+    },
+    {
+      "name": "XM5",
+      "type": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "terminals": {
+        "d": "net1",
+        "g": "net2",
+        "s": "VSS",
+        "b": "VSS"
+      },
+      "W_um": 24.0,
+      "L_um": 1.0,
+      "nf": 1,
+      "m": 1,
+      "extra_params": {
+        "AD": "6.96",
+        "AS": "6.96",
+        "PD": "48.58",
+        "PS": "48.58",
+        "NRD": "0.0120833333333333",
+        "NRS": "0.0120833333333333",
+        "SA": "0",
+        "SB": "0",
+        "SD": "0"
+      },
+      "source_line": 16
+    }
+  ],
+  "internal_sources": [
+    {
+      "name": "V1",
+      "kind": "V",
+      "p": "net2",
+      "n": "VSS",
+      "value": "0.75",
+      "dc": 0.75,
+      "layout_handling": "removed in layout view; node exposed as port VBIAS"
+    }
+  ],
+  "passives": [],
+  "hierarchy": {
+    "blocks": [],
+    "source": "upstream 5t-ota primitives through name map",
+    "findings": [
+      {
+        "level": "missing",
+        "msg": "no upstream hierarchy/name map provided"
+      }
+    ]
+  },
+  "conditions": {
+    "VDD_V": 1.8,
+    "VCM_V": 0.9,
+    "CL_F": "1p",
+    "temp": 27,
+    "corner": "tt"
+  },
+  "specs": {
+    "gain_db": {
+      "min": 38.1959
+    },
+    "gbw_mhz": {
+      "min": 93.6306
+    },
+    "pm_deg": {
+      "min": 60
+    },
+    "power_uw": {
+      "max": 167.8017
+    },
+    "vnoise_nv_rthz": {
+      "max": 400
+    }
+  },
+  "achieved": {
+    "gain_db": 39.1959,
+    "gbw_mhz": 104.034,
+    "pm_deg": 79.6622,
+    "isup_ua": 84.7483,
+    "power_uw": 152.547,
+    "vout_v": 0.892985,
+    "vnoise_nv_rthz": 348.1,
+    "vnoise_rms_uv_rms": 400.342
+  },
+  "achieved_source": "this flow's own S0 simulation (package key specs_from_achieved)",
+  "units": {},
+  "margins": {
+    "gain_db": {
+      "kind": "min",
+      "limit": 38.1959,
+      "achieved": 39.1959,
+      "margin": 1.0,
+      "units": null,
+      "meets": true
+    },
+    "gbw_mhz": {
+      "kind": "min",
+      "limit": 93.6306,
+      "achieved": 104.034,
+      "margin": 10.403400000000005,
+      "units": null,
+      "meets": true
+    },
+    "pm_deg": {
+      "kind": "min",
+      "limit": 60,
+      "achieved": 79.6622,
+      "margin": 19.6622,
+      "units": null,
+      "meets": true
+    },
+    "power_uw": {
+      "kind": "max",
+      "limit": 167.8017,
+      "achieved": 152.547,
+      "margin": 15.254700000000014,
+      "units": null,
+      "meets": true
+    },
+    "vnoise_nv_rthz": {
+      "kind": "max",
+      "limit": 400,
+      "achieved": 348.1,
+      "margin": 51.89999999999998,
+      "units": null,
+      "meets": true
+    }
+  },
+  "pending_inputs": {
+    "operating_point": "not provided (S1 generates it with ngspice .op)",
+    "variation_ranges": "not provided (awaiting PSO range format)",
+    "nodal_analysis": "not provided",
+    "net_symbol_map": "not provided by upstream (requested); S1 derives it from the level-0 netlist"
+  },
+  "notes": [
+    "specs_from_achieved replaces the config.yaml spec of gain_db ({'min': 30})",
+    "specs_from_achieved replaces the config.yaml spec of gbw_mhz ({'min': 20})",
+    "specs_from_achieved replaces the config.yaml spec of power_uw ({'max': 1000})",
+    "ASSUMPTION: specs derived from this design's own simulated values by the package rule {'gain_db': {'min_delta': -1.0}, 'gbw_mhz': {'min_factor': 0.9}, 'power_uw': {'max_factor': 1.1}} (no upstream specs, or a stress variant)"
+  ],
+  "provenance": {
+    "created": "2026-11-04T16:17:18+00:00",
+    "git_commit": "ef21cda3f5e36142f42125875156e320a0e8b176",
+    "inputs": [
+      {
+        "path": "circuits/ota5t_gui_new/source/ota5t_gui_new.spice",
+        "sha256": "39802d1314806938ea81857dd768e31c84129519bbd0e96a0d142d709599dbb1"
+      },
+      {
+        "path": "circuits/ota5t_gui_new/source/config.yaml",
+        "sha256": "ca49ca700f84bf2859f32cb35c69c98af5705dc5a66daa071c6d061ad8222a5e"
+      },
+      {
+        "path": "inputs/ota5t_gui_new/package.yaml",
+        "sha256": "1f43c223cd305689a3207c52937c690d2ad19987e8a7b9113a07ff75096e390c"
+      },
+      {
+        "path": "circuits/ota5t_gui_new/testbenches/diso_amp_AC.spice",
+        "sha256": "fe087eb3e57ecbb4e32f1d8a24a4e623d8991878b9a1cbcdcefa59d92a7d07ae"
+      },
+      {
+        "path": "circuits/ota5t_gui_new/testbenches/diso_amp_OP.spice",
+        "sha256": "d2329feaa7c84d56dca530a9772cc66b57680da5afbcdb063d61539567a05a7d"
+      },
+      {
+        "path": "circuits/ota5t_gui_new/testbenches/diso_amp_NOISE.spice",
+        "sha256": "837897fb38e7a62c23200c358c8295a1a1c111ba6b78159b997ff7f4b5fde183"
+      }
+    ]
+  }
+}

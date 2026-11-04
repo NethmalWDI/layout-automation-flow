@@ -1248,3 +1248,29 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   and what the layout gave them; the exact S4 and S5 algorithms with the cost function (constants read from the
   code); who decides what (code, Imasha, LLM); the novelty status against `docs/05`; the planned LLM integration;
   a note on every figure. `scripts/report_figures.py`; `scripts/report_layout_png.py` measures several cells.
+- **The local GUI (2026-11-04, 15:19–15:30 CET).** Imasha asked for a simple web GUI to edit a design and run the
+  whole flow to a simple report, with no LLM tokens; it must not affect the finished flow or results. Built:
+  `gui/gui.ps1` (Windows PowerShell HTTP server on localhost, nothing installed, the container unchanged; it runs
+  everything through `docker exec`), `gui/index.html`, `scripts/gui_backend.py` (list, load, save as a new design
+  copy with its provenance and hash record, status) and `scripts/make_design_report.py` (a simple report for any
+  design from its outputs). The GUI runs the flow only on copies it made; it changes no flow code (`src/`) and no
+  existing design. Tested: the API, the page, the refusal to run a committed design and to serve files outside
+  `docs/` and `outputs/`; simple reports for the 5T and ttsky (read-only). `scripts/report_figures.py`: a figure's
+  longer side is now 9 inches (a tall 5T layout came out 5 373 px tall). Not yet tested: saving a copy and a full
+  run, which wait for a branch of their own (Imasha's request).
+- **GUI: new designs, end-to-end test; iadc_ota in a Tiny Tapeout tile (2026-11-04, 15:30–19:30 CET; branch
+  `gui-tools`).**
+  - The GUI makes brand-new designs from files (netlist, config; optional benches, hierarchy, measurements, bias
+    sources, port roles, layout instructions; other files kept in `extra/`); "Make a starting config" writes one from
+    the netlist ports with every design value left null (FILL IN). Benches are generated with `scripts/benchlib.py`.
+  - End-to-end test through the GUI's own API: `ota5t_gui_copy` S0–S7 PASS with its report; `ota5t_gui_new` every
+    stage ran (fails expected: no hierarchy, specs from its own results). Found and fixed on the way: S4 drew no
+    variant for a centroid-matched pair that cannot be centroid (row 93); the GUI's benches needed `ac_drive` and its
+    xschem-netlist subckt header; a new design now needs measurements or derived specs.
+  - iadc_ota: the tile read from `tt_um_diff` (161.0 × 225.77 µm); `inputs/iadc_ota/layout.yaml`. S0–S3 re-run
+    (15:34–18:15): FAIL G0.7, G1.1, G2.7, G3.3/G3.5 as before; goldens S2, S3 refreshed. S4 PASS after rows 94
+    (staggered patches) and 95 (pins from the cell's bounding-box corner: latent everywhere, opt-in `pin_origin:
+    bbox`). S5: row 96 (annealing from a start outside the outline: latent, opt-in `search_from_outside`) lets x1 fit;
+    x2 has two m = 96 devices drawn 198 µm long, wider than the tile: FEEDBACK NEEDED on folding.
+  - Both opt-in fixes leave the finished designs' results unchanged (shown: ttsky's placement identical with the old
+    and new code; all 32 goldens match). 192 tests pass.

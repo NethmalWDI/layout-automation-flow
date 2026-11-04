@@ -1,0 +1,627 @@
+{
+  "run_id": "2026-11-04T18:47:45-28b71f43",
+  "design": "ota5t_gui_new",
+  "s4_run_id": "2026-11-04T18:46:54-6a39fdb5",
+  "gates": {
+    "G5.1_placement_legal": {
+      "pass": true,
+      "detail": {
+        "budget_aware": {
+          "min_separation_um": 3.0,
+          "separation_ok": true,
+          "pmos_above_nmos": true,
+          "symmetric_axes": {},
+          "axes_ok": true,
+          "drc_unrouted": 0
+        },
+        "area_only": {
+          "min_separation_um": 3.0,
+          "separation_ok": true,
+          "pmos_above_nmos": true,
+          "symmetric_axes": {},
+          "axes_ok": true,
+          "drc_unrouted": 0
+        }
+      }
+    },
+    "G5.7_matched_centring (info)": {
+      "pass": null,
+      "detail": {
+        "budget_aware": {},
+        "area_only": {}
+      },
+      "note": "each matched transistor block's chosen variant and its devices' centroid offsets from the row centre (dummies left out); 0 is common centroid. Interdigitated variants are allowed (layout.yaml matching: centroid allows common-centroid or interdigitated rows)"
+    },
+    "G5.5_area_vs_area_only (info)": {
+      "pass": null,
+      "budget_aware_area_um2": 1014.667,
+      "area_only_area_um2": 675.464,
+      "area_ratio": 1.5022,
+      "u_budget_aware": {
+        "OUTP": 9.5538,
+        "net1": 0.0251,
+        "net3": 17.0413
+      },
+      "u_area_only": {
+        "OUTP": 65.9538,
+        "net1": 0.1728,
+        "net3": 32.6777
+      },
+      "same_placement": false
+    },
+    "G5.2_top_DRC": {
+      "pass": true,
+      "detail": {
+        "budget_aware": 0,
+        "area_only": 0
+      }
+    },
+    "G5.3_top_LVS": {
+      "pass": true,
+      "detail": {
+        "budget_aware": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "report": "outputs/S5/ota5t_gui_new/routed_budget_aware/lvs/lvs/lvs_report.txt"
+        },
+        "area_only": {
+          "match": true,
+          "neg_control_rejected": true,
+          "pass": true,
+          "report": "outputs/S5/ota5t_gui_new/routed_area_only/lvs/lvs/lvs_report.txt"
+        }
+      }
+    },
+    "G5.4_route_rules": {
+      "pass": false,
+      "detail": {
+        "budget_aware": {
+          "max_length": {
+            "OUTP": {
+              "use": 9.5538,
+              "ok": false,
+              "length_um": {
+                "metal4": 6.21,
+                "metal3": 0
+              }
+            },
+            "net1": {
+              "use": 0.0271,
+              "ok": true,
+              "length_um": {
+                "metal4": 6.82,
+                "metal3": 3.8
+              }
+            },
+            "net3": {
+              "use": 21.7686,
+              "ok": false,
+              "length_um": {
+                "metal4": 17.22,
+                "metal3": 9.12
+              }
+            }
+          },
+          "max_parallel": {
+            "OUTP~net1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.57,
+              "ok": true
+            },
+            "OUTP~net1": {
+              "run_um": 0.0,
+              "limit_um": 0.56,
+              "ok": true
+            },
+            "OUTP~net3.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.47,
+              "ok": true
+            },
+            "OUTP~net3": {
+              "run_um": 0.0,
+              "limit_um": 0.46,
+              "ok": true
+            },
+            "OUTP~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.13,
+              "ok": true
+            },
+            "OUTP~INP": {
+              "run_um": 0.0,
+              "limit_um": 0.13,
+              "ok": true
+            },
+            "OUTP~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.41,
+              "ok": true
+            },
+            "OUTP~INN": {
+              "run_um": 0.0,
+              "limit_um": 0.4,
+              "ok": true
+            },
+            "net1~net3.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.69,
+              "ok": true
+            },
+            "net1~net3": {
+              "run_um": 0.0,
+              "limit_um": 0.68,
+              "ok": true
+            },
+            "net1~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.41,
+              "ok": true
+            },
+            "net1~INP": {
+              "run_um": 0.0,
+              "limit_um": 0.4,
+              "ok": true
+            },
+            "net1~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
+            "net1~INN": {
+              "run_um": 0.0,
+              "limit_um": 116.36,
+              "ok": true
+            },
+            "net3~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.41,
+              "ok": true
+            },
+            "net3~INP": {
+              "run_um": 0.0,
+              "limit_um": 0.4,
+              "ok": true
+            },
+            "net3~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.13,
+              "ok": true
+            },
+            "net3~INN": {
+              "run_um": 0.0,
+              "limit_um": 0.13,
+              "ok": true
+            }
+          },
+          "max_series_R": {
+            "XM3.d": {
+              "net": "net3",
+              "route_ohm": 13.325,
+              "left_ohm": 304.466,
+              "ok": true
+            },
+            "XM3.g": {
+              "net": "net3",
+              "route_ohm": 13.325,
+              "left_ohm": 710.831,
+              "ok": true
+            },
+            "XM3.s": {
+              "net": "VDD",
+              "route_ohm": 15.231,
+              "left_ohm": 304.466,
+              "ok": true
+            },
+            "XM4.d": {
+              "net": "OUTP",
+              "route_ohm": 7.55,
+              "left_ohm": -26.168,
+              "ok": false
+            },
+            "XM4.g": {
+              "net": "net3",
+              "route_ohm": 13.325,
+              "left_ohm": -69.769,
+              "ok": false
+            },
+            "XM4.s": {
+              "net": "VDD",
+              "route_ohm": 15.231,
+              "left_ohm": -26.168,
+              "ok": false
+            },
+            "XM1.d": {
+              "net": "net3",
+              "route_ohm": 13.325,
+              "left_ohm": -11.282,
+              "ok": false
+            },
+            "XM1.g": {
+              "net": "INP",
+              "route_ohm": 3.41,
+              "left_ohm": -78.702,
+              "ok": false
+            },
+            "XM1.s": {
+              "net": "net1",
+              "route_ohm": 11.478,
+              "left_ohm": -5.286,
+              "ok": false
+            },
+            "XM2.d": {
+              "net": "OUTP",
+              "route_ohm": 7.55,
+              "left_ohm": -11.282,
+              "ok": false
+            },
+            "XM2.g": {
+              "net": "INN",
+              "route_ohm": 3.41,
+              "left_ohm": -78.702,
+              "ok": false
+            },
+            "XM2.s": {
+              "net": "net1",
+              "route_ohm": 11.478,
+              "left_ohm": -5.286,
+              "ok": false
+            },
+            "XM5.d": {
+              "net": "net1",
+              "route_ohm": 11.478,
+              "left_ohm": -6.442,
+              "ok": false
+            },
+            "XM5.g": {
+              "net": "VBIAS",
+              "route_ohm": 3.41,
+              "left_ohm": 386.837,
+              "ok": true
+            },
+            "XM5.s": {
+              "net": "VSS",
+              "route_ohm": 17.207,
+              "left_ohm": -6.648,
+              "ok": false
+            }
+          },
+          "symmetric": {
+            "route.symmetric.inputs": {
+              "class": "hard",
+              "x": [
+                -2.4,
+                2.4
+              ],
+              "ok": true
+            }
+          },
+          "not_evaluated": [
+            {
+              "id": "route.em_width.net3",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.7 uA."
+            },
+            {
+              "id": "route.em_width.VDD",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.7 uA."
+            },
+            {
+              "id": "route.em_width.OUTP",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.7 uA."
+            },
+            {
+              "id": "route.em_width.net1",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.7 uA."
+            },
+            {
+              "id": "route.em_width.VSS",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.7 uA."
+            },
+            {
+              "id": "route.bias_net.VBIAS",
+              "class": "soft",
+              "note": "couplings onto the bias net consume no margin in this model; the impedance of the real bias generator is needed to budget them (ASSUMPTION)"
+            },
+            {
+              "id": "route.no_cross_digital",
+              "class": "hard",
+              "note": "no digital or clock nets in this circuit"
+            }
+          ],
+          "covered": "max_length on metal4 enters the metal3+metal4 sum; top-level routing uses no metal1 or metal2, so those layers' length and parallel rules have no top-level wire to apply to",
+          "pass": false
+        },
+        "area_only": {
+          "max_length": {
+            "OUTP": {
+              "use": 65.9538,
+              "ok": false,
+              "length_um": {
+                "metal4": 42.87,
+                "metal3": 0
+              }
+            },
+            "net1": {
+              "use": 0.1788,
+              "ok": true,
+              "length_um": {
+                "metal4": 67.7,
+                "metal3": 2.365
+              }
+            },
+            "net3": {
+              "use": 32.6777,
+              "ok": false,
+              "length_um": {
+                "metal4": 39.54,
+                "metal3": 0
+              }
+            }
+          },
+          "max_parallel": {
+            "OUTP~net1.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.57,
+              "ok": true
+            },
+            "OUTP~net1": {
+              "run_um": 0.0,
+              "limit_um": 0.56,
+              "ok": true
+            },
+            "OUTP~net3.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.47,
+              "ok": true
+            },
+            "OUTP~net3": {
+              "run_um": 0.0,
+              "limit_um": 0.46,
+              "ok": true
+            },
+            "OUTP~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.13,
+              "ok": true
+            },
+            "OUTP~INP": {
+              "run_um": 0.0,
+              "limit_um": 0.13,
+              "ok": true
+            },
+            "OUTP~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.41,
+              "ok": true
+            },
+            "OUTP~INN": {
+              "run_um": 0.0,
+              "limit_um": 0.4,
+              "ok": true
+            },
+            "net1~net3.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.69,
+              "ok": true
+            },
+            "net1~net3": {
+              "run_um": 0.0,
+              "limit_um": 0.68,
+              "ok": true
+            },
+            "net1~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.41,
+              "ok": true
+            },
+            "net1~INP": {
+              "run_um": 0.0,
+              "limit_um": 0.4,
+              "ok": true
+            },
+            "net1~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 118.93,
+              "ok": true
+            },
+            "net1~INN": {
+              "run_um": 0.0,
+              "limit_um": 116.36,
+              "ok": true
+            },
+            "net3~INP.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.41,
+              "ok": true
+            },
+            "net3~INP": {
+              "run_um": 0.0,
+              "limit_um": 0.4,
+              "ok": true
+            },
+            "net3~INN.metal3": {
+              "run_um": 0.0,
+              "limit_um": 0.13,
+              "ok": true
+            },
+            "net3~INN": {
+              "run_um": 0.0,
+              "limit_um": 0.13,
+              "ok": true
+            }
+          },
+          "max_series_R": {
+            "XM3.d": {
+              "net": "net3",
+              "route_ohm": 14.876,
+              "left_ohm": 304.466,
+              "ok": true
+            },
+            "XM3.g": {
+              "net": "net3",
+              "route_ohm": 14.876,
+              "left_ohm": 710.831,
+              "ok": true
+            },
+            "XM3.s": {
+              "net": "VDD",
+              "route_ohm": 15.791,
+              "left_ohm": 304.466,
+              "ok": true
+            },
+            "XM4.d": {
+              "net": "OUTP",
+              "route_ohm": 11.857,
+              "left_ohm": -26.168,
+              "ok": false
+            },
+            "XM4.g": {
+              "net": "net3",
+              "route_ohm": 14.876,
+              "left_ohm": -69.769,
+              "ok": false
+            },
+            "XM4.s": {
+              "net": "VDD",
+              "route_ohm": 15.791,
+              "left_ohm": -26.168,
+              "ok": false
+            },
+            "XM1.d": {
+              "net": "net3",
+              "route_ohm": 14.876,
+              "left_ohm": -11.282,
+              "ok": false
+            },
+            "XM1.g": {
+              "net": "INP",
+              "route_ohm": 3.41,
+              "left_ohm": -78.702,
+              "ok": false
+            },
+            "XM1.s": {
+              "net": "net1",
+              "route_ohm": 18.463,
+              "left_ohm": -5.286,
+              "ok": false
+            },
+            "XM2.d": {
+              "net": "OUTP",
+              "route_ohm": 11.857,
+              "left_ohm": -11.282,
+              "ok": false
+            },
+            "XM2.g": {
+              "net": "INN",
+              "route_ohm": 3.41,
+              "left_ohm": -78.702,
+              "ok": false
+            },
+            "XM2.s": {
+              "net": "net1",
+              "route_ohm": 18.463,
+              "left_ohm": -5.286,
+              "ok": false
+            },
+            "XM5.d": {
+              "net": "net1",
+              "route_ohm": 18.463,
+              "left_ohm": -6.442,
+              "ok": false
+            },
+            "XM5.g": {
+              "net": "VBIAS",
+              "route_ohm": 3.41,
+              "left_ohm": 386.837,
+              "ok": true
+            },
+            "XM5.s": {
+              "net": "VSS",
+              "route_ohm": 20.229,
+              "left_ohm": -6.648,
+              "ok": false
+            }
+          },
+          "symmetric": {
+            "route.symmetric.inputs": {
+              "class": "hard",
+              "x": [
+                0.0,
+                0.0
+              ],
+              "ok": true
+            }
+          },
+          "not_evaluated": [
+            {
+              "id": "route.em_width.net3",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.7 uA."
+            },
+            {
+              "id": "route.em_width.VDD",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.7 uA."
+            },
+            {
+              "id": "route.em_width.OUTP",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.7 uA."
+            },
+            {
+              "id": "route.em_width.net1",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.7 uA."
+            },
+            {
+              "id": "route.em_width.VSS",
+              "class": "hard",
+              "note": "SKY130 electromigration limits were not found in the PDK files or docs searched; requested from you. Currents here are <= 84.7 uA."
+            },
+            {
+              "id": "route.bias_net.VBIAS",
+              "class": "soft",
+              "note": "couplings onto the bias net consume no margin in this model; the impedance of the real bias generator is needed to budget them (ASSUMPTION)"
+            },
+            {
+              "id": "route.no_cross_digital",
+              "class": "hard",
+              "note": "no digital or clock nets in this circuit"
+            }
+          ],
+          "covered": "max_length on metal4 enters the metal3+metal4 sum; top-level routing uses no metal1 or metal2, so those layers' length and parallel rules have no top-level wire to apply to",
+          "pass": false
+        }
+      }
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-11-04T17:47:45+00:00",
+    "git_commit": "ef21cda3f5e36142f42125875156e320a0e8b176",
+    "inputs": [
+      {
+        "path": "outputs/S4/ota5t_gui_new/blocks.json",
+        "sha256": "dbfc68705af9e620b8d39ed217a66db17918a17adeb865e037514700d0beb399"
+      },
+      {
+        "path": "outputs/S0/ota5t_gui_new/circuit_ir.json",
+        "sha256": "0b2f1be8130462e726b3b5ee257e5d77cb0d8e5f2a947cd881c325e28ebc329e"
+      },
+      {
+        "path": "outputs/S2/ota5t_gui_new/constraints.json",
+        "sha256": "7cd0ce5ea30531e117ac30a8b3090471892279250c214978ff96baf49f3cbdb2"
+      },
+      {
+        "path": "inputs/ota5t_gui_new/package.yaml",
+        "sha256": "1f43c223cd305689a3207c52937c690d2ad19987e8a7b9113a07ff75096e390c"
+      }
+    ]
+  }
+}

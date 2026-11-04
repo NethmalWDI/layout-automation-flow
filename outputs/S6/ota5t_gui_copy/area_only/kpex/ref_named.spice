@@ -1,0 +1,11 @@
+.subckt ota5t_gui_copy_routed VDD OUTP INP INN VSS VBIAS
+XM3 net3 net3 VDD VDD sky130_fd_pr__pfet_01v8 L=1 W=8 nf=1
+XM4 OUTP net3 VDD VDD sky130_fd_pr__pfet_01v8 L=1 W=8 nf=1
+XM1 net3 INP net1 VSS sky130_fd_pr__nfet_01v8 L=0.5 W=24 nf=2
+XM2 OUTP INN net1 VSS sky130_fd_pr__nfet_01v8 L=0.5 W=24 nf=2
+XM5 net1 VBIAS VSS VSS sky130_fd_pr__nfet_01v8 L=1 W=24 nf=2
+Xpmos_current_mirror_load_DUMMY0 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 L=1 W=8 nf=1
+Xpmos_current_mirror_load_DUMMY1 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 L=1 W=8 nf=1
+Xnmos_differential_pair_DUMMY0 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.5 W=12 nf=1
+Xnmos_differential_pair_DUMMY1 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.5 W=12 nf=1
+.ends ota5t_gui_copy_routed

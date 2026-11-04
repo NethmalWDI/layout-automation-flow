@@ -65,7 +65,14 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 
 ## Running (container `layout-s0s3`)
 
-- Nothing running (14:20 CET 2026-11-04).
+- Nothing running (19:29 CET 2026-11-04).
+
+Runs of 2026-11-04 evening (branch `gui-tools`), ended:
+- iadc_ota S0–S3 re-run with today's code (branch `gui-tools`), 15:34–18:15 CET (`runs/logs/p9_iadc_S0S3.log`): every stage finished; FAIL G0.7, G1.1, G2.7, G3.3/G3.5, as in October.
+- iadc_ota S4–S7 in the Tiny Tapeout 1x2 analog tile (`inputs/iadc_ota/layout.yaml`, outline 161 x 225.77 um): first try 18:17–18:18 ERROR in S4 (two stubs 0.49 um apart in the W 1.2 / L 0.2 unit cell; fixed, flow record row 94); again from 18:20 CET (`runs/logs/p9_iadc_S4S7b.log`, `.log.exit`).
+- GUI end-to-end test (branch `gui-tools`), from 15:37 CET, started through the GUI's own API: `ota5t_gui_copy` (a copy of the 5T with `matching: centroid`, `dummies: true`) and `ota5t_gui_new` (the 5T entered as a new design, benches generated), each S0–S7 then its simple report (`runs/logs/gui_<design>.log`, `.log.exit`, `_report.log`). First pass ended 17:13: the copy stopped in S5 (S4 gave the 5T PMOS mirror no variant under matching: centroid; fixed, flow record row 93), the new design failed G0.6 and S1 (uploaded measurements from other benches; no ac_drive; fixed in the GUI). Second pass from 17:15: the copy from S4, the new design (recreated: specs from its own results) from S0.
+
+- iadc_ota S4–S7, third try 18:32: S4 FAIL G4.2 (the same 32/8 DRC errors: the stubs were not the cause); fourth try 18:52 with `pin_origin: bbox` (row 95): S4 PASS, S5 ERROR (no placement of x1, x2 fits the tile; row 96 fixed x1; x2 needs folding, FEEDBACK).
 
 Plan v4 Phase 8's runs have ended (2026-11-04, CET):
 - Plan v4 Phase 8.1 ended (`runs/logs/v4_p8_tt_S0S3.log`): S0 PASS (06:21–06:43), S1 FAIL G1.2, S2 PASS (77 min),
@@ -198,6 +205,7 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
+| Claude Code | The local GUI: new `gui/`, `scripts/gui_backend.py`, `scripts/make_design_report.py`; design copies it creates (`circuits/<copy>/`, `inputs/<copy>/`, lines added to `circuits/SOURCE_SHA256.txt`) | 2026-11-04 15:15 CET |
 | Claude Code | Plan v4 Phase 8 on branch `s5-ttsky` (8.7 from 13:16: also re-runs `outputs/S4`–`S7` of `example_ota_5t` and `loadbench_miller`, and `scripts/make_s4s7_walkthrough.py`): `src/s4/`–`src/s7/`, `inputs/ttsky25a_fd/layout.yaml`, `tests/`, `outputs/S4`–`S7` (and S0–S3 re-runs) for `ttsky25a_fd`, `PREREG.md`, docs (plan v5, README, STATUS, progress log, flow record) | 2026-11-04 06:10 CET |
 | Claude Code | Plan v4 on branch `s4-s5`: `src/s3/`, new `src/s4/`–`src/s7/`, `src/flow.py`, `scripts/`, `tests/`, `outputs/S3`–`S7` for `example_ota_5t` and `loadbench_miller`, `PREREG.md`, docs (plan v4, README, STATUS, progress log, flow record). S0–S2 outputs are frozen (`tests/frozen/`), not claimed | 2026-11-03 19:10 CET |
 | Claude Code | **released 2026-11-02 23:20 CET**: supervisor review on branch `s0-s3-review`, phases 1–6 done (the rehearsal included). Held since 2026-11-02 18:15 CET, narrowed after phase 5 | 2026-11-02 18:15 CET |
@@ -1310,6 +1318,26 @@ Step 0 record:
 2. To fit 250 × 200 µm, matched pairs inside a macro may share a row and lose the single shared axis (plan section 10).
    Keep the outline first, or is the shared axis worth a bigger outline?
 
+**FEEDBACK NEEDED (Claude Code, 2026-11-04 19:29, GUI and iadc):**
+1. iadc_ota's x2 cannot fit the 161 µm tile: two single devices of m = 96 (XX2_M5, XX2_M6, 1.4/0.6 µm units) are
+   drawn as one row of 96 copies, 198 µm. How should S4 fold such a device? (a) several single-row blocks of the
+   same device, each with its own tap ring (simplest; more area); (b) a multi-row array inside one ring (more work);
+   (c) fewer copies with more fingers each (changes the designer's unit-transistor style).
+2. Two latent flow issues are fixed only for iadc (opt-in, so the finished designs keep their results): every
+   block's stubs sit up to 0.125 µm off their strips' centres (row 95, `pin_origin: bbox`), and S5's annealing
+   dropped macro shapes whose start was outside the outline (row 96, `search_from_outside`). Make them the default
+   and re-run the 5T, LOADBench and ttsky S4–S7?
+3. iadc_ota's layout instructions repeat the ttsky decisions (centroid/interdigitated, dummies at the row ends,
+   although the netlist has the designer's own dummies) and take the whole tile as the outline (power straps and
+   pins not routed): ASSUMPTIONs; confirm?
+
+**Answered 2026-11-04 15:10 (Imasha), next work:** (1) a simple local web GUI to edit a design's schematic netlist,
+hierarchy, specs and (optional) layout instructions, run the whole flow and get a simple report, with no LLM
+tokens: a PowerShell server on localhost that runs the flow through docker exec (no install, the container
+unchanged); an edit is saved as a new design copy (the original's frozen sources and results untouched). (2) Then
+iadc_ota laid out to fit a Tiny Tapeout analog tile. (3) Then the LLM approach with the Claude CLI, after (1) and
+(2) (supervisor's permission to be confirmed then).
+
 **FEEDBACK NEEDED (Claude Code, 2026-11-04 15:00, the ttsky report):** the tile's regions are matched to the
 schematic's sub-circuits by their cell names only (Diff_opamp_ly = x1, cs_p_5 = x2's PMOS, bias_dummy = bias);
 is that right, and what are block_01–04, res, res_5 and the capacitor cells? (Report section 8, question 5.)
@@ -1651,6 +1679,10 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-04 evening (Claude Code, branch `gui-tools`): **the local GUI** (edit a design as a copy, or make a new
+  one from files; run the flow; simple report; no LLM), tested end to end on two 5T demos (`ota5t_gui_copy`
+  S0–S7 PASS; `ota5t_gui_new` all stages ran). **iadc_ota** in the Tiny Tapeout tile: S0–S3 re-run, S4 PASS, S5
+  waits for a decision on folding (FEEDBACK). Flow record rows 93–96, section 7.25. 192 tests; 32 goldens.
 - 2026-11-04 afternoon (Claude Code): **the ttsky report, expanded** at Imasha's request: the schematics with the
   sub-circuits and every block marked in colour (xschem, from a scratch copy), every block numbered (B1–B33) and
   pictured, the layouts annotated, the tile's regions by its cell names, S1/S2's main nodes with their budgets

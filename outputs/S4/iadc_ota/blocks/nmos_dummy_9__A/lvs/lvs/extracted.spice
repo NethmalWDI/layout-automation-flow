@@ -1,0 +1,19 @@
+* NGSPICE file created from nmos_dummy_9__A.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_RUA5M6 G D S VSUBS
+X0 S G D VSUBS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+.ends
+
+.subckt nfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng B G D S
+Xnfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_RUA5M6
+.ends
+
+.subckt nmos_dummy_9__A VSS x1_m5d VSS_body
+Xnfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng_0 VSS_body VSS x1_m5d VSS nfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng_1 VSS_body VSS x1_m5d VSS nfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng_2 VSS_body VSS x1_m5d VSS nfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng_3 VSS_body VSS x1_m5d VSS nfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng_4 VSS_body VSS x1_m5d VSS nfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng_5 VSS_body VSS x1_m5d VSS nfet_01v8_W1p4_L0p6_m6__nf1_gtop_sdfull_ng
+.ends
+

@@ -1,0 +1,119 @@
+{
+  "run_id": "2026-11-04T18:46:54-6a39fdb5",
+  "design": "ota5t_gui_new",
+  "s3_run_id": "2026-11-04T18:22:54-61b9c760",
+  "layout_options": {},
+  "gates": {
+    "G4.1_one_type_and_body_per_block": {
+      "pass": true,
+      "blocks": {
+        "XM3": {
+          "type": "pmos",
+          "body": "VDD",
+          "devices": [
+            "XM3"
+          ]
+        },
+        "XM4": {
+          "type": "pmos",
+          "body": "VDD",
+          "devices": [
+            "XM4"
+          ]
+        },
+        "XM1": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XM1"
+          ]
+        },
+        "XM2": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XM2"
+          ]
+        },
+        "XM5": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XM5"
+          ]
+        }
+      }
+    },
+    "G4.2_DRC_every_variant": {
+      "pass": true,
+      "detail": {
+        "XM3__A": 0,
+        "XM4__A": 0,
+        "XM1__A": 0,
+        "XM2__A": 0,
+        "XM5__A": 0
+      }
+    },
+    "G4.3_LVS_every_variant": {
+      "pass": true,
+      "detail": {
+        "XM3__A": true,
+        "XM4__A": true,
+        "XM1__A": true,
+        "XM2__A": true,
+        "XM5__A": true
+      }
+    },
+    "G4.4_symmetry": {
+      "pass": true,
+      "tolerance_um": 0.005,
+      "detail": {},
+      "not_matched": [],
+      "note": "every two-device block of one device type (a matched pair or mirror of one size) has a signed-off variant that is a mirror image about its centre; centroid_offset_um is 0 for a common centroid (ABBA). Two devices of different sizes (not_matched) cannot be mirror images"
+    },
+    "G4.5_latchup_tap_distance": {
+      "pass": true,
+      "limit_um": 15.0,
+      "detail": {
+        "XM3__A": 2.154,
+        "XM4__A": 1.631,
+        "XM1__A": 1.86,
+        "XM2__A": 1.86,
+        "XM5__A": 1.584
+      },
+      "tap_strips": {},
+      "note": "the LU rules are also in the block's own DRC (G4.2), which defers nothing; a capacitor block has no diffusion (None)"
+    },
+    "G4.6_port_capacitance (info)": {
+      "pass": null,
+      "note": "block port C against S2's hierarchy.json: S6 extraction (plan Phase 5)"
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-11-04T17:46:54+00:00",
+    "git_commit": "ef21cda3f5e36142f42125875156e320a0e8b176",
+    "inputs": [
+      {
+        "path": "outputs/S0/ota5t_gui_new/circuit_ir.json",
+        "sha256": "0b2f1be8130462e726b3b5ee257e5d77cb0d8e5f2a947cd881c325e28ebc329e"
+      },
+      {
+        "path": "outputs/S1/ota5t_gui_new/s1_report.json",
+        "sha256": "ae167f6c3c43b6261f8f54424a5582e9031f279067c46f1a945ad7eeced64031"
+      },
+      {
+        "path": "outputs/S3/ota5t_gui_new/device_decisions.json",
+        "sha256": "b3c94d5681c569917985695790d3f2db66bd74dcec5951f9d214550f80414b70"
+      },
+      {
+        "path": "outputs/S2/ota5t_gui_new/constraints.json",
+        "sha256": "7cd0ce5ea30531e117ac30a8b3090471892279250c214978ff96baf49f3cbdb2"
+      },
+      {
+        "path": "inputs/ota5t_gui_new/package.yaml",
+        "sha256": "1f43c223cd305689a3207c52937c690d2ad19987e8a7b9113a07ff75096e390c"
+      }
+    ]
+  }
+}

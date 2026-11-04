@@ -1,0 +1,67 @@
+*********************************************************
+*** NGSPICE file created by KLayout-PEX 0.6.8
+*** -----------------------------------------------------
+***     Extraction Engine: KPEX/2.5D
+***     Technology: sky130a
+***     Date: 2026-11-04 17:21:09
+*********************************************************
+
+.SUBCKT ota5t_gui_copy_routed INN INP OUTP VBIAS VDD VSS sky130_gnd
+X$1 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 l=1 w=8 as=2.32 ad=2.32 ps=16.58
++ pd=16.58
+X$2 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 l=1 w=8 as=2.32 ad=2.32 ps=16.58
++ pd=16.58
+X$3 VDD \$5 OUTP VDD sky130_fd_pr__pfet_01v8 l=1 w=8 as=2.32 ad=2.32 ps=16.58
++ pd=16.58
+X$4 VDD \$5 \$5 VDD sky130_fd_pr__pfet_01v8 l=1 w=8 as=2.32 ad=2.32 ps=16.58
++ pd=16.58
+X$5 \$9 INN OUTP sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=3.48
++ ps=24.58 pd=24.58
+X$6 \$9 INN OUTP sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=3.48
++ ps=24.58 pd=24.58
+X$7 \$9 INP \$5 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=3.48
++ ps=24.58 pd=24.58
+X$8 \$9 INP \$5 sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=3.48
++ ps=24.58 pd=24.58
+X$9 VSS VSS VSS sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=3.48
++ ps=24.58 pd=24.58
+X$10 VSS VSS VSS sky130_gnd sky130_fd_pr__nfet_01v8 l=0.5 w=12 as=3.48 ad=3.48
++ ps=24.58 pd=24.58
+X$11 VSS VBIAS \$9 sky130_gnd sky130_fd_pr__nfet_01v8 l=1 w=12 as=3.48 ad=1.74
++ ps=24.58 pd=12.29
+X$12 \$9 VBIAS VSS sky130_gnd sky130_fd_pr__nfet_01v8 l=1 w=12 as=1.74 ad=3.48
++ ps=12.29 pd=24.58
+Cext_1 \$5 \$9 2.31867f
+Cext_2 \$5 INN 151.381a
+Cext_3 \$5 INP 1.16775f
+Cext_4 \$5 OUTP 2.60169f
+Cext_5 \$5 VBIAS 2.85454a
+Cext_6 \$5 VDD 6.44238f
+Cext_7 \$5 VSS 2.10201f
+Cext_8 \$5 sky130_gnd 2.72076f
+Cext_9 \$9 INN 1.12653f
+Cext_10 \$9 INP 1.0771f
+Cext_11 \$9 OUTP 3.41841f
+Cext_12 \$9 VBIAS 1.95765f
+Cext_13 \$9 VDD 0.16826a
+Cext_14 \$9 VSS 2.63791f
+Cext_15 \$9 sky130_gnd 4.95788f
+Cext_16 INN INP 977.616a
+Cext_17 INN OUTP 1.33158f
+Cext_18 INN VDD 75.144a
+Cext_19 INN VSS 303.112a
+Cext_20 INN sky130_gnd 1.33945f
+Cext_21 INP OUTP 140.604a
+Cext_22 INP VDD 9.14498a
+Cext_23 INP VSS 1.12592f
+Cext_24 INP sky130_gnd 901.937a
+Cext_25 OUTP VBIAS 44.5391a
+Cext_26 OUTP VDD 1.60227f
+Cext_27 OUTP VSS 653.576a
+Cext_28 OUTP sky130_gnd 2.49282f
+Cext_29 VBIAS VSS 2.67753f
+Cext_30 VBIAS sky130_gnd 1.10015f
+Cext_31 VDD VSS 65.727a
+Cext_32 VDD sky130_gnd 2.44936f
+Cext_33 VSS sky130_gnd 13.9898f
+.ENDS ota5t_gui_copy_routed

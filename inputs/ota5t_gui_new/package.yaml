@@ -1,0 +1,34 @@
+# New design made with the local GUI on 2026-11-04 (gui/gui.ps1). Field reference: docs/INPUTS.md.
+design: ota5t_gui_new
+description: 'GUI test: the 5T OTA entered as a brand-new design (netlist and config
+  only; benches generated; specs from its own results)'
+netlist: circuits/ota5t_gui_new/source/ota5t_gui_new.spice
+config: circuits/ota5t_gui_new/source/config.yaml
+achieved: null
+testbenches:
+- circuits/ota5t_gui_new/testbenches/diso_amp_AC.spice
+- circuits/ota5t_gui_new/testbenches/diso_amp_OP.spice
+- circuits/ota5t_gui_new/testbenches/diso_amp_NOISE.spice
+dut_subckt_in_testbench: example_ota_5t_sized
+upstream:
+  netlist: null
+  hierarchy: null
+  primitives: null
+  equations: null
+  name_map: null
+predicted: []
+bias_sources:
+  V1: VBIAS
+operating_point: null
+variation_ranges: null
+conditions_override: {}
+ac_drive:
+  INP: 1.0
+  INN: 0.0
+specs_from_achieved:
+  gain_db:
+    min_delta: -1.0
+  gbw_mhz:
+    min_factor: 0.9
+  power_uw:
+    max_factor: 1.1

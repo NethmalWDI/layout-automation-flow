@@ -1,0 +1,19 @@
+* NGSPICE file created from pmos_single__A.ext - technology: sky130A
+
+.subckt sky130_fd_pr__pfet_01v8_lvt_PJ46JE G D w_n154_n240# S
+X0 S G D w_n154_n240# sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+.ends
+
+.subckt pfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng G B D S
+Xpfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_pc G D B S sky130_fd_pr__pfet_01v8_lvt_PJ46JE
+.ends
+
+.subckt pmos_single__A bias_b x1_m31d VDD VDD_body
+Xpfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_0 bias_b VDD_body x1_m31d VDD pfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_2 bias_b VDD_body x1_m31d VDD pfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_1 bias_b VDD_body x1_m31d VDD pfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_3 bias_b VDD_body x1_m31d VDD pfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_4 bias_b VDD_body x1_m31d VDD pfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_5 bias_b VDD_body x1_m31d VDD pfet_01v8_lvt_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+.ends
+

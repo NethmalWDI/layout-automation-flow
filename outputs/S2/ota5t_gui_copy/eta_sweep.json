@@ -1,0 +1,686 @@
+{
+  "run_id": "2026-11-04T16:31:20-28677abb",
+  "eta": 0.5,
+  "design": "ota5t_gui_copy",
+  "alloc": "v2",
+  "sweep": {
+    "0.3": {
+      "floors_feasible": true,
+      "t_round1": 2.3552314383524573,
+      "methods": {
+        "per_net": {
+          "worst_use_of_allowed": 2.128341619848373,
+          "use_of_allowed": {
+            "gain_db": 1.979831420593954,
+            "gbw_mhz": 1.509147699824433,
+            "pm_deg": 2.128341619848373,
+            "vnoise_nv_rthz": 0.35360902505248665,
+            "sat_XM3": 0.062079890445964014,
+            "sat_XM4": 0.062079890445964014,
+            "sat_XM1": 0.4624550308256758,
+            "sat_XM2": 0.4624550308256758,
+            "sat_XM5": 2.0578065972490776
+          },
+          "unsafe_checks": [
+            "gain_db",
+            "gbw_mhz",
+            "pm_deg",
+            "sat_XM5"
+          ],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 3.6371086233253003,
+          "geo_mean_ratio_to_need": 8.965453644686326
+        },
+        "equal": {
+          "worst_use_of_allowed": 0.6831217315691995,
+          "use_of_allowed": {
+            "gain_db": 0.6831217315691995,
+            "gbw_mhz": 0.35181202496033165,
+            "pm_deg": 0.437844604834621,
+            "vnoise_nv_rthz": 0.04779960811204164,
+            "sat_XM3": 0.04696351170346963,
+            "sat_XM4": 0.04696351170346963,
+            "sat_XM1": 0.15812037162569115,
+            "sat_XM2": 0.15812037162569115,
+            "sat_XM5": 0.38811450501685946
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [
+            "XM1+XM2.g",
+            "XM1+XM2.s",
+            "XM5.d"
+          ],
+          "below_floor": [],
+          "min_ratio_to_need": 0.5654575242880937,
+          "geo_mean_ratio_to_need": 4.500197536821743
+        },
+        "lp_sum": {
+          "worst_use_of_allowed": 1.0000000000000002,
+          "use_of_allowed": {
+            "gain_db": 1.0,
+            "gbw_mhz": 1.0,
+            "pm_deg": 0.9999999999999999,
+            "vnoise_nv_rthz": 0.22990120518998272,
+            "sat_XM3": 0.061360573778033216,
+            "sat_XM4": 0.061360573778033216,
+            "sat_XM1": 0.2282642045076217,
+            "sat_XM2": 0.2282642045076217,
+            "sat_XM5": 1.0000000000000002
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [
+            "XM1+XM2.g",
+            "XM3+XM4.s"
+          ],
+          "below_floor": [
+            "XM1+XM2.g",
+            "XM3+XM4.s"
+          ],
+          "min_ratio_to_need": 0.0,
+          "geo_mean_ratio_to_need": 0.22914830450374016
+        },
+        "lp_floor": {
+          "worst_use_of_allowed": 0.42458672371472955,
+          "use_of_allowed": {
+            "gain_db": 0.28552200551836987,
+            "gbw_mhz": 0.17871964334471002,
+            "pm_deg": 0.24895345071424077,
+            "vnoise_nv_rthz": 0.043696781739064085,
+            "sat_XM3": 0.006354844121251551,
+            "sat_XM4": 0.006354844121251551,
+            "sat_XM1": 0.06716828463204408,
+            "sat_XM2": 0.06716828463204408,
+            "sat_XM5": 0.42458672371472955
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 1.0,
+          "geo_mean_ratio_to_need": 1.0,
+          "floors_applied": true
+        },
+        "lp_floor_k": {
+          "worst_use_of_allowed": 1.0,
+          "use_of_allowed": {
+            "gain_db": 1.0,
+            "gbw_mhz": 1.0,
+            "pm_deg": 0.9999999999999999,
+            "vnoise_nv_rthz": 0.23216676364389596,
+            "sat_XM3": 0.061361028625617924,
+            "sat_XM4": 0.061361028625617924,
+            "sat_XM1": 0.22945554224112213,
+            "sat_XM2": 0.22945554224112213,
+            "sat_XM5": 1.0
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [
+            "XM1+XM2.g",
+            "XM3+XM4.s"
+          ],
+          "below_floor": [],
+          "min_ratio_to_need": 0.30941785203817324,
+          "geo_mean_ratio_to_need": 6.35120742603279,
+          "floors_applied": true
+        },
+        "ours": {
+          "worst_use_of_allowed": 0.9999999999999984,
+          "use_of_allowed": {
+            "gain_db": 0.9999999999999907,
+            "gbw_mhz": 0.9656166140317435,
+            "pm_deg": 0.9999999999999984,
+            "vnoise_nv_rthz": 0.25214410835520323,
+            "sat_XM3": 0.061365333260235244,
+            "sat_XM4": 0.061365333260235244,
+            "sat_XM1": 0.23244880361174114,
+            "sat_XM2": 0.23244880361174114,
+            "sat_XM5": 0.9999999999999981
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 2.2374698664348345,
+          "geo_mean_ratio_to_need": 6.348639664394119
+        }
+      }
+    },
+    "0.5": {
+      "floors_feasible": true,
+      "t_round1": 3.925385730587429,
+      "methods": {
+        "per_net": {
+          "worst_use_of_allowed": 1.8941220521259348,
+          "use_of_allowed": {
+            "gain_db": 1.5878988523563724,
+            "gbw_mhz": 1.0584299088094307,
+            "pm_deg": 1.4934146723889208,
+            "vnoise_nv_rthz": 0.25436669704096837,
+            "sat_XM3": 0.03769209013850428,
+            "sat_XM4": 0.03769209013850428,
+            "sat_XM1": 0.3730775567438696,
+            "sat_XM2": 0.3730775567438696,
+            "sat_XM5": 1.8941220521259348
+          },
+          "unsafe_checks": [
+            "gain_db",
+            "gbw_mhz",
+            "pm_deg",
+            "sat_XM5"
+          ],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 6.061847705542168,
+          "geo_mean_ratio_to_need": 9.70974305879724
+        },
+        "equal": {
+          "worst_use_of_allowed": 0.6765397056081864,
+          "use_of_allowed": {
+            "gain_db": 0.6765397056081864,
+            "gbw_mhz": 0.32077596584336754,
+            "pm_deg": 0.392040243559663,
+            "vnoise_nv_rthz": 0.04779960811204164,
+            "sat_XM3": 0.029208768393422728,
+            "sat_XM4": 0.029208768393422728,
+            "sat_XM1": 0.15742481747093695,
+            "sat_XM2": 0.15742481747093695,
+            "sat_XM5": 0.38811450501685946
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [
+            "XM1+XM2.g"
+          ],
+          "below_floor": [],
+          "min_ratio_to_need": 0.9424292071468229,
+          "geo_mean_ratio_to_need": 5.769788782818517
+        },
+        "lp_sum": {
+          "worst_use_of_allowed": 1.0,
+          "use_of_allowed": {
+            "gain_db": 1.0,
+            "gbw_mhz": 0.999425173093782,
+            "pm_deg": 1.0,
+            "vnoise_nv_rthz": 0.24098747890163905,
+            "sat_XM3": 0.03710248472819482,
+            "sat_XM4": 0.03710248472819482,
+            "sat_XM1": 0.23256306095303714,
+            "sat_XM2": 0.23256306095303714,
+            "sat_XM5": 1.0
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [
+            "XM5.d"
+          ],
+          "below_floor": [],
+          "min_ratio_to_need": 0.7481384925603027,
+          "geo_mean_ratio_to_need": 8.062118723588938
+        },
+        "lp_floor": {
+          "worst_use_of_allowed": 0.25475203422883774,
+          "use_of_allowed": {
+            "gain_db": 0.17131320331102193,
+            "gbw_mhz": 0.10723178600682601,
+            "pm_deg": 0.14937207042854445,
+            "vnoise_nv_rthz": 0.026218069043438447,
+            "sat_XM3": 0.00381290647275093,
+            "sat_XM4": 0.00381290647275093,
+            "sat_XM1": 0.040300970779226446,
+            "sat_XM2": 0.040300970779226446,
+            "sat_XM5": 0.25475203422883774
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 1.0,
+          "geo_mean_ratio_to_need": 1.0,
+          "floors_applied": true
+        },
+        "lp_floor_k": {
+          "worst_use_of_allowed": 1.0,
+          "use_of_allowed": {
+            "gain_db": 1.0,
+            "gbw_mhz": 0.999425173093782,
+            "pm_deg": 1.0,
+            "vnoise_nv_rthz": 0.24098747890163905,
+            "sat_XM3": 0.03710248472819482,
+            "sat_XM4": 0.03710248472819482,
+            "sat_XM1": 0.23256306095303714,
+            "sat_XM2": 0.23256306095303714,
+            "sat_XM5": 1.0
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [
+            "XM5.d"
+          ],
+          "below_floor": [],
+          "min_ratio_to_need": 0.7481384925603027,
+          "geo_mean_ratio_to_need": 8.062118723588938,
+          "floors_applied": true
+        },
+        "ours": {
+          "worst_use_of_allowed": 1.0000000000000004,
+          "use_of_allowed": {
+            "gain_db": 1.0000000000000004,
+            "gbw_mhz": 0.724695626237565,
+            "pm_deg": 0.999999999999999,
+            "vnoise_nv_rthz": 0.17620163701536554,
+            "sat_XM3": 0.03708528609585384,
+            "sat_XM4": 0.03708528609585384,
+            "sat_XM1": 0.2332971762676794,
+            "sat_XM2": 0.2332971762676794,
+            "sat_XM5": 0.9999999999999976
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 3.729116444058057,
+          "geo_mean_ratio_to_need": 8.12766783310447
+        }
+      }
+    },
+    "0.7": {
+      "floors_feasible": true,
+      "t_round1": 5.495540022822401,
+      "methods": {
+        "per_net": {
+          "worst_use_of_allowed": 1.6413273649158062,
+          "use_of_allowed": {
+            "gain_db": 1.2236657379358709,
+            "gbw_mhz": 0.7630826397524378,
+            "pm_deg": 1.0668593554870764,
+            "vnoise_nv_rthz": 0.185127007075874,
+            "sat_XM3": 0.02711509819250319,
+            "sat_XM4": 0.02711509819250319,
+            "sat_XM1": 0.2878640769944746,
+            "sat_XM2": 0.2878640769944746,
+            "sat_XM5": 1.6413273649158062
+          },
+          "unsafe_checks": [
+            "gain_db",
+            "pm_deg",
+            "sat_XM5"
+          ],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 8.486586787759036,
+          "geo_mean_ratio_to_need": 9.92216251450544
+        },
+        "equal": {
+          "worst_use_of_allowed": 0.6737188373391808,
+          "use_of_allowed": {
+            "gain_db": 0.6737188373391808,
+            "gbw_mhz": 0.2941624565923052,
+            "pm_deg": 0.32833350599587824,
+            "vnoise_nv_rthz": 0.04779960811204165,
+            "sat_XM3": 0.021599592689116914,
+            "sat_XM4": 0.021599592689116914,
+            "sat_XM1": 0.15712672283318513,
+            "sat_XM2": 0.15712672283318513,
+            "sat_XM5": 0.3881145050168595
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 1.3194008900055516,
+          "geo_mean_ratio_to_need": 6.577875334095901
+        },
+        "lp_sum": {
+          "worst_use_of_allowed": 1.0000000000000002,
+          "use_of_allowed": {
+            "gain_db": 1.0,
+            "gbw_mhz": 0.7428374843572997,
+            "pm_deg": 1.0000000000000002,
+            "vnoise_nv_rthz": 0.17711064899306736,
+            "sat_XM3": 0.026688217992369513,
+            "sat_XM4": 0.026688217992369513,
+            "sat_XM1": 0.23440542800107234,
+            "sat_XM2": 0.23440542800107234,
+            "sat_XM5": 1.0
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 3.1005369013798774,
+          "geo_mean_ratio_to_need": 9.258300720701717
+        },
+        "lp_floor": {
+          "worst_use_of_allowed": 0.1819657387348841,
+          "use_of_allowed": {
+            "gain_db": 0.1223665737935871,
+            "gbw_mhz": 0.07659413286201858,
+            "pm_deg": 0.10669433602038891,
+            "vnoise_nv_rthz": 0.018727192173884608,
+            "sat_XM3": 0.0027235046233935216,
+            "sat_XM4": 0.0027235046233935216,
+            "sat_XM1": 0.02878640769944746,
+            "sat_XM2": 0.02878640769944746,
+            "sat_XM5": 0.1819657387348841
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 1.0,
+          "geo_mean_ratio_to_need": 1.0,
+          "floors_applied": true
+        },
+        "lp_floor_k": {
+          "worst_use_of_allowed": 1.0000000000000002,
+          "use_of_allowed": {
+            "gain_db": 1.0,
+            "gbw_mhz": 0.7428374843572997,
+            "pm_deg": 1.0000000000000002,
+            "vnoise_nv_rthz": 0.17711064899306736,
+            "sat_XM3": 0.026688217992369513,
+            "sat_XM4": 0.026688217992369513,
+            "sat_XM1": 0.23440542800107234,
+            "sat_XM2": 0.23440542800107234,
+            "sat_XM5": 1.0
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 3.1005369013798774,
+          "geo_mean_ratio_to_need": 9.258300720701717,
+          "floors_applied": true
+        },
+        "ours": {
+          "worst_use_of_allowed": 1.0000000000000022,
+          "use_of_allowed": {
+            "gain_db": 1.0000000000000018,
+            "gbw_mhz": 0.6223263378871978,
+            "pm_deg": 1.0000000000000022,
+            "vnoise_nv_rthz": 0.1436450781825495,
+            "sat_XM3": 0.026679504192194982,
+            "sat_XM4": 0.026679504192194982,
+            "sat_XM1": 0.2344054280010727,
+            "sat_XM2": 0.2344054280010727,
+            "sat_XM5": 1.0000000000000002
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 5.220763021681285,
+          "geo_mean_ratio_to_need": 9.251521291364115
+        }
+      }
+    },
+    "0.9": {
+      "floors_feasible": true,
+      "t_round1": 7.065694315057373,
+      "methods": {
+        "per_net": {
+          "worst_use_of_allowed": 1.4152890790490984,
+          "use_of_allowed": {
+            "gain_db": 0.9517400183945662,
+            "gbw_mhz": 0.5957321444823667,
+            "pm_deg": 0.8298448357141359,
+            "vnoise_nv_rthz": 0.1456559391302136,
+            "sat_XM3": 0.02118281373750517,
+            "sat_XM4": 0.02118281373750517,
+            "sat_XM1": 0.22389428210681356,
+            "sat_XM2": 0.22389428210681356,
+            "sat_XM5": 1.4152890790490984
+          },
+          "unsafe_checks": [
+            "sat_XM5"
+          ],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 10.0,
+          "geo_mean_ratio_to_need": 10.000000000000002
+        },
+        "equal": {
+          "worst_use_of_allowed": 0.6599438068646514,
+          "use_of_allowed": {
+            "gain_db": 0.6599438068646514,
+            "gbw_mhz": 0.2656440340512856,
+            "pm_deg": 0.2902608406197884,
+            "vnoise_nv_rthz": 0.04779960811204164,
+            "sat_XM3": 0.01737227285339146,
+            "sat_XM4": 0.01737227285339146,
+            "sat_XM1": 0.1541516769418919,
+            "sat_XM2": 0.1541516769418919,
+            "sat_XM5": 0.3877600422198586
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 1.6963725728642811,
+          "geo_mean_ratio_to_need": 7.148036785715932
+        },
+        "lp_sum": {
+          "worst_use_of_allowed": 1.0,
+          "use_of_allowed": {
+            "gain_db": 0.9517400183945662,
+            "gbw_mhz": 0.5890749240604897,
+            "pm_deg": 0.8296492082981518,
+            "vnoise_nv_rthz": 0.14066093255268083,
+            "sat_XM3": 0.02090348269172596,
+            "sat_XM4": 0.02090348269172596,
+            "sat_XM1": 0.22389428210681356,
+            "sat_XM2": 0.22389428210681356,
+            "sat_XM5": 1.0
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 5.468645528253105,
+          "geo_mean_ratio_to_need": 9.716684120000012
+        },
+        "lp_floor": {
+          "worst_use_of_allowed": 0.14152890790490982,
+          "use_of_allowed": {
+            "gain_db": 0.09517400183945662,
+            "gbw_mhz": 0.05957321444823667,
+            "pm_deg": 0.08298448357141358,
+            "vnoise_nv_rthz": 0.01456559391302136,
+            "sat_XM3": 0.0021182813737505167,
+            "sat_XM4": 0.0021182813737505167,
+            "sat_XM1": 0.022389428210681357,
+            "sat_XM2": 0.022389428210681357,
+            "sat_XM5": 0.14152890790490982
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 1.0,
+          "geo_mean_ratio_to_need": 1.0,
+          "floors_applied": true
+        },
+        "lp_floor_k": {
+          "worst_use_of_allowed": 1.0,
+          "use_of_allowed": {
+            "gain_db": 0.9517400183945662,
+            "gbw_mhz": 0.5890749240604897,
+            "pm_deg": 0.8296492082981518,
+            "vnoise_nv_rthz": 0.14066093255268083,
+            "sat_XM3": 0.02090348269172596,
+            "sat_XM4": 0.02090348269172596,
+            "sat_XM1": 0.22389428210681356,
+            "sat_XM2": 0.22389428210681356,
+            "sat_XM5": 1.0
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 5.468645528253105,
+          "geo_mean_ratio_to_need": 9.716684120000012,
+          "floors_applied": true
+        },
+        "ours": {
+          "worst_use_of_allowed": 0.9999999999999974,
+          "use_of_allowed": {
+            "gain_db": 0.9517400183945444,
+            "gbw_mhz": 0.5343140380758813,
+            "pm_deg": 0.8297029040204402,
+            "vnoise_nv_rthz": 0.12538469724399606,
+            "sat_XM3": 0.020899506942770023,
+            "sat_XM4": 0.020899506942770023,
+            "sat_XM1": 0.22389428210680842,
+            "sat_XM2": 0.22389428210680842,
+            "sat_XM5": 0.9999999999999974
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 6.7124095993045065,
+          "geo_mean_ratio_to_need": 9.68330044638534
+        }
+      }
+    },
+    "1": {
+      "floors_feasible": true,
+      "t_round1": 7.850771461174858,
+      "methods": {
+        "per_net": {
+          "worst_use_of_allowed": 1.2737601711441888,
+          "use_of_allowed": {
+            "gain_db": 0.8565660165551096,
+            "gbw_mhz": 0.53615893003413,
+            "pm_deg": 0.7468603521427223,
+            "vnoise_nv_rthz": 0.13109034521719223,
+            "sat_XM3": 0.019064532363754653,
+            "sat_XM4": 0.019064532363754653,
+            "sat_XM1": 0.2015048538961322,
+            "sat_XM2": 0.2015048538961322,
+            "sat_XM5": 1.2737601711441888
+          },
+          "unsafe_checks": [
+            "sat_XM5"
+          ],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 10.0,
+          "geo_mean_ratio_to_need": 10.000000000000002
+        },
+        "equal": {
+          "worst_use_of_allowed": 0.6272827595115196,
+          "use_of_allowed": {
+            "gain_db": 0.6272827595115196,
+            "gbw_mhz": 0.25434958286809534,
+            "pm_deg": 0.27693540773815695,
+            "vnoise_nv_rthz": 0.04779960811204164,
+            "sat_XM3": 0.015892710910887554,
+            "sat_XM4": 0.015892710910887554,
+            "sat_XM1": 0.1467035541017414,
+            "sat_XM2": 0.1467035541017414,
+            "sat_XM5": 0.3868276361634717
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 1.8848584142936458,
+          "geo_mean_ratio_to_need": 7.366485656607745
+        },
+        "lp_sum": {
+          "worst_use_of_allowed": 1.0,
+          "use_of_allowed": {
+            "gain_db": 0.8565660165551096,
+            "gbw_mhz": 0.5317704645194321,
+            "pm_deg": 0.746731393791583,
+            "vnoise_nv_rthz": 0.12779761751372656,
+            "sat_XM3": 0.018880396255303408,
+            "sat_XM4": 0.018880396255303408,
+            "sat_XM1": 0.2015048538961322,
+            "sat_XM2": 0.2015048538961322,
+            "sat_XM5": 1.0
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 6.681015069361538,
+          "geo_mean_ratio_to_need": 9.809777664593835
+        },
+        "lp_floor": {
+          "worst_use_of_allowed": 0.12737601711441887,
+          "use_of_allowed": {
+            "gain_db": 0.08565660165551096,
+            "gbw_mhz": 0.053615893003413004,
+            "pm_deg": 0.07468603521427222,
+            "vnoise_nv_rthz": 0.013109034521719224,
+            "sat_XM3": 0.001906453236375465,
+            "sat_XM4": 0.001906453236375465,
+            "sat_XM1": 0.020150485389613223,
+            "sat_XM2": 0.020150485389613223,
+            "sat_XM5": 0.12737601711441887
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 1.0,
+          "geo_mean_ratio_to_need": 1.0,
+          "floors_applied": true
+        },
+        "lp_floor_k": {
+          "worst_use_of_allowed": 1.0,
+          "use_of_allowed": {
+            "gain_db": 0.8565660165551096,
+            "gbw_mhz": 0.5317704645194321,
+            "pm_deg": 0.746731393791583,
+            "vnoise_nv_rthz": 0.12779761751372656,
+            "sat_XM3": 0.018880396255303408,
+            "sat_XM4": 0.018880396255303408,
+            "sat_XM1": 0.2015048538961322,
+            "sat_XM2": 0.2015048538961322,
+            "sat_XM5": 1.0
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 6.681015069361538,
+          "geo_mean_ratio_to_need": 9.809777664593835,
+          "floors_applied": true
+        },
+        "ours": {
+          "worst_use_of_allowed": 1.0000000000000013,
+          "use_of_allowed": {
+            "gain_db": 0.8565660165551093,
+            "gbw_mhz": 0.500972804727057,
+            "pm_deg": 0.7467615924006388,
+            "vnoise_nv_rthz": 0.11920622441469261,
+            "sat_XM3": 0.018878160284106795,
+            "sat_XM4": 0.018878160284106795,
+            "sat_XM1": 0.20150485389613218,
+            "sat_XM2": 0.20150485389613218,
+            "sat_XM5": 1.0000000000000013
+          },
+          "unsafe_checks": [],
+          "n_elements": 21,
+          "starved": [],
+          "below_floor": [],
+          "min_ratio_to_need": 7.458232888116121,
+          "geo_mean_ratio_to_need": 9.784592737747998
+        }
+      }
+    }
+  },
+  "note": "first order; eta = share of each margin given to layout"
+}

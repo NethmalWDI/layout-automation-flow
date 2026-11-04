@@ -1,0 +1,93 @@
+* ota5t_gui_new on diso_amp_NOISE
+.lib $PDK_ROOT/sky130A/libs.tech/combined/sky130.lib.spice tt
+.param VDD_V=1.8 VCM_V=0.9 CL_F=1p
+.temp 27
+
+**.subckt diso_amp_NOISE
+x1 INP INN net1 VDD 0 OUT dut_amp
+Vsup VDD 0 'VDD_V'
+Vinp INP 0 dc 'VCM_V' ac 1
+* DC unity feedback through a 1 GH choke, INN held at AC ground by 1 F (loop open from 1 Hz up)
+Lfb OUT INN 1G
+Cfb INN 0 1
+Cload OUT 0 'CL_F'
+.control
+  save all
+  let npd    = 20
+  let fstart = 1
+  let fspot  = 1e3
+  noise v(OUT) Vinp dec 20 1 1e9
+  setplot noise1
+  let idx = npd * log10(fspot/fstart)
+  let vnoise_nv_rthz = inoise_spectrum[$&idx] * 1e9
+  echo MEAS vnoise_nv_rthz $&vnoise_nv_rthz
+  write
+  set appendwrite
+  setplot noise2
+  let vnoise_rms_uv_rms = inoise_total * 1e6
+  echo MEAS vnoise_rms_uv_rms $&vnoise_rms_uv_rms
+  write
+  quit 0
+.endc
+**.ends
+
+.subckt dut_amp INP INN OUTN VDD VSS OUTP
+XDUT VDD OUTP INP INN VSS example_ota_5t_sized
+.ends
+
+.subckt example_ota_5t_sized VDD OUTP INP INN VSS
+XM3 s3_XM3_d s3_XM3_s s3_XM3_g VDD VSS s3c_pfet_01v8_w8_l1_m1__nf1_gboth_sdfull_ng
+Rs3_XM3_d s3_XM3_d net3 27.3068
+Rs3_XM3_g s3_XM3_g net3 72.4583
+Rs3_XM3_s s3_XM3_s VDD 27.3068
+XM4 s3_XM4_d s3_XM4_s s3_XM4_g VDD VSS s3c_pfet_01v8_w8_l1_m1__nf1_gboth_sdfull_ng
+Rs3_XM4_d s3_XM4_d OUTP 27.3068
+Rs3_XM4_g s3_XM4_g net3 72.4583
+Rs3_XM4_s s3_XM4_s VDD 27.3068
+XM1 s3_XM1_s s3_XM1_d s3_XM1_g VSS s3c_nfet_01v8_w24_l0p5_m1__nf2_gboth_sdfull_outs_ng
+Rs3_XM1_d s3_XM1_d net3 11.9906
+Rs3_XM1_g s3_XM1_g INP 88.525
+Rs3_XM1_s s3_XM1_s net1 5.9953
+XM2 s3_XM2_s s3_XM2_d s3_XM2_g VSS s3c_nfet_01v8_w24_l0p5_m1__nf2_gboth_sdfull_outs_ng
+Rs3_XM2_d s3_XM2_d OUTP 11.9906
+Rs3_XM2_g s3_XM2_g INN 88.525
+Rs3_XM2_s s3_XM2_s net1 5.9953
+XM5 s3_XM5_d s3_XM5_s s3_XM5_g VSS s3c_nfet_01v8_w24_l1_m1__nf1_gboth_sdfull_ng
+Rs3_XM5_d s3_XM5_d net1 7.13159
+Rs3_XM5_g s3_XM5_g net2 136.725
+Rs3_XM5_s s3_XM5_s VSS 7.13159
+V1 net2 VSS 0.75
+.ends example_ota_5t_sized
+.subckt s3c_pfet_01v8_w8_l1_m1__nf1_gboth_sdfull_ng D S G B SUB
+X0 S G D B sky130_fd_pr__pfet_01v8 ad=2.32 pd=16.58 as=2.32 ps=16.58 w=8 l=1
+C0 B S 0.15709f
+C1 B D 0.15709f
+C2 D S 0.23712f
+C3 B G 0.19849f
+C4 S G 0.43491f
+C5 D G 0.43491f
+C6 S SUB 0.58581f
+C7 D SUB 0.58581f
+C8 G SUB 0.38795f
+C9 B SUB 2.0952f
+.ends
+.subckt s3c_nfet_01v8_w24_l0p5_m1__nf2_gboth_sdfull_outs_ng S D G B
+X0 D G S B sky130_fd_pr__nfet_01v8 ad=1.74 pd=12.29 as=3.48 ps=24.58 w=12 l=0.5
+X1 S G D B sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=1.74 ps=12.29 w=12 l=0.5
+C0 S D 1.29958f
+C1 G D 0.99362f
+C2 G S 0.99645f
+C3 D B 0.09221f
+C4 S B 1.99937f
+C5 G B 0.69199f
+.ends
+.subckt s3c_nfet_01v8_w24_l1_m1__nf1_gboth_sdfull_ng D S G B
+X0 S G D B sky130_fd_pr__nfet_01v8 ad=6.96 pd=48.58 as=6.96 ps=48.58 w=24 l=1
+C0 G D 1.30173f
+C1 D S 0.71055f
+C2 G S 1.30173f
+C3 S B 1.89974f
+C4 D B 1.89974f
+C5 G B 0.54121f
+.ends
+.end

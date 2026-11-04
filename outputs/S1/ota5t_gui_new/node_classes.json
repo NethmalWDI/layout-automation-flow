@@ -1,0 +1,66 @@
+{
+  "nodes": {
+    "INN": {
+      "tags": [
+        "signal_input"
+      ]
+    },
+    "INP": {
+      "tags": [
+        "signal_input"
+      ]
+    },
+    "OUTP": {
+      "tags": [
+        "signal_output",
+        "dominant_pole"
+      ],
+      "R_dc_ohm": 131455.19415237874,
+      "C_node_F": 1.02058637747e-12,
+      "tau_s": 1.3416138039959174e-07,
+      "pole_estimate_Hz": 1186294.7639466869,
+      "high_impedance": true,
+      "pole_rank": 1
+    },
+    "VDD": {
+      "tags": [
+        "supply"
+      ]
+    },
+    "VSS": {
+      "tags": [
+        "ground"
+      ]
+    },
+    "net1": {
+      "tags": [
+        "source_coupled (tail)"
+      ],
+      "R_dc_ohm": 575.6094681569691,
+      "C_node_F": 1.5429596e-13,
+      "tau_s": 8.881421547436898e-11,
+      "pole_estimate_Hz": 1791998524.58108,
+      "high_impedance": false,
+      "pole_rank": 3
+    },
+    "net2": {
+      "tags": [
+        "bias (ideal source in the testbench: AC ground, ASSUMPTION)"
+      ]
+    },
+    "net3": {
+      "tags": [
+        "mirror_node (diode-connected)",
+        "non_dominant_pole"
+      ],
+      "R_dc_ohm": 2879.9118892986608,
+      "C_node_F": 1.0068543635e-13,
+      "tau_s": 2.8996518522358856e-10,
+      "pole_estimate_Hz": 548876041.6847041,
+      "high_impedance": false,
+      "pole_rank": 2
+    }
+  },
+  "method": "open-circuit time constants R_dc*C_node from the linear model; structural tags from topology (dummies excluded)",
+  "dummies_excluded_from_tags": []
+}

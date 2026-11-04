@@ -684,3 +684,45 @@ def test_phase8_review_fixes(tmp_path):
     dummy = next(i for i, ln in enumerate(out) if "_DUMMY0" in ln)
     assert out.index(".subckt top a VSS") < dummy and out[dummy].split()[1:5] == ["VSS"] * 4
     assert "nf=2" in out[out.index(".subckt top a VSS") + 1]
+
+
+def test_centroid_falls_back_to_the_mirror_image_when_nothing_else_exists():
+    """Flow record row 93 (the GUI test of 2026-11-04): with `matching: centroid`, the 5T's PMOS mirror (one copy
+    each, no half unit) got no variant at all and S5 stopped. It now gets the mirror image AB, with a note."""
+    from src.s4 import run as S
+    ir, groups, dd, rules, lu = _s4_inputs("example_ota_5t")
+    blk = next(b for b in S.plan_blocks(ir, groups) if b["name"] == "pmos_current_mirror_load")
+    vs = S.variants(blk, ir, dd["decisions"], REPO / "outputs/S3/_cells", rules, lu, {"matching": "centroid"})
+    assert vs and all(v["units"] for v in vs)
+    assert [v["id"] for v in vs] == ["AB"] and "impossible here" in vs[0]["note"]
+    assert [v["id"] for v in S.variants(blk, ir, dd["decisions"], REPO / "outputs/S3/_cells", rules, lu, {})] == ["AB"]
+
+
+def test_close_met1_strip_stubs_are_staggered():
+    """Flow record row 94: iadc_ota's single-finger W 1.2 / L 0.2 cell puts its drain and source stubs 0.49 um apart
+    at the bottom (0.50 needed for two facing via1 patches); the second patch is raised along its strip instead. Two
+    stubs closer than STAGGER_MIN_DX still stop S4."""
+    import pytest
+    from src.s4 import block as B
+    pins = {"D": {"layer": "metal1", "rect": [0.03, 0.44, 0.26, 1.64]},
+            "S": {"layer": "metal1", "rect": [0.52, 0.44, 0.75, 1.64]},
+            "G": {"layer": "metal1", "rect": [0.205, 1.8, 0.575, 2.03]}}
+    p = B.stub_plan(pins, 0.78, 2.1)
+    assert p["D"]["side"] == p["S"]["side"] == "bottom" and p["S"].get("stagger") == B.STAGGER and not p["D"].get("stagger")
+    assert abs(p["S"]["x"] - p["D"]["x"] - 0.49) < 1e-9                       # the stubs stay where they were
+    close = {**pins, "S": {"layer": "metal1", "rect": [0.38, 0.44, 0.61, 1.64]}}   # 0.35 apart: below STAGGER_MIN_DX
+    with pytest.raises(RuntimeError):
+        B.stub_plan(close, 0.78, 2.1)
+
+
+def test_pins_from_the_cell_corner_only_when_asked():
+    """Flow record row 95: Magic places a unit by its bounding box, whose corner is not the cell's origin (about
+    (-0.125, -0.02) um for most S3 cells). With `pin_origin: bbox` the pins are measured from that corner; without
+    it they stay as every finished design used them."""
+    import json
+    from src.s4 import block as B
+    rec = json.loads((REPO / "outputs/S3/_cells/nfet_01v8_lvt_W1p2_L0p2_m2__nf1_gtop_sdfull_ng/record.json").read_text())
+    lx, ly = B.cell_lower_left(rec)
+    assert lx < 0
+    a, b = B.unit_pins(rec), B.unit_pins(rec, bbox_origin=True)
+    assert abs(b["D"]["rect"][0] - (a["D"]["rect"][0] - lx)) < 1e-6 and abs(b["G"]["rect"][1] - (a["G"]["rect"][1] - ly)) < 1e-6

@@ -1,0 +1,17 @@
+* NGSPICE file created from nmos_matched_cascode_pair_10__AB.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_KCM6UP G D S VSUBS
+X0 S G D VSUBS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+.ends
+
+.subckt nfet_01v8_W1p4_L0p6_m1__nf1_gboth_sdfull_ng S B G D
+Xnfet_01v8_W1p4_L0p6_m1__nf1_gboth_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_KCM6UP
+.ends
+
+.subckt nmos_matched_cascode_pair_10__AB VSS cm x1_net13 x1_net14 VSS_body
+Xnfet_01v8_W1p4_L0p6_m1__nf1_gboth_sdfull_ng_0 VSS VSS_body VSS VSS nfet_01v8_W1p4_L0p6_m1__nf1_gboth_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m1__nf1_gboth_sdfull_ng_1 x1_net13 VSS_body cm cm nfet_01v8_W1p4_L0p6_m1__nf1_gboth_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m1__nf1_gboth_sdfull_ng_2 x1_net14 VSS_body cm x1_net13 nfet_01v8_W1p4_L0p6_m1__nf1_gboth_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m1__nf1_gboth_sdfull_ng_3 VSS VSS_body VSS VSS nfet_01v8_W1p4_L0p6_m1__nf1_gboth_sdfull_ng
+.ends
+

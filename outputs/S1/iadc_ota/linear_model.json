@@ -2,7 +2,7 @@
   "metrics": {
     "gain_db": 53.559908729124295,
     "gbw_mhz": 215.7000198681402,
-    "pm_deg": 77.05352068083647
+    "pm_deg": 77.05339483684611
   },
   "spice": {
     "gain_db": 53.4704,
@@ -12,7 +12,25 @@
   "delta": {
     "gain_db": 0.0895087291242973,
     "gbw_rel": 0.02786735350694869,
-    "pm_deg": -0.18007931916352504
+    "pm_deg": -0.1802051631538859
+  },
+  "pm_reference": {
+    "rule": "PM = 180 + phase(UGB) - reference; reference = the 1 Hz phase rounded to the nearest multiple of 180 deg (Plan v3 Phase A step 7). The frozen benches keep the unrounded 1 Hz phase.",
+    "linear_model": {
+      "phase_1hz_deg": -0.0001258439903574811,
+      "pm_reference_deg": 0.0,
+      "distance_deg": -0.0001258439903574811,
+      "pm_deg_plan_v2_reference": 77.05352068083647
+    },
+    "spice_bench": {
+      "source": "outputs/S0/iadc_ota/tb/dido_amp_AC.log",
+      "phase_1hz_deg": 0.00570371,
+      "pm_reference_deg": 0.0,
+      "distance_deg": 0.00570371,
+      "distance_below_0p05_deg": true,
+      "pm_deg_bench": 77.2336,
+      "pm_deg_rounded_reference": 77.23930371
+    }
   },
   "unknown_nodes": [
     "bias_a",

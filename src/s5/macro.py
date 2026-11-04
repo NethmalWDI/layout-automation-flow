@@ -26,6 +26,8 @@ SEED = 20261104
 MOVES = 40000
 T_START = 0.05        # x the starting placement's cost
 COOL = 0.9998         # per move
+OUTSIDE = 100.0       # the penalty of a placement outside the outline, x (1 + its relative excess); used only when the
+                      # start itself is outside (row 96)
 SHAPES = (1.0, 0.65, 0.5)   # each macro placed under these widths x the outline's (amendment of 2026-11-04, after a
                             # dry run: one shape per macro left no arrangement inside 250 x 200 um)
 
@@ -75,22 +77,39 @@ def _valid_rows(rows: list, blocks: dict) -> bool:
     return "x" not in sides and sides == sorted(sides, key=lambda s: s != "p")   # one side per row, PMOS rows first
 
 
-def anneal(names: list, blocks: dict, max_len: dict, rule: str, outline: list | None, rng: random.Random) -> dict:
+def anneal(names: list, blocks: dict, max_len: dict, rule: str, outline: list | None, rng: random.Random,
+           from_outside: bool = False) -> dict:
     """The best placement of `names` under `rule` ('budget_aware' or 'area_only') by simulated annealing."""
     a_ref = sum(min(v["geometry"]["area_um2"] for v in blocks[b]["variants"]) for b in names)
     rows = _start(names, blocks)
     choice = {b: (blocks[b]["variants"][0], False) for b in names}
 
+    # A start outside the outline (iadc_ota's x1: every matched block opens a row, far taller than the tile) could never
+    # move: every step outside was rejected. With `search_from_outside` (layout.yaml, opt-in: it also changes
+    # ttsky25a_fd's narrower macro shapes, so the finished designs keep the old search until Imasha decides), a
+    # placement outside the outline is then scored with a penalty that grows with its excess, so the search can walk
+    # back inside; only placements inside are ever kept as the result (flow record row 96).
+    soft = False
+
     def evaluate(rows, choice):
         pl = P.realise(rows, choice, blocks, shared_rows=True)
-        if pl is None or not fits(pl, outline):
-            return None, None
-        c = P.cost(pl, a_ref, max_len)
-        return pl, c[rule]
-    pl, cur = evaluate(rows, choice)
-    if pl is None:   # the start may break the outline: keep searching from it, scored as very costly
+        if pl is None:
+            return None, None, False
+        c = P.cost(pl, a_ref, max_len)[rule]
+        if fits(pl, outline):
+            return pl, c, True
+        if not soft:
+            return None, None, False
+        x0, y0, x1, y1 = pl["bbox"]
+        over = max(0.0, (x1 - x0) / outline[0] - 1) + max(0.0, (y1 - y0) / outline[1] - 1)
+        return pl, c + OUTSIDE * (1 + over), False
+    pl, cur, inside = evaluate(rows, choice)
+    if pl is None and outline and from_outside:
+        soft = True
+        pl, cur, inside = evaluate(rows, choice)
+    if pl is None:   # not even a placement: keep searching from it, scored as very costly
         cur = 1e9
-    best = (cur, pl, [list(r) for r in rows], dict(choice))
+    best = (cur if inside else 1e9, pl if inside else None, [list(r) for r in rows], dict(choice))
     temp = T_START * (cur if cur < 1e9 else 1.0)
     for _ in range(MOVES):
         r2, c2 = [list(r) for r in rows], dict(choice)
@@ -118,17 +137,18 @@ def anneal(names: list, blocks: dict, max_len: dict, rule: str, outline: list | 
         if not _valid_rows(r2, blocks):
             temp *= COOL
             continue
-        pl2, new = evaluate(r2, c2)
+        pl2, new, in2 = evaluate(r2, c2)
         if pl2 is not None and (new < cur or rng.random() < math.exp(-(new - cur) / max(temp, 1e-12))):
             rows, choice, cur, pl = r2, c2, new, pl2
-            if cur < best[0]:
+            if in2 and cur < best[0]:      # only a placement inside the outline is ever kept
                 best = (cur, pl, [list(r) for r in rows], dict(choice))
         temp *= COOL
     return {"cost": best[0], "placement": best[1], "rows": best[2],
             "choice": {b: [v["id"], f] for b, (v, f) in best[3].items()}}
 
 
-def place_macro(names: list, blocks: dict, max_len: dict, rule: str, outline: list | None) -> dict:
+def place_macro(names: list, blocks: dict, max_len: dict, rule: str, outline: list | None,
+                from_outside: bool = False) -> dict:
     """One macro under one cost: enumeration up to ENUM_MAX blocks, annealing beyond (seeded, so reproducible)."""
     sub = {b: blocks[b] for b in names}
     if len(names) <= ENUM_MAX:
@@ -138,7 +158,7 @@ def place_macro(names: list, blocks: dict, max_len: dict, rule: str, outline: li
         best = min(range(len(cands)), key=lambda i: (cands[i]["cost"][rule], i))
         return {"cost": cands[best]["cost"][rule], "placement": cands[best]["placement"], "method": "enumeration",
                 "n": len(cands)}
-    r = anneal(names, sub, max_len, rule, outline, random.Random(SEED))
+    r = anneal(names, sub, max_len, rule, outline, random.Random(SEED), from_outside)
     return {**r, "method": "annealing", "n": MOVES}
 
 
@@ -188,6 +208,8 @@ def hierarchical(design: str, blocks: dict, max_len: dict, rule: str, outline: l
     """The whole S5 placement of a design with its own hierarchy, under one cost: every macro placed, then every
     arrangement of the macros (no flips) inside the outline; the best flattened."""
     mof = macro_of(design, blocks)
+    from src.s4.run import layout_options
+    outside = bool(layout_options(design).get("search_from_outside"))   # row 96, opt-in
     groups = {}
     for b in blocks:
         groups.setdefault(mof[b], []).append(b)
@@ -195,7 +217,7 @@ def hierarchical(design: str, blocks: dict, max_len: dict, rule: str, outline: l
     for m, names in groups.items():   # each macro under each width limit: its shapes, distinct ones kept
         for f in (SHAPES if outline else (1.0,)):
             lim = [outline[0] * f, outline[1]] if outline else None
-            x = place_macro(names, blocks, max_len, rule, lim)
+            x = place_macro(names, blocks, max_len, rule, lim, outside)
             if x["placement"] is None:
                 continue
             size = (round(x["placement"]["bbox"][2] - x["placement"]["bbox"][0], 3),

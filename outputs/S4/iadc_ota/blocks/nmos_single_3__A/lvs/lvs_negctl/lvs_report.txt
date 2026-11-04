@@ -1,0 +1,48 @@
+
+Circuit 1 cell sky130_fd_pr__nfet_01v8 and Circuit 2 cell sky130_fd_pr__nfet_01v8 are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8 is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8 is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__nfet_01v8         |Circuit 2: sky130_fd_pr__nfet_01v8         
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__nfet_01v8 and sky130_fd_pr__nfet_01v8 are equivalent.
+Flattening unmatched subcell nfet_01v8_W1p4_L0p6_m18__nf1_gboth_sdfull_ng in circuit nmos_single_3__A (0)(18 instances)
+Flattening unmatched subcell sky130_fd_pr__nfet_01v8_KCM6UP in circuit nmos_single_3__A (0)(18 instances)
+
+Class nmos_single_3__A (0):  Merged 17 parallel devices.
+Subcircuit summary:
+Circuit 1: nmos_single_3__A                |Circuit 2: nmos_single_3__A                
+-------------------------------------------|-------------------------------------------
+sky130_fd_pr__nfet_01v8 (18->1)            |sky130_fd_pr__nfet_01v8 (18->1)            
+Number of devices: 1                       |Number of devices: 1                       
+Number of nets: 4                          |Number of nets: 4                          
+---------------------------------------------------------------------------------------
+Resolving symmetries by property value.
+Resolving symmetries by pin name.
+Netlists match uniquely with property errors.
+nfet_01v8_W1p4_L0p6_m18__nf1_gboth_sdfull_ng_0/sky130_fd_pr__nfet_01v8_KCM6UP:nfet_01v8_W1p4_L0p6_m18__nf1_gboth_sdfull_ng_pc/sky130_fd_pr__nfet_01v8:0 vs. sky130_fd_pr__nfet_01v8:XX1_M5:
+ l circuit1: 0.6   circuit2: 0.7   (delta=15.4%, cutoff=1%)
+
+Subcircuit pins:
+Circuit 1: nmos_single_3__A                |Circuit 2: nmos_single_3__A                
+-------------------------------------------|-------------------------------------------
+bias_a                                     |bias_a                                     
+VSS                                        |VSS                                        
+x1_m5d                                     |x1_m5d                                     
+VSS_body                                   |VSS_body                                   
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes nmos_single_3__A and nmos_single_3__A are equivalent.
+
+Final result: Circuits match uniquely.
+Property errors were found.
+
+The following cells had property errors:
+ nmos_single_3__A

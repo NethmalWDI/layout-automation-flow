@@ -3,20 +3,16 @@
     "VDD": {
       "tags": [
         "supply",
-        "bias current input (ideal current source: open in AC)",
-        "mirror_node (diode-connected)"
+        "bias current input (ideal current source: open in AC)"
       ]
     },
     "VSS": {
       "tags": [
-        "ground",
-        "mirror_node (diode-connected)"
+        "ground"
       ]
     },
     "bias_a": {
-      "tags": [
-        "mirror_node (diode-connected)"
-      ],
+      "tags": [],
       "R_dc_ohm": 2218.158095420948,
       "C_node_F": 9.385175019969999e-13,
       "tau_s": 2.081780194748891e-09,
@@ -36,10 +32,7 @@
       "pole_rank": 3
     },
     "bias_c": {
-      "tags": [
-        "mirror_node (diode-connected)",
-        "source_coupled (tail)"
-      ],
+      "tags": [],
       "R_dc_ohm": 6624.166995581979,
       "C_node_F": 4.788773205109002e-13,
       "tau_s": 3.172163341461038e-09,
@@ -48,10 +41,7 @@
       "pole_rank": 4
     },
     "bias_d": {
-      "tags": [
-        "mirror_node (diode-connected)",
-        "source_coupled (tail)"
-      ],
+      "tags": [],
       "R_dc_ohm": 4893.22026048042,
       "C_node_F": 5.914832381730003e-13,
       "tau_s": 2.8942577647626903e-09,
@@ -97,7 +87,6 @@
     "on": {
       "tags": [
         "signal_output",
-        "mirror_node (diode-connected)",
         "non_dominant_pole"
       ],
       "R_dc_ohm": 638563.3131794123,
@@ -110,7 +99,6 @@
     "op": {
       "tags": [
         "signal_output",
-        "mirror_node (diode-connected)",
         "dominant_pole"
       ],
       "R_dc_ohm": 638563.3133346529,
@@ -121,10 +109,7 @@
       "pole_rank": 1
     },
     "x1_m21d": {
-      "tags": [
-        "mirror_node (diode-connected)",
-        "source_coupled (tail)"
-      ],
+      "tags": [],
       "R_dc_ohm": 3139.823344947283,
       "C_node_F": 4.776027561e-14,
       "tau_s": 1.4995882832139435e-10,
@@ -133,10 +118,7 @@
       "pole_rank": 16
     },
     "x1_m25d": {
-      "tags": [
-        "mirror_node (diode-connected)",
-        "source_coupled (tail)"
-      ],
+      "tags": [],
       "R_dc_ohm": 3253.2166224842404,
       "C_node_F": 5.0852764709999995e-14,
       "tau_s": 1.6543505945385195e-10,
@@ -156,10 +138,7 @@
       "pole_rank": 7
     },
     "x1_m31d": {
-      "tags": [
-        "mirror_node (diode-connected)",
-        "source_coupled (tail)"
-      ],
+      "tags": [],
       "R_dc_ohm": 2336.7797201986396,
       "C_node_F": 4.2498560066000006e-14,
       "tau_s": 9.930977329987257e-11,
@@ -168,10 +147,7 @@
       "pole_rank": 17
     },
     "x1_m5d": {
-      "tags": [
-        "mirror_node (diode-connected)",
-        "source_coupled (tail)"
-      ],
+      "tags": [],
       "R_dc_ohm": 1786.9070221532927,
       "C_node_F": 1.1804942303500003e-13,
       "tau_s": 2.1094334298238622e-10,
@@ -315,10 +291,7 @@
       "pole_rank": 32
     },
     "x2_foldn": {
-      "tags": [
-        "mirror_node (diode-connected)",
-        "source_coupled (tail)"
-      ],
+      "tags": [],
       "R_dc_ohm": 2009.9285886307935,
       "C_node_F": 1.1108108741452006e-13,
       "tau_s": 2.232650532506401e-10,
@@ -327,10 +300,7 @@
       "pole_rank": 12
     },
     "x2_foldp": {
-      "tags": [
-        "mirror_node (diode-connected)",
-        "source_coupled (tail)"
-      ],
+      "tags": [],
       "R_dc_ohm": 2009.9285883767095,
       "C_node_F": 1.1108108741452006e-13,
       "tau_s": 2.2326505322241618e-10,
@@ -358,7 +328,6 @@
     },
     "x2_tail": {
       "tags": [
-        "mirror_node (diode-connected)",
         "source_coupled (tail)"
       ],
       "R_dc_ohm": 314.8492874554717,
@@ -369,5 +338,45 @@
       "pole_rank": 18
     }
   },
-  "method": "open-circuit time constants R_dc*C_node from the linear model; structural tags from topology"
+  "method": "open-circuit time constants R_dc*C_node from the linear model; structural tags from topology (dummies excluded)",
+  "dummies_excluded_from_tags": [
+    "XM43",
+    "XM45",
+    "XM9",
+    "XX1_M10",
+    "XX1_M27",
+    "XX1_M29",
+    "XX1_M34",
+    "XX1_M35",
+    "XX1_M36",
+    "XX1_M37",
+    "XX1_M42",
+    "XX1_M44",
+    "XX1_M46",
+    "XX1_M47",
+    "XX1_M48",
+    "XX1_M51",
+    "XX1_M54",
+    "XX1_M57",
+    "XX1_M58",
+    "XX1_M59",
+    "XX1_M60",
+    "XX1_M8",
+    "XX2_M23",
+    "XX2_M24",
+    "XX2_M28",
+    "XX2_M30",
+    "XX2_M38",
+    "XX2_M39",
+    "XX2_M40",
+    "XX2_M41",
+    "XX2_M55",
+    "XX2_M56",
+    "XX2_M61",
+    "XX2_M62",
+    "XX2_M80",
+    "XX2_M81",
+    "XX2_M82",
+    "XX2_M83"
+  ]
 }

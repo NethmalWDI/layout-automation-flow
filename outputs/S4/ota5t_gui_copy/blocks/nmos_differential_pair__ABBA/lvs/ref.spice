@@ -1,0 +1,6 @@
+.subckt nmos_differential_pair__ABBA INN INP OUTP VSS net1 net3 VSS_body
+XXM1 net3 INP net1 VSS_body sky130_fd_pr__nfet_01v8 L=0.5 W=24 nf=2
+XXM2 OUTP INN net1 VSS_body sky130_fd_pr__nfet_01v8 L=0.5 W=24 nf=2
+Xnmos_differential_pair_DUMMY0 VSS VSS VSS VSS_body sky130_fd_pr__nfet_01v8 L=0.5 W=12 nf=1
+Xnmos_differential_pair_DUMMY1 VSS VSS VSS VSS_body sky130_fd_pr__nfet_01v8 L=0.5 W=12 nf=1
+.ends

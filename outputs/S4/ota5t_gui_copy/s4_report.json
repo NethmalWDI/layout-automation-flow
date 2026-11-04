@@ -1,0 +1,123 @@
+{
+  "run_id": "2026-11-04T17:16:48-a894c552",
+  "design": "ota5t_gui_copy",
+  "s3_run_id": "2026-11-04T16:46:20-11092227",
+  "layout_options": {
+    "matching": "centroid",
+    "dummies": true
+  },
+  "gates": {
+    "G4.1_one_type_and_body_per_block": {
+      "pass": true,
+      "blocks": {
+        "pmos_current_mirror_load": {
+          "type": "pmos",
+          "body": "VDD",
+          "devices": [
+            "XM3",
+            "XM4"
+          ]
+        },
+        "nmos_differential_pair": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XM1",
+            "XM2"
+          ]
+        },
+        "nmos_current_mirror_bias": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XM5"
+          ]
+        }
+      }
+    },
+    "G4.2_DRC_every_variant": {
+      "pass": true,
+      "detail": {
+        "pmos_current_mirror_load__AB": 0,
+        "nmos_differential_pair__ABBA": 0,
+        "nmos_differential_pair__ABAB": 0,
+        "nmos_current_mirror_bias__A": 0
+      }
+    },
+    "G4.3_LVS_every_variant": {
+      "pass": true,
+      "detail": {
+        "pmos_current_mirror_load__AB": true,
+        "nmos_differential_pair__ABBA": true,
+        "nmos_differential_pair__ABAB": true,
+        "nmos_current_mirror_bias__A": true
+      }
+    },
+    "G4.4_symmetry": {
+      "pass": true,
+      "tolerance_um": 0.005,
+      "detail": {
+        "pmos_current_mirror_load__AB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 2.54,
+          "mirror_image": true
+        },
+        "nmos_differential_pair__ABBA": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "nmos_differential_pair__ABAB": {
+          "error_um": 0.0,
+          "centroid_offset_um": 1.93,
+          "mirror_image": false
+        }
+      },
+      "not_matched": [],
+      "note": "every two-device block of one device type (a matched pair or mirror of one size) has a signed-off variant that is a mirror image about its centre; centroid_offset_um is 0 for a common centroid (ABBA). Two devices of different sizes (not_matched) cannot be mirror images"
+    },
+    "G4.5_latchup_tap_distance": {
+      "pass": true,
+      "limit_um": 15.0,
+      "detail": {
+        "pmos_current_mirror_load__AB": 6.326,
+        "nmos_differential_pair__ABBA": 6.59,
+        "nmos_differential_pair__ABAB": 6.59,
+        "nmos_current_mirror_bias__A": 2.36
+      },
+      "tap_strips": {},
+      "note": "the LU rules are also in the block's own DRC (G4.2), which defers nothing; a capacitor block has no diffusion (None)"
+    },
+    "G4.6_port_capacitance (info)": {
+      "pass": null,
+      "note": "block port C against S2's hierarchy.json: S6 extraction (plan Phase 5)"
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-11-04T16:16:48+00:00",
+    "git_commit": "ef21cda3f5e36142f42125875156e320a0e8b176",
+    "inputs": [
+      {
+        "path": "outputs/S0/ota5t_gui_copy/circuit_ir.json",
+        "sha256": "0446cf1cd6e175dcbb5135697f863de05bea048e1b1a1bdeac6bb07dbe833e9e"
+      },
+      {
+        "path": "outputs/S1/ota5t_gui_copy/s1_report.json",
+        "sha256": "e559e3a6314320ddb44ca645fdc08b4e0d185d38bdd726167f33ad4f9b2cbae2"
+      },
+      {
+        "path": "outputs/S3/ota5t_gui_copy/device_decisions.json",
+        "sha256": "ca5479e68edd48099c70276e27412a0d95f207568cd8df76c4c02cca1e886176"
+      },
+      {
+        "path": "outputs/S2/ota5t_gui_copy/constraints.json",
+        "sha256": "53435f9194c3c1dc86cdcfda40aa3c695f5e96d2a5325632c633e13d89b326ef"
+      },
+      {
+        "path": "inputs/ota5t_gui_copy/package.yaml",
+        "sha256": "67f27d267c1c9d0f02438267b87a1d9d346b0ef01dfe2b3a703fe6834b404ab6"
+      }
+    ]
+  }
+}

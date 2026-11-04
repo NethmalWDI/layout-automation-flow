@@ -1,0 +1,13 @@
+$ /usr/bin/python3 -m src.s5.run inputs/iadc_ota/package.yaml
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/foss/designs/src/s5/run.py", line 417, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/foss/designs/src/s5/run.py", line 306, in main
+    chosen = {r: M.hierarchical(design, blocks, max_len, r, outline) for r in RULES}
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/foss/designs/src/s5/macro.py", line 207, in hierarchical
+    raise RuntimeError(f"no placement of macro(s) {bad} fits the outline {outline}")
+RuntimeError: no placement of macro(s) ['x2', 'x1'] fits the outline [161.0, 225.77]

@@ -1,0 +1,39 @@
+* NGSPICE file created from ota5t_gui_copy_routed_flat.ext - technology: sky130A
+
+.subckt ota5t_gui_copy_routed_flat OUTP INN INP VBIAS VDD VSS pmos_current_mirror_load__AB_0.net3
++ nmos_current_mirror_bias__A_0.net1
+X0 nmos_current_mirror_bias__A_0.net1 INN OUTP VSS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=3.48 ps=24.58 w=12 l=0.5
+X1 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 ad=2.32 pd=16.58 as=13.92 ps=99.48 w=8 l=1
+X2 nmos_current_mirror_bias__A_0.net1 VBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=1.74 ps=12.29 w=12 l=1
+X3 OUTP INN nmos_current_mirror_bias__A_0.net1 VSS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=3.48 ps=24.58 w=12 l=0.5
+X4 OUTP pmos_current_mirror_load__AB_0.net3 VDD VDD sky130_fd_pr__pfet_01v8 ad=2.32 pd=16.58 as=2.32 ps=16.58 w=8 l=1
+X5 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 ad=2.32 pd=16.58 as=0 ps=0 w=8 l=1
+X6 pmos_current_mirror_load__AB_0.net3 INP nmos_current_mirror_bias__A_0.net1 VSS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=3.48 ps=24.58 w=12 l=0.5
+X7 nmos_current_mirror_bias__A_0.net1 INP pmos_current_mirror_load__AB_0.net3 VSS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=3.48 ps=24.58 w=12 l=0.5
+X8 VDD pmos_current_mirror_load__AB_0.net3 pmos_current_mirror_load__AB_0.net3 VDD sky130_fd_pr__pfet_01v8 ad=2.32 pd=16.58 as=2.32 ps=16.58 w=8 l=1
+X9 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=17.4 ps=122.9 w=12 l=0.5
+X10 VSS VBIAS nmos_current_mirror_bias__A_0.net1 VSS sky130_fd_pr__nfet_01v8 ad=1.74 pd=12.29 as=3.48 ps=24.58 w=12 l=1
+X11 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=0 ps=0 w=12 l=0.5
+C0 nmos_current_mirror_bias__A_0.net1 INP 0.88853f
+C1 VDD nmos_current_mirror_bias__A_0.net1 0
+C2 VBIAS pmos_current_mirror_load__AB_0.net3 0.00298f
+C3 INN OUTP 1.13125f
+C4 INN INP 0.84135f
+C5 pmos_current_mirror_load__AB_0.net3 OUTP 2.50139f
+C6 VDD INN 0.05988f
+C7 pmos_current_mirror_load__AB_0.net3 INP 0.96605f
+C8 VDD pmos_current_mirror_load__AB_0.net3 5.98787f
+C9 VBIAS OUTP 0.04543f
+C10 INN nmos_current_mirror_bias__A_0.net1 0.88814f
+C11 pmos_current_mirror_load__AB_0.net3 nmos_current_mirror_bias__A_0.net1 2.26656f
+C12 OUTP INP 0.0982f
+C13 VDD OUTP 1.55191f
+C14 VDD INP 0.00911f
+C15 INN pmos_current_mirror_load__AB_0.net3 0.11948f
+C16 VBIAS nmos_current_mirror_bias__A_0.net1 1.70149f
+C17 nmos_current_mirror_bias__A_0.net1 OUTP 3.37569f
+C18 nmos_current_mirror_bias__A_0.net1 VSS 10.38823f
+C19 OUTP VSS 6.12552f
+C20 VDD VSS 0.45818f
+.ends
+

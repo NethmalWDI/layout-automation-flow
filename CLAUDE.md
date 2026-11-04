@@ -61,7 +61,7 @@ These project rules follow from the rules above:
   - The container's PID 1 does not reap processes, so a killed process stays as a zombie and `kill -0` still succeeds on it. Wait on a log line or a `.exit` file, never on a PID.
   - List jobs with `pgrep -af '^python3'`. Never `pkill` with a pattern that can match your own command line.
   - To hold a running queue script after its current step, use `kill -STOP <bash pid>` (and `kill -CONT <bash pid>` to release it). Don't edit a bash script while it is running, because bash reads it as it goes.
-- **Tests:** `./flow test` (`.\flow.ps1 test` from PowerShell) runs every test in `tests/` (189 on 2026-11-04,
+- **Tests:** `./flow test` (`.\flow.ps1 test` from PowerShell) runs every test in `tests/` (192 on 2026-11-04,
   `tests/test_golden.py` among them) and then compares the committed outputs with `tests/golden/` (32 design-stage
   pairs: S0–S7 for the 5T, LOADBench and `ttsky25a_fd`, S0–S3 for the others). One file alone: `python3 -m pytest -q tests/test_phaseA.py`.
 

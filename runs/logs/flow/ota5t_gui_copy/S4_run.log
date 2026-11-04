@@ -1,0 +1,11 @@
+$ /usr/bin/python3 -m src.s4.run inputs/ota5t_gui_copy/package.yaml --workers 4
+G4.1_one_type_and_body_per_block         True
+G4.2_DRC_every_variant                   True
+G4.3_LVS_every_variant                   True
+G4.4_symmetry                            True
+G4.5_latchup_tap_distance                True
+G4.6_port_capacitance (info)             None
+  pmos_current_mirror_load__AB                 drc=0 lvs=True area=237.86 sym={'error_um': 0.0, 'centroid_offset_um': 2.54, 'mirror_image': True}
+  nmos_differential_pair__ABBA                 drc=0 lvs=True area=324.67 sym={'error_um': 0.0, 'centroid_offset_um': 0.0, 'mirror_image': True}
+  nmos_differential_pair__ABAB                 drc=0 lvs=True area=324.67 sym={'error_um': 0.0, 'centroid_offset_um': 1.93, 'mirror_image': False}
+  nmos_current_mirror_bias__A                  drc=0 lvs=True area=117.67 sym={}

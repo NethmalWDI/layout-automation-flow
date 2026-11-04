@@ -1,0 +1,49 @@
+{
+  "metrics": {
+    "gain_db": 39.180168052592265,
+    "gbw_mhz": 104.57759390030628,
+    "pm_deg": 79.67616102492242
+  },
+  "spice": {
+    "gain_db": 39.1959,
+    "gbw_mhz": 104.034,
+    "pm_deg": 79.6622
+  },
+  "delta": {
+    "gain_db": -0.015731947407736868,
+    "gbw_rel": 0.005225156201879022,
+    "pm_deg": 0.013961024922423348
+  },
+  "pm_reference": {
+    "rule": "PM = 180 + phase(UGB) - reference; reference = the 1 Hz phase rounded to the nearest multiple of 180 deg (Plan v3 Phase A step 7). The frozen benches keep the unrounded 1 Hz phase.",
+    "linear_model": {
+      "phase_1hz_deg": -4.8365326232684654e-05,
+      "pm_reference_deg": 0.0,
+      "distance_deg": -4.8365326232684654e-05,
+      "pm_deg_plan_v2_reference": 79.67620939024866
+    },
+    "spice_bench": {
+      "source": "outputs/S0/ota5t_gui_new/tb/diso_amp_AC.log",
+      "phase_1hz_deg": 0.00115849,
+      "pm_reference_deg": 0.0,
+      "distance_deg": 0.00115849,
+      "distance_below_0p05_deg": true,
+      "pm_deg_bench": 79.6622,
+      "pm_deg_rounded_reference": 79.66335849
+    }
+  },
+  "unknown_nodes": [
+    "OUTP",
+    "net1",
+    "net3"
+  ],
+  "driven": {
+    "INP": 1.0,
+    "INN": 0.0
+  },
+  "ac_ground": [
+    "VDD",
+    "VSS",
+    "net2"
+  ]
+}

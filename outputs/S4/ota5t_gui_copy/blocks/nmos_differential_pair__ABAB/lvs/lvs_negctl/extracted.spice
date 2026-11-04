@@ -1,0 +1,19 @@
+* NGSPICE file created from nmos_differential_pair__ABAB.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_P7JZK5 G D S VSUBS
+X0 S G D VSUBS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=3.48 ps=24.58 w=12 l=0.5
+.ends
+
+.subckt nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng B S G D
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_P7JZK5
+.ends
+
+.subckt nmos_differential_pair__ABAB VSS INP INN net3 net1 OUTP VSS_body
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_0 VSS_body VSS VSS VSS nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_1 VSS_body net1 INP net3 nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_3 VSS_body net1 INP net3 nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_2 VSS_body net1 INN OUTP nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_4 VSS_body net1 INN OUTP nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_5 VSS_body VSS VSS VSS nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng
+.ends
+

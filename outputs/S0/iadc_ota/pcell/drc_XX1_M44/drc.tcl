@@ -18,8 +18,9 @@ puts $f "top XX1_M44 (flattened) gds /foss/designs/outputs/S0/iadc_ota/pcell/XX1
 puts $f "DRC_TOTAL $n"
 foreach {why boxes} [drc listall why] { puts $f "[llength $boxes]\t$why" }
 close $f
-# negative control: a 0.05 um wide met1 sliver must be flagged
-box 0um 0um 0.05um 1um
+# negative control: a 0.05 um wide met1 sliver must be flagged. It sits away from the layout: at the origin it fell
+# inside the area of an existing error (a ringless cell's n-well tap rule), and Magic's total did not grow (plan v4)
+box -20um -20um -19.95um -19um
 paint metal1
 drc check
 drc catchup

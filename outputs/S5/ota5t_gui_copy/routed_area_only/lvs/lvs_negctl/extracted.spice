@@ -1,0 +1,54 @@
+* NGSPICE file created from ota5t_gui_copy_routed.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_9RJRPW a_229_n1231# G D0 S1 VSUBS
+X0 a_229_n1231# G S1 VSUBS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=1.74 ps=12.29 w=12 l=1
+X1 S1 G D0 VSUBS sky130_fd_pr__nfet_01v8 ad=1.74 pd=12.29 as=3.48 ps=24.58 w=12 l=1
+.ends
+
+.subckt nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng B G S D
+Xnfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng_pc D G D S B sky130_fd_pr__nfet_01v8_9RJRPW
+.ends
+
+.subckt nmos_current_mirror_bias__A VSS net2 net1 VSS_body
+Xnfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng_0 VSS_body net2 VSS net1 nfet_01v8_W24_L1_m1__nf2_gtop_sdfull_outD_ng
+.ends
+
+.subckt sky130_fd_pr__nfet_01v8_P7JZK5 G D S VSUBS
+X0 S G D VSUBS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=3.48 ps=24.58 w=12 l=0.5
+.ends
+
+.subckt nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng B S G D
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_P7JZK5
+.ends
+
+.subckt nmos_differential_pair__ABBA net1 net3 VSS INN VSS_body OUTP INP
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_0 VSS_body VSS VSS VSS nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_1 VSS_body net1 INP net3 nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_2 VSS_body net1 INN OUTP nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_3 VSS_body net1 INN OUTP nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_4 VSS_body net1 INP net3 nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng
+Xnfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng_5 VSS_body VSS VSS VSS nfet_01v8_W12_L0p5_m1__nf1_gtop_sdfull_ng
+.ends
+
+.subckt sky130_fd_pr__pfet_01v8_6DK835 G D S w_n194_n898#
+X0 S G D w_n194_n898# sky130_fd_pr__pfet_01v8 ad=2.32 pd=16.58 as=2.32 ps=16.58 w=8 l=1
+.ends
+
+.subckt pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng S B G D
+Xpfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng_pc G D S B sky130_fd_pr__pfet_01v8_6DK835
+.ends
+
+.subckt pmos_current_mirror_load__AB OUTP VDD_body net3 VDD
+Xpfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng_0 VDD VDD_body VDD VDD pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng
+Xpfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng_1 VDD VDD_body net3 net3 pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng
+Xpfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng_2 VDD VDD_body net3 OUTP pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng
+Xpfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng_3 VDD VDD_body VDD VDD pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng
+.ends
+
+.subckt ota5t_gui_copy_routed OUTP INN INP VBIAS VDD VSS
+Xnmos_current_mirror_bias__A_0 VSS VBIAS nmos_current_mirror_bias__A_0/net1 VSS nmos_current_mirror_bias__A
+Xnmos_differential_pair__ABBA_0 nmos_current_mirror_bias__A_0/net1 pmos_current_mirror_load__AB_0/net3
++ VSS INN VSS OUTP INP nmos_differential_pair__ABBA
+Xpmos_current_mirror_load__AB_0 OUTP VDD pmos_current_mirror_load__AB_0/net3 VDD pmos_current_mirror_load__AB
+.ends
+

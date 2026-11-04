@@ -1,0 +1,15 @@
+* NGSPICE file created from pmos_dummy_6__A.ext - technology: sky130A
+
+.subckt sky130_fd_pr__pfet_01v8_7A4LUF G D w_n154_n238# S
+X0 S G D w_n154_n238# sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+.ends
+
+.subckt pfet_01v8_W1p4_L0p6_m2__nf1_gtop_sdfull_ng B S G D
+Xpfet_01v8_W1p4_L0p6_m2__nf1_gtop_sdfull_ng_pc G D B S sky130_fd_pr__pfet_01v8_7A4LUF
+.ends
+
+.subckt pmos_dummy_6__A x1_m21d VDD_body
+Xpfet_01v8_W1p4_L0p6_m2__nf1_gtop_sdfull_ng_0 VDD_body x1_m21d x1_m21d x1_m21d pfet_01v8_W1p4_L0p6_m2__nf1_gtop_sdfull_ng
+Xpfet_01v8_W1p4_L0p6_m2__nf1_gtop_sdfull_ng_1 VDD_body x1_m21d x1_m21d x1_m21d pfet_01v8_W1p4_L0p6_m2__nf1_gtop_sdfull_ng
+.ends
+

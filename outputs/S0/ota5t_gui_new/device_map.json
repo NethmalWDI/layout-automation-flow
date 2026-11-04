@@ -1,0 +1,172 @@
+{
+  "schema": "device_map/v2",
+  "design": "ota5t_gui_new",
+  "devices": [
+    {
+      "device": "XM3",
+      "polarity": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "netlist": {
+        "W_um": 8.0,
+        "L_um": 1.0,
+        "nf": 1,
+        "m": 1,
+        "W_total_um": 8.0
+      },
+      "pcell": {
+        "generator": "magic::gencell",
+        "cell": "sky130::sky130_fd_pr__pfet_01v8",
+        "params": {
+          "w": 8.0,
+          "l": 1.0,
+          "nf": 1,
+          "m": 1
+        },
+        "options": "defaults until S3 decides (guard, topc/botc, diffcov/polycov, via coverage)"
+      },
+      "conventions": {
+        "netlist_W": "total width of one instance (xschem sky130); PCell w = W/nf per finger",
+        "ad_equals_0.29W_nf1": true
+      }
+    },
+    {
+      "device": "XM4",
+      "polarity": "pmos",
+      "model": "sky130_fd_pr__pfet_01v8",
+      "netlist": {
+        "W_um": 8.0,
+        "L_um": 1.0,
+        "nf": 1,
+        "m": 1,
+        "W_total_um": 8.0
+      },
+      "pcell": {
+        "generator": "magic::gencell",
+        "cell": "sky130::sky130_fd_pr__pfet_01v8",
+        "params": {
+          "w": 8.0,
+          "l": 1.0,
+          "nf": 1,
+          "m": 1
+        },
+        "options": "defaults until S3 decides (guard, topc/botc, diffcov/polycov, via coverage)"
+      },
+      "conventions": {
+        "netlist_W": "total width of one instance (xschem sky130); PCell w = W/nf per finger",
+        "ad_equals_0.29W_nf1": true
+      }
+    },
+    {
+      "device": "XM1",
+      "polarity": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "netlist": {
+        "W_um": 24.0,
+        "L_um": 0.5,
+        "nf": 1,
+        "m": 1,
+        "W_total_um": 24.0
+      },
+      "pcell": {
+        "generator": "magic::gencell",
+        "cell": "sky130::sky130_fd_pr__nfet_01v8",
+        "params": {
+          "w": 24.0,
+          "l": 0.5,
+          "nf": 1,
+          "m": 1
+        },
+        "options": "defaults until S3 decides (guard, topc/botc, diffcov/polycov, via coverage)"
+      },
+      "conventions": {
+        "netlist_W": "total width of one instance (xschem sky130); PCell w = W/nf per finger",
+        "ad_equals_0.29W_nf1": true
+      }
+    },
+    {
+      "device": "XM2",
+      "polarity": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "netlist": {
+        "W_um": 24.0,
+        "L_um": 0.5,
+        "nf": 1,
+        "m": 1,
+        "W_total_um": 24.0
+      },
+      "pcell": {
+        "generator": "magic::gencell",
+        "cell": "sky130::sky130_fd_pr__nfet_01v8",
+        "params": {
+          "w": 24.0,
+          "l": 0.5,
+          "nf": 1,
+          "m": 1
+        },
+        "options": "defaults until S3 decides (guard, topc/botc, diffcov/polycov, via coverage)"
+      },
+      "conventions": {
+        "netlist_W": "total width of one instance (xschem sky130); PCell w = W/nf per finger",
+        "ad_equals_0.29W_nf1": true
+      }
+    },
+    {
+      "device": "XM5",
+      "polarity": "nmos",
+      "model": "sky130_fd_pr__nfet_01v8",
+      "netlist": {
+        "W_um": 24.0,
+        "L_um": 1.0,
+        "nf": 1,
+        "m": 1,
+        "W_total_um": 24.0
+      },
+      "pcell": {
+        "generator": "magic::gencell",
+        "cell": "sky130::sky130_fd_pr__nfet_01v8",
+        "params": {
+          "w": 24.0,
+          "l": 1.0,
+          "nf": 1,
+          "m": 1
+        },
+        "options": "defaults until S3 decides (guard, topc/botc, diffcov/polycov, via coverage)"
+      },
+      "conventions": {
+        "netlist_W": "total width of one instance (xschem sky130); PCell w = W/nf per finger",
+        "ad_equals_0.29W_nf1": true
+      }
+    }
+  ],
+  "passives": [],
+  "provenance": {
+    "created": "2026-11-04T16:17:18+00:00",
+    "git_commit": "ef21cda3f5e36142f42125875156e320a0e8b176",
+    "inputs": [
+      {
+        "path": "circuits/ota5t_gui_new/source/ota5t_gui_new.spice",
+        "sha256": "39802d1314806938ea81857dd768e31c84129519bbd0e96a0d142d709599dbb1"
+      },
+      {
+        "path": "circuits/ota5t_gui_new/source/config.yaml",
+        "sha256": "ca49ca700f84bf2859f32cb35c69c98af5705dc5a66daa071c6d061ad8222a5e"
+      },
+      {
+        "path": "inputs/ota5t_gui_new/package.yaml",
+        "sha256": "1f43c223cd305689a3207c52937c690d2ad19987e8a7b9113a07ff75096e390c"
+      },
+      {
+        "path": "circuits/ota5t_gui_new/testbenches/diso_amp_AC.spice",
+        "sha256": "fe087eb3e57ecbb4e32f1d8a24a4e623d8991878b9a1cbcdcefa59d92a7d07ae"
+      },
+      {
+        "path": "circuits/ota5t_gui_new/testbenches/diso_amp_OP.spice",
+        "sha256": "d2329feaa7c84d56dca530a9772cc66b57680da5afbcdb063d61539567a05a7d"
+      },
+      {
+        "path": "circuits/ota5t_gui_new/testbenches/diso_amp_NOISE.spice",
+        "sha256": "837897fb38e7a62c23200c358c8295a1a1c111ba6b78159b997ff7f4b5fde183"
+      }
+    ]
+  }
+}

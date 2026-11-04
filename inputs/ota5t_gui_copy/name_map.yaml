@@ -1,0 +1,26 @@
+# Upstream '5t-ota' (6 transistors, Iref mirror bias)  ->  target 'example_ota_5t' (5 transistors, V-biased tail)
+# Checked terminal by terminal by S0 (gate G0.4).
+upstream_design: 5t-ota
+target_design: example_ota_5t
+devices:
+  XM1: XM3   # load mirror, diode-connected side
+  XM2: XM4   # load mirror, output side
+  XM3: XM1   # input pair, Vinp side
+  XM4: XM2   # input pair, Vinn side
+  XM5: XM5   # tail current source
+  XM6: null  # bias reference diode: no counterpart in the target
+nets:
+  VDD: VDD
+  VSS: VSS
+  Vinp: INP
+  Vinn: INN
+  Voutp: OUTP
+  net0: net3
+  net1: net1
+  Iref: null # upstream bias reference node; the target drives the tail gate from internal V1 (net2)
+manual:
+  - >
+    ASSUMPTION: bias block. Upstream nmos_current_mirror_bias {XM6, XM5} has no full counterpart;
+    the target tail XM5 is a single device whose gate is driven by internal source V1 (net2 = VBIAS).
+    It is mapped by hand as a one-device tail current source. In differential mode the tail is a
+    virtual ground, so the upstream DM equations are unaffected.

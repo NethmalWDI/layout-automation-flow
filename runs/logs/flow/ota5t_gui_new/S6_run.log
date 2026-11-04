@@ -1,0 +1,64 @@
+$ /usr/bin/python3 -m src.s6.run inputs/ota5t_gui_new/package.yaml
+== budget_aware: lvs=True caps=19 rc_R=34320 unassigned=0
+   OUTP             net_capacitance           5.527 /      0.129 fF   use=42.8202 OVER
+   net1             net_capacitance          11.868 /     77.762 fF   use=0.1526 ok
+   net3             net_capacitance           8.207 /      0.239 fF   use=34.3124 OVER
+   OUTP~net1        coupling                  1.319 /      0.030 fF   use=43.7024 OVER
+   OUTP~net3        coupling                  0.600 /      0.025 fF   use=24.0177 OVER
+   OUTP~INP         coupling                  0.000 /      0.007 fF   use=0.0 ok
+   OUTP~INN         coupling                  1.089 /      0.022 fF   use=50.4611 OVER
+   net1~net3        coupling                  1.319 /      0.037 fF   use=36.0924 OVER
+   net1~INP         coupling                  1.466 /      0.022 fF   use=67.9333 OVER
+   net1~INN         coupling                  1.431 /      6.286 fF   use=0.2276 ok
+   net3~INP         coupling                  1.089 /      0.022 fF   use=50.4658 OVER
+   net3~INN         coupling                  0.000 /      0.007 fF   use=0.0 ok
+   XM3.d            terminal_resistance      40.632 /    331.773 ohm  use=0.1225 ok
+   XM3.g            terminal_resistance      85.783 /    783.289 ohm  use=0.1095 ok
+   XM3.s            terminal_resistance      42.538 /    331.773 ohm  use=0.1282 ok
+   XM4.d            terminal_resistance      34.857 /      1.139 ohm  use=30.5994 OVER
+   XM4.g            terminal_resistance      85.783 /      2.689 ohm  use=31.8968 OVER
+   XM4.s            terminal_resistance      42.538 /      1.139 ohm  use=37.3422 OVER
+   XM1.d            terminal_resistance      25.316 /      0.709 ohm  use=35.6967 OVER
+   XM1.g            terminal_resistance      91.935 /      9.823 ohm  use=9.3589 OVER
+   XM1.s            terminal_resistance      17.473 /      0.709 ohm  use=24.6385 OVER
+   XM2.d            terminal_resistance      19.541 /      0.709 ohm  use=27.5535 OVER
+   XM2.g            terminal_resistance      91.935 /      9.823 ohm  use=9.3589 OVER
+   XM2.s            terminal_resistance      17.473 /      0.709 ohm  use=24.6385 OVER
+   XM5.d            terminal_resistance      18.610 /      0.690 ohm  use=26.9864 OVER
+   XM5.g            terminal_resistance     140.135 /    523.562 ohm  use=0.2677 ok
+   XM5.s            terminal_resistance      24.339 /      0.484 ohm  use=50.313 OVER
+   unbudgeted couplings: {'INN~INP': 0.0075}
+== area_only: lvs=True caps=20 rc_R=34760 unassigned=0
+   OUTP             net_capacitance           6.787 /      0.129 fF   use=52.5826 OVER
+   net1             net_capacitance          15.219 /     77.762 fF   use=0.1957 ok
+   net3             net_capacitance           9.207 /      0.239 fF   use=38.4935 OVER
+   OUTP~net1        coupling                  2.367 /      0.030 fF   use=78.4039 OVER
+   OUTP~net3        coupling                  1.100 /      0.025 fF   use=44.0318 OVER
+   OUTP~INP         coupling                  0.180 /      0.007 fF   use=26.2635 OVER
+   OUTP~INN         coupling                  1.268 /      0.022 fF   use=58.7594 OVER
+   net1~net3        coupling                  1.477 /      0.037 fF   use=40.404 OVER
+   net1~INP         coupling                  1.432 /      0.022 fF   use=66.3487 OVER
+   net1~INN         coupling                  1.458 /      6.286 fF   use=0.2319 ok
+   net3~INP         coupling                  1.249 /      0.022 fF   use=57.8559 OVER
+   net3~INN         coupling                  0.036 /      0.007 fF   use=5.2177 OVER
+   XM3.d            terminal_resistance      42.183 /    331.773 ohm  use=0.1271 ok
+   XM3.g            terminal_resistance      87.334 /    783.289 ohm  use=0.1115 ok
+   XM3.s            terminal_resistance      43.098 /    331.773 ohm  use=0.1299 ok
+   XM4.d            terminal_resistance      39.164 /      1.139 ohm  use=34.3803 OVER
+   XM4.g            terminal_resistance      87.334 /      2.689 ohm  use=32.4735 OVER
+   XM4.s            terminal_resistance      43.098 /      1.139 ohm  use=37.8338 OVER
+   XM1.d            terminal_resistance      26.867 /      0.709 ohm  use=37.8837 OVER
+   XM1.g            terminal_resistance      91.935 /      9.823 ohm  use=9.3589 OVER
+   XM1.s            terminal_resistance      24.458 /      0.709 ohm  use=34.4878 OVER
+   XM2.d            terminal_resistance      23.848 /      0.709 ohm  use=33.6267 OVER
+   XM2.g            terminal_resistance      91.935 /      9.823 ohm  use=9.3589 OVER
+   XM2.s            terminal_resistance      24.458 /      0.709 ohm  use=34.4878 OVER
+   XM5.d            terminal_resistance      25.595 /      0.690 ohm  use=37.1156 OVER
+   XM5.g            terminal_resistance     140.135 /    523.562 ohm  use=0.2677 ok
+   XM5.s            terminal_resistance      27.361 /      0.484 ohm  use=56.5601 OVER
+   unbudgeted couplings: {'INN~INP': 0.0023}
+G6.1_extracted_and_LVS             True
+G6.2_parasitics_within_budgets     False
+G6.4_c_only_netlist_complete (info) None
+G6.5_mim_self_coupling (info)      None
+G6.3_kpex_cross_check (info)       None

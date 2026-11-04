@@ -42,36 +42,36 @@ Bcmfb cmc_w VSS V = v(bias_a_w) + (v(OUTP) + v(OUTN))/2 - v(cm_w)
 .ends
 
 .subckt iadc_ota ip in op on VDD VSS cmc cm bias_a
-Cbud_s2_0 bias_b VSS 915.806f
-Cbud_s2_1 bias_c VSS 617.528f
+Cbud_s2_0 bias_b VSS 786.509f
+Cbud_s2_1 bias_c VSS 528.441f
 Cbud_s2_2 on VSS 0f
 Cbud_s2_3 op VSS 0f
-Cbud_s2_4 x1_m21d VSS 87.9203f
-Cbud_s2_5 x1_m5d VSS 188.512f
+Cbud_s2_4 x1_m21d VSS 84.4597f
+Cbud_s2_5 x1_m5d VSS 161.933f
 Cbud_s2_6 x2_foldn VSS 0f
 Cbud_s2_7 x2_foldp VSS 0f
-Cbud_s2_8 x2_m3d VSS 0f
-Cbud_s2_9 x2_m4d VSS 124.856f
-Cbud_s2_10 bias_a bias_b 40.2841f
-Cbud_s2_11 bias_a bias_c 31.96f
-Cbud_s2_12 bias_a cm 17.1763f
+Cbud_s2_8 x2_m3d VSS 179.69f
+Cbud_s2_9 x2_m4d VSS 173.592f
+Cbud_s2_10 bias_a bias_b 15.5237f
+Cbud_s2_11 bias_a bias_c 15.5237f
+Cbud_s2_12 bias_a cm 15.4646f
 Cbud_s2_13 bias_a on 0f
 Cbud_s2_14 bias_a op 0f
-Cbud_s2_15 bias_a x1_m21d 6.38002f
-Cbud_s2_16 bias_a x1_m31d 5.14886f
+Cbud_s2_15 bias_a x1_m21d 5.80415f
+Cbud_s2_16 bias_a x1_m31d 4.57759f
 Cbud_s2_17 bias_a x2_foldn 0f
 Cbud_s2_18 bias_a x2_foldp 0f
-Cbud_s2_19 bias_a x2_m3d 35.4836f
-Cbud_s2_20 bias_a x2_m4d 35.1325f
-Cbud_s2_21 bias_a in 1.17686f
-Cbud_s2_22 bias_b cm 17.1763f
-Cbud_s2_23 bias_b i_bias 11.952f
+Cbud_s2_19 bias_a x2_m3d 26.8351f
+Cbud_s2_20 bias_a x2_m4d 26.679f
+Cbud_s2_21 bias_a in 0.905057f
+Cbud_s2_22 bias_b cm 15.4646f
+Cbud_s2_23 bias_b i_bias 6.98841f
 Cbud_s2_24 bias_b on 0f
 Cbud_s2_25 bias_b op 0f
-Cbud_s2_26 bias_b x1_m21d 13.4942f
-Cbud_s2_27 bias_b x1_m25d 9.83482f
-Cbud_s2_28 bias_b x1_m31d 8.60366f
-Cbud_s2_29 bias_b x1_m5d 11.952f
+Cbud_s2_26 bias_b x1_m21d 12.9184f
+Cbud_s2_27 bias_b x1_m25d 9.25895f
+Cbud_s2_28 bias_b x1_m31d 8.03239f
+Cbud_s2_29 bias_b x1_m5d 7.52896f
 Cbud_s2_30 bias_b x1_net1 0.823592f
 Cbud_s2_31 bias_b x1_net10 0.823592f
 Cbud_s2_32 bias_b x1_net11 0.823592f
@@ -89,17 +89,17 @@ Cbud_s2_43 bias_b x1_net8 0.823592f
 Cbud_s2_44 bias_b x1_net9 0.823592f
 Cbud_s2_45 bias_b x2_foldn 0f
 Cbud_s2_46 bias_b x2_foldp 0f
-Cbud_s2_47 bias_b x2_m3d 14.7548f
-Cbud_s2_48 bias_b x2_m4d 14.4037f
-Cbud_s2_49 bias_b ip 1.17686f
-Cbud_s2_50 bias_c cm 20.6311f
-Cbud_s2_51 bias_c i_bias 22.3164f
+Cbud_s2_47 bias_b x2_m3d 6.10629f
+Cbud_s2_48 bias_b x2_m4d 5.95024f
+Cbud_s2_49 bias_b ip 0.905057f
+Cbud_s2_50 bias_c cm 18.9194f
+Cbud_s2_51 bias_c i_bias 17.3528f
 Cbud_s2_52 bias_c on 0f
 Cbud_s2_53 bias_c op 0f
-Cbud_s2_54 bias_c x1_m21d 9.83482f
-Cbud_s2_55 bias_c x1_m25d 9.83482f
-Cbud_s2_56 bias_c x1_m31d 8.60366f
-Cbud_s2_57 bias_c x1_m5d 11.952f
+Cbud_s2_54 bias_c x1_m21d 9.25895f
+Cbud_s2_55 bias_c x1_m25d 9.25895f
+Cbud_s2_56 bias_c x1_m31d 8.03239f
+Cbud_s2_57 bias_c x1_m5d 7.52896f
 Cbud_s2_58 bias_c x1_net1 0.823592f
 Cbud_s2_59 bias_c x1_net10 0.823592f
 Cbud_s2_60 bias_c x1_net11 0.823592f
@@ -117,37 +117,37 @@ Cbud_s2_71 bias_c x1_net8 0.823592f
 Cbud_s2_72 bias_c x1_net9 0.823592f
 Cbud_s2_73 bias_c x2_foldn 0f
 Cbud_s2_74 bias_c x2_foldp 0f
-Cbud_s2_75 bias_c x2_m3d 14.7548f
-Cbud_s2_76 bias_c x2_m4d 14.4037f
-Cbud_s2_77 bias_c ip 1.17686f
+Cbud_s2_75 bias_c x2_m3d 6.10629f
+Cbud_s2_76 bias_c x2_m4d 5.95024f
+Cbud_s2_77 bias_c ip 0.905057f
 Cbud_s2_78 bias_d on 0f
 Cbud_s2_79 bias_d op 0f
 Cbud_s2_80 bias_d x2_foldn 0f
 Cbud_s2_81 bias_d x2_foldp 0f
-Cbud_s2_82 bias_d x2_m3d 35.4836f
-Cbud_s2_83 bias_d x2_m4d 35.1325f
-Cbud_s2_84 bias_d ip 1.17686f
+Cbud_s2_82 bias_d x2_m3d 26.8351f
+Cbud_s2_83 bias_d x2_m4d 26.679f
+Cbud_s2_84 bias_d ip 0.905057f
 Cbud_s2_85 cm on 0f
 Cbud_s2_86 cm op 0f
-Cbud_s2_87 cm x1_m21d 6.38002f
-Cbud_s2_88 cm x1_m31d 8.80826f
-Cbud_s2_89 cm x1_m5d 11.952f
+Cbud_s2_87 cm x1_m21d 5.80415f
+Cbud_s2_88 cm x1_m31d 8.23699f
+Cbud_s2_89 cm x1_m5d 7.52896f
 Cbud_s2_90 cm x2_foldn 0f
 Cbud_s2_91 cm x2_foldp 0f
-Cbud_s2_92 cm x2_m3d 14.7548f
-Cbud_s2_93 cm x2_m4d 14.4037f
-Cbud_s2_94 cm in 1.17686f
+Cbud_s2_92 cm x2_m3d 6.10629f
+Cbud_s2_93 cm x2_m4d 5.95024f
+Cbud_s2_94 cm in 0.905057f
 Cbud_s2_95 i_bias on 0f
 Cbud_s2_96 i_bias op 0f
-Cbud_s2_97 i_bias x1_m21d 6.38002f
-Cbud_s2_98 i_bias x1_m31d 5.14886f
-Cbud_s2_99 i_bias x1_m5d 11.952f
+Cbud_s2_97 i_bias x1_m21d 5.80415f
+Cbud_s2_98 i_bias x1_m31d 4.57759f
+Cbud_s2_99 i_bias x1_m5d 6.98841f
 Cbud_s2_100 i_bias x2_foldn 0f
 Cbud_s2_101 i_bias x2_foldp 0f
-Cbud_s2_102 i_bias x2_m3d 11.952f
-Cbud_s2_103 i_bias x2_m4d 11.952f
-Cbud_s2_104 i_bias x2_tail 11.952f
-Cbud_s2_105 i_bias in 1.17686f
+Cbud_s2_102 i_bias x2_m3d 6.10629f
+Cbud_s2_103 i_bias x2_m4d 5.95024f
+Cbud_s2_104 i_bias x2_tail 6.98841f
+Cbud_s2_105 i_bias in 0.905057f
 Cbud_s2_106 on op 0f
 Cbud_s2_107 on x1_m21d 0f
 Cbud_s2_108 on x1_m25d 0f
@@ -166,7 +166,7 @@ Cbud_s2_120 on x1_net3 0f
 Cbud_s2_121 on x1_net4 0f
 Cbud_s2_122 on x1_net5 0f
 Cbud_s2_123 on x1_net6 0f
-Cbud_s2_124 on x1_net7 0f
+Cbud_s2_124 on x1_net7 0.628685f
 Cbud_s2_125 on x1_net8 0f
 Cbud_s2_126 on x1_net9 0f
 Cbud_s2_127 on x2_foldn 0f
@@ -203,8 +203,8 @@ Cbud_s2_157 op x2_m4d 0f
 Cbud_s2_158 op x2_tail 0f
 Cbud_s2_159 op ip 0f
 Cbud_s2_160 op in 0f
-Cbud_s2_161 x1_m21d x1_m25d 6.38002f
-Cbud_s2_162 x1_m21d x1_m5d 6.38002f
+Cbud_s2_161 x1_m21d x1_m25d 5.80415f
+Cbud_s2_162 x1_m21d x1_m5d 5.80415f
 Cbud_s2_163 x1_m21d x1_net1 0.823592f
 Cbud_s2_164 x1_m21d x1_net10 0.823592f
 Cbud_s2_165 x1_m21d x1_net11 0.823592f
@@ -222,28 +222,28 @@ Cbud_s2_176 x1_m21d x1_net8 0.823592f
 Cbud_s2_177 x1_m21d x1_net9 0.823592f
 Cbud_s2_178 x1_m21d x2_foldn 0f
 Cbud_s2_179 x1_m21d x2_foldp 0f
-Cbud_s2_180 x1_m21d x2_m3d 6.38002f
-Cbud_s2_181 x1_m21d x2_m4d 6.38002f
-Cbud_s2_182 x1_m21d ip 1.17686f
-Cbud_s2_183 x1_m25d x1_m5d 6.38002f
+Cbud_s2_180 x1_m21d x2_m3d 5.80415f
+Cbud_s2_181 x1_m21d x2_m4d 5.80415f
+Cbud_s2_182 x1_m21d ip 0.905057f
+Cbud_s2_183 x1_m25d x1_m5d 5.80415f
 Cbud_s2_184 x1_m25d x2_foldn 0f
 Cbud_s2_185 x1_m25d x2_foldp 0f
-Cbud_s2_186 x1_m25d x2_m3d 6.38002f
-Cbud_s2_187 x1_m25d x2_m4d 6.38002f
-Cbud_s2_188 x1_m25d x2_tail 6.38002f
-Cbud_s2_189 x1_m25d ip 1.17686f
-Cbud_s2_190 x1_m2d x1_m5d 11.952f
+Cbud_s2_186 x1_m25d x2_m3d 5.80415f
+Cbud_s2_187 x1_m25d x2_m4d 5.80415f
+Cbud_s2_188 x1_m25d x2_tail 5.80415f
+Cbud_s2_189 x1_m25d ip 0.905057f
+Cbud_s2_190 x1_m2d x1_m5d 7.52896f
 Cbud_s2_191 x1_m2d x2_foldn 0f
 Cbud_s2_192 x1_m2d x2_foldp 0f
-Cbud_s2_193 x1_m2d x2_m3d 14.7548f
-Cbud_s2_194 x1_m2d x2_m4d 14.4037f
-Cbud_s2_195 x1_m2d ip 1.17686f
-Cbud_s2_196 x1_m31d x1_m5d 5.14886f
+Cbud_s2_193 x1_m2d x2_m3d 6.10629f
+Cbud_s2_194 x1_m2d x2_m4d 5.95024f
+Cbud_s2_195 x1_m2d ip 0.905057f
+Cbud_s2_196 x1_m31d x1_m5d 4.57759f
 Cbud_s2_197 x1_m31d x2_foldn 0f
 Cbud_s2_198 x1_m31d x2_foldp 0f
-Cbud_s2_199 x1_m31d x2_m3d 5.14886f
-Cbud_s2_200 x1_m31d x2_m4d 5.14886f
-Cbud_s2_201 x1_m31d in 1.17686f
+Cbud_s2_199 x1_m31d x2_m3d 4.57759f
+Cbud_s2_200 x1_m31d x2_m4d 4.57759f
+Cbud_s2_201 x1_m31d in 0.905057f
 Cbud_s2_202 x1_m5d x1_net1 0.823592f
 Cbud_s2_203 x1_m5d x1_net10 0.823592f
 Cbud_s2_204 x1_m5d x1_net11 0.823592f
@@ -261,10 +261,10 @@ Cbud_s2_215 x1_m5d x1_net8 0.823592f
 Cbud_s2_216 x1_m5d x1_net9 0.823592f
 Cbud_s2_217 x1_m5d x2_foldn 0f
 Cbud_s2_218 x1_m5d x2_foldp 0f
-Cbud_s2_219 x1_m5d x2_m3d 11.952f
-Cbud_s2_220 x1_m5d x2_m4d 11.952f
-Cbud_s2_221 x1_m5d x2_tail 11.952f
-Cbud_s2_222 x1_m5d in 1.17686f
+Cbud_s2_219 x1_m5d x2_m3d 6.10629f
+Cbud_s2_220 x1_m5d x2_m4d 5.95024f
+Cbud_s2_221 x1_m5d x2_tail 7.52896f
+Cbud_s2_222 x1_m5d in 0.905057f
 Cbud_s2_223 x1_net1 x2_foldn 0f
 Cbud_s2_224 x1_net1 x2_foldp 0f
 Cbud_s2_225 x1_net1 x2_m3d 0.823592f
@@ -348,42 +348,42 @@ Cbud_s2_302 x2_foldn in 0f
 Cbud_s2_303 x2_foldp x2_m4d 0f
 Cbud_s2_304 x2_foldp x2_tail 0f
 Cbud_s2_305 x2_foldp ip 0f
-Cbud_s2_306 x2_foldp in 0f
-Cbud_s2_307 x2_m3d x2_m4d 14.4037f
-Cbud_s2_308 x2_m3d x2_tail 14.7548f
-Cbud_s2_309 x2_m3d ip 1.17686f
-Cbud_s2_310 x2_m4d x2_tail 14.4037f
-Cbud_s2_311 x2_m4d in 0.769349f
-Cbud_s2_312 x2_tail in 2.41706f
+Cbud_s2_306 x2_foldp in 0.802057f
+Cbud_s2_307 x2_m3d x2_m4d 5.95024f
+Cbud_s2_308 x2_m3d x2_tail 6.10629f
+Cbud_s2_309 x2_m3d ip 0.905057f
+Cbud_s2_310 x2_m4d x2_tail 5.95024f
+Cbud_s2_311 x2_m4d in 0.905057f
+Cbud_s2_312 x2_tail in 2.14526f
 XX1_M22 bias_b bias_c s1r_XX1_M22_s VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
 Rpar_s1_XX1_M22_s s1r_XX1_M22_s x1_m21d 0
 XX1_M26 s1r_XX1_M26_d bias_c x1_m25d VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
 Rpar_s1_XX1_M26_d s1r_XX1_M26_d x1_m2d 0
 XX1_M32 cm bias_c s1r_XX1_M32_s VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
-Rpar_s1_XX1_M32_s s1r_XX1_M32_s x1_m31d 333.092
+Rpar_s1_XX1_M32_s s1r_XX1_M32_s x1_m31d 315.299
 XX1_M21 s1r_XX1_M21_d bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
 Rpar_s1_XX1_M21_d s1r_XX1_M21_d x1_m21d 0
 XX1_M25 x1_m25d bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
 XX1_M31 s1r_XX1_M31_d bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
-Rpar_s1_XX1_M31_d s1r_XX1_M31_d x1_m31d 333.092
+Rpar_s1_XX1_M31_d s1r_XX1_M31_d x1_m31d 315.299
 XX1_M1 s1r_XX1_M1_d s1r_XX1_M1_g bias_c VSS sky130_fd_pr__nfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=56 M=56
-Rpar_s1_XX1_M1_g s1r_XX1_M1_g bias_b 653.531
-Rpar_s1_XX1_M1_d s1r_XX1_M1_d bias_b 646.175
+Rpar_s1_XX1_M1_g s1r_XX1_M1_g bias_b 211.176
+Rpar_s1_XX1_M1_d s1r_XX1_M1_d bias_b 203.82
 XX1_M2 x1_m2d x1_m2d s1r_XX1_M2_s VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=50 M=50
 Rpar_s1_XX1_M2_s s1r_XX1_M2_s bias_d 0
 XX1_M3 bias_d s1r_XX1_M3_g bias_a VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
-Rpar_s1_XX1_M3_g s1r_XX1_M3_g x1_m2d 487.299
+Rpar_s1_XX1_M3_g s1r_XX1_M3_g x1_m2d 486.982
 XX1_M4 bias_a bias_d s1r_XX1_M4_s VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=18 M=18
 Rpar_s1_XX1_M4_s s1r_XX1_M4_s x1_m5d 0
 XX1_M5 s1r_XX1_M5_d bias_a s1r_XX1_M5_s VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=18 M=18
 Rpar_s1_XX1_M5_s s1r_XX1_M5_s VSS 0
 Rpar_s1_XX1_M5_d s1r_XX1_M5_d x1_m5d 0
 XX1_M6 s1r_XX1_M6_d s1r_XX1_M6_g VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=18 M=18
-Rpar_s1_XX1_M6_g s1r_XX1_M6_g i_bias 265.057
-Rpar_s1_XX1_M6_d s1r_XX1_M6_d bias_c 242.172
+Rpar_s1_XX1_M6_g s1r_XX1_M6_g i_bias 160.624
+Rpar_s1_XX1_M6_d s1r_XX1_M6_d bias_c 137.739
 XX1_M7 s1r_XX1_M7_d s1r_XX1_M7_g VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=18 M=18
-Rpar_s1_XX1_M7_g s1r_XX1_M7_g i_bias 265.057
-Rpar_s1_XX1_M7_d s1r_XX1_M7_d i_bias 242.172
+Rpar_s1_XX1_M7_g s1r_XX1_M7_g i_bias 160.624
+Rpar_s1_XX1_M7_d s1r_XX1_M7_d i_bias 137.739
 XX1_M33 cm cm x1_net1 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
 XX1_M49 x1_net1 cm x1_net2 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
 XX1_M50 x1_net2 cm x1_net3 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
@@ -439,11 +439,11 @@ Rpar_s1_XX2_M5_s s1r_XX2_M5_s VSS 0
 Rpar_s1_XX2_M5_d s1r_XX2_M5_d x2_tail 0
 XX2_M11 s1r_XX2_M11_d s1r_XX2_M11_g s1r_XX2_M11_s VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=24 M=24
 Rpar_s1_XX2_M11_s s1r_XX2_M11_s VDD 0
-Rpar_s1_XX2_M11_g s1r_XX2_M11_g bias_b 329.875
+Rpar_s1_XX2_M11_g s1r_XX2_M11_g bias_b 172.012
 Rpar_s1_XX2_M11_d s1r_XX2_M11_d x2_foldp 0
 XX2_M12 s1r_XX2_M12_d s1r_XX2_M12_g s1r_XX2_M12_s VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=24 M=24
 Rpar_s1_XX2_M12_s s1r_XX2_M12_s VDD 0
-Rpar_s1_XX2_M12_g s1r_XX2_M12_g bias_b 329.875
+Rpar_s1_XX2_M12_g s1r_XX2_M12_g bias_b 172.012
 Rpar_s1_XX2_M12_d s1r_XX2_M12_d x2_foldn 0
 XX2_M1A s1r_XX2_M1A_d s1r_XX2_M1A_g s1r_XX2_M1A_s VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=20 M=20
 Rpar_s1_XX2_M1A_s s1r_XX2_M1A_s x2_foldp 0
@@ -454,17 +454,17 @@ Rpar_s1_XX2_M8_s s1r_XX2_M8_s x2_foldn 0
 Rpar_s1_XX2_M8_g s1r_XX2_M8_g bias_c 0
 Rpar_s1_XX2_M8_d s1r_XX2_M8_d op 0
 XX2_M3A s1r_XX2_M3A_d s1r_XX2_M3A_g x2_m3d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=36 M=36
-Rpar_s1_XX2_M3A_g s1r_XX2_M3A_g bias_d 440.14
-Rpar_s1_XX2_M3A_d s1r_XX2_M3A_d on 0
+Rpar_s1_XX2_M3A_g s1r_XX2_M3A_g bias_d 181.435
+Rpar_s1_XX2_M3A_d s1r_XX2_M3A_d on 169.992
 XX2_M7 s1r_XX2_M7_d s1r_XX2_M7_g x2_m4d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=36 M=36
-Rpar_s1_XX2_M7_g s1r_XX2_M7_g bias_d 440.14
-Rpar_s1_XX2_M7_d s1r_XX2_M7_d op 0
+Rpar_s1_XX2_M7_g s1r_XX2_M7_g bias_d 181.435
+Rpar_s1_XX2_M7_d s1r_XX2_M7_d op 169.992
 XX2_M3 x2_m3d s1r_XX2_M3_g s1r_XX2_M3_s VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=36 M=36
 Rpar_s1_XX2_M3_s s1r_XX2_M3_s VSS 0
-Rpar_s1_XX2_M3_g s1r_XX2_M3_g bias_a 440.14
+Rpar_s1_XX2_M3_g s1r_XX2_M3_g bias_a 181.435
 XX2_M4 x2_m4d s1r_XX2_M4_g s1r_XX2_M4_s VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=36 M=36
 Rpar_s1_XX2_M4_s s1r_XX2_M4_s VSS 0
-Rpar_s1_XX2_M4_g s1r_XX2_M4_g bias_a 440.14
+Rpar_s1_XX2_M4_g s1r_XX2_M4_g bias_a 181.435
 XX2_M82 x2_foldn x2_foldn x2_foldn VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
 XX2_M83 x2_foldp x2_foldp x2_foldp VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
 XX2_M55 x2_foldn VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2

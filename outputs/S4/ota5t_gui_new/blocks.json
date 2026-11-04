@@ -1,0 +1,568 @@
+{
+  "run_id": "2026-11-04T18:46:54-6a39fdb5",
+  "design": "ota5t_gui_new",
+  "s3_run_id": "2026-11-04T18:22:54-61b9c760",
+  "layout_options": {},
+  "blocks": [
+    {
+      "name": "XM3",
+      "kind": "single",
+      "type": "pmos",
+      "body": "VDD",
+      "devices": [
+        "XM3"
+      ],
+      "variants": [
+        {
+          "id": "A",
+          "cell": "XM3__A",
+          "arrangement": [
+            {
+              "device": "XM3",
+              "cell": "pfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng",
+              "mirror": false,
+              "x": 0.0
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/ota5t_gui_new/blocks/XM3__A/XM3__A.gds",
+            "rc": 0,
+            "log": "outputs/S4/ota5t_gui_new/blocks/XM3__A/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/ota5t_gui_new/blocks/XM3__A/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/ota5t_gui_new/blocks/XM3__A/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/ota5t_gui_new/blocks/XM3__A/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -3.2,
+              4.54,
+              11.31
+            ],
+            "ring": [
+              -0.8,
+              -2.7,
+              3.54,
+              10.81
+            ],
+            "row": [
+              0.0,
+              0.0,
+              1.94,
+              9.01
+            ],
+            "strips": [],
+            "tap_distance_max_um": 2.154,
+            "area_um2": 91.99,
+            "keepouts": []
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "net3": {
+                  "layer": "metal3",
+                  "y": 10.01,
+                  "x": [
+                    -1.8,
+                    4.54
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "net3": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    4.54
+                  ],
+                  "width": 0.4
+                },
+                "VDD": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    4.54
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "VDD",
+              "port": "VDD_body",
+              "layer": "locali",
+              "at": [
+                1.37,
+                -2.7
+              ]
+            }
+          },
+          "symmetry": {},
+          "png": "outputs/S4/ota5t_gui_new/blocks/XM3__A/XM3__A.png",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "XM4",
+      "kind": "single",
+      "type": "pmos",
+      "body": "VDD",
+      "devices": [
+        "XM4"
+      ],
+      "variants": [
+        {
+          "id": "A",
+          "cell": "XM4__A",
+          "arrangement": [
+            {
+              "device": "XM4",
+              "cell": "pfet_01v8_W8_L1_m1__nf1_gboth_sdfull_ng",
+              "mirror": false,
+              "x": 0.0
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/ota5t_gui_new/blocks/XM4__A/XM4__A.gds",
+            "rc": 0,
+            "log": "outputs/S4/ota5t_gui_new/blocks/XM4__A/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/ota5t_gui_new/blocks/XM4__A/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/ota5t_gui_new/blocks/XM4__A/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/ota5t_gui_new/blocks/XM4__A/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -3.2,
+              3.74,
+              11.31
+            ],
+            "ring": [
+              -0.8,
+              -2.7,
+              2.74,
+              10.81
+            ],
+            "row": [
+              0.0,
+              0.0,
+              1.94,
+              9.01
+            ],
+            "strips": [],
+            "tap_distance_max_um": 1.631,
+            "area_um2": 80.39,
+            "keepouts": []
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "net3": {
+                  "layer": "metal3",
+                  "y": 10.01,
+                  "x": [
+                    -1.8,
+                    3.74
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "OUTP": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    3.74
+                  ],
+                  "width": 0.4
+                },
+                "VDD": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    3.74
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "VDD",
+              "port": "VDD_body",
+              "layer": "locali",
+              "at": [
+                0.97,
+                -2.7
+              ]
+            }
+          },
+          "symmetry": {},
+          "png": "outputs/S4/ota5t_gui_new/blocks/XM4__A/XM4__A.png",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "XM1",
+      "kind": "single",
+      "type": "nmos",
+      "body": "VSS",
+      "devices": [
+        "XM1"
+      ],
+      "variants": [
+        {
+          "id": "A",
+          "cell": "XM1__A",
+          "arrangement": [
+            {
+              "device": "XM1",
+              "cell": "nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS_ng",
+              "mirror": false,
+              "x": 0.0
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/ota5t_gui_new/blocks/XM1__A/XM1__A.gds",
+            "rc": 0,
+            "log": "outputs/S4/ota5t_gui_new/blocks/XM1__A/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/ota5t_gui_new/blocks/XM1__A/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/ota5t_gui_new/blocks/XM1__A/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/ota5t_gui_new/blocks/XM1__A/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -2.01,
+              3.92,
+              15.83
+            ],
+            "ring": [
+              -0.8,
+              -1.8,
+              2.92,
+              15.62
+            ],
+            "row": [
+              0.0,
+              0.0,
+              2.12,
+              12.92
+            ],
+            "strips": [],
+            "tap_distance_max_um": 1.86,
+            "area_um2": 102.04,
+            "keepouts": []
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "net1": {
+                  "layer": "metal3",
+                  "y": 13.92,
+                  "x": [
+                    -1.8,
+                    3.92
+                  ],
+                  "width": 0.4
+                },
+                "INP": {
+                  "layer": "metal3",
+                  "y": 14.82,
+                  "x": [
+                    -1.8,
+                    3.92
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "net3": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    3.92
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "VSS",
+              "port": "VSS_body",
+              "layer": "locali",
+              "at": [
+                1.06,
+                -1.8
+              ]
+            }
+          },
+          "symmetry": {},
+          "png": "outputs/S4/ota5t_gui_new/blocks/XM1__A/XM1__A.png",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "XM2",
+      "kind": "single",
+      "type": "nmos",
+      "body": "VSS",
+      "devices": [
+        "XM2"
+      ],
+      "variants": [
+        {
+          "id": "A",
+          "cell": "XM2__A",
+          "arrangement": [
+            {
+              "device": "XM2",
+              "cell": "nfet_01v8_W24_L0p5_m1__nf2_gboth_sdfull_outS_ng",
+              "mirror": false,
+              "x": 0.0
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/ota5t_gui_new/blocks/XM2__A/XM2__A.gds",
+            "rc": 0,
+            "log": "outputs/S4/ota5t_gui_new/blocks/XM2__A/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/ota5t_gui_new/blocks/XM2__A/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/ota5t_gui_new/blocks/XM2__A/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/ota5t_gui_new/blocks/XM2__A/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -2.01,
+              3.92,
+              15.83
+            ],
+            "ring": [
+              -0.8,
+              -1.8,
+              2.92,
+              15.62
+            ],
+            "row": [
+              0.0,
+              0.0,
+              2.12,
+              12.92
+            ],
+            "strips": [],
+            "tap_distance_max_um": 1.86,
+            "area_um2": 102.04,
+            "keepouts": []
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "net1": {
+                  "layer": "metal3",
+                  "y": 13.92,
+                  "x": [
+                    -1.8,
+                    3.92
+                  ],
+                  "width": 0.4
+                },
+                "INN": {
+                  "layer": "metal3",
+                  "y": 14.82,
+                  "x": [
+                    -1.8,
+                    3.92
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "OUTP": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    3.92
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "VSS",
+              "port": "VSS_body",
+              "layer": "locali",
+              "at": [
+                1.06,
+                -1.8
+              ]
+            }
+          },
+          "symmetry": {},
+          "png": "outputs/S4/ota5t_gui_new/blocks/XM2__A/XM2__A.png",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "name": "XM5",
+      "kind": "single",
+      "type": "nmos",
+      "body": "VSS",
+      "devices": [
+        "XM5"
+      ],
+      "variants": [
+        {
+          "id": "A",
+          "cell": "XM5__A",
+          "arrangement": [
+            {
+              "device": "XM5",
+              "cell": "nfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng",
+              "mirror": false,
+              "x": 0.0
+            }
+          ],
+          "build": {
+            "gds": "outputs/S4/ota5t_gui_new/blocks/XM5__A/XM5__A.gds",
+            "rc": 0,
+            "log": "outputs/S4/ota5t_gui_new/blocks/XM5__A/build_magic.log"
+          },
+          "drc": {
+            "errors": 0,
+            "neg_control_flagged": true,
+            "pass": true,
+            "report": "outputs/S4/ota5t_gui_new/blocks/XM5__A/drc/drc_report.txt"
+          },
+          "lvs": {
+            "match": true,
+            "neg_control_rejected": true,
+            "pass": true,
+            "report": "outputs/S4/ota5t_gui_new/blocks/XM5__A/lvs/lvs/lvs_report.txt",
+            "extracted": "outputs/S4/ota5t_gui_new/blocks/XM5__A/lvs/lvs/extracted.spice"
+          },
+          "geometry": {
+            "bbox_um": [
+              -1.8,
+              -2.91,
+              3.63,
+              26.93
+            ],
+            "ring": [
+              -0.8,
+              -2.7,
+              2.63,
+              26.72
+            ],
+            "row": [
+              0.0,
+              0.0,
+              1.83,
+              24.92
+            ],
+            "strips": [],
+            "tap_distance_max_um": 1.584,
+            "area_um2": 162.03,
+            "keepouts": []
+          },
+          "pins": {
+            "tracks": {
+              "top": {
+                "net2": {
+                  "layer": "metal3",
+                  "y": 25.92,
+                  "x": [
+                    -1.8,
+                    3.63
+                  ],
+                  "width": 0.4
+                }
+              },
+              "bottom": {
+                "net1": {
+                  "layer": "metal3",
+                  "y": -1.0,
+                  "x": [
+                    -1.8,
+                    3.63
+                  ],
+                  "width": 0.4
+                },
+                "VSS": {
+                  "layer": "metal3",
+                  "y": -1.9,
+                  "x": [
+                    -1.8,
+                    3.63
+                  ],
+                  "width": 0.4
+                }
+              }
+            },
+            "body": {
+              "net": "VSS",
+              "port": "VSS_body",
+              "layer": "locali",
+              "at": [
+                0.915,
+                -2.7
+              ]
+            }
+          },
+          "symmetry": {},
+          "png": "outputs/S4/ota5t_gui_new/blocks/XM5__A/XM5__A.png",
+          "ok": true
+        }
+      ]
+    }
+  ]
+}

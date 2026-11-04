@@ -47,7 +47,12 @@
     },
     "G0.6_testbench_reproduction": {
       "pass": true,
-      "note": "no upstream values to compare (stress variant)",
+      "note": "no upstream measurements.json to compare: the achieved values are this run's own (specs_from_achieved); an external reference, if any, is checked in G0.8",
+      "spec_source": {
+        "pm_deg": "config.yaml",
+        "gain_db": "package rule min_delta = -1.0 on the simulated 53.4704",
+        "gbw_mhz": "package rule min_factor = 0.9 on the simulated 209.852"
+      },
       "measured": {
         "gain_db": 53.4704,
         "gbw_mhz": 209.852,
@@ -180,31 +185,31 @@
       "runs": 200,
       "summary": {
         "gain_db": {
-          "mean": 53.4506125,
-          "std": 0.17505237233195467,
-          "min": 53.0669,
-          "max": 53.9704,
+          "mean": 53.485755499999996,
+          "std": 0.18879365026837716,
+          "min": 52.9558,
+          "max": 53.9494,
           "n": 200
         },
         "gbw_mhz": {
-          "mean": 210.392415,
-          "std": 4.4400401920829005,
-          "min": 199.823,
-          "max": 222.616,
+          "mean": 209.98503499999998,
+          "std": 4.136621333170976,
+          "min": 197.859,
+          "max": 220.964,
           "n": 200
         },
         "pm_deg": {
-          "mean": 77.21781299999999,
-          "std": 0.21934030610082136,
-          "min": 76.5902,
-          "max": 77.7753,
+          "mean": 77.2098945,
+          "std": 0.21263688093890745,
+          "min": 76.6533,
+          "max": 77.9519,
           "n": 200
         },
         "offset_v": {
-          "mean": -0.0003537764510000001,
-          "std": 0.006512000061735196,
-          "min": -0.0170909,
-          "max": 0.0162246,
+          "mean": 0.00037542641000000004,
+          "std": 0.00629462774955382,
+          "min": -0.0152639,
+          "max": 0.0220917,
           "n": 200,
           "definition": "follower output - VCM (single-ended) or v(OUTP) - v(OUTN) (differential)"
         }
@@ -224,6 +229,7 @@
         "pm_deg": 77.2336
       },
       "log": "outputs/S0/iadc_ota/tb/dido_amp_AC.log",
+      "timed_out": false,
       "numerical_warnings": []
     },
     "dido_amp_OP": {
@@ -235,6 +241,7 @@
         "voutcm_v": 0.926497
       },
       "log": "outputs/S0/iadc_ota/tb/dido_amp_OP.log",
+      "timed_out": false,
       "numerical_warnings": []
     },
     "dido_amp_NOISE": {
@@ -244,13 +251,14 @@
         "vnoise_rms_uv_rms": 444.866
       },
       "log": "outputs/S0/iadc_ota/tb/dido_amp_NOISE.log",
+      "timed_out": false,
       "numerical_warnings": []
     }
   },
   "all_pass": false,
   "provenance": {
-    "created": "2026-10-26T13:30:08+00:00",
-    "git_commit": "f6aea31251505c4a9b8220319cf1b7bb5ba1bd4c",
+    "created": "2026-11-04T14:34:56+00:00",
+    "git_commit": "ef21cda3f5e36142f42125875156e320a0e8b176",
     "inputs": [
       {
         "path": "circuits/iadc_ota/source/iadc_ota.spice",

@@ -1,0 +1,60 @@
+{
+  "design": "example_ota_5t",
+  "conditions": {
+    "VDD_V": 1.8,
+    "VCM_V": 0.9,
+    "CL_F": "1p",
+    "temp": 27,
+    "corner": "tt"
+  },
+  "measurements": {
+    "diso_amp_AC": {
+      "gain_db": 31.697,
+      "gbw_mhz": 104.455,
+      "pm_deg": 80.9348
+    },
+    "diso_amp_OP": {
+      "isup_ua": 84.7774,
+      "power_uw": 152.599,
+      "vout_v": 0.400774
+    },
+    "diso_amp_NOISE": {
+      "vnoise_nv_rthz": 339.064,
+      "vnoise_rms_uv_rms": 398.929
+    }
+  },
+  "specs": {
+    "gain_db": {
+      "min": 30
+    },
+    "gbw_mhz": {
+      "min": 20
+    },
+    "pm_deg": {
+      "min": 60
+    },
+    "power_uw": {
+      "max": 1000
+    },
+    "vnoise_nv_rthz": {
+      "max": 400
+    }
+  },
+  "specs_met": {
+    "gain_db": true,
+    "gbw_mhz": true,
+    "pm_deg": true,
+    "power_uw": true,
+    "vnoise_nv_rthz": true
+  },
+  "units": {
+    "gain_db": "dB",
+    "gbw_mhz": "MHz",
+    "pm_deg": "deg",
+    "isup_ua": "uA",
+    "power_uw": "uW",
+    "vout_v": "V",
+    "vnoise_nv_rthz": "nV/sqrt(Hz)",
+    "vnoise_rms_uv_rms": "uVrms"
+  }
+}

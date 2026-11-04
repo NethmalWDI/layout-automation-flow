@@ -1,0 +1,246 @@
+{
+  "design": "ota5t_gui_new",
+  "matching": [],
+  "not_matching_blocks": [],
+  "critical_nets": [
+    {
+      "net": "OUTP",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 109.28962706326112,
+      "per_fF": {
+        "gain_db": -7.105427357601002e-15,
+        "gbw_mhz": -0.0951911016585143,
+        "pm_deg": 0.00926993560667455
+      },
+      "classes": [
+        "signal_output",
+        "dominant_pole"
+      ],
+      "rank": 1
+    },
+    {
+      "net": "net3",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 177.7221643194293,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.05853743701489833,
+        "pm_deg": -0.06639953953339273
+      },
+      "classes": [
+        "mirror_node (diode-connected)",
+        "non_dominant_pole"
+      ],
+      "rank": 2
+    },
+    {
+      "net": "net1",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 9491.702200519201,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": 0.005208260552116428,
+        "pm_deg": -0.002071514632952187
+      },
+      "classes": [
+        "source_coupled (tail)"
+      ],
+      "rank": 3
+    }
+  ],
+  "coupling_pairs_ranked": [
+    {
+      "pair": "OUTP~net3",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 42.03376377901051,
+      "per_fF": {
+        "gain_db": -1.0658141036401503e-14,
+        "gbw_mhz": -0.24750103404242196,
+        "pm_deg": -0.12427650901271647
+      },
+      "rank": 1
+    },
+    {
+      "pair": "OUTP~INP",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 91.82089750112863,
+      "per_fF": {
+        "gain_db": -7.105427357601002e-15,
+        "gbw_mhz": -0.11330100536070375,
+        "pm_deg": 0.06632326952413337
+      },
+      "rank": 2
+    },
+    {
+      "pair": "OUTP~INN",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 109.28962706326112,
+      "per_fF": {
+        "gain_db": -7.105427357601002e-15,
+        "gbw_mhz": -0.0951911016585143,
+        "pm_deg": 0.00926993560667455
+      },
+      "rank": 3
+    },
+    {
+      "pair": "OUTP~net1",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 119.49979560649155,
+      "per_fF": {
+        "gain_db": -3.552713678800501e-15,
+        "gbw_mhz": -0.0870578894901044,
+        "pm_deg": 0.0350453180871142
+      },
+      "rank": 4
+    },
+    {
+      "pair": "net3~INP",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 146.761272521031,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.07088654807424888,
+        "pm_deg": -0.11302274995098571
+      },
+      "rank": 5
+    },
+    {
+      "pair": "net3~INN",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 177.7221643194293,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.05853743701489833,
+        "pm_deg": -0.06639953953339273
+      },
+      "rank": 6
+    },
+    {
+      "pair": "net1~net3",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 200.58583558285662,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.03943380614263248,
+        "pm_deg": -0.09802387064303986
+      },
+      "rank": 7
+    },
+    {
+      "pair": "net1~INP",
+      "most_limiting_spec": "gbw_mhz",
+      "fF_to_consume_margin": 1178.3887372235147,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": -0.008828495785280666,
+        "pm_deg": 0.003330660623205972
+      },
+      "rank": 8
+    },
+    {
+      "pair": "net1~INN",
+      "most_limiting_spec": "pm_deg",
+      "fF_to_consume_margin": 9491.702200519201,
+      "per_fF": {
+        "gain_db": 0.0,
+        "gbw_mhz": 0.005208260552116428,
+        "pm_deg": -0.002071514632952187
+      },
+      "rank": 9
+    }
+  ],
+  "ranking": "ascending capacitance (fF, to ground for nets, between the two nets for pairs) that would alone consume the margin of the most limiting spec, first-order (linear model)",
+  "critical_terminals": [
+    {
+      "group": "XM5.s",
+      "ohm_to_consume_margin": 141.87970078621893,
+      "most_limiting": "gbw_mhz",
+      "rank": 1
+    },
+    {
+      "group": "XM1.s",
+      "ohm_to_consume_margin": 224.29580121813143,
+      "most_limiting": "gbw_mhz",
+      "rank": 2
+    },
+    {
+      "group": "XM5.d",
+      "ohm_to_consume_margin": 239.7209070520818,
+      "most_limiting": "sat_XM5",
+      "rank": 3
+    },
+    {
+      "group": "XM2.s",
+      "ohm_to_consume_margin": 262.08338581685103,
+      "most_limiting": "gbw_mhz",
+      "rank": 4
+    },
+    {
+      "group": "XM4.s",
+      "ohm_to_consume_margin": 537.2963202065681,
+      "most_limiting": "gbw_mhz",
+      "rank": 5
+    },
+    {
+      "group": "XM1.d",
+      "ohm_to_consume_margin": 3058.650720201208,
+      "most_limiting": "sat_XM1",
+      "rank": 6
+    },
+    {
+      "group": "XM3.s",
+      "ohm_to_consume_margin": 4257.319328841241,
+      "most_limiting": "sat_XM1",
+      "rank": 7
+    },
+    {
+      "group": "XM2.d",
+      "ohm_to_consume_margin": 4645.760743320852,
+      "most_limiting": "gain_db",
+      "rank": 8
+    },
+    {
+      "group": "XM1.g",
+      "ohm_to_consume_margin": 8643.675129134052,
+      "most_limiting": "pm_deg",
+      "rank": 9
+    },
+    {
+      "group": "XM4.d",
+      "ohm_to_consume_margin": 10526.315789480503,
+      "most_limiting": "gain_db",
+      "rank": 10
+    },
+    {
+      "group": "XM3.d",
+      "ohm_to_consume_margin": 24674.153339599223,
+      "most_limiting": "sat_XM3",
+      "rank": 11
+    },
+    {
+      "group": "XM4.g",
+      "ohm_to_consume_margin": 25039.414199308947,
+      "most_limiting": "pm_deg",
+      "rank": 12
+    },
+    {
+      "group": "XM2.g",
+      "ohm_to_consume_margin": 25529.815950882938,
+      "most_limiting": "gbw_mhz",
+      "rank": 13
+    },
+    {
+      "group": "XM5.g",
+      "ohm_to_consume_margin": 357494.5454569951,
+      "most_limiting": "pm_deg",
+      "rank": 14
+    },
+    {
+      "group": "XM3.g",
+      "ohm_to_consume_margin": null,
+      "most_limiting": null,
+      "rank": 15
+    }
+  ],
+  "ranking_terminals": "ascending series resistance (ohm, applied to every member of the group) that would alone consume the margin of the most limiting spec, incl. DC headroom"
+}

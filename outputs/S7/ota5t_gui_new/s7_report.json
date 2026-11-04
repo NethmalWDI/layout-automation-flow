@@ -1,0 +1,143 @@
+{
+  "run_id": "2026-11-04T18:51:56-3c498c19",
+  "design": "ota5t_gui_new",
+  "s6_run_id": "2026-11-04T18:48:44-c78671d4",
+  "eta": 0.5,
+  "TOL_USE": 0.02,
+  "post_layout_view": "pex_rc",
+  "gates": {
+    "G7.1_specs_met_post_layout": {
+      "pass": true,
+      "missing_measurements": {},
+      "detail": {
+        "gain_db": [
+          39.3008,
+          38.1959,
+          true
+        ],
+        "gbw_mhz": [
+          95.7103,
+          93.6306,
+          true
+        ],
+        "pm_deg": [
+          77.7532,
+          60,
+          true
+        ],
+        "power_uw": [
+          138.297,
+          167.8017,
+          true
+        ],
+        "vnoise_nv_rthz": [
+          349.137,
+          400,
+          true
+        ]
+      },
+      "failed_runs": []
+    },
+    "G7.2_loss_within_eta_margin": {
+      "pass": false,
+      "detail": {
+        "gain_db": -0.2098,
+        "gbw_mhz": 1.6002,
+        "pm_deg": 0.1942,
+        "power_uw": -1.8683,
+        "vnoise_nv_rthz": 0.04
+      }
+    },
+    "G7.3_G2.0_prediction (info)": {
+      "pass": null,
+      "detail": {
+        "gain_db": [
+          -0.1049,
+          0.03890375780790556,
+          -3.6964
+        ],
+        "gbw_mhz": [
+          0.80009,
+          0.48627513343986356,
+          0.6454
+        ],
+        "pm_deg": [
+          0.09709,
+          0.09442569230025658,
+          0.0282
+        ],
+        "power_uw": [
+          -0.93414,
+          null,
+          null
+        ],
+        "vnoise_nv_rthz": [
+          0.01998,
+          0.009284938185236435,
+          1.152
+        ]
+      },
+      "note": "[post-layout loss / margin, G2.0's predicted share, relative error]; PREREG: within 25 %"
+    },
+    "G7.4_pvt (info)": {
+      "pass": null,
+      "note": "PVT points are not simulated post-layout here"
+    },
+    "G7.5_mim_self_coupling_cancelled (info)": {
+      "pass": null,
+      "capacitors": {},
+      "detail": {},
+      "budget_aware_within_eta": null,
+      "view": "pex_rc_mim_cancelled",
+      "note": "the post-layout AC run (R+C, or C-only without R+C extraction) with each MIM capacitor's own plate-to-plate coupling cancelled (S6 G6.5: very likely counted twice by Magic's sky130 rules); G7.1 and G7.2 keep Magic's netlist"
+    },
+    "H4 (info)": {
+      "pass": null,
+      "G6.2": false,
+      "G7.1_and_G7.2": false,
+      "note": "H4 holds if G6.2 passing implies G7.1 and G7.2 passing"
+    },
+    "H5 (info)": {
+      "pass": null,
+      "use_of_allowed": {
+        "budget_aware": {
+          "gain_db": -0.2098,
+          "gbw_mhz": 1.6002,
+          "pm_deg": 0.1942,
+          "power_uw": -1.8683,
+          "vnoise_nv_rthz": 0.04
+        },
+        "area_only": {
+          "gain_db": -0.2092,
+          "gbw_mhz": 1.7308,
+          "pm_deg": 0.2127,
+          "power_uw": -1.87,
+          "vnoise_nv_rthz": 0.0402
+        }
+      }
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-11-04T17:51:56+00:00",
+    "git_commit": "ef21cda3f5e36142f42125875156e320a0e8b176",
+    "inputs": [
+      {
+        "path": "outputs/S6/ota5t_gui_new/parasitics_vs_budgets.json",
+        "sha256": "32f9296e6aa44c506a6854c5787379f489231670f3014a793b9a89bc593989ff"
+      },
+      {
+        "path": "outputs/S0/ota5t_gui_new/circuit_ir.json",
+        "sha256": "0b2f1be8130462e726b3b5ee257e5d77cb0d8e5f2a947cd881c325e28ebc329e"
+      },
+      {
+        "path": "outputs/S2/ota5t_gui_new/s2_report.json",
+        "sha256": "85a582aec825a609aa41cbf0dfdff88609602e453728c78c459593f797ae7b72"
+      },
+      {
+        "path": "inputs/ota5t_gui_new/package.yaml",
+        "sha256": "1f43c223cd305689a3207c52937c690d2ad19987e8a7b9113a07ff75096e390c"
+      }
+    ]
+  }
+}

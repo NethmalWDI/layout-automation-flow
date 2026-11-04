@@ -1,0 +1,279 @@
+{
+  "run_id": "2026-11-04T18:48:44-c78671d4",
+  "design": "ota5t_gui_new",
+  "s5_run_id": "2026-11-04T18:47:45-28b71f43",
+  "ac_grounds": [
+    "VDD",
+    "VSS",
+    "net2"
+  ],
+  "gates": {
+    "G6.1_extracted_and_LVS": {
+      "pass": true,
+      "rc_extraction": true,
+      "detail": {
+        "budget_aware": {
+          "lvs": true,
+          "caps": 19,
+          "rc_resistors": 34320,
+          "unassigned_caps": 0
+        },
+        "area_only": {
+          "lvs": true,
+          "caps": 20,
+          "rc_resistors": 34760,
+          "unassigned_caps": 0
+        }
+      }
+    },
+    "G6.2_parasitics_within_budgets": {
+      "pass": false,
+      "violations": [
+        "OUTP",
+        "net3",
+        "OUTP~net1",
+        "OUTP~net3",
+        "OUTP~INN",
+        "net1~net3",
+        "net1~INP",
+        "net3~INP",
+        "XM4.d",
+        "XM4.g",
+        "XM4.s",
+        "XM1.d",
+        "XM1.g",
+        "XM1.s",
+        "XM2.d",
+        "XM2.g",
+        "XM2.s",
+        "XM5.d",
+        "XM5.s"
+      ],
+      "worst": [
+        [
+          67.9333,
+          "net1~INP"
+        ],
+        [
+          50.4658,
+          "net3~INP"
+        ],
+        [
+          50.4611,
+          "OUTP~INN"
+        ],
+        [
+          50.313,
+          "XM5.s"
+        ],
+        [
+          43.7024,
+          "OUTP~net1"
+        ]
+      ],
+      "area_only_violations (H5)": [
+        "OUTP",
+        "net3",
+        "OUTP~net1",
+        "OUTP~net3",
+        "OUTP~INP",
+        "OUTP~INN",
+        "net1~net3",
+        "net1~INP",
+        "net3~INP",
+        "net3~INN",
+        "XM4.d",
+        "XM4.g",
+        "XM4.s",
+        "XM1.d",
+        "XM1.g",
+        "XM1.s",
+        "XM2.d",
+        "XM2.g",
+        "XM2.s",
+        "XM5.d",
+        "XM5.s"
+      ],
+      "note": "the budget-aware layout is gated; the area-only baseline is reported for H5"
+    },
+    "G6.4_c_only_netlist_complete (info)": {
+      "pass": null,
+      "detail": {
+        "budget_aware": {
+          "netlist_total_fF": 52.187,
+          "ext_total_fF": 53.488,
+          "netlist_short_of_ext": 0.0243,
+          "complete": true,
+          "tolerance": 0.05,
+          "substrate_net": "VSS",
+          "ext_net_fF_approx": {
+            "INN": 1.2432,
+            "net1": 9.3443,
+            "INP": 1.2149,
+            "OUTP": 2.851,
+            "net3": 8.2066
+          },
+          "nets_without_ground_C_in_netlist": [],
+          "nets_short_in_netlist": {
+            "INN": [
+              0.0064,
+              1.2432
+            ],
+            "INP": [
+              0.0061,
+              1.2149
+            ],
+            "net3": [
+              4.6956,
+              8.2066
+            ]
+          }
+        },
+        "area_only": {
+          "netlist_total_fF": 60.183,
+          "ext_total_fF": 61.524,
+          "netlist_short_of_ext": 0.0218,
+          "complete": true,
+          "tolerance": 0.05,
+          "substrate_net": "VSS",
+          "ext_net_fF_approx": {
+            "INN": 1.2533,
+            "net1": 12.727,
+            "INP": 1.1181,
+            "OUTP": 3.9476,
+            "net3": 9.2066
+          },
+          "nets_without_ground_C_in_netlist": [],
+          "nets_short_in_netlist": {
+            "INN": [
+              0.0036,
+              1.2533
+            ],
+            "INP": [
+              0.0655,
+              1.1181
+            ],
+            "net3": [
+              5.3035,
+              9.2066
+            ]
+          }
+        }
+      },
+      "note": "Magic's C-only netlist against its own .ext (totals): ext2spice leaves out the capacitance to ground of nets that are transistor gates (flow record row 71); G6.2 reads the netlist, so a net listed under nets_without_ground_C_in_netlist reads low there. S7's R+C netlist carries it"
+    },
+    "G6.5_mim_self_coupling (info)": {
+      "pass": null,
+      "capacitors": {},
+      "budget_aware_rows_less_it": [],
+      "note": "a MIM capacitor block extracted alone: the plate-to-plate coupling Magic adds on top of the device (metal4 over metal3 across the top plate) is very likely counted twice; S7's G7.5 simulates the layout with it cancelled. G6.2 keeps Magic's number"
+    },
+    "G6.3_kpex_cross_check (info)": {
+      "pass": null,
+      "detail": {
+        "budget_aware": {
+          "ran": true,
+          "netlist": "outputs/S6/ota5t_gui_new/budget_aware/kpex/ota5t_gui_new_routed__ota5t_gui_new_routed/ota5t_gui_new_routed_k25d_pex_netlist.spice",
+          "kpex_lvs_matched": false,
+          "unnamed_nets": [
+            "$12",
+            "$4"
+          ],
+          "net_fF": {
+            "INN": {
+              "magic": 0.0064,
+              "kpex": 1.2932
+            },
+            "INP": {
+              "magic": 0.0061,
+              "kpex": 1.2734
+            },
+            "OUTP": {
+              "magic": 5.5271,
+              "kpex": 2.9436
+            }
+          },
+          "coupling_fF": {
+            "INN~INP": {
+              "magic": 0.0075,
+              "kpex": 0.0203
+            },
+            "INN~OUTP": {
+              "magic": 1.0891,
+              "kpex": 1.2704
+            }
+          },
+          "total_fF": {
+            "magic": 30.424,
+            "kpex": 33.065
+          }
+        },
+        "area_only": {
+          "ran": true,
+          "netlist": "outputs/S6/ota5t_gui_new/area_only/kpex/ota5t_gui_new_routed__ota5t_gui_new_routed/ota5t_gui_new_routed_k25d_pex_netlist.spice",
+          "kpex_lvs_matched": false,
+          "unnamed_nets": [
+            "$20",
+            "$4"
+          ],
+          "net_fF": {
+            "INN": {
+              "magic": 0.0036,
+              "kpex": 1.3509
+            },
+            "INP": {
+              "magic": 0.0655,
+              "kpex": 1.1804
+            },
+            "OUTP": {
+              "magic": 6.7872,
+              "kpex": 4.2006
+            }
+          },
+          "coupling_fF": {
+            "INN~INP": {
+              "magic": 0.0023,
+              "kpex": 0.0016
+            },
+            "INN~OUTP": {
+              "magic": 1.2682,
+              "kpex": 1.4839
+            },
+            "INP~OUTP": {
+              "magic": 0.1802,
+              "kpex": 0.2161
+            }
+          },
+          "total_fF": {
+            "magic": 37.947,
+            "kpex": 41.571
+          }
+        }
+      },
+      "note": "kpex 2.5D against Magic on the nets both name; kpex leaves a net it cannot match in its own LVS unnamed"
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-11-04T17:48:44+00:00",
+    "git_commit": "ef21cda3f5e36142f42125875156e320a0e8b176",
+    "inputs": [
+      {
+        "path": "outputs/S5/ota5t_gui_new/s5_report.json",
+        "sha256": "f7938814324e5a3df2c7bca02b10d37aa34f2c1d561f2b6b33006ef85b6a928f"
+      },
+      {
+        "path": "outputs/S2/ota5t_gui_new/budgets.json",
+        "sha256": "a78432c0dfc70ff9adc798a6e78f87a23db61da1bf829aacb9b1d508444116f8"
+      },
+      {
+        "path": "outputs/S0/ota5t_gui_new/circuit_ir.json",
+        "sha256": "0b2f1be8130462e726b3b5ee257e5d77cb0d8e5f2a947cd881c325e28ebc329e"
+      },
+      {
+        "path": "inputs/ota5t_gui_new/package.yaml",
+        "sha256": "1f43c223cd305689a3207c52937c690d2ad19987e8a7b9113a07ff75096e390c"
+      }
+    ]
+  }
+}

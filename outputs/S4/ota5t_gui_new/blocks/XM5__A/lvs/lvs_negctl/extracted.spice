@@ -1,0 +1,14 @@
+* NGSPICE file created from XM5__A.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_5VM7HL G D S VSUBS
+X0 S G D VSUBS sky130_fd_pr__nfet_01v8 ad=6.96 pd=48.58 as=6.96 ps=48.58 w=24 l=1
+.ends
+
+.subckt nfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng S B G D
+Xnfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_5VM7HL
+.ends
+
+.subckt XM5__A net2 net1 VSS VSS_body
+Xnfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng_0 VSS VSS_body net2 net1 nfet_01v8_W24_L1_m1__nf1_gboth_sdfull_ng
+.ends
+

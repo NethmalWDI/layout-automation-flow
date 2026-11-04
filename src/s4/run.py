@@ -322,6 +322,11 @@ def _variants(blk: dict, ir: dict, dec: dict, cells: Path, rules: dict, opts: di
             r = h[0]
             out.append({"id": "ABBA", "units": [unit(a, r, False), unit(b, r, False), unit(b, r, True), unit(a, r, True)]})
             out.append({"id": "ABAB", "units": [unit(a, r, False), unit(b, r, False), unit(a, r, False), unit(b, r, False)]})
+        if not out:   # matching: centroid, but one copy each and no half unit (odd fingers): neither a common
+            # centroid nor an interdigitated row exists, so the mirror image AB, the best left (GUI test of
+            # 2026-11-04: the 5T's PMOS mirror got no variant at all and S5 stopped; flow record row 93)
+            out.append({"id": "AB", "units": row([a] * counts[a] + [b] * counts[b], True),
+                        "note": "matching: centroid asked, impossible here (one copy each, odd fingers): mirror image"})
         return out
     if centroid and same:   # three or more matched devices (or unequal m): one row, centroids on its centre
         seq = centroid_sequence(counts)
@@ -428,7 +433,8 @@ def build_variant(blk: dict, v: dict, ir: dict, out: Path, lu: float | None = No
     name = f"{blk['name']}__{v['id']}"
     d = out / "blocks" / name
     inner = internal_nets(blk, ir) if (opts or {}).get("pack_internal") else set()
-    geo = B.layout(v["units"], tap_limit=None if blk["kind"] == "resistors" else lu, internal=inner)
+    geo = B.layout(v["units"], tap_limit=None if blk["kind"] == "resistors" else lu, internal=inner,
+                   bbox_origin=(opts or {}).get("pin_origin") == "bbox")   # flow record row 95 (opt-in)
     res = {"id": v["id"], "cell": name, "arrangement": [{"device": u["device"], "cell": u["rec"]["cell"],
                                                          "mirror": u["mirror"], "x": u["x"]} for u in geo["units"]]}
     b = B.build(name, geo, blk["type"], blk["body"], d)

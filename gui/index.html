@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Layout flow GUI</title>
+<style>
+  :root { --ink:#0b0b0b; --ink2:#52514e; --muted:#898781; --line:#e1e0d9; --bg:#f9f9f7; --card:#fcfcfb;
+          --accent:#2a78d6; --pass:#006300; --fail:#b42318; --warn:#8a5a00; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); background:var(--bg); }
+  header { padding:14px 20px; border-bottom:1px solid var(--line); background:var(--card); }
+  header h1 { margin:0; font-size:19px; }
+  header p { margin:4px 0 0; color:var(--ink2); font-size:13.5px; }
+  main { max-width:1280px; margin:0 auto; padding:16px 20px 40px; display:grid; gap:16px; }
+  section { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:14px 16px; }
+  h2 { margin:0 0 10px; font-size:16px; }
+  table { border-collapse:collapse; width:100%; font-size:13.5px; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  tr.sel { background:#eef4fc; }
+  tr.row { cursor:pointer; }
+  .chip { display:inline-block; min-width:26px; padding:1px 5px; margin:1px; border-radius:4px; font-size:11.5px;
+          text-align:center; border:1px solid var(--line); color:var(--muted); }
+  .PASS { color:#fff; background:var(--pass); border-color:var(--pass); }
+  .FAIL { color:#fff; background:var(--fail); border-color:var(--fail); }
+  .ERROR { color:#fff; background:#5b1a8a; border-color:#5b1a8a; }
+  .tabs button { border:1px solid var(--line); background:#fff; padding:6px 12px; border-radius:6px 6px 0 0; cursor:pointer; font:inherit; }
+  .tabs button.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+  textarea { width:100%; height:330px; font:12.5px/1.4 ui-monospace, Consolas, monospace; border:1px solid var(--line);
+             border-radius:0 6px 6px 6px; padding:8px; resize:vertical; }
+  .row2 { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:10px; }
+  input[type=text], select { font:inherit; padding:6px 8px; border:1px solid var(--line); border-radius:6px; }
+  button.act { font:inherit; padding:7px 14px; border:0; border-radius:6px; background:var(--accent); color:#fff; cursor:pointer; }
+  button.act:disabled { background:#b9c6d6; cursor:default; }
+  button.sec { font:inherit; padding:6px 12px; border:1px solid var(--line); border-radius:6px; background:#fff; cursor:pointer; }
+  .msg { margin-top:8px; font-size:13.5px; white-space:pre-wrap; }
+  .err { color:var(--fail); } .ok { color:var(--pass); } .warn { color:var(--warn); }
+  pre.log { background:#1a1a19; color:#e8e6df; padding:10px; border-radius:6px; max-height:260px; overflow:auto; font-size:12px; margin:8px 0 0; }
+  .hint { color:var(--ink2); font-size:13px; }
+  @media (max-width:700px) { main { padding:12px 10px; } textarea { height:240px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Layout flow: design, run and report</h1>
+  <p>Runs on this PC only. Nothing here calls an AI model. An edit is saved as a new design copy, so the original designs
+     and their results stay as they are; the flow runs only on copies made here.</p>
+</header>
+<main>
+  <section>
+    <h2>1. Designs</h2>
+    <p class="hint">Click a design to load it. The chips are its stages S0–S7 (green pass, red a check failed, grey not run).</p>
+    <table><thead><tr><th>Design</th><th>Stages</th><th>Description</th><th>Report</th></tr></thead>
+      <tbody id="designs"><tr><td colspan="4">Loading…</td></tr></tbody></table>
+  </section>
+
+  <section>
+    <h2>2. Edit and save as a new design</h2>
+    <p class="hint" id="based">Choose a design above to start from.</p>
+    <div class="tabs" id="tabs">
+      <button data-k="netlist" class="on">Schematic netlist (SPICE)</button>
+      <button data-k="hierarchy">Hierarchy (JSON)</button>
+      <button data-k="config">Specs and conditions (YAML)</button>
+      <button data-k="layout">Layout instructions (optional, YAML)</button>
+    </div>
+    <textarea id="editor" spellcheck="false" placeholder="Load a design first."></textarea>
+    <div class="row2">
+      <span class="hint" id="tabhint"></span>
+      <button class="sec" id="example" style="display:none">Insert an example</button>
+    </div>
+    <div class="row2">
+      <label>New design name <input type="text" id="newname" placeholder="e.g. ttsky25a_fd_v2" size="26"></label>
+      <label>Note (what you changed and why) <input type="text" id="note" size="50"></label>
+      <button class="act" id="save" disabled>Save as new design</button>
+    </div>
+    <div class="msg" id="savemsg"></div>
+  </section>
+
+  <section>
+    <h2>Or: a brand-new design from files</h2>
+    <p class="hint">For a circuit the flow has not seen. Required: a SKY130 SPICE netlist and its specs (config). Everything
+      else is optional: without test benches the standard ones are generated; other files (schematics, notes) are only kept
+      with the design. Nothing is invented: a value you leave out stays empty and the flow reports it as pending.</p>
+    <div class="row2">
+      <label>Name <input type="text" id="n_name" placeholder="e.g. my_ota" size="20"></label>
+      <label>Description <input type="text" id="n_desc" size="60"></label>
+    </div>
+    <div class="row2">
+      <label>Netlist (.spice) <input type="file" id="n_netfile" accept=".spice,.sp,.cir,.net,.txt"></label>
+      <label>Top subckt to flatten (only if hierarchical) <input type="text" id="n_top" size="18"></label>
+      <button class="sec" id="n_tmpl">Make a starting config from the netlist</button>
+    </div>
+    <textarea id="n_net" spellcheck="false" placeholder="…or paste the netlist here" style="height:150px"></textarea>
+    <div class="row2"><label>Specs and conditions, config.yaml (required) <input type="file" id="n_cfgfile" accept=".yaml,.yml,.txt"></label></div>
+    <textarea id="n_cfg" spellcheck="false" placeholder="…or paste it, or press 'Make a starting config' and fill in every FILL IN" style="height:200px"></textarea>
+    <div class="row2">
+      <label>Test benches (optional, several) <input type="file" id="n_tbs" multiple accept=".spice,.sp,.cir"></label>
+      <label title="Without it S1 finds no matching groups (G1.4 fails) and S5 has no sub-circuits to place">Hierarchy JSON (optional, but needed for matching) <input type="file" id="n_hier" accept=".json"></label>
+      <label>Measurements JSON (optional) <input type="file" id="n_meas" accept=".json"></label>
+    </div>
+    <div class="row2" style="align-items:flex-start">
+      <label style="flex:1">Bench wrapper lines (optional; e.g. an ideal CMFB)<textarea id="n_wrap" style="height:70px" spellcheck="false"></textarea></label>
+      <label style="flex:1">bias_sources (optional YAML, e.g. <code>V1: VBIAS</code>)<textarea id="n_bias" style="height:70px" spellcheck="false"></textarea></label>
+      <label style="flex:1">port_roles (optional YAML)<textarea id="n_roles" style="height:70px" spellcheck="false"></textarea></label>
+    </div>
+    <label>Layout instructions (optional YAML) <button class="sec" id="n_example">Insert an example</button></label>
+    <textarea id="n_layout" spellcheck="false" style="height:120px"></textarea>
+    <div class="row2">
+      <label><input type="checkbox" id="n_derive"> Specs from the schematic's own results (gain −1 dB, GBW × 0.9, power × 1.1; marked ASSUMPTION)</label>
+    </div>
+    <div class="row2">
+      <label>Other files to keep with the design <input type="file" id="n_extra" multiple></label>
+      <label>Note <input type="text" id="n_note" size="40"></label>
+      <button class="act" id="n_create">Create the design</button>
+    </div>
+    <div class="msg" id="n_msg"></div>
+  </section>
+
+  <section>
+    <h2>3. Run the flow and make the report</h2>
+    <div class="row2">
+      <span id="runfor" class="hint">No design selected.</span>
+      <label>From stage <select id="from"><option>S0</option><option>S1</option><option>S2</option><option>S3</option>
+        <option>S4</option><option>S5</option><option>S6</option><option>S7</option></select></label>
+      <button class="act" id="run" disabled>Run the flow</button>
+      <button class="sec" id="report" disabled>Make the report only</button>
+      <a id="open" target="_blank" style="display:none">Open the report</a>
+    </div>
+    <div class="msg" id="runmsg"></div>
+    <div id="stagebox"></div>
+    <pre class="log" id="log" style="display:none"></pre>
+    <p class="hint">A full run takes from about an hour (a small circuit) to several hours. The page checks every 10 s; you
+      can close it and come back. The report is one self-contained HTML file you can send to a reviewer.</p>
+  </section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const STAGES = ["S0","S1","S2","S3","S4","S5","S6","S7"];
+let cur = null, texts = {}, tab = "netlist", timer = null, isGui = false;
+const HINT = {
+  netlist: "The circuit as a flat SPICE netlist (export it from xschem). Element names must stay those the hierarchy uses.",
+  hierarchy: "Which elements form which sub-circuit. Each sub-circuit becomes a placement unit when the layout instructions say hierarchy: upstream.",
+  config: "The specs (limits) and simulation conditions. Mark anything not given by the design as ASSUMPTION.",
+  layout: "Optional. Empty = the flow's defaults. Keys: matching, dummies, pack_internal, resistor_blocks, outline_um, hierarchy, rc_extraction, lvs_no_series."
+};
+const EXAMPLE = `# Layout instructions (read by S4-S7 only). Delete what you do not need.
+matching: centroid        # matched devices only as common centroid (A B B A) or interdigitated rows
+dummies: true             # one dummy at each end of every matched row
+pack_internal: true       # nets used inside one block only get short tracks
+outline_um: [250, 200]    # hard outline, width x height (um); a placement outside it is rejected
+hierarchy: upstream       # place each sub-circuit of the hierarchy as a unit
+# rc_extraction: false    # capacitance-only extraction (for large layouts)
+`;
+function chips(st) {
+  return STAGES.map(s => { const x = (st || {})[s] || {}; const c = x.status || "";
+    return `<span class="chip ${c}" title="${s}: ${c || "not run"}${x.failed && x.failed.length ? " — " + x.failed.join(", ") : ""}">${s}</span>`; }).join("");
+}
+async function j(url, opt) { const r = await fetch(url, opt); return r.json(); }
+async function loadDesigns() {
+  const d = await j("/api/designs");
+  if (!d.designs) { $("designs").innerHTML = `<tr><td colspan="4" class="err">${(d.errors||[]).join(" ")}</td></tr>`; return; }
+  $("designs").innerHTML = d.designs.map(x => `<tr class="row ${cur===x.design?"sel":""}" data-d="${x.design}">
+    <td><b>${x.design}</b></td><td>${chips(x.stages)}</td><td class="hint">${x.description || ""}</td>
+    <td>${x.report ? `<a href="/files/docs/reports/${x.design}_report.html" target="_blank">open</a>` : "–"}</td></tr>`).join("");
+  document.querySelectorAll("tr.row").forEach(tr => tr.onclick = () => select(tr.dataset.d));
+}
+async function select(name) {
+  cur = name; texts = {};
+  $("based").textContent = "Loading " + name + "…";
+  const d = await j("/api/design?name=" + encodeURIComponent(name));
+  if (d.errors) { $("based").innerHTML = `<span class="err">${d.errors.join(" ")}</span>`; return; }
+  texts = {netlist: d.netlist, hierarchy: d.hierarchy, config: d.config, layout: d.layout};
+  texts._orig = {...texts};
+  $("based").innerHTML = `Starting from <b>${name}</b>: netlist <code>${d.netlist_path}</code>, hierarchy <code>${d.hierarchy_path || "none"}</code>, specs <code>${d.config_path}</code>. ${d.elements.length} elements.`;
+  $("newname").value = name + "_v2"; $("save").disabled = false;
+  showTab(tab, false); loadDesigns(); poll();
+}
+function showTab(k, keep = true) {
+  if (cur && keep) texts[tab] = $("editor").value;   // keep what was typed in the tab being left
+  tab = k;
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.k === k));
+  $("editor").value = texts[k] || "";
+  $("tabhint").textContent = HINT[k];
+  $("example").style.display = k === "layout" ? "" : "none";
+}
+document.querySelectorAll("#tabs button").forEach(b => b.onclick = () => showTab(b.dataset.k));
+$("example").onclick = () => { if (!$("editor").value.trim() || confirm("Replace the text with the example?")) $("editor").value = EXAMPLE; };
+$("save").onclick = async () => {
+  texts[tab] = $("editor").value;
+  const body = {base: cur, new: $("newname").value.trim(), note: $("note").value.trim()};
+  for (const k of ["netlist", "hierarchy", "config"]) if (texts[k] !== texts._orig[k]) body[k] = texts[k];
+  if (texts.layout !== texts._orig.layout) body.layout = texts.layout;
+  $("savemsg").className = "msg"; $("savemsg").textContent = "Saving…"; $("save").disabled = true;
+  const r = await j("/api/save", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+  $("save").disabled = false;
+  const w = (r.warnings || []).length ? "\nWarnings: " + r.warnings.join("; ") : "";
+  if (r.ok) { $("savemsg").className = "msg ok"; $("savemsg").textContent = `Saved as ${r.design} (edited: ${r.edited.join(", ") || "nothing"}).` + w;
+              await loadDesigns(); select(r.design); }
+  else { $("savemsg").className = "msg err"; $("savemsg").textContent = (r.errors || ["failed"]).join("\n") + w; }
+};
+async function poll() {
+  clearTimeout(timer);
+  if (!cur) return;
+  const s = await j("/api/status?name=" + encodeURIComponent(cur));
+  isGui = !!s.gui_design;
+  $("runfor").innerHTML = `<b>${cur}</b>` + (isGui ? "" : " — a committed design: the GUI makes its report but does not re-run it (use flow.ps1).");
+  $("run").disabled = !isGui || s.running; $("report").disabled = s.report_running || s.running;
+  $("stagebox").innerHTML = chips(s.stages);
+  const lines = (s.log || []).concat(s.report_log && s.report_log.length ? ["--- report ---"].concat(s.report_log) : []);
+  $("log").style.display = lines.length ? "" : "none"; $("log").textContent = lines.join("\n");
+  let m = "";
+  if (s.running) m = "The flow is running…";
+  else if (s.report_running) m = "Making the report…";
+  else if (s.exit !== null && s.exit !== undefined) m = `Last run finished (exit ${s.exit}: 0 every gate passed, 1 a gate failed, 2 a stage stopped).`;
+  $("runmsg").textContent = m;
+  if (s.report) { $("open").href = "/files/" + s.report; $("open").style.display = ""; } else $("open").style.display = "none";
+  if (s.running || s.report_running) timer = setTimeout(poll, 10000);
+}
+async function start(kind) {
+  const body = {design: cur, from: $("from").value};
+  const r = await j("/api/" + kind, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+  $("runmsg").className = r.ok ? "msg" : "msg err";
+  $("runmsg").textContent = r.ok ? (kind === "run" ? "Started." : "Making the report…") : (r.errors || []).join("\n");
+  setTimeout(poll, 2000);
+}
+$("run").onclick = () => { if (confirm(`Run the flow on ${cur} from ${$("from").value}? Its earlier results from that stage on are replaced.`)) start("run"); };
+$("report").onclick = () => start("report");
+
+// ---- a brand-new design
+const readText = f => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = no; r.readAsText(f); });
+const readB64 = f => new Promise((ok, no) => { const r = new FileReader();
+  r.onload = () => ok(String(r.result).split(",")[1] || ""); r.onerror = no; r.readAsDataURL(f); });
+$("n_netfile").onchange = async e => { if (e.target.files[0]) $("n_net").value = await readText(e.target.files[0]); };
+$("n_cfgfile").onchange = async e => { if (e.target.files[0]) $("n_cfg").value = await readText(e.target.files[0]); };
+$("n_example").onclick = () => { $("n_layout").value = EXAMPLE; };
+function nmsg(cls, t) { $("n_msg").className = "msg " + cls; $("n_msg").textContent = t; }
+$("n_tmpl").onclick = async () => {
+  nmsg("", "Reading the netlist…");
+  const r = await j("/api/template", {method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({name: $("n_name").value.trim(), netlist: $("n_net").value, flatten_top: $("n_top").value.trim()})});
+  if (!r.ok) return nmsg("err", (r.errors || []).join("\n"));
+  if (!$("n_cfg").value.trim() || confirm("Replace the config text with the starting config?")) $("n_cfg").value = r.config;
+  nmsg("ok", `Subckt ${r.subckt}: ports ${r.ports.join(" ")}; ${r.elements} elements; ${r.differential ? "differential" : "single-ended"} output. Fill in every FILL IN.`);
+};
+$("n_create").onclick = async () => {
+  const tbs = [];
+  for (const f of $("n_tbs").files) tbs.push({name: f.name, text: await readText(f)});
+  const extras = [];
+  for (const f of $("n_extra").files) extras.push({name: f.name, b64: await readB64(f)});
+  const body = {name: $("n_name").value.trim(), description: $("n_desc").value.trim(), netlist: $("n_net").value,
+    flatten_top: $("n_top").value.trim(), config: $("n_cfg").value, testbenches: tbs, wrapper: $("n_wrap").value,
+    hierarchy: $("n_hier").files[0] ? await readText($("n_hier").files[0]) : "",
+    measurements: $("n_meas").files[0] ? await readText($("n_meas").files[0]) : "",
+    bias_sources: $("n_bias").value, port_roles: $("n_roles").value, layout: $("n_layout").value,
+    derive_specs: $("n_derive").checked, extras, note: $("n_note").value.trim()};
+  nmsg("", "Creating…"); $("n_create").disabled = true;
+  const r = await j("/api/new", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+  $("n_create").disabled = false;
+  if (!r.ok) return nmsg("err", (r.errors || []).join("\n"));
+  nmsg("ok", `Created ${r.design}: benches ${r.testbenches.join(", ")}${r.generated_benches ? " (generated)" : ""}`
+    + (r.extras.length ? `; kept ${r.extras.join(", ")}` : "") + ((r.warnings || []).length ? "\nWarnings: " + r.warnings.join("\n") : "")
+    + "\nIt is now in the list above; select it and run the flow in section 3.");
+  await loadDesigns(); select(r.design);
+};
+loadDesigns();
+</script>
+</body>
+</html>

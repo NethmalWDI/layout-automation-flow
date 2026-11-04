@@ -1,0 +1,823 @@
+{
+  "run_id": "2026-11-04T18:48:44-c78671d4",
+  "design": "ota5t_gui_new",
+  "s5_run_id": "2026-11-04T18:47:45-28b71f43",
+  "ac_grounds": [
+    "VDD",
+    "VSS",
+    "net2"
+  ],
+  "mim_self": {},
+  "layouts": {
+    "budget_aware": {
+      "netlists": {
+        "lvs": "outputs/S6/ota5t_gui_new/budget_aware/ota5t_gui_new_routed_lvs.spice",
+        "pex_c": "outputs/S6/ota5t_gui_new/budget_aware/ota5t_gui_new_routed_pex.spice",
+        "pex_rc": "outputs/S6/ota5t_gui_new/budget_aware/ota5t_gui_new_routed_pexrc.spice"
+      },
+      "lvs": {
+        "match": true,
+        "inner_nets_as_ports": 2,
+        "symmetric_relabel": {},
+        "other_pin_errors": [],
+        "report": "outputs/S6/ota5t_gui_new/budget_aware/lvs_report.txt"
+      },
+      "n_caps": 19,
+      "n_resistors_rc": 34320,
+      "unassigned_caps": [],
+      "net_fF": {
+        "net3": 4.6956,
+        "net1": 11.8676,
+        "INP": 0.0061,
+        "INN": 0.0064,
+        "OUTP": 5.5271
+      },
+      "coupling_fF": {
+        "OUTP~net3": 0.5999,
+        "INN~INP": 0.0075,
+        "OUTP~net1": 1.3192,
+        "net1~net3": 1.3193,
+        "INP~OUTP": 0.0,
+        "INN~OUTP": 1.0891,
+        "INP~net3": 1.0892,
+        "INP~net1": 1.4662,
+        "INN~net3": 0.0,
+        "INN~net1": 1.4309
+      },
+      "c_only_vs_ext": {
+        "netlist_total_fF": 52.187,
+        "ext_total_fF": 53.488,
+        "netlist_short_of_ext": 0.0243,
+        "complete": true,
+        "tolerance": 0.05,
+        "substrate_net": "VSS",
+        "ext_net_fF_approx": {
+          "INN": 1.2432,
+          "net1": 9.3443,
+          "INP": 1.2149,
+          "OUTP": 2.851,
+          "net3": 8.2066
+        },
+        "nets_without_ground_C_in_netlist": [],
+        "nets_short_in_netlist": {
+          "INN": [
+            0.0064,
+            1.2432
+          ],
+          "INP": [
+            0.0061,
+            1.2149
+          ],
+          "net3": [
+            4.6956,
+            8.2066
+          ]
+        }
+      },
+      "budgets": {
+        "rows": [
+          {
+            "id": "OUTP",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 5.5271,
+            "budget": 0.1291,
+            "use": 42.8202,
+            "ok": false,
+            "source": "extracted (C-only netlist)"
+          },
+          {
+            "id": "net1",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 11.8676,
+            "budget": 77.7624,
+            "use": 0.1526,
+            "ok": true,
+            "source": "extracted (C-only netlist)"
+          },
+          {
+            "id": "net3",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 8.2066,
+            "budget": 0.2392,
+            "use": 34.3124,
+            "ok": false,
+            "source": "extracted (.ext; the C-only netlist has 4.6956 fF)"
+          },
+          {
+            "id": "OUTP~net1",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.3192,
+            "budget": 0.0302,
+            "use": 43.7024,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "OUTP~net3",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.5999,
+            "budget": 0.025,
+            "use": 24.0177,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "OUTP~INP",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.0,
+            "budget": 0.0069,
+            "use": 0.0,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "OUTP~INN",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.0891,
+            "budget": 0.0216,
+            "use": 50.4611,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "net1~net3",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.3193,
+            "budget": 0.0366,
+            "use": 36.0924,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "net1~INP",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.4662,
+            "budget": 0.0216,
+            "use": 67.9333,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "net1~INN",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.4309,
+            "budget": 6.286,
+            "use": 0.2276,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "net3~INP",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.0892,
+            "budget": 0.0216,
+            "use": 50.4658,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "net3~INN",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.0,
+            "budget": 0.0069,
+            "use": 0.0,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "XM3.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 40.6318,
+            "budget": 331.7732,
+            "use": 0.1225,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM3.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 85.7833,
+            "budget": 783.2887,
+            "use": 0.1095,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM3.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 42.5378,
+            "budget": 331.7732,
+            "use": 0.1282,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM4.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 34.8568,
+            "budget": 1.1391,
+            "use": 30.5994,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM4.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 85.7833,
+            "budget": 2.6894,
+            "use": 31.8968,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM4.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 42.5378,
+            "budget": 1.1391,
+            "use": 37.3422,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM1.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 25.3156,
+            "budget": 0.7092,
+            "use": 35.6967,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM1.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 91.935,
+            "budget": 9.8232,
+            "use": 9.3589,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM1.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 17.4733,
+            "budget": 0.7092,
+            "use": 24.6385,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM2.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 19.5406,
+            "budget": 0.7092,
+            "use": 27.5535,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM2.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 91.935,
+            "budget": 9.8232,
+            "use": 9.3589,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM2.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 17.4733,
+            "budget": 0.7092,
+            "use": 24.6385,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM5.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 18.6096,
+            "budget": 0.6896,
+            "use": 26.9864,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM5.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 140.135,
+            "budget": 523.5625,
+            "use": 0.2677,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM5.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 24.3386,
+            "budget": 0.4837,
+            "use": 50.313,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          }
+        ],
+        "violations": [
+          "OUTP",
+          "net3",
+          "OUTP~net1",
+          "OUTP~net3",
+          "OUTP~INN",
+          "net1~net3",
+          "net1~INP",
+          "net3~INP",
+          "XM4.d",
+          "XM4.g",
+          "XM4.s",
+          "XM1.d",
+          "XM1.g",
+          "XM1.s",
+          "XM2.d",
+          "XM2.g",
+          "XM2.s",
+          "XM5.d",
+          "XM5.s"
+        ],
+        "unbudgeted_couplings_fF": {
+          "INN~INP": 0.0075
+        }
+      },
+      "kpex": {
+        "ran": true,
+        "netlist": "outputs/S6/ota5t_gui_new/budget_aware/kpex/ota5t_gui_new_routed__ota5t_gui_new_routed/ota5t_gui_new_routed_k25d_pex_netlist.spice",
+        "kpex_lvs_matched": false,
+        "unnamed_nets": [
+          "$12",
+          "$4"
+        ],
+        "net_fF": {
+          "INN": {
+            "magic": 0.0064,
+            "kpex": 1.2932
+          },
+          "INP": {
+            "magic": 0.0061,
+            "kpex": 1.2734
+          },
+          "OUTP": {
+            "magic": 5.5271,
+            "kpex": 2.9436
+          }
+        },
+        "coupling_fF": {
+          "INN~INP": {
+            "magic": 0.0075,
+            "kpex": 0.0203
+          },
+          "INN~OUTP": {
+            "magic": 1.0891,
+            "kpex": 1.2704
+          }
+        },
+        "total_fF": {
+          "magic": 30.424,
+          "kpex": 33.065
+        }
+      },
+      "mim_corrected_rows": []
+    },
+    "area_only": {
+      "netlists": {
+        "lvs": "outputs/S6/ota5t_gui_new/area_only/ota5t_gui_new_routed_lvs.spice",
+        "pex_c": "outputs/S6/ota5t_gui_new/area_only/ota5t_gui_new_routed_pex.spice",
+        "pex_rc": "outputs/S6/ota5t_gui_new/area_only/ota5t_gui_new_routed_pexrc.spice"
+      },
+      "lvs": {
+        "match": true,
+        "inner_nets_as_ports": 2,
+        "symmetric_relabel": {},
+        "other_pin_errors": [],
+        "report": "outputs/S6/ota5t_gui_new/area_only/lvs_report.txt"
+      },
+      "n_caps": 20,
+      "n_resistors_rc": 34760,
+      "unassigned_caps": [],
+      "net_fF": {
+        "net1": 15.2193,
+        "net3": 5.3035,
+        "INN": 0.0036,
+        "INP": 0.0655,
+        "OUTP": 6.7872
+      },
+      "coupling_fF": {
+        "OUTP~net3": 1.0998,
+        "INN~INP": 0.0023,
+        "OUTP~net1": 2.3667,
+        "net1~net3": 1.4769,
+        "INP~OUTP": 0.1802,
+        "INN~OUTP": 1.2682,
+        "INP~net3": 1.2487,
+        "INP~net1": 1.432,
+        "INN~net3": 0.0358,
+        "INN~net1": 1.4576
+      },
+      "c_only_vs_ext": {
+        "netlist_total_fF": 60.183,
+        "ext_total_fF": 61.524,
+        "netlist_short_of_ext": 0.0218,
+        "complete": true,
+        "tolerance": 0.05,
+        "substrate_net": "VSS",
+        "ext_net_fF_approx": {
+          "INN": 1.2533,
+          "net1": 12.727,
+          "INP": 1.1181,
+          "OUTP": 3.9476,
+          "net3": 9.2066
+        },
+        "nets_without_ground_C_in_netlist": [],
+        "nets_short_in_netlist": {
+          "INN": [
+            0.0036,
+            1.2533
+          ],
+          "INP": [
+            0.0655,
+            1.1181
+          ],
+          "net3": [
+            5.3035,
+            9.2066
+          ]
+        }
+      },
+      "budgets": {
+        "rows": [
+          {
+            "id": "OUTP",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 6.7872,
+            "budget": 0.1291,
+            "use": 52.5826,
+            "ok": false,
+            "source": "extracted (C-only netlist)"
+          },
+          {
+            "id": "net1",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 15.2193,
+            "budget": 77.7624,
+            "use": 0.1957,
+            "ok": true,
+            "source": "extracted (C-only netlist)"
+          },
+          {
+            "id": "net3",
+            "kind": "net_capacitance",
+            "units": "fF",
+            "value": 9.2066,
+            "budget": 0.2392,
+            "use": 38.4935,
+            "ok": false,
+            "source": "extracted (.ext; the C-only netlist has 5.3035 fF)"
+          },
+          {
+            "id": "OUTP~net1",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 2.3667,
+            "budget": 0.0302,
+            "use": 78.4039,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "OUTP~net3",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.0998,
+            "budget": 0.025,
+            "use": 44.0318,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "OUTP~INP",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.1802,
+            "budget": 0.0069,
+            "use": 26.2635,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "OUTP~INN",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.2682,
+            "budget": 0.0216,
+            "use": 58.7594,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "net1~net3",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.4769,
+            "budget": 0.0366,
+            "use": 40.404,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "net1~INP",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.432,
+            "budget": 0.0216,
+            "use": 66.3487,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "net1~INN",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.4576,
+            "budget": 6.286,
+            "use": 0.2319,
+            "ok": true,
+            "source": "extracted"
+          },
+          {
+            "id": "net3~INP",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 1.2487,
+            "budget": 0.0216,
+            "use": 57.8559,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "net3~INN",
+            "kind": "coupling",
+            "units": "fF",
+            "value": 0.0358,
+            "budget": 0.0069,
+            "use": 5.2177,
+            "ok": false,
+            "source": "extracted"
+          },
+          {
+            "id": "XM3.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 42.1828,
+            "budget": 331.7732,
+            "use": 0.1271,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM3.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 87.3343,
+            "budget": 783.2887,
+            "use": 0.1115,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM3.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 43.0978,
+            "budget": 331.7732,
+            "use": 0.1299,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM4.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 39.1638,
+            "budget": 1.1391,
+            "use": 34.3803,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM4.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 87.3343,
+            "budget": 2.6894,
+            "use": 32.4735,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM4.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 43.0978,
+            "budget": 1.1391,
+            "use": 37.8338,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM1.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 26.8666,
+            "budget": 0.7092,
+            "use": 37.8837,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM1.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 91.935,
+            "budget": 9.8232,
+            "use": 9.3589,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM1.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 24.4583,
+            "budget": 0.7092,
+            "use": 34.4878,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM2.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 23.8476,
+            "budget": 0.7092,
+            "use": 33.6267,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM2.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 91.935,
+            "budget": 9.8232,
+            "use": 9.3589,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM2.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 24.4583,
+            "budget": 0.7092,
+            "use": 34.4878,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM5.d",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 25.5946,
+            "budget": 0.6896,
+            "use": 37.1156,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM5.g",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 140.135,
+            "budget": 523.5625,
+            "use": 0.2677,
+            "ok": true,
+            "source": "S3 access R + S5 top-level wires and vias"
+          },
+          {
+            "id": "XM5.s",
+            "kind": "terminal_resistance",
+            "units": "ohm",
+            "value": 27.3606,
+            "budget": 0.4837,
+            "use": 56.5601,
+            "ok": false,
+            "source": "S3 access R + S5 top-level wires and vias"
+          }
+        ],
+        "violations": [
+          "OUTP",
+          "net3",
+          "OUTP~net1",
+          "OUTP~net3",
+          "OUTP~INP",
+          "OUTP~INN",
+          "net1~net3",
+          "net1~INP",
+          "net3~INP",
+          "net3~INN",
+          "XM4.d",
+          "XM4.g",
+          "XM4.s",
+          "XM1.d",
+          "XM1.g",
+          "XM1.s",
+          "XM2.d",
+          "XM2.g",
+          "XM2.s",
+          "XM5.d",
+          "XM5.s"
+        ],
+        "unbudgeted_couplings_fF": {
+          "INN~INP": 0.0023
+        }
+      },
+      "kpex": {
+        "ran": true,
+        "netlist": "outputs/S6/ota5t_gui_new/area_only/kpex/ota5t_gui_new_routed__ota5t_gui_new_routed/ota5t_gui_new_routed_k25d_pex_netlist.spice",
+        "kpex_lvs_matched": false,
+        "unnamed_nets": [
+          "$20",
+          "$4"
+        ],
+        "net_fF": {
+          "INN": {
+            "magic": 0.0036,
+            "kpex": 1.3509
+          },
+          "INP": {
+            "magic": 0.0655,
+            "kpex": 1.1804
+          },
+          "OUTP": {
+            "magic": 6.7872,
+            "kpex": 4.2006
+          }
+        },
+        "coupling_fF": {
+          "INN~INP": {
+            "magic": 0.0023,
+            "kpex": 0.0016
+          },
+          "INN~OUTP": {
+            "magic": 1.2682,
+            "kpex": 1.4839
+          },
+          "INP~OUTP": {
+            "magic": 0.1802,
+            "kpex": 0.2161
+          }
+        },
+        "total_fF": {
+          "magic": 37.947,
+          "kpex": 41.571
+        }
+      },
+      "mim_corrected_rows": []
+    }
+  }
+}

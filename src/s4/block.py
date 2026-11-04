@@ -35,6 +35,10 @@ SLOT_MIN = 0.26      # a stub's distance from its unit's edge, and the least dis
 STUB_W = 0.2         # met2 stub width
 VIA1 = (0.26, 0.32)  # m2c (via1 with its met1/met2 surround), as in src/s3/strap.py
 PATCH = 0.36         # met1 patch under a via1 on a met1 pin
+STAGGER = 0.5        # a met1 strip's via1 patch raised this far along its strip, clear of its neighbour's (row 94):
+                     # vertical gap STAGGER - PATCH = 0.14 um, so the patches clear met1.2 at any facing distance
+STAGGER_MIN_DX = 0.37   # stubs at least this far apart: a met2 stub (0.2) passes the other's via1 surround (0.26) at
+                        # 0.14 um (met2.2)
 VIA2 = 0.4           # m3c (via2 with surround), square
 TRACK_W = 0.4        # met3 track width
 PITCH = 0.9          # between track centres
@@ -50,9 +54,27 @@ MET_SPACE = 0.3      # met3 and met4 spacing around a capacitor's keep-outs (S5'
 CAPM_SPACE = 1.45    # from the MIM top plate (capm) to any met3 it does not own: capm.11 asks 1.34
 
 
-def unit_pins(rec: dict) -> dict:
+_LL = {}
+
+
+def cell_lower_left(rec: dict) -> tuple:
+    """The lower-left corner (um) of a unit cell's bounding box, from its GDS. Magic's getcell places a cell by its
+    bounding box, so a pin at x in the cell lands at x - left in the block (flow record row 95)."""
+    if rec["gds"] not in _LL:
+        import klayout.db as kdb
+        ly = kdb.Layout()
+        ly.read(str(REPO / rec["gds"]))
+        b = ly.top_cell().dbbox()
+        _LL[rec["gds"]] = (round(b.left, 4), round(b.bottom, 4))
+    return _LL[rec["gds"]]
+
+
+def unit_pins(rec: dict, bbox_origin: bool = False) -> dict:
     """{name: {'layer', 'rect'}} of a unit cell, from its .mag labels; a single-finger strip label (met1, mid-height)
-    is widened to the whole strip from S3's geometry record."""
+    is widened to the whole strip from S3's geometry record. bbox_origin (layout.yaml `pin_origin: bbox`, flow record
+    row 95): the pins measured from the cell's bounding-box corner, where Magic places it; without it, from the
+    cell's origin, as S4 did for every design up to 2026-11-04 (their cells' corner is at about (-0.125, -0.02) um,
+    so their stubs land up to 0.125 um off their strips' centres, still on the strips; DRC and LVS signed them off)."""
     cell = rec["cell"]
     if rec.get("pins"):   # a unit that is not an S3 transistor cell (a resistor) carries its pins (plan v4 Phase 8)
         return {k: dict(v) for k, v in rec["pins"].items()}
@@ -71,6 +93,11 @@ def unit_pins(rec: dict) -> dict:
             p["rect"] = [s["x0"], s["y0"], s["x1"], s["y1"]]
     if not {"D", "G", "S"} <= set(pins):
         raise RuntimeError(f"{cell}: pins {sorted(pins)} lack D, G or S")
+    if bbox_origin:
+        lx, ly = cell_lower_left(rec)
+        for p in pins.values():
+            x0, y0, x1, y1 = p["rect"]
+            p["rect"] = [round(x0 - lx, 4), round(y0 - ly, 4), round(x1 - lx, 4), round(y1 - ly, 4)]
     return pins
 
 
@@ -96,8 +123,9 @@ def stub_plan(pins: dict, w: float, h: float) -> dict:
         x = max(cands, key=lambda c: (min([abs(c - t_) for t_ in taken] or [1e9]), -abs(c - (lo + hi) / 2)))
         plan[t] = {"x": x, "side": side, "kind": "met2"}
     def clash(side):   # two via1 patches (PATCH wide) need met1's 0.14 um between them (plan v4 Phase 8: was
-        xs = sorted(v["x"] for v in plan.values() if v["side"] == side)   # 2 SLOT_MIN = 0.52, a stricter margin)
-        return any(b - a < PATCH + 0.14 - 1e-9 for a, b in zip(xs, xs[1:]))
+        # 2 SLOT_MIN = 0.52, a stricter margin); a staggered pair (row 94) stands apart in y, so it does not clash
+        xs = sorted((v["x"], bool(v.get("stagger"))) for v in plan.values() if v["side"] == side)
+        return any(b - a < PATCH + 0.14 - 1e-9 and not (sa or sb) for (a, sa), (b, sb) in zip(xs, xs[1:]))
     # a single-finger strip runs the cell's whole height: when its stub at the bottom comes too close to another
     # (a gate pad at the bottom, ttsky25a_fd's L = 2 cells), it is taken at the top instead (plan v4 Phase 8)
     for t in ("D", "S"):
@@ -107,6 +135,17 @@ def stub_plan(pins: dict, w: float, h: float) -> dict:
                 plan[t]["side"] = "top"
                 if clash("top"):
                     plan[t]["side"] = "bottom"
+    # two met1 strips' stubs on one side too close for two facing patches (iadc_ota's single-finger W 1.2 / L 0.2
+    # cell: 0.49 um apart, 0.50 needed): the second patch is raised STAGGER along its strip, so the two patches stand
+    # apart diagonally (met1 is checked euclidean) and the met2 stub passes the other's via1 at >= 0.14 um (stubs at
+    # least STAGGER_MIN_DX apart). Only where S4 would otherwise stop; block DRC signs it off (flow record row 94).
+    for side in ("top", "bottom"):
+        on = sorted((v["x"], t) for t, v in plan.items() if v["side"] == side)
+        for (xa, ta), (xb, tb) in zip(on, on[1:]):
+            if (STAGGER_MIN_DX - 1e-9 <= xb - xa < PATCH + 0.14 - 1e-9 and plan[ta]["kind"] == plan[tb]["kind"] == "met1"
+                    and ta in ("D", "S") and tb in ("D", "S") and not plan[ta].get("stagger")
+                    and pins[tb]["rect"][3] - pins[tb]["rect"][1] >= STAGGER + PATCH + 0.05):
+                plan[tb]["stagger"] = STAGGER
     for side in ("top", "bottom"):
         if clash(side):
             xs = sorted(v["x"] for v in plan.values() if v["side"] == side)
@@ -114,7 +153,7 @@ def stub_plan(pins: dict, w: float, h: float) -> dict:
     return plan
 
 
-def layout(units: list, tap_limit: float | None = None, internal: set | None = None) -> dict:
+def layout(units: list, tap_limit: float | None = None, internal: set | None = None, bbox_origin: bool = False) -> dict:
     """units: [{'device', 'rec', 'mirror', 'nets': {'D','G','S'}}] left to right. Returns the geometry: unit origins,
     the stubs (x, pin edge, side, net), the tracks per side, the ring box, the tap strips and the block's extent.
     With tap_limit (S2's place.latchup_tap_distance), a strip goes between two units wherever the taps on either side
@@ -122,7 +161,7 @@ def layout(units: list, tap_limit: float | None = None, internal: set | None = N
     plans = []
     for u in units:
         w, h = u["rec"]["geometry"]["bbox_um"]
-        pins = unit_pins(u["rec"])
+        pins = unit_pins(u["rec"], bbox_origin)
         plans.append((u, w, h, pins, stub_plan(pins, w, h)))
     sides = {}
     for u, *_, sp in plans:
@@ -154,7 +193,8 @@ def layout(units: list, tap_limit: float | None = None, internal: set | None = N
         for t, s in sp.items():
             x0, y0, x1, y1 = pins[t]["rect"]
             stubs.append({"device": u["device"], "term": t, "net": u["nets"][t], "x": gx(s["x"]), "side": s["side"],
-                          "kind": s["kind"], "edge": y1 if s["side"] == "top" else y0, "pin_rect_y": [y0, y1]})
+                          "kind": s["kind"], "edge": y1 if s["side"] == "top" else y0, "pin_rect_y": [y0, y1],
+                          **({"stagger": s["stagger"]} if s.get("stagger") else {})})
         placed.append({**u, "x": round(x, 3), "w": w, "h": h, "stubs": stubs})
         x += w + GAP
     row_w, row_h = round(x - GAP, 3), max(p["h"] for p in placed)
@@ -217,7 +257,7 @@ def tcl(name: str, geo: dict, dtype: str, body_net: str) -> str:
             ty = geo["tracks"][s["side"]][s["net"]]
             x, up = s["x"], s["side"] == "top"
             if s["kind"] == "met1":   # met1 patch with a via1: outward from a gate pad, inside a strip's end
-                back = 0.2 if s["term"] == "G" else PATCH
+                back = (0.2 if s["term"] == "G" else PATCH) + s.get("stagger", 0.0)   # a staggered patch: row 94
                 y_in = s["edge"] - back if up else s["edge"] + back
                 y_out = y_in + PATCH if up else y_in - PATCH
                 c += [_b(x - PATCH / 2, min(y_in, y_out), x + PATCH / 2, max(y_in, y_out)), "paint metal1"]
@@ -228,6 +268,18 @@ def tcl(name: str, geo: dict, dtype: str, body_net: str) -> str:
                 y_from = s["edge"] - 0.1 if up else s["edge"] + 0.1
             c += [_b(x - STUB_W / 2, min(y_from, ty), x + STUB_W / 2, max(y_from, ty)), "paint metal2"]
             c += [_b(x - VIA2 / 2, ty - VIA2 / 2, x + VIA2 / 2, ty + VIA2 / 2), "paint m3c"]
+    # two stubs of one net on one track closer than two via2 squares allow (a staggered pair, row 94): their via2
+    # landings are joined by met2, one shape, so met2.2 has nothing to check between them (row 95)
+    on_track = {}
+    for u in geo["units"]:
+        for s in u["stubs"]:
+            on_track.setdefault((s["side"], s["net"]), []).append(s["x"])
+    for (side, net), xs in on_track.items():
+        ty = geo["tracks"][side][net]
+        xs = sorted(xs)
+        for a, b in zip(xs, xs[1:]):
+            if 1e-9 < b - a < PATCH + 0.14 - 1e-9:
+                c += [_b(a, ty - VIA2 / 2, b, ty + VIA2 / 2), "paint metal2"]
     for net, cx in geo.get("columns", {}).items():
         yb, yt = geo["tracks"]["bottom"][net], geo["tracks"]["top"][net]
         c += [_b(cx - STUB_W / 2, yb, cx + STUB_W / 2, yt), "paint metal2"]

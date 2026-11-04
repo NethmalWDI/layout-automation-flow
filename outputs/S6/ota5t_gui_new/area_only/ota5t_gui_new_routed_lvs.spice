@@ -1,0 +1,12 @@
+* NGSPICE file created from ota5t_gui_new_routed_flat.ext - technology: sky130A
+
+.subckt ota5t_gui_new_routed_flat OUTP INN INP VBIAS VDD VSS XM4__A_0.net3 XM5__A_0.net1
+X0 XM5__A_0.net1 INP XM4__A_0.net3 VSS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=1.74 ps=12.29 w=12 l=0.5
+X1 XM5__A_0.net1 INN OUTP VSS sky130_fd_pr__nfet_01v8 ad=3.48 pd=24.58 as=1.74 ps=12.29 w=12 l=0.5
+X2 VSS VBIAS XM5__A_0.net1 VSS sky130_fd_pr__nfet_01v8 ad=6.96 pd=48.58 as=6.96 ps=48.58 w=24 l=1
+X3 XM4__A_0.net3 INP XM5__A_0.net1 VSS sky130_fd_pr__nfet_01v8 ad=1.74 pd=12.29 as=3.48 ps=24.58 w=12 l=0.5
+X4 OUTP INN XM5__A_0.net1 VSS sky130_fd_pr__nfet_01v8 ad=1.74 pd=12.29 as=3.48 ps=24.58 w=12 l=0.5
+X5 VDD XM4__A_0.net3 OUTP VDD sky130_fd_pr__pfet_01v8 ad=2.32 pd=16.58 as=2.32 ps=16.58 w=8 l=1
+X6 VDD XM4__A_0.net3 XM4__A_0.net3 VDD sky130_fd_pr__pfet_01v8 ad=2.32 pd=16.58 as=2.32 ps=16.58 w=8 l=1
+.ends
+

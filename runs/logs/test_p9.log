@@ -1,0 +1,105 @@
+..........FF............................................................ [ 37%]
+........................................................................ [ 75%]
+................................................                         [100%]
+=================================== FAILURES ===================================
+____________________ test_outputs_match_golden[iadc_ota-S2] ____________________
+
+design = 'iadc_ota', stage = 'S2'
+
+    @pytest.mark.parametrize("design,stage", CASES)
+    def test_outputs_match_golden(design, stage):
+        diffs = golden.compare(design, stage)
+>       assert not diffs, f"{design} {stage}: " + "; ".join(diffs[:10])
+E       AssertionError: iadc_ota S2: budget.XX1_M1.d: 1.07356 -> 0.462402; budget.XX1_M1.g: 1.26112 -> 0.553796; budget.XX1_M1.s: 1.07356 -> 0.462402; budget.XX1_M2.d: 1.11759 -> 0.506879; budget.XX1_M2.g: 0.978178 -> 0.459083; budget.XX1_M2.s: 0.96449 -> 0.440392; budget.XX1_M21.d: 0.553403 -> 0.715312; budget.XX1_M21.g: 234.219 -> 216.491; budget.XX1_M21.s: 0.553403 -> 0.715312; budget.XX1_M22.d: 0.553403 -> 0.715312
+E       assert not ['budget.XX1_M1.d: 1.07356 -> 0.462402', 'budget.XX1_M1.g: 1.26112 -> 0.553796', 'budget.XX1_M1.s: 1.07356 -> 0.462402...t.XX1_M2.d: 1.11759 -> 0.506879', 'budget.XX1_M2.g: 0.978178 -> 0.459083', 'budget.XX1_M2.s: 0.96449 -> 0.440392', ...]
+
+tests/test_golden.py:17: AssertionError
+____________________ test_outputs_match_golden[iadc_ota-S3] ____________________
+
+design = 'iadc_ota', stage = 'S3'
+
+    @pytest.mark.parametrize("design,stage", CASES)
+    def test_outputs_match_golden(design, stage):
+        diffs = golden.compare(design, stage)
+>       assert not diffs, f"{design} {stage}: " + "; ".join(diffs[:10])
+E       AssertionError: iadc_ota S3: area.nfet_01v8_W1p4_L0p6_m1: 8.306 -> 3.318; area.nfet_01v8_W1p4_L0p6_m18: 149.508 -> 59.724; area.nfet_01v8_W1p4_L0p6_m2: 16.612 -> 6.636; area.nfet_01v8_W1p4_L0p6_m23: 191.038 -> 65.458; area.nfet_01v8_W1p4_L0p6_m36: 299.016 -> 119.448; area.nfet_01v8_W1p4_L0p6_m4: 33.224 -> 11.384; area.nfet_01v8_W1p4_L0p6_m50: 415.3 -> 165.9; area.nfet_01v8_W1p4_L0p6_m6: 49.836 -> 17.076; area.nfet_01v8_W1p4_L0p6_m8: 66.448 -> 22.768; area.nfet_01v8_W1p4_L0p6_m96: 797.376 -> 318.528
+E       assert not ['area.nfet_01v8_W1p4_L0p6_m1: 8.306 -> 3.318', 'area.nfet_01v8_W1p4_L0p6_m18: 149.508 -> 59.724', 'area.nfet_01v8_W1p...8 -> 65.458', 'area.nfet_01v8_W1p4_L0p6_m36: 299.016 -> 119.448', 'area.nfet_01v8_W1p4_L0p6_m4: 33.224 -> 11.384', ...]
+
+tests/test_golden.py:17: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_golden.py::test_outputs_match_golden[iadc_ota-S2] - Asserti...
+FAILED tests/test_golden.py::test_outputs_match_golden[iadc_ota-S3] - Asserti...
+2 failed, 190 passed in 23.63s
+== unit tests
+== golden example_ota_5t S0: OK
+== golden example_ota_5t S1: OK
+== golden example_ota_5t S2: OK
+== golden example_ota_5t S3: OK
+== golden example_ota_5t S4: OK
+== golden example_ota_5t S5: OK
+== golden example_ota_5t S6: OK
+== golden example_ota_5t S7: OK
+== golden iadc_ota S0: OK
+== golden iadc_ota S1: OK
+== golden iadc_ota S2: 647 differences
+    budget.XX1_M1.d: 1.07356 -> 0.462402
+    budget.XX1_M1.g: 1.26112 -> 0.553796
+    budget.XX1_M1.s: 1.07356 -> 0.462402
+    budget.XX1_M2.d: 1.11759 -> 0.506879
+    budget.XX1_M2.g: 0.978178 -> 0.459083
+    budget.XX1_M2.s: 0.96449 -> 0.440392
+    budget.XX1_M21.d: 0.553403 -> 0.715312
+    budget.XX1_M21.g: 234.219 -> 216.491
+    budget.XX1_M21.s: 0.553403 -> 0.715312
+    budget.XX1_M22.d: 0.553403 -> 0.715312
+    budget.XX1_M22.g: 0.391903 -> 0.493928
+    budget.XX1_M22.s: 0.553403 -> 0.715312
+    budget.XX1_M25.d: 0.553403 -> 0.715312
+    budget.XX1_M25.g: 0.453112 -> 0.568507
+    budget.XX1_M25.s: 0.553403 -> 0.715312
+    budget.XX1_M26.d: 0.553403 -> 0.715312
+    budget.XX1_M26.g: 0.452629 -> 0.567572
+    budget.XX1_M26.s: 0.553403 -> 0.715312
+    budget.XX1_M3.d: 0.467406 -> 0.637529
+    budget.XX1_M3.g: 0.809609 -> 1.10481
+== golden iadc_ota S3: 32 differences
+    area.nfet_01v8_W1p4_L0p6_m1: 8.306 -> 3.318
+    area.nfet_01v8_W1p4_L0p6_m18: 149.508 -> 59.724
+    area.nfet_01v8_W1p4_L0p6_m2: 16.612 -> 6.636
+    area.nfet_01v8_W1p4_L0p6_m23: 191.038 -> 65.458
+    area.nfet_01v8_W1p4_L0p6_m36: 299.016 -> 119.448
+    area.nfet_01v8_W1p4_L0p6_m4: 33.224 -> 11.384
+    area.nfet_01v8_W1p4_L0p6_m50: 415.3 -> 165.9
+    area.nfet_01v8_W1p4_L0p6_m6: 49.836 -> 17.076
+    area.nfet_01v8_W1p4_L0p6_m8: 66.448 -> 22.768
+    area.nfet_01v8_W1p4_L0p6_m96: 797.376 -> 318.528
+    area.nfet_01v8_lvt_W1p2_L0p2_m2: 13.08 -> 3.79
+    area.nfet_01v8_lvt_W1p2_L0p2_m6: 39.24 -> 13.104
+    area.nfet_01v8_lvt_W1p4_L0p6_m56: 465.136 -> 185.808
+    area.nfet_01v8_lvt_W1p4_L0p6_m8: 66.448 -> 23.336
+    area.pfet_01v8_W1p4_L0p6_m2: 18.38 -> 6.822
+    area.pfet_01v8_W1p4_L0p6_m20: 183.8 -> 74.22
+    area.pfet_01v8_W1p4_L0p6_m4: 36.76 -> 13.644
+    area.pfet_01v8_W1p4_L0p6_m6: 55.14 -> 22.266
+    area.pfet_01v8_lvt_W1p4_L0p6_m2: 18.38 -> 6.822
+    area.pfet_01v8_lvt_W1p4_L0p6_m24: 220.56 -> 89.064
+== golden loadbench_miller S0: OK
+== golden loadbench_miller S1: OK
+== golden loadbench_miller S2: OK
+== golden loadbench_miller S3: OK
+== golden loadbench_miller S4: OK
+== golden loadbench_miller S5: OK
+== golden loadbench_miller S6: OK
+== golden loadbench_miller S7: OK
+== golden ota5t_stress S0: OK
+== golden ota5t_stress S1: OK
+== golden ota5t_stress S2: OK
+== golden ota5t_stress S3: OK
+== golden ttsky25a_fd S0: OK
+== golden ttsky25a_fd S1: OK
+== golden ttsky25a_fd S2: OK
+== golden ttsky25a_fd S3: OK
+== golden ttsky25a_fd S4: OK
+== golden ttsky25a_fd S5: OK
+== golden ttsky25a_fd S6: OK
+== golden ttsky25a_fd S7: OK

@@ -1,0 +1,21 @@
+* NGSPICE file created from nmos_dummy_5__A.ext - technology: sky130A
+
+.subckt sky130_fd_pr__nfet_01v8_RUA5M6 G D S VSUBS
+X0 S G D VSUBS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+.ends
+
+.subckt nfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng B S G D
+Xnfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng_pc G D S B sky130_fd_pr__nfet_01v8_RUA5M6
+.ends
+
+.subckt nmos_dummy_5__A bias_d VSS_body
+Xnfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng_0 VSS_body bias_d bias_d bias_d nfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng_1 VSS_body bias_d bias_d bias_d nfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng_2 VSS_body bias_d bias_d bias_d nfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng_3 VSS_body bias_d bias_d bias_d nfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng_5 VSS_body bias_d bias_d bias_d nfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng_4 VSS_body bias_d bias_d bias_d nfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng_6 VSS_body bias_d bias_d bias_d nfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng
+Xnfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng_7 VSS_body bias_d bias_d bias_d nfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng
+.ends
+
