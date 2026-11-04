@@ -11,10 +11,8 @@ getcell nmos_differential_pair__AB
 box -3.3600um -58.0350um -3.3600um -58.0350um
 getcell nmos_current_mirror_bias__A
 tech unlock *
-box -1.0000um -35.8150um -0.6000um -1.1000um
+box -1.0000um -35.8150um -0.6000um -11.9150um
 paint metal4
-box -1.0000um -1.5000um -0.6000um -1.1000um
-paint via3
 box -1.0000um -12.3150um -0.6000um -11.9150um
 paint via3
 box -1.0000um -35.8150um -0.6000um -35.4150um

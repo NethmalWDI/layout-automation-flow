@@ -90,6 +90,23 @@ def wrapped(bench_txt: str, netlist: str, cell: str, ir: dict, nmap: dict, nets:
     return txt.replace("\n.end\n", "\n" + body + "\n.end\n") if "\n.end\n" in txt else txt + body
 
 
+def mim_cancelled(netlist: str, mims: dict) -> str | None:
+    """The R+C netlist with each MIM device's plate-to-plate coupling, as S6 extracted it from the capacitor block alone
+    (G6.5), cancelled by an equal negative capacitor across the device's own two terminals; None without one."""
+    lines, n = netlist.splitlines(), 0
+    found = [ln for ln in lines if len(ln.split()) > 3 and ln[:1] in "Xx" and
+             ln.split()[3] in {m["model"] for m in mims.values()}]
+    if len(found) != 1 or len(mims) != 1:   # more than one MIM: which coupling belongs to which device is not known
+        return None
+    for i, ln in enumerate(list(lines)):
+        t = ln.split()
+        for m in mims.values():
+            if len(t) > 3 and t[0][:1] in "Xx" and t[3] == m["model"] and m["plate_coupling_fF"] > 0:
+                lines.insert(i + 1 + n, f"Cmimself{n} {t[1]} {t[2]} -{m['plate_coupling_fF']}f")
+                n += 1
+    return "\n".join(lines) + "\n" if n else None
+
+
 def run_view(job):
     txt, work, kind = job
     r = run_ngspice_text(txt, work, kind.lower(), cache=False, timeout=1800)
@@ -132,6 +149,15 @@ def main(argv=None) -> int:
                 jobs.append((wrapped(bench(tb, kind).read_text(), net, cell, ir, nmap, nets, inv),
                              out / "sim" / r / view / kind, kind))
                 keys.append((r, view, kind))
+    mims = s6p.get("mim_self") or {}
+    if mims:   # G7.5 (info): the post-layout AC with the capacitor's own plate coupling cancelled (S6's G6.5)
+        for r in RULES:
+            nl = s6p["layouts"][r]["netlists"].get("pex_rc")
+            fixed = mim_cancelled((REPO / nl).read_text(), mims) if nl else None
+            if fixed:
+                jobs.append((wrapped(bench(tb, "AC").read_text(), fixed, cell, ir, nmap, nets, inv),
+                             out / "sim" / r / "pex_rc_mim_cancelled" / "AC", "AC"))
+                keys.append((r, "pex_rc_mim_cancelled", "AC"))
     # a large deck (LOADBench's R+C netlist: 315 000 resistors, 79 MB) runs on its own: four at once ran the container
     # (5 GB) out of memory and the kernel killed the AC runs (flow record row 76)
     # an identical deck (both rules chose the same placement, as on LOADBench) is simulated once; its other folders get
@@ -161,11 +187,13 @@ def main(argv=None) -> int:
     sch = meas["schematic"]["schematic"]
     margins = ir["margins"]
     metrics = {}
+    missing = {}
     for r in RULES:
         post = meas.get(r, {}).get("pex_rc") or {}
         rows = {}
         for k, mg in margins.items():
             if post.get(k) is None or sch.get(k) is None:
+                missing.setdefault(r, []).append(k)        # a spec with no measurement fails G7.1, never passes
                 continue
             lost = (sch[k] - post[k]) if mg["kind"] == "min" else (post[k] - sch[k])
             allowed = eta * mg["margin"]
@@ -180,6 +208,20 @@ def main(argv=None) -> int:
                        "G2.0_predicted_frac": pred,
                        "G2.0_rel_error": None if (pred in (None, 0) or frac is None) else round((frac - pred) / pred, 4)}
         metrics[r] = rows
+    metrics_mim = {}
+    for r in RULES:
+        cm = meas.get(r, {}).get("pex_rc_mim_cancelled") or {}
+        rows = {}
+        for k in ("gain_db", "gbw_mhz", "pm_deg"):
+            mg = margins.get(k)
+            if mg is None or cm.get(k) is None or sch.get(k) is None:
+                continue
+            lost = (sch[k] - cm[k]) if mg["kind"] == "min" else (cm[k] - sch[k])
+            allowed = eta * mg["margin"]
+            rows[k] = {"value": cm[k], "lost": round(lost, 6), "use_of_allowed": round(lost / allowed, 4) if allowed else None,
+                       "within_allowed": lost <= allowed * (1 + TOL_USE)}
+        if rows:
+            metrics_mim[r] = rows
     ident = {"run_id": new_run_id(), "design": design, "s6_run_id": s6p.get("run_id"), "eta": eta, "TOL_USE": TOL_USE}
     write_json(out / "metrics.json", {**ident, "views": meas, "metrics": metrics, "failed_runs": failed,
                                       "not_evaluated": "device saturation (S2's sat_* checks); PVT points"})
@@ -187,15 +229,25 @@ def main(argv=None) -> int:
     s6r = json.loads((s6 / "s6_report.json").read_text())
     g62 = s6r["gates"]["G6.2_parasitics_within_budgets"]["pass"]
     gates = {
-        "G7.1_specs_met_post_layout": {"pass": bool(ba) and all(x["meets_spec"] for x in ba.values()) and not failed,
+        "G7.1_specs_met_post_layout": {"pass": bool(ba) and all(x["meets_spec"] for x in ba.values()) and
+                                       not missing.get("budget_aware") and
+                                       not [f for f in failed if f["view"] != "pex_rc_mim_cancelled"],
+                                       "missing_measurements": missing,
                                        "detail": {k: [x["post_layout_rc"], x["limit"], x["meets_spec"]] for k, x in ba.items()},
                                        "failed_runs": failed},
-        "G7.2_loss_within_eta_margin": {"pass": bool(ba) and all(x["within_allowed"] for x in ba.values()),
+        "G7.2_loss_within_eta_margin": {"pass": bool(ba) and not missing.get("budget_aware") and
+                                        all(x["within_allowed"] for x in ba.values()),
                                         "detail": {k: x["use_of_allowed"] for k, x in ba.items()}},
         "G7.3_G2.0_prediction (info)": {"pass": None, "detail": {k: [x["lost_frac_of_margin"], x["G2.0_predicted_frac"],
                                                                     x["G2.0_rel_error"]] for k, x in ba.items()},
                                         "note": "[post-layout loss / margin, G2.0's predicted share, relative error]; PREREG: within 25 %"},
         "G7.4_pvt (info)": {"pass": None, "note": "PVT points are not simulated post-layout here"},
+        "G7.5_mim_self_coupling_cancelled (info)": {
+            "pass": None, "capacitors": mims, "detail": metrics_mim,
+            "budget_aware_within_eta": (all(x["within_allowed"] for x in metrics_mim["budget_aware"].values())
+                                        if metrics_mim.get("budget_aware") else None),
+            "note": "the R+C AC run with each MIM capacitor's own plate-to-plate coupling cancelled (S6 G6.5: very likely "
+                    "counted twice by Magic's sky130 rules); G7.1 and G7.2 keep Magic's netlist"},
         "H4 (info)": {"pass": None, "G6.2": g62,
                       "G7.1_and_G7.2": bool(ba) and all(x["meets_spec"] and x["within_allowed"] for x in ba.values()),
                       "note": "H4 holds if G6.2 passing implies G7.1 and G7.2 passing"},

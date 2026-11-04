@@ -1,20 +1,21 @@
 $ /usr/bin/python3 -m src.s7.run inputs/example_ota_5t/package.yaml --workers 4
 == budget_aware
-   gain_db          sch=31.697 drawn=31.8141 pexC=31.8141 pexRC=31.69 lim=30 meets=True use=0.008 G2.0=0.08565660165551096 actual=0.00401
-   gbw_mhz          sch=104.45 drawn=105.415 pexC=104.027 pexRC=101.32 lim=20 meets=True use=0.0743 G2.0=0.053615893003413004 actual=0.03713
-   pm_deg           sch=80.935 drawn=81.1824 pexC=80.6056 pexRC=79.424 lim=60 meets=True use=0.1443 G2.0=0.07468603521427222 actual=0.07217
+   gain_db          sch=31.697 drawn=31.8141 pexC=31.8141 pexRC=31.694 lim=30 meets=True use=0.0031 G2.0=0.08565660165551096 actual=0.00153
+   gbw_mhz          sch=104.45 drawn=105.415 pexC=104.027 pexRC=101.32 lim=20 meets=True use=0.0742 G2.0=0.053615893003413004 actual=0.03712
+   pm_deg           sch=80.935 drawn=81.1824 pexC=80.6056 pexRC=79.423 lim=60 meets=True use=0.1444 G2.0=0.07468603521427222 actual=0.07221
    power_uw         sch=152.6 drawn=152.399 pexC=152.399 pexRC=150.51 lim=1000 meets=True use=-0.0049 G2.0=None actual=-0.00246
-   vnoise_nv_rthz   sch=339.06 drawn=339.628 pexC=339.628 pexRC=339.53 lim=400 meets=True use=0.0154 G2.0=0.013109034521719224 actual=0.00771
+   vnoise_nv_rthz   sch=339.06 drawn=339.628 pexC=339.628 pexRC=339.54 lim=400 meets=True use=0.0156 G2.0=0.013109034521719224 actual=0.0078
 == area_only
-   gain_db          sch=31.697 drawn=31.8141 pexC=31.8141 pexRC=31.68 lim=30 meets=True use=0.0198 G2.0=0.08565660165551096 actual=0.0099
-   gbw_mhz          sch=104.45 drawn=105.415 pexC=103.692 pexRC=100.74 lim=20 meets=True use=0.0881 G2.0=0.053615893003413004 actual=0.04404
+   gain_db          sch=31.697 drawn=31.8141 pexC=31.8141 pexRC=31.681 lim=30 meets=True use=0.0189 G2.0=0.08565660165551096 actual=0.00943
+   gbw_mhz          sch=104.45 drawn=105.415 pexC=103.692 pexRC=100.73 lim=20 meets=True use=0.0882 G2.0=0.053615893003413004 actual=0.04408
    pm_deg           sch=80.935 drawn=81.1824 pexC=80.457 pexRC=79.212 lim=60 meets=True use=0.1646 G2.0=0.07468603521427222 actual=0.08231
-   power_uw         sch=152.6 drawn=152.399 pexC=152.399 pexRC=150.49 lim=1000 meets=True use=-0.005 G2.0=None actual=-0.00249
-   vnoise_nv_rthz   sch=339.06 drawn=339.628 pexC=339.628 pexRC=339.52 lim=400 meets=True use=0.0151 G2.0=0.013109034521719224 actual=0.00757
+   power_uw         sch=152.6 drawn=152.399 pexC=152.399 pexRC=150.48 lim=1000 meets=True use=-0.005 G2.0=None actual=-0.0025
+   vnoise_nv_rthz   sch=339.06 drawn=339.628 pexC=339.628 pexRC=339.53 lim=400 meets=True use=0.0152 G2.0=0.013109034521719224 actual=0.00758
 failed runs: []
 G7.1_specs_met_post_layout         True
 G7.2_loss_within_eta_margin        True
 G7.3_G2.0_prediction (info)        None
 G7.4_pvt (info)                    None
+G7.5_mim_self_coupling_cancelled (info) None
 H4 (info)                          None
 H5 (info)                          None

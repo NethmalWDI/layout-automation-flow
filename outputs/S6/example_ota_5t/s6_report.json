@@ -1,7 +1,7 @@
 {
-  "run_id": "2026-11-04T03:28:48-4c5d80c2",
+  "run_id": "2026-11-04T05:17:29-b9e7570d",
   "design": "example_ota_5t",
-  "s5_run_id": "2026-11-04T03:28:14-53952471",
+  "s5_run_id": "2026-11-04T05:17:02-126f89a3",
   "ac_grounds": [
     "VDD",
     "VSS",
@@ -72,7 +72,17 @@
           },
           "nets_without_ground_C_in_netlist": [
             "INN"
-          ]
+          ],
+          "nets_short_in_netlist": {
+            "INN": [
+              0.0,
+              1.1874
+            ],
+            "net3": [
+              4.0546,
+              6.4093
+            ]
+          }
         },
         "area_only": {
           "netlist_total_fF": 50.228,
@@ -88,10 +98,22 @@
             "OUTP": 3.5028,
             "net3": 6.3164
           },
-          "nets_without_ground_C_in_netlist": []
+          "nets_without_ground_C_in_netlist": [],
+          "nets_short_in_netlist": {
+            "net3": [
+              4.0484,
+              6.3164
+            ]
+          }
         }
       },
       "note": "Magic's C-only netlist against its own .ext (totals): ext2spice leaves out the capacitance to ground of nets that are transistor gates (flow record row 71); G6.2 reads the netlist, so a net listed under nets_without_ground_C_in_netlist reads low there. S7's R+C netlist carries it"
+    },
+    "G6.5_mim_self_coupling (info)": {
+      "pass": null,
+      "capacitors": {},
+      "budget_aware_rows_less_it": [],
+      "note": "a MIM capacitor block extracted alone: the plate-to-plate coupling Magic adds on top of the device (metal4 over metal3 across the top plate) is very likely counted twice; S7's G7.5 simulates the layout with it cancelled. G6.2 keeps Magic's number"
     },
     "G6.3_kpex_cross_check (info)": {
       "pass": null,
@@ -101,8 +123,8 @@
           "netlist": "outputs/S6/example_ota_5t/budget_aware/kpex/example_ota_5t_routed__example_ota_5t_routed/example_ota_5t_routed_k25d_pex_netlist.spice",
           "kpex_lvs_matched": false,
           "unnamed_nets": [
-            "$6",
-            "$8"
+            "$10",
+            "$11"
           ],
           "net_fF": {
             "INN": {
@@ -143,7 +165,7 @@
           "kpex_lvs_matched": false,
           "unnamed_nets": [
             "$10",
-            "$11"
+            "$6"
           ],
           "net_fF": {
             "INN": {
@@ -184,12 +206,12 @@
   },
   "all_pass": true,
   "provenance": {
-    "created": "2026-11-04T02:28:48+00:00",
-    "git_commit": "49a65808dfbc12b09a171c01a591626d086a8428",
+    "created": "2026-11-04T04:17:29+00:00",
+    "git_commit": "6d0c6bb731b93f4b9c09c886fcb89852fe5ba298",
     "inputs": [
       {
         "path": "outputs/S5/example_ota_5t/s5_report.json",
-        "sha256": "44f2e77e58d7b56854ee6db0a7940362b6d430f938e522495251b3758d3db9bf"
+        "sha256": "d69e2fd19ada2a5069c1449a92184197b94601e0cbd45d7480ae50e1842cb7b4"
       },
       {
         "path": "outputs/S2/example_ota_5t/budgets.json",

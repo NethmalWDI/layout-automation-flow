@@ -19,7 +19,10 @@ GOLDEN = REPO / "tests" / "golden"
 RTOL = 1e-3
 ATOL = 1e-9
 # looser where a result is legitimately noisy (fractions of a margin, SPICE step slopes)
-TOL_OVERRIDES = {"verify.": (0.0, 0.005)}
+TOL_OVERRIDES = {"verify.": (0.0, 0.005),
+                 # S7's R+C view: Magic's extresist differs a little from run to run (about 0.003 dB of gain on the
+                 # 5T); its numbers keep 0.5 %, their use of eta x margin 0.03 absolute (plan v4 Phase 7)
+                 "rc.": (0.005, 0.0), "rc_use.": (0.0, 0.03)}
 
 
 def snapshot_path(design: str, stage: str) -> Path:
@@ -75,6 +78,45 @@ def extract(design: str, stage: str) -> dict:
         for k, v in (d.get("final_in_circuit") or {}).items():
             if isinstance(v, (int, float)):
                 out[f"final.{k}"] = v
+    elif stage == "S4":
+        bj = _load("S4", design, "blocks.json") or {}
+        for blk in bj.get("blocks", []):
+            for v in blk.get("variants", []):
+                k, g = f"{v['cell']}", v.get("geometry") or {}
+                out[f"ok.{k}"] = v.get("ok")
+                out[f"drc.{k}"] = (v.get("drc") or {}).get("errors")
+                out[f"area.{k}"] = g.get("area_um2")
+                out[f"tap.{k}"] = g.get("tap_distance_max_um")
+                out[f"strips.{k}"] = len(g.get("strips") or [])
+    elif stage == "S5":
+        pj = _load("S5", design, "placement.json") or {}
+        out["n_candidates"] = pj.get("n_candidates")
+        for r, c in (pj.get("chosen") or {}).items():
+            pl = c["placement"]
+            out[f"{r}.rows"] = json.dumps(pl["rows"])
+            out[f"{r}.area_um2"] = pl["area_um2"]
+            for b, x in pl["blocks"].items():
+                out[f"{r}.choice.{b}"] = f"{x['variant']}{'/flip' if x['flip'] else ''}"
+            for n, x in ((((rep["gates"].get("G5.4_route_rules") or {}).get("detail") or {}).get(r) or {})
+                         .get("max_length") or {}).items():
+                out[f"{r}.length_use.{n}"] = x.get("use")
+    elif stage == "S6":
+        pj = _load("S6", design, "parasitics_vs_budgets.json") or {}
+        for r, x in (pj.get("layouts") or {}).items():
+            for row in x["budgets"]["rows"]:
+                out[f"{r}.{row['kind']}.{row['id']}"] = row["value"]
+        for c, m in (pj.get("mim_self") or {}).items():
+            out[f"mim.{c}.plate_coupling_fF"] = m["plate_coupling_fF"]
+    elif stage == "S7":
+        m = _load("S7", design, "metrics.json") or {}
+        for k, v in ((m.get("views") or {}).get("schematic") or {}).get("schematic", {}).items():
+            out[f"schematic.{k}"] = v
+        for r, rows in (m.get("metrics") or {}).items():
+            for k, x in rows.items():
+                for view in ("drawn", "pex_c"):
+                    out[f"{r}.{view}.{k}"] = x.get(view)
+                out[f"rc.{r}.{k}"] = x.get("post_layout_rc")
+                out[f"rc_use.{r}.{k}"] = x.get("use_of_allowed")
     return out
 
 

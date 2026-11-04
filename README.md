@@ -58,7 +58,7 @@ $env:FLOW_CONTAINER="layout-s0s3"
 .\flow.ps1 run example_ota_5t              # S0 -> S3, about 30 min
 .\flow.ps1 run loadbench_miller            # S0 -> S3, about 20 min
 .\flow.ps1 run example_ota_5t --stage S1   # one stage, from the earlier stages' outputs (S1 or S3: under a minute)
-.\flow.ps1 test                            # 138 unit tests + golden comparison with the committed outputs (~15 s)
+.\flow.ps1 test                            # 176 unit tests + golden comparison with the committed outputs (~15 s)
 ```
 
 The same inside the container: `docker exec -e IIC_OSIC_TOOLS_QUIET=1 layout-s0s3 bash -lc "cd /foss/designs &&
@@ -74,7 +74,8 @@ plan-v2 runs of 25–27 October and are not part of this review; flow record 7.5
 
 A run rewrites these folders. The results reproduce (the review's clean runs matched Phase A's exactly), but run
 ids and timestamps change. Discarding the changes in GitHub Desktop returns to the committed run.
-`python3 scripts/make_s0s3_walkthrough.py` regenerates the walkthrough from a new run.
+`python3 scripts/make_s0s3_walkthrough.py` regenerates the walkthrough from a new run. For S4–S7,
+`docs/s4_s7_walkthrough.html` is its companion (`python3 scripts/make_s4s7_walkthrough.py`).
 
 **Further reading:** `docs/flow_record.md` (the journey: what was built, what went wrong and how it was found;
 section 7.13 is the current version, 7.14 this review), `docs/progress_log.md`, and `PREREG.md` (hypotheses and
@@ -129,7 +130,8 @@ Each stage writes to `outputs/<stage>/<design>/` and logs to `runs/logs/flow/<de
 | **ERROR** | anything else, e.g. 1 from a crash; or no fresh report | the stage did not finish; it stops at that command |
 
 The committed outputs are the reference results; `./flow test` fails if a re-run moves any of them beyond its
-tolerance (`tests/golden/`).
+tolerance (`tests/golden/`). S4–S7 have snapshots for the 5T and LOADBench (plan v4 Phase 7); their R+C results keep
+0.5 % (and 0.03 of eta × margin), because Magic's extresist varies a little from run to run.
 
 **Clean runs.**
 - S2 starts from an empty `outputs/S2/<design>/`. The run before moves to `outputs/S2/<design>.prev/`
@@ -528,7 +530,8 @@ It fails loudly on a net it cannot place; the plan's general maze router remains
 
 | Output (`outputs/S5/<design>/`) | Content |
 |---|---|
-| `placement.json` | Every candidate with its cost terms; the two winners with rows, variants, flips, origins, pins, wire estimates, legality, and routes (spines, vias, runs, stacks, lengths, rule checks, DRC, LVS) |
+| `placement.json` | The two winners with rows, variants, flips, origins, pins, wire estimates, legality, and routes (spines, vias, runs, stacks, lengths, rule checks, DRC, LVS) |
+| `candidates.json.gz` | Every candidate with its rows, choices and cost terms (gzipped: 20 736 on LOADBench) |
 | `placed_<budget_aware\|area_only>/` | The assembled, unrouted GDS, its picture and its DRC |
 | `routed_<budget_aware\|area_only>/` | The routed top cell (`<design>_routed.gds`), its picture, DRC, and LVS against the layout view with the drawn finger counts (`ref_top.spice`) |
 | `s5_report.json` | G5.1 (legal placement), G5.2 (top-level DRC), G5.3 (top-level LVS), G5.4 (S2's `route.*` rules: length, parallel runs on metal3/4, series R against what S3 left, symmetry; EM, bias-net coupling and digital crossings not evaluated, as S2 marked them), G5.5 (against area-only, info) |
@@ -553,6 +556,9 @@ Both routed layouts of S5 are evaluated: the budget-aware one (gated) and the ar
 - G6.4 (info) compares the C-only netlist's total capacitance with Magic's own `.ext`. ext2spice leaves out the
   capacitance to ground of nets that are transistor gates (flow record row 75), so those nets read low in G6.2; the
   R+C netlist, which S7 simulates, has it.
+- G6.5 (info) extracts each MIM capacitor block of S4 alone. Magic's sky130 rules charge metal4 over metal3
+  everywhere, also across the capacitor's top plate, so the coupling they report between its two plates is very
+  likely counted twice with the device model (22.5 fF on LOADBench). G6.2 keeps Magic's number.
 
 **S7** (`src/s7/run.py`):
 - The schematic and three layout views run in S0's AC, OP and NOISE benches: drawn devices only, C-only PEX, and
@@ -566,7 +572,8 @@ Both routed layouts of S5 are evaluated: the budget-aware one (gated) and the ar
   An identical deck is simulated once; when S5 chose one placement for both costs (LOADBench), S6 extracts it once.
   LOADBench's S6 takes about 2 min and its S7 about 22 min.
 - G7.1: every spec met. G7.2: each spec's loss within eta × margin (× 1.02). G7.3 (info): G2.0's prediction against
-  the loss. H4 and H5 are reported.
+  the loss. G7.5 (info): with a MIM capacitor, the R+C AC run once more with G6.5's plate coupling cancelled by an
+  equal negative capacitor across the device's terminals. H4 and H5 are reported.
 - Device saturation and PVT points are not evaluated here.
 
 | Output | Content |

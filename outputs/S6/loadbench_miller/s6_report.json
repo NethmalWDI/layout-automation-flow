@@ -1,7 +1,7 @@
 {
-  "run_id": "2026-11-04T03:42:52-04db6a25",
+  "run_id": "2026-11-04T05:22:49-01a5c245",
   "design": "loadbench_miller",
-  "s5_run_id": "2026-11-04T02:59:48-d6dfed33",
+  "s5_run_id": "2026-11-04T05:21:01-256344ac",
   "ac_grounds": [
     "sourceNmos",
     "sourcePmos"
@@ -13,13 +13,13 @@
         "budget_aware": {
           "lvs": true,
           "caps": 26,
-          "rc_resistors": 315153,
+          "rc_resistors": 315160,
           "unassigned_caps": 0
         },
         "area_only": {
           "lvs": true,
           "caps": 26,
-          "rc_resistors": 315153,
+          "rc_resistors": 315160,
           "unassigned_caps": 0
         }
       }
@@ -27,7 +27,9 @@
     "G6.2_parasitics_within_budgets": {
       "pass": false,
       "violations": [
+        "FirstStageYout1",
         "out",
+        "outFirstStage",
         "FirstStageYout1~out",
         "FirstStageYout1~outFirstStage",
         "FirstStageYout1~in1",
@@ -70,7 +72,9 @@
         ]
       ],
       "area_only_violations (H5)": [
+        "FirstStageYout1",
         "out",
+        "outFirstStage",
         "FirstStageYout1~out",
         "FirstStageYout1~outFirstStage",
         "FirstStageYout1~in1",
@@ -114,7 +118,21 @@
           "nets_without_ground_C_in_netlist": [
             "FirstStageYout1",
             "outFirstStage"
-          ]
+          ],
+          "nets_short_in_netlist": {
+            "outFirstStage": [
+              0.0,
+              20.6755
+            ],
+            "FirstStageYout1": [
+              0.0,
+              37.0595
+            ],
+            "ibias": [
+              54.1455,
+              58.04
+            ]
+          }
         },
         "area_only": {
           "netlist_total_fF": 488.833,
@@ -135,10 +153,51 @@
           "nets_without_ground_C_in_netlist": [
             "FirstStageYout1",
             "outFirstStage"
-          ]
+          ],
+          "nets_short_in_netlist": {
+            "outFirstStage": [
+              0.0,
+              20.6755
+            ],
+            "FirstStageYout1": [
+              0.0,
+              37.0595
+            ],
+            "ibias": [
+              54.1455,
+              58.04
+            ]
+          }
         }
       },
       "note": "Magic's C-only netlist against its own .ext (totals): ext2spice leaves out the capacitance to ground of nets that are transistor gates (flow record row 71); G6.2 reads the netlist, so a net listed under nets_without_ground_C_in_netlist reads low there. S7's R+C netlist carries it"
+    },
+    "G6.5_mim_self_coupling (info)": {
+      "pass": null,
+      "capacitors": {
+        "Capacitor2": {
+          "top": "outFirstStage",
+          "bottom": "out",
+          "plate_coupling_fF": 22.4749,
+          "bottom_to_substrate_fF": 10.1741,
+          "netlist": "outputs/S6/loadbench_miller/mim_self/Capacitor2/Capacitor2__A_pex.spice",
+          "model": "sky130_fd_pr__cap_mim_m3_1",
+          "params": {
+            "W": 15.66,
+            "L": 15.66
+          }
+        }
+      },
+      "budget_aware_rows_less_it": [
+        {
+          "id": "out~outFirstStage",
+          "value": 6.7888,
+          "budget": 4.7319,
+          "use": 1.4347,
+          "ok": false
+        }
+      ],
+      "note": "a MIM capacitor block extracted alone: the plate-to-plate coupling Magic adds on top of the device (metal4 over metal3 across the top plate) is very likely counted twice; S7's G7.5 simulates the layout with it cancelled. G6.2 keeps Magic's number"
     },
     "G6.3_kpex_cross_check (info)": {
       "pass": null,
@@ -249,12 +308,12 @@
   },
   "all_pass": false,
   "provenance": {
-    "created": "2026-11-04T02:42:52+00:00",
-    "git_commit": "49a65808dfbc12b09a171c01a591626d086a8428",
+    "created": "2026-11-04T04:22:49+00:00",
+    "git_commit": "6d0c6bb731b93f4b9c09c886fcb89852fe5ba298",
     "inputs": [
       {
         "path": "outputs/S5/loadbench_miller/s5_report.json",
-        "sha256": "b891380a0866ff05dfd11178c2a33127eef7bfd33d76f0188ca0ec6cf364d48b"
+        "sha256": "56413f5a4e6c393b95aa9d11a22bba1cee03c9ff9c1d97855f277e14b1a4f101"
       },
       {
         "path": "outputs/S2/loadbench_miller/budgets.json",

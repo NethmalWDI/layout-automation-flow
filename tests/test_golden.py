@@ -7,7 +7,7 @@ import pytest
 
 from src import golden
 
-CASES = [(d, s) for d in golden.designs_with_snapshots() for s in ("S0", "S1", "S2", "S3")
+CASES = [(d, s) for d in golden.designs_with_snapshots() for s in ("S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7")
          if golden.snapshot_path(d, s).exists()]
 
 

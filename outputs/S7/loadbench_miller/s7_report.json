@@ -1,12 +1,13 @@
 {
-  "run_id": "2026-11-04T04:05:03-d76de716",
+  "run_id": "2026-11-04T05:55:21-bf086a2a",
   "design": "loadbench_miller",
-  "s6_run_id": "2026-11-04T03:42:52-04db6a25",
+  "s6_run_id": "2026-11-04T05:22:49-01a5c245",
   "eta": 0.5,
   "TOL_USE": 0.02,
   "gates": {
     "G7.1_specs_met_post_layout": {
       "pass": true,
+      "missing_measurements": {},
       "detail": {
         "pm_deg": [
           65.2587,
@@ -14,7 +15,7 @@
           true
         ],
         "power_uw": [
-          553.273,
+          553.284,
           614.2,
           true
         ],
@@ -24,7 +25,7 @@
           true
         ],
         "gbw_mhz": [
-          22.1247,
+          22.1251,
           21.0484,
           true
         ]
@@ -35,9 +36,9 @@
       "pass": false,
       "detail": {
         "pm_deg": 0.0243,
-        "power_uw": -0.1856,
+        "power_uw": -0.1852,
         "gain_db": 0.0336,
-        "gbw_mhz": 1.0796
+        "gbw_mhz": 1.0792
       }
     },
     "G7.3_G2.0_prediction (info)": {
@@ -49,7 +50,7 @@
           -0.9847
         ],
         "power_uw": [
-          -0.09278,
+          -0.09259,
           null,
           null
         ],
@@ -59,9 +60,9 @@
           -0.9832
         ],
         "gbw_mhz": [
-          0.53979,
+          0.53962,
           0.3399921466621188,
-          0.5876
+          0.5871
         ]
       },
       "note": "[post-layout loss / margin, G2.0's predicted share, relative error]; PREREG: within 25 %"
@@ -69,6 +70,67 @@
     "G7.4_pvt (info)": {
       "pass": null,
       "note": "PVT points are not simulated post-layout here"
+    },
+    "G7.5_mim_self_coupling_cancelled (info)": {
+      "pass": null,
+      "capacitors": {
+        "Capacitor2": {
+          "top": "outFirstStage",
+          "bottom": "out",
+          "plate_coupling_fF": 22.4749,
+          "bottom_to_substrate_fF": 10.1741,
+          "netlist": "outputs/S6/loadbench_miller/mim_self/Capacitor2/Capacitor2__A_pex.spice",
+          "model": "sky130_fd_pr__cap_mim_m3_1",
+          "params": {
+            "W": 15.66,
+            "L": 15.66
+          }
+        }
+      },
+      "detail": {
+        "budget_aware": {
+          "gain_db": {
+            "value": 57.9829,
+            "lost": 0.0168,
+            "use_of_allowed": 0.0336,
+            "within_allowed": true
+          },
+          "gbw_mhz": {
+            "value": 22.7144,
+            "lost": 0.6727,
+            "use_of_allowed": 0.5753,
+            "within_allowed": true
+          },
+          "pm_deg": {
+            "value": 64.7662,
+            "lost": 0.5571,
+            "use_of_allowed": 0.2093,
+            "within_allowed": true
+          }
+        },
+        "area_only": {
+          "gain_db": {
+            "value": 57.9829,
+            "lost": 0.0168,
+            "use_of_allowed": 0.0336,
+            "within_allowed": true
+          },
+          "gbw_mhz": {
+            "value": 22.7144,
+            "lost": 0.6727,
+            "use_of_allowed": 0.5753,
+            "within_allowed": true
+          },
+          "pm_deg": {
+            "value": 64.7662,
+            "lost": 0.5571,
+            "use_of_allowed": 0.2093,
+            "within_allowed": true
+          }
+        }
+      },
+      "budget_aware_within_eta": true,
+      "note": "the R+C AC run with each MIM capacitor's own plate-to-plate coupling cancelled (S6 G6.5: very likely counted twice by Magic's sky130 rules); G7.1 and G7.2 keep Magic's netlist"
     },
     "H4 (info)": {
       "pass": null,
@@ -81,27 +143,27 @@
       "use_of_allowed": {
         "budget_aware": {
           "pm_deg": 0.0243,
-          "power_uw": -0.1856,
+          "power_uw": -0.1852,
           "gain_db": 0.0336,
-          "gbw_mhz": 1.0796
+          "gbw_mhz": 1.0792
         },
         "area_only": {
           "pm_deg": 0.0243,
-          "power_uw": -0.1856,
+          "power_uw": -0.1852,
           "gain_db": 0.0336,
-          "gbw_mhz": 1.0796
+          "gbw_mhz": 1.0792
         }
       }
     }
   },
   "all_pass": false,
   "provenance": {
-    "created": "2026-11-04T03:05:03+00:00",
-    "git_commit": "49a65808dfbc12b09a171c01a591626d086a8428",
+    "created": "2026-11-04T04:55:21+00:00",
+    "git_commit": "6d0c6bb731b93f4b9c09c886fcb89852fe5ba298",
     "inputs": [
       {
         "path": "outputs/S6/loadbench_miller/parasitics_vs_budgets.json",
-        "sha256": "662ca48a74b1f4efabfab6b5cfd1bf8b9d92edb063052d3ca0a4dc4da38a7938"
+        "sha256": "2d72a346cf7ada32e6ea091d5fd3780d39a091696b33614e7772e75b7d6c5c3c"
       },
       {
         "path": "outputs/S0/loadbench_miller/circuit_ir.json",

@@ -1,11 +1,25 @@
 {
-  "run_id": "2026-11-04T03:42:52-04db6a25",
+  "run_id": "2026-11-04T05:22:49-01a5c245",
   "design": "loadbench_miller",
-  "s5_run_id": "2026-11-04T02:59:48-d6dfed33",
+  "s5_run_id": "2026-11-04T05:21:01-256344ac",
   "ac_grounds": [
     "sourceNmos",
     "sourcePmos"
   ],
+  "mim_self": {
+    "Capacitor2": {
+      "top": "outFirstStage",
+      "bottom": "out",
+      "plate_coupling_fF": 22.4749,
+      "bottom_to_substrate_fF": 10.1741,
+      "netlist": "outputs/S6/loadbench_miller/mim_self/Capacitor2/Capacitor2__A_pex.spice",
+      "model": "sky130_fd_pr__cap_mim_m3_1",
+      "params": {
+        "W": 15.66,
+        "L": 15.66
+      }
+    }
+  },
   "layouts": {
     "budget_aware": {
       "netlists": {
@@ -15,12 +29,12 @@
       },
       "lvs": {
         "match": true,
-        "inner_nets_as_ports": 2,
+        "inner_nets_as_ports": 3,
         "other_pin_errors": [],
         "report": "outputs/S6/loadbench_miller/budget_aware/lvs_report.txt"
       },
       "n_caps": 26,
-      "n_resistors_rc": 315153,
+      "n_resistors_rc": 315160,
       "unassigned_caps": [],
       "net_fF": {
         "ibias": 54.1455,
@@ -33,21 +47,21 @@
         "FirstStageYout1~FirstStageYsourceTransconductance": 1.4419,
         "FirstStageYout1~in2": 0.0948,
         "FirstStageYout1~in1": 1.0682,
-        "ibias~out": 22.8083,
         "FirstStageYout1~outFirstStage": 9.657,
+        "ibias~out": 22.8083,
         "FirstStageYsourceTransconductance~ibias": 5.0984,
         "ibias~in2": 0.0,
         "FirstStageYsourceTransconductance~out": 2.2551,
         "in2~out": 0.1459,
         "in1~out": 0.2069,
         "FirstStageYsourceTransconductance~in2": 2.561,
-        "out~outFirstStage": 29.2637,
         "FirstStageYsourceTransconductance~in1": 2.8032,
+        "out~outFirstStage": 29.2637,
         "in1~in2": 0.5402,
+        "FirstStageYout1~out": 0.7677,
         "FirstStageYsourceTransconductance~outFirstStage": 1.4047,
         "in2~outFirstStage": 0.981,
-        "in1~outFirstStage": 0.0087,
-        "FirstStageYout1~out": 0.7677
+        "in1~outFirstStage": 0.0087
       },
       "c_only_vs_ext": {
         "netlist_total_fF": 488.833,
@@ -68,7 +82,21 @@
         "nets_without_ground_C_in_netlist": [
           "FirstStageYout1",
           "outFirstStage"
-        ]
+        ],
+        "nets_short_in_netlist": {
+          "outFirstStage": [
+            0.0,
+            20.6755
+          ],
+          "FirstStageYout1": [
+            0.0,
+            37.0595
+          ],
+          "ibias": [
+            54.1455,
+            58.04
+          ]
+        }
       },
       "budgets": {
         "rows": [
@@ -76,11 +104,11 @@
             "id": "FirstStageYout1",
             "kind": "net_capacitance",
             "units": "fF",
-            "value": 0.0,
+            "value": 37.0595,
             "budget": 12.3582,
-            "use": 0.0,
-            "ok": true,
-            "source": "extracted"
+            "use": 2.9988,
+            "ok": false,
+            "source": "extracted (.ext; the C-only netlist has 0.0 fF)"
           },
           {
             "id": "FirstStageYsourceTransconductance",
@@ -90,17 +118,17 @@
             "budget": 55.8414,
             "use": 0.4983,
             "ok": true,
-            "source": "extracted"
+            "source": "extracted (C-only netlist)"
           },
           {
             "id": "ibias",
             "kind": "net_capacitance",
             "units": "fF",
-            "value": 54.1455,
+            "value": 58.04,
             "budget": 451.7212,
-            "use": 0.1199,
+            "use": 0.1285,
             "ok": true,
-            "source": "extracted"
+            "source": "extracted (.ext; the C-only netlist has 54.1455 fF)"
           },
           {
             "id": "out",
@@ -110,17 +138,17 @@
             "budget": 40.3369,
             "use": 1.6625,
             "ok": false,
-            "source": "extracted"
+            "source": "extracted (C-only netlist)"
           },
           {
             "id": "outFirstStage",
             "kind": "net_capacitance",
             "units": "fF",
-            "value": 0.0,
+            "value": 20.6755,
             "budget": 7.5381,
-            "use": 0.0,
-            "ok": true,
-            "source": "extracted"
+            "use": 2.7428,
+            "ok": false,
+            "source": "extracted (.ext; the C-only netlist has 0.0 fF)"
           },
           {
             "id": "FirstStageYout1~FirstStageYsourceTransconductance",
@@ -474,7 +502,9 @@
           }
         ],
         "violations": [
+          "FirstStageYout1",
           "out",
+          "outFirstStage",
           "FirstStageYout1~out",
           "FirstStageYout1~outFirstStage",
           "FirstStageYout1~in1",
@@ -549,7 +579,16 @@
           "magic": 230.193,
           "kpex": 758.289
         }
-      }
+      },
+      "mim_corrected_rows": [
+        {
+          "id": "out~outFirstStage",
+          "value": 6.7888,
+          "budget": 4.7319,
+          "use": 1.4347,
+          "ok": false
+        }
+      ]
     },
     "area_only": {
       "netlists": {
@@ -559,12 +598,12 @@
       },
       "lvs": {
         "match": true,
-        "inner_nets_as_ports": 2,
+        "inner_nets_as_ports": 3,
         "other_pin_errors": [],
         "report": "outputs/S6/loadbench_miller/budget_aware/lvs_report.txt"
       },
       "n_caps": 26,
-      "n_resistors_rc": 315153,
+      "n_resistors_rc": 315160,
       "unassigned_caps": [],
       "net_fF": {
         "ibias": 54.1455,
@@ -577,21 +616,21 @@
         "FirstStageYout1~FirstStageYsourceTransconductance": 1.4419,
         "FirstStageYout1~in2": 0.0948,
         "FirstStageYout1~in1": 1.0682,
-        "ibias~out": 22.8083,
         "FirstStageYout1~outFirstStage": 9.657,
+        "ibias~out": 22.8083,
         "FirstStageYsourceTransconductance~ibias": 5.0984,
         "ibias~in2": 0.0,
         "FirstStageYsourceTransconductance~out": 2.2551,
         "in2~out": 0.1459,
         "in1~out": 0.2069,
         "FirstStageYsourceTransconductance~in2": 2.561,
-        "out~outFirstStage": 29.2637,
         "FirstStageYsourceTransconductance~in1": 2.8032,
+        "out~outFirstStage": 29.2637,
         "in1~in2": 0.5402,
+        "FirstStageYout1~out": 0.7677,
         "FirstStageYsourceTransconductance~outFirstStage": 1.4047,
         "in2~outFirstStage": 0.981,
-        "in1~outFirstStage": 0.0087,
-        "FirstStageYout1~out": 0.7677
+        "in1~outFirstStage": 0.0087
       },
       "c_only_vs_ext": {
         "netlist_total_fF": 488.833,
@@ -612,7 +651,21 @@
         "nets_without_ground_C_in_netlist": [
           "FirstStageYout1",
           "outFirstStage"
-        ]
+        ],
+        "nets_short_in_netlist": {
+          "outFirstStage": [
+            0.0,
+            20.6755
+          ],
+          "FirstStageYout1": [
+            0.0,
+            37.0595
+          ],
+          "ibias": [
+            54.1455,
+            58.04
+          ]
+        }
       },
       "budgets": {
         "rows": [
@@ -620,11 +673,11 @@
             "id": "FirstStageYout1",
             "kind": "net_capacitance",
             "units": "fF",
-            "value": 0.0,
+            "value": 37.0595,
             "budget": 12.3582,
-            "use": 0.0,
-            "ok": true,
-            "source": "extracted"
+            "use": 2.9988,
+            "ok": false,
+            "source": "extracted (.ext; the C-only netlist has 0.0 fF)"
           },
           {
             "id": "FirstStageYsourceTransconductance",
@@ -634,17 +687,17 @@
             "budget": 55.8414,
             "use": 0.4983,
             "ok": true,
-            "source": "extracted"
+            "source": "extracted (C-only netlist)"
           },
           {
             "id": "ibias",
             "kind": "net_capacitance",
             "units": "fF",
-            "value": 54.1455,
+            "value": 58.04,
             "budget": 451.7212,
-            "use": 0.1199,
+            "use": 0.1285,
             "ok": true,
-            "source": "extracted"
+            "source": "extracted (.ext; the C-only netlist has 54.1455 fF)"
           },
           {
             "id": "out",
@@ -654,17 +707,17 @@
             "budget": 40.3369,
             "use": 1.6625,
             "ok": false,
-            "source": "extracted"
+            "source": "extracted (C-only netlist)"
           },
           {
             "id": "outFirstStage",
             "kind": "net_capacitance",
             "units": "fF",
-            "value": 0.0,
+            "value": 20.6755,
             "budget": 7.5381,
-            "use": 0.0,
-            "ok": true,
-            "source": "extracted"
+            "use": 2.7428,
+            "ok": false,
+            "source": "extracted (.ext; the C-only netlist has 0.0 fF)"
           },
           {
             "id": "FirstStageYout1~FirstStageYsourceTransconductance",
@@ -1018,7 +1071,9 @@
           }
         ],
         "violations": [
+          "FirstStageYout1",
           "out",
+          "outFirstStage",
           "FirstStageYout1~out",
           "FirstStageYout1~outFirstStage",
           "FirstStageYout1~in1",
@@ -1094,7 +1149,16 @@
           "kpex": 758.289
         }
       },
-      "same_as": "budget_aware"
+      "same_as": "budget_aware",
+      "mim_corrected_rows": [
+        {
+          "id": "out~outFirstStage",
+          "value": 6.7888,
+          "budget": 4.7319,
+          "use": 1.4347,
+          "ok": false
+        }
+      ]
     }
   }
 }

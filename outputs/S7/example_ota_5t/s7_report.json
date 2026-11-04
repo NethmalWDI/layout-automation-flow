@@ -1,25 +1,26 @@
 {
-  "run_id": "2026-11-04T03:31:19-bab90555",
+  "run_id": "2026-11-04T05:19:03-57961437",
   "design": "example_ota_5t",
-  "s6_run_id": "2026-11-04T03:28:48-4c5d80c2",
+  "s6_run_id": "2026-11-04T05:17:29-b9e7570d",
   "eta": 0.5,
   "TOL_USE": 0.02,
   "gates": {
     "G7.1_specs_met_post_layout": {
       "pass": true,
+      "missing_measurements": {},
       "detail": {
         "gain_db": [
-          31.6902,
+          31.6944,
           30,
           true
         ],
         "gbw_mhz": [
-          101.319,
+          101.32,
           20,
           true
         ],
         "pm_deg": [
-          79.424,
+          79.4232,
           60,
           true
         ],
@@ -29,7 +30,7 @@
           true
         ],
         "vnoise_nv_rthz": [
-          339.534,
+          339.539,
           400,
           true
         ]
@@ -39,30 +40,30 @@
     "G7.2_loss_within_eta_margin": {
       "pass": true,
       "detail": {
-        "gain_db": 0.008,
-        "gbw_mhz": 0.0743,
-        "pm_deg": 0.1443,
+        "gain_db": 0.0031,
+        "gbw_mhz": 0.0742,
+        "pm_deg": 0.1444,
         "power_uw": -0.0049,
-        "vnoise_nv_rthz": 0.0154
+        "vnoise_nv_rthz": 0.0156
       }
     },
     "G7.3_G2.0_prediction (info)": {
       "pass": null,
       "detail": {
         "gain_db": [
-          0.00401,
+          0.00153,
           0.08565660165551096,
-          -0.9532
+          -0.9821
         ],
         "gbw_mhz": [
-          0.03713,
+          0.03712,
           0.053615893003413004,
-          -0.3074
+          -0.3077
         ],
         "pm_deg": [
-          0.07217,
+          0.07221,
           0.07468603521427222,
-          -0.0337
+          -0.0332
         ],
         "power_uw": [
           -0.00246,
@@ -70,9 +71,9 @@
           null
         ],
         "vnoise_nv_rthz": [
-          0.00771,
+          0.0078,
           0.013109034521719224,
-          -0.4116
+          -0.4054
         ]
       },
       "note": "[post-layout loss / margin, G2.0's predicted share, relative error]; PREREG: within 25 %"
@@ -80,6 +81,13 @@
     "G7.4_pvt (info)": {
       "pass": null,
       "note": "PVT points are not simulated post-layout here"
+    },
+    "G7.5_mim_self_coupling_cancelled (info)": {
+      "pass": null,
+      "capacitors": {},
+      "detail": {},
+      "budget_aware_within_eta": null,
+      "note": "the R+C AC run with each MIM capacitor's own plate-to-plate coupling cancelled (S6 G6.5: very likely counted twice by Magic's sky130 rules); G7.1 and G7.2 keep Magic's netlist"
     },
     "H4 (info)": {
       "pass": null,
@@ -91,30 +99,30 @@
       "pass": null,
       "use_of_allowed": {
         "budget_aware": {
-          "gain_db": 0.008,
-          "gbw_mhz": 0.0743,
-          "pm_deg": 0.1443,
+          "gain_db": 0.0031,
+          "gbw_mhz": 0.0742,
+          "pm_deg": 0.1444,
           "power_uw": -0.0049,
-          "vnoise_nv_rthz": 0.0154
+          "vnoise_nv_rthz": 0.0156
         },
         "area_only": {
-          "gain_db": 0.0198,
-          "gbw_mhz": 0.0881,
+          "gain_db": 0.0189,
+          "gbw_mhz": 0.0882,
           "pm_deg": 0.1646,
           "power_uw": -0.005,
-          "vnoise_nv_rthz": 0.0151
+          "vnoise_nv_rthz": 0.0152
         }
       }
     }
   },
   "all_pass": true,
   "provenance": {
-    "created": "2026-11-04T02:31:19+00:00",
-    "git_commit": "49a65808dfbc12b09a171c01a591626d086a8428",
+    "created": "2026-11-04T04:19:03+00:00",
+    "git_commit": "6d0c6bb731b93f4b9c09c886fcb89852fe5ba298",
     "inputs": [
       {
         "path": "outputs/S6/example_ota_5t/parasitics_vs_budgets.json",
-        "sha256": "8020835a2095d2d2157ba29741c6a4b86ba88791d98e10bcd34fb56125beb2b1"
+        "sha256": "d2200ddde845cd6084dc4a8c6538cd752a83ec910d5eb891db26942f83804d9d"
       },
       {
         "path": "outputs/S0/example_ota_5t/circuit_ir.json",

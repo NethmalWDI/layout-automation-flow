@@ -52,8 +52,9 @@ def plan_blocks(ir: dict, groups: list) -> list:
                 d = devs[m]
                 by.setdefault((d["type"], d["terminals"]["b"]), []).append(m)
         for (ty, body), ms in by.items():
-            out.append({"name": name if len(by) == 1 else f"{name}_{ty}", "kind": kind, "type": ty, "body": body,
-                        "devices": ms})
+            twin = sum(1 for t, _ in by if t == ty) > 1   # one type on two bodies: the body names the block too
+            out.append({"name": name if len(by) == 1 else (f"{name}_{ty}_{body}" if twin else f"{name}_{ty}"),
+                        "kind": kind, "type": ty, "body": body, "devices": ms})
             used.update(ms)
     for g in groups:
         add(name_of.get(frozenset(g["devices"]), f"{g.get('kind', 'group')}_" + "_".join(g["devices"])),
@@ -86,7 +87,12 @@ def split_wide(units: list, ir: dict, dec: dict, cells: Path, rules: dict, limit
     tid_of = {d: t for t, v in types.items() for d in v["devices"]}
     out = []
     for u in units:
-        todo = [(u["rec"], types[tid_of[u["device"]]], tid_of[u["device"]])]
+        tid = tid_of[u["device"]]
+        full = types[tid]
+        nf_full = dec[tid]["chosen"]["nf"]
+        # a unit may already be a half unit (ABBA, ABAB): its type has the width its own fingers carry
+        t0 = {**full, "W": round(full["W"] * u["rec"]["option"]["nf"] / nf_full, 4)}
+        todo = [(u["rec"], t0, tid)]
         while todo:
             r, t, tid = todo.pop(0)
             h = half_unit(t, tid, r["option"], cells, rules) if r["geometry"]["bbox_um"][0] > wmax else None
@@ -236,6 +242,11 @@ def build_variant(blk: dict, v: dict, ir: dict, out: Path, lu: float | None = No
     if blk["kind"] == "mim_cap":
         return build_cap(blk, v, out)
     name = f"{blk['name']}__{v['id']}"
+    devs0 = {x["name"]: x for x in ir["devices"]}
+    multi = [dn for dn in blk["devices"] if (devs0[dn].get("m") or 1) > 1]
+    if multi:   # S3 draws one copy of an m > 1 device and S4 has no array of copies yet: fail, never under-draw
+        return {"id": v["id"], "cell": name, "ok": False, "build": {"gds": None},
+                "error": f"m > 1 not drawn yet: {', '.join(f'{d} (m={devs0[d]['m']})' for d in multi)}"}
     d = out / "blocks" / name
     geo = B.layout(v["units"], tap_limit=lu)
     res = {"id": v["id"], "cell": name, "arrangement": [{"device": u["device"], "cell": u["rec"]["cell"],

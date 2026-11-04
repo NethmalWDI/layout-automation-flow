@@ -12,12 +12,13 @@ AICL-like baseline). Each winner is
 Both are routed by the same router, so H5 compares them on equal terms.
 
 usage (inside layout-s0s3): python3 -m src.s5.run inputs/<d>/package.yaml   (or ./flow run <d> --stage S5)
-Writes outputs/S5/<d>/: placement.json, s5_report.json (G5.1-G5.5), placed_<rule>/ and routed_<rule>/ (GDS, DRC,
-LVS, picture).
+Writes outputs/S5/<d>/: placement.json (the two winners), candidates.json.gz (every candidate with its cost terms),
+s5_report.json (G5.1-G5.5), placed_<rule>/ and routed_<rule>/ (GDS, DRC, LVS, picture).
 """
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import re
 import subprocess
@@ -235,7 +236,8 @@ def main(argv=None) -> int:
     ref_spice = (s0 / "ref" / f"{design}_layout.spice").read_text()
     nmap = R.net_map(ir, ref_spice)
     ports = R.ports_of(ref_spice)
-    order = sorted(max_len, key=lambda n: max_len[n])                     # least budget slack first
+    order = [nmap.get(n, n) for n in sorted(max_len, key=lambda n: max_len[n])]   # least budget slack first,
+    # in the layout view's names, which the router uses (ibias -> IBIAS; review of plan v4 Phase 7)
     mirrored = [(*(nmap.get(t, t) for t in c["targets"]), c["class"]) for c in cons if c["id"].startswith("route.symmetric.")]
     par_limit = {frozenset(nmap.get(t, t) for t in c["targets"]): c["value"] for c in cons
                  if c["id"].startswith("route.max_parallel.") and c["id"].endswith(".metal4")}
@@ -265,10 +267,12 @@ def main(argv=None) -> int:
     write_json(out / "placement.json", {
         **ident, "constants": {"ROW_GAP": P.ROW_GAP, "BLOCK_GAP": P.BLOCK_GAP, "LAMBDA": P.LAMBDA, "MU": P.MU},
         "max_length_metal3_um": max_len, "designer_rows": drow, "n_candidates": len(cands),
-        "chosen": res,
-        "candidates": [{"rows": c["placement"]["rows"],
-                        "choice": {b: [p["variant"], p["flip"]] for b, p in c["placement"]["blocks"].items()},
-                        **{k: c["cost"][k] for k in ("area_um2", "budget_aware", "area_only", "u")}} for c in cands]})
+        "chosen": res, "candidates_file": "candidates.json.gz"})
+    # every candidate with its cost terms, gzipped: LOADBench's 20 736 made placement.json 17 MB (plan v4 Phase 7)
+    with gzip.open(out / "candidates.json.gz", "wt", encoding="utf-8") as fz:
+        json.dump({**ident, "candidates": [
+            {"rows": c["placement"]["rows"], "choice": {b: [p["variant"], p["flip"]] for b, p in c["placement"]["blocks"].items()},
+             **{k: c["cost"][k] for k in ("area_um2", "budget_aware", "area_only", "u")}} for c in cands]}, fz)
     def ok(r):
         L, A = res[r]["legal"], res[r]["assembled"]
         return bool(L["separation_ok"] and L["pmos_above_nmos"] and L["axes_ok"] and (A.get("drc") or {}).get("pass"))

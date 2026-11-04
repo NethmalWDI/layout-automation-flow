@@ -1,12 +1,13 @@
 {
-  "run_id": "2026-11-04T03:28:48-4c5d80c2",
+  "run_id": "2026-11-04T05:17:29-b9e7570d",
   "design": "example_ota_5t",
-  "s5_run_id": "2026-11-04T03:28:14-53952471",
+  "s5_run_id": "2026-11-04T05:17:02-126f89a3",
   "ac_grounds": [
     "VDD",
     "VSS",
     "net2"
   ],
+  "mim_self": {},
   "layouts": {
     "budget_aware": {
       "netlists": {
@@ -24,9 +25,9 @@
       "n_resistors_rc": 19368,
       "unassigned_caps": [],
       "net_fF": {
-        "INN": 0.0,
         "INP": 0.0,
         "net1": 11.2307,
+        "INN": 0.0,
         "OUTP": 4.9542,
         "net3": 4.0546
       },
@@ -58,7 +59,17 @@
         },
         "nets_without_ground_C_in_netlist": [
           "INN"
-        ]
+        ],
+        "nets_short_in_netlist": {
+          "INN": [
+            0.0,
+            1.1874
+          ],
+          "net3": [
+            4.0546,
+            6.4093
+          ]
+        }
       },
       "budgets": {
         "rows": [
@@ -70,7 +81,7 @@
             "budget": 37.5937,
             "use": 0.1318,
             "ok": true,
-            "source": "extracted"
+            "source": "extracted (C-only netlist)"
           },
           {
             "id": "net1",
@@ -80,17 +91,17 @@
             "budget": 77.7624,
             "use": 0.1444,
             "ok": true,
-            "source": "extracted"
+            "source": "extracted (C-only netlist)"
           },
           {
             "id": "net3",
             "kind": "net_capacitance",
             "units": "fF",
-            "value": 4.0546,
+            "value": 6.4093,
             "budget": 44.3125,
-            "use": 0.0915,
+            "use": 0.1446,
             "ok": true,
-            "source": "extracted"
+            "source": "extracted (.ext; the C-only netlist has 4.0546 fF)"
           },
           {
             "id": "OUTP~net1",
@@ -283,8 +294,8 @@
         "netlist": "outputs/S6/example_ota_5t/budget_aware/kpex/example_ota_5t_routed__example_ota_5t_routed/example_ota_5t_routed_k25d_pex_netlist.spice",
         "kpex_lvs_matched": false,
         "unnamed_nets": [
-          "$6",
-          "$8"
+          "$10",
+          "$11"
         ],
         "net_fF": {
           "INN": {
@@ -318,7 +329,8 @@
           "magic": 29.725,
           "kpex": 31.37
         }
-      }
+      },
+      "mim_corrected_rows": []
     },
     "area_only": {
       "netlists": {
@@ -336,14 +348,13 @@
       "n_resistors_rc": 19373,
       "unassigned_caps": [],
       "net_fF": {
+        "net1": 12.5996,
+        "net3": 4.0484,
         "INN": 0.0388,
         "OUTP": 5.2938,
-        "INP": 0.0063,
-        "net1": 12.5996,
-        "net3": 4.0484
+        "INP": 0.0063
       },
       "coupling_fF": {
-        "INN~OUTP": 1.0748,
         "INN~INP": 0.4601,
         "INP~OUTP": 0.1498,
         "INN~net1": 1.2526,
@@ -352,7 +363,8 @@
         "OUTP~net3": 2.3384,
         "INP~net1": 1.5302,
         "INP~net3": 1.1133,
-        "net1~net3": 1.9709
+        "net1~net3": 1.9709,
+        "INN~OUTP": 1.0748
       },
       "c_only_vs_ext": {
         "netlist_total_fF": 50.228,
@@ -368,7 +380,13 @@
           "OUTP": 3.5028,
           "net3": 6.3164
         },
-        "nets_without_ground_C_in_netlist": []
+        "nets_without_ground_C_in_netlist": [],
+        "nets_short_in_netlist": {
+          "net3": [
+            4.0484,
+            6.3164
+          ]
+        }
       },
       "budgets": {
         "rows": [
@@ -380,7 +398,7 @@
             "budget": 37.5937,
             "use": 0.1408,
             "ok": true,
-            "source": "extracted"
+            "source": "extracted (C-only netlist)"
           },
           {
             "id": "net1",
@@ -390,17 +408,17 @@
             "budget": 77.7624,
             "use": 0.162,
             "ok": true,
-            "source": "extracted"
+            "source": "extracted (C-only netlist)"
           },
           {
             "id": "net3",
             "kind": "net_capacitance",
             "units": "fF",
-            "value": 4.0484,
+            "value": 6.3164,
             "budget": 44.3125,
-            "use": 0.0914,
+            "use": 0.1425,
             "ok": true,
-            "source": "extracted"
+            "source": "extracted (.ext; the C-only netlist has 4.0484 fF)"
           },
           {
             "id": "OUTP~net1",
@@ -594,7 +612,7 @@
         "kpex_lvs_matched": false,
         "unnamed_nets": [
           "$10",
-          "$11"
+          "$6"
         ],
         "net_fF": {
           "INN": {
@@ -628,7 +646,8 @@
           "magic": 33.616,
           "kpex": 34.206
         }
-      }
+      },
+      "mim_corrected_rows": []
     }
   }
 }

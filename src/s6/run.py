@@ -146,6 +146,36 @@ def netlist_total(pex: Path) -> float:
                      re.finditer(r"^C\S*\s+\S+\s+\S+\s+([0-9.eE+-]+)([afpnu]?)\b", txt, re.M)), 3)
 
 
+def mim_self(s4: Path, out: Path) -> dict:
+    """G6.5 (info; plan v4 Phase 7): each MIM capacitor block of S4 extracted alone, the same way as the layout.
+    Magic's sky130 rules charge metal4 over metal3 everywhere (defaultoverlap allm4/allm3, 84 aF/um2), also where the
+    top plate (capm, at metal4's potential) lies between them and the device model already counts the capacitance;
+    so the coupling it reports between the two plates of a lone capacitor is, very likely, counted twice. S7 runs a
+    view with it cancelled (G7.5). The bottom plate's capacitance to the substrate is real and stays."""
+    f = s4 / "blocks.json"
+    res = {}
+    for b in (json.loads(f.read_text())["blocks"] if f.exists() else []):
+        if b.get("kind") != "mim_cap":
+            continue
+        v = next(v for v in b["variants"] if v.get("ok"))
+        top, bot = b["binding"]["top"], b["binding"]["bottom"]
+        d = out / "mim_self" / b["name"]
+        d.mkdir(parents=True, exist_ok=True)
+        ex = RL.extract((REPO / v["build"]["gds"]).resolve(), v["cell"], d)
+        txt = re.sub(r"\n\+", " ", ex["pex"].read_text())
+        plates, sub = 0.0, 0.0
+        for m in re.finditer(r"^C\S*\s+(\S+)\s+(\S+)\s+([0-9.eE+-]+)([afpnu]?)\b", txt, re.M):
+            ends, val = {m.group(1), m.group(2)}, float(m.group(3)) * UNIT[m.group(4)]
+            if ends == {top, bot}:
+                plates += val
+            elif bot in ends:
+                sub += val
+        res[b["name"]] = {"top": top, "bottom": bot, "plate_coupling_fF": round(plates, 4),
+                          "bottom_to_substrate_fF": round(sub, 4), "netlist": rel(ex["pex"]),
+                          "model": b["binding"]["model"], "params": b["binding"]["params"]}
+    return res
+
+
 def kpex_cross_check(gds: Path, cell: str, ref_top: Path, design: str, out: Path, magic_caps: dict, nets: set,
                      inv: dict, gnd: set) -> dict:
     """G6.3 (info): KLayout-PEX (kpex, 2.5D engine, sky130A) on the same layout. kpex runs KLayout's own LVS first; a
@@ -177,27 +207,54 @@ def kpex_cross_check(gds: Path, cell: str, ref_top: Path, design: str, out: Path
 def flat_lvs(report: Path) -> dict:
     """The flat extraction's LVS. Flattening makes every inner label a port, so a block net (e.g.
     '<block>_0.net1') can appear as a layout port where the layout view has an internal net. Accepted only when Netgen
-    matches the netlists uniquely and every pin mismatch is such an inner net (same name after the block prefix)."""
+    matches the netlists uniquely and every row of its pin tables either pairs one name with itself or is such an
+    inner net (same name after the block prefix). Netgen cuts each column at 43 characters, so a cut name is compared
+    as a prefix (review of plan v4 Phase 7: a cut row was skipped before)."""
     txt = report.read_text() if report.exists() else ""
     unique = "match uniquely" in txt and "property errors" not in txt.lower()
-    odd = []
-    for m in re.finditer(r"^(\S+)\s+\|\(no pin, node is (\S+)\)\s*$", txt, re.M):
-        if re.split(r"[./]", m.group(1))[-1] != m.group(2):
-            odd.append([m.group(1), m.group(2)])
-    other = re.findall(r"^\(no pin, node is .*\|", txt, re.M)        # a reference port the layout lacks
-    inner = re.findall(r"^\S+\s+\|\(no pin, node is \S+\)", txt, re.M)
-    return {"match": bool(unique and not odd and not other), "inner_nets_as_ports": len(inner),
+    odd, other, inner = [], [], 0
+
+    def same(a, b, cut):
+        return a == b or (cut and (a.startswith(b) or b.startswith(a)))
+    for block in re.split(r"^Subcircuit pins:\s*$", txt, flags=re.M)[1:]:
+        for ln in block.splitlines()[1:]:
+            if ln.startswith(("-", "Circuit ")) or "|" not in ln:
+                if ln.strip() and not ln.startswith(("-", "Circuit ")):
+                    break                                   # past the table
+                continue
+            left, right = (x.strip() for x in ln.split("|", 1))
+            cut = len(ln.split("|", 1)[0]) >= 43 and not ln.split("|", 1)[0].endswith(" ")
+            if left.startswith("(no pin"):
+                other.append(ln.strip())                    # a reference port the layout lacks
+                continue
+            base = re.split(r"[./]", left)[-1]
+            if right.startswith("(no pin, node is "):
+                name = right[len("(no pin, node is "):]
+                cut_r = not name.endswith(")")
+                inner += 1
+                if not same(base, name.rstrip(")"), cut or cut_r):
+                    odd.append([left, name])
+            elif not same(left, right, cut or len(right) >= 42):
+                odd.append([left, right])                   # two different pins paired
+    return {"match": bool(unique and not odd and not other), "inner_nets_as_ports": inner,
             "other_pin_errors": odd + other, "report": rel(report)}
 
 
-def against_budgets(caps: dict, budgets: dict, s5_rules: dict, s3_dec: dict, ir: dict) -> dict:
+def against_budgets(caps: dict, budgets: dict, s5_rules: dict, s3_dec: dict, ir: dict, ext_net: dict | None = None) -> dict:
+    """Every budgeted element against its S2 budget. A net's capacitance to ground is the larger of the C-only
+    netlist's and the .ext's (ext_net, G6.4's reading): the netlist leaves out the gate nets' (row 75), the .ext
+    reading charges a node's capacitance over an n-well to the substrate; so the value never understates (review of
+    plan v4 Phase 7)."""
+    ext_net = ext_net or {}
     rows, devs = [], {d["name"]: d for d in ir["devices"]}
     types = {d: t for t, v in s3_dec.items() for d in v["devices"]}
     for e in budgets["elements"]:
         if e.get("budget") is None:
             continue
         if e["kind"] == "net_capacitance":
-            val, src = caps["net"].get(e["id"], 0.0), "extracted"
+            nl, ex = caps["net"].get(e["id"], 0.0), ext_net.get(e["id"], 0.0)
+            val, src = max(nl, ex), ("extracted (C-only netlist)" if nl >= ex else
+                                     f"extracted (.ext; the C-only netlist has {round(nl, 4)} fF)")
         elif e["kind"] == "coupling":
             val, src = caps["coupling"].get("~".join(sorted(e["id"].split("~"))), 0.0), "extracted"
         elif e["kind"] == "terminal_resistance":
@@ -262,8 +319,11 @@ def main(argv=None) -> int:
                      "complete": tot_nl >= ce["total_fF"] * (1 - EXT_TOL), "tolerance": EXT_TOL,
                      "substrate_net": ce["substrate_net"], "ext_net_fF_approx": ce["net"],
                      "nets_without_ground_C_in_netlist": sorted(n for n, v in ce["net"].items()
-                                                                if v > 1.0 and caps["net"].get(n, 0.0) == 0.0)}
-        cmp_ = against_budgets(caps, budgets, s5_rep["gates"]["G5.4_route_rules"]["detail"][r] or {}, s3_dec, ir)
+                                                                if v > 1.0 and caps["net"].get(n, 0.0) == 0.0),
+                     "nets_short_in_netlist": {n: [caps["net"].get(n, 0.0), v] for n, v in ce["net"].items()
+                                               if v - caps["net"].get(n, 0.0) > max(1.0, 0.05 * v)}}
+        cmp_ = against_budgets(caps, budgets, s5_rep["gates"]["G5.4_route_rules"]["detail"][r] or {}, s3_dec, ir,
+                               ce["net"])
         n_r = len(re.findall(r"^R", rc.read_text(), re.M)) if rc.exists() else None
         kx = kpex_cross_check(gds.resolve(), cell, s5 / f"routed_{r}" / "ref_top.spice", design, d / "kpex", caps,
                               nets, inv, gnd)
@@ -273,7 +333,17 @@ def main(argv=None) -> int:
                   "budgets": cmp_, "kpex": kx}
     ident = {"run_id": new_run_id(), "design": design, "s5_run_id": s5_rep.get("run_id"),
              "ac_grounds": sorted(gnd)}
-    write_json(out / "parasitics_vs_budgets.json", {**ident, "layouts": res})
+    mims = mim_self(REPO / "outputs" / "S4" / design, out)
+    for x in res.values():
+        corr = []
+        for row in x["budgets"]["rows"]:
+            for m in mims.values():
+                if row["kind"] == "coupling" and set(row["id"].split("~")) == {m["top"], m["bottom"]}:
+                    val = row["value"] - m["plate_coupling_fF"]
+                    corr.append({"id": row["id"], "value": round(val, 4), "budget": row["budget"],
+                                 "use": round(val / row["budget"], 4), "ok": val <= row["budget"]})
+        x["mim_corrected_rows"] = corr
+    write_json(out / "parasitics_vs_budgets.json", {**ident, "mim_self": mims, "layouts": res})
     ba = res["budget_aware"]
     gates = {
         "G6.1_extracted_and_LVS": {"pass": all(x["lvs"]["match"] and x["netlists"]["pex_rc"] and not x["unassigned_caps"]
@@ -290,6 +360,11 @@ def main(argv=None) -> int:
             "note": "Magic's C-only netlist against its own .ext (totals): ext2spice leaves out the capacitance to ground "
                     "of nets that are transistor gates (flow record row 71); G6.2 reads the netlist, so a net listed "
                     "under nets_without_ground_C_in_netlist reads low there. S7's R+C netlist carries it"},
+        "G6.5_mim_self_coupling (info)": {
+            "pass": None, "capacitors": mims, "budget_aware_rows_less_it": ba.get("mim_corrected_rows", []),
+            "note": "a MIM capacitor block extracted alone: the plate-to-plate coupling Magic adds on top of the "
+                    "device (metal4 over metal3 across the top plate) is very likely counted twice; S7's G7.5 "
+                    "simulates the layout with it cancelled. G6.2 keeps Magic's number"},
         "G6.3_kpex_cross_check (info)": {"pass": None, "detail": {r: x["kpex"] for r, x in res.items()},
                                          "note": "kpex 2.5D against Magic on the nets both name; kpex leaves a net it "
                                                  "cannot match in its own LVS unnamed"},

@@ -132,11 +132,11 @@
     {
      "step": "run",
      "rc": 0,
-     "seconds": 33.8,
+     "seconds": 25.5,
      "log": "runs/logs/flow/example_ota_5t/S4_run.log"
     }
    ],
-   "started": "2026-11-04T03:26:56",
+   "started": "2026-11-04T05:15:58",
    "gates": {
     "G4.1_one_type_and_body_per_block": true,
     "G4.2_DRC_every_variant": true,
@@ -147,7 +147,7 @@
    },
    "status": "PASS",
    "failed_gates": [],
-   "seconds": 33.8
+   "seconds": 25.6
   },
   "S5": {
    "stage": "S5",
@@ -155,11 +155,11 @@
     {
      "step": "run",
      "rc": 0,
-     "seconds": 44.1,
+     "seconds": 38.6,
      "log": "runs/logs/flow/example_ota_5t/S5_run.log"
     }
    ],
-   "started": "2026-11-04T03:27:30",
+   "started": "2026-11-04T05:16:23",
    "gates": {
     "G5.1_placement_legal": true,
     "G5.5_area_vs_area_only (info)": null,
@@ -169,7 +169,7 @@
    },
    "status": "PASS",
    "failed_gates": [],
-   "seconds": 44.2
+   "seconds": 38.6
   },
   "S6": {
    "stage": "S6",
@@ -177,20 +177,21 @@
     {
      "step": "run",
      "rc": 0,
-     "seconds": 34.2,
+     "seconds": 26.7,
      "log": "runs/logs/flow/example_ota_5t/S6_run.log"
     }
    ],
-   "started": "2026-11-04T03:28:14",
+   "started": "2026-11-04T05:17:02",
    "gates": {
     "G6.1_extracted_and_LVS": true,
     "G6.2_parasitics_within_budgets": true,
     "G6.4_c_only_netlist_complete (info)": null,
+    "G6.5_mim_self_coupling (info)": null,
     "G6.3_kpex_cross_check (info)": null
    },
    "status": "PASS",
    "failed_gates": [],
-   "seconds": 34.2
+   "seconds": 26.7
   },
   "S7": {
    "stage": "S7",
@@ -198,22 +199,23 @@
     {
      "step": "run",
      "rc": 0,
-     "seconds": 150.8,
+     "seconds": 94.2,
      "log": "runs/logs/flow/example_ota_5t/S7_run.log"
     }
    ],
-   "started": "2026-11-04T03:28:48",
+   "started": "2026-11-04T05:17:29",
    "gates": {
     "G7.1_specs_met_post_layout": true,
     "G7.2_loss_within_eta_margin": true,
     "G7.3_G2.0_prediction (info)": null,
     "G7.4_pvt (info)": null,
+    "G7.5_mim_self_coupling_cancelled (info)": null,
     "H4 (info)": null,
     "H5 (info)": null
    },
    "status": "PASS",
    "failed_gates": [],
-   "seconds": 150.8
+   "seconds": 94.3
   }
  }
 }

@@ -2,13 +2,14 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-04 04:10 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
+**Last updated:** 2026-11-04 05:57 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
 routing, verification) on branch `s4-s5`**, from `main` at tag `s0s3-reviewed` (`ec359567`). The plan is
 `docs/plan_v4_S4_S7.md`; the phases are under *Plan v4 (s4-s5)* below.
 - Phases 0–4 are committed: `e6306879`, `a3e9277e`, `1e4d166f`, `f26c136a` and `3089366a`. Phase 2's commit carries an unrelated message
   ("dementia_care_guide_sinhala (2)", a GitHub Desktop slip); its content is Phase 2's, and history is not rewritten.
-- Phase 5 is committed (`27a075a6`). **Phase 6 (LOADBench through S4–S7) is done (02:36–04:10 CET 2026-11-04) and
-  waiting for Imasha's commit.** LOADBench runs S0–S7: S4 and S5's sign-off pass; G5.4, G6.2 and G7.2 (GBW) fail;
+- Phases 5 and 6 are committed (`27a075a6`, `6d0c6bb7`). **Phase 7 (stabilise) is done (05:01–05:57 CET 2026-11-04) and
+  waiting for Imasha's commit.** Then: the merge of `s4-s5` into `main` (Imasha, GitHub Desktop), and Phase 8.
+- Phase 6 (LOADBench through S4–S7), 02:36–04:10 CET 2026-11-04: LOADBench runs S0–S7: S4 and S5's sign-off pass; G5.4, G6.2 and G7.2 (GBW) fail;
   every spec is met post-layout. The 5T, re-run with the new code, still passes S0–S7.
   ASSUMPTIONS until Imasha answers plan questions 3–5: the PMOS bank drawn side by side as S3 sized it; no dummies.
   The Miller capacitor is drawn as S0's PREDICTED binding (`sky130_fd_pr__cap_mim_m3_1`, 15.66 × 15.66 µm).
@@ -58,6 +59,12 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 ## Running (container `layout-s0s3`)
 
 **Nothing.**
+
+Plan v4 Phase 7's runs have ended (2026-11-04, CET):
+- Plan v4 Phase 7: `example_ota_5t --from S5`, ended 05:09 CET after about 3.5 min (`runs/logs/v4_p7_5t_S5S7.log`): PASS (before the review fixes).
+- Plan v4 Phase 7, final runs with the review fixes, from 05:15 CET 2026-11-04: one chain: `example_ota_5t --from S4`
+  then `loadbench_miller --from S4` (`runs/logs/v4_p7_final_5t.log`, `runs/logs/v4_p7_final_lb.log`): ended 05:55;
+  the 5T S4–S7 PASS; LOADBench S4 PASS, S5–S7 FAIL on G5.4, G6.2, G7.2 as expected; no failed simulation.
 
 Plan v4 Phase 6's runs have ended (2026-11-04, CET; results under *Plan v4*, Phase 6 record):
 - Plan v4 Phase 6: `loadbench_miller --stage S4` (second run: tap strips, MIM block), from 02:45 CET 2026-11-04
@@ -190,9 +197,22 @@ checked against its budget. S3's unit cells lose their guard rings; S4's blocks 
 | 3 | S5 placement on the 5T; area-only baseline | **done**, committed `f26c136a` |
 | 4 | S5 router on the 5T | **done**, committed `3089366a` |
 | 5 | S6/S7 on the 5T | **done**, committed `27a075a6` |
-| 6 | LOADBench through S4–S7 | **done**, waiting for Imasha's commit |
-| 7 | Stabilise: goldens, walkthrough to S7, review, merge | pending |
+| 6 | LOADBench through S4–S7 | **done**, committed `6d0c6bb7` |
+| 7 | Stabilise: goldens, walkthrough to S7, review, merge | **done** (merge: Imasha), waiting for Imasha's commit |
 | 8 | Harder design (`ttsky25a_fd` or `iadc_ota`, open) | pending |
+
+Phase 7 record (2026-11-04, 05:01–05:57 CET; flow record 7.21, rows 77–80):
+- **The MIM capacitor:** Magic's sky130 rules charge metal4 over metal3 across the top plate too, so the 22.5 fF
+  between the capacitor's plates is very likely counted twice (row 77). G6.5 and G7.5 (info) report it; the gates
+  keep Magic's numbers. **With it cancelled, LOADBench is within eta on every spec** (GBW 22.71 MHz, 0.58; PM
+  64.77°, 0.21); with it, G7.2 fails on GBW (22.13 MHz, 1.08).
+- **Review** (independent agent): G6.2 now reads a gate net's ground C from the .ext when the netlist has none
+  (LOADBench: 21 violations, FirstStageYout1 3.0 ×, outFirstStage 2.7 ×); `flat_lvs` handles cut names; G7.5's
+  runs fixed before use; a missing measurement fails G7.1; m > 1 fails S4 loudly; block names, half-unit width,
+  routing order (rows 78–80).
+- **Goldens** for S4–S7 on both designs (28 comparisons); S5's candidates in `candidates.json.gz`;
+  `docs/s4_s7_walkthrough.html` (`scripts/make_s4s7_walkthrough.py`); the S0–S3 walkthrough unchanged.
+- 176 tests pass.
 
 Phase 6 record (2026-11-04, 02:36–04:10 CET; flow record 7.20, rows 71–76):
 - **S4 PASS** (9 variants): the PMOS bank gets a tap strip between P8 and P5 (LU.3: 16.0 → 10.1 µm; row 71); the
@@ -1261,9 +1281,8 @@ Step 0 record:
 **FEEDBACK NEEDED (Claude Code, 2026-11-04 04:10, plan v4 Phase 6; not blocking):**
 1. Plan questions 3 and 5 still stand: the PMOS bank side by side (used), or units rounded to an integer ratio;
    dummies now or later (none used).
-2. The Miller capacitor is drawn as S0's PREDICTED MIM binding. Magic extracts 22.5 fF between its own plates on
-   top of the device's 0.5 pF, and that coupling is most of LOADBench's GBW loss (G7.2 fails on GBW). Shall we check
-   it against a second extractor or the PDK's MIM documentation in Phase 7, before trusting the G7.2 verdict?
+2. The Miller capacitor's 22.5 fF plate coupling is very likely counted twice by Magic (Phase 7, row 77). Should
+   G7.2 gate on Magic's number (now: LOADBench FAIL on GBW, 1.08) or on G7.5's, with it cancelled (PASS, 0.58)?
 3. outFirstStage's 16.3 µm budget cannot be met by any row placement of these blocks (best 1.65 ×). Options:
    accept and report it (current), let S5 place the capacitor and N3 beside the pair, or ask S2 for budgets that
    know the block sizes.
@@ -1573,9 +1592,11 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-04 morning (Claude Code): **plan v4 Phase 7 on `s4-s5`**: the MIM double count (without it LOADBench is
+  within eta), an independent review's fixes, S4–S7 goldens, the S4–S7 walkthrough. Waiting for Imasha's commit.
 - 2026-11-04 early morning (Claude Code): **plan v4 Phase 6 on `s4-s5`**: LOADBench through S4–S7. S4 and the
   top-level layout signed off; G5.4, G6.2 and G7.2 (GBW) fail; every spec met post-layout. Router, S6 and S7 fixes
-  (rows 71–76); the 5T re-run keeps every verdict. Waiting for Imasha's commit.
+  (rows 71–76); the 5T re-run keeps every verdict. Committed `6d0c6bb7`.
 - 2026-11-03 late evening (Claude Code): **plan v4 Phase 5 on `s4-s5`**: S6 extraction against S2's budgets and S7
   post-layout SPICE on the 5T. The 5T runs S0–S7, all PASS; H4 holds, H5 mostly. Committed `27a075a6`.
 - 2026-11-03 late evening (Claude Code): **plan v4 Phase 4 on `s4-s5`**: S5 routing on the 5T. Both placements are

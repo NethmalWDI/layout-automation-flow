@@ -1159,3 +1159,22 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   - `.gitignore`: LOADBench's 75 MB R+C netlist; its 17 MB `placement.json` (every candidate) is kept for now.
   - The 5T re-run with this code (S4–S7, 03:26–03:31): all PASS, same placements; net3's wire use falls
     (0.42 → 0.18) because joined tracks are connected once; post-layout PM 79.36 → 79.42°, GBW 101.25 → 101.32 MHz.
+- **Phase 7 (2026-11-04, from 05:01 CET): stabilise.**
+  - The MIM question from Phase 6: Magic's sky130 rules charge metal4 over metal3 at 84 aF/µm² everywhere
+    (`defaultoverlap allm4 metal4 allm3 metal3`), also across the capacitor's top plate (capm, on its own plane, at
+    metal4's potential). Over the 233 µm² of metal4 that is about 20 fF, close to the 22.5 fF found between the plates
+    of the capacitor block alone; the MIM model already counts the capacitance there. So the coupling is very likely
+    counted twice. Nothing is edited out: S6's G6.5 (info) extracts each capacitor block alone, S7's G7.5 (info) runs
+    the R+C AC once more with that coupling cancelled; G6.2, G7.1 and G7.2 keep Magic's numbers.
+  - S5 writes its candidates to `candidates.json.gz` (LOADBench's `placement.json` was 17 MB).
+  - Golden snapshots for S4–S7 (`src/golden.py`); R+C results keep 0.5 % and 0.03 of eta × margin.
+  - `scripts/make_s4s7_walkthrough.py` writes `docs/s4_s7_walkthrough.{md,html}`, the companion of the reviewed S0–S3
+    walkthrough, which is left as it was.
+  - Independent review of S4–S7 (an agent, read-only): fixed G6.2 reading gate nets as 0 fF (row 78), `flat_lvs` and
+    cut pin names, G7.5's runs that would never have run, a missing measurement passing G7.1 (row 79), and latent S4/S5
+    issues: m > 1 devices, a half unit's width, duplicate block names, the router's order (row 80). Not changed: G5.4
+    counts top-level wiring only (stated); the router's spacing model is a little short (DRC catches it).
+  - Final runs (05:15–05:55 CET): the 5T S4–S7 PASS (GBW 101.32 MHz, PM 79.42°). LOADBench as in Phase 6, G6.2 now 21
+    violations; G7.2 fails on GBW (22.13 MHz, 1.08 of eta × margin). With the capacitor's plate coupling cancelled
+    (G7.5): GBW 22.71 MHz (0.58), PM 64.77° (0.21): within eta on every spec.
+  - 176 tests pass; 28 golden comparisons match.

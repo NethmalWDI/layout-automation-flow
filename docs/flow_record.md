@@ -20,12 +20,13 @@ evidence with pictures, and the problems met on the way and how they were fixed.
 - plan v4 Phase 3, S5 placement on the 5T (7.17);
 - plan v4 Phase 4, S5 routing on the 5T (7.18);
 - plan v4 Phase 5, extraction and post-layout evaluation of the 5T (7.19);
-- plan v4 Phase 6, LOADBench through S4–S7 (7.20).
+- plan v4 Phase 6, LOADBench through S4–S7 (7.20);
+- plan v4 Phase 7, stabilising S4–S7: the MIM capacitor's double-counted coupling, a review, goldens (7.21).
 
-The journey table runs to row 76: the S3 option plot and the line endings after the merge (65, 66), the DRC
+The journey table runs to row 80: the S3 option plot and the line endings after the merge (65, 66), the DRC
 negative control (67), the router's naming and geometry bugs (68, 69), the R+C wrapper's short (70), and LOADBench's
 latch-up strip, MIM block, router gaps, the C-only netlist's missing gate capacitance and S7's port map and memory
-(71–76).
+(71–76), the MIM capacitor's double count and the review's findings (77–80).
 
 *Earlier (2026-10-27, evening):* section 7 (plan v2) is complete: every before/after run on the five designs, the post-hoc S3 test, the five budget rules at each design's own eta and at eta 0.9 (PREREG headline; TTSKY25a's eta 0.9 run is not valid), the hand-drawn layouts against the 'after' G2.0, a third independent review (review C) and what it changed, the journey table to row 50, an assessment (7.11) and the Plan v3 review pack (7.12, `docs/plan_v3_review_pack.md`). Figures: `flow_record/img/v2_*.png`, `plan_v3/img/*.png`.
 
@@ -1256,6 +1257,10 @@ independent reviews (7.9). Effects are on the numbers reported later in this sec
 | 74 | S5 | Magic checks metal3 spacing by geometry, not by net. Two shapes of one net 0.0–0.3 µm apart (cs_stage's and the capacitor's outFirstStage tracks, one row, 0.4 µm apart in height) failed met3.2; forbidding that left no spine for outFirstStage at all; and a short run that the drawing lengthens to the 0.7 µm minimum stuck out 0.02 µm past the bridge computed from its unlengthened ends | top-level DRC (2 errors, located with a Magic error list), then "no spine for net outFirstStage", then DRC 2 again | where a run passes its own net's shape closer than the spacing without touching it, the router draws a met3 bridge that merges them; the checks and bridges use the drawn (lengthened) extent | top-level DRC 0 and LVS match on both LOADBench layouts |
 | 75 | S6 | Magic's C-only netlist (ext2spice) leaves out the capacitance to ground of nets that are transistor gates. Its total is 8.9 % below the .ext's on LOADBench (FirstStageYout1, outFirstStage, ibias: 0 fF in the netlist, 37, 21 and 4 fF in the .ext) and 3.6 % on the 5T (INP, INN; kpex had shown "INP/INN about 1 fF against 0" in 7.19). The R+C netlist carries it | LOADBench's G6.2 read 0.000 fF on FirstStageYout1 and outFirstStage, impossible for nets that long; the .ext's node records had the capacitance | G6.4 (info) compares the netlist's total with the .ext's and lists the gate nets the netlist leaves without ground capacitance; G6.2 still reads the netlist (an .ext reading by node misplaces the part over an n-well), so those nets read low there. Test: the .ext reading | LOADBench's G6.2 fails on other elements anyway; the 5T's verdict is unchanged |
 | 76 | S7 | (1) The bench wrapper took the 5T's port names (INP, INN, …) as the DUT's; LOADBench's bench connects `in1 in2 out sourceNmos sourcePmos` to `INN INP OUTP VSS VDD`, and has a current source (Ibias) where the 5T has a voltage source. (2) Four R+C runs at once (79 MB decks, 315 000 resistors) ran the 5 GB container out of memory; the kernel killed both AC runs (rc −9) | reading S7 before its first LOADBench run; then the run's failed-runs list, whose AC logs end right after the operating point | the ports map through the bench's own XDUT line; a removed source goes back as what it was (V or I); a deck over 20 MB runs on its own after the others. Tests: the LOADBench map, the current source | see 7.20 |
+| 77 | S6 / S7 | Magic's sky130 rules charge metal4 over metal3 at 84 aF/µm² everywhere (`defaultoverlap allm4 metal4 allm3 metal3`), also across a MIM capacitor's top plate (capm, on its own plane, at metal4's potential), where the device model already counts the capacitance. LOADBench's capacitor block alone carries 22.5 fF between its plates (233 µm² × 84 aF/µm² ≈ 20 fF), most of the out~outFirstStage coupling behind its G7.2 failure on GBW | Phase 6 tracing the GBW loss: extracting the capacitor block alone, then reading the extraction rules | nothing is edited out: G6.5 (info) extracts each capacitor block alone and records the plate coupling; G7.5 (info) runs the R+C AC once more with an equal negative capacitor across the device's terminals; G6.2, G7.1 and G7.2 keep Magic's numbers. Test: the cancelling capacitor | see 7.21 |
+| 78 | S6 | Row 75's fix was incomplete: G6.2 still read a gate net the C-only netlist leaves at 0 fF as 0 and within budget (LOADBench's FirstStageYout1 and outFirstStage, about 37 and 21 fF in the .ext against budgets of 12.4 and 7.5 fF). G6.2 failed on other rows, so the verdict held, but its violation list left both out | the independent review of S4–S7 (Phase 7) | a net's capacitance to ground is the larger of the netlist's and the .ext's, with its source recorded; G6.4 also lists nets the netlist reads more than 5 % low (ibias 54 against 58 fF). Test | see 7.21 |
+| 79 | S6 / S7 | (1) `flat_lvs` missed Netgen's pin rows whose names its 43-character columns cut (no closing parenthesis), and never checked a row pairing two different pins. (2) The G7.5 jobs were added after S7 had built its run lists, so they would never have run and G7.5 would have read empty. (3) A spec with no post-layout measurement was skipped, and G7.1/G7.2 passed on the rest | the same review; (2) before any run used it | `flat_lvs` reads every pin-table row, compares a cut name as a prefix and fails a row with two different pins; the G7.5 jobs join the list first; a missing measurement fails G7.1 and G7.2. Tests | LOADBench's flat LVS counts 3 inner nets (was 2), still a match |
+| 80 | S4 / S5 | Latent, found by the same review: (1) a device with m > 1 is drawn once by S3 and S4's block LVS compared it with W and nf only, so a block holding 1/m of the transistor passed (`ttsky25a_fd` m = 2, `iadc_ota` m = 6); (2) splitting an ABBA half unit used the full device's width; (3) one matching group split into two blocks of one type got one name twice; (4) the router's least-slack order used IR names, so renamed nets (`IBIAS`, `VBIAS`) went last | the review | (1) a block with an m > 1 device fails S4 with a message, until S4 draws arrays; (2) a unit's width follows its own fingers; (3) the body names the block too; (4) the order uses the layout view's names. Tests | none of the 5T's or LOADBench's results depended on them, except the 5T's routing order (VBIAS) |
 
 ### 7.2 New designs and what had to be predicted
 
@@ -2561,6 +2566,48 @@ view's order; the bottom plate, with its parasitic to the substrate, sits on the
   does not include a drawn Miller capacitor's own parasitics, which dominate here.
 - The 5T, re-run with this phase's code, keeps every verdict (7.19), with slightly better numbers (PM 79.42°, GBW
   101.32 MHz) because the PMOS mirror's joined tracks are now connected once.
+
+### 7.21 Plan v4, Phase 7: stabilising S4–S7 (2026-11-04, morning)
+
+Phase 7 made S4–S7 regression-safe and readable, settled the question Phase 6 left about the Miller capacitor, and
+had the new code reviewed by an independent agent before the final runs.
+
+**The MIM capacitor and Magic's rules** (row 77). Magic's sky130 extraction charges metal4 over metal3 everywhere,
+also across a MIM capacitor's top plate. Physically the top plate (capm) lies between the two metals at metal4's
+potential, and the device model's area and perimeter terms already hold that capacitance. So the 22.5 fF Magic
+reports between the plates of LOADBench's capacitor block (233 µm² × 84 aF/µm² ≈ 20 fF, plus side overlap) is very
+likely counted twice. The flow does not edit it out: G6.5 (info) extracts each capacitor block alone, and G7.5 (info)
+re-runs the R+C AC with an equal negative capacitor across the device's two terminals. The gates keep Magic's
+numbers; which number should gate is a question for Imasha.
+
+**Review** (an independent agent read S4–S7 and the committed outputs; rows 78–80). Three findings were confirmed in
+the outputs or the new code, all fixed:
+- G6.2 still read gate nets the C-only netlist leaves at 0 fF as within budget (row 75's fix was incomplete);
+- `flat_lvs` missed pin rows whose names Netgen cuts at 43 characters, and never checked a row pairing two pins;
+- the G7.5 runs would never have run (added after S7 built its run lists).
+Latent ones were fixed too: m > 1 devices now fail S4 instead of being drawn at 1/m; a half unit's width; duplicate
+block names; the router's order for renamed nets; a missing post-layout measurement now fails G7.1. Two were left:
+G5.4's lengths count the top-level wiring only, not the blocks' own tracks (a known limit, now stated), and the
+router's spacing model is a little short for body stacks and bridges (DRC catches it; both layouts are clean).
+
+**Regression and records:**
+- Golden snapshots for S4–S7 on both designs (`tests/golden/<d>/S4…S7.json`). Deterministic results keep 1e-3; the R+C
+  view keeps 0.5 % and 0.03 of eta × margin, because Magic's extresist differs a little from run to run.
+- S5's candidates go to `candidates.json.gz` (LOADBench's `placement.json` was 17 MB).
+- `docs/s4_s7_walkthrough.html` (`scripts/make_s4s7_walkthrough.py`), the companion of the reviewed S0–S3 page,
+  which is unchanged.
+
+**Final runs with this code** (2026-11-04):
+- The 5T: S4–S7 PASS. Budget-aware R+C: gain 31.694 dB, GBW 101.32 MHz, PM 79.42°; worst G6.2 use 0.29. Area-only:
+  GBW 100.73 MHz, PM 79.21°. H4 holds; H5 holds on gain, GBW and PM (noise a tie), as in 7.19.
+- LOADBench: S4 PASS; S5 FAIL G5.4 and S6 FAIL G6.2 as in 7.20, G6.2 now with 21 violations (FirstStageYout1 3.0 ×
+  and outFirstStage 2.7 × its ground-capacitance budget, read from the .ext). Even without the capacitor's own plate
+  coupling, out~outFirstStage stays 1.43 × its budget (6.8 against 4.7 fF). S7: every spec met; G7.2 fails on GBW as
+  in 7.20 (22.13 MHz, 1.08 of eta × margin).
+- **G7.5 settles the GBW question:** with the 22.5 fF plate coupling cancelled, GBW is 22.71 MHz (0.58 of eta ×
+  margin) and PM 64.77° (0.21; less Miller capacitance, less pole splitting), gain unchanged: every spec within eta.
+  LOADBench's G7.2 failure rests on the coupling Magic very likely counts twice.
+- Tests: 176 pass; 28 golden comparisons (S0–S7 for the 5T and LOADBench, S0–S3 for the other three designs) match.
 <!-- section7:end -->
 
 ---
@@ -2608,3 +2655,4 @@ view's order; the bottom plate, with its parasitic to the substrate, sits on the
 - 2026-11-03 (late evening): 7.18 and rows 68–69 (Claude Code, plan v4 Phase 4): S5 routing on the 5T; top-level DRC and LVS clean for both placements; S5 a flow stage.
 - 2026-11-03 (late evening): 7.19 and row 70 (Claude Code, plan v4 Phase 5): S6 extraction against S2's budgets and S7 post-layout SPICE on the 5T; H4 holds, H5 mostly, G2.0 within 25 % for PM only.
 - 2026-11-04 (early morning): 7.20 and rows 71–76 (Claude Code, plan v4 Phase 6): LOADBench through S4–S7; S4 and the top-level layout signed off, G6.2 and G7.2 (GBW) fail, every spec met post-layout; the 5T re-run keeps its verdicts.
+- 2026-11-04 (morning): 7.21 and rows 77–80 (Claude Code, plan v4 Phase 7): the MIM capacitor's plate coupling very likely counted twice by Magic (G6.5, G7.5: without it LOADBench is within eta); an independent review's fixes; S4–S7 goldens; the S4–S7 walkthrough.

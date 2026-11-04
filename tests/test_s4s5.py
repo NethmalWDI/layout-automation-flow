@@ -418,3 +418,42 @@ def test_loadbench_post_layout_meets_specs_but_loses_more_gbw_than_eta_allows():
     ba = m["metrics"]["budget_aware"]
     assert all(x["meets_spec"] for x in ba.values())
     assert not ba["gbw_mhz"]["within_allowed"] and ba["gain_db"]["use_of_allowed"] < 0.1 and ba["pm_deg"]["use_of_allowed"] < 0.1
+
+
+def test_mim_self_coupling_is_cancelled_across_the_device_terminals():
+    """G7.5's view: a negative capacitor equal to the plate-to-plate coupling that S6 extracted from the lone
+    capacitor block, across the MIM device's own two terminals; nothing without a MIM device (plan v4 Phase 7)."""
+    from src.s7.run import mim_cancelled
+    mims = {"Capacitor2": {"model": "sky130_fd_pr__cap_mim_m3_1", "plate_coupling_fF": 22.47}}
+    net = ".subckt c_flat out\nX0 a.t5 out sky130_fd_pr__cap_mim_m3_1 l=15.66 w=15.66\nR0 a.t5 b 1\n.ends\n"
+    fixed = mim_cancelled(net, mims).splitlines()
+    assert fixed[2] == "Cmimself0 a.t5 out -22.47f" and fixed[1].startswith("X0")
+    assert mim_cancelled(".subckt c_flat out\nR0 a b 1\n.ends\n", mims) is None
+
+
+def test_g62_never_reads_a_net_lower_than_the_ext_and_flat_lvs_reads_cut_names(tmp_path):
+    """Review of plan v4 Phase 7: a gate net the C-only netlist leaves at 0 fF is compared with its .ext capacitance;
+    Netgen's 43-character columns cut a name (no closing parenthesis), and two different pins in one row fail."""
+    from src.s6.run import against_budgets, flat_lvs
+    b = {"elements": [{"id": "g1", "kind": "net_capacitance", "budget": 10.0, "units": "fF"}]}
+    rows = against_budgets({"net": {}, "coupling": {}}, b, {}, {}, {"devices": []}, {"g1": 37.0})["rows"]
+    assert rows[0]["value"] == 37.0 and not rows[0]["ok"] and ".ext" in rows[0]["source"]
+    head = "Circuits match uniquely.\nSubcircuit pins:\nCircuit 1: a |Circuit 2: b\n----|----\n"
+    cut = "input_pair__AB_0.FirstStageYsourceTranscon |(no pin, node is FirstStageYsourceTranscon \n"
+    for rows_, ok in ((cut, True), ("out | out\n", True), ("out | in1\n", False),
+                      ("blk_0.net1 |(no pin, node is net9)\n", False)):
+        f = tmp_path / "r.txt"
+        f.write_text(head + rows_ + "Cell pin lists are equivalent.\n")
+        assert flat_lvs(f)["match"] is ok, rows_
+
+
+def test_block_names_stay_apart_and_m_gt_1_fails_loudly(tmp_path):
+    from src.s4.run import plan_blocks, build_variant
+    ir = {"devices": [{"name": "XA", "type": "pmos", "terminals": {"b": "VDD", "d": "a", "g": "g", "s": "VDD"}},
+                      {"name": "XB", "type": "pmos", "terminals": {"b": "w", "d": "b", "g": "g", "s": "w"}}],
+          "hierarchy": {"blocks": [{"name": "pair", "devices": ["XA", "XB"]}]}}
+    names = [b["name"] for b in plan_blocks(ir, [])]
+    assert len(names) == len(set(names)) == 2
+    ir2 = {"devices": [{"name": "XA", "type": "pmos", "m": 2, "terminals": {"b": "VDD", "d": "a", "g": "g", "s": "VDD"}}]}
+    r = build_variant({"name": "a", "kind": "single", "devices": ["XA"]}, {"id": "A", "units": []}, ir2, tmp_path)
+    assert r["ok"] is False and "m > 1" in r["error"]

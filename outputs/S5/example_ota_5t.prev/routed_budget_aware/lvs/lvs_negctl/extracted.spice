@@ -35,7 +35,7 @@ X0 S G D w_n194_n898# sky130_fd_pr__pfet_01v8 ad=2.32 pd=16.58 as=2.32 ps=16.58 
 Xpfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng_pc G D S B sky130_fd_pr__pfet_01v8_6DK835
 .ends
 
-.subckt pmos_current_mirror_load__AB OUTP VDD_body VDD net3
+.subckt pmos_current_mirror_load__AB net3 OUTP VDD_body VDD
 Xpfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng_0 VDD_body VDD net3 net3 pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng
 Xpfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng_1 VDD_body VDD net3 OUTP pfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng
 .ends
@@ -44,6 +44,6 @@ Xpfet_01v8_W8_L1_m1__nf1_gtop_sdfull_ng_1 VDD_body VDD net3 OUTP pfet_01v8_W8_L1
 Xnmos_differential_pair__AB_0 INP nmos_differential_pair__AB_0/net1 INN OUTP nmos_differential_pair__AB_0/net3
 + VSS nmos_differential_pair__AB
 Xnmos_current_mirror_bias__A_0 VSS VBIAS nmos_differential_pair__AB_0/net1 VSS nmos_current_mirror_bias__A
-Xpmos_current_mirror_load__AB_0 OUTP VDD VDD nmos_differential_pair__AB_0/net3 pmos_current_mirror_load__AB
+Xpmos_current_mirror_load__AB_0 nmos_differential_pair__AB_0/net3 OUTP VDD VDD pmos_current_mirror_load__AB
 .ends
 
