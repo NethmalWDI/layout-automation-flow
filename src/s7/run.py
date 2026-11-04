@@ -69,16 +69,23 @@ def wrapped(bench_txt: str, netlist: str, cell: str, ir: dict, nmap: dict, nets:
     # Only the first port of each name (the top cell's label) is a circuit node. Every other port, a repeated name
     # (VDD twice: the top label and a block track's) or a unit's own D/G/S/B in the R+C netlist, is a point inside
     # the resistor network: it gets its own node, never the bench's, which would short the wiring between them.
+    # The bench's own wrapper may hold more than the DUT: iadc_ota's ideal CMFB (Bcmfb) drives the DUT's cmc through
+    # the wrapper node cmc_w. Those elements are kept, and a port goes to its wrapper node also when that node is
+    # inside the wrapper (flow record row 100: they were dropped, so iadc's layout views ran with the CMFB open; the
+    # other designs' wrappers hold only the DUT line, so nothing changes for them).
+    body = re.search(r"^\.subckt dut_amp\s.*?$(.*?)^\.ends", bench_txt, re.S | re.M)
+    extra = [ln for ln in (body.group(1).splitlines() if body else []) if ln.strip() and not ln.startswith("XDUT")]
+    known = set(wrapper) | set(pmap.values())
     first, nodes = {}, []
     for i, p in enumerate(ports):
         base = re.split(r"[./]", p)[-1]
         if base not in first:
             node = pmap.get(base) or pmap.get(inv.get(base, base))
-            first[base] = node if node in wrapper else f"N_{re.sub(r'[^A-Za-z0-9_]', '_', base)}"
+            first[base] = node if node in known else f"N_{re.sub(r'[^A-Za-z0-9_]', '_', base)}"
             nodes.append(first[base])
         else:
             nodes.append(f"N{i}_{re.sub(r'[^A-Za-z0-9_]', '_', base)}")
-    lines = [f"XDUT {' '.join(nodes)} {cell}_flat"]
+    lines = [f"XDUT {' '.join(nodes)} {cell}_flat"] + extra
     for s in ir.get("internal_sources", []):
         if "removed in layout view" in (s.get("layout_handling") or ""):
             p, n = nmap.get(s["p"], s["p"]), nmap.get(s["n"], s["n"])

@@ -58,7 +58,7 @@ $env:FLOW_CONTAINER="layout-s0s3"
 .\flow.ps1 run example_ota_5t              # S0 -> S3, about 30 min
 .\flow.ps1 run loadbench_miller            # S0 -> S3, about 20 min
 .\flow.ps1 run example_ota_5t --stage S1   # one stage, from the earlier stages' outputs (S1 or S3: under a minute)
-.\flow.ps1 test                            # 192 unit tests + golden comparison with the committed outputs (~15 s)
+.\flow.ps1 test                            # 199 unit tests + golden comparison with the committed outputs (~15 s)
 ```
 
 The same inside the container: `docker exec -e IIC_OSIC_TOOLS_QUIET=1 layout-s0s3 bash -lc "cd /foss/designs &&
@@ -524,7 +524,9 @@ python3 -m src.s4.run inputs/example_ota_5t/package.yaml      # or: ./flow run e
   records which view it used) and `lvs_no_series: [<device>, …]` (S6's flat LVS stops Netgen merging those devices
   in series, so they are compared one by one). Two opt-in fixes (2026-11-04, used by `iadc_ota` only until
   Imasha decides; flow record rows 95–96): `pin_origin: bbox` measures a unit's pins from its bounding-box
-  corner, where Magic places it; `search_from_outside: true` lets S5's annealing start outside the outline.
+  corner, where Magic places it; `search_from_outside: true` lets S5's annealing start outside the outline (from shelf packing, row 98).
+  `fold_row_um: <um>` (Imasha, 2026-11-05; row 97): a single device's row of copies longer than this is drawn as a
+  multi-row array in one ring (iadc_ota: its m = 96 devices, two rows of 48).
 - **Capacitors.** A capacitor that S0 binds to a MIM device for the layout view (LOADBench's Capacitor2, a PREDICTED
   binding) is a block of its own: the PDK's generator draws it, and each plate reaches a met3 track (the top plate up,
   the bottom plate down), 1.45 µm from the top plate (capm.11). Its met3 and met4 are keep-outs for S5's router.

@@ -69,6 +69,27 @@ def _start(names: list, blocks: dict) -> list:
     return rows
 
 
+def _shelf_start(names: list, blocks: dict, width: float) -> list:
+    """With `search_from_outside` (row 98): rows filled like shelves up to `width`, the tallest blocks first, PMOS rows
+    above the others; the annealing starts from this compact arrangement instead of a row per matched block."""
+    def size(b):
+        x0, y0, x1, y1 = blocks[b]["variants"][0]["geometry"]["bbox_um"]
+        return x1 - x0, y1 - y0
+    rows = []
+    for side in ("p", "n"):
+        shelves = []
+        for b in sorted((b for b in names if _side(b, blocks) == side), key=lambda b: (-size(b)[1], b)):
+            w = size(b)[0]
+            k = next((i for i, s in enumerate(shelves) if s[0] + P.BLOCK_GAP + w <= width), None)
+            if k is None:
+                shelves.append([w, [b]])
+            else:
+                shelves[k][0] += P.BLOCK_GAP + w
+                shelves[k][1].append(b)
+        rows += [s[1] for s in shelves]
+    return rows
+
+
 def _valid_rows(rows: list, blocks: dict) -> bool:
     if any(not r for r in rows):
         return False
@@ -81,7 +102,7 @@ def anneal(names: list, blocks: dict, max_len: dict, rule: str, outline: list | 
            from_outside: bool = False) -> dict:
     """The best placement of `names` under `rule` ('budget_aware' or 'area_only') by simulated annealing."""
     a_ref = sum(min(v["geometry"]["area_um2"] for v in blocks[b]["variants"]) for b in names)
-    rows = _start(names, blocks)
+    rows = _shelf_start(names, blocks, outline[0]) if (from_outside and outline) else _start(names, blocks)
     choice = {b: (blocks[b]["variants"][0], False) for b in names}
 
     # A start outside the outline (iadc_ota's x1: every matched block opens a row, far taller than the tile) could never
@@ -229,6 +250,24 @@ def hierarchical(design: str, blocks: dict, max_len: dict, rule: str, outline: l
         raise RuntimeError(f"no placement of macro(s) {bad} fits the outline {outline}")
     top_blocks = {m: as_block(m, [(sid, x["placement"]) for sid, x in shapes[m].items()], blocks) for m in groups}
     cands = [c for c in P.enumerate_candidates(top_blocks, max_len) if fits(c["placement"], outline)]
+    fallback = None
+    if not cands and outline and rule != "area_only":
+        # no arrangement of the budget-aware shapes fits (iadc_ota in the Tiny Tapeout tile: its wire budgets are so
+        # far exceeded that the wire term swamps the area term, and the macros come out loose). Each macro's
+        # area-only shapes join the candidates; the top level still chooses by this rule's cost among the
+        # arrangements that fit (flow record row 99). Only where S5 stopped before: ttsky25a_fd is unchanged.
+        for m, names in groups.items():
+            for f in SHAPES:
+                x = place_macro(names, blocks, max_len, "area_only", [outline[0] * f, outline[1]], outside)
+                if x["placement"] is None:
+                    continue
+                size = (round(x["placement"]["bbox"][2] - x["placement"]["bbox"][0], 3),
+                        round(x["placement"]["bbox"][3] - x["placement"]["bbox"][1], 3))
+                if all(size != y["size"] for y in shapes[m].values()):
+                    shapes[m][f"a{int(round(f * 100))}"] = {**x, "size": size, "area_only_shape": True}
+        top_blocks = {m: as_block(m, [(sid, x["placement"]) for sid, x in shapes[m].items()], blocks) for m in groups}
+        cands = [c for c in P.enumerate_candidates(top_blocks, max_len) if fits(c["placement"], outline)]
+        fallback = "area-only macro shapes added: no arrangement of the budget-aware shapes fitted (row 99)"
     if not cands:
         sizes = {m: [list(x["size"]) for x in shapes[m].values()] for m in groups}
         raise RuntimeError(f"no arrangement of the macros fits the outline {outline}; macro shapes (w, h) {sizes}")
@@ -236,4 +275,4 @@ def hierarchical(design: str, blocks: dict, max_len: dict, rule: str, outline: l
     flat = flatten(cands[i]["placement"], shapes)
     a_ref = sum(min(v["geometry"]["area_um2"] for v in blocks[b]["variants"]) for b in blocks)
     return {"placement": flat, "cost": P.cost(flat, a_ref, max_len), "index": i, "n_top": len(cands),
-            "macro_of": mof}
+            "macro_of": mof, **({"fallback": fallback} if fallback else {})}

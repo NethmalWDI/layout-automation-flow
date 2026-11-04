@@ -204,6 +204,9 @@ def kpex_cross_check(gds: Path, cell: str, ref_top: Path, design: str, out: Path
             "total_fF": {"magic": round(tot_m, 3), "kpex": round(tot_k, 3)}}
 
 
+SYM_TRIES = 20000   # full assignments symmetric_relabel checks before it gives up (row 100)
+
+
 def _device_multiset(ref_text: str, perm: dict) -> list:
     """The reference's devices, each as (model, nets, parameters) with `perm` applied to the nets; a resistor's or
     capacitor's two ends and a transistor's drain and source are interchangeable, so they are sorted."""
@@ -228,23 +231,37 @@ def symmetric_relabel(swaps: list, ref_text: str) -> dict | None:
     nodes of two identical stacks between x1_net2 and Vss). Accepted only if the rows form a permutation of the
     reference's net names (a cut label resolved by prefix among them) and that permutation maps the reference's
     devices onto themselves; otherwise None (a label on the wrong net)."""
-    names = [r for _, r in swaps]
+    names = [row[1] for row in swaps]
     if len(set(names)) != len(names):
         return None
-    full = {}
-    for left, _ in swaps:                                    # exact labels first
-        if left in names:
-            full[left] = left
-    for left, _ in swaps:
-        if left not in full:
-            c = [n for n in names if n.startswith(left) and n not in full.values()]
-            if len(c) != 1:
-                return None
-            full[left] = c[0]
-    perm = {r: full[left] for left, r in swaps}             # reference net -> the net its layout label names
-    if sorted(perm.values()) != sorted(perm) or _device_multiset(ref_text, perm) != _device_multiset(ref_text, {}):
+    # each row's label: its own name when it is exact, else every name it is a prefix of (Netgen cut it); a row-by-
+    # row search (iadc_ota: eleven identical cascode pairs, several cut labels 'x1_net1…' that could be x1_net10 to
+    # x1_net15; flow record row 100) tries the assignments, all distinct, until one maps the devices onto themselves
+    cands = [[row[0]] if (row[0] in names and not (len(row) > 2 and row[2])) else
+             [n for n in names if n.startswith(row[0])] for row in swaps]   # row[2]: the label was cut
+    if any(not c for c in cands):
         return None
-    return perm
+    base = _device_multiset(ref_text, {})
+    order = sorted(range(len(swaps)), key=lambda i: len(cands[i]))
+    pick, used, tries = {}, set(), [0]
+
+    def search(k):
+        if k == len(order):
+            tries[0] += 1
+            perm = {swaps[i][1]: pick[i] for i in range(len(swaps))}   # reference net -> the net its label names
+            return perm if _device_multiset(ref_text, perm) == base else None
+        i = order[k]
+        for n in cands[i]:
+            if n in used or tries[0] > SYM_TRIES:
+                continue
+            pick[i] = n
+            used.add(n)
+            got = search(k + 1)
+            if got:
+                return got
+            used.discard(n)
+        return None
+    return search(0)
 
 
 def flat_lvs(report: Path, ref: Path | None = None) -> dict:
@@ -281,14 +298,14 @@ def flat_lvs(report: Path, ref: Path | None = None) -> dict:
                 cut_r = not name.endswith(")")
                 inner += 1
                 if not same(base, name.rstrip(")"), cut or cut_r):
-                    (odd if cut_r else crossed).append([base, name.rstrip(")")] if not cut_r else [left, name])
+                    (odd if cut_r else crossed).append([base, name.rstrip(")"), cut] if not cut_r else [left, name])
                 elif cut and not cut_r and base != name.rstrip(")"):
-                    by_prefix.append([base, name.rstrip(")")])  # a cut label: which net it names is not certain
+                    by_prefix.append([base, name.rstrip(")"), True])  # a cut label: which net it names is not certain
             elif not same(left, right, cut or len(right) >= 42):
                 odd.append([left, right])                   # two different pins paired
     perm = None
     while True:                                             # a cut row on a crossed net is part of the crossing
-        nets = {n for row in crossed for n in row}
+        nets = {n for row in crossed for n in row[:2]}
         more = [row for row in by_prefix if row[1] in nets and row not in crossed]
         if not more:
             break

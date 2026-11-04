@@ -65,7 +65,8 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 
 ## Running (container `layout-s0s3`)
 
-- Nothing running (19:29 CET 2026-11-04).
+- Nothing running (21:25 CET 2026-11-04).
+- Ended: iadc_ota S4–S7 with folding (row 97), 19:56–21:19 CET over four runs (`runs/logs/p9_iadc_S4S7e.log`, `p9_iadc_S5S7.log`, `p9_iadc_S5S7b.log`, `p9_iadc_S6S7.log`): S4 PASS; S5 FAIL G5.4 only (after rows 98, 99); S6 FAIL G6.2 only (after row 100); S7 G7.1 FAIL on GBW (180.3 against ≥ 188.9 MHz), G7.2 FAIL.
 
 Runs of 2026-11-04 evening (branch `gui-tools`), ended:
 - iadc_ota S0–S3 re-run with today's code (branch `gui-tools`), 15:34–18:15 CET (`runs/logs/p9_iadc_S0S3.log`): every stage finished; FAIL G0.7, G1.1, G2.7, G3.3/G3.5, as in October.
@@ -1319,7 +1320,7 @@ Step 0 record:
    Keep the outline first, or is the shared axis worth a bigger outline?
 
 **FEEDBACK NEEDED (Claude Code, 2026-11-04 19:29, GUI and iadc):**
-1. iadc_ota's x2 cannot fit the 161 µm tile: two single devices of m = 96 (XX2_M5, XX2_M6, 1.4/0.6 µm units) are
+1. ~~iadc_ota's x2 cannot fit the 161 µm tile~~ (answered 2026-11-05: one multi-row array, row 97; done): two single devices of m = 96 (XX2_M5, XX2_M6, 1.4/0.6 µm units) are
    drawn as one row of 96 copies, 198 µm. How should S4 fold such a device? (a) several single-row blocks of the
    same device, each with its own tap ring (simplest; more area); (b) a multi-row array inside one ring (more work);
    (c) fewer copies with more fingers each (changes the designer's unit-transistor style).
@@ -1327,6 +1328,8 @@ Step 0 record:
    block's stubs sit up to 0.125 µm off their strips' centres (row 95, `pin_origin: bbox`), and S5's annealing
    dropped macro shapes whose start was outside the outline (row 96, `search_from_outside`). Make them the default
    and re-run the 5T, LOADBench and ttsky S4–S7?
+4. iadc_ota misses its GBW spec after layout (180.3 MHz against ≥ 188.9, a spec that is 0.9 × the schematic: an
+   ASSUMPTION, since upstream gives no specs). Keep the spec and report the miss, or set iadc's specs otherwise?
 3. iadc_ota's layout instructions repeat the ttsky decisions (centroid/interdigitated, dummies at the row ends,
    although the netlist has the designer's own dummies) and take the whole tile as the outline (power straps and
    pins not routed): ASSUMPTIONs; confirm?
@@ -1679,6 +1682,11 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-05 (Claude Code, branch `gui-tools`): **iadc_ota through S0–S7 in the Tiny Tapeout tile** (158.7 × 213.5
+  µm inside 161 × 225.77): a multi-row array for its m = 96 devices (Imasha's choice, row 97), S5 packing fixes
+  (rows 98, 99), S7's bench wrapper and S6's relabel search (row 100). Every spec met except GBW (180.3 against
+  ≥ 188.9 MHz). Wiring costs 12.0 % GBW, the hand layout 9.1 %. 199 tests; 36 goldens; the finished designs
+  unchanged.
 - 2026-11-04 evening (Claude Code, branch `gui-tools`): **the local GUI** (edit a design as a copy, or make a new
   one from files; run the flow; simple report; no LLM), tested end to end on two 5T demos (`ota5t_gui_copy`
   S0–S7 PASS; `ota5t_gui_new` all stages ran). **iadc_ota** in the Tiny Tapeout tile: S0–S3 re-run, S4 PASS, S5

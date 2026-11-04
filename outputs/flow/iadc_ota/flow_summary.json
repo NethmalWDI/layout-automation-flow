@@ -135,11 +135,11 @@
     {
      "step": "run",
      "rc": 0,
-     "seconds": 353.8,
+     "seconds": 348.9,
      "log": "runs/logs/flow/iadc_ota/S4_run.log"
     }
    ],
-   "started": "2026-11-04T18:52:19",
+   "started": "2026-11-04T19:56:51",
    "gates": {
     "G4.1_one_type_and_body_per_block": true,
     "G4.2_DRC_every_variant": true,
@@ -150,22 +150,84 @@
    },
    "status": "PASS",
    "failed_gates": [],
-   "seconds": 353.8
+   "seconds": 348.9
   },
   "S5": {
    "stage": "S5",
    "steps": [
     {
      "step": "run",
-     "rc": 1,
-     "seconds": 128.7,
+     "rc": 3,
+     "seconds": 936.8,
      "log": "runs/logs/flow/iadc_ota/S5_run.log"
     }
    ],
-   "started": "2026-11-04T18:58:13",
-   "status": "ERROR",
-   "reason": "S5/run exited with 1 (0 = PASS, 3 = gate FAIL, anything else = error)",
-   "seconds": 128.7
+   "started": "2026-11-04T20:18:56",
+   "gates": {
+    "G5.1_placement_legal": true,
+    "G5.7_matched_centring (info)": null,
+    "G5.5_area_vs_area_only (info)": null,
+    "G5.6_outline": true,
+    "G5.2_top_DRC": true,
+    "G5.3_top_LVS": true,
+    "G5.4_route_rules": false
+   },
+   "status": "FAIL",
+   "failed_gates": [
+    "G5.4_route_rules"
+   ],
+   "seconds": 936.9
+  },
+  "S6": {
+   "stage": "S6",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 3,
+     "seconds": 1179.1,
+     "log": "runs/logs/flow/iadc_ota/S6_run.log"
+    }
+   ],
+   "started": "2026-11-04T20:57:24",
+   "gates": {
+    "G6.1_extracted_and_LVS": true,
+    "G6.2_parasitics_within_budgets": false,
+    "G6.4_c_only_netlist_complete (info)": null,
+    "G6.5_mim_self_coupling (info)": null,
+    "G6.3_kpex_cross_check (info)": null
+   },
+   "status": "FAIL",
+   "failed_gates": [
+    "G6.2_parasitics_within_budgets"
+   ],
+   "seconds": 1179.2
+  },
+  "S7": {
+   "stage": "S7",
+   "steps": [
+    {
+     "step": "run",
+     "rc": 3,
+     "seconds": 92.4,
+     "log": "runs/logs/flow/iadc_ota/S7_run.log"
+    }
+   ],
+   "started": "2026-11-04T21:17:04",
+   "gates": {
+    "G7.1_specs_met_post_layout": false,
+    "G7.2_loss_within_eta_margin": false,
+    "G7.3_G2.0_prediction (info)": null,
+    "G7.4_pvt (info)": null,
+    "G7.5_mim_self_coupling_cancelled (info)": null,
+    "H4 (info)": null,
+    "H5 (info)": null
+   },
+   "status": "FAIL",
+   "failed_gates": [
+    "G7.1_specs_met_post_layout",
+    "G7.2_loss_within_eta_margin"
+   ],
+   "seconds": 92.4
   }
  }
 }

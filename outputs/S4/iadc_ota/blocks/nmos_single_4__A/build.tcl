@@ -99,101 +99,101 @@ box 93.380um 0.000um 93.380um 0.000um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
 box 95.410um 0.000um 95.410um 0.000um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 97.440um 0.000um 97.440um 0.000um
+box 0.000um 6.120um 0.000um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 99.470um 0.000um 99.470um 0.000um
+box 2.030um 6.120um 2.030um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 101.500um 0.000um 101.500um 0.000um
+box 4.060um 6.120um 4.060um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 103.530um 0.000um 103.530um 0.000um
+box 6.090um 6.120um 6.090um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 105.560um 0.000um 105.560um 0.000um
+box 8.120um 6.120um 8.120um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 107.590um 0.000um 107.590um 0.000um
+box 10.150um 6.120um 10.150um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 109.620um 0.000um 109.620um 0.000um
+box 12.180um 6.120um 12.180um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 111.650um 0.000um 111.650um 0.000um
+box 14.210um 6.120um 14.210um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 113.680um 0.000um 113.680um 0.000um
+box 16.240um 6.120um 16.240um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 115.710um 0.000um 115.710um 0.000um
+box 18.270um 6.120um 18.270um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 117.740um 0.000um 117.740um 0.000um
+box 20.300um 6.120um 20.300um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 119.770um 0.000um 119.770um 0.000um
+box 22.330um 6.120um 22.330um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 121.800um 0.000um 121.800um 0.000um
+box 24.360um 6.120um 24.360um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 123.830um 0.000um 123.830um 0.000um
+box 26.390um 6.120um 26.390um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 125.860um 0.000um 125.860um 0.000um
+box 28.420um 6.120um 28.420um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 127.890um 0.000um 127.890um 0.000um
+box 30.450um 6.120um 30.450um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 129.920um 0.000um 129.920um 0.000um
+box 32.480um 6.120um 32.480um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 131.950um 0.000um 131.950um 0.000um
+box 34.510um 6.120um 34.510um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 133.980um 0.000um 133.980um 0.000um
+box 36.540um 6.120um 36.540um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 136.010um 0.000um 136.010um 0.000um
+box 38.570um 6.120um 38.570um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 138.040um 0.000um 138.040um 0.000um
+box 40.600um 6.120um 40.600um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 140.070um 0.000um 140.070um 0.000um
+box 42.630um 6.120um 42.630um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 142.100um 0.000um 142.100um 0.000um
+box 44.660um 6.120um 44.660um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 144.130um 0.000um 144.130um 0.000um
+box 46.690um 6.120um 46.690um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 146.160um 0.000um 146.160um 0.000um
+box 48.720um 6.120um 48.720um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 148.190um 0.000um 148.190um 0.000um
+box 50.750um 6.120um 50.750um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 150.220um 0.000um 150.220um 0.000um
+box 52.780um 6.120um 52.780um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 152.250um 0.000um 152.250um 0.000um
+box 54.810um 6.120um 54.810um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 154.280um 0.000um 154.280um 0.000um
+box 56.840um 6.120um 56.840um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 156.310um 0.000um 156.310um 0.000um
+box 58.870um 6.120um 58.870um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 158.340um 0.000um 158.340um 0.000um
+box 60.900um 6.120um 60.900um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 160.370um 0.000um 160.370um 0.000um
+box 62.930um 6.120um 62.930um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 162.400um 0.000um 162.400um 0.000um
+box 64.960um 6.120um 64.960um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 164.430um 0.000um 164.430um 0.000um
+box 66.990um 6.120um 66.990um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 166.460um 0.000um 166.460um 0.000um
+box 69.020um 6.120um 69.020um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 168.490um 0.000um 168.490um 0.000um
+box 71.050um 6.120um 71.050um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 170.520um 0.000um 170.520um 0.000um
+box 73.080um 6.120um 73.080um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 172.550um 0.000um 172.550um 0.000um
+box 75.110um 6.120um 75.110um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 174.580um 0.000um 174.580um 0.000um
+box 77.140um 6.120um 77.140um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 176.610um 0.000um 176.610um 0.000um
+box 79.170um 6.120um 79.170um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 178.640um 0.000um 178.640um 0.000um
+box 81.200um 6.120um 81.200um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 180.670um 0.000um 180.670um 0.000um
+box 83.230um 6.120um 83.230um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 182.700um 0.000um 182.700um 0.000um
+box 85.260um 6.120um 85.260um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 184.730um 0.000um 184.730um 0.000um
+box 87.290um 6.120um 87.290um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 186.760um 0.000um 186.760um 0.000um
+box 89.320um 6.120um 89.320um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 188.790um 0.000um 188.790um 0.000um
+box 91.350um 6.120um 91.350um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 190.820um 0.000um 190.820um 0.000um
+box 93.380um 6.120um 93.380um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
-box 192.850um 0.000um 192.850um 0.000um
+box 95.410um 6.120um 95.410um 6.120um
 getcell nfet_01v8_W1p4_L0p6_m96__nf1_gboth_sdfull_ng
 box 0.535um 2.050um 0.895um 2.410um
 paint metal1
@@ -1347,1173 +1347,1197 @@ box 96.470um -1.900um 96.670um 0.640um
 paint metal2
 box 96.370um -2.100um 96.770um -1.700um
 paint m3c
-box 97.975um 2.050um 98.335um 2.410um
+box 0.535um 8.170um 0.895um 8.530um
 paint metal1
-box 98.025um 2.070um 98.285um 2.390um
+box 0.585um 8.190um 0.845um 8.510um
 paint m2c
-box 98.055um 2.230um 98.255um 3.320um
+box 0.615um 8.350um 0.815um 9.440um
 paint metal2
-box 97.955um 3.120um 98.355um 3.520um
+box 0.515um 9.240um 0.915um 9.640um
 paint m3c
-box 97.530um 0.460um 97.890um 0.820um
+box 0.090um 6.580um 0.450um 6.940um
 paint metal1
-box 97.580um 0.480um 97.840um 0.800um
+box 0.140um 6.600um 0.400um 6.920um
 paint m2c
-box 97.610um -1.000um 97.810um 0.640um
+box 0.170um 5.120um 0.370um 6.760um
 paint metal2
-box 97.510um -1.200um 97.910um -0.800um
+box 0.070um 4.920um 0.470um 5.320um
 paint m3c
-box 98.420um 0.460um 98.780um 0.820um
+box 0.980um 6.580um 1.340um 6.940um
 paint metal1
-box 98.470um 0.480um 98.730um 0.800um
+box 1.030um 6.600um 1.290um 6.920um
 paint m2c
-box 98.500um -1.900um 98.700um 0.640um
+box 1.060um 4.220um 1.260um 6.760um
 paint metal2
-box 98.400um -2.100um 98.800um -1.700um
+box 0.960um 4.020um 1.360um 4.420um
 paint m3c
-box 100.005um 2.050um 100.365um 2.410um
+box 2.565um 8.170um 2.925um 8.530um
 paint metal1
-box 100.055um 2.070um 100.315um 2.390um
+box 2.615um 8.190um 2.875um 8.510um
 paint m2c
-box 100.085um 2.230um 100.285um 3.320um
+box 2.645um 8.350um 2.845um 9.440um
 paint metal2
-box 99.985um 3.120um 100.385um 3.520um
+box 2.545um 9.240um 2.945um 9.640um
 paint m3c
-box 99.560um 0.460um 99.920um 0.820um
+box 2.120um 6.580um 2.480um 6.940um
 paint metal1
-box 99.610um 0.480um 99.870um 0.800um
+box 2.170um 6.600um 2.430um 6.920um
 paint m2c
-box 99.640um -1.000um 99.840um 0.640um
+box 2.200um 5.120um 2.400um 6.760um
 paint metal2
-box 99.540um -1.200um 99.940um -0.800um
+box 2.100um 4.920um 2.500um 5.320um
 paint m3c
-box 100.450um 0.460um 100.810um 0.820um
+box 3.010um 6.580um 3.370um 6.940um
 paint metal1
-box 100.500um 0.480um 100.760um 0.800um
+box 3.060um 6.600um 3.320um 6.920um
 paint m2c
-box 100.530um -1.900um 100.730um 0.640um
+box 3.090um 4.220um 3.290um 6.760um
 paint metal2
-box 100.430um -2.100um 100.830um -1.700um
+box 2.990um 4.020um 3.390um 4.420um
 paint m3c
-box 102.035um 2.050um 102.395um 2.410um
+box 4.595um 8.170um 4.955um 8.530um
 paint metal1
-box 102.085um 2.070um 102.345um 2.390um
+box 4.645um 8.190um 4.905um 8.510um
 paint m2c
-box 102.115um 2.230um 102.315um 3.320um
+box 4.675um 8.350um 4.875um 9.440um
 paint metal2
-box 102.015um 3.120um 102.415um 3.520um
+box 4.575um 9.240um 4.975um 9.640um
 paint m3c
-box 101.590um 0.460um 101.950um 0.820um
+box 4.150um 6.580um 4.510um 6.940um
 paint metal1
-box 101.640um 0.480um 101.900um 0.800um
+box 4.200um 6.600um 4.460um 6.920um
 paint m2c
-box 101.670um -1.000um 101.870um 0.640um
+box 4.230um 5.120um 4.430um 6.760um
 paint metal2
-box 101.570um -1.200um 101.970um -0.800um
+box 4.130um 4.920um 4.530um 5.320um
 paint m3c
-box 102.480um 0.460um 102.840um 0.820um
+box 5.040um 6.580um 5.400um 6.940um
 paint metal1
-box 102.530um 0.480um 102.790um 0.800um
+box 5.090um 6.600um 5.350um 6.920um
 paint m2c
-box 102.560um -1.900um 102.760um 0.640um
+box 5.120um 4.220um 5.320um 6.760um
 paint metal2
-box 102.460um -2.100um 102.860um -1.700um
+box 5.020um 4.020um 5.420um 4.420um
 paint m3c
-box 104.065um 2.050um 104.425um 2.410um
+box 6.625um 8.170um 6.985um 8.530um
 paint metal1
-box 104.115um 2.070um 104.375um 2.390um
+box 6.675um 8.190um 6.935um 8.510um
 paint m2c
-box 104.145um 2.230um 104.345um 3.320um
+box 6.705um 8.350um 6.905um 9.440um
 paint metal2
-box 104.045um 3.120um 104.445um 3.520um
+box 6.605um 9.240um 7.005um 9.640um
 paint m3c
-box 103.620um 0.460um 103.980um 0.820um
+box 6.180um 6.580um 6.540um 6.940um
 paint metal1
-box 103.670um 0.480um 103.930um 0.800um
+box 6.230um 6.600um 6.490um 6.920um
 paint m2c
-box 103.700um -1.000um 103.900um 0.640um
+box 6.260um 5.120um 6.460um 6.760um
 paint metal2
-box 103.600um -1.200um 104.000um -0.800um
+box 6.160um 4.920um 6.560um 5.320um
 paint m3c
-box 104.510um 0.460um 104.870um 0.820um
+box 7.070um 6.580um 7.430um 6.940um
 paint metal1
-box 104.560um 0.480um 104.820um 0.800um
+box 7.120um 6.600um 7.380um 6.920um
 paint m2c
-box 104.590um -1.900um 104.790um 0.640um
+box 7.150um 4.220um 7.350um 6.760um
 paint metal2
-box 104.490um -2.100um 104.890um -1.700um
+box 7.050um 4.020um 7.450um 4.420um
 paint m3c
-box 106.095um 2.050um 106.455um 2.410um
+box 8.655um 8.170um 9.015um 8.530um
 paint metal1
-box 106.145um 2.070um 106.405um 2.390um
+box 8.705um 8.190um 8.965um 8.510um
 paint m2c
-box 106.175um 2.230um 106.375um 3.320um
+box 8.735um 8.350um 8.935um 9.440um
 paint metal2
-box 106.075um 3.120um 106.475um 3.520um
+box 8.635um 9.240um 9.035um 9.640um
 paint m3c
-box 105.650um 0.460um 106.010um 0.820um
+box 8.210um 6.580um 8.570um 6.940um
 paint metal1
-box 105.700um 0.480um 105.960um 0.800um
+box 8.260um 6.600um 8.520um 6.920um
 paint m2c
-box 105.730um -1.000um 105.930um 0.640um
+box 8.290um 5.120um 8.490um 6.760um
 paint metal2
-box 105.630um -1.200um 106.030um -0.800um
+box 8.190um 4.920um 8.590um 5.320um
 paint m3c
-box 106.540um 0.460um 106.900um 0.820um
+box 9.100um 6.580um 9.460um 6.940um
 paint metal1
-box 106.590um 0.480um 106.850um 0.800um
+box 9.150um 6.600um 9.410um 6.920um
 paint m2c
-box 106.620um -1.900um 106.820um 0.640um
+box 9.180um 4.220um 9.380um 6.760um
 paint metal2
-box 106.520um -2.100um 106.920um -1.700um
+box 9.080um 4.020um 9.480um 4.420um
 paint m3c
-box 108.125um 2.050um 108.485um 2.410um
+box 10.685um 8.170um 11.045um 8.530um
 paint metal1
-box 108.175um 2.070um 108.435um 2.390um
+box 10.735um 8.190um 10.995um 8.510um
 paint m2c
-box 108.205um 2.230um 108.405um 3.320um
+box 10.765um 8.350um 10.965um 9.440um
 paint metal2
-box 108.105um 3.120um 108.505um 3.520um
+box 10.665um 9.240um 11.065um 9.640um
 paint m3c
-box 107.680um 0.460um 108.040um 0.820um
+box 10.240um 6.580um 10.600um 6.940um
 paint metal1
-box 107.730um 0.480um 107.990um 0.800um
+box 10.290um 6.600um 10.550um 6.920um
 paint m2c
-box 107.760um -1.000um 107.960um 0.640um
+box 10.320um 5.120um 10.520um 6.760um
 paint metal2
-box 107.660um -1.200um 108.060um -0.800um
+box 10.220um 4.920um 10.620um 5.320um
 paint m3c
-box 108.570um 0.460um 108.930um 0.820um
+box 11.130um 6.580um 11.490um 6.940um
 paint metal1
-box 108.620um 0.480um 108.880um 0.800um
+box 11.180um 6.600um 11.440um 6.920um
 paint m2c
-box 108.650um -1.900um 108.850um 0.640um
+box 11.210um 4.220um 11.410um 6.760um
 paint metal2
-box 108.550um -2.100um 108.950um -1.700um
+box 11.110um 4.020um 11.510um 4.420um
 paint m3c
-box 110.155um 2.050um 110.515um 2.410um
+box 12.715um 8.170um 13.075um 8.530um
 paint metal1
-box 110.205um 2.070um 110.465um 2.390um
+box 12.765um 8.190um 13.025um 8.510um
 paint m2c
-box 110.235um 2.230um 110.435um 3.320um
+box 12.795um 8.350um 12.995um 9.440um
 paint metal2
-box 110.135um 3.120um 110.535um 3.520um
+box 12.695um 9.240um 13.095um 9.640um
 paint m3c
-box 109.710um 0.460um 110.070um 0.820um
+box 12.270um 6.580um 12.630um 6.940um
 paint metal1
-box 109.760um 0.480um 110.020um 0.800um
+box 12.320um 6.600um 12.580um 6.920um
 paint m2c
-box 109.790um -1.000um 109.990um 0.640um
+box 12.350um 5.120um 12.550um 6.760um
 paint metal2
-box 109.690um -1.200um 110.090um -0.800um
+box 12.250um 4.920um 12.650um 5.320um
 paint m3c
-box 110.600um 0.460um 110.960um 0.820um
+box 13.160um 6.580um 13.520um 6.940um
 paint metal1
-box 110.650um 0.480um 110.910um 0.800um
+box 13.210um 6.600um 13.470um 6.920um
 paint m2c
-box 110.680um -1.900um 110.880um 0.640um
+box 13.240um 4.220um 13.440um 6.760um
 paint metal2
-box 110.580um -2.100um 110.980um -1.700um
+box 13.140um 4.020um 13.540um 4.420um
 paint m3c
-box 112.185um 2.050um 112.545um 2.410um
+box 14.745um 8.170um 15.105um 8.530um
 paint metal1
-box 112.235um 2.070um 112.495um 2.390um
+box 14.795um 8.190um 15.055um 8.510um
 paint m2c
-box 112.265um 2.230um 112.465um 3.320um
+box 14.825um 8.350um 15.025um 9.440um
 paint metal2
-box 112.165um 3.120um 112.565um 3.520um
+box 14.725um 9.240um 15.125um 9.640um
 paint m3c
-box 111.740um 0.460um 112.100um 0.820um
+box 14.300um 6.580um 14.660um 6.940um
 paint metal1
-box 111.790um 0.480um 112.050um 0.800um
+box 14.350um 6.600um 14.610um 6.920um
 paint m2c
-box 111.820um -1.000um 112.020um 0.640um
+box 14.380um 5.120um 14.580um 6.760um
 paint metal2
-box 111.720um -1.200um 112.120um -0.800um
+box 14.280um 4.920um 14.680um 5.320um
 paint m3c
-box 112.630um 0.460um 112.990um 0.820um
+box 15.190um 6.580um 15.550um 6.940um
 paint metal1
-box 112.680um 0.480um 112.940um 0.800um
+box 15.240um 6.600um 15.500um 6.920um
 paint m2c
-box 112.710um -1.900um 112.910um 0.640um
+box 15.270um 4.220um 15.470um 6.760um
 paint metal2
-box 112.610um -2.100um 113.010um -1.700um
+box 15.170um 4.020um 15.570um 4.420um
 paint m3c
-box 114.215um 2.050um 114.575um 2.410um
+box 16.775um 8.170um 17.135um 8.530um
 paint metal1
-box 114.265um 2.070um 114.525um 2.390um
+box 16.825um 8.190um 17.085um 8.510um
 paint m2c
-box 114.295um 2.230um 114.495um 3.320um
+box 16.855um 8.350um 17.055um 9.440um
 paint metal2
-box 114.195um 3.120um 114.595um 3.520um
+box 16.755um 9.240um 17.155um 9.640um
 paint m3c
-box 113.770um 0.460um 114.130um 0.820um
+box 16.330um 6.580um 16.690um 6.940um
 paint metal1
-box 113.820um 0.480um 114.080um 0.800um
+box 16.380um 6.600um 16.640um 6.920um
 paint m2c
-box 113.850um -1.000um 114.050um 0.640um
+box 16.410um 5.120um 16.610um 6.760um
 paint metal2
-box 113.750um -1.200um 114.150um -0.800um
+box 16.310um 4.920um 16.710um 5.320um
 paint m3c
-box 114.660um 0.460um 115.020um 0.820um
+box 17.220um 6.580um 17.580um 6.940um
 paint metal1
-box 114.710um 0.480um 114.970um 0.800um
+box 17.270um 6.600um 17.530um 6.920um
 paint m2c
-box 114.740um -1.900um 114.940um 0.640um
+box 17.300um 4.220um 17.500um 6.760um
 paint metal2
-box 114.640um -2.100um 115.040um -1.700um
+box 17.200um 4.020um 17.600um 4.420um
 paint m3c
-box 116.245um 2.050um 116.605um 2.410um
+box 18.805um 8.170um 19.165um 8.530um
 paint metal1
-box 116.295um 2.070um 116.555um 2.390um
+box 18.855um 8.190um 19.115um 8.510um
 paint m2c
-box 116.325um 2.230um 116.525um 3.320um
+box 18.885um 8.350um 19.085um 9.440um
 paint metal2
-box 116.225um 3.120um 116.625um 3.520um
+box 18.785um 9.240um 19.185um 9.640um
 paint m3c
-box 115.800um 0.460um 116.160um 0.820um
+box 18.360um 6.580um 18.720um 6.940um
 paint metal1
-box 115.850um 0.480um 116.110um 0.800um
+box 18.410um 6.600um 18.670um 6.920um
 paint m2c
-box 115.880um -1.000um 116.080um 0.640um
+box 18.440um 5.120um 18.640um 6.760um
 paint metal2
-box 115.780um -1.200um 116.180um -0.800um
+box 18.340um 4.920um 18.740um 5.320um
 paint m3c
-box 116.690um 0.460um 117.050um 0.820um
+box 19.250um 6.580um 19.610um 6.940um
 paint metal1
-box 116.740um 0.480um 117.000um 0.800um
+box 19.300um 6.600um 19.560um 6.920um
 paint m2c
-box 116.770um -1.900um 116.970um 0.640um
+box 19.330um 4.220um 19.530um 6.760um
 paint metal2
-box 116.670um -2.100um 117.070um -1.700um
+box 19.230um 4.020um 19.630um 4.420um
 paint m3c
-box 118.275um 2.050um 118.635um 2.410um
+box 20.835um 8.170um 21.195um 8.530um
 paint metal1
-box 118.325um 2.070um 118.585um 2.390um
+box 20.885um 8.190um 21.145um 8.510um
 paint m2c
-box 118.355um 2.230um 118.555um 3.320um
+box 20.915um 8.350um 21.115um 9.440um
 paint metal2
-box 118.255um 3.120um 118.655um 3.520um
+box 20.815um 9.240um 21.215um 9.640um
 paint m3c
-box 117.830um 0.460um 118.190um 0.820um
+box 20.390um 6.580um 20.750um 6.940um
 paint metal1
-box 117.880um 0.480um 118.140um 0.800um
+box 20.440um 6.600um 20.700um 6.920um
 paint m2c
-box 117.910um -1.000um 118.110um 0.640um
+box 20.470um 5.120um 20.670um 6.760um
 paint metal2
-box 117.810um -1.200um 118.210um -0.800um
+box 20.370um 4.920um 20.770um 5.320um
 paint m3c
-box 118.720um 0.460um 119.080um 0.820um
+box 21.280um 6.580um 21.640um 6.940um
 paint metal1
-box 118.770um 0.480um 119.030um 0.800um
+box 21.330um 6.600um 21.590um 6.920um
 paint m2c
-box 118.800um -1.900um 119.000um 0.640um
+box 21.360um 4.220um 21.560um 6.760um
 paint metal2
-box 118.700um -2.100um 119.100um -1.700um
+box 21.260um 4.020um 21.660um 4.420um
 paint m3c
-box 120.305um 2.050um 120.665um 2.410um
+box 22.865um 8.170um 23.225um 8.530um
 paint metal1
-box 120.355um 2.070um 120.615um 2.390um
+box 22.915um 8.190um 23.175um 8.510um
 paint m2c
-box 120.385um 2.230um 120.585um 3.320um
+box 22.945um 8.350um 23.145um 9.440um
 paint metal2
-box 120.285um 3.120um 120.685um 3.520um
+box 22.845um 9.240um 23.245um 9.640um
 paint m3c
-box 119.860um 0.460um 120.220um 0.820um
+box 22.420um 6.580um 22.780um 6.940um
 paint metal1
-box 119.910um 0.480um 120.170um 0.800um
+box 22.470um 6.600um 22.730um 6.920um
 paint m2c
-box 119.940um -1.000um 120.140um 0.640um
+box 22.500um 5.120um 22.700um 6.760um
 paint metal2
-box 119.840um -1.200um 120.240um -0.800um
+box 22.400um 4.920um 22.800um 5.320um
 paint m3c
-box 120.750um 0.460um 121.110um 0.820um
+box 23.310um 6.580um 23.670um 6.940um
 paint metal1
-box 120.800um 0.480um 121.060um 0.800um
+box 23.360um 6.600um 23.620um 6.920um
 paint m2c
-box 120.830um -1.900um 121.030um 0.640um
+box 23.390um 4.220um 23.590um 6.760um
 paint metal2
-box 120.730um -2.100um 121.130um -1.700um
+box 23.290um 4.020um 23.690um 4.420um
 paint m3c
-box 122.335um 2.050um 122.695um 2.410um
+box 24.895um 8.170um 25.255um 8.530um
 paint metal1
-box 122.385um 2.070um 122.645um 2.390um
+box 24.945um 8.190um 25.205um 8.510um
 paint m2c
-box 122.415um 2.230um 122.615um 3.320um
+box 24.975um 8.350um 25.175um 9.440um
 paint metal2
-box 122.315um 3.120um 122.715um 3.520um
+box 24.875um 9.240um 25.275um 9.640um
 paint m3c
-box 121.890um 0.460um 122.250um 0.820um
+box 24.450um 6.580um 24.810um 6.940um
 paint metal1
-box 121.940um 0.480um 122.200um 0.800um
+box 24.500um 6.600um 24.760um 6.920um
 paint m2c
-box 121.970um -1.000um 122.170um 0.640um
+box 24.530um 5.120um 24.730um 6.760um
 paint metal2
-box 121.870um -1.200um 122.270um -0.800um
+box 24.430um 4.920um 24.830um 5.320um
 paint m3c
-box 122.780um 0.460um 123.140um 0.820um
+box 25.340um 6.580um 25.700um 6.940um
 paint metal1
-box 122.830um 0.480um 123.090um 0.800um
+box 25.390um 6.600um 25.650um 6.920um
 paint m2c
-box 122.860um -1.900um 123.060um 0.640um
+box 25.420um 4.220um 25.620um 6.760um
 paint metal2
-box 122.760um -2.100um 123.160um -1.700um
+box 25.320um 4.020um 25.720um 4.420um
 paint m3c
-box 124.365um 2.050um 124.725um 2.410um
+box 26.925um 8.170um 27.285um 8.530um
 paint metal1
-box 124.415um 2.070um 124.675um 2.390um
+box 26.975um 8.190um 27.235um 8.510um
 paint m2c
-box 124.445um 2.230um 124.645um 3.320um
+box 27.005um 8.350um 27.205um 9.440um
 paint metal2
-box 124.345um 3.120um 124.745um 3.520um
+box 26.905um 9.240um 27.305um 9.640um
 paint m3c
-box 123.920um 0.460um 124.280um 0.820um
+box 26.480um 6.580um 26.840um 6.940um
 paint metal1
-box 123.970um 0.480um 124.230um 0.800um
+box 26.530um 6.600um 26.790um 6.920um
 paint m2c
-box 124.000um -1.000um 124.200um 0.640um
+box 26.560um 5.120um 26.760um 6.760um
 paint metal2
-box 123.900um -1.200um 124.300um -0.800um
+box 26.460um 4.920um 26.860um 5.320um
 paint m3c
-box 124.810um 0.460um 125.170um 0.820um
+box 27.370um 6.580um 27.730um 6.940um
 paint metal1
-box 124.860um 0.480um 125.120um 0.800um
+box 27.420um 6.600um 27.680um 6.920um
 paint m2c
-box 124.890um -1.900um 125.090um 0.640um
+box 27.450um 4.220um 27.650um 6.760um
 paint metal2
-box 124.790um -2.100um 125.190um -1.700um
+box 27.350um 4.020um 27.750um 4.420um
 paint m3c
-box 126.395um 2.050um 126.755um 2.410um
+box 28.955um 8.170um 29.315um 8.530um
 paint metal1
-box 126.445um 2.070um 126.705um 2.390um
+box 29.005um 8.190um 29.265um 8.510um
 paint m2c
-box 126.475um 2.230um 126.675um 3.320um
+box 29.035um 8.350um 29.235um 9.440um
 paint metal2
-box 126.375um 3.120um 126.775um 3.520um
+box 28.935um 9.240um 29.335um 9.640um
 paint m3c
-box 125.950um 0.460um 126.310um 0.820um
+box 28.510um 6.580um 28.870um 6.940um
 paint metal1
-box 126.000um 0.480um 126.260um 0.800um
+box 28.560um 6.600um 28.820um 6.920um
 paint m2c
-box 126.030um -1.000um 126.230um 0.640um
+box 28.590um 5.120um 28.790um 6.760um
 paint metal2
-box 125.930um -1.200um 126.330um -0.800um
+box 28.490um 4.920um 28.890um 5.320um
 paint m3c
-box 126.840um 0.460um 127.200um 0.820um
+box 29.400um 6.580um 29.760um 6.940um
 paint metal1
-box 126.890um 0.480um 127.150um 0.800um
+box 29.450um 6.600um 29.710um 6.920um
 paint m2c
-box 126.920um -1.900um 127.120um 0.640um
+box 29.480um 4.220um 29.680um 6.760um
 paint metal2
-box 126.820um -2.100um 127.220um -1.700um
+box 29.380um 4.020um 29.780um 4.420um
 paint m3c
-box 128.425um 2.050um 128.785um 2.410um
+box 30.985um 8.170um 31.345um 8.530um
 paint metal1
-box 128.475um 2.070um 128.735um 2.390um
+box 31.035um 8.190um 31.295um 8.510um
 paint m2c
-box 128.505um 2.230um 128.705um 3.320um
+box 31.065um 8.350um 31.265um 9.440um
 paint metal2
-box 128.405um 3.120um 128.805um 3.520um
+box 30.965um 9.240um 31.365um 9.640um
 paint m3c
-box 127.980um 0.460um 128.340um 0.820um
+box 30.540um 6.580um 30.900um 6.940um
 paint metal1
-box 128.030um 0.480um 128.290um 0.800um
+box 30.590um 6.600um 30.850um 6.920um
 paint m2c
-box 128.060um -1.000um 128.260um 0.640um
+box 30.620um 5.120um 30.820um 6.760um
 paint metal2
-box 127.960um -1.200um 128.360um -0.800um
+box 30.520um 4.920um 30.920um 5.320um
 paint m3c
-box 128.870um 0.460um 129.230um 0.820um
+box 31.430um 6.580um 31.790um 6.940um
 paint metal1
-box 128.920um 0.480um 129.180um 0.800um
+box 31.480um 6.600um 31.740um 6.920um
 paint m2c
-box 128.950um -1.900um 129.150um 0.640um
+box 31.510um 4.220um 31.710um 6.760um
 paint metal2
-box 128.850um -2.100um 129.250um -1.700um
+box 31.410um 4.020um 31.810um 4.420um
 paint m3c
-box 130.455um 2.050um 130.815um 2.410um
+box 33.015um 8.170um 33.375um 8.530um
 paint metal1
-box 130.505um 2.070um 130.765um 2.390um
+box 33.065um 8.190um 33.325um 8.510um
 paint m2c
-box 130.535um 2.230um 130.735um 3.320um
+box 33.095um 8.350um 33.295um 9.440um
 paint metal2
-box 130.435um 3.120um 130.835um 3.520um
+box 32.995um 9.240um 33.395um 9.640um
 paint m3c
-box 130.010um 0.460um 130.370um 0.820um
+box 32.570um 6.580um 32.930um 6.940um
 paint metal1
-box 130.060um 0.480um 130.320um 0.800um
+box 32.620um 6.600um 32.880um 6.920um
 paint m2c
-box 130.090um -1.000um 130.290um 0.640um
+box 32.650um 5.120um 32.850um 6.760um
 paint metal2
-box 129.990um -1.200um 130.390um -0.800um
+box 32.550um 4.920um 32.950um 5.320um
 paint m3c
-box 130.900um 0.460um 131.260um 0.820um
+box 33.460um 6.580um 33.820um 6.940um
 paint metal1
-box 130.950um 0.480um 131.210um 0.800um
+box 33.510um 6.600um 33.770um 6.920um
 paint m2c
-box 130.980um -1.900um 131.180um 0.640um
+box 33.540um 4.220um 33.740um 6.760um
 paint metal2
-box 130.880um -2.100um 131.280um -1.700um
+box 33.440um 4.020um 33.840um 4.420um
 paint m3c
-box 132.485um 2.050um 132.845um 2.410um
+box 35.045um 8.170um 35.405um 8.530um
 paint metal1
-box 132.535um 2.070um 132.795um 2.390um
+box 35.095um 8.190um 35.355um 8.510um
 paint m2c
-box 132.565um 2.230um 132.765um 3.320um
+box 35.125um 8.350um 35.325um 9.440um
 paint metal2
-box 132.465um 3.120um 132.865um 3.520um
+box 35.025um 9.240um 35.425um 9.640um
 paint m3c
-box 132.040um 0.460um 132.400um 0.820um
+box 34.600um 6.580um 34.960um 6.940um
 paint metal1
-box 132.090um 0.480um 132.350um 0.800um
+box 34.650um 6.600um 34.910um 6.920um
 paint m2c
-box 132.120um -1.000um 132.320um 0.640um
+box 34.680um 5.120um 34.880um 6.760um
 paint metal2
-box 132.020um -1.200um 132.420um -0.800um
+box 34.580um 4.920um 34.980um 5.320um
 paint m3c
-box 132.930um 0.460um 133.290um 0.820um
+box 35.490um 6.580um 35.850um 6.940um
 paint metal1
-box 132.980um 0.480um 133.240um 0.800um
+box 35.540um 6.600um 35.800um 6.920um
 paint m2c
-box 133.010um -1.900um 133.210um 0.640um
+box 35.570um 4.220um 35.770um 6.760um
 paint metal2
-box 132.910um -2.100um 133.310um -1.700um
+box 35.470um 4.020um 35.870um 4.420um
 paint m3c
-box 134.515um 2.050um 134.875um 2.410um
+box 37.075um 8.170um 37.435um 8.530um
 paint metal1
-box 134.565um 2.070um 134.825um 2.390um
+box 37.125um 8.190um 37.385um 8.510um
 paint m2c
-box 134.595um 2.230um 134.795um 3.320um
+box 37.155um 8.350um 37.355um 9.440um
 paint metal2
-box 134.495um 3.120um 134.895um 3.520um
+box 37.055um 9.240um 37.455um 9.640um
 paint m3c
-box 134.070um 0.460um 134.430um 0.820um
+box 36.630um 6.580um 36.990um 6.940um
 paint metal1
-box 134.120um 0.480um 134.380um 0.800um
+box 36.680um 6.600um 36.940um 6.920um
 paint m2c
-box 134.150um -1.000um 134.350um 0.640um
+box 36.710um 5.120um 36.910um 6.760um
 paint metal2
-box 134.050um -1.200um 134.450um -0.800um
+box 36.610um 4.920um 37.010um 5.320um
 paint m3c
-box 134.960um 0.460um 135.320um 0.820um
+box 37.520um 6.580um 37.880um 6.940um
 paint metal1
-box 135.010um 0.480um 135.270um 0.800um
+box 37.570um 6.600um 37.830um 6.920um
 paint m2c
-box 135.040um -1.900um 135.240um 0.640um
+box 37.600um 4.220um 37.800um 6.760um
 paint metal2
-box 134.940um -2.100um 135.340um -1.700um
+box 37.500um 4.020um 37.900um 4.420um
 paint m3c
-box 136.545um 2.050um 136.905um 2.410um
+box 39.105um 8.170um 39.465um 8.530um
 paint metal1
-box 136.595um 2.070um 136.855um 2.390um
+box 39.155um 8.190um 39.415um 8.510um
 paint m2c
-box 136.625um 2.230um 136.825um 3.320um
+box 39.185um 8.350um 39.385um 9.440um
 paint metal2
-box 136.525um 3.120um 136.925um 3.520um
+box 39.085um 9.240um 39.485um 9.640um
 paint m3c
-box 136.100um 0.460um 136.460um 0.820um
+box 38.660um 6.580um 39.020um 6.940um
 paint metal1
-box 136.150um 0.480um 136.410um 0.800um
+box 38.710um 6.600um 38.970um 6.920um
 paint m2c
-box 136.180um -1.000um 136.380um 0.640um
+box 38.740um 5.120um 38.940um 6.760um
 paint metal2
-box 136.080um -1.200um 136.480um -0.800um
+box 38.640um 4.920um 39.040um 5.320um
 paint m3c
-box 136.990um 0.460um 137.350um 0.820um
+box 39.550um 6.580um 39.910um 6.940um
 paint metal1
-box 137.040um 0.480um 137.300um 0.800um
+box 39.600um 6.600um 39.860um 6.920um
 paint m2c
-box 137.070um -1.900um 137.270um 0.640um
+box 39.630um 4.220um 39.830um 6.760um
 paint metal2
-box 136.970um -2.100um 137.370um -1.700um
+box 39.530um 4.020um 39.930um 4.420um
 paint m3c
-box 138.575um 2.050um 138.935um 2.410um
+box 41.135um 8.170um 41.495um 8.530um
 paint metal1
-box 138.625um 2.070um 138.885um 2.390um
+box 41.185um 8.190um 41.445um 8.510um
 paint m2c
-box 138.655um 2.230um 138.855um 3.320um
+box 41.215um 8.350um 41.415um 9.440um
 paint metal2
-box 138.555um 3.120um 138.955um 3.520um
+box 41.115um 9.240um 41.515um 9.640um
 paint m3c
-box 138.130um 0.460um 138.490um 0.820um
+box 40.690um 6.580um 41.050um 6.940um
 paint metal1
-box 138.180um 0.480um 138.440um 0.800um
+box 40.740um 6.600um 41.000um 6.920um
 paint m2c
-box 138.210um -1.000um 138.410um 0.640um
+box 40.770um 5.120um 40.970um 6.760um
 paint metal2
-box 138.110um -1.200um 138.510um -0.800um
+box 40.670um 4.920um 41.070um 5.320um
 paint m3c
-box 139.020um 0.460um 139.380um 0.820um
+box 41.580um 6.580um 41.940um 6.940um
 paint metal1
-box 139.070um 0.480um 139.330um 0.800um
+box 41.630um 6.600um 41.890um 6.920um
 paint m2c
-box 139.100um -1.900um 139.300um 0.640um
+box 41.660um 4.220um 41.860um 6.760um
 paint metal2
-box 139.000um -2.100um 139.400um -1.700um
+box 41.560um 4.020um 41.960um 4.420um
 paint m3c
-box 140.605um 2.050um 140.965um 2.410um
+box 43.165um 8.170um 43.525um 8.530um
 paint metal1
-box 140.655um 2.070um 140.915um 2.390um
+box 43.215um 8.190um 43.475um 8.510um
 paint m2c
-box 140.685um 2.230um 140.885um 3.320um
+box 43.245um 8.350um 43.445um 9.440um
 paint metal2
-box 140.585um 3.120um 140.985um 3.520um
+box 43.145um 9.240um 43.545um 9.640um
 paint m3c
-box 140.160um 0.460um 140.520um 0.820um
+box 42.720um 6.580um 43.080um 6.940um
 paint metal1
-box 140.210um 0.480um 140.470um 0.800um
+box 42.770um 6.600um 43.030um 6.920um
 paint m2c
-box 140.240um -1.000um 140.440um 0.640um
+box 42.800um 5.120um 43.000um 6.760um
 paint metal2
-box 140.140um -1.200um 140.540um -0.800um
+box 42.700um 4.920um 43.100um 5.320um
 paint m3c
-box 141.050um 0.460um 141.410um 0.820um
+box 43.610um 6.580um 43.970um 6.940um
 paint metal1
-box 141.100um 0.480um 141.360um 0.800um
+box 43.660um 6.600um 43.920um 6.920um
 paint m2c
-box 141.130um -1.900um 141.330um 0.640um
+box 43.690um 4.220um 43.890um 6.760um
 paint metal2
-box 141.030um -2.100um 141.430um -1.700um
+box 43.590um 4.020um 43.990um 4.420um
 paint m3c
-box 142.635um 2.050um 142.995um 2.410um
+box 45.195um 8.170um 45.555um 8.530um
 paint metal1
-box 142.685um 2.070um 142.945um 2.390um
+box 45.245um 8.190um 45.505um 8.510um
 paint m2c
-box 142.715um 2.230um 142.915um 3.320um
+box 45.275um 8.350um 45.475um 9.440um
 paint metal2
-box 142.615um 3.120um 143.015um 3.520um
+box 45.175um 9.240um 45.575um 9.640um
 paint m3c
-box 142.190um 0.460um 142.550um 0.820um
+box 44.750um 6.580um 45.110um 6.940um
 paint metal1
-box 142.240um 0.480um 142.500um 0.800um
+box 44.800um 6.600um 45.060um 6.920um
 paint m2c
-box 142.270um -1.000um 142.470um 0.640um
+box 44.830um 5.120um 45.030um 6.760um
 paint metal2
-box 142.170um -1.200um 142.570um -0.800um
+box 44.730um 4.920um 45.130um 5.320um
 paint m3c
-box 143.080um 0.460um 143.440um 0.820um
+box 45.640um 6.580um 46.000um 6.940um
 paint metal1
-box 143.130um 0.480um 143.390um 0.800um
+box 45.690um 6.600um 45.950um 6.920um
 paint m2c
-box 143.160um -1.900um 143.360um 0.640um
+box 45.720um 4.220um 45.920um 6.760um
 paint metal2
-box 143.060um -2.100um 143.460um -1.700um
+box 45.620um 4.020um 46.020um 4.420um
 paint m3c
-box 144.665um 2.050um 145.025um 2.410um
+box 47.225um 8.170um 47.585um 8.530um
 paint metal1
-box 144.715um 2.070um 144.975um 2.390um
+box 47.275um 8.190um 47.535um 8.510um
 paint m2c
-box 144.745um 2.230um 144.945um 3.320um
+box 47.305um 8.350um 47.505um 9.440um
 paint metal2
-box 144.645um 3.120um 145.045um 3.520um
+box 47.205um 9.240um 47.605um 9.640um
 paint m3c
-box 144.220um 0.460um 144.580um 0.820um
+box 46.780um 6.580um 47.140um 6.940um
 paint metal1
-box 144.270um 0.480um 144.530um 0.800um
+box 46.830um 6.600um 47.090um 6.920um
 paint m2c
-box 144.300um -1.000um 144.500um 0.640um
+box 46.860um 5.120um 47.060um 6.760um
 paint metal2
-box 144.200um -1.200um 144.600um -0.800um
+box 46.760um 4.920um 47.160um 5.320um
 paint m3c
-box 145.110um 0.460um 145.470um 0.820um
+box 47.670um 6.580um 48.030um 6.940um
 paint metal1
-box 145.160um 0.480um 145.420um 0.800um
+box 47.720um 6.600um 47.980um 6.920um
 paint m2c
-box 145.190um -1.900um 145.390um 0.640um
+box 47.750um 4.220um 47.950um 6.760um
 paint metal2
-box 145.090um -2.100um 145.490um -1.700um
+box 47.650um 4.020um 48.050um 4.420um
 paint m3c
-box 146.695um 2.050um 147.055um 2.410um
+box 49.255um 8.170um 49.615um 8.530um
 paint metal1
-box 146.745um 2.070um 147.005um 2.390um
+box 49.305um 8.190um 49.565um 8.510um
 paint m2c
-box 146.775um 2.230um 146.975um 3.320um
+box 49.335um 8.350um 49.535um 9.440um
 paint metal2
-box 146.675um 3.120um 147.075um 3.520um
+box 49.235um 9.240um 49.635um 9.640um
 paint m3c
-box 146.250um 0.460um 146.610um 0.820um
+box 48.810um 6.580um 49.170um 6.940um
 paint metal1
-box 146.300um 0.480um 146.560um 0.800um
+box 48.860um 6.600um 49.120um 6.920um
 paint m2c
-box 146.330um -1.000um 146.530um 0.640um
+box 48.890um 5.120um 49.090um 6.760um
 paint metal2
-box 146.230um -1.200um 146.630um -0.800um
+box 48.790um 4.920um 49.190um 5.320um
 paint m3c
-box 147.140um 0.460um 147.500um 0.820um
+box 49.700um 6.580um 50.060um 6.940um
 paint metal1
-box 147.190um 0.480um 147.450um 0.800um
+box 49.750um 6.600um 50.010um 6.920um
 paint m2c
-box 147.220um -1.900um 147.420um 0.640um
+box 49.780um 4.220um 49.980um 6.760um
 paint metal2
-box 147.120um -2.100um 147.520um -1.700um
+box 49.680um 4.020um 50.080um 4.420um
 paint m3c
-box 148.725um 2.050um 149.085um 2.410um
+box 51.285um 8.170um 51.645um 8.530um
 paint metal1
-box 148.775um 2.070um 149.035um 2.390um
+box 51.335um 8.190um 51.595um 8.510um
 paint m2c
-box 148.805um 2.230um 149.005um 3.320um
+box 51.365um 8.350um 51.565um 9.440um
 paint metal2
-box 148.705um 3.120um 149.105um 3.520um
+box 51.265um 9.240um 51.665um 9.640um
 paint m3c
-box 148.280um 0.460um 148.640um 0.820um
+box 50.840um 6.580um 51.200um 6.940um
 paint metal1
-box 148.330um 0.480um 148.590um 0.800um
+box 50.890um 6.600um 51.150um 6.920um
 paint m2c
-box 148.360um -1.000um 148.560um 0.640um
+box 50.920um 5.120um 51.120um 6.760um
 paint metal2
-box 148.260um -1.200um 148.660um -0.800um
+box 50.820um 4.920um 51.220um 5.320um
 paint m3c
-box 149.170um 0.460um 149.530um 0.820um
+box 51.730um 6.580um 52.090um 6.940um
 paint metal1
-box 149.220um 0.480um 149.480um 0.800um
+box 51.780um 6.600um 52.040um 6.920um
 paint m2c
-box 149.250um -1.900um 149.450um 0.640um
+box 51.810um 4.220um 52.010um 6.760um
 paint metal2
-box 149.150um -2.100um 149.550um -1.700um
+box 51.710um 4.020um 52.110um 4.420um
 paint m3c
-box 150.755um 2.050um 151.115um 2.410um
+box 53.315um 8.170um 53.675um 8.530um
 paint metal1
-box 150.805um 2.070um 151.065um 2.390um
+box 53.365um 8.190um 53.625um 8.510um
 paint m2c
-box 150.835um 2.230um 151.035um 3.320um
+box 53.395um 8.350um 53.595um 9.440um
 paint metal2
-box 150.735um 3.120um 151.135um 3.520um
+box 53.295um 9.240um 53.695um 9.640um
 paint m3c
-box 150.310um 0.460um 150.670um 0.820um
+box 52.870um 6.580um 53.230um 6.940um
 paint metal1
-box 150.360um 0.480um 150.620um 0.800um
+box 52.920um 6.600um 53.180um 6.920um
 paint m2c
-box 150.390um -1.000um 150.590um 0.640um
+box 52.950um 5.120um 53.150um 6.760um
 paint metal2
-box 150.290um -1.200um 150.690um -0.800um
+box 52.850um 4.920um 53.250um 5.320um
 paint m3c
-box 151.200um 0.460um 151.560um 0.820um
+box 53.760um 6.580um 54.120um 6.940um
 paint metal1
-box 151.250um 0.480um 151.510um 0.800um
+box 53.810um 6.600um 54.070um 6.920um
 paint m2c
-box 151.280um -1.900um 151.480um 0.640um
+box 53.840um 4.220um 54.040um 6.760um
 paint metal2
-box 151.180um -2.100um 151.580um -1.700um
+box 53.740um 4.020um 54.140um 4.420um
 paint m3c
-box 152.785um 2.050um 153.145um 2.410um
+box 55.345um 8.170um 55.705um 8.530um
 paint metal1
-box 152.835um 2.070um 153.095um 2.390um
+box 55.395um 8.190um 55.655um 8.510um
 paint m2c
-box 152.865um 2.230um 153.065um 3.320um
+box 55.425um 8.350um 55.625um 9.440um
 paint metal2
-box 152.765um 3.120um 153.165um 3.520um
+box 55.325um 9.240um 55.725um 9.640um
 paint m3c
-box 152.340um 0.460um 152.700um 0.820um
+box 54.900um 6.580um 55.260um 6.940um
 paint metal1
-box 152.390um 0.480um 152.650um 0.800um
+box 54.950um 6.600um 55.210um 6.920um
 paint m2c
-box 152.420um -1.000um 152.620um 0.640um
+box 54.980um 5.120um 55.180um 6.760um
 paint metal2
-box 152.320um -1.200um 152.720um -0.800um
+box 54.880um 4.920um 55.280um 5.320um
 paint m3c
-box 153.230um 0.460um 153.590um 0.820um
+box 55.790um 6.580um 56.150um 6.940um
 paint metal1
-box 153.280um 0.480um 153.540um 0.800um
+box 55.840um 6.600um 56.100um 6.920um
 paint m2c
-box 153.310um -1.900um 153.510um 0.640um
+box 55.870um 4.220um 56.070um 6.760um
 paint metal2
-box 153.210um -2.100um 153.610um -1.700um
+box 55.770um 4.020um 56.170um 4.420um
 paint m3c
-box 154.815um 2.050um 155.175um 2.410um
+box 57.375um 8.170um 57.735um 8.530um
 paint metal1
-box 154.865um 2.070um 155.125um 2.390um
+box 57.425um 8.190um 57.685um 8.510um
 paint m2c
-box 154.895um 2.230um 155.095um 3.320um
+box 57.455um 8.350um 57.655um 9.440um
 paint metal2
-box 154.795um 3.120um 155.195um 3.520um
+box 57.355um 9.240um 57.755um 9.640um
 paint m3c
-box 154.370um 0.460um 154.730um 0.820um
+box 56.930um 6.580um 57.290um 6.940um
 paint metal1
-box 154.420um 0.480um 154.680um 0.800um
+box 56.980um 6.600um 57.240um 6.920um
 paint m2c
-box 154.450um -1.000um 154.650um 0.640um
+box 57.010um 5.120um 57.210um 6.760um
 paint metal2
-box 154.350um -1.200um 154.750um -0.800um
+box 56.910um 4.920um 57.310um 5.320um
 paint m3c
-box 155.260um 0.460um 155.620um 0.820um
+box 57.820um 6.580um 58.180um 6.940um
 paint metal1
-box 155.310um 0.480um 155.570um 0.800um
+box 57.870um 6.600um 58.130um 6.920um
 paint m2c
-box 155.340um -1.900um 155.540um 0.640um
+box 57.900um 4.220um 58.100um 6.760um
 paint metal2
-box 155.240um -2.100um 155.640um -1.700um
+box 57.800um 4.020um 58.200um 4.420um
 paint m3c
-box 156.845um 2.050um 157.205um 2.410um
+box 59.405um 8.170um 59.765um 8.530um
 paint metal1
-box 156.895um 2.070um 157.155um 2.390um
+box 59.455um 8.190um 59.715um 8.510um
 paint m2c
-box 156.925um 2.230um 157.125um 3.320um
+box 59.485um 8.350um 59.685um 9.440um
 paint metal2
-box 156.825um 3.120um 157.225um 3.520um
+box 59.385um 9.240um 59.785um 9.640um
 paint m3c
-box 156.400um 0.460um 156.760um 0.820um
+box 58.960um 6.580um 59.320um 6.940um
 paint metal1
-box 156.450um 0.480um 156.710um 0.800um
+box 59.010um 6.600um 59.270um 6.920um
 paint m2c
-box 156.480um -1.000um 156.680um 0.640um
+box 59.040um 5.120um 59.240um 6.760um
 paint metal2
-box 156.380um -1.200um 156.780um -0.800um
+box 58.940um 4.920um 59.340um 5.320um
 paint m3c
-box 157.290um 0.460um 157.650um 0.820um
+box 59.850um 6.580um 60.210um 6.940um
 paint metal1
-box 157.340um 0.480um 157.600um 0.800um
+box 59.900um 6.600um 60.160um 6.920um
 paint m2c
-box 157.370um -1.900um 157.570um 0.640um
+box 59.930um 4.220um 60.130um 6.760um
 paint metal2
-box 157.270um -2.100um 157.670um -1.700um
+box 59.830um 4.020um 60.230um 4.420um
 paint m3c
-box 158.875um 2.050um 159.235um 2.410um
+box 61.435um 8.170um 61.795um 8.530um
 paint metal1
-box 158.925um 2.070um 159.185um 2.390um
+box 61.485um 8.190um 61.745um 8.510um
 paint m2c
-box 158.955um 2.230um 159.155um 3.320um
+box 61.515um 8.350um 61.715um 9.440um
 paint metal2
-box 158.855um 3.120um 159.255um 3.520um
+box 61.415um 9.240um 61.815um 9.640um
 paint m3c
-box 158.430um 0.460um 158.790um 0.820um
+box 60.990um 6.580um 61.350um 6.940um
 paint metal1
-box 158.480um 0.480um 158.740um 0.800um
+box 61.040um 6.600um 61.300um 6.920um
 paint m2c
-box 158.510um -1.000um 158.710um 0.640um
+box 61.070um 5.120um 61.270um 6.760um
 paint metal2
-box 158.410um -1.200um 158.810um -0.800um
+box 60.970um 4.920um 61.370um 5.320um
 paint m3c
-box 159.320um 0.460um 159.680um 0.820um
+box 61.880um 6.580um 62.240um 6.940um
 paint metal1
-box 159.370um 0.480um 159.630um 0.800um
+box 61.930um 6.600um 62.190um 6.920um
 paint m2c
-box 159.400um -1.900um 159.600um 0.640um
+box 61.960um 4.220um 62.160um 6.760um
 paint metal2
-box 159.300um -2.100um 159.700um -1.700um
+box 61.860um 4.020um 62.260um 4.420um
 paint m3c
-box 160.905um 2.050um 161.265um 2.410um
+box 63.465um 8.170um 63.825um 8.530um
 paint metal1
-box 160.955um 2.070um 161.215um 2.390um
+box 63.515um 8.190um 63.775um 8.510um
 paint m2c
-box 160.985um 2.230um 161.185um 3.320um
+box 63.545um 8.350um 63.745um 9.440um
 paint metal2
-box 160.885um 3.120um 161.285um 3.520um
+box 63.445um 9.240um 63.845um 9.640um
 paint m3c
-box 160.460um 0.460um 160.820um 0.820um
+box 63.020um 6.580um 63.380um 6.940um
 paint metal1
-box 160.510um 0.480um 160.770um 0.800um
+box 63.070um 6.600um 63.330um 6.920um
 paint m2c
-box 160.540um -1.000um 160.740um 0.640um
+box 63.100um 5.120um 63.300um 6.760um
 paint metal2
-box 160.440um -1.200um 160.840um -0.800um
+box 63.000um 4.920um 63.400um 5.320um
 paint m3c
-box 161.350um 0.460um 161.710um 0.820um
+box 63.910um 6.580um 64.270um 6.940um
 paint metal1
-box 161.400um 0.480um 161.660um 0.800um
+box 63.960um 6.600um 64.220um 6.920um
 paint m2c
-box 161.430um -1.900um 161.630um 0.640um
+box 63.990um 4.220um 64.190um 6.760um
 paint metal2
-box 161.330um -2.100um 161.730um -1.700um
+box 63.890um 4.020um 64.290um 4.420um
 paint m3c
-box 162.935um 2.050um 163.295um 2.410um
+box 65.495um 8.170um 65.855um 8.530um
 paint metal1
-box 162.985um 2.070um 163.245um 2.390um
+box 65.545um 8.190um 65.805um 8.510um
 paint m2c
-box 163.015um 2.230um 163.215um 3.320um
+box 65.575um 8.350um 65.775um 9.440um
 paint metal2
-box 162.915um 3.120um 163.315um 3.520um
+box 65.475um 9.240um 65.875um 9.640um
 paint m3c
-box 162.490um 0.460um 162.850um 0.820um
+box 65.050um 6.580um 65.410um 6.940um
 paint metal1
-box 162.540um 0.480um 162.800um 0.800um
+box 65.100um 6.600um 65.360um 6.920um
 paint m2c
-box 162.570um -1.000um 162.770um 0.640um
+box 65.130um 5.120um 65.330um 6.760um
 paint metal2
-box 162.470um -1.200um 162.870um -0.800um
+box 65.030um 4.920um 65.430um 5.320um
 paint m3c
-box 163.380um 0.460um 163.740um 0.820um
+box 65.940um 6.580um 66.300um 6.940um
 paint metal1
-box 163.430um 0.480um 163.690um 0.800um
+box 65.990um 6.600um 66.250um 6.920um
 paint m2c
-box 163.460um -1.900um 163.660um 0.640um
+box 66.020um 4.220um 66.220um 6.760um
 paint metal2
-box 163.360um -2.100um 163.760um -1.700um
+box 65.920um 4.020um 66.320um 4.420um
 paint m3c
-box 164.965um 2.050um 165.325um 2.410um
+box 67.525um 8.170um 67.885um 8.530um
 paint metal1
-box 165.015um 2.070um 165.275um 2.390um
+box 67.575um 8.190um 67.835um 8.510um
 paint m2c
-box 165.045um 2.230um 165.245um 3.320um
+box 67.605um 8.350um 67.805um 9.440um
 paint metal2
-box 164.945um 3.120um 165.345um 3.520um
+box 67.505um 9.240um 67.905um 9.640um
 paint m3c
-box 164.520um 0.460um 164.880um 0.820um
+box 67.080um 6.580um 67.440um 6.940um
 paint metal1
-box 164.570um 0.480um 164.830um 0.800um
+box 67.130um 6.600um 67.390um 6.920um
 paint m2c
-box 164.600um -1.000um 164.800um 0.640um
+box 67.160um 5.120um 67.360um 6.760um
 paint metal2
-box 164.500um -1.200um 164.900um -0.800um
+box 67.060um 4.920um 67.460um 5.320um
 paint m3c
-box 165.410um 0.460um 165.770um 0.820um
+box 67.970um 6.580um 68.330um 6.940um
 paint metal1
-box 165.460um 0.480um 165.720um 0.800um
+box 68.020um 6.600um 68.280um 6.920um
 paint m2c
-box 165.490um -1.900um 165.690um 0.640um
+box 68.050um 4.220um 68.250um 6.760um
 paint metal2
-box 165.390um -2.100um 165.790um -1.700um
+box 67.950um 4.020um 68.350um 4.420um
 paint m3c
-box 166.995um 2.050um 167.355um 2.410um
+box 69.555um 8.170um 69.915um 8.530um
 paint metal1
-box 167.045um 2.070um 167.305um 2.390um
+box 69.605um 8.190um 69.865um 8.510um
 paint m2c
-box 167.075um 2.230um 167.275um 3.320um
+box 69.635um 8.350um 69.835um 9.440um
 paint metal2
-box 166.975um 3.120um 167.375um 3.520um
+box 69.535um 9.240um 69.935um 9.640um
 paint m3c
-box 166.550um 0.460um 166.910um 0.820um
+box 69.110um 6.580um 69.470um 6.940um
 paint metal1
-box 166.600um 0.480um 166.860um 0.800um
+box 69.160um 6.600um 69.420um 6.920um
 paint m2c
-box 166.630um -1.000um 166.830um 0.640um
+box 69.190um 5.120um 69.390um 6.760um
 paint metal2
-box 166.530um -1.200um 166.930um -0.800um
+box 69.090um 4.920um 69.490um 5.320um
 paint m3c
-box 167.440um 0.460um 167.800um 0.820um
+box 70.000um 6.580um 70.360um 6.940um
 paint metal1
-box 167.490um 0.480um 167.750um 0.800um
+box 70.050um 6.600um 70.310um 6.920um
 paint m2c
-box 167.520um -1.900um 167.720um 0.640um
+box 70.080um 4.220um 70.280um 6.760um
 paint metal2
-box 167.420um -2.100um 167.820um -1.700um
+box 69.980um 4.020um 70.380um 4.420um
 paint m3c
-box 169.025um 2.050um 169.385um 2.410um
+box 71.585um 8.170um 71.945um 8.530um
 paint metal1
-box 169.075um 2.070um 169.335um 2.390um
+box 71.635um 8.190um 71.895um 8.510um
 paint m2c
-box 169.105um 2.230um 169.305um 3.320um
+box 71.665um 8.350um 71.865um 9.440um
 paint metal2
-box 169.005um 3.120um 169.405um 3.520um
+box 71.565um 9.240um 71.965um 9.640um
 paint m3c
-box 168.580um 0.460um 168.940um 0.820um
+box 71.140um 6.580um 71.500um 6.940um
 paint metal1
-box 168.630um 0.480um 168.890um 0.800um
+box 71.190um 6.600um 71.450um 6.920um
 paint m2c
-box 168.660um -1.000um 168.860um 0.640um
+box 71.220um 5.120um 71.420um 6.760um
 paint metal2
-box 168.560um -1.200um 168.960um -0.800um
+box 71.120um 4.920um 71.520um 5.320um
 paint m3c
-box 169.470um 0.460um 169.830um 0.820um
+box 72.030um 6.580um 72.390um 6.940um
 paint metal1
-box 169.520um 0.480um 169.780um 0.800um
+box 72.080um 6.600um 72.340um 6.920um
 paint m2c
-box 169.550um -1.900um 169.750um 0.640um
+box 72.110um 4.220um 72.310um 6.760um
 paint metal2
-box 169.450um -2.100um 169.850um -1.700um
+box 72.010um 4.020um 72.410um 4.420um
 paint m3c
-box 171.055um 2.050um 171.415um 2.410um
+box 73.615um 8.170um 73.975um 8.530um
 paint metal1
-box 171.105um 2.070um 171.365um 2.390um
+box 73.665um 8.190um 73.925um 8.510um
 paint m2c
-box 171.135um 2.230um 171.335um 3.320um
+box 73.695um 8.350um 73.895um 9.440um
 paint metal2
-box 171.035um 3.120um 171.435um 3.520um
+box 73.595um 9.240um 73.995um 9.640um
 paint m3c
-box 170.610um 0.460um 170.970um 0.820um
+box 73.170um 6.580um 73.530um 6.940um
 paint metal1
-box 170.660um 0.480um 170.920um 0.800um
+box 73.220um 6.600um 73.480um 6.920um
 paint m2c
-box 170.690um -1.000um 170.890um 0.640um
+box 73.250um 5.120um 73.450um 6.760um
 paint metal2
-box 170.590um -1.200um 170.990um -0.800um
+box 73.150um 4.920um 73.550um 5.320um
 paint m3c
-box 171.500um 0.460um 171.860um 0.820um
+box 74.060um 6.580um 74.420um 6.940um
 paint metal1
-box 171.550um 0.480um 171.810um 0.800um
+box 74.110um 6.600um 74.370um 6.920um
 paint m2c
-box 171.580um -1.900um 171.780um 0.640um
+box 74.140um 4.220um 74.340um 6.760um
 paint metal2
-box 171.480um -2.100um 171.880um -1.700um
+box 74.040um 4.020um 74.440um 4.420um
 paint m3c
-box 173.085um 2.050um 173.445um 2.410um
+box 75.645um 8.170um 76.005um 8.530um
 paint metal1
-box 173.135um 2.070um 173.395um 2.390um
+box 75.695um 8.190um 75.955um 8.510um
 paint m2c
-box 173.165um 2.230um 173.365um 3.320um
+box 75.725um 8.350um 75.925um 9.440um
 paint metal2
-box 173.065um 3.120um 173.465um 3.520um
+box 75.625um 9.240um 76.025um 9.640um
 paint m3c
-box 172.640um 0.460um 173.000um 0.820um
+box 75.200um 6.580um 75.560um 6.940um
 paint metal1
-box 172.690um 0.480um 172.950um 0.800um
+box 75.250um 6.600um 75.510um 6.920um
 paint m2c
-box 172.720um -1.000um 172.920um 0.640um
+box 75.280um 5.120um 75.480um 6.760um
 paint metal2
-box 172.620um -1.200um 173.020um -0.800um
+box 75.180um 4.920um 75.580um 5.320um
 paint m3c
-box 173.530um 0.460um 173.890um 0.820um
+box 76.090um 6.580um 76.450um 6.940um
 paint metal1
-box 173.580um 0.480um 173.840um 0.800um
+box 76.140um 6.600um 76.400um 6.920um
 paint m2c
-box 173.610um -1.900um 173.810um 0.640um
+box 76.170um 4.220um 76.370um 6.760um
 paint metal2
-box 173.510um -2.100um 173.910um -1.700um
+box 76.070um 4.020um 76.470um 4.420um
 paint m3c
-box 175.115um 2.050um 175.475um 2.410um
+box 77.675um 8.170um 78.035um 8.530um
 paint metal1
-box 175.165um 2.070um 175.425um 2.390um
+box 77.725um 8.190um 77.985um 8.510um
 paint m2c
-box 175.195um 2.230um 175.395um 3.320um
+box 77.755um 8.350um 77.955um 9.440um
 paint metal2
-box 175.095um 3.120um 175.495um 3.520um
+box 77.655um 9.240um 78.055um 9.640um
 paint m3c
-box 174.670um 0.460um 175.030um 0.820um
+box 77.230um 6.580um 77.590um 6.940um
 paint metal1
-box 174.720um 0.480um 174.980um 0.800um
+box 77.280um 6.600um 77.540um 6.920um
 paint m2c
-box 174.750um -1.000um 174.950um 0.640um
+box 77.310um 5.120um 77.510um 6.760um
 paint metal2
-box 174.650um -1.200um 175.050um -0.800um
+box 77.210um 4.920um 77.610um 5.320um
 paint m3c
-box 175.560um 0.460um 175.920um 0.820um
+box 78.120um 6.580um 78.480um 6.940um
 paint metal1
-box 175.610um 0.480um 175.870um 0.800um
+box 78.170um 6.600um 78.430um 6.920um
 paint m2c
-box 175.640um -1.900um 175.840um 0.640um
+box 78.200um 4.220um 78.400um 6.760um
 paint metal2
-box 175.540um -2.100um 175.940um -1.700um
+box 78.100um 4.020um 78.500um 4.420um
 paint m3c
-box 177.145um 2.050um 177.505um 2.410um
+box 79.705um 8.170um 80.065um 8.530um
 paint metal1
-box 177.195um 2.070um 177.455um 2.390um
+box 79.755um 8.190um 80.015um 8.510um
 paint m2c
-box 177.225um 2.230um 177.425um 3.320um
+box 79.785um 8.350um 79.985um 9.440um
 paint metal2
-box 177.125um 3.120um 177.525um 3.520um
+box 79.685um 9.240um 80.085um 9.640um
 paint m3c
-box 176.700um 0.460um 177.060um 0.820um
+box 79.260um 6.580um 79.620um 6.940um
 paint metal1
-box 176.750um 0.480um 177.010um 0.800um
+box 79.310um 6.600um 79.570um 6.920um
 paint m2c
-box 176.780um -1.000um 176.980um 0.640um
+box 79.340um 5.120um 79.540um 6.760um
 paint metal2
-box 176.680um -1.200um 177.080um -0.800um
+box 79.240um 4.920um 79.640um 5.320um
 paint m3c
-box 177.590um 0.460um 177.950um 0.820um
+box 80.150um 6.580um 80.510um 6.940um
 paint metal1
-box 177.640um 0.480um 177.900um 0.800um
+box 80.200um 6.600um 80.460um 6.920um
 paint m2c
-box 177.670um -1.900um 177.870um 0.640um
+box 80.230um 4.220um 80.430um 6.760um
 paint metal2
-box 177.570um -2.100um 177.970um -1.700um
+box 80.130um 4.020um 80.530um 4.420um
 paint m3c
-box 179.175um 2.050um 179.535um 2.410um
+box 81.735um 8.170um 82.095um 8.530um
 paint metal1
-box 179.225um 2.070um 179.485um 2.390um
+box 81.785um 8.190um 82.045um 8.510um
 paint m2c
-box 179.255um 2.230um 179.455um 3.320um
+box 81.815um 8.350um 82.015um 9.440um
 paint metal2
-box 179.155um 3.120um 179.555um 3.520um
+box 81.715um 9.240um 82.115um 9.640um
 paint m3c
-box 178.730um 0.460um 179.090um 0.820um
+box 81.290um 6.580um 81.650um 6.940um
 paint metal1
-box 178.780um 0.480um 179.040um 0.800um
+box 81.340um 6.600um 81.600um 6.920um
 paint m2c
-box 178.810um -1.000um 179.010um 0.640um
+box 81.370um 5.120um 81.570um 6.760um
 paint metal2
-box 178.710um -1.200um 179.110um -0.800um
+box 81.270um 4.920um 81.670um 5.320um
 paint m3c
-box 179.620um 0.460um 179.980um 0.820um
+box 82.180um 6.580um 82.540um 6.940um
 paint metal1
-box 179.670um 0.480um 179.930um 0.800um
+box 82.230um 6.600um 82.490um 6.920um
 paint m2c
-box 179.700um -1.900um 179.900um 0.640um
+box 82.260um 4.220um 82.460um 6.760um
 paint metal2
-box 179.600um -2.100um 180.000um -1.700um
+box 82.160um 4.020um 82.560um 4.420um
 paint m3c
-box 181.205um 2.050um 181.565um 2.410um
+box 83.765um 8.170um 84.125um 8.530um
 paint metal1
-box 181.255um 2.070um 181.515um 2.390um
+box 83.815um 8.190um 84.075um 8.510um
 paint m2c
-box 181.285um 2.230um 181.485um 3.320um
+box 83.845um 8.350um 84.045um 9.440um
 paint metal2
-box 181.185um 3.120um 181.585um 3.520um
+box 83.745um 9.240um 84.145um 9.640um
 paint m3c
-box 180.760um 0.460um 181.120um 0.820um
+box 83.320um 6.580um 83.680um 6.940um
 paint metal1
-box 180.810um 0.480um 181.070um 0.800um
+box 83.370um 6.600um 83.630um 6.920um
 paint m2c
-box 180.840um -1.000um 181.040um 0.640um
+box 83.400um 5.120um 83.600um 6.760um
 paint metal2
-box 180.740um -1.200um 181.140um -0.800um
+box 83.300um 4.920um 83.700um 5.320um
 paint m3c
-box 181.650um 0.460um 182.010um 0.820um
+box 84.210um 6.580um 84.570um 6.940um
 paint metal1
-box 181.700um 0.480um 181.960um 0.800um
+box 84.260um 6.600um 84.520um 6.920um
 paint m2c
-box 181.730um -1.900um 181.930um 0.640um
+box 84.290um 4.220um 84.490um 6.760um
 paint metal2
-box 181.630um -2.100um 182.030um -1.700um
+box 84.190um 4.020um 84.590um 4.420um
 paint m3c
-box 183.235um 2.050um 183.595um 2.410um
+box 85.795um 8.170um 86.155um 8.530um
 paint metal1
-box 183.285um 2.070um 183.545um 2.390um
+box 85.845um 8.190um 86.105um 8.510um
 paint m2c
-box 183.315um 2.230um 183.515um 3.320um
+box 85.875um 8.350um 86.075um 9.440um
 paint metal2
-box 183.215um 3.120um 183.615um 3.520um
+box 85.775um 9.240um 86.175um 9.640um
 paint m3c
-box 182.790um 0.460um 183.150um 0.820um
+box 85.350um 6.580um 85.710um 6.940um
 paint metal1
-box 182.840um 0.480um 183.100um 0.800um
+box 85.400um 6.600um 85.660um 6.920um
 paint m2c
-box 182.870um -1.000um 183.070um 0.640um
+box 85.430um 5.120um 85.630um 6.760um
 paint metal2
-box 182.770um -1.200um 183.170um -0.800um
+box 85.330um 4.920um 85.730um 5.320um
 paint m3c
-box 183.680um 0.460um 184.040um 0.820um
+box 86.240um 6.580um 86.600um 6.940um
 paint metal1
-box 183.730um 0.480um 183.990um 0.800um
+box 86.290um 6.600um 86.550um 6.920um
 paint m2c
-box 183.760um -1.900um 183.960um 0.640um
+box 86.320um 4.220um 86.520um 6.760um
 paint metal2
-box 183.660um -2.100um 184.060um -1.700um
+box 86.220um 4.020um 86.620um 4.420um
 paint m3c
-box 185.265um 2.050um 185.625um 2.410um
+box 87.825um 8.170um 88.185um 8.530um
 paint metal1
-box 185.315um 2.070um 185.575um 2.390um
+box 87.875um 8.190um 88.135um 8.510um
 paint m2c
-box 185.345um 2.230um 185.545um 3.320um
+box 87.905um 8.350um 88.105um 9.440um
 paint metal2
-box 185.245um 3.120um 185.645um 3.520um
+box 87.805um 9.240um 88.205um 9.640um
 paint m3c
-box 184.820um 0.460um 185.180um 0.820um
+box 87.380um 6.580um 87.740um 6.940um
 paint metal1
-box 184.870um 0.480um 185.130um 0.800um
+box 87.430um 6.600um 87.690um 6.920um
 paint m2c
-box 184.900um -1.000um 185.100um 0.640um
+box 87.460um 5.120um 87.660um 6.760um
 paint metal2
-box 184.800um -1.200um 185.200um -0.800um
+box 87.360um 4.920um 87.760um 5.320um
 paint m3c
-box 185.710um 0.460um 186.070um 0.820um
+box 88.270um 6.580um 88.630um 6.940um
 paint metal1
-box 185.760um 0.480um 186.020um 0.800um
+box 88.320um 6.600um 88.580um 6.920um
 paint m2c
-box 185.790um -1.900um 185.990um 0.640um
+box 88.350um 4.220um 88.550um 6.760um
 paint metal2
-box 185.690um -2.100um 186.090um -1.700um
+box 88.250um 4.020um 88.650um 4.420um
 paint m3c
-box 187.295um 2.050um 187.655um 2.410um
+box 89.855um 8.170um 90.215um 8.530um
 paint metal1
-box 187.345um 2.070um 187.605um 2.390um
+box 89.905um 8.190um 90.165um 8.510um
 paint m2c
-box 187.375um 2.230um 187.575um 3.320um
+box 89.935um 8.350um 90.135um 9.440um
 paint metal2
-box 187.275um 3.120um 187.675um 3.520um
+box 89.835um 9.240um 90.235um 9.640um
 paint m3c
-box 186.850um 0.460um 187.210um 0.820um
+box 89.410um 6.580um 89.770um 6.940um
 paint metal1
-box 186.900um 0.480um 187.160um 0.800um
+box 89.460um 6.600um 89.720um 6.920um
 paint m2c
-box 186.930um -1.000um 187.130um 0.640um
+box 89.490um 5.120um 89.690um 6.760um
 paint metal2
-box 186.830um -1.200um 187.230um -0.800um
+box 89.390um 4.920um 89.790um 5.320um
 paint m3c
-box 187.740um 0.460um 188.100um 0.820um
+box 90.300um 6.580um 90.660um 6.940um
 paint metal1
-box 187.790um 0.480um 188.050um 0.800um
+box 90.350um 6.600um 90.610um 6.920um
 paint m2c
-box 187.820um -1.900um 188.020um 0.640um
+box 90.380um 4.220um 90.580um 6.760um
 paint metal2
-box 187.720um -2.100um 188.120um -1.700um
+box 90.280um 4.020um 90.680um 4.420um
 paint m3c
-box 189.325um 2.050um 189.685um 2.410um
+box 91.885um 8.170um 92.245um 8.530um
 paint metal1
-box 189.375um 2.070um 189.635um 2.390um
+box 91.935um 8.190um 92.195um 8.510um
 paint m2c
-box 189.405um 2.230um 189.605um 3.320um
+box 91.965um 8.350um 92.165um 9.440um
 paint metal2
-box 189.305um 3.120um 189.705um 3.520um
+box 91.865um 9.240um 92.265um 9.640um
 paint m3c
-box 188.880um 0.460um 189.240um 0.820um
+box 91.440um 6.580um 91.800um 6.940um
 paint metal1
-box 188.930um 0.480um 189.190um 0.800um
+box 91.490um 6.600um 91.750um 6.920um
 paint m2c
-box 188.960um -1.000um 189.160um 0.640um
+box 91.520um 5.120um 91.720um 6.760um
 paint metal2
-box 188.860um -1.200um 189.260um -0.800um
+box 91.420um 4.920um 91.820um 5.320um
 paint m3c
-box 189.770um 0.460um 190.130um 0.820um
+box 92.330um 6.580um 92.690um 6.940um
 paint metal1
-box 189.820um 0.480um 190.080um 0.800um
+box 92.380um 6.600um 92.640um 6.920um
 paint m2c
-box 189.850um -1.900um 190.050um 0.640um
+box 92.410um 4.220um 92.610um 6.760um
 paint metal2
-box 189.750um -2.100um 190.150um -1.700um
+box 92.310um 4.020um 92.710um 4.420um
 paint m3c
-box 191.355um 2.050um 191.715um 2.410um
+box 93.915um 8.170um 94.275um 8.530um
 paint metal1
-box 191.405um 2.070um 191.665um 2.390um
+box 93.965um 8.190um 94.225um 8.510um
 paint m2c
-box 191.435um 2.230um 191.635um 3.320um
+box 93.995um 8.350um 94.195um 9.440um
 paint metal2
-box 191.335um 3.120um 191.735um 3.520um
+box 93.895um 9.240um 94.295um 9.640um
 paint m3c
-box 190.910um 0.460um 191.270um 0.820um
+box 93.470um 6.580um 93.830um 6.940um
 paint metal1
-box 190.960um 0.480um 191.220um 0.800um
+box 93.520um 6.600um 93.780um 6.920um
 paint m2c
-box 190.990um -1.000um 191.190um 0.640um
+box 93.550um 5.120um 93.750um 6.760um
 paint metal2
-box 190.890um -1.200um 191.290um -0.800um
+box 93.450um 4.920um 93.850um 5.320um
 paint m3c
-box 191.800um 0.460um 192.160um 0.820um
+box 94.360um 6.580um 94.720um 6.940um
 paint metal1
-box 191.850um 0.480um 192.110um 0.800um
+box 94.410um 6.600um 94.670um 6.920um
 paint m2c
-box 191.880um -1.900um 192.080um 0.640um
+box 94.440um 4.220um 94.640um 6.760um
 paint metal2
-box 191.780um -2.100um 192.180um -1.700um
+box 94.340um 4.020um 94.740um 4.420um
 paint m3c
-box 193.385um 2.050um 193.745um 2.410um
+box 95.945um 8.170um 96.305um 8.530um
 paint metal1
-box 193.435um 2.070um 193.695um 2.390um
+box 95.995um 8.190um 96.255um 8.510um
 paint m2c
-box 193.465um 2.230um 193.665um 3.320um
+box 96.025um 8.350um 96.225um 9.440um
 paint metal2
-box 193.365um 3.120um 193.765um 3.520um
+box 95.925um 9.240um 96.325um 9.640um
 paint m3c
-box 192.940um 0.460um 193.300um 0.820um
+box 95.500um 6.580um 95.860um 6.940um
 paint metal1
-box 192.990um 0.480um 193.250um 0.800um
+box 95.550um 6.600um 95.810um 6.920um
 paint m2c
-box 193.020um -1.000um 193.220um 0.640um
+box 95.580um 5.120um 95.780um 6.760um
 paint metal2
-box 192.920um -1.200um 193.320um -0.800um
+box 95.480um 4.920um 95.880um 5.320um
 paint m3c
-box 193.830um 0.460um 194.190um 0.820um
+box 96.390um 6.580um 96.750um 6.940um
 paint metal1
-box 193.880um 0.480um 194.140um 0.800um
+box 96.440um 6.600um 96.700um 6.920um
 paint m2c
-box 193.910um -1.900um 194.110um 0.640um
+box 96.470um 4.220um 96.670um 6.760um
 paint metal2
-box 193.810um -2.100um 194.210um -1.700um
+box 96.370um 4.020um 96.770um 4.420um
 paint m3c
-box -1.800um 3.120um 196.080um 3.520um
+box 97.540um -1.900um 97.740um 4.220um
+paint metal2
+box 97.440um -2.100um 97.840um -1.700um
+paint m3c
+box 97.440um 4.020um 97.840um 4.420um
+paint m3c
+box 98.340um -1.000um 98.540um 5.120um
+paint metal2
+box 98.240um -1.200um 98.640um -0.800um
+paint m3c
+box 98.240um 4.920um 98.640um 5.320um
+paint m3c
+box 99.140um 3.320um 99.340um 9.440um
+paint metal2
+box 99.040um 3.120um 99.440um 3.520um
+paint m3c
+box 99.040um 9.240um 99.440um 9.640um
+paint m3c
+box -1.800um 9.240um 101.040um 9.640um
 paint metal3
-box -1.700um 3.270um -1.600um 3.370um
+box -1.700um 9.390um -1.600um 9.490um
 label bias_a c metal3
-box -1.800um -1.200um 196.080um -0.800um
+box -1.800um -1.200um 101.040um -0.800um
 paint metal3
 box -1.700um -1.050um -1.600um -0.950um
 label x2_tail c metal3
-box -1.800um -2.100um 196.080um -1.700um
+box -1.800um -2.100um 101.040um -1.700um
 paint metal3
 box -1.700um -1.950um -1.600um -1.850um
 label VSS c metal3
-box -0.800um -2.700um 195.080um 4.120um
+box -0.500um 3.120um 99.540um 3.520um
+paint metal3
+box -0.500um 4.920um 98.740um 5.320um
+paint metal3
+box -0.500um 4.020um 97.940um 4.420um
+paint metal3
+box -0.800um -2.700um 100.040um 10.240um
 sky130::guard_ring_draw psc psd
-box 97.090um -2.750um 97.190um -2.650um
+box 49.570um -2.750um 49.670um -2.650um
 label VSS_body c locali
 tech revert
 save nmos_single_4__A

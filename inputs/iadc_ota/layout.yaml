@@ -13,6 +13,9 @@ hierarchy: upstream       # S5 places x1 (bias), x2 (core) and top (CMFB capacit
 pin_origin: bbox          # unit pins measured from the cell's bounding-box corner, where Magic places it (flow record
                           # row 95); iadc's single-finger W 1.2 / L 0.2 cell needs it. The finished designs keep the old
                           # way until Imasha decides (their stubs sit up to 0.125 um off their strips' centres)
+fold_row_um: 100          # a single device's row of copies longer than this becomes a multi-row array in one ring
+                          # (Imasha, 2026-11-05; flow record row 97): XX2_M5/M6 (m = 96) would be 198 um, wider than the
+                          # tile. 100 um: two rows of 48 (ASSUMPTION: the limit; any value below the tile's width works)
 search_from_outside: true # S5's annealing may start outside the outline and walk back in (flow record row 96); x1's
                           # start (a row per matched block) is far taller than the tile. Opt-in, like pin_origin
 rc_extraction: false      # C-only, as for ttsky25a_fd (flow record row 87) and as the hand layout was measured (7.8)

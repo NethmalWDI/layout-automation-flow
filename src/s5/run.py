@@ -326,7 +326,8 @@ def main(argv=None) -> int:
         c = chosen[r]
         pl = c["placement"]
         res[r] = {"index": c["index"], "cost": c["cost"], "placement": pl, "legal": legal(pl, blocks),
-                  "assembled": assemble(f"{design}_placed_{r}", pl, blocks, out / f"placed_{r}")}
+                  "assembled": assemble(f"{design}_placed_{r}", pl, blocks, out / f"placed_{r}"),
+                  **({"fallback": c["fallback"]} if c.get("fallback") else {})}   # row 99
         if opts.get("hierarchy") == "upstream":     # the grid router (plan v4 Phase 8.5)
             from src.s5 import grid as GR
             gr = GR.route(pl, nmap, ports, order, outline)

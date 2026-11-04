@@ -726,3 +726,47 @@ def test_pins_from_the_cell_corner_only_when_asked():
     assert lx < 0
     a, b = B.unit_pins(rec), B.unit_pins(rec, bbox_origin=True)
     assert abs(b["D"]["rect"][0] - (a["D"]["rect"][0] - lx)) < 1e-6 and abs(b["G"]["rect"][1] - (a["G"]["rect"][1] - ly)) < 1e-6
+
+
+def test_a_long_single_device_row_folds_into_an_array():
+    """Flow record row 97 (Imasha, 2026-11-05: one multi-row array): a single device's row of copies longer than
+    `fold_row_um` is drawn as identical rows in one ring; S5 sees only the outer tracks, a column joins each net's
+    tracks across the rows, and the inner tracks are keep-outs."""
+    import copy
+    from src.s4 import run as S, block as B
+    ir, groups, dd, rules, lu = _s4_inputs("example_ota_5t")
+    ir = copy.deepcopy(ir)
+    blk = next(b for b in S.plan_blocks(ir, groups) if len(b["devices"]) == 1)
+    units = S.variants(blk, ir, dd["decisions"], REPO / "outputs/S3/_cells", rules, lu, {})[0]["units"] * 6
+    one = B.layout(units, lu)
+    arr = B.layout_array(units, 3, lu)
+    assert arr["array_rows"] == 3 and arr["row"][2] < one["row"][2] / 2.5
+    assert sorted({u["y"] for u in arr["units"]}) == arr["row_offsets"] and len(arr["units"]) == len(units)
+    nets = set(arr["tracks"]["top"]) | set(arr["tracks"]["bottom"])
+    assert {t["net"] for t in arr["inner_tracks"]} <= nets                       # every inner track's net is outside too
+    assert all(len(ys) >= 2 for _, ys in arr["col_spans"].values())             # and joined to it by a column
+    assert all(s["ty"] in [t["y"] for t in arr["inner_tracks"]] + list(arr["tracks"][s["side"]].values())
+               for u in arr["units"] for s in u["stubs"])                       # every stub lands on a drawn track
+
+
+def test_shelf_start_fills_rows_to_the_width_pmos_first():
+    """Flow record row 98: with `search_from_outside`, S5's annealing starts from shelf packing."""
+    from src.s5 import macro as M
+    def blk(t, w, h):
+        return {"type": t, "symmetric": False, "variants": [{"geometry": {"bbox_um": [0, 0, w, h]}}]}
+    blocks = {"p1": blk("pmos", 40, 9), "p2": blk("pmos", 40, 8), "p3": blk("pmos", 40, 7),
+              "n1": blk("nmos", 70, 10), "n2": blk("nmos", 20, 6), "n3": blk("nmos", 30, 8)}
+    rows = M._shelf_start(list(blocks), blocks, 100.0)
+    assert rows[0] == ["p1", "p2"] and rows[1] == ["p3"]                  # 40 + 3 + 40 fits 100, a third does not
+    assert rows[2] == ["n1", "n2"] and rows[3] == ["n3"] or rows[2] == ["n1", "n3"]
+    assert all(blocks[b]["type"] == "pmos" for r in rows[:2] for b in r) and M._valid_rows(rows, blocks)
+
+
+def test_cut_labels_with_one_prefix_are_resolved_by_search():
+    """Flow record row 100: two cut labels 'a1…' (a1 or a12) on interchangeable nets are assigned by trying the
+    possibilities; a crossing between nets that are not interchangeable is still refused."""
+    from src.s6.run import symmetric_relabel
+    ref = ".subckt t g b\nM1 a1 g b b nfet L=1 W=1\nM2 a12 g b b nfet L=1 W=1\nM3 c g b b nfet L=2 W=1\n.ends\n"
+    got = symmetric_relabel([["a1", "a12", True], ["a1", "a1", True]], ref)   # either order is right
+    assert got is not None and sorted(got) == sorted(got.values()) == ["a1", "a12"]
+    assert symmetric_relabel([["a1", "c", False], ["c", "a1", False]], ref) is None

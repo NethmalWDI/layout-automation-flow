@@ -1274,3 +1274,16 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
     x2 has two m = 96 devices drawn 198 µm long, wider than the tile: FEEDBACK NEEDED on folding.
   - Both opt-in fixes leave the finished designs' results unchanged (shown: ttsky's placement identical with the old
     and new code; all 32 goldens match). 192 tests pass.
+- **iadc_ota through S0–S7 in the Tiny Tapeout tile (2026-11-04 evening, 19:35–21:25 CET; branch `gui-tools`).**
+  Imasha chose one multi-row array for iadc's m = 96 devices.
+  - S4: `fold_row_um` (row 97, opt-in): a single device's row longer than the limit becomes identical rows in one
+    ring, tracks joined by met2 columns, inner tracks keep-outs. XX2_M5/M6: two rows of 48. S4 PASS.
+  - S5: with `search_from_outside` the annealing starts from shelf packing (row 98); where no arrangement of the
+    budget-aware macro shapes fits, the area-only shapes join the candidates (row 99). Budget-aware layout 158.7 ×
+    213.5 µm, area-only 158.0 × 207.0 µm, inside the tile; top-level DRC 0, LVS match; G5.4 FAIL (budgets).
+  - S7 dropped the bench wrapper's ideal CMFB, so iadc's layout views ran with it open (gain 6.5 dB); fixed (row 100,
+    no change for the other designs, whose wrappers hold only the DUT). S6's relabel check now searches cut labels
+    that share a prefix (row 100). G6.1 PASS.
+  - S7 (C-only): gain 53.60 dB and PM 73.0° met; GBW 180.3 MHz misses ≥ 188.9 (an ASSUMPTION spec); the wiring takes
+    12.0 % of GBW, the hand layout 9.1 %. Goldens S4–S7 taken; simple report `docs/reports/iadc_ota_report.html`.
+  - ttsky's placement checked identical with the new code (both costs); 199 tests pass; 36 goldens match.

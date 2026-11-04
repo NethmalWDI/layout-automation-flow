@@ -366,7 +366,7 @@ def tap_distance(geo: dict) -> float | None:
         nx, ny = max(2, int(u["w"] / 0.25) + 1), max(2, int(u["h"] / 0.25) + 1)
         for i in range(nx):
             for j in range(ny):
-                x, y = u["x"] + u["w"] * i / (nx - 1), u["h"] * j / (ny - 1)
+                x, y = u["x"] + u["w"] * i / (nx - 1), u.get("y", 0.0) + u["h"] * j / (ny - 1)   # y: an array's row
                 worst = max(worst, min([x - rx0, rx1 - x, y - ry0, ry1 - y] + [abs(x - s) for s in strips]))
     return round(worst, 3)
 
@@ -433,10 +433,19 @@ def build_variant(blk: dict, v: dict, ir: dict, out: Path, lu: float | None = No
     name = f"{blk['name']}__{v['id']}"
     d = out / "blocks" / name
     inner = internal_nets(blk, ir) if (opts or {}).get("pack_internal") else set()
-    geo = B.layout(v["units"], tap_limit=None if blk["kind"] == "resistors" else lu, internal=inner,
-                   bbox_origin=(opts or {}).get("pin_origin") == "bbox")   # flow record row 95 (opt-in)
+    bo = (opts or {}).get("pin_origin") == "bbox"   # flow record row 95 (opt-in)
+    geo = B.layout(v["units"], tap_limit=None if blk["kind"] == "resistors" else lu, internal=inner, bbox_origin=bo)
+    fold = (opts or {}).get("fold_row_um")           # row 97 (opt-in): a single device's row longer than this is
+    if (fold and blk["kind"] != "resistors" and len({u["device"] for u in v["units"]}) == 1   # folded into an array
+            and geo["row"][2] > fold):
+        inner = set()
+        geo = B.layout_array(v["units"], -(-int(geo["row"][2] * 1000) // int(fold * 1000)), tap_limit=lu,
+                             bbox_origin=bo)
     res = {"id": v["id"], "cell": name, "arrangement": [{"device": u["device"], "cell": u["rec"]["cell"],
-                                                         "mirror": u["mirror"], "x": u["x"]} for u in geo["units"]]}
+                                                         "mirror": u["mirror"], "x": u["x"],
+                                                         **({"y": u["y"]} if "y" in u else {})} for u in geo["units"]]}
+    if geo.get("array_rows"):
+        res["array_rows"] = geo["array_rows"]
     b = B.build(name, geo, blk["type"], blk["body"], d)
     res["build"] = b
     if not b["gds"]:
@@ -481,6 +490,10 @@ def build_variant(blk: dict, v: dict, ir: dict, out: Path, lu: float | None = No
     res["geometry"]["keepouts"] = [                # internal short tracks: S5's met3 runs keep clear
         {"layer": "metal3", "box": [geo["spans"][side][n][0], y - B.TRACK_W / 2, geo["spans"][side][n][1], y + B.TRACK_W / 2],
          "net": n} for side in ("top", "bottom") for n, y in geo["tracks"][side].items() if n in inner]
+    for t in geo.get("inner_tracks", []):          # an array's inner tracks (row 97): S5's met3 runs keep clear
+        x1 = (geo.get("col_spans") or {}).get(t["net"], [geo["row"][2]])[0] + 0.3
+        res["geometry"]["keepouts"].append({"layer": "metal3", "box": [geo["ring"][0] + 0.3, t["y"] - B.TRACK_W / 2,
+                                                                       x1, t["y"] + B.TRACK_W / 2], "net": t["net"]})
     if blk["kind"] == "resistors":
         res["geometry"]["tap_distance_max_um"] = None   # poly on field oxide: no diffusion to tap
     res["symmetry"] = symmetry(geo, blk["devices"])

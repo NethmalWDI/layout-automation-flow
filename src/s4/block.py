@@ -240,6 +240,54 @@ def layout(units: list, tap_limit: float | None = None, internal: set | None = N
             "spans": {side: {n: v[:2] for n, v in sp_.items()} for side, sp_ in spans.items()}}
 
 
+ROW_SEP = 0.9   # between one row's top tracks and the next row's bottom tracks in an array (as PITCH)
+
+
+def layout_array(units: list, n_rows: int, tap_limit: float | None = None, bbox_origin: bool = False) -> dict:
+    """A long single-device row folded into n_rows identical rows stacked inside one ring (Imasha, 2026-11-05;
+    iadc_ota's m = 96 devices, a 198 um row, wider than the Tiny Tapeout tile; flow record row 97). Each row is laid out
+    as `layout` lays out a block (its units, stubs and tracks above and below); the rows stand one above the other,
+    a row's top tracks ROW_SEP below the next row's bottom tracks. A met2 column right of the rows joins all of a net's
+    tracks; the tap strips (identical rows) run through every row at the same x. S5 sees only the outer tracks (the
+    bottom row's bottom ones and the top row's top ones); the inner tracks are listed for the router as keep-outs."""
+    per = -(-len(units) // n_rows)
+    rows = [layout(units[k * per:(k + 1) * per], tap_limit, None, bbox_origin) for k in range(n_rows) if units[k * per:]]
+    placed, all_tracks, offs, y = [], [], [], 0.0
+    for k, g in enumerate(rows):
+        lo = min(list(g["tracks"]["bottom"].values()) or [0.0])
+        dy = y - lo if k else 0.0
+        offs.append(dy)
+        for u in g["units"]:
+            placed.append({**u, "y": round(dy, 3), "row_index": k,
+                           "stubs": [{**s, "edge": round(s["edge"] + dy, 3),
+                                      "pin_rect_y": [round(v + dy, 3) for v in s["pin_rect_y"]], "row_index": k,
+                                      "ty": round(g["tracks"][s["side"]][s["net"]] + dy, 3)}   # its own row's track
+                                     for s in u["stubs"]]})
+        for side in ("bottom", "top"):
+            for n, ty in g["tracks"][side].items():
+                all_tracks.append({"row": k, "side": side, "net": n, "y": round(ty + dy, 3)})
+        y = max(list(g["tracks"]["top"].values()) or [g["row"][3]]) + dy + ROW_SEP
+    nets = sorted({t["net"] for t in all_tracks}, key=lambda n: min(t["y"] for t in all_tracks if t["net"] == n))
+    row_w = max(g["row"][2] for g in rows)
+    joined = [n for n in nets if len([t for t in all_tracks if t["net"] == n]) > 1]
+    columns = {n: round(row_w + COL0 + k * COL_PITCH, 3) for k, n in enumerate(joined)}
+    col_spans = {n: [x, [t["y"] for t in all_tracks if t["net"] == n]] for n, x in columns.items()}
+    outer = {"bottom": {t["net"]: t["y"] for t in all_tracks if t["row"] == 0 and t["side"] == "bottom"},
+             "top": {t["net"]: t["y"] for t in all_tracks if t["row"] == len(rows) - 1 and t["side"] == "top"}}
+    inner = [t for t in all_tracks if not ((t["row"] == 0 and t["side"] == "bottom")
+                                           or (t["row"] == len(rows) - 1 and t["side"] == "top"))]
+    top = max(t["y"] for t in all_tracks) + RING_GAP
+    bot = min(t["y"] for t in all_tracks) - RING_GAP
+    right = max([row_w] + list(columns.values())) + RING_GAP
+    ring = [round(-RING_GAP, 3), round(bot, 3), round(right, 3), round(top, 3)]
+    strips = sorted({s for g in rows for s in g["strips"]})
+    row_h = max(u["y"] + u["h"] for u in placed)
+    return {"units": placed, "row": [0.0, 0.0, row_w, round(row_h, 3)], "tracks": outer, "inner_tracks": inner,
+            "columns": {}, "col_spans": col_spans, "ring": ring, "strips": strips,
+            "track_span": [round(ring[0] - EXT, 3), round(ring[2] + EXT, 3)], "spans": {"top": {}, "bottom": {}},
+            "array_rows": len(rows), "row_offsets": [round(v, 3) for v in offs]}
+
+
 def _b(x0, y0, x1, y1) -> str:
     return f"box {x0:.3f}um {y0:.3f}um {x1:.3f}um {y1:.3f}um"
 
@@ -251,10 +299,11 @@ def tcl(name: str, geo: dict, dtype: str, body_net: str) -> str:
         c.append(f"gds read {g}")
     c += [f"load {name} -silent", "tech unlock *"]
     for u in geo["units"]:
-        c += [_b(u["x"], 0, u["x"], 0), f"getcell {u['rec']['cell']}" + (" h" if u["mirror"] else "")]
+        y = u.get("y", 0)   # an array's row offset (row 97)
+        c += [_b(u["x"], y, u["x"], y), f"getcell {u['rec']['cell']}" + (" h" if u["mirror"] else "")]
     for u in geo["units"]:
         for s in u["stubs"]:
-            ty = geo["tracks"][s["side"]][s["net"]]
+            ty = s["ty"] if "ty" in s else geo["tracks"][s["side"]][s["net"]]
             x, up = s["x"], s["side"] == "top"
             if s["kind"] == "met1":   # met1 patch with a via1: outward from a gate pad, inside a strip's end
                 back = (0.2 if s["term"] == "G" else PATCH) + s.get("stagger", 0.0)   # a staggered patch: row 94
@@ -273,9 +322,9 @@ def tcl(name: str, geo: dict, dtype: str, body_net: str) -> str:
     on_track = {}
     for u in geo["units"]:
         for s in u["stubs"]:
-            on_track.setdefault((s["side"], s["net"]), []).append(s["x"])
-    for (side, net), xs in on_track.items():
-        ty = geo["tracks"][side][net]
+            ty = s["ty"] if "ty" in s else geo["tracks"][s["side"]][s["net"]]
+            on_track.setdefault((s["side"], s["net"], ty), []).append(s["x"])
+    for (side, net, ty), xs in on_track.items():
         xs = sorted(xs)
         for a, b in zip(xs, xs[1:]):
             if 1e-9 < b - a < PATCH + 0.14 - 1e-9:
@@ -285,11 +334,19 @@ def tcl(name: str, geo: dict, dtype: str, body_net: str) -> str:
         c += [_b(cx - STUB_W / 2, yb, cx + STUB_W / 2, yt), "paint metal2"]
         for ty in (yb, yt):
             c += [_b(cx - VIA2 / 2, ty - VIA2 / 2, cx + VIA2 / 2, ty + VIA2 / 2), "paint m3c"]
+    for net, (cx, ys) in (geo.get("col_spans") or {}).items():   # an array: one column joins a net's tracks
+        c += [_b(cx - STUB_W / 2, min(ys), cx + STUB_W / 2, max(ys)), "paint metal2"]
+        for ty in ys:
+            c += [_b(cx - VIA2 / 2, ty - VIA2 / 2, cx + VIA2 / 2, ty + VIA2 / 2), "paint m3c"]
     for side in ("top", "bottom"):
         for net, ty in geo["tracks"][side].items():
             x0, x1 = (geo.get("spans") or {}).get(side, {}).get(net) or geo["track_span"]
             c += [_b(x0, ty - TRACK_W / 2, x1, ty + TRACK_W / 2), "paint metal3",
                   _b(x0 + 0.1, ty - 0.05, x0 + 0.2, ty + 0.05), f"label {net} c metal3"]
+    for t in geo.get("inner_tracks", []):            # an array's inner tracks: inside the ring, up to their column;
+        x0 = geo["ring"][0] + 0.3                   # not labelled (each net is labelled on its outer track)
+        x1 = (geo.get("col_spans") or {}).get(t["net"], [geo["row"][2]])[0] + 0.3
+        c += [_b(x0, t["y"] - TRACK_W / 2, x1, t["y"] + TRACK_W / 2), "paint metal3"]
     rx0, ry0, rx1, ry1 = geo["ring"]
     if dtype == "pmos":
         c += [_b(rx0 - NWELL_OVER, ry0 - NWELL_OVER, rx1 + NWELL_OVER, ry1 + NWELL_OVER), "paint nwell"]

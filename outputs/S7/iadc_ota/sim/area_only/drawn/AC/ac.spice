@@ -1,0 +1,1025 @@
+* iadc_ota on dido_amp_AC
+.lib $PDK_ROOT/sky130A/libs.tech/combined/sky130.lib.spice tt
+.option rshunt=1e12
+.param VDD_V=1.8 VCM_V=0.9 CL_F=0.3p
+.temp 27
+
+**.subckt dido_amp_AC
+x1 INP INN OUTN VDD 0 OUTP dut_amp
+Vsup VDD 0 'VDD_V'
+* AC drive through 1 F couplers; DC set by unity feedback through 1 GH chokes (OUTP->INN, OUTN->INP)
+Vacp ACP 0 dc 0 ac 0.5
+Vacn ACN 0 dc 0 ac -0.5
+Cinp ACP INP 1
+Cinn ACN INN 1
+Lfbp OUTP INN 1G
+Lfbn OUTN INP 1G
+Cloadp OUTP 0 'CL_F'
+Cloadn OUTN 0 'CL_F'
+.control
+  save all
+  ac dec 40 1 1G
+  let hsig = v(OUTP) - v(OUTN)
+  let hdb = db(hsig)
+  let gph_deg = 180/pi * cph(hsig)
+  meas ac gain_db find hdb at=1
+  meas ac gbw_hz  when hdb=0
+  meas ac ph_dc   find gph_deg at=1
+  meas ac ph_ugb  find gph_deg when hdb=0
+  let gbw_mhz = gbw_hz / 1e6
+  let pm_deg  = 180 + (ph_ugb - ph_dc)
+  echo MEAS gain_db $&gain_db
+  echo MEAS gbw_mhz $&gbw_mhz
+  echo MEAS pm_deg $&pm_deg
+  write
+  quit 0
+.endc
+**.ends
+
+.subckt dut_amp INP INN OUTN VDD VSS OUTP
+XDUT OUTN OUTP bias_a_w cm_w N_IBIAS VDD VSS cmc_w INN INP N_x1_m5d N_x1_net2 N_x1_net3 N_x1_net5 N_x1_net6 N_x1_net8 N_x1_net9 N_x1_net11 N_x1_net12 N_x1_net4 N_x1_net7 N_x1_net10 N_x1_net14 N_x1_net15 N_bias_b N_bias_c N_x1_net13 N_x1_net1 N_x1_m2d N_bias_d N_x1_m21d N_x1_m25d N_x1_m31d N_x2_tail N_x2_m3d N_x2_m4d N_x2_foldn N_x2_foldp iadc_ota_routed_flat
+* ideal CMFB: the steady-state law of the upstream switched-capacitor CMFB (ASSUMPTION)
+Bcmfb cmc_w VSS V = v(bias_a_w) + (v(OUTP) + v(OUTN))/2 - v(cm_w)
+IIbias_ext_layout VDD N_IBIAS 3e-05
+.ends
+.subckt iadc_ota ip in op on VDD VSS cmc cm bias_a
+XX1_M22 bias_b bias_c x1_m21d VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M26 x1_m2d bias_c x1_m25d VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M32 cm bias_c x1_m31d VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M21 x1_m21d bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M25 x1_m25d bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M31 x1_m31d bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M1 bias_b bias_b bias_c VSS sky130_fd_pr__nfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=56 M=56
+XX1_M2 x1_m2d x1_m2d bias_d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=50 M=50
+XX1_M3 bias_d x1_m2d bias_a VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M4 bias_a bias_d x1_m5d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=18 M=18
+XX1_M5 x1_m5d bias_a VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=18 M=18
+XX1_M6 bias_c i_bias VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=18 M=18
+XX1_M7 i_bias i_bias VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=18 M=18
+XX1_M33 cm cm x1_net1 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M49 x1_net1 cm x1_net2 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M50 x1_net2 cm x1_net3 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M63 x1_net3 cm VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M68 cm cm x1_net4 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M69 x1_net4 cm x1_net5 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M70 x1_net5 cm x1_net6 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M71 x1_net6 cm VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M72 cm cm x1_net7 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M73 x1_net7 cm x1_net8 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M74 x1_net8 cm x1_net9 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M75 x1_net9 cm VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M76 cm cm x1_net10 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M77 x1_net10 cm x1_net11 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M78 x1_net11 cm x1_net12 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M79 x1_net12 cm VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M64 cm cm x1_net13 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M65 x1_net13 cm x1_net14 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M66 x1_net14 cm x1_net15 VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M67 x1_net15 cm VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=1 M=1
+XX1_M57 bias_b VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M58 x1_m2d VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M59 cm VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M60 x1_m31d VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M42 x1_m5d VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M44 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M34 bias_d bias_d bias_d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=8 M=8
+XX1_M35 x1_m2d x1_m2d x1_m2d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M36 bias_a bias_a bias_a VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=4 M=4
+XX1_M37 cm cm cm VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=8 M=8
+XX1_M54 x1_m25d x1_m25d x1_m25d VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M29 x1_m5d x1_m5d x1_m5d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX1_M8 i_bias i_bias i_bias VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M10 bias_c bias_c bias_c VSS sky130_fd_pr__nfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=8 M=8
+XX1_M27 bias_b bias_b bias_b VSS sky130_fd_pr__nfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=8 M=8
+XX1_M46 x1_m21d x1_m21d x1_m21d VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M47 x1_m25d x1_m25d x1_m25d VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M48 x1_m31d x1_m31d x1_m31d VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX1_M51 x1_m21d x1_m21d x1_m21d VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M1 x2_foldp ip x2_tail VSS sky130_fd_pr__nfet_01v8_lvt L=0.2 W=1.2 NF=1 AD=0.348 AS=0.348 PD=2.98 PS=2.98 NRD=0.241667 NRS=0.241667 SA=0 SB=0 SD=0 MULT=6 M=6
+XX2_M2 x2_foldn in x2_tail VSS sky130_fd_pr__nfet_01v8_lvt L=0.2 W=1.2 NF=1 AD=0.348 AS=0.348 PD=2.98 PS=2.98 NRD=0.241667 NRS=0.241667 SA=0 SB=0 SD=0 MULT=6 M=6
+XX2_M6 x2_tail cmc VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=96 M=96
+XX2_M5 x2_tail bias_a VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=96 M=96
+XX2_M11 x2_foldp bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=24 M=24
+XX2_M12 x2_foldn bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=24 M=24
+XX2_M1A on bias_c x2_foldp VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=20 M=20
+XX2_M8 op bias_c x2_foldn VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=20 M=20
+XX2_M3A on bias_d x2_m3d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=36 M=36
+XX2_M7 op bias_d x2_m4d VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=36 M=36
+XX2_M3 x2_m3d bias_a VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=36 M=36
+XX2_M4 x2_m4d bias_a VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=36 M=36
+XX2_M82 x2_foldn x2_foldn x2_foldn VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M83 x2_foldp x2_foldp x2_foldp VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M55 x2_foldn VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M56 op VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=4 M=4
+XX2_M61 x2_foldp VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M62 on VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=4 M=4
+XX2_M40 x2_m4d VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XX2_M41 x2_m3d VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=8 M=8
+XX2_M38 op op op VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M39 on on on VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M30 x2_tail VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M23 x2_foldp x2_foldp x2_foldp VSS sky130_fd_pr__nfet_01v8_lvt L=0.2 W=1.2 NF=1 AD=0.348 AS=0.348 PD=2.98 PS=2.98 NRD=0.241667 NRS=0.241667 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M24 x2_foldn x2_foldn x2_foldn VSS sky130_fd_pr__nfet_01v8_lvt L=0.2 W=1.2 NF=1 AD=0.348 AS=0.348 PD=2.98 PS=2.98 NRD=0.241667 NRS=0.241667 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M80 op VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M81 on VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=2 M=2
+XX2_M28 x2_tail x2_tail x2_tail VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XM43 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=8 M=8
+XM45 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=6 M=6
+XM9 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 L=0.6 W=1.4 NF=1 AD=0.406 AS=0.406 PD=3.38 PS=3.38 NRD=0.207143 NRS=0.207143 SA=0 SB=0 SD=0 MULT=23 M=23
+Ibias_ext VDD i_bias 3e-05
+XC3 op cmc sky130_fd_pr__cap_mim_m3_1 W=4.8 L=4.8 MF=4 M=4
+XC4 on cmc sky130_fd_pr__cap_mim_m3_1 W=4.8 L=4.8 MF=4 M=4
+.ends iadc_ota
+* NGSPICE file created from iadc_ota_routed_flat.ext - technology: sky130A
+
+.subckt iadc_ota_routed_flat on op bias_a cm IBIAS VDD VSS cmc in ip nmos_dummy_9__A_0.x1_m5d
++ nmos_matched_cascode_pair_3__AB_0.x1_net2 nmos_matched_cascode_pair_3__AB_0.x1_net3
++ nmos_matched_cascode_pair_5__AB_0.x1_net5 nmos_matched_cascode_pair_5__AB_0.x1_net6
++ nmos_matched_cascode_pair_7__AB_0.x1_net8 nmos_matched_cascode_pair_7__AB_0.x1_net9
++ nmos_matched_cascode_pair_9__AB_0.x1_net11 nmos_matched_cascode_pair_9__AB_0.x1_net12
++ nmos_matched_cascode_pair_4__AB_0.x1_net4 nmos_matched_cascode_pair_6__AB_0.x1_net7
++ nmos_matched_cascode_pair_8__AB_0.x1_net10 nmos_matched_cascode_pair_11__AB_0.x1_net14
++ nmos_matched_cascode_pair_11__AB_0.x1_net15 nmos_diode__A_0.bias_b nmos_diode__A_0.bias_c
++ nmos_matched_cascode_pair_10__AB_0.x1_net13 nmos_matched_cascode_pair_2__AB_0.x1_net1
++ nmos_single__A_0.x1_m2d nmos_single__A_0.bias_d pmos_dummy_6__A_0.x1_m21d pmos_dummy_7__A_0.x1_m25d
++ pmos_single__A_0.x1_m31d nmos_single_5__A_0.x2_tail nmos_dummy_19__A_0.x2_m3d nmos_dummy_18__A_0.x2_m4d
++ pmos_dummy_16__A_0.x2_foldn pmos_dummy_17__A_0.x2_foldp
+X0 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X1 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X2 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X3 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X4 pmos_dummy_7__A_0.x1_m25d nmos_diode__A_0.bias_c nmos_single__A_0.x1_m2d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X5 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X6 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X7 VSS VSS nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X8 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=38.164 ps=317.72 w=1.4 l=0.6
+X9 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X10 VSS VSS nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X11 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=182.87399 ps=1.52278k w=1.4 l=0.6
+X12 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X13 pmos_dummy_6__A_0.x1_m21d nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X14 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X15 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X16 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X17 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X18 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X19 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X20 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X21 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X22 VSS IBIAS IBIAS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X23 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X24 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X25 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X26 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X27 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X28 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X29 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X30 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X31 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X32 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X33 pmos_dummy_6__A_0.x1_m21d pmos_dummy_6__A_0.x1_m21d pmos_dummy_6__A_0.x1_m21d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=8.12 ps=67.6 w=1.4 l=0.6
+X34 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X35 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X36 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X37 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X38 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=52.78 ps=439.39999 w=1.4 l=0.6
+X39 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X40 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X41 nmos_single_5__A_0.x2_tail ip pmos_dummy_17__A_0.x2_foldp VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X42 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X43 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X44 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X45 nmos_diode__A_0.bias_c IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X46 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X47 nmos_single__A_0.bias_d nmos_single__A_0.bias_d nmos_single__A_0.bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=27.608 ps=229.84 w=1.4 l=0.6
+X48 nmos_matched_cascode_pair_5__AB_0.x1_net6 cm VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X49 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X50 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X51 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X52 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X53 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X54 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X55 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X56 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X57 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X58 nmos_matched_cascode_pair_2__AB_0.x1_net1 cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X59 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X60 VSS VSS op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X61 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X62 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X63 pmos_dummy_16__A_0.x2_foldn pmos_dummy_16__A_0.x2_foldn pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=20.3 ps=169 w=1.4 l=0.6
+X64 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X65 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X66 nmos_single__A_0.x1_m2d nmos_diode__A_0.bias_c pmos_dummy_7__A_0.x1_m25d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X67 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X68 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X69 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X70 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X71 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X72 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X73 VDD nmos_diode__A_0.bias_b pmos_dummy_7__A_0.x1_m25d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X74 VSS VSS nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X75 nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=21.924 ps=182.52 w=1.4 l=0.6
+X76 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X77 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X78 nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=29.232 ps=243.36 w=1.4 l=0.6
+X79 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X80 nmos_matched_cascode_pair_10__AB_0.x1_net13 cm nmos_matched_cascode_pair_11__AB_0.x1_net14 VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X81 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X82 pmos_dummy_16__A_0.x2_foldn pmos_dummy_16__A_0.x2_foldn pmos_dummy_16__A_0.x2_foldn VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=3.48 ps=29.8 w=1.2 l=0.2
+X83 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X84 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X85 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X86 nmos_dummy_9__A_0.x1_m5d nmos_dummy_9__A_0.x1_m5d nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=21.924 ps=182.52 w=1.4 l=0.6
+X87 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X88 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X89 VSS VSS on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X90 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X91 pmos_dummy_7__A_0.x1_m25d nmos_diode__A_0.bias_c nmos_single__A_0.x1_m2d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X92 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X93 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X94 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X95 VSS IBIAS nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X96 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X97 VDD nmos_diode__A_0.bias_b pmos_dummy_6__A_0.x1_m21d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X98 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X99 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X100 nmos_single_5__A_0.x2_tail nmos_single_5__A_0.x2_tail nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=87.812 ps=732.03998 w=1.4 l=0.6
+X101 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X102 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X103 VSS VSS nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X104 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X105 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X106 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X107 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X108 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X109 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X110 VDD VDD pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X111 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X112 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X113 VSS VSS nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X114 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X115 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X116 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X117 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=8.526 ps=70.98 w=1.4 l=0.6
+X118 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X119 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X120 VDD VDD op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X121 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X122 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X123 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X124 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X125 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X126 nmos_matched_cascode_pair_11__AB_0.x1_net15 cm VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X127 nmos_diode__A_0.bias_c IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X128 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X129 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X130 on cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X131 nmos_matched_cascode_pair_7__AB_0.x1_net9 cm nmos_matched_cascode_pair_7__AB_0.x1_net8 VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X132 op op op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=17.052 ps=141.96001 w=1.4 l=0.6
+X133 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X134 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X135 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X136 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X137 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X138 nmos_single__A_0.bias_d nmos_single__A_0.bias_d nmos_single__A_0.bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X139 nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X140 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X141 VDD VDD nmos_diode__A_0.bias_b VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X142 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X143 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X144 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X145 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X146 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X147 nmos_single__A_0.bias_d nmos_single__A_0.bias_d nmos_single__A_0.bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X148 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X149 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X150 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X151 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X152 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X153 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X154 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X155 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X156 VSS VSS nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X157 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X158 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X159 VSS VSS nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X160 VSS IBIAS nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X161 pmos_dummy_6__A_0.x1_m21d nmos_diode__A_0.bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X162 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X163 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X164 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X165 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X166 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X167 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X168 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X169 IBIAS IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X170 VSS VSS nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X171 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X172 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X173 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X174 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X175 VDD VDD pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X176 VDD VDD on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X177 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X178 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0 ps=0 w=1.2 l=0.2
+X179 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X180 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X181 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X182 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X183 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X184 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X185 nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X186 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X187 VDD nmos_diode__A_0.bias_b pmos_dummy_6__A_0.x1_m21d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X188 VSS VSS nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X189 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X190 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X191 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X192 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X193 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X194 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X195 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X196 VSS IBIAS nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X197 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X198 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X199 nmos_single_5__A_0.x2_tail nmos_single_5__A_0.x2_tail nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X200 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X201 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X202 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X203 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X204 nmos_single_5__A_0.x2_tail nmos_single_5__A_0.x2_tail nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X205 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X206 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X207 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X208 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X209 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X210 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X211 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X212 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X213 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X214 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X215 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X216 on on on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=17.052 ps=141.96001 w=1.4 l=0.6
+X217 nmos_diode__A_0.bias_c IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X218 op cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X219 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X220 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X221 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X222 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X223 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X224 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X225 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X226 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X227 pmos_dummy_6__A_0.x1_m21d pmos_dummy_6__A_0.x1_m21d pmos_dummy_6__A_0.x1_m21d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X228 nmos_single_5__A_0.x2_tail in pmos_dummy_16__A_0.x2_foldn VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X229 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X230 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X231 nmos_matched_cascode_pair_11__AB_0.x1_net15 cm nmos_matched_cascode_pair_11__AB_0.x1_net14 VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X232 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X233 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X234 nmos_single__A_0.bias_d nmos_single__A_0.bias_d nmos_single__A_0.bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X235 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X236 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X237 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X238 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X239 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X240 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X241 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X242 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X243 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X244 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X245 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X246 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X247 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X248 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X249 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X250 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X251 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X252 IBIAS IBIAS IBIAS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=8.932 ps=74.36 w=1.4 l=0.6
+X253 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X254 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X255 nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X256 on cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X257 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X258 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X259 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X260 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X261 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X262 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X263 VSS VSS nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X264 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X265 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X266 pmos_dummy_7__A_0.x1_m25d nmos_diode__A_0.bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X267 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X268 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X269 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X270 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X271 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X272 nmos_single_5__A_0.x2_tail ip pmos_dummy_17__A_0.x2_foldp VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X273 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X274 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X275 VDD VDD cm VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X276 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X277 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X278 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X279 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X280 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X281 VSS IBIAS IBIAS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X282 pmos_dummy_7__A_0.x1_m25d nmos_diode__A_0.bias_c nmos_single__A_0.x1_m2d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X283 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X284 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X285 nmos_single_5__A_0.x2_tail in pmos_dummy_16__A_0.x2_foldn VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X286 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X287 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X288 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X289 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X290 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X291 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X292 VDD nmos_diode__A_0.bias_b pmos_dummy_7__A_0.x1_m25d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X293 nmos_single_5__A_0.x2_tail in pmos_dummy_16__A_0.x2_foldn VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X294 VSS VSS nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X295 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X296 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X297 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X298 nmos_matched_cascode_pair_4__AB_0.x1_net4 cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X299 VSS IBIAS IBIAS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X300 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X301 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X302 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X303 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X304 bias_a bias_a bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=11.368 ps=94.64 w=1.4 l=0.6
+X305 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X306 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X307 nmos_single_5__A_0.x2_tail in pmos_dummy_16__A_0.x2_foldn VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X308 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X309 VDD VDD nmos_single__A_0.x1_m2d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X310 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X311 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X312 VSS IBIAS IBIAS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X313 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X314 IBIAS IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X315 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X316 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X317 VSS VSS nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X318 nmos_matched_cascode_pair_7__AB_0.x1_net9 cm VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X319 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X320 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X321 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X322 op op op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X323 IBIAS IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X324 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X325 pmos_single__A_0.x1_m31d nmos_diode__A_0.bias_c cm VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X326 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X327 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X328 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X329 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X330 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X331 nmos_diode__A_0.bias_c IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X332 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X333 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X334 VDD nmos_diode__A_0.bias_b pmos_single__A_0.x1_m31d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X335 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X336 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X337 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X338 pmos_single__A_0.x1_m31d nmos_diode__A_0.bias_c cm VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X339 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X340 nmos_diode__A_0.bias_c IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X341 pmos_dummy_17__A_0.x2_foldp pmos_dummy_17__A_0.x2_foldp pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=20.3 ps=169 w=1.4 l=0.6
+X342 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X343 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X344 VDD nmos_diode__A_0.bias_b pmos_single__A_0.x1_m31d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X345 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X346 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X347 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X348 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X349 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X350 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X351 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X352 VDD nmos_diode__A_0.bias_b pmos_single__A_0.x1_m31d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X353 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X354 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X355 op cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X356 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X357 VSS VSS nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X358 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X359 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X360 pmos_dummy_7__A_0.x1_m25d pmos_dummy_7__A_0.x1_m25d pmos_dummy_7__A_0.x1_m25d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=8.12 ps=67.6 w=1.4 l=0.6
+X361 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X362 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X363 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X364 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X365 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X366 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X367 nmos_single__A_0.x1_m2d nmos_diode__A_0.bias_c pmos_dummy_7__A_0.x1_m25d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X368 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X369 nmos_single__A_0.bias_d nmos_single__A_0.bias_d nmos_single__A_0.bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X370 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X371 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X372 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X373 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X374 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X375 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X376 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X377 VSS IBIAS IBIAS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X378 nmos_dummy_9__A_0.x1_m5d nmos_dummy_9__A_0.x1_m5d nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X379 nmos_diode__A_0.bias_b nmos_diode__A_0.bias_c pmos_dummy_6__A_0.x1_m21d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X380 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X381 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X382 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X383 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X384 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X385 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X386 nmos_single_5__A_0.x2_tail nmos_single_5__A_0.x2_tail nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X387 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X388 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X389 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X390 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X391 VDD VDD cm VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X392 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X393 VDD VDD on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X394 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X395 VSS VSS nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X396 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X397 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X398 pmos_dummy_6__A_0.x1_m21d nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X399 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X400 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X401 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X402 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X403 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X404 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X405 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X406 on on on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X407 nmos_matched_cascode_pair_4__AB_0.x1_net4 cm nmos_matched_cascode_pair_5__AB_0.x1_net5 VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X408 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X409 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X410 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X411 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X412 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X413 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X414 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X415 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X416 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X417 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X418 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X419 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X420 VSS IBIAS nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X421 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X422 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X423 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X424 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X425 VDD VDD op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X426 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X427 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X428 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X429 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X430 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X431 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X432 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X433 pmos_single__A_0.x1_m31d nmos_diode__A_0.bias_c cm VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X434 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X435 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X436 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X437 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X438 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X439 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X440 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X441 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X442 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X443 VDD nmos_diode__A_0.bias_b pmos_single__A_0.x1_m31d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X444 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X445 nmos_single_5__A_0.x2_tail ip pmos_dummy_17__A_0.x2_foldp VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X446 IBIAS IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X447 nmos_matched_cascode_pair_5__AB_0.x1_net6 cm nmos_matched_cascode_pair_5__AB_0.x1_net5 VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X448 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X449 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X450 nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X451 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X452 VDD nmos_diode__A_0.bias_b pmos_single__A_0.x1_m31d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X453 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X454 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X455 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X456 IBIAS IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X457 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X458 VDD VDD pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X459 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X460 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X461 VSS VSS op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X462 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X463 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X464 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X465 nmos_single_5__A_0.x2_tail in pmos_dummy_16__A_0.x2_foldn VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X466 nmos_matched_cascode_pair_9__AB_0.x1_net12 cm VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X467 VSS VSS nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X468 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X469 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X470 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X471 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X472 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X473 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X474 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X475 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X476 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X477 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X478 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X479 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X480 nmos_single__A_0.x1_m2d nmos_diode__A_0.bias_c pmos_dummy_7__A_0.x1_m25d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X481 bias_a bias_a bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X482 op cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X483 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X484 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X485 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X486 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X487 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X488 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X489 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X490 VSS IBIAS nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X491 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X492 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X493 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X494 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X495 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X496 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X497 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X498 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X499 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X500 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X501 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X502 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X503 IBIAS IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X504 nmos_matched_cascode_pair_8__AB_0.x1_net10 cm nmos_matched_cascode_pair_9__AB_0.x1_net11 VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X505 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X506 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X507 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X508 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X509 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X510 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X511 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X512 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X513 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X514 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X515 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X516 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X517 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X518 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X519 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X520 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X521 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X522 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X523 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X524 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X525 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X526 nmos_single__A_0.bias_d nmos_single__A_0.bias_d nmos_single__A_0.bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X527 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X528 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X529 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X530 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X531 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X532 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X533 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X534 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X535 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X536 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X537 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X538 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X539 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X540 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X541 nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X542 nmos_single_5__A_0.x2_tail ip pmos_dummy_17__A_0.x2_foldp VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X543 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X544 VDD VDD op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X545 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X546 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X547 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X548 nmos_dummy_9__A_0.x1_m5d nmos_dummy_9__A_0.x1_m5d nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X549 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X550 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X551 VSS IBIAS IBIAS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X552 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X553 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X554 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X555 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X556 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X557 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X558 VSS VSS nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X559 VSS IBIAS IBIAS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X560 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X561 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X562 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X563 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X564 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X565 VSS VSS nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X566 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X567 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X568 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X569 VSS IBIAS IBIAS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X570 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X571 nmos_matched_cascode_pair_3__AB_0.x1_net3 cm nmos_matched_cascode_pair_3__AB_0.x1_net2 VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X572 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X573 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X574 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X575 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X576 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X577 bias_a nmos_single__A_0.x1_m2d nmos_single__A_0.bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X578 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X579 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X580 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X581 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X582 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X583 nmos_single_5__A_0.x2_tail in pmos_dummy_16__A_0.x2_foldn VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X584 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X585 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X586 nmos_matched_cascode_pair_6__AB_0.x1_net7 cm nmos_matched_cascode_pair_7__AB_0.x1_net8 VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X587 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X588 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X589 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X590 VSS IBIAS IBIAS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X591 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X592 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X593 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X594 pmos_single__A_0.x1_m31d nmos_diode__A_0.bias_c cm VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X595 IBIAS IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X596 VDD VDD pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X597 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X598 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X599 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X600 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X601 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X602 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X603 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X604 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X605 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X606 VDD VDD on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X607 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X608 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X609 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X610 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X611 pmos_single__A_0.x1_m31d pmos_single__A_0.x1_m31d pmos_single__A_0.x1_m31d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=7.308 ps=60.84 w=1.4 l=0.6
+X612 pmos_dummy_16__A_0.x2_foldn pmos_dummy_16__A_0.x2_foldn pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X613 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X614 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X615 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X616 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X617 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X618 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X619 on cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X620 nmos_diode__A_0.bias_c IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X621 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X622 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X623 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X624 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X625 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X626 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X627 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X628 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X629 VDD VDD pmos_single__A_0.x1_m31d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X630 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X631 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X632 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X633 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X634 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X635 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X636 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X637 IBIAS IBIAS IBIAS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X638 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X639 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X640 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X641 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X642 pmos_dummy_7__A_0.x1_m25d nmos_diode__A_0.bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X643 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X644 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X645 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X646 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X647 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X648 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X649 nmos_dummy_9__A_0.x1_m5d nmos_dummy_9__A_0.x1_m5d nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X650 pmos_dummy_6__A_0.x1_m21d pmos_dummy_6__A_0.x1_m21d pmos_dummy_6__A_0.x1_m21d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X651 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X652 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X653 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X654 VSS VSS nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X655 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X656 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X657 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X658 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X659 bias_a bias_a bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X660 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X661 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X662 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X663 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X664 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X665 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X666 pmos_dummy_6__A_0.x1_m21d pmos_dummy_6__A_0.x1_m21d pmos_dummy_6__A_0.x1_m21d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X667 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X668 nmos_single_5__A_0.x2_tail nmos_single_5__A_0.x2_tail nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X669 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X670 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X671 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X672 nmos_single_5__A_0.x2_tail ip pmos_dummy_17__A_0.x2_foldp VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X673 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X674 VDD nmos_diode__A_0.bias_b pmos_dummy_6__A_0.x1_m21d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X675 VSS IBIAS nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X676 nmos_matched_cascode_pair_10__AB_0.x1_net13 cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X677 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X678 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X679 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X680 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X681 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X682 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X683 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X684 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X685 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X686 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X687 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X688 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X689 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X690 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X691 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X692 VSS VSS nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X693 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X694 VDD VDD nmos_single__A_0.x1_m2d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X695 VSS IBIAS nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X696 nmos_matched_cascode_pair_8__AB_0.x1_net10 cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X697 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X698 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X699 cm cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X700 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X701 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X702 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X703 pmos_dummy_17__A_0.x2_foldp pmos_dummy_17__A_0.x2_foldp pmos_dummy_17__A_0.x2_foldp VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=3.48 ps=29.8 w=1.2 l=0.2
+X704 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X705 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X706 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X707 VDD VDD on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X708 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X709 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X710 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X711 nmos_single__A_0.bias_d nmos_single__A_0.bias_d nmos_single__A_0.bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X712 nmos_diode__A_0.bias_c IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X713 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X714 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X715 pmos_dummy_16__A_0.x2_foldn pmos_dummy_16__A_0.x2_foldn pmos_dummy_16__A_0.x2_foldn VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0 ps=0 w=1.2 l=0.2
+X716 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X717 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X718 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X719 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X720 pmos_single__A_0.x1_m31d nmos_diode__A_0.bias_c cm VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X721 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X722 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X723 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X724 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X725 VDD nmos_diode__A_0.bias_b pmos_single__A_0.x1_m31d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X726 nmos_single_5__A_0.x2_tail ip pmos_dummy_17__A_0.x2_foldp VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0.348 ps=2.98 w=1.2 l=0.2
+X727 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X728 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X729 pmos_single__A_0.x1_m31d nmos_diode__A_0.bias_c cm VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X730 nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X731 IBIAS IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X732 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X733 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X734 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X735 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X736 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X737 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X738 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X739 nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X740 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X741 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X742 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X743 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X744 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X745 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X746 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X747 pmos_dummy_7__A_0.x1_m25d pmos_dummy_7__A_0.x1_m25d pmos_dummy_7__A_0.x1_m25d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X748 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X749 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X750 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X751 VDD VDD pmos_single__A_0.x1_m31d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X752 VSS IBIAS nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X753 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X754 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X755 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X756 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X757 nmos_matched_cascode_pair_2__AB_0.x1_net1 cm nmos_matched_cascode_pair_3__AB_0.x1_net2 VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X758 pmos_dummy_6__A_0.x1_m21d nmos_diode__A_0.bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X759 nmos_diode__A_0.bias_b nmos_diode__A_0.bias_c pmos_dummy_6__A_0.x1_m21d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X760 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X761 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X762 pmos_dummy_17__A_0.x2_foldp pmos_dummy_17__A_0.x2_foldp pmos_dummy_17__A_0.x2_foldp VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0 ps=0 w=1.2 l=0.2
+X763 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X764 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X765 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X766 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X767 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X768 nmos_dummy_9__A_0.x1_m5d nmos_dummy_9__A_0.x1_m5d nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X769 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X770 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X771 nmos_matched_cascode_pair_3__AB_0.x1_net3 cm VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X772 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X773 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X774 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X775 bias_a bias_a bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X776 pmos_dummy_6__A_0.x1_m21d nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X777 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X778 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X779 nmos_dummy_9__A_0.x1_m5d nmos_dummy_9__A_0.x1_m5d nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X780 VSS IBIAS nmos_diode__A_0.bias_c VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X781 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X782 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X783 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X784 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X785 VSS VSS on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X786 pmos_dummy_17__A_0.x2_foldp pmos_dummy_17__A_0.x2_foldp pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X787 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X788 VDD nmos_diode__A_0.bias_b pmos_dummy_7__A_0.x1_m25d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X789 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X790 bias_a nmos_single__A_0.x1_m2d nmos_single__A_0.bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X791 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X792 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X793 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X794 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X795 nmos_diode__A_0.bias_c IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X796 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X797 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X798 nmos_single_5__A_0.x2_tail nmos_single_5__A_0.x2_tail nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X799 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X800 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X801 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X802 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X803 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X804 VSS VSS nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X805 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X806 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X807 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X808 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X809 IBIAS IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X810 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X811 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X812 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8_lvt ad=0.348 pd=2.98 as=0 ps=0 w=1.2 l=0.2
+X813 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X814 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X815 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X816 nmos_dummy_9__A_0.x1_m5d nmos_single__A_0.bias_d bias_a VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X817 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X818 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X819 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X820 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X821 pmos_single__A_0.x1_m31d pmos_single__A_0.x1_m31d pmos_single__A_0.x1_m31d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X822 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X823 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X824 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X825 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X826 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X827 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X828 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X829 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X830 pmos_dummy_7__A_0.x1_m25d pmos_dummy_7__A_0.x1_m25d pmos_dummy_7__A_0.x1_m25d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X831 VDD nmos_diode__A_0.bias_b pmos_dummy_17__A_0.x2_foldp VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X832 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X833 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X834 VSS bias_a nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X835 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X836 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X837 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X838 VDD VDD nmos_diode__A_0.bias_b VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X839 nmos_dummy_18__A_0.x2_m4d nmos_single__A_0.bias_d op VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X840 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X841 VSS bias_a nmos_dummy_9__A_0.x1_m5d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X842 pmos_dummy_7__A_0.x1_m25d pmos_dummy_7__A_0.x1_m25d pmos_dummy_7__A_0.x1_m25d VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X843 nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X844 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X845 VSS cmc nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X846 on nmos_single__A_0.bias_d nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X847 nmos_single__A_0.bias_d nmos_single__A_0.bias_d nmos_single__A_0.bias_d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X848 pmos_dummy_6__A_0.x1_m21d nmos_diode__A_0.bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X849 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X850 nmos_dummy_19__A_0.x2_m3d nmos_single__A_0.bias_d on VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X851 nmos_diode__A_0.bias_c IBIAS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X852 nmos_matched_cascode_pair_6__AB_0.x1_net7 cm cm VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X853 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X854 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X855 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X856 op nmos_single__A_0.bias_d nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X857 nmos_diode__A_0.bias_c nmos_diode__A_0.bias_b nmos_diode__A_0.bias_b VSS sky130_fd_pr__nfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X858 VDD VDD VDD VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+X859 VSS VSS nmos_dummy_19__A_0.x2_m3d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X860 VSS VSS nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X861 op cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X862 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X863 pmos_dummy_17__A_0.x2_foldp nmos_diode__A_0.bias_c on VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X864 VSS bias_a nmos_dummy_18__A_0.x2_m4d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X865 pmos_dummy_7__A_0.x1_m25d nmos_diode__A_0.bias_b VDD VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X866 nmos_diode__A_0.bias_b nmos_diode__A_0.bias_c pmos_dummy_6__A_0.x1_m21d VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X867 nmos_matched_cascode_pair_9__AB_0.x1_net12 cm nmos_matched_cascode_pair_9__AB_0.x1_net11 VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X868 VDD VDD op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X869 VDD nmos_diode__A_0.bias_b pmos_dummy_16__A_0.x2_foldn VDD sky130_fd_pr__pfet_01v8_lvt ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X870 pmos_dummy_16__A_0.x2_foldn nmos_diode__A_0.bias_c op VDD sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X871 VSS bias_a nmos_single_5__A_0.x2_tail VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X872 on cmc sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X873 nmos_single__A_0.bias_d nmos_single__A_0.x1_m2d nmos_single__A_0.x1_m2d VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+X874 VSS VSS VSS VSS sky130_fd_pr__nfet_01v8 ad=0.406 pd=3.38 as=0 ps=0 w=1.4 l=0.6
+.ends
+
+
+.end
