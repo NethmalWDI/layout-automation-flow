@@ -2,7 +2,7 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-04 10:09 CET, by Claude Code. **Now: plan v4, S4–S7 (block generation, placement,
+**Last updated:** 2026-11-04 22:40 CET, by Claude Code (the reviewer pack on branch `gui-tools`, below under *Recent changes*). **Now: plan v4, S4–S7 (block generation, placement,
 routing, verification) on branch `s4-s5`**, from `main` at tag `s0s3-reviewed` (`ec359567`). The plan is
 `docs/plan_v4_S4_S7.md`; the phases are under *Plan v4 (s4-s5)* below.
 - Phases 0–4 are committed: `e6306879`, `a3e9277e`, `1e4d166f`, `f26c136a` and `3089366a`. Phase 2's commit carries an unrelated message
@@ -1682,6 +1682,13 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-05 (Claude Code, branch `gui-tools`): **the reviewer pack.** `docs/progress_report.html` (and `.md`),
+  written by `scripts/make_progress_report.py` from the committed outputs: what each stage does and the algorithm
+  it runs, what happened (timeline, 100 journey rows), the expected novelty (C1–C5, and what is not claimed), the
+  results of the four designs with layouts, schematics, the hand layouts and post-layout numbers, that the flow
+  runs without any LLM, the LLM plan with pros and cons, and the risks. README: the introduction covers S0–S7
+  and *For reviewers* is a reading guide (documents, expected status, how to run); the S0–S3 review notes stay
+  as a subsection. No flow code or result changed.
 - 2026-11-05 (Claude Code, branch `gui-tools`): **the detailed iadc report** (`docs/iadc_ota_report.html`,
   `scripts/make_iadc_report.py`), in ttsky's section order: iadc's own schematics with every block marked, all
   blocks and variants, the layouts in the tile, the main nodes and budgets, the exact algorithms, who decides

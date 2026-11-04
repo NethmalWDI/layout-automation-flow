@@ -1294,3 +1294,22 @@ layouts checked by extraction and SPICE; stabilise; then a more complex design. 
   nodes and budgets; the exact S4/S5 algorithms with iadc's options; who decides what; performance after layout
   beside the hand layout's (drawn, C-only, R+C); pictures of the final design's Magic DRC and Netgen LVS reports (and
   the negative control, and S6's flat LVS). `report_figures.py` takes any design's xschem folder.
+
+## 2026-11-05: the reviewer pack, branch `gui-tools` (Claude Code)
+
+Imasha asked for a short document for the reviewers covering the whole project, and a README updated for them.
+
+- **`scripts/make_progress_report.py` (new)** writes `docs/progress_report.md` and a self-contained
+  `docs/progress_report.html`. Every number is read from the committed outputs (gate reports, S7 metrics, the hand
+  layouts' reference results), the test count from the newest test log, and the journey count from section 7.1 of
+  the flow record. Contents: the status in short; each stage, what it does and its algorithm (S8, S9 planned); the
+  timeline; the expected novelty (C1–C5) and what is not claimed; the results per design (5T, LOADBench, ttsky25a_fd,
+  iadc_ota) with layout pictures, the 5T's xschem drawing, the ttsky and iadc schematics with their blocks marked, the hand layouts and the
+  comparison with them, and the post-layout tables; whether the flow needs Claude (no; the commands); the LLM plan
+  with its pros and cons; the risks of the method; where to look next.
+- **README:** the introduction lists S4–S7; *For reviewers* now starts from the progress report, lists the detailed
+  reports, the simple reports, the walkthroughs, the flow record and PREREG, gives the expected status of the four
+  designs (checked against `flow status all`) and the run commands (flow, GUI, tests). The earlier S0–S3 review notes
+  are kept as a subsection.
+- No flow code, input or result changed.
+

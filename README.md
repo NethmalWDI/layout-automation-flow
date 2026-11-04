@@ -1,11 +1,15 @@
 # layout-automation-flow
 
-An electrically informed analog layout flow for the SkyWater SKY130 open PDK, stages S0–S3:
+An electrically informed analog layout flow for the SkyWater SKY130 open PDK, stages S0–S7 (S8, S9 planned):
 
 - **S0 Ingest:** freeze a sized netlist, its specs and testbenches; bind every transistor to its exact SKY130 PCell (DRC/LVS-checked).
 - **S1 Intent:** operating point, exact small-signal model, sensitivity of every spec to capacitance at each net and resistance at each terminal (checked against SPICE).
 - **S2 Budgets:** joint parasitic budgets (fF, Ω) and layout rules, verified all at once in SPICE; G2.0 says before layout whether a compact layout can fit.
 - **S3 Devices:** PCell options per device, chosen against the budgets, each cell DRC/LVS-signed.
+- **S4 Blocks:** each matched group laid out as a row (common centroid or interdigitated, with dummies and guard ring), several variants per block.
+- **S5 Placement:** blocks and macros placed by simulated annealing against area and the S2 budgets; two strategies, budget-aware (BA) and area-only (AO).
+- **S6 Routing:** routed in Magic, then DRC, LVS (with negative controls) and the extracted parasitics checked against the budgets.
+- **S7 Post-layout:** the specs simulated on the extracted layouts, compared with the schematic and, where one exists, the hand-drawn layout.
 
 Designs (`./flow list`):
 
@@ -20,21 +24,73 @@ Designs (`./flow list`):
 Inputs the upstream stages did not provide are predicted by the package scripts and labelled PREDICTED
 (`circuits/<design>/SOURCE.md`). The before/after comparison of the plan-v2 updates is in `docs/before_after.md`.
 
-## For reviewers: S0–S3 on the 5T OTA and LOADBench
+## For reviewers
 
-**What to read first:** `docs/s0_s3_walkthrough.html` (open it in a browser; `.md` for the same text). It shows,
-for `example_ota_5t` and `loadbench_miller`, what each stage did and what came out: every gate, the main numbers
-and plots, and an explanation of each failed gate. It opens with a short guide to the ideas it uses (margin, eta,
-expected need). Every table and plot has a *How to read it* note and, where the numbers allow, a *What it shows here*
-line built from that design's results. It is generated from the committed outputs.
+**Read first:** `docs/progress_report.html` (open it in a browser; `.md` for the same text). In a few pages: what
+each stage does and which algorithm it runs, what happened so far, the expected novelty, the results on the four
+designs tried (layouts, schematics, hand layouts, post-layout numbers), whether the flow needs an LLM (it does not),
+the LLM integration plan with its pros and cons, and the risks. Then, as needed:
 
-**Expected result.** FAIL means a gate reported a finding, but the stage finished and wrote its report. ERROR
-(a crash) does not occur.
+| Document | What it gives |
+|---|---|
+| `docs/ttsky25a_fd_report.html` | the full report on Imasha's taped-out op-amp: schematics with every block marked, every block, the algorithms, who decides what, the comparison with the hand-drawn tile |
+| `docs/iadc_ota_report.html` | the same for `iadc_ota` in a Tiny Tapeout tile, with the tools' DRC and LVS reports of the final design as pictures |
+| `docs/reports/<design>_report.html` | a short report for every design (also for designs made with the GUI) |
+| `docs/s0_s3_walkthrough.html`, `docs/s4_s7_walkthrough.html` | every gate and number, stage by stage |
+| `docs/flow_record.md` | the journey: every problem found (100 so far), how it was found, what changed |
+| `PREREG.md` | the hypotheses, thresholds and fixed search settings, with dated amendments |
 
-| Design | S0 | S1 | S2 | S3 | Run time |
-|---|---|---|---|---|---|
-| `example_ota_5t` | PASS | PASS | PASS | PASS | about 30 min (20 of them S0's 45 PVT points and Monte Carlo) |
-| `loadbench_miller` | FAIL (G0.7) | FAIL (G1.6) | PASS | FAIL (G3.5) | about 20 min |
+All of them are generated from the committed outputs (`python3 scripts/make_progress_report.py`,
+`make_ttsky_report.py`, `make_iadc_report.py`, `make_design_report.py <design>`, `make_s0s3_walkthrough.py`,
+`make_s4s7_walkthrough.py`, after `source scripts/env.sh` in the container).
+
+**Expected result** of the committed runs (`.low.ps1 status all`). FAIL means a gate reported a finding while the
+stage finished and wrote its report; each is explained in the design's report. ERROR (a crash) does not occur.
+
+| Design | S0 | S1 | S2 | S3 | S4 | S5 | S6 | S7 |
+|---|---|---|---|---|---|---|---|---|
+| `example_ota_5t` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| `loadbench_miller` | FAIL | FAIL | PASS | FAIL | PASS | FAIL | FAIL | FAIL |
+| `ttsky25a_fd` | PASS | FAIL | PASS | FAIL | PASS | FAIL | FAIL | FAIL |
+| `iadc_ota` | FAIL | FAIL | FAIL | FAIL | PASS | FAIL | FAIL | FAIL |
+
+Every layout is DRC-clean and LVS-matched; every spec is met after layout on the first three designs; `iadc_ota`
+misses its (assumed) GBW spec. The S5–S7 FAILs are mostly S2's budgets, which the layouts exceed (section 8 of the
+progress report).
+
+**Run it** (Windows PowerShell, Docker Desktop running; no LLM is needed). On this PC the container `layout-s0s3`
+already mounts the repository (`docker start layout-s0s3` if it is stopped). Without `FLOW_CONTAINER`, `flow.ps1`
+starts a throwaway container from the pinned image instead.
+
+```powershell
+$env:FLOW_CONTAINER="layout-s0s3"
+.low.ps1 status all                      # gate verdicts of the committed runs, per stage
+.low.ps1 run example_ota_5t              # S0 -> S7, about an hour (20 min of it S0's PVT points and Monte Carlo)
+.low.ps1 run example_ota_5t --from S4    # S4 -> S7 only, a few minutes
+.low.ps1 run example_ota_5t --stage S1   # one stage, from the earlier stages' outputs
+.low.ps1 test                            # 199 unit tests + golden comparison with the committed outputs (~20 s)
+.\gui\gui.ps1                             # the local GUI: http://localhost:8765/ (edit, run, report; no LLM)
+```
+
+The larger designs take longer: `ttsky25a_fd` and `iadc_ota` about 3 hours from S0 (S2 alone over an hour).
+
+The same inside the container: `docker exec -e IIC_OSIC_TOOLS_QUIET=1 layout-s0s3 bash -lc "cd /foss/designs &&
+source scripts/env.sh && python3 -u -m src.flow run example_ota_5t"`. The variable stops the image's login
+profile from printing its `[INFO]` lines; `-u` makes each step's line appear as it finishes. The launchers set both.
+
+**Where the outputs go:**
+- each stage: `outputs/<stage>/<design>/`, with its gates in `<stage>_report.json` (e.g. `outputs/S2/loadbench_miller/s2_report.json`);
+- per-step logs: `runs/logs/flow/<design>/`;
+- the run summary: `outputs/flow/<design>/flow_summary.json`;
+- report pictures: `outputs/report/<design>/`.
+
+A run rewrites these folders. The results reproduce (seeded searches; the golden comparison checks it), but run ids
+and timestamps change. Discarding the changes in GitHub Desktop returns to the committed run.
+
+### The earlier S0–S3 review (5T and LOADBench)
+
+`docs/s0_s3_walkthrough.html` shows, for `example_ota_5t` and `loadbench_miller`, what S0–S3 did and what came out:
+every gate, the main numbers and plots, and an explanation of each failed gate.
 
 LOADBench's three FAILs are findings, not flow errors:
 - **G0.7:** the SKY130 PCell drawn at the netlist's exact size for one device (`XNormalTransistorNmos3`, one
@@ -47,45 +103,10 @@ LOADBench's three FAILs are findings, not flow errors:
   keeps the least-bad cell and flags the type. The circuit with every chosen cell still meets every spec in SPICE
   (G3.3).
 
-**Run it** (Windows PowerShell, Docker Desktop running). On this PC the container `layout-s0s3` already mounts the
-repository (`docker start layout-s0s3` if it is stopped). Without `FLOW_CONTAINER`, `flow.ps1` starts a
-throwaway container from the pinned image instead.
-
-```powershell
-$env:FLOW_CONTAINER="layout-s0s3"
-.\flow.ps1 status example_ota_5t           # gate verdicts of the committed run, per stage
-.\flow.ps1 status loadbench_miller
-.\flow.ps1 run example_ota_5t              # S0 -> S3, about 30 min
-.\flow.ps1 run loadbench_miller            # S0 -> S3, about 20 min
-.\flow.ps1 run example_ota_5t --stage S1   # one stage, from the earlier stages' outputs (S1 or S3: under a minute)
-.\flow.ps1 test                            # 199 unit tests + golden comparison with the committed outputs (~15 s)
-```
-
-The same inside the container: `docker exec -e IIC_OSIC_TOOLS_QUIET=1 layout-s0s3 bash -lc "cd /foss/designs &&
-source scripts/env.sh && python3 -u -m src.flow run example_ota_5t"`. The variable stops the image's login
-profile from printing its `[INFO]` lines. `-u` makes each step's line appear as it finishes; without it, Python
-holds its output until the run ends. The launchers set both. `status all` also lists the three other designs. Their outputs are the
-plan-v2 runs of 25–27 October and are not part of this review; flow record 7.5 gives their results.
-
-**Where the outputs go:**
-- each stage: `outputs/<stage>/<design>/`, with its gates in `<stage>_report.json` (e.g. `outputs/S2/loadbench_miller/s2_report.json`);
-- per-step logs: `runs/logs/flow/<design>/`;
-- the run summary: `outputs/flow/<design>/flow_summary.json`.
-
-A run rewrites these folders. The results reproduce (the review's clean runs matched Phase A's exactly), but run
-ids and timestamps change. Discarding the changes in GitHub Desktop returns to the committed run.
-`python3 scripts/make_s0s3_walkthrough.py` regenerates the walkthrough from a new run. For S4–S7,
-`docs/s4_s7_walkthrough.html` is its companion (`python3 scripts/make_s4s7_walkthrough.py`).
-`docs/ttsky25a_fd_report.html` is the full report on `ttsky25a_fd`'s layout for any reader, with the comparison
-against the hand layout (`python3 scripts/make_ttsky_report.py`, after `source scripts/env.sh`; its pictures go to
-`outputs/report/ttsky25a_fd/`, all three layouts at one scale). `docs/iadc_ota_report.html` is the same report for `iadc_ota` in its Tiny Tapeout tile
-(`python3 scripts/make_iadc_report.py`), with the tools' DRC and LVS reports of the final design as pictures. `scripts/report_figures.py` draws the designer's
-schematics from a scratch copy (`runs/tmp/report_sch/`; the sources stay untouched) with every block marked, and
-the annotated layouts).
-
-**Further reading:** `docs/flow_record.md` (the journey: what was built, what went wrong and how it was found;
-section 7.13 is the current version, 7.14 this review), `docs/progress_log.md`, and `PREREG.md` (hypotheses and
-thresholds, with dated amendments).
+**Further reading:** `docs/flow_record.md` (the journey: what was built, what went wrong and how it was found),
+`docs/progress_log.md`, and `PREREG.md` (hypotheses and thresholds, with dated amendments). `scripts/report_figures.py`
+draws the designers' schematics from a scratch copy (`runs/tmp/report_sch/`; the sources stay untouched) with every
+block marked, and the annotated layouts.
 
 ## Quick start (anyone, any OS)
 
