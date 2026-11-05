@@ -136,12 +136,21 @@ def _base_gap(ta: dict, tb: dict) -> float:
     return D.reserve("diff/tap.11")          # n-well (PMOS) facing a p-tap ring (NMOS)
 
 
+def _legal(ta: dict, tb: dict, g: float) -> float:
+    """Two PMOS blocks' n-wells either touch (gap 0, they merge) or keep nwell.2a: a channel between 0 and its reserve
+    would leave them too close (flow record row 107: a 0.8 um channel gave iadc_ota_v2 nwell.2a errors)."""
+    if ta["type"] == tb["type"] == "pmos" and 0.0 < g < D.reserve("nwell.2a"):
+        return D.reserve("nwell.2a")
+    return g
+
+
 def gap_x(blocks: dict, a: str, b: str) -> float:
-    return round(_base_gap(blocks[a], blocks[b]) + CHANNEL["um"], 4)
+    return round(_legal(blocks[a], blocks[b], _base_gap(blocks[a], blocks[b]) + CHANNEL["um"]), 4)
 
 
 def gap_y(blocks: dict, upper: list, lower: list) -> float:
-    return round(max(_base_gap(blocks[a], blocks[b]) for a in upper for b in lower) + CHANNEL["um"], 4)
+    return round(max(_legal(blocks[a], blocks[b], _base_gap(blocks[a], blocks[b]) + CHANNEL["um"])
+                     for a in upper for b in lower), 4)
 
 
 def apply_s5(design: str) -> bool:

@@ -1,4 +1,4 @@
-# Rule set v2, phase 3: plan (on hold since 2026-11-05)
+# Rule set v2, phase 3: plan (on hold from 2026-11-06)
 
 Phases 1–2 of rule set v2 are built and run; see `ruleset_v2.md` sections 3 and 7, PREREG 2026-11-05, and flow record
 section 7.26. On `iadc_ota_v2` they gave:
@@ -33,10 +33,30 @@ Files:
 - log: `runs/logs/p3_dry.log`;
 - results: `runs/tmp/books/p3_dry.json`.
 
-V0 reproduced the committed run (area-only 84.7 × 211.2 = 17,901 µm²; budget-aware 160.2 × 150.7 at 1.6 µm). The
-other four were still running when work stopped; read their numbers from the log.
+Results (finished 2026-11-05, 19:30 CET; placement only, not routed):
 
-Pick the variant with the smallest area that still fits the tile, then implement it:
+| Variant | Area-only | Budget-aware |
+|---|---|---|
+| V0 now | 84.7 × 211.2 = 17,901 µm² | 160.2 × 150.7 = 24,134 µm² |
+| V1 more shapes | 17,901 µm² | 128.9 × 190.2 = 24,529 µm² |
+| V2 top into x2 | 126.5 × 127.1 = 16,077 µm² (−10 %) | 144.2 × 180.6 = 26,040 µm² |
+| V3 both | 16,077 µm² | 144.2 × 165.8 = 23,909 µm² |
+| **V4 flat** | **80.4 × 181.6 = 14,594 µm² (−18 %)** | 132.6 × 183.4 = 24,317 µm² |
+
+**Area-only:** V4 (flat) gives 1.09 × the whole hand layout and 1.45 × it without its CMFB.
+
+**Budget-aware:** the layout hardly moves (23.9–26.0 k µm²). Its wire-budget term outweighs the area term, as on v1
+(flow record row 99), so packing alone will not shrink it. The budget-aware cost's balance (λ, μ, or budgets that a
+compact layout can meet) is its own question for Imasha.
+
+**Step 1 run (2026-11-06, `packing: flat` on iadc_ota_v2; PREREG amendment of that date):**
+- **Area-only:** 79.6 × 175.8 = 13,983 µm² (1.05 × the hand layout, 1.39 × it without its CMFB), routed with a 0.8 µm channel. It has **8 DRC errors** (nwell.2a): same-body PMOS blocks 0.8 µm apart.
+  - Fixed in `src/common/ruleset.py`: n-wells touch or keep nwell.2a's reserve, 1.40 µm (flow record row 107; test).
+  - **Re-run needed** (about 1.5 h): `docker exec -d layout-s0s3 bash -lc "cd /foss/designs && source scripts/env.sh && python3 -u -m src.flow run iadc_ota_v2 --from S5 > runs/logs/gui_iadc_ota_v2_S5S7.log 2>&1"`, then `python3 scripts/make_design_report.py iadc_ota_v2` and `python3 scripts/make_readme_figures.py`.
+- **Budget-aware:** flat is worse (29,442 µm², DRC 0, LVS match), so keep sub-circuit macros for it. That means making `packing: flat` apply to the area-only cost alone, or tuning the budget-aware cost.
+
+**Originally next:** route V4 and V2 at their channel widths. A flat placement loses the sub-circuit grouping, so check that the
+matched pairs and the routing still behave. Then implement the winner:
 - `src/s5/macro.py`: `SHAPES` and `macro_of`, or a flat mode;
 - switched on only under `ruleset: v2` (see `src/common/ruleset.py`), so v1 stays unchanged.
 

@@ -236,6 +236,12 @@ def hierarchical(design: str, blocks: dict, max_len: dict, rule: str, outline: l
     mof = macro_of(design, blocks)
     from src.s4.run import layout_options
     outside = bool(layout_options(design).get("search_from_outside"))   # row 96, opt-in
+    lo = layout_options(design)
+    if lo.get("ruleset") == "v2" and lo.get("packing") == "flat":
+        # rule set v2, phase 3 (docs/rules_v2/phase3_plan.md, PREREG 2026-11-06): every block in one macro, so the
+        # annealer packs them all at once; the 2026-11-05 dry run gave iadc_ota_v2's area-only layout 14,594 against
+        # 17,901 um2 with the sub-circuit macros
+        mof = {b: "all" for b in blocks}
     groups = {}
     for b in blocks:
         groups.setdefault(mof[b], []).append(b)

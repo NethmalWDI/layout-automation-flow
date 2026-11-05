@@ -1,63 +1,63 @@
 drc off
 snap internal
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/pmos_dummy__f2/pmos_dummy__f2.gds
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_cm_bias_c__cc1/x1_cm_bias_c__cc1.gds
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/pmos_dummy_2__f2/pmos_dummy_2__f2.gds
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x2_cl_casc__cc4/x2_cl_casc__cc4.gds
 gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_cm_bias_b__cc3/x1_cm_bias_b__cc3.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_cm_bias_c__cc3/x1_cm_bias_c__cc3.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_single_m5__f2/x1_single_m5__f2.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_single_m3__f1/x1_single_m3__f1.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_diode_m2d__f2/x1_diode_m2d__f2.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_cm_iref__cc2/x1_cm_iref__cc2.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_cc_cm__strings1/x1_cc_cm__strings1.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_single_m4__f3/x1_single_m4__f3.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_diode_bias_b__f4/x1_diode_bias_b__f4.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/pmos_dummy__f1/pmos_dummy__f1.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/pmos_dummy_2__f1/pmos_dummy_2__f1.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/nmos_dummy__f1/nmos_dummy__f1.gds
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x2_cl_src__cc4/x2_cl_src__cc4.gds
 gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/XC3__A/XC3__A.gds
 gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/XC4__A/XC4__A.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x2_cl_src__cc3/x2_cl_src__cc3.gds
-gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x2_cl_casc__cc2/x2_cl_casc__cc2.gds
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_single_m3__f1/x1_single_m3__f1.gds
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_diode_bias_b__f2/x1_diode_bias_b__f2.gds
 gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x2_diff__cc3/x2_diff__cc3.gds
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_single_m5__f3/x1_single_m5__f3.gds
 gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x2_cm_casc__cc3/x2_cm_casc__cc3.gds
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_single_m4__f1/x1_single_m4__f1.gds
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_cc_cm__strings1/x1_cc_cm__strings1.gds
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_diode_m2d__f1/x1_diode_m2d__f1.gds
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x1_cm_iref__cc1/x1_cm_iref__cc1.gds
 gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/x2_cm_tail__id6/x2_cm_tail__id6.gds
+gds read /foss/designs/outputs/S4/iadc_ota_v2/blocks/nmos_dummy__f1/nmos_dummy__f1.gds
 load iadc_ota_v2_placed_area_only -silent
-box -40.6250um -29.5800um -40.6250um -29.5800um
-getcell x1_cm_bias_b__cc3 v
-box -19.4250um -29.5800um -19.4250um -29.5800um
-getcell x1_cm_bias_c__cc3
-box -42.3350um -45.0400um -42.3350um -45.0400um
-getcell x1_single_m5__f2 v
-box -15.7650um -45.0400um -15.7650um -45.0400um
-getcell x1_single_m3__f1 v
-box -42.2300um -58.8500um -42.2300um -58.8500um
-getcell x1_diode_m2d__f2 v
-box -39.2100um -74.1600um -39.2100um -74.1600um
-getcell x1_cm_iref__cc2 v
-box -42.3700um -83.8000um -42.3700um -83.8000um
-getcell x1_cc_cm__strings1
-box -42.1950um -105.9500um -42.1950um -105.9500um
-getcell x1_single_m4__f3
-box -25.3850um -105.9500um -25.3850um -105.9500um
-getcell x1_diode_bias_b__f4 v
-box 6.5950um -76.0900um 6.5950um -76.0900um
-getcell pmos_dummy__f1
-box 25.3950um -76.0900um 25.3950um -76.0900um
-getcell pmos_dummy_2__f1
-box 3.7700um -82.5500um 3.7700um -82.5500um
-getcell nmos_dummy__f1
-box 3.7400um -94.2500um 3.7400um -94.2500um
-getcell XC3__A
-box 3.7400um -105.9500um 3.7400um -105.9500um
+box -30.4500um -10.5600um -30.4500um -10.5600um
+getcell pmos_dummy__f2
+box -18.6100um -10.5600um -18.6100um -10.5600um
+getcell x1_cm_bias_c__cc1
+box 20.9500um -10.5600um 20.9500um -10.5600um
+getcell pmos_dummy_2__f2
+box -34.8200um -44.4500um -34.8200um -44.4500um
+getcell x2_cl_casc__cc4 v
+box -10.7400um -44.4500um -10.7400um -44.4500um
+getcell x1_cm_bias_b__cc3
+box 9.6600um -44.4500um 9.6600um -44.4500um
+getcell x2_cl_src__cc4 v
+box -39.7800um -55.3500um -39.7800um -55.3500um
+getcell XC3__A v
+box 1.1500um -55.3500um 1.1500um -55.3500um
 getcell XC4__A
-box -39.2800um -131.1300um -39.2800um -131.1300um
-getcell x2_cl_src__cc3
-box -2.4800um -131.1300um -2.4800um -131.1300um
-getcell x2_cl_casc__cc2
-box -29.7050um -159.0100um -29.7050um -159.0100um
+box -33.3500um -68.3600um -33.3500um -68.3600um
+getcell x1_single_m3__f1
+box -16.1800um -68.3600um -16.1800um -68.3600um
+getcell x1_diode_bias_b__f2
+box -38.4900um -95.2900um -38.4900um -95.2900um
 getcell x2_diff__cc3 v
-box -17.0550um -159.0100um -17.0550um -159.0100um
+box -26.6400um -95.2900um -26.6400um -95.2900um
+getcell x1_single_m5__f3
+box -8.2700um -95.2900um -8.2700um -95.2900um
 getcell x2_cm_casc__cc3
-box -38.5550um -211.2500um -38.5550um -211.2500um
+box -38.9700um -104.1300um -38.9700um -104.1300um
+getcell x1_single_m4__f1 v
+box -4.0400um -104.1300um -4.0400um -104.1300um
+getcell x1_cc_cm__strings1 v
+box -39.2650um -110.7200um -39.2650um -110.7200um
+getcell x1_diode_m2d__f1
+box -36.1050um -118.8100um -36.1050um -118.8100um
+getcell x1_cm_iref__cc1 v
+box -38.5550um -170.2500um -38.5550um -170.2500um
 getcell x2_cm_tail__id6
+box -19.2850um -175.7600um -19.2850um -175.7600um
+getcell nmos_dummy__f1
 tech unlock *
 tech revert
 save iadc_ota_v2_placed_area_only

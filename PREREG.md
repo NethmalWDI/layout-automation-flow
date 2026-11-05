@@ -311,3 +311,10 @@ After the tag, changes are allowed only as dated amendments at the end, with the
     H-v2b: no-routing-over-devices does not raise the wiring's share of the GBW loss above v1's (12.0 %, C-only).
     Reported either way.
 
+- **2026-11-06 (00:05 local, 19:35 CET 2026-11-05), rule set v2 phase 3, step 1: flat packing, chosen after a
+  placement-only dry run** (`docs/rules_v2/phase3_plan.md`; nothing drawn or routed in the dry run). With `ruleset: v2`
+  and `packing: flat` in `layout.yaml`, S5 places every block as one macro instead of one per sub-circuit; the seed,
+  schedule, shapes and costs are unchanged. Chosen because the dry run gave iadc_ota_v2's area-only placement 14,594
+  µm² against 17,901 with sub-circuit macros (budget-aware: 24,317 against 24,134, about the same). It is applied to
+  `iadc_ota_v2` only. H-v2a and H-v2b stand as written on 2026-11-05 and are reported either way.
+

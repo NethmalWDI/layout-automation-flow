@@ -1450,3 +1450,21 @@ or another Claude account, with the ttsky v2 run kept going and its results incl
   03:00 local). `scripts/finish_ttsky_v2.sh` was made resumable (it starts at the first stage without a report and
   waits for a run already going) and restarted at 18:50 CET; HANDOFF section 2 gives the one command to resume it.
 
+## 2026-11-06 (00:00–01:15 local): phase 3 step 1, then on hold for the week (Claude Code)
+
+- ttsky25a_fd_v2 stopped on Imasha's request: S0 passed, S1 interrupted, so it resumes at S1.
+- `packing: flat` (v2 only; PREREG amendment written before the run): all blocks placed as one macro. Run on
+  iadc_ota_v2 S5–S7:
+  - area-only 79.6 × 175.8 = 13,983 µm², 1.05 × the hand layout (1.39 × without its CMFB), at a 0.8 µm channel,
+    but with 8 DRC errors (nwell.2a: same-body PMOS blocks 0.8 µm apart). GBW lost to wiring: 14.7 %;
+  - budget-aware 29,442 µm², DRC 0, LVS match; worse than with macros (22,142 µm²). GBW lost to wiring: 12.6 %.
+- Fix (flow record row 107): two PMOS blocks either touch or keep nwell.2a's reserve (1.40 µm). The re-run is
+  pending.
+- README (phase 3 paragraph), HANDOFF (state and next steps), the phase 3 plan and STATUS updated. Tests: 213 pass;
+  36 goldens match. Work on hold for the week.
+- README: the DRC-failed flat layout pictured with its 8 errors ringed (`scripts/make_drc_failed_figure.py`;
+  layout, DRC report and error boxes kept in `outputs/report/iadc_ota_v2/flat_drc_failed/`), what made it smaller
+  and what failed, and a step-by-step guide to continue without an assistant (re-run, check, refresh reports,
+  resume ttsky, tests, commit). The re-run with the fix was started and then stopped at Imasha's request (01:15
+  local); the next plan lists it first, then ttsky's PEX under the new rules and the LLM part after this week.
+

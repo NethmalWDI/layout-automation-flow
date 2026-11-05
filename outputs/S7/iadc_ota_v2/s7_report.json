@@ -1,7 +1,7 @@
 {
-  "run_id": "2026-11-05T17:52:42-08ae35aa",
+  "run_id": "2026-11-05T20:35:28-01fc13ad",
   "design": "iadc_ota_v2",
-  "s6_run_id": "2026-11-05T17:51:13-bef0597b",
+  "s6_run_id": "2026-11-05T20:33:30-c61bfaa0",
   "eta": 0.5,
   "TOL_USE": 0.02,
   "post_layout_view": "pex_c",
@@ -11,7 +11,7 @@
       "missing_measurements": {},
       "detail": {
         "pm_deg": [
-          72.7202,
+          72.7994,
           60,
           true
         ],
@@ -21,7 +21,7 @@
           true
         ],
         "gbw_mhz": [
-          176.761,
+          179.008,
           188.8668,
           false
         ]
@@ -31,18 +31,18 @@
     "G7.2_loss_within_eta_margin": {
       "pass": false,
       "detail": {
-        "pm_deg": 0.5238,
+        "pm_deg": 0.5146,
         "gain_db": -0.2636,
-        "gbw_mhz": 3.1537
+        "gbw_mhz": 2.9396
       }
     },
     "G7.3_G2.0_prediction (info)": {
       "pass": null,
       "detail": {
         "pm_deg": [
-          0.2619,
+          0.2573,
           0.1722353505614758,
-          0.5206
+          0.4939
         ],
         "gain_db": [
           -0.1318,
@@ -50,9 +50,9 @@
           -1.2071
         ],
         "gbw_mhz": [
-          1.57687,
+          1.4698,
           1.3608547878069892,
-          0.1587
+          0.0801
         ]
       },
       "note": "[post-layout loss / margin, G2.0's predicted share, relative error]; PREREG: within 25 %"
@@ -102,15 +102,15 @@
             "within_allowed": true
           },
           "gbw_mhz": {
-            "value": 179.465,
-            "lost": 30.387,
-            "use_of_allowed": 2.896,
+            "value": 181.81,
+            "lost": 28.042,
+            "use_of_allowed": 2.6726,
             "within_allowed": false
           },
           "pm_deg": {
-            "value": 72.4618,
-            "lost": 4.7718,
-            "use_of_allowed": 0.5538,
+            "value": 72.5362,
+            "lost": 4.6974,
+            "use_of_allowed": 0.5451,
             "within_allowed": true
           }
         },
@@ -122,15 +122,15 @@
             "within_allowed": true
           },
           "gbw_mhz": {
-            "value": 178.512,
-            "lost": 31.34,
-            "use_of_allowed": 2.9869,
+            "value": 177.235,
+            "lost": 32.617,
+            "use_of_allowed": 3.1086,
             "within_allowed": false
           },
           "pm_deg": {
-            "value": 72.6374,
-            "lost": 4.5962,
-            "use_of_allowed": 0.5334,
+            "value": 72.647,
+            "lost": 4.5866,
+            "use_of_allowed": 0.5323,
             "within_allowed": true
           }
         }
@@ -149,26 +149,26 @@
       "pass": null,
       "use_of_allowed": {
         "budget_aware": {
-          "pm_deg": 0.5238,
+          "pm_deg": 0.5146,
           "gain_db": -0.2636,
-          "gbw_mhz": 3.1537
+          "gbw_mhz": 2.9396
         },
         "area_only": {
-          "pm_deg": 0.5043,
+          "pm_deg": 0.5035,
           "gain_db": -0.2636,
-          "gbw_mhz": 3.2389
+          "gbw_mhz": 3.3553
         }
       }
     }
   },
   "all_pass": false,
   "provenance": {
-    "created": "2026-11-05T16:52:42+00:00",
-    "git_commit": "d6958ca61d7c91b6c6698ea5876802067ff1e9f4",
+    "created": "2026-11-05T19:35:28+00:00",
+    "git_commit": "6c92fdee1c046785d71d4d0b9363260afeeba0ae",
     "inputs": [
       {
         "path": "outputs/S6/iadc_ota_v2/parasitics_vs_budgets.json",
-        "sha256": "7d8aee9359b116528a3eb9bef8a1c6deb458f17dc20c665a9ed9897d1853adf0"
+        "sha256": "b73a12b9e01560491f15137c81d3a81521880718b67576abd0c94c80884d0724"
       },
       {
         "path": "outputs/S0/iadc_ota_v2/circuit_ir.json",

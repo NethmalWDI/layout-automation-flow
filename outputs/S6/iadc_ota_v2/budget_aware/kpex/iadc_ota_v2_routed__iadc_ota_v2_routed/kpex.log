@@ -1,508 +1,502 @@
-[2026-11-05 17:10:12,422] [INFO]    GDS input file passed, running in LVS mode
-[2026-11-05 17:10:12,452] [INFO]    Found cell iadc_ota_v2_routed in GDS /foss/designs/outputs/S5/iadc_ota_v2/routed_budget_aware/iadc_ota_v2_routed.gds (only top cell)
-[2026-11-05 17:10:12,624] [SUBPROCESS]    Tool     Found    Effective range
-[2026-11-05 17:10:12,625] [SUBPROCESS]    KLayout  0.30.12  >=0.30.1,>=0.30.2,>=0.30.3
-[2026-11-05 17:10:12,829] [INFO]    Cache miss: there is no cached LVSDB
-[2026-11-05 17:10:12,831] [SUBPROCESS]    /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/.kpex_cache/sky130A/foss/designs/outputs/S5/iadc_ota_v2/routed_budget_aware/iadc_ota_v2_routed.gds/iadc_ota_v2_routed.lvsdb.gz
-[2026-11-05 17:10:12,832] [SUBPROCESS]    klayout -b -r /usr/local/lib/python3.12/dist-packages/klayout_pex/pdk/sky130A/libs.tech/kpex/sky130.lvs -rd input=/foss/designs/outputs/S5/iadc_ota_v2/routed_budget_aware/iadc_ota_v2_routed.gds -rd report=/foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed.lvsdb.gz -rd target_netlist=/foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_extracted.cir -rd schematic=/foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/ref_named.spice -rd thr=22 -rd run_mode=deep -rd spice_net_names=true -rd spice_comments=false -rd scale=false -rd schematic_simplify=false -rd net_only=false -rd top_lvl_pins=true -rd combine=false -rd combine_devices=false -rd purge=false -rd purge_nets=false -rd no_simplify=true -rd verbose=false
-[2026-11-05 17:10:12,835] [SUBPROCESS]    /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_lvs.log
-[2026-11-05 17:10:16,903] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (454604K) : Starting running SKY130 Klayout LVS runset on /foss/designs/outputs/S5/iadc_ota_v2/routed_budget_aware/iadc_ota_v2_routed.gds
-[2026-11-05 17:10:16,905] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (456052K) : Layout file: /foss/designs/outputs/S5/iadc_ota_v2/routed_budget_aware/iadc_ota_v2_routed.gds
-[2026-11-05 17:10:16,906] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (456052K) : Number of threads: 22
-[2026-11-05 17:10:16,907] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (456052K) : Final report: /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed.lvsdb.gz
-[2026-11-05 17:10:16,908] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (456052K) : No substrate name given, default name is sky130_gnd
-[2026-11-05 17:10:16,909] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (456052K) : Extracted netlist with net names: true
-[2026-11-05 17:10:16,911] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (456052K) : Extracted netlist with comments in details: false
-[2026-11-05 17:10:16,912] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (456052K) : Extracted netlist file: /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_extracted.cir
-[2026-11-05 17:10:16,913] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (456052K) : device_scaling: false
-[2026-11-05 17:10:16,914] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (456052K) : Verbose mode: false
-[2026-11-05 17:10:16,915] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (456052K) : deep mode is enabled.
-[2026-11-05 17:10:16,916] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (456588K) : Netlist file: /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/ref_named.spice
-[2026-11-05 17:10:16,917] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (456588K) : Read in polygons from layers.
-[2026-11-05 17:10:16,918] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (463936K) : Read in labels from layers.
-[2026-11-05 17:10:16,919] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (465004K) : Evaluate switches start
-[2026-11-05 17:10:16,921] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (465004K) : SCH_SIMPLE enabled  false
-[2026-11-05 17:10:16,922] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (465004K) : NET_ONLY enabled  false
-[2026-11-05 17:10:16,923] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (465004K) : TOP_LVL_PINS enabled  true
-[2026-11-05 17:10:16,924] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (465004K) : COMBINE enabled  false
-[2026-11-05 17:10:16,925] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (465004K) : PURGE enabled  false
-[2026-11-05 17:10:16,927] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (465004K) : PURGE_NETS enabled  false
-[2026-11-05 17:10:16,928] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (465004K) : SIMPLIFY enabled  false
-[2026-11-05 17:10:16,929] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (465004K) : Evaluate switches end.
-[2026-11-05 17:10:16,930] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (465004K) : SKY130 LVS rules started
-[2026-11-05 17:10:16,931] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (465004K) : Starting deriving base layers.
-[2026-11-05 17:10:16,932] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (477340K) : Starting MOSFET DERIVATIONS
-[2026-11-05 17:10:16,933] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (477340K) : Starting PMOS layers DERIVATIONS
-[2026-11-05 17:10:16,934] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (477484K) : Starting NMOS layers DERIVATIONS
-[2026-11-05 17:10:16,935] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (477380K) : Starting BJT DERIVATIONS
-[2026-11-05 17:10:16,936] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (477380K) : Starting NPN layers DERIVATIONS
-[2026-11-05 17:10:16,937] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (477444K) : Starting PNP layers DERIVATIONS
-[2026-11-05 17:10:16,939] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (477724K) : Starting DIODE DERIVATIONS
-[2026-11-05 17:10:16,940] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (477724K) : Starting PHOTODIODE DERIVATIONS
-[2026-11-05 17:10:16,941] [SUBPROCESS]    2026-11-05 17:10:15 +0100: Memory Usage (477656K) : Starting RESISTOR DERIVATIONS
-[2026-11-05 17:10:16,942] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (480912K) : Starting FUSE DERIVATIONS
-[2026-11-05 17:10:16,943] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (480912K) : Starting MIM DERIVATIONS
-[2026-11-05 17:10:16,944] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481204K) : Starting VARACTOR DERIVATIONS
-[2026-11-05 17:10:16,945] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481192K) : Starting INDUCTOR DERIVATIONS
-[2026-11-05 17:10:16,947] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481192K) : Starting VPP CAP DERIVATIONS
-[2026-11-05 17:10:16,948] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481192K) : Starting SONOS DERIVATIONS
-[2026-11-05 17:10:16,949] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481800K) : Starting SKY130 LVS connectivity setup
-[2026-11-05 17:10:16,950] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481788K) : Starting SKY130 LVS connectivity setup (Inter-layer)
-[2026-11-05 17:10:16,952] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting SKY130 LVS connectivity setup (Attaching labels)
-[2026-11-05 17:10:16,953] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting SKY130 LVS connectivity setup (Global connections)
-[2026-11-05 17:10:16,954] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting SKY130 LVS connectivity setup (Multifinger Devices)
-[2026-11-05 17:10:16,956] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting LVS BJT CONNECTIONS
-[2026-11-05 17:10:16,957] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting LVS DIODE CONNECTIONS
-[2026-11-05 17:10:16,958] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting LVS PHOTODIODE CONNECTIONS
-[2026-11-05 17:10:16,959] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting LVS MIMCAP CONNECTIONS
-[2026-11-05 17:10:16,960] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting LVS VARACTOR CONNECTIONS
-[2026-11-05 17:10:16,961] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting LVS RESISTOR CONNECTIONS
-[2026-11-05 17:10:16,962] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting LVS INDUCTOR CONNECTIONS
-[2026-11-05 17:10:16,963] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting LVS VPP CAP CONNECTIONS
-[2026-11-05 17:10:16,964] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting LVS SONOS CONNECTIONS
-[2026-11-05 17:10:16,966] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting MOSFET EXTRACTION
-[2026-11-05 17:10:16,967] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting PMOS EXTRACTION
-[2026-11-05 17:10:16,968] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 1.8V PMOS transistor standard
-[2026-11-05 17:10:16,969] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 1.8V PMOS transistor low threshold voltage
-[2026-11-05 17:10:16,971] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 1.8V PMOS transistor high threshold voltage
-[2026-11-05 17:10:16,972] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 5V gate 10.5V drain PMOS transistor
-[2026-11-05 17:10:16,973] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting NMOS EXTRACTION
-[2026-11-05 17:10:16,974] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 1.8V NMOS transistor standard
-[2026-11-05 17:10:16,976] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 1.8V NMOS transistor low threshold voltage
-[2026-11-05 17:10:16,977] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 3.3V NMOS transistor native voltage
-[2026-11-05 17:10:16,978] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 5V NMOS transistor native voltage
-[2026-11-05 17:10:16,979] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 5V gate 10.5V drain NMOS transistor
-[2026-11-05 17:10:16,980] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting BJT EXTRACTION
-[2026-11-05 17:10:16,982] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting NPN BJT EXTRACTION
-[2026-11-05 17:10:16,983] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__npn_05v5_W1p00L1p00 BJT
-[2026-11-05 17:10:16,984] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__npn_05v5_W1p00L2p00 BJT
-[2026-11-05 17:10:16,985] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__npn_11v0_W1p00L1p00 BJT
-[2026-11-05 17:10:16,987] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting PNP BJT EXTRACTION
-[2026-11-05 17:10:16,988] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__pnp_05v5_W0p68L0p68 BJT
-[2026-11-05 17:10:16,989] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__pnp_05v5_W3p40L3p40 BJT
-[2026-11-05 17:10:16,990] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting DIODE EXTRACTION
-[2026-11-05 17:10:16,992] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 5V N+ diffusion diode
-[2026-11-05 17:10:16,993] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 5V N+ diffusion diode low threshold voltage
-[2026-11-05 17:10:16,994] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 5V N+ diffusion diode native threshold voltage
-[2026-11-05 17:10:16,995] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 11V N+ diffusion diode
-[2026-11-05 17:10:16,996] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 5V P+ diffusion diode
-[2026-11-05 17:10:16,997] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting5V P+ diffusion diode low threshold voltage
-[2026-11-05 17:10:16,999] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 5V P+ diffusion diode high threshold voltage
-[2026-11-05 17:10:17,000] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting 11V P+ diffusion diode
-[2026-11-05 17:10:17,001] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting PHOTODIODE EXTRACTION
-[2026-11-05 17:10:17,002] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting Photodiode
-[2026-11-05 17:10:17,003] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Starting RESISTOR EXTRACTION
-[2026-11-05 17:10:17,004] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_generic_nd device
-[2026-11-05 17:10:17,005] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_generic_nd device
-[2026-11-05 17:10:17,007] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_generic_pd device
-[2026-11-05 17:10:17,235] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_generic_pd device
-[2026-11-05 17:10:17,236] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_iso_pw device
-[2026-11-05 17:10:17,238] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_generic_po device
-[2026-11-05 17:10:17,239] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_high_po_0p35 device
-[2026-11-05 17:10:17,240] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_high_po_0p69 device
-[2026-11-05 17:10:17,242] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_high_po_1p41 device
-[2026-11-05 17:10:17,243] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_high_po_2p85 device
-[2026-11-05 17:10:17,244] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_high_po_5p73 device
-[2026-11-05 17:10:17,245] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_xhigh_po_0p35 device
-[2026-11-05 17:10:17,246] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_xhigh_po_0p69 device
-[2026-11-05 17:10:17,248] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_xhigh_po_1p41 device
-[2026-11-05 17:10:17,249] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_xhigh_po_2p85 device
-[2026-11-05 17:10:17,250] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_xhigh_po_5p73 device
-[2026-11-05 17:10:17,251] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_generic_l1 device
-[2026-11-05 17:10:17,252] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_generic_m1 device
-[2026-11-05 17:10:17,254] [SUBPROCESS]    2026-11-05 17:10:16 +0100: Memory Usage (481644K) : Extracting sky130_fd_pr__res_generic_m2 device
-[2026-11-05 17:10:17,255] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__res_generic_m3 device
-[2026-11-05 17:10:17,256] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__res_generic_m4 device
-[2026-11-05 17:10:17,257] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__res_generic_m5 device
-[2026-11-05 17:10:17,259] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Starting FUSE EXTRACTION
-[2026-11-05 17:10:17,260] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__fuse_m4 device
-[2026-11-05 17:10:17,261] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Starting MIMCAP EXTRACTION
-[2026-11-05 17:10:17,262] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__model__cap_mim device
-[2026-11-05 17:10:17,263] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__model__cap_mim_m4 device
-[2026-11-05 17:10:17,264] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Starting VARACTOR EXTRACTION
-[2026-11-05 17:10:17,265] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting low threshold voltage varactor
-[2026-11-05 17:10:17,266] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting high threshold voltage varactor
-[2026-11-05 17:10:17,267] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Starting VARACTOR EXTRACTION
-[2026-11-05 17:10:17,269] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_02p4x04p6_m1m2_noshield
-[2026-11-05 17:10:17,270] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_02p7x06p1_m1m2m3m4_shieldl1_fingercap
-[2026-11-05 17:10:17,271] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_02p7x11p1_m1m2m3m4_shieldl1_fingercap
-[2026-11-05 17:10:17,273] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_02p7x21p1_m1m2m3m4_shieldl1_fingercap
-[2026-11-05 17:10:17,274] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_02p7x41p1_m1m2m3m4_shieldl1_fingercap
-[2026-11-05 17:10:17,275] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_02p9x06p1_m1m2m3m4_shieldl1_fingercap2
-[2026-11-05 17:10:17,277] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_03p9x03p9_m1m2_shieldl1_floatm3
-[2026-11-05 17:10:17,278] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_l1m1m2_noshield
-[2026-11-05 17:10:17,279] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_l1m1m2_noshield_o2subcell
-[2026-11-05 17:10:17,281] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_l1m1m2_shieldpo_floatm3
-[2026-11-05 17:10:17,282] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_m1m2m3_shieldl1
-[2026-11-05 17:10:17,283] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_m1m2m3_shieldl1m5_floatm4
-[2026-11-05 17:10:17,285] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_m1m2_noshield
-[2026-11-05 17:10:17,286] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_m1m2_noshield_o2
-[2026-11-05 17:10:17,288] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_m1m2_shieldl1
-[2026-11-05 17:10:17,289] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_05p9x05p9_m1m2m3m4_shieldl1_wafflecap
-[2026-11-05 17:10:17,291] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_06p8x06p1_l1m1m2m3_shieldpom4
-[2026-11-05 17:10:17,292] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_06p8x06p1_m1m2m3_shieldl1m4
-[2026-11-05 17:10:17,293] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_l1m1m2_noshield
-[2026-11-05 17:10:17,295] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_l1m1m2_noshield_o2subcell
-[2026-11-05 17:10:17,296] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_l1m1m2_shieldpo_floatm3
-[2026-11-05 17:10:17,297] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_m1m2m3_shieldl1
-[2026-11-05 17:10:17,299] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_m1m2m3_shieldl1m5_floatm4
-[2026-11-05 17:10:17,300] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_m1m2_noshield
-[2026-11-05 17:10:17,302] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_m1m2_shieldl1
-[2026-11-05 17:10:17,303] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p3x11p3_m1m2m3m4_shieldl1_wafflecap
-[2026-11-05 17:10:17,304] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting vpp cap sky130_fd_pr__cap_vpp_11p3x11p8_l1m1m2m3m4_shieldm5_nhv
-[2026-11-05 17:10:17,305] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2m3m4_shieldm5
-[2026-11-05 17:10:17,307] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2m3m4_shieldpom5
-[2026-11-05 17:10:17,308] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2m3m4_shieldpom5_x
-[2026-11-05 17:10:17,309] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2m3_shieldm4
-[2026-11-05 17:10:17,310] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2m3_shieldpom4
-[2026-11-05 17:10:17,312] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2_noshield
-[2026-11-05 17:10:17,313] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2_shieldpom3
-[2026-11-05 17:10:17,314] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m2m3m4_shieldl1m5
-[2026-11-05 17:10:17,316] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m2m3m4_shieldm5
-[2026-11-05 17:10:17,317] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m2m3_shieldl1
-[2026-11-05 17:10:17,318] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m2m3_shieldl1m5_floatm4
-[2026-11-05 17:10:17,320] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m2_noshield
-[2026-11-05 17:10:17,321] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m2_shieldl1
-[2026-11-05 17:10:17,322] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m4_noshield
-[2026-11-05 17:10:17,324] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_pol1m1m2m3m4m5_noshield
-[2026-11-05 17:10:17,325] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_11p5x23p1_pol1m1m2m3m4m5_noshield
-[2026-11-05 17:10:17,326] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_22p5x11p7_pol1m1m2m3m4m5_noshield
-[2026-11-05 17:10:17,327] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_22p5x23p1_pol1m1m2m3m4m5_noshield
-[2026-11-05 17:10:17,328] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_33p6x11p7_pol1m1m2m3m4m5_noshield
-[2026-11-05 17:10:17,330] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_33p6x23p1_pol1m1m2m3m4m5_noshield
-[2026-11-05 17:10:17,331] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_44p7x11p7_pol1m1m2m3m4m5_noshield
-[2026-11-05 17:10:17,881] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_44p7x23p1_pol1m1m2m3m4m5_noshield
-[2026-11-05 17:10:17,883] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_55p8x11p7_pol1m1m2m3m4m5_noshield
-[2026-11-05 17:10:17,884] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_55p8x11p7_pol1m1m2m3m4m5_noshield_m5pullin
-[2026-11-05 17:10:17,885] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_55p8x23p1_pol1m1m2m3m4m5_noshield
-[2026-11-05 17:10:17,887] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_55p8x23p1_pol1m1m2m3m4m5_noshield_m5pullin
-[2026-11-05 17:10:17,889] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting sky130_fd_pr__cap_vpp_55p8x23p1_pol1m1m2m3m4m5_noshield_test
-[2026-11-05 17:10:17,890] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Starting SONOS EXTRACTION
-[2026-11-05 17:10:17,891] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Extracting Build space flash special SONOSFET star
-[2026-11-05 17:10:17,892] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : Starting SKY130 LVS comparison section
-[2026-11-05 17:10:17,893] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : LVS Total Run time 2.451920 seconds
-[2026-11-05 17:10:17,894] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-[2026-11-05 17:10:17,895] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : ERROR : Netlists don't match
-[2026-11-05 17:10:17,896] [SUBPROCESS]    2026-11-05 17:10:17 +0100: Memory Usage (482344K) : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-[2026-11-05 17:10:18,011] [INFO]    klayout LVS finished with status code 1 after 5.174s, most likely due to a netlist mismatch against the schematic (irrelevant for PEX), see log file: /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_lvs.log
-[2026-11-05 17:10:18,411] [INFO]    (64, 20) -> (nwell)
-[2026-11-05 17:10:18,413] [INFO]    (89, 44) -> (capm)
-[2026-11-05 17:10:18,414] [INFO]    (69, 44) -> (via2_con)
-[2026-11-05 17:10:18,415] [INFO]    (68, 44) -> (via1_con)
-[2026-11-05 17:10:18,417] [INFO]    (67, 44) -> (mcon_con)
-[2026-11-05 17:10:18,419] [INFO]    (66, 4405) -> (licon_ptap_con)
-[2026-11-05 17:10:18,420] [INFO]    (66, 4404) -> (licon_ntap_con)
-[2026-11-05 17:10:18,422] [INFO]    (69, 20) -> (met2_con)
-[2026-11-05 17:10:18,423] [INFO]    (93, 44) -> (nsd)
-[2026-11-05 17:10:18,425] [INFO]    (68, 20) -> (met1_con)
-[2026-11-05 17:10:18,426] [INFO]    (65, 244) -> (ptap_conn)
-[2026-11-05 17:10:18,428] [INFO]    (94, 20) -> (psd)
-[2026-11-05 17:10:18,429] [INFO]    (65, 144) -> (ntap_conn)
-[2026-11-05 17:10:18,431] [INFO]    (66, 20) -> (poly_con)
-[2026-11-05 17:10:18,432] [INFO]    (67, 20) -> (li_con)
-[2026-11-05 17:10:18,434] [INFO]    (66, 4403) -> (licon_poly_con)
-[2026-11-05 17:10:18,436] [INFO]    (66, 4402) -> (licon_psd_con)
-[2026-11-05 17:10:18,437] [INFO]    (66, 4401) -> (licon_nsd_con)
-[2026-11-05 17:10:18,438] [INFO]    (71, 20) -> (met4_ncap)
-[2026-11-05 17:10:18,440] [INFO]    (70, 144) -> (via3_ncap)
-[2026-11-05 17:10:18,441] [INFO]    (70, 244) -> (via3_cap)
-[2026-11-05 17:10:18,442] [INFO]    (70, 20) -> (met3_cap met3_ncap)
-[2026-11-05 17:20:44,169] [SUBPROCESS]    Device;Net1;Net2;Capacitance [fF];Resistance [Ω]
-[2026-11-05 17:20:44,173] [SUBPROCESS]    C1;$10.x1_net1;$10.x1_net2;0.12;
-[2026-11-05 17:20:44,173] [SUBPROCESS]    C2;$10.x1_net1;$10.x1_net3;0.008;
-[2026-11-05 17:20:44,174] [SUBPROCESS]    C3;$10.x1_net1;$162;0.002;
-[2026-11-05 17:20:44,175] [SUBPROCESS]    C4;$10.x1_net1;$73;0.0;
-[2026-11-05 17:20:44,176] [SUBPROCESS]    C5;$10.x1_net1;cm;0.379;
-[2026-11-05 17:20:44,177] [SUBPROCESS]    C6;$10.x1_net1;VSS;0.008;
-[2026-11-05 17:20:44,177] [SUBPROCESS]    C7;$10.x1_net1;VSUBS;0.229;
-[2026-11-05 17:20:44,178] [SUBPROCESS]    C8;$10.x1_net10;$10.x1_net11;0.25;
-[2026-11-05 17:20:44,179] [SUBPROCESS]    C9;$10.x1_net10;$10.x1_net12;0.172;
-[2026-11-05 17:20:44,179] [SUBPROCESS]    C10;$10.x1_net10;$10.x1_net7;0.005;
-[2026-11-05 17:20:44,180] [SUBPROCESS]    C11;$10.x1_net10;$10.x1_net8;0.001;
-[2026-11-05 17:20:44,181] [SUBPROCESS]    C12;$10.x1_net10;$10.x1_net9;0.182;
-[2026-11-05 17:20:44,182] [SUBPROCESS]    C13;$10.x1_net10;$162;0.002;
-[2026-11-05 17:20:44,182] [SUBPROCESS]    C14;$10.x1_net10;$73;0.0;
-[2026-11-05 17:20:44,183] [SUBPROCESS]    C15;$10.x1_net10;cm;0.443;
-[2026-11-05 17:20:44,184] [SUBPROCESS]    C16;$10.x1_net10;VSS;0.01;
-[2026-11-05 17:20:44,184] [SUBPROCESS]    C17;$10.x1_net10;VSUBS;0.257;
-[2026-11-05 17:20:44,185] [SUBPROCESS]    C18;$10.x1_net11;$10.x1_net12;0.285;
-[2026-11-05 17:20:44,186] [SUBPROCESS]    C19;$10.x1_net11;$10.x1_net8;0.005;
-[2026-11-05 17:20:44,187] [SUBPROCESS]    C20;$10.x1_net11;$10.x1_net9;0.001;
-[2026-11-05 17:20:44,187] [SUBPROCESS]    C21;$10.x1_net11;$162;0.002;
-[2026-11-05 17:20:44,188] [SUBPROCESS]    C22;$10.x1_net11;$73;0.0;
-[2026-11-05 17:20:44,189] [SUBPROCESS]    C23;$10.x1_net11;cm;0.465;
-[2026-11-05 17:20:44,189] [SUBPROCESS]    C24;$10.x1_net11;VSS;0.207;
-[2026-11-05 17:20:44,190] [SUBPROCESS]    C25;$10.x1_net11;VSUBS;0.279;
-[2026-11-05 17:20:44,191] [SUBPROCESS]    C26;$10.x1_net12;$10.x1_net9;0.005;
-[2026-11-05 17:20:44,191] [SUBPROCESS]    C27;$10.x1_net12;$162;0.002;
-[2026-11-05 17:20:44,192] [SUBPROCESS]    C28;$10.x1_net12;$73;0.0;
-[2026-11-05 17:20:44,193] [SUBPROCESS]    C29;$10.x1_net12;cm;0.623;
-[2026-11-05 17:20:44,193] [SUBPROCESS]    C30;$10.x1_net12;VSS;0.215;
-[2026-11-05 17:20:44,194] [SUBPROCESS]    C31;$10.x1_net12;VSUBS;0.325;
-[2026-11-05 17:20:44,195] [SUBPROCESS]    C32;$10.x1_net13;$10.x1_net14;0.12;
-[2026-11-05 17:20:44,196] [SUBPROCESS]    C33;$10.x1_net13;$10.x1_net15;0.008;
-[2026-11-05 17:20:44,196] [SUBPROCESS]    C34;$10.x1_net13;$10.x1_net3;0.008;
-[2026-11-05 17:20:44,197] [SUBPROCESS]    C35;$10.x1_net13;$162;0.002;
-[2026-11-05 17:20:44,198] [SUBPROCESS]    C36;$10.x1_net13;$73;0.0;
-[2026-11-05 17:20:44,198] [SUBPROCESS]    C37;$10.x1_net13;cm;0.376;
-[2026-11-05 17:20:44,199] [SUBPROCESS]    C38;$10.x1_net13;VSS;0.009;
-[2026-11-05 17:20:44,200] [SUBPROCESS]    C39;$10.x1_net13;VSUBS;0.221;
-[2026-11-05 17:20:44,200] [SUBPROCESS]    C40;$10.x1_net14;$10.x1_net15;0.12;
-[2026-11-05 17:20:44,201] [SUBPROCESS]    C41;$10.x1_net14;$10.x1_net2;0.003;
-[2026-11-05 17:20:44,202] [SUBPROCESS]    C42;$10.x1_net14;$10.x1_net5;0.003;
-[2026-11-05 17:20:44,203] [SUBPROCESS]    C43;$10.x1_net14;$162;0.002;
-[2026-11-05 17:20:44,203] [SUBPROCESS]    C44;$10.x1_net14;$73;0.0;
-[2026-11-05 17:20:44,204] [SUBPROCESS]    C45;$10.x1_net14;cm;0.274;
-[2026-11-05 17:20:44,205] [SUBPROCESS]    C46;$10.x1_net14;VSS;0.018;
-[2026-11-05 17:20:44,205] [SUBPROCESS]    C47;$10.x1_net14;VSUBS;0.281;
-[2026-11-05 17:20:44,206] [SUBPROCESS]    C48;$10.x1_net15;$10.x1_net4;0.008;
-[2026-11-05 17:20:44,207] [SUBPROCESS]    C49;$10.x1_net15;$162;0.002;
-[2026-11-05 17:20:44,208] [SUBPROCESS]    C50;$10.x1_net15;$73;0.0;
-[2026-11-05 17:20:44,208] [SUBPROCESS]    C51;$10.x1_net15;cm;0.266;
-[2026-11-05 17:20:44,209] [SUBPROCESS]    C52;$10.x1_net15;VSS;0.121;
-[2026-11-05 17:20:44,210] [SUBPROCESS]    C53;$10.x1_net15;VSUBS;0.221;
-[2026-11-05 17:20:44,210] [SUBPROCESS]    C54;$10.x1_net2;$10.x1_net3;0.12;
-[2026-11-05 17:20:44,211] [SUBPROCESS]    C55;$10.x1_net2;$162;0.002;
-[2026-11-05 17:20:44,212] [SUBPROCESS]    C56;$10.x1_net2;$73;0.0;
-[2026-11-05 17:20:44,212] [SUBPROCESS]    C57;$10.x1_net2;cm;0.273;
-[2026-11-05 17:20:44,213] [SUBPROCESS]    C58;$10.x1_net2;VSS;0.018;
-[2026-11-05 17:20:44,214] [SUBPROCESS]    C59;$10.x1_net2;VSUBS;0.282;
-[2026-11-05 17:20:44,214] [SUBPROCESS]    C60;$10.x1_net3;$162;0.002;
-[2026-11-05 17:20:44,215] [SUBPROCESS]    C61;$10.x1_net3;$73;0.0;
-[2026-11-05 17:20:44,216] [SUBPROCESS]    C62;$10.x1_net3;cm;0.264;
-[2026-11-05 17:20:44,216] [SUBPROCESS]    C63;$10.x1_net3;VSS;0.12;
-[2026-11-05 17:20:44,217] [SUBPROCESS]    C64;$10.x1_net3;VSUBS;0.221;
-[2026-11-05 17:20:44,218] [SUBPROCESS]    C65;$10.x1_net4;$10.x1_net5;0.119;
-[2026-11-05 17:20:44,218] [SUBPROCESS]    C66;$10.x1_net4;$10.x1_net6;0.002;
-[2026-11-05 17:20:44,219] [SUBPROCESS]    C67;$10.x1_net4;$10.x1_net7;0.004;
-[2026-11-05 17:20:44,220] [SUBPROCESS]    C68;$10.x1_net4;$162;0.002;
-[2026-11-05 17:20:44,221] [SUBPROCESS]    C69;$10.x1_net4;$73;0.0;
-[2026-11-05 17:20:44,222] [SUBPROCESS]    C70;$10.x1_net4;cm;0.377;
-[2026-11-05 17:20:44,223] [SUBPROCESS]    C71;$10.x1_net4;VSS;0.01;
-[2026-11-05 17:20:44,224] [SUBPROCESS]    C72;$10.x1_net4;VSUBS;0.225;
-[2026-11-05 17:20:44,224] [SUBPROCESS]    C73;$10.x1_net5;$10.x1_net6;0.453;
-[2026-11-05 17:20:44,225] [SUBPROCESS]    C74;$10.x1_net5;$10.x1_net7;0.001;
-[2026-11-05 17:20:44,226] [SUBPROCESS]    C75;$10.x1_net5;$10.x1_net8;0.005;
-[2026-11-05 17:20:44,227] [SUBPROCESS]    C76;$10.x1_net5;$162;0.005;
-[2026-11-05 17:20:44,228] [SUBPROCESS]    C77;$10.x1_net5;$73;0.0;
-[2026-11-05 17:20:44,229] [SUBPROCESS]    C78;$10.x1_net5;cm;0.266;
-[2026-11-05 17:20:44,229] [SUBPROCESS]    C79;$10.x1_net5;VSS;0.207;
-[2026-11-05 17:20:44,230] [SUBPROCESS]    C80;$10.x1_net5;VSUBS;0.277;
-[2026-11-05 17:20:44,231] [SUBPROCESS]    C81;$10.x1_net6;$10.x1_net7;0.183;
-[2026-11-05 17:20:44,232] [SUBPROCESS]    C82;$10.x1_net6;$10.x1_net8;0.001;
-[2026-11-05 17:20:44,233] [SUBPROCESS]    C83;$10.x1_net6;$10.x1_net9;0.005;
-[2026-11-05 17:20:44,234] [SUBPROCESS]    C84;$10.x1_net6;$162;0.002;
-[2026-11-05 17:20:44,235] [SUBPROCESS]    C85;$10.x1_net6;$73;0.0;
-[2026-11-05 17:20:44,236] [SUBPROCESS]    C86;$10.x1_net6;cm;0.429;
-[2026-11-05 17:20:44,236] [SUBPROCESS]    C87;$10.x1_net6;VSS;0.215;
-[2026-11-05 17:20:44,237] [SUBPROCESS]    C88;$10.x1_net6;VSUBS;0.323;
-[2026-11-05 17:20:44,238] [SUBPROCESS]    C89;$10.x1_net7;$10.x1_net8;0.25;
-[2026-11-05 17:20:44,239] [SUBPROCESS]    C90;$10.x1_net7;$10.x1_net9;0.173;
-[2026-11-05 17:20:44,240] [SUBPROCESS]    C91;$10.x1_net7;$162;0.002;
-[2026-11-05 17:20:44,241] [SUBPROCESS]    C92;$10.x1_net7;$73;0.0;
-[2026-11-05 17:20:44,242] [SUBPROCESS]    C93;$10.x1_net7;cm;0.445;
-[2026-11-05 17:20:44,243] [SUBPROCESS]    C94;$10.x1_net7;VSS;0.01;
-[2026-11-05 17:20:44,243] [SUBPROCESS]    C95;$10.x1_net7;VSUBS;0.253;
-[2026-11-05 17:20:44,244] [SUBPROCESS]    C96;$10.x1_net8;$10.x1_net9;0.286;
-[2026-11-05 17:20:44,245] [SUBPROCESS]    C97;$10.x1_net8;$162;0.002;
-[2026-11-05 17:20:44,246] [SUBPROCESS]    C98;$10.x1_net8;$73;0.0;
-[2026-11-05 17:20:44,247] [SUBPROCESS]    C99;$10.x1_net8;cm;0.466;
-[2026-11-05 17:20:44,248] [SUBPROCESS]    C100;$10.x1_net8;VSS;0.208;
-[2026-11-05 17:20:44,249] [SUBPROCESS]    C101;$10.x1_net8;VSUBS;0.273;
-[2026-11-05 17:20:44,250] [SUBPROCESS]    C102;$10.x1_net9;$162;0.002;
-[2026-11-05 17:20:44,251] [SUBPROCESS]    C103;$10.x1_net9;$73;0.0;
-[2026-11-05 17:20:44,252] [SUBPROCESS]    C104;$10.x1_net9;cm;0.431;
-[2026-11-05 17:20:44,253] [SUBPROCESS]    C105;$10.x1_net9;VSS;0.215;
-[2026-11-05 17:20:44,254] [SUBPROCESS]    C106;$10.x1_net9;VSUBS;0.317;
-[2026-11-05 17:20:44,256] [SUBPROCESS]    C107;$109;$121;1.221;
-[2026-11-05 17:20:44,257] [SUBPROCESS]    C108;$109;$16;0.006;
-[2026-11-05 17:20:44,258] [SUBPROCESS]    C109;$109;$162;0.49;
-[2026-11-05 17:20:44,259] [SUBPROCESS]    C110;$109;$177;34.613;
-[2026-11-05 17:20:44,260] [SUBPROCESS]    C111;$109;$261;3.43;
-[2026-11-05 17:20:44,261] [SUBPROCESS]    C112;$109;$265;3.689;
-[2026-11-05 17:20:44,261] [SUBPROCESS]    C113;$109;$266;3.292;
-[2026-11-05 17:20:44,262] [SUBPROCESS]    C114;$109;$50;7.654;
-[2026-11-05 17:20:44,263] [SUBPROCESS]    C115;$109;$51;6.587;
-[2026-11-05 17:20:44,264] [SUBPROCESS]    C116;$109;$73;0.942;
-[2026-11-05 17:20:44,265] [SUBPROCESS]    C117;$109;bias_a;0.385;
-[2026-11-05 17:20:44,266] [SUBPROCESS]    C118;$109;cm;0.463;
-[2026-11-05 17:20:44,267] [SUBPROCESS]    C119;$109;cmc;0.003;
-[2026-11-05 17:20:44,268] [SUBPROCESS]    C120;$109;IBIAS;0.032;
-[2026-11-05 17:20:44,268] [SUBPROCESS]    C121;$109;on;0.006;
-[2026-11-05 17:20:44,269] [SUBPROCESS]    C122;$109;op;0.012;
-[2026-11-05 17:20:44,270] [SUBPROCESS]    C123;$109;VDD;50.22;
-[2026-11-05 17:20:44,271] [SUBPROCESS]    C124;$109;VSS;2.356;
-[2026-11-05 17:20:44,272] [SUBPROCESS]    C125;$109;VSUBS;44.871;
-[2026-11-05 17:20:44,273] [SUBPROCESS]    C126;$121;$162;0.02;
-[2026-11-05 17:20:44,273] [SUBPROCESS]    C127;$121;$177;0.091;
-[2026-11-05 17:20:44,274] [SUBPROCESS]    C128;$121;$50;0.002;
-[2026-11-05 17:20:44,275] [SUBPROCESS]    C129;$121;$73;2.215;
-[2026-11-05 17:20:44,276] [SUBPROCESS]    C130;$121;bias_a;10.8;
-[2026-11-05 17:20:44,277] [SUBPROCESS]    C131;$121;cm;0.084;
-[2026-11-05 17:20:44,277] [SUBPROCESS]    C132;$121;cmc;0.002;
-[2026-11-05 17:20:44,278] [SUBPROCESS]    C133;$121;IBIAS;0.0;
-[2026-11-05 17:20:44,279] [SUBPROCESS]    C134;$121;on;0.003;
-[2026-11-05 17:20:44,280] [SUBPROCESS]    C135;$121;op;0.002;
-[2026-11-05 17:20:44,281] [SUBPROCESS]    C136;$121;VDD;0.368;
-[2026-11-05 17:20:44,282] [SUBPROCESS]    C137;$121;VSS;14.323;
-[2026-11-05 17:20:44,283] [SUBPROCESS]    C138;$121;VSUBS;11.045;
-[2026-11-05 17:20:44,284] [SUBPROCESS]    C139;$16;$17;19.763;
-[2026-11-05 17:20:44,285] [SUBPROCESS]    C140;$16;$18;14.635;
-[2026-11-05 17:20:44,285] [SUBPROCESS]    C141;$16;$50;3.981;
-[2026-11-05 17:20:44,286] [SUBPROCESS]    C142;$16;$51;2.524;
-[2026-11-05 17:20:44,287] [SUBPROCESS]    C143;$16;$73;0.098;
-[2026-11-05 17:20:44,288] [SUBPROCESS]    C144;$16;bias_a;22.642;
-[2026-11-05 17:20:44,289] [SUBPROCESS]    C145;$16;cmc;15.09;
-[2026-11-05 17:20:44,290] [SUBPROCESS]    C146;$16;in;0.402;
-[2026-11-05 17:20:44,291] [SUBPROCESS]    C147;$16;ip;0.398;
-[2026-11-05 17:20:44,292] [SUBPROCESS]    C148;$16;on;0.087;
-[2026-11-05 17:20:44,292] [SUBPROCESS]    C149;$16;op;0.057;
-[2026-11-05 17:20:44,293] [SUBPROCESS]    C150;$16;VDD;0.208;
-[2026-11-05 17:20:44,294] [SUBPROCESS]    C151;$16;VSS;81.346;
-[2026-11-05 17:20:44,295] [SUBPROCESS]    C152;$16;VSUBS;37.998;
-[2026-11-05 17:20:44,296] [SUBPROCESS]    C153;$162;$177;2.83;
-[2026-11-05 17:20:44,297] [SUBPROCESS]    C154;$162;$261;1.167;
-[2026-11-05 17:20:44,298] [SUBPROCESS]    C155;$162;$265;1.508;
-[2026-11-05 17:20:44,299] [SUBPROCESS]    C156;$162;$266;0.338;
-[2026-11-05 17:20:44,300] [SUBPROCESS]    C157;$162;$73;26.01;
-[2026-11-05 17:20:44,301] [SUBPROCESS]    C158;$162;bias_a;0.627;
-[2026-11-05 17:20:44,302] [SUBPROCESS]    C159;$162;cm;4.718;
-[2026-11-05 17:20:44,303] [SUBPROCESS]    C160;$162;cmc;0.002;
-[2026-11-05 17:20:44,304] [SUBPROCESS]    C161;$162;IBIAS;0.203;
-[2026-11-05 17:20:44,305] [SUBPROCESS]    C162;$162;VDD;4.548;
-[2026-11-05 17:20:44,306] [SUBPROCESS]    C163;$162;VSS;2.143;
-[2026-11-05 17:20:44,306] [SUBPROCESS]    C164;$162;VSUBS;27.514;
-[2026-11-05 17:20:44,307] [SUBPROCESS]    C165;$17;$18;12.612;
-[2026-11-05 17:20:44,308] [SUBPROCESS]    C166;$17;$73;4.143;
-[2026-11-05 17:20:44,309] [SUBPROCESS]    C167;$17;bias_a;8.085;
-[2026-11-05 17:20:44,310] [SUBPROCESS]    C168;$17;cmc;0.429;
-[2026-11-05 17:20:44,311] [SUBPROCESS]    C169;$17;on;13.354;
-[2026-11-05 17:20:44,311] [SUBPROCESS]    C170;$17;op;13.102;
-[2026-11-05 17:20:44,312] [SUBPROCESS]    C171;$17;VSS;44.592;
-[2026-11-05 17:20:44,313] [SUBPROCESS]    C172;$17;VSUBS;20.858;
-[2026-11-05 17:20:44,313] [SUBPROCESS]    C173;$177;$261;0.716;
-[2026-11-05 17:20:44,314] [SUBPROCESS]    C174;$177;$265;0.778;
-[2026-11-05 17:20:44,315] [SUBPROCESS]    C175;$177;$266;0.963;
-[2026-11-05 17:20:44,316] [SUBPROCESS]    C176;$177;$50;3.957;
-[2026-11-05 17:20:44,316] [SUBPROCESS]    C177;$177;$51;1.998;
-[2026-11-05 17:20:44,317] [SUBPROCESS]    C178;$177;$73;2.089;
-[2026-11-05 17:20:44,318] [SUBPROCESS]    C179;$177;bias_a;0.137;
-[2026-11-05 17:20:44,319] [SUBPROCESS]    C180;$177;cm;1.365;
-[2026-11-05 17:20:44,319] [SUBPROCESS]    C181;$177;cmc;0.185;
-[2026-11-05 17:20:44,320] [SUBPROCESS]    C182;$177;IBIAS;16.793;
-[2026-11-05 17:20:44,321] [SUBPROCESS]    C183;$177;on;2.132;
-[2026-11-05 17:20:44,322] [SUBPROCESS]    C184;$177;op;2.926;
-[2026-11-05 17:20:44,323] [SUBPROCESS]    C185;$177;VDD;36.154;
-[2026-11-05 17:20:44,324] [SUBPROCESS]    C186;$177;VSS;9.112;
-[2026-11-05 17:20:44,324] [SUBPROCESS]    C187;$177;VSUBS;25.47;
-[2026-11-05 17:20:44,325] [SUBPROCESS]    C188;$18;$73;10.003;
-[2026-11-05 17:20:44,326] [SUBPROCESS]    C189;$18;bias_a;16.388;
-[2026-11-05 17:20:44,327] [SUBPROCESS]    C190;$18;cmc;0.718;
-[2026-11-05 17:20:44,327] [SUBPROCESS]    C191;$18;in;0.088;
-[2026-11-05 17:20:44,328] [SUBPROCESS]    C192;$18;on;6.27;
-[2026-11-05 17:20:44,329] [SUBPROCESS]    C193;$18;op;11.542;
-[2026-11-05 17:20:44,330] [SUBPROCESS]    C194;$18;VSS;42.555;
-[2026-11-05 17:20:44,331] [SUBPROCESS]    C195;$18;VSUBS;20.572;
-[2026-11-05 17:20:44,331] [SUBPROCESS]    C196;$261;$265;5.783;
-[2026-11-05 17:20:44,332] [SUBPROCESS]    C197;$261;$266;4.666;
-[2026-11-05 17:20:44,333] [SUBPROCESS]    C198;$261;cm;1.644;
-[2026-11-05 17:20:44,333] [SUBPROCESS]    C199;$261;IBIAS;0.364;
-[2026-11-05 17:20:44,334] [SUBPROCESS]    C200;$261;VDD;10.043;
-[2026-11-05 17:20:44,335] [SUBPROCESS]    C201;$261;VSS;0.046;
-[2026-11-05 17:20:44,336] [SUBPROCESS]    C202;$261;VSUBS;0.871;
-[2026-11-05 17:20:44,336] [SUBPROCESS]    C203;$265;$266;1.873;
-[2026-11-05 17:20:44,337] [SUBPROCESS]    C204;$265;cm;2.328;
-[2026-11-05 17:20:44,338] [SUBPROCESS]    C205;$265;IBIAS;0.02;
-[2026-11-05 17:20:44,339] [SUBPROCESS]    C206;$265;VDD;11.621;
-[2026-11-05 17:20:44,340] [SUBPROCESS]    C207;$265;VSS;0.012;
-[2026-11-05 17:20:44,340] [SUBPROCESS]    C208;$265;VSUBS;0.699;
-[2026-11-05 17:20:44,341] [SUBPROCESS]    C209;$266;cm;1.31;
-[2026-11-05 17:20:44,342] [SUBPROCESS]    C210;$266;IBIAS;0.157;
-[2026-11-05 17:20:44,342] [SUBPROCESS]    C211;$266;VDD;12.349;
-[2026-11-05 17:20:44,343] [SUBPROCESS]    C212;$266;VSS;0.026;
-[2026-11-05 17:20:44,344] [SUBPROCESS]    C213;$266;VSUBS;2.01;
-[2026-11-05 17:20:44,345] [SUBPROCESS]    C214;$50;$51;15.881;
-[2026-11-05 17:20:44,345] [SUBPROCESS]    C215;$50;$73;0.447;
-[2026-11-05 17:20:44,346] [SUBPROCESS]    C216;$50;bias_a;0.141;
-[2026-11-05 17:20:44,347] [SUBPROCESS]    C217;$50;cmc;0.063;
-[2026-11-05 17:20:44,348] [SUBPROCESS]    C218;$50;in;0.64;
-[2026-11-05 17:20:44,349] [SUBPROCESS]    C219;$50;ip;1.346;
-[2026-11-05 17:20:44,349] [SUBPROCESS]    C220;$50;on;4.292;
-[2026-11-05 17:20:44,350] [SUBPROCESS]    C221;$50;op;3.244;
-[2026-11-05 17:20:44,351] [SUBPROCESS]    C222;$50;VDD;28.188;
-[2026-11-05 17:20:44,352] [SUBPROCESS]    C223;$50;VSS;0.64;
-[2026-11-05 17:20:44,353] [SUBPROCESS]    C224;$50;VSUBS;3.946;
-[2026-11-05 17:20:44,353] [SUBPROCESS]    C225;$51;$73;0.127;
-[2026-11-05 17:20:44,354] [SUBPROCESS]    C226;$51;bias_a;0.299;
-[2026-11-05 17:20:44,355] [SUBPROCESS]    C227;$51;cmc;0.053;
-[2026-11-05 17:20:44,356] [SUBPROCESS]    C228;$51;in;0.348;
-[2026-11-05 17:20:44,357] [SUBPROCESS]    C229;$51;ip;0.781;
-[2026-11-05 17:20:44,357] [SUBPROCESS]    C230;$51;on;8.48;
-[2026-11-05 17:20:44,358] [SUBPROCESS]    C231;$51;op;4.037;
-[2026-11-05 17:20:44,359] [SUBPROCESS]    C232;$51;VDD;26.469;
-[2026-11-05 17:20:44,360] [SUBPROCESS]    C233;$51;VSS;0.448;
-[2026-11-05 17:20:44,360] [SUBPROCESS]    C234;$51;VSUBS;3.61;
-[2026-11-05 17:20:44,361] [SUBPROCESS]    C235;$73;bias_a;8.286;
-[2026-11-05 17:20:44,362] [SUBPROCESS]    C236;$73;cm;0.749;
-[2026-11-05 17:20:44,363] [SUBPROCESS]    C237;$73;cmc;0.827;
-[2026-11-05 17:20:44,363] [SUBPROCESS]    C238;$73;IBIAS;0.005;
-[2026-11-05 17:20:44,364] [SUBPROCESS]    C239;$73;in;0.004;
-[2026-11-05 17:20:44,364] [SUBPROCESS]    C240;$73;ip;0.005;
-[2026-11-05 17:20:44,365] [SUBPROCESS]    C241;$73;on;6.789;
-[2026-11-05 17:20:44,366] [SUBPROCESS]    C242;$73;op;9.24;
-[2026-11-05 17:20:44,367] [SUBPROCESS]    C243;$73;VDD;0.95;
-[2026-11-05 17:20:44,367] [SUBPROCESS]    C244;$73;VSS;16.972;
-[2026-11-05 17:20:44,368] [SUBPROCESS]    C245;$73;VSUBS;51.303;
-[2026-11-05 17:20:44,369] [SUBPROCESS]    C246;bias_a;cm;1.103;
-[2026-11-05 17:20:44,369] [SUBPROCESS]    C247;bias_a;cmc;45.794;
-[2026-11-05 17:20:44,370] [SUBPROCESS]    C248;bias_a;in;0.005;
-[2026-11-05 17:20:44,371] [SUBPROCESS]    C249;bias_a;ip;0.005;
-[2026-11-05 17:20:44,372] [SUBPROCESS]    C250;bias_a;on;0.068;
-[2026-11-05 17:20:44,372] [SUBPROCESS]    C251;bias_a;op;0.061;
-[2026-11-05 17:20:44,373] [SUBPROCESS]    C252;cmc;on;201.829;
-[2026-11-05 17:20:44,374] [SUBPROCESS]    C253;cmc;op;201.849;
-[2026-11-05 17:20:44,374] [SUBPROCESS]    C254;IBIAS;bias_a;0.004;
-[2026-11-05 17:20:44,375] [SUBPROCESS]    C255;IBIAS;cm;0.005;
-[2026-11-05 17:20:44,376] [SUBPROCESS]    C256;IBIAS;VDD;0.174;
-[2026-11-05 17:20:44,377] [SUBPROCESS]    C257;IBIAS;VSS;16.873;
-[2026-11-05 17:20:44,377] [SUBPROCESS]    C258;IBIAS;VSUBS;18.555;
-[2026-11-05 17:20:44,378] [SUBPROCESS]    C259;in;ip;2.188;
-[2026-11-05 17:20:44,378] [SUBPROCESS]    C260;in;on;0.078;
-[2026-11-05 17:20:44,379] [SUBPROCESS]    C261;in;op;0.048;
-[2026-11-05 17:20:44,380] [SUBPROCESS]    C262;ip;on;0.069;
-[2026-11-05 17:20:44,380] [SUBPROCESS]    C263;ip;op;0.037;
-[2026-11-05 17:20:44,381] [SUBPROCESS]    C264;on;op;9.872;
-[2026-11-05 17:20:44,382] [SUBPROCESS]    C265;VDD;bias_a;0.675;
-[2026-11-05 17:20:44,383] [SUBPROCESS]    C266;VDD;cm;2.753;
-[2026-11-05 17:20:44,383] [SUBPROCESS]    C267;VDD;cmc;1.405;
-[2026-11-05 17:20:44,384] [SUBPROCESS]    C268;VDD;in;0.003;
-[2026-11-05 17:20:44,385] [SUBPROCESS]    C269;VDD;ip;0.003;
-[2026-11-05 17:20:44,385] [SUBPROCESS]    C270;VDD;on;11.878;
-[2026-11-05 17:20:44,386] [SUBPROCESS]    C271;VDD;op;11.783;
-[2026-11-05 17:20:44,387] [SUBPROCESS]    C272;VDD;VSS;3.235;
-[2026-11-05 17:20:44,387] [SUBPROCESS]    C273;VDD;VSUBS;31.959;
-[2026-11-05 17:20:44,388] [SUBPROCESS]    C274;VSS;bias_a;35.462;
-[2026-11-05 17:20:44,389] [SUBPROCESS]    C275;VSS;cm;5.487;
-[2026-11-05 17:20:44,389] [SUBPROCESS]    C276;VSS;cmc;38.766;
-[2026-11-05 17:20:44,390] [SUBPROCESS]    C277;VSS;in;0.149;
-[2026-11-05 17:20:44,391] [SUBPROCESS]    C278;VSS;ip;0.07;
-[2026-11-05 17:20:44,391] [SUBPROCESS]    C279;VSS;on;8.54;
-[2026-11-05 17:20:44,392] [SUBPROCESS]    C280;VSS;op;4.45;
-[2026-11-05 17:20:44,393] [SUBPROCESS]    C281;VSS;VSUBS;193.146;
-[2026-11-05 17:20:44,393] [SUBPROCESS]    C282;VSUBS;bias_a;97.018;
-[2026-11-05 17:20:44,394] [SUBPROCESS]    C283;VSUBS;cm;17.564;
-[2026-11-05 17:20:44,395] [SUBPROCESS]    C284;VSUBS;cmc;66.51;
-[2026-11-05 17:20:44,395] [SUBPROCESS]    C285;VSUBS;in;2.788;
-[2026-11-05 17:20:44,396] [SUBPROCESS]    C286;VSUBS;ip;2.013;
-[2026-11-05 17:20:44,397] [SUBPROCESS]    C287;VSUBS;on;12.83;
-[2026-11-05 17:20:44,398] [SUBPROCESS]    C288;VSUBS;op;13.847;
-[2026-11-05 17:20:44,399] [SUBPROCESS]    /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_k25d_pex_netlist.csv
-[2026-11-05 17:20:44,425] [INFO]    Removing whiteboxed device $1
-[2026-11-05 17:20:44,428] [INFO]    Removing whiteboxed device $2
-[2026-11-05 17:20:44,429] [INFO]    Removing whiteboxed device $3
-[2026-11-05 17:20:44,430] [INFO]    Removing whiteboxed device $4
-[2026-11-05 17:20:44,431] [INFO]    Removing whiteboxed device $5
-[2026-11-05 17:20:44,432] [INFO]    Removing whiteboxed device $6
-[2026-11-05 17:20:44,433] [INFO]    Removing whiteboxed device $7
-[2026-11-05 17:20:44,434] [INFO]    Removing whiteboxed device $8
-[2026-11-05 17:20:44,640] [SUBPROCESS]    Wrote expanded netlist to: /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_k25d_pex_netlist.spice
+[2026-11-05 19:52:18,413] [INFO]    GDS input file passed, running in LVS mode
+[2026-11-05 19:52:18,441] [INFO]    Found cell iadc_ota_v2_routed in GDS /foss/designs/outputs/S5/iadc_ota_v2/routed_budget_aware/iadc_ota_v2_routed.gds (only top cell)
+[2026-11-05 19:52:18,674] [SUBPROCESS]    Tool     Found    Effective range
+[2026-11-05 19:52:18,675] [SUBPROCESS]    KLayout  0.30.12  >=0.30.1,>=0.30.2,>=0.30.3
+[2026-11-05 19:52:18,884] [INFO]    Cache miss: there is no cached LVSDB
+[2026-11-05 19:52:18,885] [SUBPROCESS]    /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/.kpex_cache/sky130A/foss/designs/outputs/S5/iadc_ota_v2/routed_budget_aware/iadc_ota_v2_routed.gds/iadc_ota_v2_routed.lvsdb.gz
+[2026-11-05 19:52:18,887] [SUBPROCESS]    klayout -b -r /usr/local/lib/python3.12/dist-packages/klayout_pex/pdk/sky130A/libs.tech/kpex/sky130.lvs -rd input=/foss/designs/outputs/S5/iadc_ota_v2/routed_budget_aware/iadc_ota_v2_routed.gds -rd report=/foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed.lvsdb.gz -rd target_netlist=/foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_extracted.cir -rd schematic=/foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/ref_named.spice -rd thr=22 -rd run_mode=deep -rd spice_net_names=true -rd spice_comments=false -rd scale=false -rd schematic_simplify=false -rd net_only=false -rd top_lvl_pins=true -rd combine=false -rd combine_devices=false -rd purge=false -rd purge_nets=false -rd no_simplify=true -rd verbose=false
+[2026-11-05 19:52:18,889] [SUBPROCESS]    /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_lvs.log
+[2026-11-05 19:52:23,051] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (454724K) : Starting running SKY130 Klayout LVS runset on /foss/designs/outputs/S5/iadc_ota_v2/routed_budget_aware/iadc_ota_v2_routed.gds
+[2026-11-05 19:52:23,052] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (456428K) : Layout file: /foss/designs/outputs/S5/iadc_ota_v2/routed_budget_aware/iadc_ota_v2_routed.gds
+[2026-11-05 19:52:23,053] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (456428K) : Number of threads: 22
+[2026-11-05 19:52:23,055] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (456428K) : Final report: /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed.lvsdb.gz
+[2026-11-05 19:52:23,056] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (456428K) : No substrate name given, default name is sky130_gnd
+[2026-11-05 19:52:23,057] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (456428K) : Extracted netlist with net names: true
+[2026-11-05 19:52:23,058] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (456428K) : Extracted netlist with comments in details: false
+[2026-11-05 19:52:23,060] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (456428K) : Extracted netlist file: /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_extracted.cir
+[2026-11-05 19:52:23,061] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (456428K) : device_scaling: false
+[2026-11-05 19:52:23,062] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (456428K) : Verbose mode: false
+[2026-11-05 19:52:23,063] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (456428K) : deep mode is enabled.
+[2026-11-05 19:52:23,064] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (456940K) : Netlist file: /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/ref_named.spice
+[2026-11-05 19:52:23,065] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (456940K) : Read in polygons from layers.
+[2026-11-05 19:52:23,066] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (464424K) : Read in labels from layers.
+[2026-11-05 19:52:23,067] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (465572K) : Evaluate switches start
+[2026-11-05 19:52:23,068] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (465572K) : SCH_SIMPLE enabled  false
+[2026-11-05 19:52:23,070] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (465572K) : NET_ONLY enabled  false
+[2026-11-05 19:52:23,071] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (465572K) : TOP_LVL_PINS enabled  true
+[2026-11-05 19:52:23,072] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (465572K) : COMBINE enabled  false
+[2026-11-05 19:52:23,073] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (465572K) : PURGE enabled  false
+[2026-11-05 19:52:23,074] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (465572K) : PURGE_NETS enabled  false
+[2026-11-05 19:52:23,075] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (465572K) : SIMPLIFY enabled  false
+[2026-11-05 19:52:23,076] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (465572K) : Evaluate switches end.
+[2026-11-05 19:52:23,077] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (465572K) : SKY130 LVS rules started
+[2026-11-05 19:52:23,078] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (465572K) : Starting deriving base layers.
+[2026-11-05 19:52:23,080] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (477260K) : Starting MOSFET DERIVATIONS
+[2026-11-05 19:52:23,081] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (477260K) : Starting PMOS layers DERIVATIONS
+[2026-11-05 19:52:23,082] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (477224K) : Starting NMOS layers DERIVATIONS
+[2026-11-05 19:52:23,083] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (477152K) : Starting BJT DERIVATIONS
+[2026-11-05 19:52:23,084] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (477152K) : Starting NPN layers DERIVATIONS
+[2026-11-05 19:52:23,085] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (477424K) : Starting PNP layers DERIVATIONS
+[2026-11-05 19:52:23,086] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (477476K) : Starting DIODE DERIVATIONS
+[2026-11-05 19:52:23,087] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (477476K) : Starting PHOTODIODE DERIVATIONS
+[2026-11-05 19:52:23,088] [SUBPROCESS]    2026-11-05 19:52:21 +0100: Memory Usage (478204K) : Starting RESISTOR DERIVATIONS
+[2026-11-05 19:52:23,091] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (480932K) : Starting FUSE DERIVATIONS
+[2026-11-05 19:52:23,092] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (480932K) : Starting MIM DERIVATIONS
+[2026-11-05 19:52:23,093] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (481024K) : Starting VARACTOR DERIVATIONS
+[2026-11-05 19:52:23,094] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (481036K) : Starting INDUCTOR DERIVATIONS
+[2026-11-05 19:52:23,095] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (481036K) : Starting VPP CAP DERIVATIONS
+[2026-11-05 19:52:23,096] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482468K) : Starting SONOS DERIVATIONS
+[2026-11-05 19:52:23,097] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting SKY130 LVS connectivity setup
+[2026-11-05 19:52:23,098] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting SKY130 LVS connectivity setup (Inter-layer)
+[2026-11-05 19:52:23,099] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting SKY130 LVS connectivity setup (Attaching labels)
+[2026-11-05 19:52:23,101] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting SKY130 LVS connectivity setup (Global connections)
+[2026-11-05 19:52:23,102] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting SKY130 LVS connectivity setup (Multifinger Devices)
+[2026-11-05 19:52:23,103] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting LVS BJT CONNECTIONS
+[2026-11-05 19:52:23,104] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting LVS DIODE CONNECTIONS
+[2026-11-05 19:52:23,105] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting LVS PHOTODIODE CONNECTIONS
+[2026-11-05 19:52:23,106] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting LVS MIMCAP CONNECTIONS
+[2026-11-05 19:52:23,107] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting LVS VARACTOR CONNECTIONS
+[2026-11-05 19:52:23,109] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting LVS RESISTOR CONNECTIONS
+[2026-11-05 19:52:23,110] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting LVS INDUCTOR CONNECTIONS
+[2026-11-05 19:52:23,111] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting LVS VPP CAP CONNECTIONS
+[2026-11-05 19:52:23,112] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting LVS SONOS CONNECTIONS
+[2026-11-05 19:52:23,113] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting MOSFET EXTRACTION
+[2026-11-05 19:52:23,114] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Starting PMOS EXTRACTION
+[2026-11-05 19:52:23,115] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Extracting 1.8V PMOS transistor standard
+[2026-11-05 19:52:23,116] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Extracting 1.8V PMOS transistor low threshold voltage
+[2026-11-05 19:52:23,117] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Extracting 1.8V PMOS transistor high threshold voltage
+[2026-11-05 19:52:23,119] [SUBPROCESS]    2026-11-05 19:52:22 +0100: Memory Usage (482484K) : Extracting 5V gate 10.5V drain PMOS transistor
+[2026-11-05 19:52:23,120] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (482484K) : Starting NMOS EXTRACTION
+[2026-11-05 19:52:23,121] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (482484K) : Extracting 1.8V NMOS transistor standard
+[2026-11-05 19:52:23,122] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (482484K) : Extracting 1.8V NMOS transistor low threshold voltage
+[2026-11-05 19:52:23,123] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (482484K) : Extracting 3.3V NMOS transistor native voltage
+[2026-11-05 19:52:23,125] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (482484K) : Extracting 5V NMOS transistor native voltage
+[2026-11-05 19:52:23,126] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (482484K) : Extracting 5V gate 10.5V drain NMOS transistor
+[2026-11-05 19:52:23,127] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (482484K) : Starting BJT EXTRACTION
+[2026-11-05 19:52:23,128] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (482484K) : Starting NPN BJT EXTRACTION
+[2026-11-05 19:52:23,129] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (482484K) : Extracting sky130_fd_pr__npn_05v5_W1p00L1p00 BJT
+[2026-11-05 19:52:23,131] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__npn_05v5_W1p00L2p00 BJT
+[2026-11-05 19:52:23,132] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__npn_11v0_W1p00L1p00 BJT
+[2026-11-05 19:52:23,133] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Starting PNP BJT EXTRACTION
+[2026-11-05 19:52:23,134] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__pnp_05v5_W0p68L0p68 BJT
+[2026-11-05 19:52:23,135] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__pnp_05v5_W3p40L3p40 BJT
+[2026-11-05 19:52:23,136] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Starting DIODE EXTRACTION
+[2026-11-05 19:52:23,138] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting 5V N+ diffusion diode
+[2026-11-05 19:52:23,139] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting 5V N+ diffusion diode low threshold voltage
+[2026-11-05 19:52:23,141] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting 5V N+ diffusion diode native threshold voltage
+[2026-11-05 19:52:23,142] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting 11V N+ diffusion diode
+[2026-11-05 19:52:23,143] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting 5V P+ diffusion diode
+[2026-11-05 19:52:23,145] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting5V P+ diffusion diode low threshold voltage
+[2026-11-05 19:52:23,146] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting 5V P+ diffusion diode high threshold voltage
+[2026-11-05 19:52:23,147] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting 11V P+ diffusion diode
+[2026-11-05 19:52:23,148] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Starting PHOTODIODE EXTRACTION
+[2026-11-05 19:52:23,150] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting Photodiode
+[2026-11-05 19:52:23,151] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Starting RESISTOR EXTRACTION
+[2026-11-05 19:52:23,152] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_generic_nd device
+[2026-11-05 19:52:23,153] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_generic_nd device
+[2026-11-05 19:52:23,155] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_generic_pd device
+[2026-11-05 19:52:23,408] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_generic_pd device
+[2026-11-05 19:52:23,410] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_iso_pw device
+[2026-11-05 19:52:23,411] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_generic_po device
+[2026-11-05 19:52:23,413] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_high_po_0p35 device
+[2026-11-05 19:52:23,414] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_high_po_0p69 device
+[2026-11-05 19:52:23,416] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_high_po_1p41 device
+[2026-11-05 19:52:23,417] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_high_po_2p85 device
+[2026-11-05 19:52:23,418] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_high_po_5p73 device
+[2026-11-05 19:52:23,420] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_xhigh_po_0p35 device
+[2026-11-05 19:52:23,421] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_xhigh_po_0p69 device
+[2026-11-05 19:52:23,422] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_xhigh_po_1p41 device
+[2026-11-05 19:52:23,423] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_xhigh_po_2p85 device
+[2026-11-05 19:52:23,425] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_xhigh_po_5p73 device
+[2026-11-05 19:52:23,426] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_generic_l1 device
+[2026-11-05 19:52:23,427] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_generic_m1 device
+[2026-11-05 19:52:23,428] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483196K) : Extracting sky130_fd_pr__res_generic_m2 device
+[2026-11-05 19:52:23,429] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__res_generic_m3 device
+[2026-11-05 19:52:23,430] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__res_generic_m4 device
+[2026-11-05 19:52:23,431] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__res_generic_m5 device
+[2026-11-05 19:52:23,433] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Starting FUSE EXTRACTION
+[2026-11-05 19:52:23,434] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__fuse_m4 device
+[2026-11-05 19:52:23,435] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Starting MIMCAP EXTRACTION
+[2026-11-05 19:52:23,436] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__model__cap_mim device
+[2026-11-05 19:52:23,437] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__model__cap_mim_m4 device
+[2026-11-05 19:52:23,438] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Starting VARACTOR EXTRACTION
+[2026-11-05 19:52:23,439] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting low threshold voltage varactor
+[2026-11-05 19:52:23,440] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting high threshold voltage varactor
+[2026-11-05 19:52:23,441] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Starting VARACTOR EXTRACTION
+[2026-11-05 19:52:23,442] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_02p4x04p6_m1m2_noshield
+[2026-11-05 19:52:23,443] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_02p7x06p1_m1m2m3m4_shieldl1_fingercap
+[2026-11-05 19:52:23,444] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_02p7x11p1_m1m2m3m4_shieldl1_fingercap
+[2026-11-05 19:52:23,446] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_02p7x21p1_m1m2m3m4_shieldl1_fingercap
+[2026-11-05 19:52:23,447] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_02p7x41p1_m1m2m3m4_shieldl1_fingercap
+[2026-11-05 19:52:23,448] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_02p9x06p1_m1m2m3m4_shieldl1_fingercap2
+[2026-11-05 19:52:23,450] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_03p9x03p9_m1m2_shieldl1_floatm3
+[2026-11-05 19:52:23,451] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_l1m1m2_noshield
+[2026-11-05 19:52:23,452] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_l1m1m2_noshield_o2subcell
+[2026-11-05 19:52:23,453] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_l1m1m2_shieldpo_floatm3
+[2026-11-05 19:52:23,455] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_m1m2m3_shieldl1
+[2026-11-05 19:52:23,456] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_m1m2m3_shieldl1m5_floatm4
+[2026-11-05 19:52:23,457] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_m1m2_noshield
+[2026-11-05 19:52:23,459] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_m1m2_noshield_o2
+[2026-11-05 19:52:23,460] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_04p4x04p6_m1m2_shieldl1
+[2026-11-05 19:52:23,461] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_05p9x05p9_m1m2m3m4_shieldl1_wafflecap
+[2026-11-05 19:52:23,462] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_06p8x06p1_l1m1m2m3_shieldpom4
+[2026-11-05 19:52:23,464] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_06p8x06p1_m1m2m3_shieldl1m4
+[2026-11-05 19:52:23,465] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_l1m1m2_noshield
+[2026-11-05 19:52:23,466] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_l1m1m2_noshield_o2subcell
+[2026-11-05 19:52:23,469] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_l1m1m2_shieldpo_floatm3
+[2026-11-05 19:52:23,471] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_m1m2m3_shieldl1
+[2026-11-05 19:52:23,472] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_m1m2m3_shieldl1m5_floatm4
+[2026-11-05 19:52:23,473] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_m1m2_noshield
+[2026-11-05 19:52:23,475] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_08p6x07p8_m1m2_shieldl1
+[2026-11-05 19:52:23,476] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p3x11p3_m1m2m3m4_shieldl1_wafflecap
+[2026-11-05 19:52:23,477] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting vpp cap sky130_fd_pr__cap_vpp_11p3x11p8_l1m1m2m3m4_shieldm5_nhv
+[2026-11-05 19:52:23,479] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2m3m4_shieldm5
+[2026-11-05 19:52:23,480] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2m3m4_shieldpom5
+[2026-11-05 19:52:23,481] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2m3m4_shieldpom5_x
+[2026-11-05 19:52:23,483] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2m3_shieldm4
+[2026-11-05 19:52:23,484] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2m3_shieldpom4
+[2026-11-05 19:52:23,486] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2_noshield
+[2026-11-05 19:52:23,487] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_l1m1m2_shieldpom3
+[2026-11-05 19:52:23,488] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m2m3m4_shieldl1m5
+[2026-11-05 19:52:23,490] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m2m3m4_shieldm5
+[2026-11-05 19:52:23,491] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m2m3_shieldl1
+[2026-11-05 19:52:23,492] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m2m3_shieldl1m5_floatm4
+[2026-11-05 19:52:23,493] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m2_noshield
+[2026-11-05 19:52:23,495] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m2_shieldl1
+[2026-11-05 19:52:23,496] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_m1m4_noshield
+[2026-11-05 19:52:23,497] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x11p7_pol1m1m2m3m4m5_noshield
+[2026-11-05 19:52:23,499] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_11p5x23p1_pol1m1m2m3m4m5_noshield
+[2026-11-05 19:52:23,501] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_22p5x11p7_pol1m1m2m3m4m5_noshield
+[2026-11-05 19:52:23,502] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_22p5x23p1_pol1m1m2m3m4m5_noshield
+[2026-11-05 19:52:23,504] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_33p6x11p7_pol1m1m2m3m4m5_noshield
+[2026-11-05 19:52:23,505] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_33p6x23p1_pol1m1m2m3m4m5_noshield
+[2026-11-05 19:52:23,507] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_44p7x11p7_pol1m1m2m3m4m5_noshield
+[2026-11-05 19:52:24,075] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_44p7x23p1_pol1m1m2m3m4m5_noshield
+[2026-11-05 19:52:24,077] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_55p8x11p7_pol1m1m2m3m4m5_noshield
+[2026-11-05 19:52:24,078] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_55p8x11p7_pol1m1m2m3m4m5_noshield_m5pullin
+[2026-11-05 19:52:24,079] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_55p8x23p1_pol1m1m2m3m4m5_noshield
+[2026-11-05 19:52:24,081] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_55p8x23p1_pol1m1m2m3m4m5_noshield_m5pullin
+[2026-11-05 19:52:24,082] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting sky130_fd_pr__cap_vpp_55p8x23p1_pol1m1m2m3m4m5_noshield_test
+[2026-11-05 19:52:24,083] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Starting SONOS EXTRACTION
+[2026-11-05 19:52:24,084] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Extracting Build space flash special SONOSFET star
+[2026-11-05 19:52:24,086] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : Starting SKY130 LVS comparison section
+[2026-11-05 19:52:24,087] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : LVS Total Run time 2.553871 seconds
+[2026-11-05 19:52:24,088] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+[2026-11-05 19:52:24,089] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : ERROR : Netlists don't match
+[2026-11-05 19:52:24,090] [SUBPROCESS]    2026-11-05 19:52:23 +0100: Memory Usage (483840K) : xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+[2026-11-05 19:52:24,214] [INFO]    klayout LVS finished with status code 1 after 5.323s, most likely due to a netlist mismatch against the schematic (irrelevant for PEX), see log file: /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_lvs.log
+[2026-11-05 19:52:24,616] [INFO]    (64, 20) -> (nwell)
+[2026-11-05 19:52:24,618] [INFO]    (89, 44) -> (capm)
+[2026-11-05 19:52:24,620] [INFO]    (94, 20) -> (psd)
+[2026-11-05 19:52:24,621] [INFO]    (69, 20) -> (met2_con)
+[2026-11-05 19:52:24,623] [INFO]    (68, 20) -> (met1_con)
+[2026-11-05 19:52:24,624] [INFO]    (69, 44) -> (via2_con)
+[2026-11-05 19:52:24,626] [INFO]    (68, 44) -> (via1_con)
+[2026-11-05 19:52:24,627] [INFO]    (67, 44) -> (mcon_con)
+[2026-11-05 19:52:24,628] [INFO]    (66, 4405) -> (licon_ptap_con)
+[2026-11-05 19:52:24,630] [INFO]    (66, 4404) -> (licon_ntap_con)
+[2026-11-05 19:52:24,631] [INFO]    (66, 4402) -> (licon_psd_con)
+[2026-11-05 19:52:24,633] [INFO]    (66, 4403) -> (licon_poly_con)
+[2026-11-05 19:52:24,634] [INFO]    (93, 44) -> (nsd)
+[2026-11-05 19:52:24,636] [INFO]    (67, 20) -> (li_con)
+[2026-11-05 19:52:24,637] [INFO]    (66, 20) -> (poly_con)
+[2026-11-05 19:52:24,638] [INFO]    (65, 244) -> (ptap_conn)
+[2026-11-05 19:52:24,640] [INFO]    (65, 144) -> (ntap_conn)
+[2026-11-05 19:52:24,641] [INFO]    (66, 4401) -> (licon_nsd_con)
+[2026-11-05 19:52:24,643] [INFO]    (71, 20) -> (met4_ncap)
+[2026-11-05 19:52:24,644] [INFO]    (70, 244) -> (via3_cap)
+[2026-11-05 19:52:24,646] [INFO]    (70, 144) -> (via3_ncap)
+[2026-11-05 19:52:24,647] [INFO]    (70, 20) -> (met3_cap met3_ncap)
+[2026-11-05 20:02:57,189] [SUBPROCESS]    Device;Net1;Net2;Capacitance [fF];Resistance [Ω]
+[2026-11-05 20:02:57,193] [SUBPROCESS]    C1;$1;$11;2.205;
+[2026-11-05 20:02:57,194] [SUBPROCESS]    C2;$1;$45;0.001;
+[2026-11-05 20:02:57,195] [SUBPROCESS]    C3;$1;bias_a;11.878;
+[2026-11-05 20:02:57,196] [SUBPROCESS]    C4;$1;VSS;14.205;
+[2026-11-05 20:02:57,197] [SUBPROCESS]    C5;$1;VSUBS;12.368;
+[2026-11-05 20:02:57,198] [SUBPROCESS]    C6;$11;$157;0.021;
+[2026-11-05 20:02:57,199] [SUBPROCESS]    C7;$11;$45;32.609;
+[2026-11-05 20:02:57,200] [SUBPROCESS]    C8;$11;$76;3.743;
+[2026-11-05 20:02:57,200] [SUBPROCESS]    C9;$11;$77;9.465;
+[2026-11-05 20:02:57,201] [SUBPROCESS]    C10;$11;bias_a;6.855;
+[2026-11-05 20:02:57,202] [SUBPROCESS]    C11;$11;cmc;0.004;
+[2026-11-05 20:02:57,203] [SUBPROCESS]    C12;$11;on;6.107;
+[2026-11-05 20:02:57,204] [SUBPROCESS]    C13;$11;op;7.596;
+[2026-11-05 20:02:57,205] [SUBPROCESS]    C14;$11;VSS;16.177;
+[2026-11-05 20:02:57,206] [SUBPROCESS]    C15;$11;VSUBS;52.663;
+[2026-11-05 20:02:57,207] [SUBPROCESS]    C16;$11.x1_net1;$11.x1_net2;0.12;
+[2026-11-05 20:02:57,208] [SUBPROCESS]    C17;$11.x1_net1;$11.x1_net3;0.008;
+[2026-11-05 20:02:57,208] [SUBPROCESS]    C18;$11.x1_net1;cm;0.38;
+[2026-11-05 20:02:57,209] [SUBPROCESS]    C19;$11.x1_net1;VDD;0.0;
+[2026-11-05 20:02:57,210] [SUBPROCESS]    C20;$11.x1_net1;VSS;0.008;
+[2026-11-05 20:02:57,211] [SUBPROCESS]    C21;$11.x1_net1;VSUBS;0.236;
+[2026-11-05 20:02:57,211] [SUBPROCESS]    C22;$11.x1_net10;$11.x1_net11;0.25;
+[2026-11-05 20:02:57,212] [SUBPROCESS]    C23;$11.x1_net10;$11.x1_net12;0.172;
+[2026-11-05 20:02:57,213] [SUBPROCESS]    C24;$11.x1_net10;$11.x1_net7;0.005;
+[2026-11-05 20:02:57,214] [SUBPROCESS]    C25;$11.x1_net10;$11.x1_net8;0.001;
+[2026-11-05 20:02:57,215] [SUBPROCESS]    C26;$11.x1_net10;$11.x1_net9;0.183;
+[2026-11-05 20:02:57,215] [SUBPROCESS]    C27;$11.x1_net10;cm;0.445;
+[2026-11-05 20:02:57,216] [SUBPROCESS]    C28;$11.x1_net10;IBIAS;0.001;
+[2026-11-05 20:02:57,217] [SUBPROCESS]    C29;$11.x1_net10;VDD;0.0;
+[2026-11-05 20:02:57,217] [SUBPROCESS]    C30;$11.x1_net10;VSS;0.01;
+[2026-11-05 20:02:57,218] [SUBPROCESS]    C31;$11.x1_net10;VSUBS;0.263;
+[2026-11-05 20:02:57,219] [SUBPROCESS]    C32;$11.x1_net11;$11.x1_net12;0.285;
+[2026-11-05 20:02:57,220] [SUBPROCESS]    C33;$11.x1_net11;$11.x1_net8;0.005;
+[2026-11-05 20:02:57,220] [SUBPROCESS]    C34;$11.x1_net11;$11.x1_net9;0.001;
+[2026-11-05 20:02:57,222] [SUBPROCESS]    C35;$11.x1_net11;cm;0.466;
+[2026-11-05 20:02:57,223] [SUBPROCESS]    C36;$11.x1_net11;IBIAS;0.001;
+[2026-11-05 20:02:57,224] [SUBPROCESS]    C37;$11.x1_net11;VDD;0.0;
+[2026-11-05 20:02:57,224] [SUBPROCESS]    C38;$11.x1_net11;VSS;0.207;
+[2026-11-05 20:02:57,225] [SUBPROCESS]    C39;$11.x1_net11;VSUBS;0.279;
+[2026-11-05 20:02:57,226] [SUBPROCESS]    C40;$11.x1_net12;$11.x1_net9;0.005;
+[2026-11-05 20:02:57,227] [SUBPROCESS]    C41;$11.x1_net12;$45;0.002;
+[2026-11-05 20:02:57,228] [SUBPROCESS]    C42;$11.x1_net12;cm;0.624;
+[2026-11-05 20:02:57,228] [SUBPROCESS]    C43;$11.x1_net12;IBIAS;0.001;
+[2026-11-05 20:02:57,229] [SUBPROCESS]    C44;$11.x1_net12;on;0.0;
+[2026-11-05 20:02:57,230] [SUBPROCESS]    C45;$11.x1_net12;VDD;0.0;
+[2026-11-05 20:02:57,231] [SUBPROCESS]    C46;$11.x1_net12;VSS;0.215;
+[2026-11-05 20:02:57,231] [SUBPROCESS]    C47;$11.x1_net12;VSUBS;0.323;
+[2026-11-05 20:02:57,232] [SUBPROCESS]    C48;$11.x1_net13;$11.x1_net14;0.12;
+[2026-11-05 20:02:57,233] [SUBPROCESS]    C49;$11.x1_net13;$11.x1_net15;0.008;
+[2026-11-05 20:02:57,234] [SUBPROCESS]    C50;$11.x1_net13;$11.x1_net3;0.008;
+[2026-11-05 20:02:57,234] [SUBPROCESS]    C51;$11.x1_net13;cm;0.377;
+[2026-11-05 20:02:57,235] [SUBPROCESS]    C52;$11.x1_net13;on;0.0;
+[2026-11-05 20:02:57,236] [SUBPROCESS]    C53;$11.x1_net13;VDD;0.0;
+[2026-11-05 20:02:57,236] [SUBPROCESS]    C54;$11.x1_net13;VSS;0.01;
+[2026-11-05 20:02:57,237] [SUBPROCESS]    C55;$11.x1_net13;VSUBS;0.228;
+[2026-11-05 20:02:57,238] [SUBPROCESS]    C56;$11.x1_net14;$11.x1_net15;0.12;
+[2026-11-05 20:02:57,239] [SUBPROCESS]    C57;$11.x1_net14;$11.x1_net2;0.003;
+[2026-11-05 20:02:57,240] [SUBPROCESS]    C58;$11.x1_net14;$11.x1_net5;0.003;
+[2026-11-05 20:02:57,240] [SUBPROCESS]    C59;$11.x1_net14;cm;0.275;
+[2026-11-05 20:02:57,241] [SUBPROCESS]    C60;$11.x1_net14;on;0.0;
+[2026-11-05 20:02:57,242] [SUBPROCESS]    C61;$11.x1_net14;VDD;0.0;
+[2026-11-05 20:02:57,243] [SUBPROCESS]    C62;$11.x1_net14;VSS;0.018;
+[2026-11-05 20:02:57,243] [SUBPROCESS]    C63;$11.x1_net14;VSUBS;0.285;
+[2026-11-05 20:02:57,244] [SUBPROCESS]    C64;$11.x1_net15;$11.x1_net4;0.008;
+[2026-11-05 20:02:57,245] [SUBPROCESS]    C65;$11.x1_net15;cm;0.267;
+[2026-11-05 20:02:57,246] [SUBPROCESS]    C66;$11.x1_net15;on;0.0;
+[2026-11-05 20:02:57,246] [SUBPROCESS]    C67;$11.x1_net15;VSS;0.121;
+[2026-11-05 20:02:57,247] [SUBPROCESS]    C68;$11.x1_net15;VSUBS;0.229;
+[2026-11-05 20:02:57,248] [SUBPROCESS]    C69;$11.x1_net2;$11.x1_net3;0.12;
+[2026-11-05 20:02:57,249] [SUBPROCESS]    C70;$11.x1_net2;cm;0.274;
+[2026-11-05 20:02:57,249] [SUBPROCESS]    C71;$11.x1_net2;VDD;0.0;
+[2026-11-05 20:02:57,250] [SUBPROCESS]    C72;$11.x1_net2;VSS;0.018;
+[2026-11-05 20:02:57,251] [SUBPROCESS]    C73;$11.x1_net2;VSUBS;0.286;
+[2026-11-05 20:02:57,252] [SUBPROCESS]    C74;$11.x1_net3;cm;0.266;
+[2026-11-05 20:02:57,252] [SUBPROCESS]    C75;$11.x1_net3;VDD;0.0;
+[2026-11-05 20:02:57,253] [SUBPROCESS]    C76;$11.x1_net3;VSS;0.121;
+[2026-11-05 20:02:57,254] [SUBPROCESS]    C77;$11.x1_net3;VSUBS;0.228;
+[2026-11-05 20:02:57,255] [SUBPROCESS]    C78;$11.x1_net4;$11.x1_net5;0.119;
+[2026-11-05 20:02:57,255] [SUBPROCESS]    C79;$11.x1_net4;$11.x1_net6;0.002;
+[2026-11-05 20:02:57,256] [SUBPROCESS]    C80;$11.x1_net4;$11.x1_net7;0.004;
+[2026-11-05 20:02:57,257] [SUBPROCESS]    C81;$11.x1_net4;$150;0.001;
+[2026-11-05 20:02:57,258] [SUBPROCESS]    C82;$11.x1_net4;cm;0.379;
+[2026-11-05 20:02:57,258] [SUBPROCESS]    C83;$11.x1_net4;IBIAS;0.0;
+[2026-11-05 20:02:57,259] [SUBPROCESS]    C84;$11.x1_net4;VDD;0.002;
+[2026-11-05 20:02:57,260] [SUBPROCESS]    C85;$11.x1_net4;VSS;0.01;
+[2026-11-05 20:02:57,260] [SUBPROCESS]    C86;$11.x1_net4;VSUBS;0.231;
+[2026-11-05 20:02:57,261] [SUBPROCESS]    C87;$11.x1_net5;$11.x1_net6;0.453;
+[2026-11-05 20:02:57,262] [SUBPROCESS]    C88;$11.x1_net5;$11.x1_net7;0.001;
+[2026-11-05 20:02:57,263] [SUBPROCESS]    C89;$11.x1_net5;$11.x1_net8;0.005;
+[2026-11-05 20:02:57,263] [SUBPROCESS]    C90;$11.x1_net5;$150;0.001;
+[2026-11-05 20:02:57,264] [SUBPROCESS]    C91;$11.x1_net5;cm;0.267;
+[2026-11-05 20:02:57,265] [SUBPROCESS]    C92;$11.x1_net5;on;0.0;
+[2026-11-05 20:02:57,266] [SUBPROCESS]    C93;$11.x1_net5;VDD;0.0;
+[2026-11-05 20:02:57,266] [SUBPROCESS]    C94;$11.x1_net5;VSS;0.207;
+[2026-11-05 20:02:57,267] [SUBPROCESS]    C95;$11.x1_net5;VSUBS;0.282;
+[2026-11-05 20:02:57,268] [SUBPROCESS]    C96;$11.x1_net6;$11.x1_net7;0.183;
+[2026-11-05 20:02:57,268] [SUBPROCESS]    C97;$11.x1_net6;$11.x1_net8;0.001;
+[2026-11-05 20:02:57,269] [SUBPROCESS]    C98;$11.x1_net6;$11.x1_net9;0.005;
+[2026-11-05 20:02:57,270] [SUBPROCESS]    C99;$11.x1_net6;$150;0.001;
+[2026-11-05 20:02:57,271] [SUBPROCESS]    C100;$11.x1_net6;cm;0.429;
+[2026-11-05 20:02:57,271] [SUBPROCESS]    C101;$11.x1_net6;on;0.0;
+[2026-11-05 20:02:57,272] [SUBPROCESS]    C102;$11.x1_net6;VDD;0.0;
+[2026-11-05 20:02:57,273] [SUBPROCESS]    C103;$11.x1_net6;VSS;0.215;
+[2026-11-05 20:02:57,274] [SUBPROCESS]    C104;$11.x1_net6;VSUBS;0.322;
+[2026-11-05 20:02:57,274] [SUBPROCESS]    C105;$11.x1_net7;$11.x1_net8;0.25;
+[2026-11-05 20:02:57,275] [SUBPROCESS]    C106;$11.x1_net7;$11.x1_net9;0.173;
+[2026-11-05 20:02:57,276] [SUBPROCESS]    C107;$11.x1_net7;$150;0.0;
+[2026-11-05 20:02:57,277] [SUBPROCESS]    C108;$11.x1_net7;cm;0.447;
+[2026-11-05 20:02:57,277] [SUBPROCESS]    C109;$11.x1_net7;IBIAS;0.0;
+[2026-11-05 20:02:57,278] [SUBPROCESS]    C110;$11.x1_net7;VDD;0.0;
+[2026-11-05 20:02:57,279] [SUBPROCESS]    C111;$11.x1_net7;VSS;0.01;
+[2026-11-05 20:02:57,279] [SUBPROCESS]    C112;$11.x1_net7;VSUBS;0.26;
+[2026-11-05 20:02:57,280] [SUBPROCESS]    C113;$11.x1_net8;$11.x1_net9;0.286;
+[2026-11-05 20:02:57,281] [SUBPROCESS]    C114;$11.x1_net8;$150;0.001;
+[2026-11-05 20:02:57,282] [SUBPROCESS]    C115;$11.x1_net8;cm;0.466;
+[2026-11-05 20:02:57,283] [SUBPROCESS]    C116;$11.x1_net8;IBIAS;0.0;
+[2026-11-05 20:02:57,283] [SUBPROCESS]    C117;$11.x1_net8;VDD;0.0;
+[2026-11-05 20:02:57,284] [SUBPROCESS]    C118;$11.x1_net8;VSS;0.207;
+[2026-11-05 20:02:57,285] [SUBPROCESS]    C119;$11.x1_net8;VSUBS;0.274;
+[2026-11-05 20:02:57,285] [SUBPROCESS]    C120;$11.x1_net9;cm;0.432;
+[2026-11-05 20:02:57,286] [SUBPROCESS]    C121;$11.x1_net9;IBIAS;0.001;
+[2026-11-05 20:02:57,287] [SUBPROCESS]    C122;$11.x1_net9;on;0.0;
+[2026-11-05 20:02:57,288] [SUBPROCESS]    C123;$11.x1_net9;VDD;0.0;
+[2026-11-05 20:02:57,289] [SUBPROCESS]    C124;$11.x1_net9;VSS;0.214;
+[2026-11-05 20:02:57,290] [SUBPROCESS]    C125;$11.x1_net9;VSUBS;0.315;
+[2026-11-05 20:02:57,291] [SUBPROCESS]    C126;$150;$157;0.674;
+[2026-11-05 20:02:57,292] [SUBPROCESS]    C127;$150;$168;34.875;
+[2026-11-05 20:02:57,293] [SUBPROCESS]    C128;$150;$202;2.359;
+[2026-11-05 20:02:57,294] [SUBPROCESS]    C129;$150;$203;2.166;
+[2026-11-05 20:02:57,295] [SUBPROCESS]    C130;$150;$271;0.844;
+[2026-11-05 20:02:57,295] [SUBPROCESS]    C131;$150;$278;0.762;
+[2026-11-05 20:02:57,296] [SUBPROCESS]    C132;$150;$279;0.942;
+[2026-11-05 20:02:57,297] [SUBPROCESS]    C133;$150;$45;0.841;
+[2026-11-05 20:02:57,298] [SUBPROCESS]    C134;$150;cm;0.639;
+[2026-11-05 20:02:57,298] [SUBPROCESS]    C135;$150;cmc;0.002;
+[2026-11-05 20:02:57,299] [SUBPROCESS]    C136;$150;IBIAS;14.54;
+[2026-11-05 20:02:57,300] [SUBPROCESS]    C137;$150;in;0.007;
+[2026-11-05 20:02:57,300] [SUBPROCESS]    C138;$150;ip;0.003;
+[2026-11-05 20:02:57,301] [SUBPROCESS]    C139;$150;on;2.683;
+[2026-11-05 20:02:57,302] [SUBPROCESS]    C140;$150;op;2.762;
+[2026-11-05 20:02:57,303] [SUBPROCESS]    C141;$150;VDD;33.651;
+[2026-11-05 20:02:57,303] [SUBPROCESS]    C142;$150;VSS;7.922;
+[2026-11-05 20:02:57,304] [SUBPROCESS]    C143;$150;VSUBS;23.978;
+[2026-11-05 20:02:57,305] [SUBPROCESS]    C144;$157;$168;0.012;
+[2026-11-05 20:02:57,306] [SUBPROCESS]    C145;$157;$202;2.173;
+[2026-11-05 20:02:57,306] [SUBPROCESS]    C146;$157;$203;3.757;
+[2026-11-05 20:02:57,307] [SUBPROCESS]    C147;$157;$45;0.0;
+[2026-11-05 20:02:57,308] [SUBPROCESS]    C148;$157;$76;19.779;
+[2026-11-05 20:02:57,309] [SUBPROCESS]    C149;$157;$77;14.673;
+[2026-11-05 20:02:57,309] [SUBPROCESS]    C150;$157;bias_a;20.465;
+[2026-11-05 20:02:57,310] [SUBPROCESS]    C151;$157;cm;0.001;
+[2026-11-05 20:02:57,311] [SUBPROCESS]    C152;$157;cmc;16.425;
+[2026-11-05 20:02:57,311] [SUBPROCESS]    C153;$157;IBIAS;0.567;
+[2026-11-05 20:02:57,312] [SUBPROCESS]    C154;$157;in;0.4;
+[2026-11-05 20:02:57,313] [SUBPROCESS]    C155;$157;ip;0.398;
+[2026-11-05 20:02:57,313] [SUBPROCESS]    C156;$157;on;0.033;
+[2026-11-05 20:02:57,314] [SUBPROCESS]    C157;$157;op;0.232;
+[2026-11-05 20:02:57,315] [SUBPROCESS]    C158;$157;VSS;81.807;
+[2026-11-05 20:02:57,316] [SUBPROCESS]    C159;$157;VSUBS;39.884;
+[2026-11-05 20:02:57,316] [SUBPROCESS]    C160;$168;$202;5.44;
+[2026-11-05 20:02:57,317] [SUBPROCESS]    C161;$168;$203;7.209;
+[2026-11-05 20:02:57,318] [SUBPROCESS]    C162;$168;$271;3.988;
+[2026-11-05 20:02:57,319] [SUBPROCESS]    C163;$168;$278;3.989;
+[2026-11-05 20:02:57,319] [SUBPROCESS]    C164;$168;$279;3.655;
+[2026-11-05 20:02:57,320] [SUBPROCESS]    C165;$168;$45;2.423;
+[2026-11-05 20:02:57,321] [SUBPROCESS]    C166;$168;cm;1.009;
+[2026-11-05 20:02:57,321] [SUBPROCESS]    C167;$168;IBIAS;0.039;
+[2026-11-05 20:02:57,322] [SUBPROCESS]    C168;$168;in;0.246;
+[2026-11-05 20:02:57,323] [SUBPROCESS]    C169;$168;ip;0.011;
+[2026-11-05 20:02:57,324] [SUBPROCESS]    C170;$168;on;0.132;
+[2026-11-05 20:02:57,324] [SUBPROCESS]    C171;$168;op;0.041;
+[2026-11-05 20:02:57,325] [SUBPROCESS]    C172;$168;VDD;49.73;
+[2026-11-05 20:02:57,326] [SUBPROCESS]    C173;$168;VSS;1.199;
+[2026-11-05 20:02:57,326] [SUBPROCESS]    C174;$168;VSUBS;37.194;
+[2026-11-05 20:02:57,327] [SUBPROCESS]    C175;$202;$203;14.935;
+[2026-11-05 20:02:57,328] [SUBPROCESS]    C176;$202;$271;0.001;
+[2026-11-05 20:02:57,328] [SUBPROCESS]    C177;$202;$279;0.001;
+[2026-11-05 20:02:57,329] [SUBPROCESS]    C178;$202;$45;0.225;
+[2026-11-05 20:02:57,330] [SUBPROCESS]    C179;$202;cm;0.323;
+[2026-11-05 20:02:57,331] [SUBPROCESS]    C180;$202;IBIAS;0.008;
+[2026-11-05 20:02:57,331] [SUBPROCESS]    C181;$202;in;0.437;
+[2026-11-05 20:02:57,332] [SUBPROCESS]    C182;$202;ip;0.853;
+[2026-11-05 20:02:57,333] [SUBPROCESS]    C183;$202;on;8.692;
+[2026-11-05 20:02:57,334] [SUBPROCESS]    C184;$202;op;3.939;
+[2026-11-05 20:02:57,334] [SUBPROCESS]    C185;$202;VDD;25.136;
+[2026-11-05 20:02:57,335] [SUBPROCESS]    C186;$202;VSS;0.158;
+[2026-11-05 20:02:57,336] [SUBPROCESS]    C187;$202;VSUBS;4.022;
+[2026-11-05 20:02:57,336] [SUBPROCESS]    C188;$203;$271;0.001;
+[2026-11-05 20:02:57,337] [SUBPROCESS]    C189;$203;$279;0.001;
+[2026-11-05 20:02:57,338] [SUBPROCESS]    C190;$203;$45;0.821;
+[2026-11-05 20:02:57,339] [SUBPROCESS]    C191;$203;cm;0.171;
+[2026-11-05 20:02:57,339] [SUBPROCESS]    C192;$203;IBIAS;0.019;
+[2026-11-05 20:02:57,340] [SUBPROCESS]    C193;$203;in;0.689;
+[2026-11-05 20:02:57,341] [SUBPROCESS]    C194;$203;ip;1.395;
+[2026-11-05 20:02:57,342] [SUBPROCESS]    C195;$203;on;4.721;
+[2026-11-05 20:02:57,343] [SUBPROCESS]    C196;$203;op;3.131;
+[2026-11-05 20:02:57,343] [SUBPROCESS]    C197;$203;VDD;25.751;
+[2026-11-05 20:02:57,344] [SUBPROCESS]    C198;$203;VSS;0.171;
+[2026-11-05 20:02:57,345] [SUBPROCESS]    C199;$203;VSUBS;5.714;
+[2026-11-05 20:02:57,346] [SUBPROCESS]    C200;$271;$278;5.783;
+[2026-11-05 20:02:57,347] [SUBPROCESS]    C201;$271;$279;4.635;
+[2026-11-05 20:02:57,348] [SUBPROCESS]    C202;$271;$45;1.164;
+[2026-11-05 20:02:57,348] [SUBPROCESS]    C203;$271;cm;1.607;
+[2026-11-05 20:02:57,349] [SUBPROCESS]    C204;$271;VDD;10.111;
+[2026-11-05 20:02:57,350] [SUBPROCESS]    C205;$271;VSUBS;0.742;
+[2026-11-05 20:02:57,350] [SUBPROCESS]    C206;$278;$279;1.881;
+[2026-11-05 20:02:57,351] [SUBPROCESS]    C207;$278;$45;1.506;
+[2026-11-05 20:02:57,352] [SUBPROCESS]    C208;$278;cm;2.298;
+[2026-11-05 20:02:57,353] [SUBPROCESS]    C209;$278;VDD;11.204;
+[2026-11-05 20:02:57,353] [SUBPROCESS]    C210;$278;VSUBS;0.698;
+[2026-11-05 20:02:57,354] [SUBPROCESS]    C211;$279;$45;0.347;
+[2026-11-05 20:02:57,355] [SUBPROCESS]    C212;$279;cm;1.291;
+[2026-11-05 20:02:57,355] [SUBPROCESS]    C213;$279;VDD;12.431;
+[2026-11-05 20:02:57,356] [SUBPROCESS]    C214;$279;VSUBS;1.959;
+[2026-11-05 20:02:57,357] [SUBPROCESS]    C215;$45;$76;0.022;
+[2026-11-05 20:02:57,358] [SUBPROCESS]    C216;$45;$77;0.007;
+[2026-11-05 20:02:57,358] [SUBPROCESS]    C217;$45;bias_a;0.245;
+[2026-11-05 20:02:57,359] [SUBPROCESS]    C218;$45;cm;2.609;
+[2026-11-05 20:02:57,360] [SUBPROCESS]    C219;$45;cmc;0.386;
+[2026-11-05 20:02:57,361] [SUBPROCESS]    C220;$45;IBIAS;0.8;
+[2026-11-05 20:02:57,361] [SUBPROCESS]    C221;$45;in;0.0;
+[2026-11-05 20:02:57,362] [SUBPROCESS]    C222;$45;ip;0.0;
+[2026-11-05 20:02:57,363] [SUBPROCESS]    C223;$45;on;1.67;
+[2026-11-05 20:02:57,364] [SUBPROCESS]    C224;$45;op;0.022;
+[2026-11-05 20:02:57,365] [SUBPROCESS]    C225;$45;VDD;5.111;
+[2026-11-05 20:02:57,365] [SUBPROCESS]    C226;$45;VSS;21.411;
+[2026-11-05 20:02:57,366] [SUBPROCESS]    C227;$45;VSUBS;34.062;
+[2026-11-05 20:02:57,367] [SUBPROCESS]    C228;$76;$77;12.698;
+[2026-11-05 20:02:57,368] [SUBPROCESS]    C229;$76;bias_a;7.69;
+[2026-11-05 20:02:57,368] [SUBPROCESS]    C230;$76;cmc;0.966;
+[2026-11-05 20:02:57,369] [SUBPROCESS]    C231;$76;on;13.368;
+[2026-11-05 20:02:57,370] [SUBPROCESS]    C232;$76;op;13.847;
+[2026-11-05 20:02:57,370] [SUBPROCESS]    C233;$76;VSS;43.82;
+[2026-11-05 20:02:57,371] [SUBPROCESS]    C234;$76;VSUBS;20.449;
+[2026-11-05 20:02:57,372] [SUBPROCESS]    C235;$77;bias_a;15.688;
+[2026-11-05 20:02:57,373] [SUBPROCESS]    C236;$77;cmc;1.274;
+[2026-11-05 20:02:57,373] [SUBPROCESS]    C237;$77;on;6.282;
+[2026-11-05 20:02:57,374] [SUBPROCESS]    C238;$77;op;11.977;
+[2026-11-05 20:02:57,375] [SUBPROCESS]    C239;$77;VSS;42.122;
+[2026-11-05 20:02:57,376] [SUBPROCESS]    C240;$77;VSUBS;20.639;
+[2026-11-05 20:02:57,376] [SUBPROCESS]    C241;bias_a;cmc;45.547;
+[2026-11-05 20:02:57,377] [SUBPROCESS]    C242;bias_a;on;0.003;
+[2026-11-05 20:02:57,378] [SUBPROCESS]    C243;bias_a;op;0.004;
+[2026-11-05 20:02:57,378] [SUBPROCESS]    C244;cm;in;0.001;
+[2026-11-05 20:02:57,379] [SUBPROCESS]    C245;cm;ip;0.008;
+[2026-11-05 20:02:57,380] [SUBPROCESS]    C246;cm;on;0.014;
+[2026-11-05 20:02:57,381] [SUBPROCESS]    C247;cmc;on;201.238;
+[2026-11-05 20:02:57,382] [SUBPROCESS]    C248;cmc;op;201.162;
+[2026-11-05 20:02:57,383] [SUBPROCESS]    C249;IBIAS;cm;0.009;
+[2026-11-05 20:02:57,383] [SUBPROCESS]    C250;IBIAS;cmc;0.007;
+[2026-11-05 20:02:57,384] [SUBPROCESS]    C251;IBIAS;in;0.005;
+[2026-11-05 20:02:57,385] [SUBPROCESS]    C252;IBIAS;ip;0.004;
+[2026-11-05 20:02:57,386] [SUBPROCESS]    C253;IBIAS;on;0.061;
+[2026-11-05 20:02:57,386] [SUBPROCESS]    C254;IBIAS;op;0.001;
+[2026-11-05 20:02:57,387] [SUBPROCESS]    C255;IBIAS;VSS;15.088;
+[2026-11-05 20:02:57,388] [SUBPROCESS]    C256;IBIAS;VSUBS;18.691;
+[2026-11-05 20:02:57,388] [SUBPROCESS]    C257;in;ip;2.183;
+[2026-11-05 20:02:57,389] [SUBPROCESS]    C258;in;on;0.015;
+[2026-11-05 20:02:57,390] [SUBPROCESS]    C259;ip;on;0.016;
+[2026-11-05 20:02:57,391] [SUBPROCESS]    C260;on;op;6.547;
+[2026-11-05 20:02:57,391] [SUBPROCESS]    C261;VDD;cm;4.979;
+[2026-11-05 20:02:57,392] [SUBPROCESS]    C262;VDD;in;0.008;
+[2026-11-05 20:02:57,393] [SUBPROCESS]    C263;VDD;ip;0.005;
+[2026-11-05 20:02:57,393] [SUBPROCESS]    C264;VDD;on;9.982;
+[2026-11-05 20:02:57,394] [SUBPROCESS]    C265;VDD;op;9.723;
+[2026-11-05 20:02:57,395] [SUBPROCESS]    C266;VDD;VSS;0.378;
+[2026-11-05 20:02:57,396] [SUBPROCESS]    C267;VDD;VSUBS;30.655;
+[2026-11-05 20:02:57,397] [SUBPROCESS]    C268;VSS;bias_a;38.116;
+[2026-11-05 20:02:57,398] [SUBPROCESS]    C269;VSS;cm;4.42;
+[2026-11-05 20:02:57,398] [SUBPROCESS]    C270;VSS;cmc;41.12;
+[2026-11-05 20:02:57,399] [SUBPROCESS]    C271;VSS;in;0.122;
+[2026-11-05 20:02:57,400] [SUBPROCESS]    C272;VSS;ip;0.067;
+[2026-11-05 20:02:57,400] [SUBPROCESS]    C273;VSS;on;9.59;
+[2026-11-05 20:02:57,401] [SUBPROCESS]    C274;VSS;op;3.975;
+[2026-11-05 20:02:57,402] [SUBPROCESS]    C275;VSS;VSUBS;201.421;
+[2026-11-05 20:02:57,403] [SUBPROCESS]    C276;VSUBS;bias_a;95.748;
+[2026-11-05 20:02:57,403] [SUBPROCESS]    C277;VSUBS;cm;16.781;
+[2026-11-05 20:02:57,404] [SUBPROCESS]    C278;VSUBS;cmc;65.298;
+[2026-11-05 20:02:57,405] [SUBPROCESS]    C279;VSUBS;in;2.39;
+[2026-11-05 20:02:57,406] [SUBPROCESS]    C280;VSUBS;ip;1.953;
+[2026-11-05 20:02:57,407] [SUBPROCESS]    C281;VSUBS;on;16.779;
+[2026-11-05 20:02:57,408] [SUBPROCESS]    C282;VSUBS;op;17.395;
+[2026-11-05 20:02:57,409] [SUBPROCESS]    /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_k25d_pex_netlist.csv
+[2026-11-05 20:02:57,534] [INFO]    Removing whiteboxed device $1
+[2026-11-05 20:02:57,537] [INFO]    Removing whiteboxed device $2
+[2026-11-05 20:02:57,538] [INFO]    Removing whiteboxed device $3
+[2026-11-05 20:02:57,539] [INFO]    Removing whiteboxed device $4
+[2026-11-05 20:02:57,541] [INFO]    Removing whiteboxed device $5
+[2026-11-05 20:02:57,542] [INFO]    Removing whiteboxed device $6
+[2026-11-05 20:02:57,543] [INFO]    Removing whiteboxed device $7
+[2026-11-05 20:02:57,544] [INFO]    Removing whiteboxed device $8
+[2026-11-05 20:02:57,759] [SUBPROCESS]    Wrote expanded netlist to: /foss/designs/outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_k25d_pex_netlist.spice

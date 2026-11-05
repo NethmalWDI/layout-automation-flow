@@ -1,10 +1,10 @@
 {
-  "run_id": "2026-11-05T17:10:03-7dd3f365",
+  "run_id": "2026-11-05T19:52:08-4fe55e65",
   "design": "iadc_ota_v2",
   "s4_run_id": "2026-11-05T14:45:21-433ca970",
   "gates": {
     "G5.1_placement_legal": {
-      "pass": true,
+      "pass": false,
       "detail": {
         "budget_aware": {
           "min_separation_um": 2.4,
@@ -12,29 +12,29 @@
           "too_close": [],
           "pmos_above_nmos": true,
           "symmetric_axes": {
-            "x1_cm_iref": -22.2175,
-            "x2_cl_src": 2.2075,
-            "x2_cl_casc": 42.4875,
-            "x2_diff": 25.3875,
-            "x2_cm_casc": 25.3875
+            "x2_cl_src": -38.7975,
+            "x2_cl_casc": 14.9425,
+            "x2_diff": -13.6175,
+            "x1_cm_iref": -13.6175,
+            "x2_cm_casc": -13.6175
           },
           "axes_ok": true,
           "drc_unrouted": 0
         },
         "area_only": {
-          "min_separation_um": 1.6,
+          "min_separation_um": 0.8,
           "separation_ok": true,
           "too_close": [],
           "pmos_above_nmos": true,
           "symmetric_axes": {
-            "x1_cm_iref": -20.865,
-            "x2_cl_src": -22.78,
-            "x2_cl_casc": 16.7,
-            "x2_diff": -25.88,
-            "x2_cm_casc": 4.625
+            "x2_cl_casc": -24.88,
+            "x2_cl_src": 21.14,
+            "x2_diff": -34.665,
+            "x2_cm_casc": 13.41,
+            "x1_cm_iref": 0.0
           },
           "axes_ok": true,
-          "drc_unrouted": 0
+          "drc_unrouted": 8
         }
       }
     },
@@ -43,13 +43,13 @@
       "detail": {
         "budget_aware": {
           "x1_cm_iref": {
-            "variant": "cc3",
+            "variant": "cc1",
             "centroid_offset_um": {
-              "XX1_M10": -0.37,
+              "XX1_M10": -1.48,
+              "XX1_M44": 2.22,
+              "XX1_M8": 3.7,
               "XX1_M7": 0.0,
-              "XX1_M6": 0.0,
-              "XX1_M44": 0.74,
-              "XX1_M8": 0.74
+              "XX1_M6": 0.0
             },
             "common_centroid": false
           },
@@ -108,7 +108,7 @@
             "common_centroid": false
           },
           "x1_diode_bias_b": {
-            "variant": "f4",
+            "variant": "f2",
             "centroid_offset_um": {
               "XX1_M27": 0.0,
               "XX1_M1": 0.0
@@ -116,7 +116,7 @@
             "common_centroid": true
           },
           "x1_diode_m2d": {
-            "variant": "f1",
+            "variant": "f5",
             "centroid_offset_um": {
               "XX1_M35": 0.0,
               "XX1_M2": 0.0
@@ -140,10 +140,10 @@
             "common_centroid": true
           },
           "x1_single_m5": {
-            "variant": "f1",
+            "variant": "f3",
             "centroid_offset_um": {
-              "XX1_M29": -2.22,
-              "XX1_M42": 2.22,
+              "XX1_M29": -0.74,
+              "XX1_M42": 0.74,
               "XX1_M5": 0.0
             },
             "common_centroid": false
@@ -185,51 +185,51 @@
             "common_centroid": true
           },
           "x2_cl_casc": {
-            "variant": "cc2",
+            "variant": "cc1",
             "centroid_offset_um": {
-              "XX2_M56": -0.77,
-              "XX2_M62": 0.77,
+              "XX2_M56": -1.54,
+              "XX2_M62": 1.54,
               "XX2_M1A": 0.0,
               "XX2_M8": 0.0
             },
             "common_centroid": false
           },
           "x2_cl_src": {
-            "variant": "cc3",
+            "variant": "id4",
             "centroid_offset_um": {
-              "XX2_M55": -0.77,
-              "XX2_M83": 0.77,
-              "XX2_M11": -0.4,
-              "XX2_M12": -0.4,
+              "XX2_M55": 0.0,
+              "XX2_M11": 0.0,
+              "XX2_M12": 0.0,
               "XX2_M61": 0.0,
-              "XX2_M82": 0.0
+              "XX2_M82": 0.0,
+              "XX2_M83": 0.0
             },
-            "common_centroid": false
+            "common_centroid": true
           }
         },
         "area_only": {
           "x1_cm_iref": {
-            "variant": "cc2",
+            "variant": "cc1",
             "centroid_offset_um": {
-              "XX1_M10": -0.74,
-              "XX1_M44": 1.48,
+              "XX1_M10": -1.48,
+              "XX1_M44": 2.22,
+              "XX1_M8": 3.7,
               "XX1_M7": 0.0,
-              "XX1_M6": 0.0,
-              "XX1_M8": 1.48
+              "XX1_M6": 0.0
             },
             "common_centroid": false
           },
           "x1_cm_bias_c": {
-            "variant": "cc3",
+            "variant": "cc1",
             "centroid_offset_um": {
-              "XX1_M57": 0.0,
+              "XX1_M57": -1.54,
+              "XX1_M58": 0.0,
+              "XX1_M59": 1.54,
               "XX1_M22": 0.0,
               "XX1_M26": 0.0,
-              "XX1_M32": 0.0,
-              "XX1_M58": 0.0,
-              "XX1_M59": 0.0
+              "XX1_M32": 0.0
             },
-            "common_centroid": true
+            "common_centroid": false
           },
           "x1_cm_bias_b": {
             "variant": "cc3",
@@ -274,7 +274,7 @@
             "common_centroid": false
           },
           "x1_diode_bias_b": {
-            "variant": "f4",
+            "variant": "f2",
             "centroid_offset_um": {
               "XX1_M27": 0.0,
               "XX1_M1": 0.0
@@ -282,7 +282,7 @@
             "common_centroid": true
           },
           "x1_diode_m2d": {
-            "variant": "f2",
+            "variant": "f1",
             "centroid_offset_um": {
               "XX1_M35": 0.0,
               "XX1_M2": 0.0
@@ -298,7 +298,7 @@
             "common_centroid": true
           },
           "x1_single_m4": {
-            "variant": "f3",
+            "variant": "f1",
             "centroid_offset_um": {
               "XX1_M36": 0.0,
               "XX1_M4": 0.0
@@ -306,10 +306,10 @@
             "common_centroid": true
           },
           "x1_single_m5": {
-            "variant": "f2",
+            "variant": "f3",
             "centroid_offset_um": {
-              "XX1_M29": -0.987,
-              "XX1_M42": 0.987,
+              "XX1_M29": -0.74,
+              "XX1_M42": 0.74,
               "XX1_M5": 0.0
             },
             "common_centroid": false
@@ -351,26 +351,26 @@
             "common_centroid": false
           },
           "x2_cl_casc": {
-            "variant": "cc2",
+            "variant": "cc4",
             "centroid_offset_um": {
-              "XX2_M56": -0.77,
-              "XX2_M62": 0.77,
+              "XX2_M56": 0.0,
               "XX2_M1A": 0.0,
-              "XX2_M8": 0.0
+              "XX2_M8": 0.0,
+              "XX2_M62": 0.0
             },
-            "common_centroid": false
+            "common_centroid": true
           },
           "x2_cl_src": {
-            "variant": "cc3",
+            "variant": "cc4",
             "centroid_offset_um": {
-              "XX2_M55": -0.77,
-              "XX2_M83": 0.77,
-              "XX2_M11": -0.4,
-              "XX2_M12": -0.4,
+              "XX2_M55": 0.0,
+              "XX2_M11": 0.0,
+              "XX2_M12": 0.0,
               "XX2_M61": 0.0,
-              "XX2_M82": 0.0
+              "XX2_M82": 0.0,
+              "XX2_M83": 0.0
             },
-            "common_centroid": false
+            "common_centroid": true
           }
         }
       },
@@ -378,23 +378,23 @@
     },
     "G5.5_area_vs_area_only (info)": {
       "pass": null,
-      "budget_aware_area_um2": 22141.842,
-      "area_only_area_um2": 17901.325,
-      "area_ratio": 1.2369,
+      "budget_aware_area_um2": 29442.348,
+      "area_only_area_um2": 13983.466,
+      "area_ratio": 2.1055,
       "u_budget_aware": {
-        "bias_a": 54.33,
-        "bias_b": 35.3106,
-        "bias_c": 86.4859,
-        "bias_d": 58.37,
-        "cm": 0.3393,
+        "bias_a": 22.0788,
+        "bias_b": 30.3655,
+        "bias_c": 43.0458,
+        "bias_d": 20.535,
+        "cm": 0.3417,
         "i_bias": 0.0,
-        "on": 76.3099,
-        "op": 94.9718,
+        "on": 93.5986,
+        "op": 85.0282,
         "x1_m21d": 19.7368,
         "x1_m25d": 13.6364,
-        "x1_m2d": 22.2484,
+        "x1_m2d": 84.1847,
         "x1_m31d": 27.2727,
-        "x1_m5d": 0.1699,
+        "x1_m5d": 0.0834,
         "x1_net1": 0.0,
         "x1_net10": 0.0,
         "x1_net11": 0.0,
@@ -410,26 +410,26 @@
         "x1_net7": 0.0,
         "x1_net8": 0.0,
         "x1_net9": 0.0,
-        "x2_foldn": 19.0577,
-        "x2_foldp": 19.0577,
+        "x2_foldn": 34.1154,
+        "x2_foldp": 34.1154,
         "x2_m3d": 7.7053,
         "x2_m4d": 5.5714,
-        "x2_tail": 0.0307
+        "x2_tail": 0.0645
       },
       "u_area_only": {
-        "bias_a": 66.0591,
-        "bias_b": 33.322,
-        "bias_c": 80.3239,
-        "bias_d": 50.725,
-        "cm": 0.4298,
+        "bias_a": 26.4138,
+        "bias_b": 20.7197,
+        "bias_c": 79.8099,
+        "bias_d": 26.12,
+        "cm": 0.8009,
         "i_bias": 0.0,
-        "on": 81.9718,
-        "op": 97.3944,
-        "x1_m21d": 96.4737,
-        "x1_m25d": 96.9545,
-        "x1_m2d": 14.121,
-        "x1_m31d": 30.0,
-        "x1_m5d": 0.5339,
+        "on": 128.2535,
+        "op": 112.1127,
+        "x1_m21d": 174.4211,
+        "x1_m25d": 154.0455,
+        "x1_m2d": 63.1083,
+        "x1_m31d": 123.7273,
+        "x1_m5d": 0.0437,
         "x1_net1": 0.0,
         "x1_net10": 0.0,
         "x1_net11": 0.0,
@@ -445,11 +445,11 @@
         "x1_net7": 0.0,
         "x1_net8": 0.0,
         "x1_net9": 0.0,
-        "x2_foldn": 49.3173,
-        "x2_foldp": 50.7596,
-        "x2_m3d": 55.7789,
-        "x2_m4d": 55.7582,
-        "x2_tail": 0.1206
+        "x2_foldn": 190.2308,
+        "x2_foldp": 191.6731,
+        "x2_m3d": 79.6947,
+        "x2_m4d": 80.7253,
+        "x2_tail": 0.1599
       },
       "same_placement": false
     },
@@ -461,21 +461,21 @@
       ],
       "size_um": {
         "budget_aware": [
-          141.735,
-          156.22
+          160.475,
+          183.47
         ],
         "area_only": [
-          84.74,
-          211.25
+          79.56,
+          175.76
         ]
       },
       "note": "the hard outline of layout.yaml (plan v4 Phase 8): a placement outside it is rejected"
     },
     "G5.2_top_DRC": {
-      "pass": true,
+      "pass": false,
       "detail": {
         "budget_aware": 0,
-        "area_only": 0
+        "area_only": 8
       }
     },
     "G5.3_top_LVS": {
@@ -501,67 +501,67 @@
         "budget_aware": {
           "max_length": {
             "bias_a": {
-              "use": 63.7537,
+              "use": 24.8966,
               "ok": false,
               "length_um": {
-                "metal4": 116.62,
-                "metal3": 12.8
+                "metal4": 40.94,
+                "metal3": 9.6
               }
             },
             "bias_b": {
-              "use": 68.2538,
+              "use": 43.3826,
               "ok": false,
               "length_um": {
-                "metal4": 107.39,
-                "metal3": 72.8
+                "metal4": 80.93,
+                "metal3": 33.6
               }
             },
             "bias_c": {
-              "use": 106.4014,
+              "use": 63.1901,
               "ok": false,
               "length_um": {
-                "metal4": 85.49,
-                "metal3": 65.6
+                "metal4": 66.53,
+                "metal3": 23.2
               }
             },
             "bias_d": {
-              "use": 68.49,
+              "use": 24.465,
               "ok": false,
               "length_um": {
-                "metal4": 120.18,
-                "metal3": 16.8
+                "metal4": 42.53,
+                "metal3": 6.4
               }
             },
             "cm": {
-              "use": 0.7675,
+              "use": 0.4218,
               "ok": true,
               "length_um": {
-                "metal4": 38.86,
-                "metal3": 48.0
+                "metal4": 39.73,
+                "metal3": 8.0
               }
             },
             "IBIAS": {
-              "use": 0.0002,
+              "use": 0.0014,
               "ok": true,
               "length_um": {
-                "metal4": 0.04,
+                "metal4": 0.26,
                 "metal3": 0
               }
             },
             "on": {
-              "use": 77.3803,
+              "use": 157.3099,
               "ok": false,
               "length_um": {
-                "metal4": 54.94,
-                "metal3": 0
+                "metal4": 62.09,
+                "metal3": 49.6
               }
             },
             "op": {
-              "use": 96.7465,
+              "use": 113.3803,
               "ok": false,
               "length_um": {
-                "metal4": 68.69,
-                "metal3": 0
+                "metal4": 63.7,
+                "metal3": 16.8
               }
             },
             "x1_m21d": {
@@ -581,11 +581,11 @@
               }
             },
             "x1_m2d": {
-              "use": 26.2102,
+              "use": 103.5732,
               "ok": false,
               "length_um": {
-                "metal4": 36.35,
-                "metal3": 4.8
+                "metal4": 128.21,
+                "metal3": 34.4
               }
             },
             "x1_m31d": {
@@ -597,11 +597,11 @@
               }
             },
             "x1_m5d": {
-              "use": 0.2792,
+              "use": 0.2074,
               "ok": true,
               "length_um": {
-                "metal4": 23.63,
-                "metal3": 8.8
+                "metal4": 14.49,
+                "metal3": 9.6
               }
             },
             "x1_net1": {
@@ -680,43 +680,43 @@
               "length_um": null
             },
             "x2_foldn": {
-              "use": 23.6923,
+              "use": 54.8654,
               "ok": false,
               "length_um": {
-                "metal4": 12.32,
-                "metal3": 0
+                "metal4": 18.93,
+                "metal3": 9.6
               }
             },
             "x2_foldp": {
-              "use": 25.1346,
+              "use": 62.4808,
               "ok": false,
               "length_um": {
-                "metal4": 13.07,
-                "metal3": 0
+                "metal4": 24.49,
+                "metal3": 8.0
               }
             },
             "x2_m3d": {
-              "use": 16.3158,
+              "use": 18.2105,
               "ok": false,
               "length_um": {
-                "metal4": 9.9,
-                "metal3": 5.6
+                "metal4": 10.9,
+                "metal3": 6.4
               }
             },
             "x2_m4d": {
-              "use": 14.2308,
+              "use": 16.5385,
               "ok": false,
               "length_um": {
-                "metal4": 8.95,
-                "metal3": 4.0
+                "metal4": 10.25,
+                "metal3": 4.8
               }
             },
             "x2_tail": {
-              "use": 0.0464,
+              "use": 0.1103,
               "ok": true,
               "length_um": {
-                "metal4": 17.24,
-                "metal3": 9.6
+                "metal4": 31.0,
+                "metal3": 32.8
               }
             }
           },
@@ -747,9 +747,9 @@
               "ok": true
             },
             "bias_a~bias_d": {
-              "run_um": 33.6,
+              "run_um": 0.0,
               "limit_um": 1.22,
-              "ok": false
+              "ok": true
             },
             "bias_a~cm.metal3": {
               "run_um": 0.0,
@@ -757,9 +757,9 @@
               "ok": true
             },
             "bias_a~cm": {
-              "run_um": 8.8,
+              "run_um": 0.0,
               "limit_um": 0.65,
-              "ok": false
+              "ok": true
             },
             "bias_a~IBIAS.metal3": {
               "run_um": 0.0,
@@ -817,9 +817,9 @@
               "ok": true
             },
             "bias_a~x1_m2d": {
-              "run_um": 2.4,
+              "run_um": 0.0,
               "limit_um": 0.53,
-              "ok": false
+              "ok": true
             },
             "bias_a~x1_m31d.metal3": {
               "run_um": 0.0,
@@ -837,7 +837,7 @@
               "ok": true
             },
             "bias_a~x1_m5d": {
-              "run_um": 1.6,
+              "run_um": 0.0,
               "limit_um": 532.47,
               "ok": true
             },
@@ -1017,9 +1017,9 @@
               "ok": true
             },
             "bias_a~x2_m3d": {
-              "run_um": 2.4,
+              "run_um": 0.0,
               "limit_um": 1.3,
-              "ok": false
+              "ok": true
             },
             "bias_a~x2_m4d.metal3": {
               "run_um": 0.0,
@@ -1027,19 +1027,19 @@
               "ok": true
             },
             "bias_a~x2_m4d": {
-              "run_um": 3.2,
+              "run_um": 0.0,
               "limit_um": 1.29,
-              "ok": false
+              "ok": true
             },
             "bias_a~x2_tail.metal3": {
-              "run_um": 8.8,
+              "run_um": 0.0,
               "limit_um": 2.95,
-              "ok": false
+              "ok": true
             },
             "bias_a~x2_tail": {
-              "run_um": 15.2,
+              "run_um": 0.0,
               "limit_um": 2.89,
-              "ok": false
+              "ok": true
             },
             "bias_a~ip.metal3": {
               "run_um": 0.0,
@@ -1062,12 +1062,12 @@
               "ok": true
             },
             "bias_b~bias_c.metal3": {
-              "run_um": 0.0,
+              "run_um": 4.0,
               "limit_um": 3.74,
-              "ok": true
+              "ok": false
             },
             "bias_b~bias_c": {
-              "run_um": 19.2,
+              "run_um": 26.4,
               "limit_um": 3.66,
               "ok": false
             },
@@ -1077,9 +1077,9 @@
               "ok": true
             },
             "bias_b~bias_d": {
-              "run_um": 10.4,
+              "run_um": 0.0,
               "limit_um": 0.66,
-              "ok": false
+              "ok": true
             },
             "bias_b~cm.metal3": {
               "run_um": 0.0,
@@ -1087,7 +1087,7 @@
               "ok": true
             },
             "bias_b~cm": {
-              "run_um": 0.0,
+              "run_um": 4.8,
               "limit_um": 285.13,
               "ok": true
             },
@@ -1107,9 +1107,9 @@
               "ok": true
             },
             "bias_b~on": {
-              "run_um": 0.0,
+              "run_um": 14.4,
               "limit_um": 0.51,
-              "ok": true
+              "ok": false
             },
             "bias_b~op.metal3": {
               "run_um": 0.0,
@@ -1127,19 +1127,19 @@
               "ok": true
             },
             "bias_b~x1_m21d": {
-              "run_um": 0.0,
+              "run_um": 5.6,
               "limit_um": 0.55,
-              "ok": true
+              "ok": false
             },
             "bias_b~x1_m25d.metal3": {
-              "run_um": 0.0,
+              "run_um": 5.6,
               "limit_um": 0.46,
-              "ok": true
+              "ok": false
             },
             "bias_b~x1_m25d": {
-              "run_um": 0.0,
+              "run_um": 4.8,
               "limit_um": 0.45,
-              "ok": true
+              "ok": false
             },
             "bias_b~x1_m2d.metal3": {
               "run_um": 0.0,
@@ -1147,9 +1147,9 @@
               "ok": true
             },
             "bias_b~x1_m2d": {
-              "run_um": 0.0,
+              "run_um": 27.2,
               "limit_um": 0.48,
-              "ok": true
+              "ok": false
             },
             "bias_b~x1_m31d.metal3": {
               "run_um": 0.0,
@@ -1157,7 +1157,7 @@
               "ok": true
             },
             "bias_b~x1_m31d": {
-              "run_um": 0.0,
+              "run_um": 2.4,
               "limit_um": 148.1,
               "ok": true
             },
@@ -1167,7 +1167,7 @@
               "ok": true
             },
             "bias_b~x1_m5d": {
-              "run_um": 18.4,
+              "run_um": 0.0,
               "limit_um": 138.81,
               "ok": true
             },
@@ -1327,17 +1327,17 @@
               "ok": true
             },
             "bias_b~x2_foldn": {
-              "run_um": 0.0,
+              "run_um": 10.4,
               "limit_um": 0.96,
-              "ok": true
+              "ok": false
             },
             "bias_b~x2_foldp.metal3": {
-              "run_um": 0.0,
+              "run_um": 4.0,
               "limit_um": 0.98,
-              "ok": true
+              "ok": false
             },
             "bias_b~x2_foldp": {
-              "run_um": 0.0,
+              "run_um": 0.8,
               "limit_um": 0.96,
               "ok": true
             },
@@ -1397,14 +1397,14 @@
               "ok": true
             },
             "bias_c~bias_d": {
-              "run_um": 8.8,
+              "run_um": 0.0,
               "limit_um": 0.66,
-              "ok": false
+              "ok": true
             },
             "bias_c~cm.metal3": {
-              "run_um": 13.6,
+              "run_um": 0.0,
               "limit_um": 0.81,
-              "ok": false
+              "ok": true
             },
             "bias_c~cm": {
               "run_um": 0.0,
@@ -1427,9 +1427,9 @@
               "ok": true
             },
             "bias_c~on": {
-              "run_um": 0.0,
+              "run_um": 13.6,
               "limit_um": 0.82,
-              "ok": true
+              "ok": false
             },
             "bias_c~op.metal3": {
               "run_um": 0.0,
@@ -1442,9 +1442,9 @@
               "ok": true
             },
             "bias_c~x1_m21d.metal3": {
-              "run_um": 0.0,
+              "run_um": 1.6,
               "limit_um": 0.4,
-              "ok": true
+              "ok": false
             },
             "bias_c~x1_m21d": {
               "run_um": 4.8,
@@ -1452,9 +1452,9 @@
               "ok": false
             },
             "bias_c~x1_m25d.metal3": {
-              "run_um": 0.0,
+              "run_um": 2.4,
               "limit_um": 0.46,
-              "ok": true
+              "ok": false
             },
             "bias_c~x1_m25d": {
               "run_um": 0.0,
@@ -1462,12 +1462,12 @@
               "ok": true
             },
             "bias_c~x1_m2d.metal3": {
-              "run_um": 4.8,
+              "run_um": 0.0,
               "limit_um": 0.66,
-              "ok": false
+              "ok": true
             },
             "bias_c~x1_m2d": {
-              "run_um": 20.0,
+              "run_um": 28.0,
               "limit_um": 0.64,
               "ok": false
             },
@@ -1642,24 +1642,24 @@
               "ok": true
             },
             "bias_c~x2_foldn.metal3": {
-              "run_um": 0.0,
+              "run_um": 2.4,
               "limit_um": 0.66,
-              "ok": true
+              "ok": false
             },
             "bias_c~x2_foldn": {
-              "run_um": 0.0,
+              "run_um": 1.6,
               "limit_um": 0.64,
-              "ok": true
+              "ok": false
             },
             "bias_c~x2_foldp.metal3": {
-              "run_um": 0.0,
+              "run_um": 3.2,
               "limit_um": 0.66,
-              "ok": true
+              "ok": false
             },
             "bias_c~x2_foldp": {
-              "run_um": 0.0,
+              "run_um": 12.0,
               "limit_um": 0.64,
-              "ok": true
+              "ok": false
             },
             "bias_c~x2_m3d.metal3": {
               "run_um": 0.0,
@@ -1717,9 +1717,9 @@
               "ok": true
             },
             "bias_d~cm": {
-              "run_um": 0.8,
+              "run_um": 0.0,
               "limit_um": 0.66,
-              "ok": false
+              "ok": true
             },
             "bias_d~IBIAS.metal3": {
               "run_um": 0.0,
@@ -1737,9 +1737,9 @@
               "ok": true
             },
             "bias_d~on": {
-              "run_um": 19.2,
+              "run_um": 0.0,
               "limit_um": 1.52,
-              "ok": false
+              "ok": true
             },
             "bias_d~op.metal3": {
               "run_um": 0.0,
@@ -1747,9 +1747,9 @@
               "ok": true
             },
             "bias_d~op": {
-              "run_um": 20.0,
+              "run_um": 0.0,
               "limit_um": 1.52,
-              "ok": false
+              "ok": true
             },
             "bias_d~x1_m21d.metal3": {
               "run_um": 0.0,
@@ -1772,12 +1772,12 @@
               "ok": true
             },
             "bias_d~x1_m2d.metal3": {
-              "run_um": 0.0,
+              "run_um": 4.8,
               "limit_um": 3.47,
-              "ok": true
+              "ok": false
             },
             "bias_d~x1_m2d": {
-              "run_um": 0.8,
+              "run_um": 2.4,
               "limit_um": 3.4,
               "ok": true
             },
@@ -1792,12 +1792,12 @@
               "ok": true
             },
             "bias_d~x1_m5d.metal3": {
-              "run_um": 4.0,
+              "run_um": 0.0,
               "limit_um": 0.88,
-              "ok": false
+              "ok": true
             },
             "bias_d~x1_m5d": {
-              "run_um": 10.4,
+              "run_um": 2.4,
               "limit_um": 0.86,
               "ok": false
             },
@@ -1957,9 +1957,9 @@
               "ok": true
             },
             "bias_d~x2_foldn": {
-              "run_um": 1.6,
+              "run_um": 0.0,
               "limit_um": 0.38,
-              "ok": false
+              "ok": true
             },
             "bias_d~x2_foldp.metal3": {
               "run_um": 0.0,
@@ -2072,14 +2072,14 @@
               "ok": true
             },
             "cm~x1_m2d.metal3": {
-              "run_um": 1.6,
+              "run_um": 0.0,
               "limit_um": 0.49,
-              "ok": false
+              "ok": true
             },
             "cm~x1_m2d": {
-              "run_um": 2.4,
+              "run_um": 0.0,
               "limit_um": 0.48,
-              "ok": false
+              "ok": true
             },
             "cm~x1_m31d.metal3": {
               "run_um": 0.0,
@@ -2367,7 +2367,7 @@
               "ok": true
             },
             "IBIAS~x1_m2d": {
-              "run_um": 0.0,
+              "run_um": 0.26,
               "limit_um": 0.34,
               "ok": true
             },
@@ -2617,9 +2617,9 @@
               "ok": true
             },
             "on~op": {
-              "run_um": 30.4,
+              "run_um": 0.0,
               "limit_um": 0.51,
-              "ok": false
+              "ok": true
             },
             "on~x1_m21d.metal3": {
               "run_um": 0.0,
@@ -2642,9 +2642,9 @@
               "ok": true
             },
             "on~x1_m2d.metal3": {
-              "run_um": 0.0,
+              "run_um": 24.0,
               "limit_um": 0.49,
-              "ok": true
+              "ok": false
             },
             "on~x1_m2d": {
               "run_um": 0.0,
@@ -2822,24 +2822,24 @@
               "ok": true
             },
             "on~x2_foldn.metal3": {
-              "run_um": 0.0,
+              "run_um": 1.6,
               "limit_um": 0.39,
-              "ok": true
+              "ok": false
             },
             "on~x2_foldn": {
-              "run_um": 0.0,
+              "run_um": 6.4,
               "limit_um": 0.38,
-              "ok": true
+              "ok": false
             },
             "on~x2_foldp.metal3": {
-              "run_um": 0.0,
+              "run_um": 1.6,
               "limit_um": 0.77,
-              "ok": true
+              "ok": false
             },
             "on~x2_foldp": {
-              "run_um": 0.0,
+              "run_um": 12.0,
               "limit_um": 0.76,
-              "ok": true
+              "ok": false
             },
             "on~x2_m3d.metal3": {
               "run_um": 0.0,
@@ -3112,24 +3112,24 @@
               "ok": true
             },
             "op~x2_m3d.metal3": {
-              "run_um": 0.0,
+              "run_um": 4.8,
               "limit_um": 0.3,
-              "ok": true
+              "ok": false
             },
             "op~x2_m3d": {
-              "run_um": 0.0,
+              "run_um": 7.2,
               "limit_um": 0.3,
-              "ok": true
+              "ok": false
             },
             "op~x2_m4d.metal3": {
-              "run_um": 0.0,
+              "run_um": 4.0,
               "limit_um": 1.2,
-              "ok": true
+              "ok": false
             },
             "op~x2_m4d": {
-              "run_um": 0.0,
+              "run_um": 5.6,
               "limit_um": 1.17,
-              "ok": true
+              "ok": false
             },
             "op~x2_tail.metal3": {
               "run_um": 0.0,
@@ -3847,9 +3847,9 @@
               "ok": true
             },
             "x1_m2d~x2_foldn": {
-              "run_um": 0.0,
+              "run_um": 10.4,
               "limit_um": 0.38,
-              "ok": true
+              "ok": false
             },
             "x1_m2d~x2_foldp.metal3": {
               "run_um": 0.0,
@@ -3857,9 +3857,9 @@
               "ok": true
             },
             "x1_m2d~x2_foldp": {
-              "run_um": 0.0,
+              "run_um": 2.4,
               "limit_um": 0.38,
-              "ok": true
+              "ok": false
             },
             "x1_m2d~x2_m3d.metal3": {
               "run_um": 0.0,
@@ -6412,12 +6412,12 @@
               "ok": true
             },
             "x2_foldn~x2_foldp.metal3": {
-              "run_um": 0.0,
+              "run_um": 4.8,
               "limit_um": 0.39,
-              "ok": true
+              "ok": false
             },
             "x2_foldn~x2_foldp": {
-              "run_um": 4.8,
+              "run_um": 5.6,
               "limit_um": 0.38,
               "ok": false
             },
@@ -6447,9 +6447,9 @@
               "ok": true
             },
             "x2_foldn~x2_tail": {
-              "run_um": 1.6,
+              "run_um": 0.0,
               "limit_um": 0.51,
-              "ok": false
+              "ok": true
             },
             "x2_foldn~ip.metal3": {
               "run_um": 0.0,
@@ -6467,7 +6467,7 @@
               "ok": true
             },
             "x2_foldn~in": {
-              "run_um": 0.0,
+              "run_um": 0.05,
               "limit_um": 0.09,
               "ok": true
             },
@@ -6497,9 +6497,9 @@
               "ok": true
             },
             "x2_foldp~x2_tail": {
-              "run_um": 1.6,
+              "run_um": 0.0,
               "limit_um": 0.51,
-              "ok": false
+              "ok": true
             },
             "x2_foldp~ip.metal3": {
               "run_um": 0.0,
@@ -6507,9 +6507,9 @@
               "ok": true
             },
             "x2_foldp~ip": {
-              "run_um": 0.0,
+              "run_um": 0.1,
               "limit_um": 0.09,
-              "ok": true
+              "ok": false
             },
             "x2_foldp~in.metal3": {
               "run_um": 0.0,
@@ -6517,12 +6517,12 @@
               "ok": true
             },
             "x2_foldp~in": {
-              "run_um": 0.0,
+              "run_um": 0.05,
               "limit_um": 0.04,
-              "ok": true
+              "ok": false
             },
             "x2_m3d~x2_m4d.metal3": {
-              "run_um": 4.0,
+              "run_um": 4.8,
               "limit_um": 0.29,
               "ok": false
             },
@@ -6537,9 +6537,9 @@
               "ok": true
             },
             "x2_m3d~x2_tail": {
-              "run_um": 2.4,
+              "run_um": 0.0,
               "limit_um": 0.3,
-              "ok": false
+              "ok": true
             },
             "x2_m3d~ip.metal3": {
               "run_um": 0.0,
@@ -6615,13 +6615,13 @@
           "max_series_R": {
             "XX1_M22.d": {
               "net": "bias_b",
-              "route_ohm": 68.912,
+              "route_ohm": 68.017,
               "left_ohm": -24.09,
               "ok": false
             },
             "XX1_M22.g": {
               "net": "bias_c",
-              "route_ohm": 51.853,
+              "route_ohm": 51.463,
               "left_ohm": -14.51,
               "ok": false
             },
@@ -6633,13 +6633,13 @@
             },
             "XX1_M26.d": {
               "net": "x1_m2d",
-              "route_ohm": 25.295,
+              "route_ohm": 53.207,
               "left_ohm": -24.09,
               "ok": false
             },
             "XX1_M26.g": {
               "net": "bias_c",
-              "route_ohm": 51.853,
+              "route_ohm": 51.463,
               "left_ohm": -14.436,
               "ok": false
             },
@@ -6651,13 +6651,13 @@
             },
             "XX1_M32.d": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": -24.017,
               "ok": false
             },
             "XX1_M32.g": {
               "net": "bias_c",
-              "route_ohm": 51.853,
+              "route_ohm": 51.463,
               "left_ohm": 201.487,
               "ok": true
             },
@@ -6675,13 +6675,13 @@
             },
             "XX1_M21.g": {
               "net": "bias_b",
-              "route_ohm": 68.912,
+              "route_ohm": 68.017,
               "left_ohm": 201.487,
               "ok": true
             },
             "XX1_M21.s": {
               "net": "VDD",
-              "route_ohm": 129.594,
+              "route_ohm": 96.147,
               "left_ohm": -24.09,
               "ok": false
             },
@@ -6693,13 +6693,13 @@
             },
             "XX1_M25.g": {
               "net": "bias_b",
-              "route_ohm": 68.912,
+              "route_ohm": 68.017,
               "left_ohm": -14.435,
               "ok": false
             },
             "XX1_M25.s": {
               "net": "VDD",
-              "route_ohm": 129.594,
+              "route_ohm": 96.147,
               "left_ohm": -24.09,
               "ok": false
             },
@@ -6711,133 +6711,133 @@
             },
             "XX1_M31.g": {
               "net": "bias_b",
-              "route_ohm": 68.912,
+              "route_ohm": 68.017,
               "left_ohm": 201.487,
               "ok": true
             },
             "XX1_M31.s": {
               "net": "VDD",
-              "route_ohm": 129.594,
+              "route_ohm": 96.147,
               "left_ohm": -24.09,
               "ok": false
             },
             "XX1_M1.d": {
               "net": "bias_b",
-              "route_ohm": 68.912,
+              "route_ohm": 68.017,
               "left_ohm": -0.41,
               "ok": false
             },
             "XX1_M1.g": {
               "net": "bias_b",
-              "route_ohm": 68.912,
+              "route_ohm": 68.017,
               "left_ohm": -1.054,
               "ok": false
             },
             "XX1_M1.s": {
               "net": "bias_c",
-              "route_ohm": 51.853,
+              "route_ohm": 51.463,
               "left_ohm": -0.41,
               "ok": false
             },
             "XX1_M2.d": {
               "net": "x1_m2d",
-              "route_ohm": 25.295,
+              "route_ohm": 53.207,
               "left_ohm": -0.47,
               "ok": false
             },
             "XX1_M2.g": {
               "net": "x1_m2d",
-              "route_ohm": 25.295,
+              "route_ohm": 53.207,
               "left_ohm": -1.341,
               "ok": false
             },
             "XX1_M2.s": {
               "net": "bias_d",
-              "route_ohm": 50.195,
+              "route_ohm": 29.619,
               "left_ohm": -0.537,
               "ok": false
             },
             "XX1_M3.d": {
               "net": "bias_d",
-              "route_ohm": 50.195,
+              "route_ohm": 29.619,
               "left_ohm": -23.776,
               "ok": false
             },
             "XX1_M3.g": {
               "net": "x1_m2d",
-              "route_ohm": 25.295,
+              "route_ohm": 53.207,
               "left_ohm": -43.906,
               "ok": false
             },
             "XX1_M3.s": {
               "net": "bias_a",
-              "route_ohm": 42.487,
+              "route_ohm": 33.218,
               "left_ohm": -23.776,
               "ok": false
             },
             "XX1_M4.d": {
               "net": "bias_a",
-              "route_ohm": 42.487,
+              "route_ohm": 33.218,
               "left_ohm": -2.401,
               "ok": false
             },
             "XX1_M4.g": {
               "net": "bias_d",
-              "route_ohm": 50.195,
+              "route_ohm": 29.619,
               "left_ohm": -4.582,
               "ok": false
             },
             "XX1_M4.s": {
               "net": "x1_m5d",
-              "route_ohm": 24.271,
+              "route_ohm": 23.291,
               "left_ohm": -2.353,
               "ok": false
             },
             "XX1_M5.d": {
               "net": "x1_m5d",
-              "route_ohm": 24.271,
+              "route_ohm": 23.291,
               "left_ohm": -2.353,
               "ok": false
             },
             "XX1_M5.g": {
               "net": "bias_a",
-              "route_ohm": 42.487,
+              "route_ohm": 33.218,
               "left_ohm": 154.987,
               "ok": true
             },
             "XX1_M5.s": {
               "net": "VSS",
-              "route_ohm": 197.33,
+              "route_ohm": 176.903,
               "left_ohm": -2.401,
               "ok": false
             },
             "XX1_M7+XX1_M6.d": {
               "net": "bias_c",
-              "route_ohm": 51.853,
+              "route_ohm": 51.463,
               "left_ohm": -2.353,
               "ok": false
             },
             "XX1_M7+XX1_M6.g": {
               "net": "IBIAS",
-              "route_ohm": 3.415,
+              "route_ohm": 3.441,
               "left_ohm": 155.034,
               "ok": true
             },
             "XX1_M7+XX1_M6.s": {
               "net": "VSS",
-              "route_ohm": 197.33,
+              "route_ohm": 176.903,
               "left_ohm": -2.401,
               "ok": false
             },
             "XX1_M33.d": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 463.641,
               "ok": true
             },
             "XX1_M33.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -6855,7 +6855,7 @@
             },
             "XX1_M49.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": -87.92,
               "ok": false
             },
@@ -6873,7 +6873,7 @@
             },
             "XX1_M50.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -6891,25 +6891,25 @@
             },
             "XX1_M63.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": -87.909,
               "ok": false
             },
             "XX1_M63.s": {
               "net": "VSS",
-              "route_ohm": 197.33,
+              "route_ohm": 176.903,
               "left_ohm": -47.647,
               "ok": false
             },
             "XX1_M68.d": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 463.641,
               "ok": true
             },
             "XX1_M68.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -6927,7 +6927,7 @@
             },
             "XX1_M69.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -6945,7 +6945,7 @@
             },
             "XX1_M70.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -6963,25 +6963,25 @@
             },
             "XX1_M71.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": -87.909,
               "ok": false
             },
             "XX1_M71.s": {
               "net": "VSS",
-              "route_ohm": 197.33,
+              "route_ohm": 176.903,
               "left_ohm": -47.647,
               "ok": false
             },
             "XX1_M72.d": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 463.641,
               "ok": true
             },
             "XX1_M72.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -6999,7 +6999,7 @@
             },
             "XX1_M73.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -7017,7 +7017,7 @@
             },
             "XX1_M74.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": -87.92,
               "ok": false
             },
@@ -7035,25 +7035,25 @@
             },
             "XX1_M75.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 298.476,
               "ok": true
             },
             "XX1_M75.s": {
               "net": "VSS",
-              "route_ohm": 197.33,
+              "route_ohm": 176.903,
               "left_ohm": -47.647,
               "ok": false
             },
             "XX1_M76.d": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 463.641,
               "ok": true
             },
             "XX1_M76.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -7071,7 +7071,7 @@
             },
             "XX1_M77.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -7101,25 +7101,25 @@
             },
             "XX1_M79.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": -87.909,
               "ok": false
             },
             "XX1_M79.s": {
               "net": "VSS",
-              "route_ohm": 197.33,
+              "route_ohm": 176.903,
               "left_ohm": -47.647,
               "ok": false
             },
             "XX1_M64.d": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 463.641,
               "ok": true
             },
             "XX1_M64.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -7137,7 +7137,7 @@
             },
             "XX1_M65.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": -87.92,
               "ok": false
             },
@@ -7155,7 +7155,7 @@
             },
             "XX1_M66.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -7173,211 +7173,211 @@
             },
             "XX1_M67.g": {
               "net": "cm",
-              "route_ohm": 30.666,
+              "route_ohm": 19.248,
               "left_ohm": -87.909,
               "ok": false
             },
             "XX1_M67.s": {
               "net": "VSS",
-              "route_ohm": 197.33,
+              "route_ohm": 176.903,
               "left_ohm": -47.647,
               "ok": false
             },
             "XX2_M1+XX2_M2.d": {
               "net": "x2_foldp",
-              "route_ohm": 15.176,
+              "route_ohm": 31.098,
               "left_ohm": -10.257,
               "ok": false
             },
             "XX2_M1+XX2_M2.g": {
               "net": "ip",
-              "route_ohm": 3.436,
+              "route_ohm": 3.422,
               "left_ohm": -16.932,
               "ok": false
             },
             "XX2_M1+XX2_M2.s": {
               "net": "x2_tail",
-              "route_ohm": 16.794,
+              "route_ohm": 21.136,
               "left_ohm": -10.257,
               "ok": false
             },
             "XX2_M6.d": {
               "net": "x2_tail",
-              "route_ohm": 16.794,
+              "route_ohm": 21.136,
               "left_ohm": 0.171,
               "ok": false
             },
             "XX2_M6.g": {
               "net": "cmc",
-              "route_ohm": 39.046,
+              "route_ohm": 44.254,
               "left_ohm": 262.914,
               "ok": true
             },
             "XX2_M6.s": {
               "net": "VSS",
-              "route_ohm": 197.33,
+              "route_ohm": 176.903,
               "left_ohm": 0.082,
               "ok": false
             },
             "XX2_M5.d": {
               "net": "x2_tail",
-              "route_ohm": 16.794,
+              "route_ohm": 21.136,
               "left_ohm": 0.082,
               "ok": false
             },
             "XX2_M5.g": {
               "net": "bias_a",
-              "route_ohm": 42.487,
+              "route_ohm": 33.218,
               "left_ohm": -0.247,
               "ok": false
             },
             "XX2_M5.s": {
               "net": "VSS",
-              "route_ohm": 197.33,
+              "route_ohm": 176.903,
               "left_ohm": 0.171,
               "ok": false
             },
             "XX2_M11.d": {
               "net": "x2_foldp",
-              "route_ohm": 15.176,
+              "route_ohm": 31.098,
               "left_ohm": -5.688,
               "ok": false
             },
             "XX2_M11.g": {
               "net": "bias_b",
-              "route_ohm": 68.912,
+              "route_ohm": 68.017,
               "left_ohm": -3.361,
               "ok": false
             },
             "XX2_M11.s": {
               "net": "VDD",
-              "route_ohm": 129.594,
+              "route_ohm": 96.147,
               "left_ohm": -5.755,
               "ok": false
             },
             "XX2_M12.d": {
               "net": "x2_foldn",
-              "route_ohm": 15.088,
+              "route_ohm": 27.222,
               "left_ohm": -5.688,
               "ok": false
             },
             "XX2_M12.g": {
               "net": "bias_b",
-              "route_ohm": 68.912,
+              "route_ohm": 68.017,
               "left_ohm": -3.361,
               "ok": false
             },
             "XX2_M12.s": {
               "net": "VDD",
-              "route_ohm": 129.594,
+              "route_ohm": 96.147,
               "left_ohm": -5.755,
               "ok": false
             },
             "XX2_M1A.d": {
               "net": "on",
-              "route_ohm": 20.095,
+              "route_ohm": 47.224,
               "left_ohm": -6.825,
               "ok": false
             },
             "XX2_M1A.g": {
               "net": "bias_c",
-              "route_ohm": 51.853,
+              "route_ohm": 51.463,
               "left_ohm": -4.12,
               "ok": false
             },
             "XX2_M1A.s": {
               "net": "x2_foldp",
-              "route_ohm": 15.176,
+              "route_ohm": 31.098,
               "left_ohm": -6.732,
               "ok": false
             },
             "XX2_M8.d": {
               "net": "op",
-              "route_ohm": 21.711,
+              "route_ohm": 43.559,
               "left_ohm": -6.825,
               "ok": false
             },
             "XX2_M8.g": {
               "net": "bias_c",
-              "route_ohm": 51.853,
+              "route_ohm": 51.463,
               "left_ohm": -4.12,
               "ok": false
             },
             "XX2_M8.s": {
               "net": "x2_foldn",
-              "route_ohm": 15.088,
+              "route_ohm": 27.222,
               "left_ohm": -6.732,
               "ok": false
             },
             "XX2_M3A.d": {
               "net": "on",
-              "route_ohm": 20.095,
+              "route_ohm": 47.224,
               "left_ohm": -0.912,
               "ok": false
             },
             "XX2_M3A.g": {
               "net": "bias_d",
-              "route_ohm": 50.195,
+              "route_ohm": 29.619,
               "left_ohm": -2.089,
               "ok": false
             },
             "XX2_M3A.s": {
               "net": "x2_m3d",
-              "route_ohm": 15.461,
+              "route_ohm": 15.673,
               "left_ohm": -0.97,
               "ok": false
             },
             "XX2_M7.d": {
               "net": "op",
-              "route_ohm": 21.711,
+              "route_ohm": 43.559,
               "left_ohm": -0.912,
               "ok": false
             },
             "XX2_M7.g": {
               "net": "bias_d",
-              "route_ohm": 50.195,
+              "route_ohm": 29.619,
               "left_ohm": -2.089,
               "ok": false
             },
             "XX2_M7.s": {
               "net": "x2_m4d",
-              "route_ohm": 15.162,
+              "route_ohm": 15.408,
               "left_ohm": -0.97,
               "ok": false
             },
             "XX2_M3.d": {
               "net": "x2_m3d",
-              "route_ohm": 15.461,
+              "route_ohm": 15.673,
               "left_ohm": -0.97,
               "ok": false
             },
             "XX2_M3.g": {
               "net": "bias_a",
-              "route_ohm": 42.487,
+              "route_ohm": 33.218,
               "left_ohm": -2.027,
               "ok": false
             },
             "XX2_M3.s": {
               "net": "VSS",
-              "route_ohm": 197.33,
+              "route_ohm": 176.903,
               "left_ohm": -0.97,
               "ok": false
             },
             "XX2_M4.d": {
               "net": "x2_m4d",
-              "route_ohm": 15.162,
+              "route_ohm": 15.408,
               "left_ohm": -0.97,
               "ok": false
             },
             "XX2_M4.g": {
               "net": "bias_a",
-              "route_ohm": 42.487,
+              "route_ohm": 33.218,
               "left_ohm": -2.027,
               "ok": false
             },
             "XX2_M4.s": {
               "net": "VSS",
-              "route_ohm": 197.33,
+              "route_ohm": 176.903,
               "left_ohm": -0.97,
               "ok": false
             }
@@ -7593,107 +7593,107 @@
         "area_only": {
           "max_length": {
             "bias_a": {
-              "use": 85.1921,
+              "use": 32.734,
               "ok": false,
               "length_um": {
-                "metal4": 136.14,
-                "metal3": 36.8
+                "metal4": 60.85,
+                "metal3": 5.6
               }
             },
             "bias_b": {
-              "use": 68.9205,
+              "use": 22.0492,
               "ok": false,
               "length_um": {
-                "metal4": 154.75,
-                "metal3": 27.2
+                "metal4": 55.81,
+                "metal3": 2.4
               }
             },
             "bias_c": {
-              "use": 84.838,
+              "use": 118.6408,
               "ok": false,
               "length_um": {
-                "metal4": 115.67,
-                "metal3": 4.8
+                "metal4": 132.47,
+                "metal3": 36.0
               }
             },
             "bias_d": {
-              "use": 59.835,
+              "use": 76.4,
               "ok": false,
               "length_um": {
-                "metal4": 95.67,
-                "metal3": 24.0
+                "metal4": 85.6,
+                "metal3": 67.2
               }
             },
             "cm": {
-              "use": 0.5076,
-              "ok": true,
+              "use": 1.0344,
+              "ok": false,
               "length_um": {
-                "metal4": 48.64,
-                "metal3": 8.8
+                "metal4": 90.66,
+                "metal3": 26.4
               }
             },
             "IBIAS": {
-              "use": 0.0003,
+              "use": 0.0011,
               "ok": true,
               "length_um": {
-                "metal4": 0.05,
+                "metal4": 0.2,
                 "metal3": 0
               }
             },
             "on": {
-              "use": 86.8169,
+              "use": 136.8873,
               "ok": false,
               "length_um": {
-                "metal4": 59.24,
-                "metal3": 2.4
+                "metal4": 78.79,
+                "metal3": 18.4
               }
             },
             "op": {
-              "use": 104.7746,
+              "use": 140.338,
               "ok": false,
               "length_um": {
-                "metal4": 70.39,
-                "metal3": 4.0
+                "metal4": 86.04,
+                "metal3": 13.6
               }
             },
             "x1_m21d": {
-              "use": 204.0526,
+              "use": 174.4211,
               "ok": false,
               "length_um": {
-                "metal4": 33.97,
-                "metal3": 4.8
-              }
-            },
-            "x1_m25d": {
-              "use": 243.9545,
-              "ok": false,
-              "length_um": {
-                "metal4": 36.87,
-                "metal3": 16.8
-              }
-            },
-            "x1_m2d": {
-              "use": 16.6497,
-              "ok": false,
-              "length_um": {
-                "metal4": 26.14,
+                "metal4": 33.14,
                 "metal3": 0
               }
             },
-            "x1_m31d": {
-              "use": 84.5455,
+            "x1_m25d": {
+              "use": 154.0455,
               "ok": false,
               "length_um": {
-                "metal4": 5.3,
-                "metal3": 4.0
+                "metal4": 33.89,
+                "metal3": 0
+              }
+            },
+            "x1_m2d": {
+              "use": 74.5096,
+              "ok": false,
+              "length_um": {
+                "metal4": 100.98,
+                "metal3": 16.0
+              }
+            },
+            "x1_m31d": {
+              "use": 126.0909,
+              "ok": false,
+              "length_um": {
+                "metal4": 13.87,
+                "metal3": 0
               }
             },
             "x1_m5d": {
-              "use": 1.2021,
-              "ok": false,
+              "use": 0.0437,
+              "ok": true,
               "length_um": {
-                "metal4": 84.41,
-                "metal3": 55.2
+                "metal4": 5.07,
+                "metal3": 0
               }
             },
             "x1_net1": {
@@ -7772,43 +7772,43 @@
               "length_um": null
             },
             "x2_foldn": {
-              "use": 34.2692,
+              "use": 203.25,
               "ok": false,
               "length_um": {
-                "metal4": 14.62,
-                "metal3": 3.2
+                "metal4": 73.69,
+                "metal3": 32.0
               }
             },
             "x2_foldp": {
-              "use": 162.4423,
+              "use": 213.3077,
               "ok": false,
               "length_um": {
-                "metal4": 42.87,
-                "metal3": 41.6
+                "metal4": 66.12,
+                "metal3": 44.8
               }
             },
             "x2_m3d": {
-              "use": 72.9579,
+              "use": 87.1895,
               "ok": false,
               "length_um": {
-                "metal4": 61.31,
-                "metal3": 8.0
-              }
-            },
-            "x2_m4d": {
-              "use": 63.8022,
-              "ok": false,
-              "length_um": {
-                "metal4": 51.66,
+                "metal4": 76.43,
                 "metal3": 6.4
               }
             },
+            "x2_m4d": {
+              "use": 84.8132,
+              "ok": false,
+              "length_um": {
+                "metal4": 73.98,
+                "metal3": 3.2
+              }
+            },
             "x2_tail": {
-              "use": 0.1635,
+              "use": 0.1956,
               "ok": true,
               "length_um": {
-                "metal4": 77.77,
-                "metal3": 16.8
+                "metal4": 105.93,
+                "metal3": 7.2
               }
             }
           },
@@ -7819,9 +7819,9 @@
               "ok": true
             },
             "bias_a~bias_b": {
-              "run_um": 43.2,
+              "run_um": 0.0,
               "limit_um": 0.65,
-              "ok": false
+              "ok": true
             },
             "bias_a~bias_c.metal3": {
               "run_um": 0.0,
@@ -7829,9 +7829,9 @@
               "ok": true
             },
             "bias_a~bias_c": {
-              "run_um": 42.4,
+              "run_um": 0.0,
               "limit_um": 0.65,
-              "ok": false
+              "ok": true
             },
             "bias_a~bias_d.metal3": {
               "run_um": 0.0,
@@ -7839,9 +7839,9 @@
               "ok": true
             },
             "bias_a~bias_d": {
-              "run_um": 16.0,
+              "run_um": 0.0,
               "limit_um": 1.22,
-              "ok": false
+              "ok": true
             },
             "bias_a~cm.metal3": {
               "run_um": 0.0,
@@ -7849,9 +7849,9 @@
               "ok": true
             },
             "bias_a~cm": {
-              "run_um": 30.4,
+              "run_um": 0.0,
               "limit_um": 0.65,
-              "ok": false
+              "ok": true
             },
             "bias_a~IBIAS.metal3": {
               "run_um": 0.0,
@@ -7909,7 +7909,7 @@
               "ok": true
             },
             "bias_a~x1_m2d": {
-              "run_um": 4.0,
+              "run_um": 8.0,
               "limit_um": 0.53,
               "ok": false
             },
@@ -7929,7 +7929,7 @@
               "ok": true
             },
             "bias_a~x1_m5d": {
-              "run_um": 1.6,
+              "run_um": 4.8,
               "limit_um": 532.47,
               "ok": true
             },
@@ -8129,9 +8129,9 @@
               "ok": true
             },
             "bias_a~x2_tail": {
-              "run_um": 2.4,
+              "run_um": 15.2,
               "limit_um": 2.89,
-              "ok": true
+              "ok": false
             },
             "bias_a~ip.metal3": {
               "run_um": 0.0,
@@ -8154,14 +8154,14 @@
               "ok": true
             },
             "bias_b~bias_c.metal3": {
-              "run_um": 0.8,
+              "run_um": 0.0,
               "limit_um": 3.74,
               "ok": true
             },
             "bias_b~bias_c": {
-              "run_um": 49.6,
+              "run_um": 0.0,
               "limit_um": 3.66,
-              "ok": false
+              "ok": true
             },
             "bias_b~bias_d.metal3": {
               "run_um": 0.0,
@@ -8174,12 +8174,12 @@
               "ok": true
             },
             "bias_b~cm.metal3": {
-              "run_um": 4.0,
+              "run_um": 0.0,
               "limit_um": 291.42,
               "ok": true
             },
             "bias_b~cm": {
-              "run_um": 14.4,
+              "run_um": 24.0,
               "limit_um": 285.13,
               "ok": true
             },
@@ -8219,17 +8219,17 @@
               "ok": true
             },
             "bias_b~x1_m21d": {
-              "run_um": 2.4,
+              "run_um": 0.0,
               "limit_um": 0.55,
-              "ok": false
+              "ok": true
             },
             "bias_b~x1_m25d.metal3": {
-              "run_um": 16.8,
+              "run_um": 0.0,
               "limit_um": 0.46,
-              "ok": false
+              "ok": true
             },
             "bias_b~x1_m25d": {
-              "run_um": 24.8,
+              "run_um": 20.8,
               "limit_um": 0.45,
               "ok": false
             },
@@ -8239,9 +8239,9 @@
               "ok": true
             },
             "bias_b~x1_m2d": {
-              "run_um": 0.0,
+              "run_um": 15.2,
               "limit_um": 0.48,
-              "ok": true
+              "ok": false
             },
             "bias_b~x1_m31d.metal3": {
               "run_um": 0.0,
@@ -8249,7 +8249,7 @@
               "ok": true
             },
             "bias_b~x1_m31d": {
-              "run_um": 1.6,
+              "run_um": 12.0,
               "limit_um": 148.1,
               "ok": true
             },
@@ -8259,7 +8259,7 @@
               "ok": true
             },
             "bias_b~x1_m5d": {
-              "run_um": 45.6,
+              "run_um": 0.0,
               "limit_um": 138.81,
               "ok": true
             },
@@ -8484,14 +8484,14 @@
               "ok": true
             },
             "bias_c~bias_d.metal3": {
-              "run_um": 0.0,
+              "run_um": 1.6,
               "limit_um": 0.68,
-              "ok": true
+              "ok": false
             },
             "bias_c~bias_d": {
-              "run_um": 0.0,
+              "run_um": 40.8,
               "limit_um": 0.66,
-              "ok": true
+              "ok": false
             },
             "bias_c~cm.metal3": {
               "run_um": 0.0,
@@ -8499,9 +8499,9 @@
               "ok": true
             },
             "bias_c~cm": {
-              "run_um": 30.4,
+              "run_um": 0.0,
               "limit_um": 0.79,
-              "ok": false
+              "ok": true
             },
             "bias_c~IBIAS.metal3": {
               "run_um": 0.0,
@@ -8524,14 +8524,14 @@
               "ok": true
             },
             "bias_c~op.metal3": {
-              "run_um": 0.0,
+              "run_um": 1.6,
               "limit_um": 0.84,
-              "ok": true
+              "ok": false
             },
             "bias_c~op": {
-              "run_um": 0.0,
+              "run_um": 12.8,
               "limit_um": 0.82,
-              "ok": true
+              "ok": false
             },
             "bias_c~x1_m21d.metal3": {
               "run_um": 0.0,
@@ -8554,14 +8554,14 @@
               "ok": true
             },
             "bias_c~x1_m2d.metal3": {
-              "run_um": 0.0,
+              "run_um": 1.6,
               "limit_um": 0.66,
-              "ok": true
+              "ok": false
             },
             "bias_c~x1_m2d": {
-              "run_um": 0.0,
+              "run_um": 5.6,
               "limit_um": 0.64,
-              "ok": true
+              "ok": false
             },
             "bias_c~x1_m31d.metal3": {
               "run_um": 0.0,
@@ -8739,29 +8739,29 @@
               "ok": true
             },
             "bias_c~x2_foldn": {
-              "run_um": 0.0,
+              "run_um": 2.4,
               "limit_um": 0.64,
-              "ok": true
+              "ok": false
             },
             "bias_c~x2_foldp.metal3": {
-              "run_um": 0.0,
+              "run_um": 0.8,
               "limit_um": 0.66,
-              "ok": true
+              "ok": false
             },
             "bias_c~x2_foldp": {
-              "run_um": 0.0,
+              "run_um": 11.2,
               "limit_um": 0.64,
-              "ok": true
+              "ok": false
             },
             "bias_c~x2_m3d.metal3": {
-              "run_um": 0.0,
+              "run_um": 3.2,
               "limit_um": 0.3,
-              "ok": true
+              "ok": false
             },
             "bias_c~x2_m3d": {
-              "run_um": 0.0,
+              "run_um": 15.2,
               "limit_um": 0.3,
-              "ok": true
+              "ok": false
             },
             "bias_c~x2_m4d.metal3": {
               "run_um": 0.0,
@@ -8769,9 +8769,9 @@
               "ok": true
             },
             "bias_c~x2_m4d": {
-              "run_um": 0.0,
+              "run_um": 12.8,
               "limit_um": 0.29,
-              "ok": true
+              "ok": false
             },
             "bias_c~x2_tail.metal3": {
               "run_um": 0.0,
@@ -8809,9 +8809,9 @@
               "ok": true
             },
             "bias_d~cm": {
-              "run_um": 0.0,
+              "run_um": 2.4,
               "limit_um": 0.66,
-              "ok": true
+              "ok": false
             },
             "bias_d~IBIAS.metal3": {
               "run_um": 0.0,
@@ -8834,14 +8834,14 @@
               "ok": true
             },
             "bias_d~op.metal3": {
-              "run_um": 0.0,
+              "run_um": 7.2,
               "limit_um": 1.55,
-              "ok": true
+              "ok": false
             },
             "bias_d~op": {
-              "run_um": 0.0,
+              "run_um": 24.8,
               "limit_um": 1.52,
-              "ok": true
+              "ok": false
             },
             "bias_d~x1_m21d.metal3": {
               "run_um": 0.0,
@@ -8869,7 +8869,7 @@
               "ok": true
             },
             "bias_d~x1_m2d": {
-              "run_um": 3.2,
+              "run_um": 0.0,
               "limit_um": 3.4,
               "ok": true
             },
@@ -8884,14 +8884,14 @@
               "ok": true
             },
             "bias_d~x1_m5d.metal3": {
-              "run_um": 21.6,
+              "run_um": 0.0,
               "limit_um": 0.88,
-              "ok": false
+              "ok": true
             },
             "bias_d~x1_m5d": {
-              "run_um": 2.4,
+              "run_um": 0.0,
               "limit_um": 0.86,
-              "ok": false
+              "ok": true
             },
             "bias_d~x1_net1.metal3": {
               "run_um": 0.0,
@@ -9049,9 +9049,9 @@
               "ok": true
             },
             "bias_d~x2_foldn": {
-              "run_um": 3.2,
+              "run_um": 0.0,
               "limit_um": 0.38,
-              "ok": false
+              "ok": true
             },
             "bias_d~x2_foldp.metal3": {
               "run_um": 0.0,
@@ -9059,9 +9059,9 @@
               "ok": true
             },
             "bias_d~x2_foldp": {
-              "run_um": 16.8,
+              "run_um": 0.0,
               "limit_um": 0.38,
-              "ok": false
+              "ok": true
             },
             "bias_d~x2_m3d.metal3": {
               "run_um": 0.0,
@@ -9069,19 +9069,19 @@
               "ok": true
             },
             "bias_d~x2_m3d": {
-              "run_um": 0.0,
+              "run_um": 12.8,
               "limit_um": 1.3,
-              "ok": true
+              "ok": false
             },
             "bias_d~x2_m4d.metal3": {
-              "run_um": 0.0,
+              "run_um": 0.8,
               "limit_um": 1.32,
               "ok": true
             },
             "bias_d~x2_m4d": {
-              "run_um": 0.0,
+              "run_um": 2.4,
               "limit_um": 1.29,
-              "ok": true
+              "ok": false
             },
             "bias_d~x2_tail.metal3": {
               "run_um": 0.0,
@@ -9124,14 +9124,14 @@
               "ok": true
             },
             "cm~on.metal3": {
-              "run_um": 0.0,
+              "run_um": 3.2,
               "limit_um": 0.53,
-              "ok": true
+              "ok": false
             },
             "cm~on": {
-              "run_um": 0.0,
+              "run_um": 35.2,
               "limit_um": 0.51,
-              "ok": true
+              "ok": false
             },
             "cm~op.metal3": {
               "run_um": 0.0,
@@ -9189,7 +9189,7 @@
               "ok": true
             },
             "cm~x1_m5d": {
-              "run_um": 10.4,
+              "run_um": 0.0,
               "limit_um": 138.85,
               "ok": true
             },
@@ -9349,9 +9349,9 @@
               "ok": true
             },
             "cm~x2_foldn": {
-              "run_um": 0.0,
+              "run_um": 3.2,
               "limit_um": 0.38,
-              "ok": true
+              "ok": false
             },
             "cm~x2_foldp.metal3": {
               "run_um": 0.0,
@@ -9359,9 +9359,9 @@
               "ok": true
             },
             "cm~x2_foldp": {
-              "run_um": 0.0,
+              "run_um": 2.4,
               "limit_um": 0.38,
-              "ok": true
+              "ok": false
             },
             "cm~x2_m3d.metal3": {
               "run_um": 0.0,
@@ -9369,9 +9369,9 @@
               "ok": true
             },
             "cm~x2_m3d": {
-              "run_um": 0.0,
+              "run_um": 4.0,
               "limit_um": 0.3,
-              "ok": true
+              "ok": false
             },
             "cm~x2_m4d.metal3": {
               "run_um": 0.0,
@@ -9379,9 +9379,9 @@
               "ok": true
             },
             "cm~x2_m4d": {
-              "run_um": 0.0,
+              "run_um": 3.2,
               "limit_um": 0.29,
-              "ok": true
+              "ok": false
             },
             "cm~x2_tail.metal3": {
               "run_um": 0.0,
@@ -9704,12 +9704,12 @@
               "ok": true
             },
             "on~op.metal3": {
-              "run_um": 2.4,
+              "run_um": 0.0,
               "limit_um": 0.53,
-              "ok": false
+              "ok": true
             },
             "on~op": {
-              "run_um": 26.4,
+              "run_um": 9.6,
               "limit_um": 0.51,
               "ok": false
             },
@@ -9919,9 +9919,9 @@
               "ok": true
             },
             "on~x2_foldn": {
-              "run_um": 0.0,
+              "run_um": 3.2,
               "limit_um": 0.38,
-              "ok": true
+              "ok": false
             },
             "on~x2_foldp.metal3": {
               "run_um": 0.0,
@@ -9929,7 +9929,7 @@
               "ok": true
             },
             "on~x2_foldp": {
-              "run_um": 15.2,
+              "run_um": 31.2,
               "limit_um": 0.76,
               "ok": false
             },
@@ -9939,9 +9939,9 @@
               "ok": true
             },
             "on~x2_m3d": {
-              "run_um": 2.4,
+              "run_um": 0.0,
               "limit_um": 1.18,
-              "ok": false
+              "ok": true
             },
             "on~x2_m4d.metal3": {
               "run_um": 0.0,
@@ -10009,9 +10009,9 @@
               "ok": true
             },
             "op~x1_m2d": {
-              "run_um": 0.0,
+              "run_um": 30.4,
               "limit_um": 0.48,
-              "ok": true
+              "ok": false
             },
             "op~x1_m31d.metal3": {
               "run_um": 0.0,
@@ -10189,9 +10189,9 @@
               "ok": true
             },
             "op~x2_foldn": {
-              "run_um": 0.0,
+              "run_um": 1.6,
               "limit_um": 0.76,
-              "ok": true
+              "ok": false
             },
             "op~x2_foldp.metal3": {
               "run_um": 0.0,
@@ -10199,7 +10199,7 @@
               "ok": true
             },
             "op~x2_foldp": {
-              "run_um": 13.6,
+              "run_um": 9.6,
               "limit_um": 0.38,
               "ok": false
             },
@@ -10209,9 +10209,9 @@
               "ok": true
             },
             "op~x2_m3d": {
-              "run_um": 1.6,
+              "run_um": 0.0,
               "limit_um": 0.3,
-              "ok": false
+              "ok": true
             },
             "op~x2_m4d.metal3": {
               "run_um": 0.0,
@@ -10259,9 +10259,9 @@
               "ok": true
             },
             "x1_m21d~x1_m25d": {
-              "run_um": 0.0,
+              "run_um": 32.0,
               "limit_um": 0.28,
-              "ok": true
+              "ok": false
             },
             "x1_m21d~x1_m2d.metal3": {
               "run_um": 0.0,
@@ -10269,9 +10269,9 @@
               "ok": true
             },
             "x1_m21d~x1_m2d": {
-              "run_um": 8.0,
+              "run_um": 0.0,
               "limit_um": 0.28,
-              "ok": false
+              "ok": true
             },
             "x1_m21d~x1_m31d.metal3": {
               "run_um": 0.0,
@@ -10279,12 +10279,12 @@
               "ok": true
             },
             "x1_m21d~x1_m31d": {
-              "run_um": 1.6,
+              "run_um": 0.0,
               "limit_um": 3.09,
               "ok": true
             },
             "x1_m21d~x1_m5d.metal3": {
-              "run_um": 1.6,
+              "run_um": 0.0,
               "limit_um": 109.37,
               "ok": true
             },
@@ -10769,7 +10769,7 @@
               "ok": true
             },
             "x1_m2d~x1_m31d": {
-              "run_um": 1.6,
+              "run_um": 13.6,
               "limit_um": 0.22,
               "ok": false
             },
@@ -10939,9 +10939,9 @@
               "ok": true
             },
             "x1_m2d~x2_foldn": {
-              "run_um": 0.0,
+              "run_um": 12.0,
               "limit_um": 0.38,
-              "ok": true
+              "ok": false
             },
             "x1_m2d~x2_foldp.metal3": {
               "run_um": 0.0,
@@ -10949,9 +10949,9 @@
               "ok": true
             },
             "x1_m2d~x2_foldp": {
-              "run_um": 0.0,
+              "run_um": 0.8,
               "limit_um": 0.38,
-              "ok": true
+              "ok": false
             },
             "x1_m2d~x2_m3d.metal3": {
               "run_um": 0.0,
@@ -10979,9 +10979,9 @@
               "ok": true
             },
             "x1_m2d~x2_tail": {
-              "run_um": 0.0,
+              "run_um": 32.8,
               "limit_um": 0.48,
-              "ok": true
+              "ok": false
             },
             "x1_m2d~ip.metal3": {
               "run_um": 0.0,
@@ -13504,12 +13504,12 @@
               "ok": true
             },
             "x2_foldn~x2_foldp.metal3": {
-              "run_um": 0.0,
+              "run_um": 21.6,
               "limit_um": 0.39,
-              "ok": true
+              "ok": false
             },
             "x2_foldn~x2_foldp": {
-              "run_um": 7.2,
+              "run_um": 1.6,
               "limit_um": 0.38,
               "ok": false
             },
@@ -13539,9 +13539,9 @@
               "ok": true
             },
             "x2_foldn~x2_tail": {
-              "run_um": 0.0,
+              "run_um": 1.6,
               "limit_um": 0.51,
-              "ok": true
+              "ok": false
             },
             "x2_foldn~ip.metal3": {
               "run_um": 0.0,
@@ -13614,12 +13614,12 @@
               "ok": true
             },
             "x2_m3d~x2_m4d.metal3": {
-              "run_um": 0.0,
+              "run_um": 1.6,
               "limit_um": 0.29,
-              "ok": true
+              "ok": false
             },
             "x2_m3d~x2_m4d": {
-              "run_um": 48.8,
+              "run_um": 52.8,
               "limit_um": 0.29,
               "ok": false
             },
@@ -13707,229 +13707,229 @@
           "max_series_R": {
             "XX1_M22.d": {
               "net": "bias_b",
-              "route_ohm": 69.119,
+              "route_ohm": 30.71,
               "left_ohm": -24.09,
               "ok": false
             },
             "XX1_M22.g": {
               "net": "bias_c",
-              "route_ohm": 48.255,
+              "route_ohm": 81.175,
               "left_ohm": -14.51,
               "ok": false
             },
             "XX1_M22.s": {
               "net": "x1_m21d",
-              "route_ohm": 25.015,
+              "route_ohm": 10.714,
               "left_ohm": -24.09,
               "ok": false
             },
             "XX1_M26.d": {
               "net": "x1_m2d",
-              "route_ohm": 16.711,
+              "route_ohm": 47.845,
               "left_ohm": -24.09,
               "ok": false
             },
             "XX1_M26.g": {
               "net": "bias_c",
-              "route_ohm": 48.255,
+              "route_ohm": 81.175,
               "left_ohm": -14.436,
               "ok": false
             },
             "XX1_M26.s": {
               "net": "x1_m25d",
-              "route_ohm": 19.946,
+              "route_ohm": 10.802,
               "left_ohm": -24.09,
               "ok": false
             },
             "XX1_M32.d": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": -24.017,
               "ok": false
             },
             "XX1_M32.g": {
               "net": "bias_c",
-              "route_ohm": 48.255,
+              "route_ohm": 81.175,
               "left_ohm": 201.487,
               "ok": true
             },
             "XX1_M32.s": {
               "net": "x1_m31d",
-              "route_ohm": 14.733,
+              "route_ohm": 8.45,
               "left_ohm": -23.982,
               "ok": false
             },
             "XX1_M21.d": {
               "net": "x1_m21d",
-              "route_ohm": 25.015,
+              "route_ohm": 10.714,
               "left_ohm": -24.09,
               "ok": false
             },
             "XX1_M21.g": {
               "net": "bias_b",
-              "route_ohm": 69.119,
+              "route_ohm": 30.71,
               "left_ohm": 201.487,
               "ok": true
             },
             "XX1_M21.s": {
               "net": "VDD",
-              "route_ohm": 148.94,
+              "route_ohm": 72.301,
               "left_ohm": -24.09,
               "ok": false
             },
             "XX1_M25.d": {
               "net": "x1_m25d",
-              "route_ohm": 19.946,
+              "route_ohm": 10.802,
               "left_ohm": -24.09,
               "ok": false
             },
             "XX1_M25.g": {
               "net": "bias_b",
-              "route_ohm": 69.119,
+              "route_ohm": 30.71,
               "left_ohm": -14.435,
               "ok": false
             },
             "XX1_M25.s": {
               "net": "VDD",
-              "route_ohm": 148.94,
+              "route_ohm": 72.301,
               "left_ohm": -24.09,
               "ok": false
             },
             "XX1_M31.d": {
               "net": "x1_m31d",
-              "route_ohm": 14.733,
+              "route_ohm": 8.45,
               "left_ohm": -23.982,
               "ok": false
             },
             "XX1_M31.g": {
               "net": "bias_b",
-              "route_ohm": 69.119,
+              "route_ohm": 30.71,
               "left_ohm": 201.487,
               "ok": true
             },
             "XX1_M31.s": {
               "net": "VDD",
-              "route_ohm": 148.94,
+              "route_ohm": 72.301,
               "left_ohm": -24.09,
               "ok": false
             },
             "XX1_M1.d": {
               "net": "bias_b",
-              "route_ohm": 69.119,
+              "route_ohm": 30.71,
               "left_ohm": -0.41,
               "ok": false
             },
             "XX1_M1.g": {
               "net": "bias_b",
-              "route_ohm": 69.119,
+              "route_ohm": 30.71,
               "left_ohm": -1.054,
               "ok": false
             },
             "XX1_M1.s": {
               "net": "bias_c",
-              "route_ohm": 48.255,
+              "route_ohm": 81.175,
               "left_ohm": -0.41,
               "ok": false
             },
             "XX1_M2.d": {
               "net": "x1_m2d",
-              "route_ohm": 16.711,
+              "route_ohm": 47.845,
               "left_ohm": -0.47,
               "ok": false
             },
             "XX1_M2.g": {
               "net": "x1_m2d",
-              "route_ohm": 16.711,
+              "route_ohm": 47.845,
               "left_ohm": -1.341,
               "ok": false
             },
             "XX1_M2.s": {
               "net": "bias_d",
-              "route_ohm": 54.981,
+              "route_ohm": 65.694,
               "left_ohm": -0.537,
               "ok": false
             },
             "XX1_M3.d": {
               "net": "bias_d",
-              "route_ohm": 54.981,
+              "route_ohm": 65.694,
               "left_ohm": -23.776,
               "ok": false
             },
             "XX1_M3.g": {
               "net": "x1_m2d",
-              "route_ohm": 16.711,
+              "route_ohm": 47.845,
               "left_ohm": -43.906,
               "ok": false
             },
             "XX1_M3.s": {
               "net": "bias_a",
-              "route_ohm": 74.88,
+              "route_ohm": 45.318,
               "left_ohm": -23.776,
               "ok": false
             },
             "XX1_M4.d": {
               "net": "bias_a",
-              "route_ohm": 74.88,
+              "route_ohm": 45.318,
               "left_ohm": -2.401,
               "ok": false
             },
             "XX1_M4.g": {
               "net": "bias_d",
-              "route_ohm": 54.981,
+              "route_ohm": 65.694,
               "left_ohm": -4.582,
               "ok": false
             },
             "XX1_M4.s": {
               "net": "x1_m5d",
-              "route_ohm": 36.864,
+              "route_ohm": 7.416,
               "left_ohm": -2.353,
               "ok": false
             },
             "XX1_M5.d": {
               "net": "x1_m5d",
-              "route_ohm": 36.864,
+              "route_ohm": 7.416,
               "left_ohm": -2.353,
               "ok": false
             },
             "XX1_M5.g": {
               "net": "bias_a",
-              "route_ohm": 74.88,
+              "route_ohm": 45.318,
               "left_ohm": 154.987,
               "ok": true
             },
             "XX1_M5.s": {
               "net": "VSS",
-              "route_ohm": 214.098,
+              "route_ohm": 148.17,
               "left_ohm": -2.401,
               "ok": false
             },
             "XX1_M7+XX1_M6.d": {
               "net": "bias_c",
-              "route_ohm": 48.255,
+              "route_ohm": 81.175,
               "left_ohm": -2.353,
               "ok": false
             },
             "XX1_M7+XX1_M6.g": {
               "net": "IBIAS",
-              "route_ohm": 3.416,
+              "route_ohm": 3.433,
               "left_ohm": 155.034,
               "ok": true
             },
             "XX1_M7+XX1_M6.s": {
               "net": "VSS",
-              "route_ohm": 214.098,
+              "route_ohm": 148.17,
               "left_ohm": -2.401,
               "ok": false
             },
             "XX1_M33.d": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 463.641,
               "ok": true
             },
             "XX1_M33.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -13947,7 +13947,7 @@
             },
             "XX1_M49.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": -87.92,
               "ok": false
             },
@@ -13965,7 +13965,7 @@
             },
             "XX1_M50.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -13983,25 +13983,25 @@
             },
             "XX1_M63.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": -87.909,
               "ok": false
             },
             "XX1_M63.s": {
               "net": "VSS",
-              "route_ohm": 214.098,
+              "route_ohm": 148.17,
               "left_ohm": -47.647,
               "ok": false
             },
             "XX1_M68.d": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 463.641,
               "ok": true
             },
             "XX1_M68.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -14019,7 +14019,7 @@
             },
             "XX1_M69.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -14037,7 +14037,7 @@
             },
             "XX1_M70.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -14055,25 +14055,25 @@
             },
             "XX1_M71.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": -87.909,
               "ok": false
             },
             "XX1_M71.s": {
               "net": "VSS",
-              "route_ohm": 214.098,
+              "route_ohm": 148.17,
               "left_ohm": -47.647,
               "ok": false
             },
             "XX1_M72.d": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 463.641,
               "ok": true
             },
             "XX1_M72.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -14091,7 +14091,7 @@
             },
             "XX1_M73.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -14109,7 +14109,7 @@
             },
             "XX1_M74.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": -87.92,
               "ok": false
             },
@@ -14127,25 +14127,25 @@
             },
             "XX1_M75.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 298.476,
               "ok": true
             },
             "XX1_M75.s": {
               "net": "VSS",
-              "route_ohm": 214.098,
+              "route_ohm": 148.17,
               "left_ohm": -47.647,
               "ok": false
             },
             "XX1_M76.d": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 463.641,
               "ok": true
             },
             "XX1_M76.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -14163,7 +14163,7 @@
             },
             "XX1_M77.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -14193,25 +14193,25 @@
             },
             "XX1_M79.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": -87.909,
               "ok": false
             },
             "XX1_M79.s": {
               "net": "VSS",
-              "route_ohm": 214.098,
+              "route_ohm": 148.17,
               "left_ohm": -47.647,
               "ok": false
             },
             "XX1_M64.d": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 463.641,
               "ok": true
             },
             "XX1_M64.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -14229,7 +14229,7 @@
             },
             "XX1_M65.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": -87.92,
               "ok": false
             },
@@ -14247,7 +14247,7 @@
             },
             "XX1_M66.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": 832.872,
               "ok": true
             },
@@ -14265,211 +14265,211 @@
             },
             "XX1_M67.g": {
               "net": "cm",
-              "route_ohm": 27.209,
+              "route_ohm": 27.395,
               "left_ohm": -87.909,
               "ok": false
             },
             "XX1_M67.s": {
               "net": "VSS",
-              "route_ohm": 214.098,
+              "route_ohm": 148.17,
               "left_ohm": -47.647,
               "ok": false
             },
             "XX2_M1+XX2_M2.d": {
               "net": "x2_foldp",
-              "route_ohm": 30.385,
+              "route_ohm": 50.543,
               "left_ohm": -10.257,
               "ok": false
             },
             "XX2_M1+XX2_M2.g": {
               "net": "ip",
-              "route_ohm": 3.416,
+              "route_ohm": 3.449,
               "left_ohm": -16.932,
               "ok": false
             },
             "XX2_M1+XX2_M2.s": {
               "net": "x2_tail",
-              "route_ohm": 31.572,
+              "route_ohm": 33.753,
               "left_ohm": -10.257,
               "ok": false
             },
             "XX2_M6.d": {
               "net": "x2_tail",
-              "route_ohm": 31.572,
+              "route_ohm": 33.753,
               "left_ohm": 0.171,
               "ok": false
             },
             "XX2_M6.g": {
               "net": "cmc",
-              "route_ohm": 28.63,
+              "route_ohm": 45.353,
               "left_ohm": 262.914,
               "ok": true
             },
             "XX2_M6.s": {
               "net": "VSS",
-              "route_ohm": 214.098,
+              "route_ohm": 148.17,
               "left_ohm": 0.082,
               "ok": false
             },
             "XX2_M5.d": {
               "net": "x2_tail",
-              "route_ohm": 31.572,
+              "route_ohm": 33.753,
               "left_ohm": 0.082,
               "ok": false
             },
             "XX2_M5.g": {
               "net": "bias_a",
-              "route_ohm": 74.88,
+              "route_ohm": 45.318,
               "left_ohm": -0.247,
               "ok": false
             },
             "XX2_M5.s": {
               "net": "VSS",
-              "route_ohm": 214.098,
+              "route_ohm": 148.17,
               "left_ohm": 0.171,
               "ok": false
             },
             "XX2_M11.d": {
               "net": "x2_foldp",
-              "route_ohm": 30.385,
+              "route_ohm": 50.543,
               "left_ohm": -5.688,
               "ok": false
             },
             "XX2_M11.g": {
               "net": "bias_b",
-              "route_ohm": 69.119,
+              "route_ohm": 30.71,
               "left_ohm": -3.361,
               "ok": false
             },
             "XX2_M11.s": {
               "net": "VDD",
-              "route_ohm": 148.94,
+              "route_ohm": 72.301,
               "left_ohm": -5.755,
               "ok": false
             },
             "XX2_M12.d": {
               "net": "x2_foldn",
-              "route_ohm": 22.554,
+              "route_ohm": 46.519,
               "left_ohm": -5.688,
               "ok": false
             },
             "XX2_M12.g": {
               "net": "bias_b",
-              "route_ohm": 69.119,
+              "route_ohm": 30.71,
               "left_ohm": -3.361,
               "ok": false
             },
             "XX2_M12.s": {
               "net": "VDD",
-              "route_ohm": 148.94,
+              "route_ohm": 72.301,
               "left_ohm": -5.755,
               "ok": false
             },
             "XX2_M1A.d": {
               "net": "on",
-              "route_ohm": 27.703,
+              "route_ohm": 38.7,
               "left_ohm": -6.825,
               "ok": false
             },
             "XX2_M1A.g": {
               "net": "bias_c",
-              "route_ohm": 48.255,
+              "route_ohm": 81.175,
               "left_ohm": -4.12,
               "ok": false
             },
             "XX2_M1A.s": {
               "net": "x2_foldp",
-              "route_ohm": 30.385,
+              "route_ohm": 50.543,
               "left_ohm": -6.732,
               "ok": false
             },
             "XX2_M8.d": {
               "net": "op",
-              "route_ohm": 29.201,
+              "route_ohm": 45.808,
               "left_ohm": -6.825,
               "ok": false
             },
             "XX2_M8.g": {
               "net": "bias_c",
-              "route_ohm": 48.255,
+              "route_ohm": 81.175,
               "left_ohm": -4.12,
               "ok": false
             },
             "XX2_M8.s": {
               "net": "x2_foldn",
-              "route_ohm": 22.554,
+              "route_ohm": 46.519,
               "left_ohm": -6.732,
               "ok": false
             },
             "XX2_M3A.d": {
               "net": "on",
-              "route_ohm": 27.703,
+              "route_ohm": 38.7,
               "left_ohm": -0.912,
               "ok": false
             },
             "XX2_M3A.g": {
               "net": "bias_d",
-              "route_ohm": 54.981,
+              "route_ohm": 65.694,
               "left_ohm": -2.089,
               "ok": false
             },
             "XX2_M3A.s": {
               "net": "x2_m3d",
-              "route_ohm": 21.784,
+              "route_ohm": 30.193,
               "left_ohm": -0.97,
               "ok": false
             },
             "XX2_M7.d": {
               "net": "op",
-              "route_ohm": 29.201,
+              "route_ohm": 45.808,
               "left_ohm": -0.912,
               "ok": false
             },
             "XX2_M7.g": {
               "net": "bias_d",
-              "route_ohm": 54.981,
+              "route_ohm": 65.694,
               "left_ohm": -2.089,
               "ok": false
             },
             "XX2_M7.s": {
               "net": "x2_m4d",
-              "route_ohm": 20.462,
+              "route_ohm": 29.529,
               "left_ohm": -0.97,
               "ok": false
             },
             "XX2_M3.d": {
               "net": "x2_m3d",
-              "route_ohm": 21.784,
+              "route_ohm": 30.193,
               "left_ohm": -0.97,
               "ok": false
             },
             "XX2_M3.g": {
               "net": "bias_a",
-              "route_ohm": 74.88,
+              "route_ohm": 45.318,
               "left_ohm": -2.027,
               "ok": false
             },
             "XX2_M3.s": {
               "net": "VSS",
-              "route_ohm": 214.098,
+              "route_ohm": 148.17,
               "left_ohm": -0.97,
               "ok": false
             },
             "XX2_M4.d": {
               "net": "x2_m4d",
-              "route_ohm": 20.462,
+              "route_ohm": 29.529,
               "left_ohm": -0.97,
               "ok": false
             },
             "XX2_M4.g": {
               "net": "bias_a",
-              "route_ohm": 74.88,
+              "route_ohm": 45.318,
               "left_ohm": -2.027,
               "ok": false
             },
             "XX2_M4.s": {
               "net": "VSS",
-              "route_ohm": 214.098,
+              "route_ohm": 148.17,
               "left_ohm": -0.97,
               "ok": false
             }
@@ -14687,8 +14687,8 @@
   },
   "all_pass": false,
   "provenance": {
-    "created": "2026-11-05T16:10:03+00:00",
-    "git_commit": "d6958ca61d7c91b6c6698ea5876802067ff1e9f4",
+    "created": "2026-11-05T18:52:08+00:00",
+    "git_commit": "6c92fdee1c046785d71d4d0b9363260afeeba0ae",
     "inputs": [
       {
         "path": "outputs/S4/iadc_ota_v2/blocks.json",

@@ -37,7 +37,11 @@ per-design reports exist. No LLM is used by the flow.
   - 2-D common centroid and cross-quad;
   - paper screening;
 - result on `iadc_ota_v2`: 35–45 % less area than v1, not yet the 1.3 × hand-layout target;
-- **phase 3 is on hold: `docs/rules_v2/phase3_plan.md`**.
+- **phase 3 is on hold: `docs/rules_v2/phase3_plan.md`**;
+- phase 3 step 1 (flat packing) was run on 2026-11-06:
+  - area-only: 13,983 µm² (1.05 × the hand layout), but with 8 nwell.2a DRC errors, now fixed in the code (row 107). **Re-run S5–S7 first.**
+  - budget-aware: 29,442 µm², DRC-clean but worse than with macros.
+- The outputs under `outputs/S5`–`S7/iadc_ota_v2` are this flat run. The phase-2 result is in commit `6c92fdee1`.
 
 **Tests:** 211 unit tests plus 36 golden comparisons (`.\flow.ps1 test`); all pass. The goldens prove the finished
 designs (v1) unchanged.
@@ -51,7 +55,7 @@ When this was written (18:50 CET 2026-11-05), the container `layout-s0s3` was ru
    `runs/logs/finish_ttsky_v2.done` at the end.
 3. **The phase 3 packing dry run** (`runs/logs/p3_dry.log`; it changes no file the flow reads).
 
-**Imasha turned the PC off at about 01:00 local time (20:30 CET), before the ttsky run could finish.** It needed
+**Imasha stopped the ttsky run on 2026-11-06 (S0 passed, S1 interrupted) and put the work on hold for the week.** It needed
 about 4 hours more. The finish script is resumable: it starts at the first stage of `ttsky25a_fd_v2` without a
 report. So, on the next start:
 
@@ -114,15 +118,18 @@ That is about 3.5 hours from S1, less if S1–S2 had finished. Wait for `runs/lo
 
 ## 5. What to do next (in order)
 
-1. Read the ttsky v2 result (section 2) and add it to the README.
-2. Phase 3 of rule set v2 (`docs/rules_v2/phase3_plan.md`):
+1. Re-run `iadc_ota_v2` from S5 with the n-well fix, then regenerate its report and the README pictures
+   (`make_design_report.py iadc_ota_v2`, `make_readme_figures.py`) and update the README's phase 3
+   paragraph. The command is in `docs/rules_v2/phase3_plan.md`, step 1.
+2. Resume ttsky (section 2), then add its result to the README.
+3. Phase 3 of rule set v2 (`docs/rules_v2/phase3_plan.md`):
    - macro packing;
    - channels only where needed;
    - shared ring edges and the outer ring;
    - the per-net look at wiring loss.
-3. The LLM step (planned, measured against the rule-only flow): the Claude CLI, once the supervisor agrees.
+4. The LLM step (planned, measured against the rule-only flow): the Claude CLI, once the supervisor agrees.
    `docs/progress_report.md` section 8 has the plan, pros and cons.
-4. S8 and S9.
+5. S8 and S9.
 
 ## 6. Open questions for Imasha (also in `docs/STATUS.md`)
 

@@ -158,25 +158,27 @@
     {
      "step": "run",
      "rc": 3,
-     "seconds": 1189.7,
+     "seconds": 1034.1,
      "log": "runs/logs/flow/iadc_ota_v2/S5_run.log"
     }
    ],
-   "started": "2026-11-05T16:50:13",
+   "started": "2026-11-05T19:34:54",
    "gates": {
-    "G5.1_placement_legal": true,
+    "G5.1_placement_legal": false,
     "G5.7_matched_centring (info)": null,
     "G5.5_area_vs_area_only (info)": null,
     "G5.6_outline": true,
-    "G5.2_top_DRC": true,
+    "G5.2_top_DRC": false,
     "G5.3_top_LVS": true,
     "G5.4_route_rules": false
    },
    "status": "FAIL",
    "failed_gates": [
+    "G5.1_placement_legal",
+    "G5.2_top_DRC",
     "G5.4_route_rules"
    ],
-   "seconds": 1189.7
+   "seconds": 1034.1
   },
   "S6": {
    "stage": "S6",
@@ -184,11 +186,11 @@
     {
      "step": "run",
      "rc": 3,
-     "seconds": 2474.1,
+     "seconds": 2491.6,
      "log": "runs/logs/flow/iadc_ota_v2/S6_run.log"
     }
    ],
-   "started": "2026-11-05T17:10:03",
+   "started": "2026-11-05T19:52:08",
    "gates": {
     "G6.1_extracted_and_LVS": true,
     "G6.2_parasitics_within_budgets": false,
@@ -200,7 +202,7 @@
    "failed_gates": [
     "G6.2_parasitics_within_budgets"
    ],
-   "seconds": 2474.2
+   "seconds": 2493.1
   },
   "S7": {
    "stage": "S7",
@@ -208,11 +210,11 @@
     {
      "step": "run",
      "rc": 3,
-     "seconds": 85.1,
+     "seconds": 101.1,
      "log": "runs/logs/flow/iadc_ota_v2/S7_run.log"
     }
    ],
-   "started": "2026-11-05T17:51:17",
+   "started": "2026-11-05T20:33:47",
    "gates": {
     "G7.1_specs_met_post_layout": false,
     "G7.2_loss_within_eta_margin": false,
@@ -227,7 +229,7 @@
     "G7.1_specs_met_post_layout",
     "G7.2_loss_within_eta_margin"
    ],
-   "seconds": 85.1
+   "seconds": 101.2
   }
  }
 }

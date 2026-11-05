@@ -1,7 +1,7 @@
 {
-  "run_id": "2026-11-05T17:51:13-bef0597b",
+  "run_id": "2026-11-05T20:33:30-c61bfaa0",
   "design": "iadc_ota_v2",
-  "s5_run_id": "2026-11-05T17:10:03-7dd3f365",
+  "s5_run_id": "2026-11-05T19:52:08-4fe55e65",
   "ac_grounds": [
     "VDD",
     "VSS",
@@ -14,13 +14,13 @@
       "detail": {
         "budget_aware": {
           "lvs": true,
-          "caps": 230,
+          "caps": 259,
           "rc_resistors": null,
           "unassigned_caps": 0
         },
         "area_only": {
           "lvs": true,
-          "caps": 270,
+          "caps": 305,
           "rc_resistors": null,
           "unassigned_caps": 0
         }
@@ -49,33 +49,25 @@
         "x1_net5",
         "x1_net7",
         "x1_net8",
-        "x1_net9",
         "x2_foldn",
         "x2_foldp",
         "x2_m3d",
         "x2_m4d",
-        "bias_a~bias_b",
-        "bias_a~bias_c",
         "bias_a~bias_d",
-        "bias_a~cm",
-        "bias_a~on",
-        "bias_a~op",
         "bias_a~x1_m2d",
-        "bias_a~x2_foldn",
-        "bias_a~x2_foldp",
         "bias_a~x2_m3d",
         "bias_a~x2_m4d",
         "bias_a~x2_tail",
-        "bias_a~ip",
-        "bias_a~in",
         "bias_b~bias_c",
-        "bias_b~bias_d",
+        "bias_b~on",
+        "bias_b~op",
         "bias_b~x1_m21d",
         "bias_b~x1_m25d",
         "bias_b~x1_m2d",
         "bias_b~x2_foldn",
         "bias_b~x2_foldp",
-        "bias_c~bias_d",
+        "bias_b~ip",
+        "bias_b~in",
         "bias_c~cm",
         "bias_c~i_bias",
         "bias_c~on",
@@ -84,20 +76,18 @@
         "bias_c~x1_m25d",
         "bias_c~x1_m2d",
         "bias_c~x1_m31d",
+        "bias_c~x1_net6",
         "bias_c~x2_foldn",
         "bias_c~x2_foldp",
-        "bias_d~cm",
+        "bias_c~ip",
+        "bias_c~in",
         "bias_d~on",
         "bias_d~op",
         "bias_d~x1_m2d",
         "bias_d~x1_m5d",
-        "bias_d~x2_foldn",
-        "bias_d~x2_foldp",
         "bias_d~x2_m3d",
         "bias_d~x2_m4d",
-        "bias_d~x2_tail",
-        "bias_d~ip",
-        "bias_d~in",
+        "cm~i_bias",
         "cm~x1_m21d",
         "cm~x1_m25d",
         "cm~x1_m2d",
@@ -110,11 +100,17 @@
         "cm~x1_net4",
         "cm~x1_net7",
         "cm~x1_net8",
-        "i_bias~x1_m21d",
-        "i_bias~x1_m25d",
+        "cm~x2_foldn",
+        "cm~x2_foldp",
+        "cm~ip",
+        "i_bias~on",
         "i_bias~x1_m2d",
-        "i_bias~x1_m31d",
+        "i_bias~x2_foldn",
+        "i_bias~x2_tail",
+        "i_bias~ip",
+        "i_bias~in",
         "on~op",
+        "on~x1_m2d",
         "on~x2_foldn",
         "on~x2_foldp",
         "on~x2_m3d",
@@ -122,35 +118,22 @@
         "on~x2_tail",
         "on~ip",
         "on~in",
+        "op~x1_m2d",
         "op~x2_foldn",
         "op~x2_foldp",
         "op~x2_m3d",
         "op~x2_m4d",
         "op~x2_tail",
-        "op~ip",
-        "op~in",
         "x1_m21d~x1_m25d",
         "x1_m21d~x1_m2d",
         "x1_m21d~x1_m31d",
         "x1_m25d~x1_m2d",
         "x1_m25d~x1_m31d",
         "x1_m2d~x1_m31d",
-        "x1_m2d~x1_m5d",
-        "x1_m2d~x1_net1",
-        "x1_m2d~x1_net10",
-        "x1_m2d~x1_net11",
         "x1_m2d~x1_net12",
-        "x1_m2d~x1_net13",
-        "x1_m2d~x1_net14",
-        "x1_m2d~x1_net15",
-        "x1_m2d~x1_net2",
-        "x1_m2d~x1_net3",
-        "x1_m2d~x1_net4",
-        "x1_m2d~x1_net5",
-        "x1_m2d~x1_net6",
-        "x1_m2d~x1_net7",
-        "x1_m2d~x1_net8",
-        "x1_m2d~x1_net9",
+        "x1_m2d~x2_foldn",
+        "x1_m2d~x2_foldp",
+        "x1_m2d~x2_m3d",
         "x1_net1~x1_net3",
         "x1_net10~x1_net12",
         "x1_net13~x1_net14",
@@ -174,7 +157,6 @@
         "x2_m3d~x2_m4d",
         "x2_m3d~x2_tail",
         "x2_m4d~x2_tail",
-        "x2_m4d~in",
         "x2_tail~ip",
         "x2_tail~in",
         "XX1_M22.d",
@@ -260,23 +242,23 @@
       ],
       "worst": [
         [
-          1237.7681,
+          1238.8783,
           "x2_m3d~x2_tail"
         ],
         [
-          940.8619,
+          943.2563,
           "x2_m4d~x2_tail"
         ],
         [
-          820.0962,
+          866.792,
           "op~x2_m3d"
         ],
         [
-          810.3407,
+          815.8955,
           "x2_m3d~x2_m4d"
         ],
         [
-          772.4773,
+          726.6709,
           "x2_foldn~x2_foldp"
         ]
       ],
@@ -305,12 +287,12 @@
         "x2_foldp",
         "x2_m3d",
         "x2_m4d",
-        "bias_a~bias_b",
         "bias_a~bias_c",
         "bias_a~bias_d",
         "bias_a~cm",
+        "bias_a~i_bias",
+        "bias_a~op",
         "bias_a~x1_m2d",
-        "bias_a~x1_net13",
         "bias_a~x2_foldn",
         "bias_a~x2_foldp",
         "bias_a~x2_m3d",
@@ -320,17 +302,14 @@
         "bias_a~in",
         "bias_b~bias_c",
         "bias_b~bias_d",
+        "bias_b~on",
+        "bias_b~op",
         "bias_b~x1_m21d",
         "bias_b~x1_m25d",
         "bias_b~x1_m2d",
-        "bias_b~x1_net11",
-        "bias_b~x1_net12",
-        "bias_b~x1_net14",
-        "bias_b~x1_net15",
-        "bias_b~x1_net5",
-        "bias_b~x1_net6",
         "bias_b~x2_foldn",
         "bias_b~x2_foldp",
+        "bias_b~x2_m4d",
         "bias_c~bias_d",
         "bias_c~cm",
         "bias_c~i_bias",
@@ -340,30 +319,23 @@
         "bias_c~x1_m25d",
         "bias_c~x1_m2d",
         "bias_c~x1_m31d",
-        "bias_c~x1_net10",
-        "bias_c~x1_net11",
-        "bias_c~x1_net12",
-        "bias_c~x1_net4",
-        "bias_c~x1_net6",
-        "bias_c~x1_net7",
-        "bias_c~x1_net8",
-        "bias_c~x1_net9",
         "bias_c~x2_foldn",
         "bias_c~x2_foldp",
+        "bias_c~x2_m3d",
+        "bias_c~x2_m4d",
         "bias_d~cm",
         "bias_d~i_bias",
         "bias_d~on",
         "bias_d~op",
         "bias_d~x1_m2d",
         "bias_d~x1_m5d",
-        "bias_d~x1_net1",
-        "bias_d~x2_foldn",
         "bias_d~x2_foldp",
         "bias_d~x2_m3d",
         "bias_d~x2_m4d",
         "bias_d~ip",
         "bias_d~in",
-        "cm~i_bias",
+        "cm~on",
+        "cm~op",
         "cm~x1_m21d",
         "cm~x1_m25d",
         "cm~x1_m2d",
@@ -376,35 +348,71 @@
         "cm~x1_net4",
         "cm~x1_net7",
         "cm~x1_net8",
+        "cm~x2_foldn",
+        "cm~x2_foldp",
+        "cm~x2_m3d",
+        "cm~x2_m4d",
         "i_bias~x1_m2d",
-        "i_bias~x1_net11",
-        "i_bias~x1_net14",
-        "i_bias~x1_net2",
-        "i_bias~x1_net5",
-        "i_bias~x1_net8",
+        "i_bias~x2_m3d",
+        "i_bias~x2_m4d",
+        "i_bias~x2_tail",
         "on~op",
-        "on~x1_m5d",
+        "on~x1_m21d",
+        "on~x1_m2d",
+        "on~x1_m31d",
         "on~x2_foldn",
         "on~x2_foldp",
         "on~x2_m3d",
         "on~x2_m4d",
-        "on~in",
+        "op~x1_m21d",
+        "op~x1_m25d",
+        "op~x1_m2d",
+        "op~x1_m31d",
         "op~x1_m5d",
         "op~x2_foldn",
         "op~x2_foldp",
         "op~x2_m3d",
         "op~x2_m4d",
-        "op~in",
         "x1_m21d~x1_m25d",
         "x1_m21d~x1_m2d",
         "x1_m21d~x1_m31d",
+        "x1_m21d~x2_foldn",
+        "x1_m21d~x2_foldp",
         "x1_m25d~x1_m2d",
         "x1_m25d~x1_m31d",
+        "x1_m25d~x2_foldn",
+        "x1_m25d~x2_foldp",
         "x1_m2d~x1_m31d",
         "x1_m2d~x1_m5d",
-        "x1_m5d~x2_foldp",
+        "x1_m2d~x1_net1",
+        "x1_m2d~x1_net10",
+        "x1_m2d~x1_net11",
+        "x1_m2d~x1_net12",
+        "x1_m2d~x1_net13",
+        "x1_m2d~x1_net14",
+        "x1_m2d~x1_net15",
+        "x1_m2d~x1_net2",
+        "x1_m2d~x1_net3",
+        "x1_m2d~x1_net4",
+        "x1_m2d~x1_net5",
+        "x1_m2d~x1_net6",
+        "x1_m2d~x1_net7",
+        "x1_m2d~x1_net8",
+        "x1_m2d~x1_net9",
+        "x1_m2d~x2_foldn",
+        "x1_m2d~x2_foldp",
+        "x1_m2d~x2_m4d",
+        "x1_m2d~x2_tail",
+        "x1_m2d~ip",
+        "x1_m2d~in",
+        "x1_m31d~x2_foldn",
+        "x1_m31d~x2_foldp",
+        "x1_m5d~ip",
+        "x1_m5d~in",
         "x1_net1~x1_net3",
         "x1_net10~x1_net12",
+        "x1_net11~x2_m3d",
+        "x1_net12~x2_m3d",
         "x1_net13~x1_net14",
         "x1_net13~x1_net15",
         "x1_net14~x1_net15",
@@ -416,6 +424,7 @@
         "x1_net7~x1_net8",
         "x1_net7~x1_net9",
         "x1_net8~x1_net9",
+        "x1_net9~x2_m4d",
         "x2_foldn~x2_foldp",
         "x2_foldn~x2_tail",
         "x2_foldn~ip",
@@ -426,7 +435,6 @@
         "x2_m3d~x2_m4d",
         "x2_m3d~x2_tail",
         "x2_m4d~x2_tail",
-        "x2_m4d~in",
         "x2_tail~ip",
         "x2_tail~in",
         "XX1_M22.d",
@@ -516,234 +524,232 @@
       "pass": null,
       "detail": {
         "budget_aware": {
-          "netlist_total_fF": 879.914,
-          "ext_total_fF": 1773.428,
-          "netlist_short_of_ext": 0.5038,
+          "netlist_total_fF": 872.912,
+          "ext_total_fF": 1761.576,
+          "netlist_short_of_ext": 0.5045,
           "complete": false,
           "tolerance": 0.05,
           "substrate_net": "VSS",
           "ext_net_fF_approx": {
-            "x2_m3d": 63.7503,
-            "x2_m4d": 61.1935,
-            "x2_tail": 127.887,
-            "in": 2.6502,
-            "ip": 2.054,
-            "op": 38.8059,
-            "on": 42.2598,
-            "x2_foldp": 29.4761,
-            "x2_foldn": 31.6806,
-            "x1_net12": 0.5007,
-            "x1_net11": 0.4526,
-            "x1_net10": 0.2355,
-            "x1_net9": 0.4881,
-            "x1_net8": 0.4439,
-            "x1_net7": 0.2275,
-            "x1_net6": 0.4972,
-            "x1_net5": 0.4372,
-            "x1_net4": 0.2018,
-            "x1_net15": 0.3101,
-            "x1_net14": 0.2518,
-            "x1_net13": 0.1987,
-            "x1_net3": 0.31,
-            "x1_net2": 0.2582,
-            "x1_net1": 0.2079,
-            "x1_m5d": 24.3031,
-            "bias_d": 65.7265,
-            "bias_a": 166.5436,
-            "i_bias": 33.3324,
-            "cm": 23.956,
-            "x1_m2d": 31.4723,
-            "bias_c": 66.979,
-            "x1_m25d": 10.4708,
-            "x1_m21d": 11.8222,
-            "x1_m31d": 13.6231,
-            "bias_b": 90.229
+            "x1_m5d": 25.1526,
+            "bias_a": 167.0806,
+            "x2_m4d": 61.6004,
+            "x2_m3d": 62.6809,
+            "bias_d": 63.9624,
+            "i_bias": 31.9666,
+            "x2_tail": 131.066,
+            "in": 2.3614,
+            "ip": 1.9851,
+            "x1_net12": 0.5037,
+            "x1_net11": 0.4569,
+            "x1_net10": 0.2403,
+            "x1_net9": 0.491,
+            "x1_net8": 0.4484,
+            "x1_net7": 0.2324,
+            "x1_net6": 0.5005,
+            "x1_net5": 0.4475,
+            "x1_net4": 0.2058,
+            "x1_net15": 0.3173,
+            "x1_net14": 0.2593,
+            "x1_net13": 0.2062,
+            "x1_net3": 0.3171,
+            "x1_net2": 0.265,
+            "x1_net1": 0.2154,
+            "on": 45.0331,
+            "op": 39.1514,
+            "x2_foldn": 30.6628,
+            "x2_foldp": 28.1169,
+            "cm": 24.4117,
+            "x1_m2d": 57.8687,
+            "bias_c": 62.1002,
+            "x1_m25d": 10.3054,
+            "x1_m21d": 11.4167,
+            "x1_m31d": 13.5868,
+            "bias_b": 81.2136
           },
-          "nets_without_ground_C_in_netlist": [],
+          "nets_without_ground_C_in_netlist": [
+            "x1_m5d"
+          ],
           "nets_short_in_netlist": {
-            "x2_tail": [
-              14.484,
-              127.887
-            ],
-            "in": [
-              0.007,
-              2.6502
-            ],
-            "ip": [
-              0.0063,
-              2.054
-            ],
-            "op": [
-              22.7143,
-              38.8059
-            ],
-            "on": [
-              22.6905,
-              42.2598
-            ],
-            "x2_foldp": [
-              25.9238,
-              29.4761
-            ],
-            "x2_foldn": [
-              27.5412,
-              31.6806
-            ],
             "x1_m5d": [
-              0.378,
-              24.3031
-            ],
-            "bias_d": [
-              1.6815,
-              65.7265
+              0.0,
+              25.1526
             ],
             "bias_a": [
-              44.5126,
-              166.5436
+              43.6586,
+              167.0806
+            ],
+            "bias_d": [
+              0.0038,
+              63.9624
             ],
             "i_bias": [
-              0.1574,
-              33.3324
+              0.0148,
+              31.9666
+            ],
+            "x2_tail": [
+              15.567,
+              131.066
+            ],
+            "in": [
+              0.0102,
+              2.3614
+            ],
+            "ip": [
+              0.006,
+              1.9851
+            ],
+            "on": [
+              20.5198,
+              45.0331
+            ],
+            "op": [
+              20.0975,
+              39.1514
+            ],
+            "x2_foldn": [
+              24.9849,
+              30.6628
+            ],
+            "x2_foldp": [
+              24.5816,
+              28.1169
             ],
             "cm": [
-              2.6169,
-              23.956
+              4.7412,
+              24.4117
             ],
             "x1_m2d": [
-              4.4253,
-              31.4723
+              5.2512,
+              57.8687
             ],
             "bias_c": [
-              35.0888,
-              66.979
+              32.7347,
+              62.1002
             ],
             "x1_m31d": [
-              11.849,
-              13.6231
+              11.875,
+              13.5868
             ],
             "bias_b": [
-              47.5292,
-              90.229
+              47.0793,
+              81.2136
             ]
           }
         },
         "area_only": {
-          "netlist_total_fF": 1063.061,
-          "ext_total_fF": 1852.735,
-          "netlist_short_of_ext": 0.4262,
+          "netlist_total_fF": 1018.35,
+          "ext_total_fF": 1786.252,
+          "netlist_short_of_ext": 0.4299,
           "complete": false,
           "tolerance": 0.05,
           "substrate_net": "VSS",
           "ext_net_fF_approx": {
-            "x2_m4d": 68.7239,
-            "x2_m3d": 69.8692,
-            "x2_tail": 138.1047,
-            "in": 3.4107,
-            "ip": 3.5834,
-            "op": 42.5339,
-            "on": 43.7712,
-            "x2_foldp": 34.3025,
-            "x2_foldn": 32.1602,
-            "x1_net12": 0.4944,
-            "x1_net11": 0.4448,
-            "x1_net10": 0.2305,
-            "x1_net9": 0.4803,
-            "x1_net8": 0.4381,
-            "x1_net7": 0.2225,
-            "x1_net6": 0.4898,
-            "x1_net5": 0.4324,
-            "x1_net4": 0.1976,
-            "x1_net15": 0.3019,
-            "x1_net14": 0.249,
-            "x1_net13": 0.1956,
-            "x1_net3": 0.309,
-            "x1_net2": 0.2558,
-            "x1_net1": 0.2035,
-            "i_bias": 32.7473,
-            "bias_d": 68.1463,
-            "bias_a": 179.2608,
-            "x1_m5d": 31.4413,
-            "x1_m31d": 14.5715,
-            "x1_m25d": 12.4847,
-            "x1_m2d": 39.5592,
-            "x1_m21d": 15.4572,
-            "cm": 24.0571,
-            "bias_b": 86.3829,
-            "bias_c": 64.1624
+            "i_bias": 32.5787,
+            "x1_net12": 0.4936,
+            "x1_net11": 0.4417,
+            "x1_net10": 0.2234,
+            "x1_net9": 0.479,
+            "x1_net8": 0.4365,
+            "x1_net7": 0.2193,
+            "x1_net6": 0.489,
+            "x1_net5": 0.4289,
+            "x1_net4": 0.1935,
+            "x1_net15": 0.3011,
+            "x1_net14": 0.2445,
+            "x1_net13": 0.1903,
+            "x1_net3": 0.3016,
+            "x1_net2": 0.2507,
+            "x1_net1": 0.1999,
+            "x1_m5d": 22.9244,
+            "x2_tail": 138.1747,
+            "in": 3.5888,
+            "ip": 3.6978,
+            "x2_m4d": 69.0719,
+            "x2_m3d": 68.4269,
+            "bias_a": 172.2056,
+            "bias_d": 64.9256,
+            "x2_foldn": 35.8034,
+            "x2_foldp": 36.3279,
+            "on": 45.48,
+            "op": 42.0468,
+            "x1_m31d": 13.4085,
+            "x1_m25d": 11.2047,
+            "x1_m21d": 12.5386,
+            "cm": 23.9012,
+            "x1_m2d": 33.3008,
+            "bias_b": 77.7805,
+            "bias_c": 66.4832
           },
-          "nets_without_ground_C_in_netlist": [],
+          "nets_without_ground_C_in_netlist": [
+            "in",
+            "ip",
+            "x1_m5d"
+          ],
           "nets_short_in_netlist": {
-            "x2_tail": [
-              18.4687,
-              138.1047
-            ],
-            "in": [
-              0.0485,
-              3.4107
-            ],
-            "ip": [
-              0.0051,
-              3.5834
-            ],
-            "op": [
-              22.4813,
-              42.5339
-            ],
-            "on": [
-              22.3607,
-              43.7712
-            ],
-            "x2_foldp": [
-              27.5321,
-              34.3025
-            ],
-            "x2_foldn": [
-              27.6228,
-              32.1602
-            ],
             "i_bias": [
-              0.0015,
-              32.7473
-            ],
-            "bias_d": [
-              1.4038,
-              68.1463
-            ],
-            "bias_a": [
-              45.6808,
-              179.2608
+              1.4832,
+              32.5787
             ],
             "x1_m5d": [
-              4.406,
-              31.4413
+              0.0,
+              22.9244
+            ],
+            "x2_tail": [
+              18.0037,
+              138.1747
+            ],
+            "in": [
+              0.0,
+              3.5888
+            ],
+            "ip": [
+              0.0,
+              3.6978
+            ],
+            "bias_a": [
+              43.3856,
+              172.2056
+            ],
+            "bias_d": [
+              2.0224,
+              64.9256
+            ],
+            "x2_foldn": [
+              27.6535,
+              35.8034
+            ],
+            "x2_foldp": [
+              29.0092,
+              36.3279
+            ],
+            "on": [
+              23.1893,
+              45.48
+            ],
+            "op": [
+              22.4722,
+              42.0468
             ],
             "x1_m31d": [
-              12.8849,
-              14.5715
-            ],
-            "x1_m25d": [
-              11.2416,
-              12.4847
-            ],
-            "x1_m2d": [
-              4.0214,
-              39.5592
-            ],
-            "x1_m21d": [
-              13.7608,
-              15.4572
+              12.1923,
+              13.4085
             ],
             "cm": [
-              4.4674,
-              24.0571
+              4.2079,
+              23.9012
+            ],
+            "x1_m2d": [
+              5.3681,
+              33.3008
             ],
             "bias_b": [
-              52.8026,
-              86.3829
+              47.0345,
+              77.7805
             ],
             "bias_c": [
-              36.8284,
-              64.1624
+              36.5684,
+              66.4832
             ]
           }
         }
@@ -793,241 +799,292 @@
           "netlist": "outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_k25d_pex_netlist.spice",
           "kpex_lvs_matched": false,
           "unnamed_nets": [
-            "$10.x1_net1",
-            "$10.x1_net10",
-            "$10.x1_net11",
-            "$10.x1_net12",
-            "$10.x1_net13",
-            "$10.x1_net14",
-            "$10.x1_net15",
-            "$10.x1_net2",
-            "$10.x1_net3",
-            "$10.x1_net4",
-            "$10.x1_net5",
-            "$10.x1_net6",
-            "$10.x1_net7",
-            "$10.x1_net8",
-            "$10.x1_net9",
-            "$109",
-            "$121",
-            "$16",
-            "$162",
-            "$17",
-            "$177",
-            "$18",
-            "$261",
-            "$265",
-            "$266",
-            "$50",
-            "$51",
-            "$73"
+            "$1",
+            "$11",
+            "$11.x1_net12",
+            "$11.x1_net4",
+            "$11.x1_net5",
+            "$11.x1_net6",
+            "$11.x1_net7",
+            "$11.x1_net8",
+            "$150",
+            "$157",
+            "$168",
+            "$202",
+            "$203",
+            "$271",
+            "$278",
+            "$279",
+            "$45",
+            "$76",
+            "$77"
           ],
           "net_fF": {
             "bias_a": {
-              "magic": 44.5126,
-              "kpex": 178.9477
+              "magic": 43.6586,
+              "kpex": 179.4114
             },
             "cm": {
-              "magic": 2.6169,
-              "kpex": 25.804
+              "magic": 4.7412,
+              "kpex": 26.1796
             },
             "i_bias": {
-              "magic": 0.1574,
-              "kpex": 35.6024
+              "magic": 0.0148,
+              "kpex": 33.7869
             },
             "in": {
-              "magic": 0.007,
-              "kpex": 2.939
+              "magic": 0.0102,
+              "kpex": 2.5204
             },
             "ip": {
-              "magic": 0.0063,
-              "kpex": 2.0857
+              "magic": 0.006,
+              "kpex": 2.0246
             },
             "on": {
-              "magic": 22.6905,
-              "kpex": 235.0774
+              "magic": 20.5198,
+              "kpex": 237.5888
             },
             "op": {
-              "magic": 22.7143,
-              "kpex": 231.9288
+              "magic": 20.0975,
+              "kpex": 232.2554
             },
             "x1_net1": {
-              "magic": 0.2079,
-              "kpex": 0.2366
+              "magic": 0.2148,
+              "kpex": 0.2442
             },
             "x1_net10": {
-              "magic": 0.2355,
-              "kpex": 0.2669
+              "magic": 0.2398,
+              "kpex": 0.2739
             },
             "x1_net11": {
-              "magic": 0.4526,
-              "kpex": 0.4861
+              "magic": 0.4564,
+              "kpex": 0.4863
             },
             "x1_net12": {
-              "magic": 0.5007,
-              "kpex": 0.5401
+              "magic": 0.5032,
+              "kpex": 0.5381
             },
             "x1_net13": {
-              "magic": 0.1987,
-              "kpex": 0.2299
+              "magic": 0.2056,
+              "kpex": 0.2374
             },
             "x1_net14": {
-              "magic": 0.2518,
-              "kpex": 0.2988
+              "magic": 0.2585,
+              "kpex": 0.3032
             },
             "x1_net15": {
-              "magic": 0.31,
-              "kpex": 0.3419
+              "magic": 0.3171,
+              "kpex": 0.3498
             },
             "x1_net2": {
-              "magic": 0.2582,
-              "kpex": 0.2999
+              "magic": 0.2644,
+              "kpex": 0.3045
             },
             "x1_net3": {
-              "magic": 0.31,
-              "kpex": 0.3409
+              "magic": 0.3165,
+              "kpex": 0.3484
             },
             "x1_net4": {
-              "magic": 0.2019,
-              "kpex": 0.2348
+              "magic": 0.2058,
+              "kpex": 0.243
             },
             "x1_net5": {
-              "magic": 0.4372,
-              "kpex": 0.4847
+              "magic": 0.4471,
+              "kpex": 0.4896
             },
             "x1_net6": {
-              "magic": 0.4972,
-              "kpex": 0.5386
+              "magic": 0.5,
+              "kpex": 0.5373
             },
             "x1_net7": {
-              "magic": 0.2275,
-              "kpex": 0.2632
+              "magic": 0.2319,
+              "kpex": 0.2704
             },
             "x1_net8": {
-              "magic": 11.1135,
-              "kpex": 0.4813
+              "magic": 0.4479,
+              "kpex": 0.4817
             },
             "x1_net9": {
-              "magic": 11.1576,
-              "kpex": 0.5313
+              "magic": 0.4905,
+              "kpex": 0.5293
             }
           },
           "coupling_fF": {
-            "bias_a~cm": {
-              "magic": 1.0999,
-              "kpex": 1.1028
-            },
-            "bias_a~i_bias": {
-              "magic": 0.0047,
-              "kpex": 0.0041
-            },
-            "bias_a~in": {
-              "magic": 0.0058,
-              "kpex": 0.0052
-            },
-            "bias_a~ip": {
-              "magic": 0.0053,
-              "kpex": 0.0047
-            },
             "bias_a~on": {
-              "magic": 0.0705,
-              "kpex": 0.068
+              "magic": 0.0035,
+              "kpex": 0.0029
             },
             "bias_a~op": {
-              "magic": 0.0626,
-              "kpex": 0.0611
+              "magic": 0.0066,
+              "kpex": 0.0043
             },
             "cm~i_bias": {
-              "magic": 0.0054,
-              "kpex": 0.0046
+              "magic": 0.0181,
+              "kpex": 0.0091
+            },
+            "cm~in": {
+              "magic": 0.0,
+              "kpex": 0.0007
+            },
+            "cm~ip": {
+              "magic": 0.0078,
+              "kpex": 0.0077
+            },
+            "cm~on": {
+              "magic": 0.0214,
+              "kpex": 0.0142
             },
             "cm~x1_net1": {
               "magic": 0.358,
-              "kpex": 0.3786
+              "kpex": 0.3803
             },
             "cm~x1_net10": {
               "magic": 0.4237,
-              "kpex": 0.4429
+              "kpex": 0.4454
             },
             "cm~x1_net11": {
               "magic": 0.4437,
-              "kpex": 0.4653
+              "kpex": 0.4657
             },
             "cm~x1_net12": {
               "magic": 0.606,
-              "kpex": 0.6233
+              "kpex": 0.6238
             },
             "cm~x1_net13": {
               "magic": 0.3535,
-              "kpex": 0.3761
+              "kpex": 0.3775
             },
             "cm~x1_net14": {
               "magic": 0.2496,
-              "kpex": 0.2743
+              "kpex": 0.2746
             },
             "cm~x1_net15": {
               "magic": 0.2421,
-              "kpex": 0.266
+              "kpex": 0.2674
             },
             "cm~x1_net2": {
               "magic": 0.2511,
-              "kpex": 0.2731
+              "kpex": 0.2738
             },
             "cm~x1_net3": {
               "magic": 0.2424,
-              "kpex": 0.2642
+              "kpex": 0.2658
             },
             "cm~x1_net4": {
               "magic": 0.3534,
-              "kpex": 0.3775
+              "kpex": 0.3788
             },
             "cm~x1_net5": {
               "magic": 0.2443,
-              "kpex": 0.2665
+              "kpex": 0.2674
             },
             "cm~x1_net6": {
               "magic": 0.4028,
-              "kpex": 0.4286
+              "kpex": 0.4292
             },
             "cm~x1_net7": {
               "magic": 0.4227,
-              "kpex": 0.4445
+              "kpex": 0.4471
             },
             "cm~x1_net8": {
               "magic": 0.4414,
-              "kpex": 0.4658
+              "kpex": 0.4662
             },
             "cm~x1_net9": {
               "magic": 0.4063,
-              "kpex": 0.4311
+              "kpex": 0.4318
+            },
+            "i_bias~in": {
+              "magic": 0.0059,
+              "kpex": 0.0048
+            },
+            "i_bias~ip": {
+              "magic": 0.0048,
+              "kpex": 0.0037
+            },
+            "i_bias~on": {
+              "magic": 0.0719,
+              "kpex": 0.0615
+            },
+            "i_bias~op": {
+              "magic": 0.0012,
+              "kpex": 0.0005
+            },
+            "i_bias~x1_net10": {
+              "magic": 0.0,
+              "kpex": 0.0008
+            },
+            "i_bias~x1_net11": {
+              "magic": 0.0016,
+              "kpex": 0.001
+            },
+            "i_bias~x1_net12": {
+              "magic": 0.0021,
+              "kpex": 0.0011
+            },
+            "i_bias~x1_net4": {
+              "magic": 0.0,
+              "kpex": 0.0003
+            },
+            "i_bias~x1_net7": {
+              "magic": 0.0,
+              "kpex": 0.0003
+            },
+            "i_bias~x1_net8": {
+              "magic": 0.0,
+              "kpex": 0.0003
+            },
+            "i_bias~x1_net9": {
+              "magic": 0.0022,
+              "kpex": 0.0011
             },
             "in~ip": {
-              "magic": 2.083,
-              "kpex": 2.1884
+              "magic": 2.0783,
+              "kpex": 2.1833
             },
             "in~on": {
-              "magic": 0.0771,
-              "kpex": 0.0784
-            },
-            "in~op": {
-              "magic": 0.0465,
-              "kpex": 0.0482
+              "magic": 0.0166,
+              "kpex": 0.0151
             },
             "ip~on": {
-              "magic": 0.0689,
-              "kpex": 0.0687
-            },
-            "ip~op": {
-              "magic": 0.0364,
-              "kpex": 0.0373
+              "magic": 0.0183,
+              "kpex": 0.016
             },
             "on~op": {
-              "magic": 9.749,
-              "kpex": 9.8723
+              "magic": 6.5441,
+              "kpex": 6.5466
+            },
+            "on~x1_net12": {
+              "magic": 0.0,
+              "kpex": 0.0001
+            },
+            "on~x1_net13": {
+              "magic": 0.0,
+              "kpex": 0.0002
+            },
+            "on~x1_net14": {
+              "magic": 0.0,
+              "kpex": 0.0003
+            },
+            "on~x1_net15": {
+              "magic": 0.0,
+              "kpex": 0.0002
+            },
+            "on~x1_net5": {
+              "magic": 0.0,
+              "kpex": 0.0002
+            },
+            "on~x1_net6": {
+              "magic": 0.0,
+              "kpex": 0.0001
+            },
+            "on~x1_net9": {
+              "magic": 0.0,
+              "kpex": 0.0001
             },
             "x1_net10~x1_net11": {
               "magic": 0.2489,
-              "kpex": 0.2495
+              "kpex": 0.2497
             },
             "x1_net10~x1_net12": {
               "magic": 0.1728,
@@ -1043,7 +1100,7 @@
             },
             "x1_net10~x1_net9": {
               "magic": 0.1833,
-              "kpex": 0.1823
+              "kpex": 0.1826
             },
             "x1_net11~x1_net12": {
               "magic": 0.2844,
@@ -1115,7 +1172,7 @@
             },
             "x1_net5~x1_net6": {
               "magic": 0.4525,
-              "kpex": 0.4531
+              "kpex": 0.453
             },
             "x1_net5~x1_net7": {
               "magic": 0.0,
@@ -1127,7 +1184,7 @@
             },
             "x1_net6~x1_net7": {
               "magic": 0.1833,
-              "kpex": 0.183
+              "kpex": 0.1833
             },
             "x1_net6~x1_net8": {
               "magic": 0.0,
@@ -1139,7 +1196,7 @@
             },
             "x1_net7~x1_net8": {
               "magic": 0.2489,
-              "kpex": 0.2499
+              "kpex": 0.2501
             },
             "x1_net7~x1_net9": {
               "magic": 0.1728,
@@ -1151,8 +1208,8 @@
             }
           },
           "total_fF": {
-            "magic": 878.501,
-            "kpex": 1794.813
+            "magic": 872.912,
+            "kpex": 1795.587
           }
         },
         "area_only": {
@@ -1166,12 +1223,12 @@
   },
   "all_pass": false,
   "provenance": {
-    "created": "2026-11-05T16:51:16+00:00",
-    "git_commit": "d6958ca61d7c91b6c6698ea5876802067ff1e9f4",
+    "created": "2026-11-05T19:33:32+00:00",
+    "git_commit": "6c92fdee1c046785d71d4d0b9363260afeeba0ae",
     "inputs": [
       {
         "path": "outputs/S5/iadc_ota_v2/s5_report.json",
-        "sha256": "9b07951bc44014262134914fc2ee33536f4fc48ae001d1eebb07f963fcd5242b"
+        "sha256": "1005c3b811190116ee130f5e04c770b2d9da95b0ae690a1d4efe444282005872"
       },
       {
         "path": "outputs/S2/iadc_ota_v2/budgets.json",

@@ -203,14 +203,42 @@ without its CMFB.
 - channels and arrangement inside the three sub-circuit macros add 31 %;
 - stacking the macros in a column, with the capacitors on a row of their own, adds another 28 %.
 
+**Phase 3, step 1: flat packing (2026-11-06; the picture above shows this run).** The 19 blocks are placed as one
+group instead of three sub-circuit macros (x1, x2 and a top-level macro).
+
+<p align="center">
+  <img src="outputs/report/readme/iadc_ota_v2_flat_drc_failed.png" width="45%" alt="iadc_ota_v2 area-only, flat packing, DRC errors ringed">
+</p>
+
+- **Area-only, flat:** 79.6 × 175.8 µm = **13,983 µm²**. That is 1.05 × the whole hand layout (1.39 × without its
+  CMFB), against 17,901 µm² with macros and 32,698 µm² in v1. Gain and phase margin are met; GBW loses 14.7 % to the
+  wiring.
+  - **What made it smaller:** the annealer packs all 19 blocks at once, so small blocks fill the gaps beside big
+    ones. The blocks now fill 81 % of the layout's box (64 % with macros). The capacitors no longer take a row of
+    their own, and routing needed only a 0.8 µm channel.
+  - **Why it does not count yet: 8 DRC errors, all n-well spacing (nwell.2a), ringed above.** Two PMOS blocks on the
+    same supply must either touch (their n-wells merge) or keep 1.27 µm. The 0.8 µm channel left them 0.8 µm apart.
+    LVS matches.
+  - **Fixed for the next run** (`src/common/ruleset.py`, flow record row 107, with a test): such blocks now touch, or
+    keep 1.40 µm. The layout must be re-run (section 6, "Continuing this work yourself") to get a DRC-clean version.
+    It may grow slightly where blocks are pushed to 1.40 µm.
+- **Budget-aware, flat:** 29,442 µm², DRC 0, LVS match, but larger than with macros (22,142 µm²). Its wire-budget term
+  outweighs area, so it keeps the macros. GBW loses 12.6 % to the wiring.
+- The phase-2 layouts in the table are in commit `6c92fdee1`. The failed layout's GDS, DRC report and error boxes
+  are kept in `outputs/report/iadc_ota_v2/flat_drc_failed/`.
+
 The full reports are `docs/iadc_ota_report.html` (v1, with the tools' DRC and LVS reports) and
 `docs/reports/iadc_ota_v2_report.html` (v2).
 
 ## 5. Next plan
 
-Work was put on hold on 2026-11-05. **`docs/HANDOFF.md`** says how to continue, on another PC or with another
-assistant, and **`docs/rules_v2/phase3_plan.md`** is the plan for phase 3.
+Work was put on hold on 2026-11-06 for a week. **`docs/HANDOFF.md`** says how to continue, on another PC or with
+another assistant, and **`docs/rules_v2/phase3_plan.md`** is the plan for phase 3.
 
+0. **First:** re-run iadc_ota_v2 from S5 with the n-well fix, to get the DRC- and LVS-clean flat layout (section 6),
+   then analyse its PEX against v1 and the hand layout: which nets pick up the extra capacitance.
+   **After this week:** ttsky under the new rules, including its PEX against the taped-out tile; then the LLM part
+   (item 4).
 1. **Rule set v2, phase 3** (next):
    - pack the sub-circuit macros side by side, with the capacitors and rail dummies in the free space;
    - make channels only in the gaps where routing needs them;
@@ -218,7 +246,8 @@ assistant, and **`docs/rules_v2/phase3_plan.md`** is the plan for phase 3.
    - The target stays 1.3 × the hand layout with every spec met.
 2. **Wiring loss under v2:** measure, net by net, where the extra coupling comes from; widen only those spacings.
 3. **v2 on the other designs:**
-   - `ttsky25a_fd_v2` is a GUI copy with `ruleset: v2`; its S0–S3 are running, and S4–S7 follow phase 3.
+   - `ttsky25a_fd_v2` is a GUI copy with `ruleset: v2`. Its S0 passed and it was stopped at S1;
+     `scripts/finish_ttsky_v2.sh` resumes it.
    - The 5T and LOADBench need v2's routing on their smaller layouts.
 4. **LLM integration** (Claude CLI; waiting for the supervisor's permission):
    - the LLM proposes and explains decisions over S2's explicit budgets: block grouping, matching level, placement
@@ -231,6 +260,68 @@ assistant, and **`docs/rules_v2/phase3_plan.md`** is the plan for phase 3.
    - R+C extraction for ttsky.
 
 ## 6. How to run it
+
+### Continuing this work yourself (no assistant needed)
+
+Every step below is a command; nothing needs Claude Code. Open **PowerShell** in the repository folder
+(`C:\Users\suind\Documents\GitHub\layout-automation-s0-s3`) with Docker Desktop running.
+
+1. **Start the container:**
+
+   ```powershell
+   docker start layout-s0s3
+   $env:FLOW_CONTAINER="layout-s0s3"
+   ```
+
+2. **Get the DRC-clean flat iadc layout.** This re-runs S5–S7 with the n-well fix and takes about 1.5 hours. Keep the
+   window open; the PC must stay on.
+
+   ```powershell
+   .\flow.ps1 run iadc_ota_v2 --from S5
+   ```
+
+   To run it in the background instead, so you can close the window, start it detached; it logs to
+   `runs\logs\gui_iadc_ota_v2_S5S7.log` and writes the `.exit` file when done:
+
+   ```powershell
+   docker exec -d layout-s0s3 bash -lc "cd /foss/designs && source scripts/env.sh && python3 -u -m src.flow run iadc_ota_v2 --from S5 > runs/logs/gui_iadc_ota_v2_S5S7.log 2>&1; echo `$? > runs/logs/gui_iadc_ota_v2_S5S7.log.exit"
+   ```
+
+3. **Check it:** S5's gates G5.2 (DRC) and G5.3 (LVS) should now say True for both layouts. G5.4 (budgets) and S7's
+   GBW still fail, as before.
+
+   ```powershell
+   .\flow.ps1 status iadc_ota_v2
+   ```
+
+4. **Refresh the report and the pictures** (a few minutes). Then open `docs\reports\iadc_ota_v2_report.html` and look
+   at `outputs\report\readme\iadc_ota_compare.png`.
+
+   ```powershell
+   docker exec layout-s0s3 bash -lc "cd /foss/designs && source scripts/env.sh && python3 scripts/make_design_report.py iadc_ota_v2 && python3 scripts/make_readme_figures.py && python3 scripts/make_progress_report.py"
+   ```
+
+5. **Resume ttsky under v2** (about 4 hours, in the background). It runs the missing stages and refreshes the
+   reports. It is done when `runs\logs\finish_ttsky_v2.done` exists.
+
+   ```powershell
+   docker exec -d layout-s0s3 bash -lc "bash /foss/designs/scripts/finish_ttsky_v2.sh"
+   ```
+
+6. **Run the tests** (about a minute). Expect 213 passed and every golden OK.
+
+   ```powershell
+   .\flow.ps1 test
+   ```
+
+7. **Commit** with GitHub Desktop.
+   - Update the numbers in section 4 by hand from `docs/progress_report.md` section 5, which refreshes itself.
+   - Add a line to `docs/progress_log.md`.
+
+To see what is running: `docker exec layout-s0s3 ps -eo pid,args | findstr python3`. To stop a run: `docker exec
+layout-s0s3 kill <pid>`, using the PID from that list. Never kill by pattern.
+
+### Running the flow in general
 
 You need Docker (Docker Desktop on Windows) and about 20 GB for the EDA image `hpretl/iic-osic-tools:2026.10`.
 Nothing else is installed; everything runs in that image, with this repository at `/foss/designs`.

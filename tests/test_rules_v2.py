@@ -232,3 +232,37 @@ def test_a_track_next_to_its_devices_is_reached_without_a_wire_over_them():
     for layer, i, j in r["routes"]["n1"]["nodes"]:
         x, y = i * GR.GRID, j * GR.GRID
         assert not (0 - GR.WIRE / 2 < x < 20 + GR.WIRE / 2 and 0 - GR.WIRE / 2 < y < 5 + GR.WIRE / 2), (layer, x, y)
+
+
+def test_flat_packing_puts_every_block_in_one_macro(monkeypatch):
+    """Rule set v2, phase 3: `packing: flat` (v2 only) places all blocks as one macro."""
+    from src.s5 import macro as M
+    from src.s4 import run as S
+    seen = {}
+    monkeypatch.setattr(S, "layout_options", lambda d: {"ruleset": "v2", "packing": "flat"})
+    monkeypatch.setattr(M, "macro_of", lambda d, b: {k: ("x1" if k == "a" else "x2") for k in b})
+
+    def fake_place(names, blocks, max_len, rule, lim, outside):
+        seen.setdefault("groups", []).append(sorted(names))
+        return {"placement": None}
+    monkeypatch.setattr(M, "place_macro", fake_place)
+    try:
+        M.hierarchical("d", {"a": {}, "b": {}}, {}, "area_only", [100.0, 100.0])
+    except RuntimeError:
+        pass                                           # no real placement here; only the grouping is checked
+    assert seen["groups"] and all(g == ["a", "b"] for g in seen["groups"])
+
+
+def test_pmos_wells_touch_or_keep_nwell_spacing(monkeypatch):
+    """Flow record row 107: same-body PMOS blocks abut at no channel; with a channel below nwell.2a's reserve they
+    are pushed to the reserve, never left 0.8 um apart."""
+    from src.common import ruleset as RS
+    bl = {"p1": {"type": "pmos", "body": "VDD"}, "p2": {"type": "pmos", "body": "VDD"},
+          "n1": {"type": "nmos", "body": "VSS"}, "n2": {"type": "nmos", "body": "VSS"}}
+    monkeypatch.setitem(RS.CHANNEL, "um", 0.0)
+    assert RS.gap_x(bl, "p1", "p2") == 0.0
+    monkeypatch.setitem(RS.CHANNEL, "um", 0.8)
+    assert RS.gap_x(bl, "p1", "p2") == 1.4 and RS.gap_y(bl, ["p1"], ["p2"]) == 1.4
+    assert RS.gap_x(bl, "n1", "n2") == 0.8
+    monkeypatch.setitem(RS.CHANNEL, "um", 1.6)
+    assert RS.gap_x(bl, "p1", "p2") == 1.6
