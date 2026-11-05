@@ -172,8 +172,13 @@ def place_macro(names: list, blocks: dict, max_len: dict, rule: str, outline: li
                 from_outside: bool = False) -> dict:
     """One macro under one cost: enumeration up to ENUM_MAX blocks, annealing beyond (seeded, so reproducible)."""
     sub = {b: blocks[b] for b in names}
+    cands = None
     if len(names) <= ENUM_MAX:
-        cands = [c for c in P.enumerate_candidates(sub, max_len) if fits(c["placement"], outline)]
+        try:
+            cands = [c for c in P.enumerate_candidates(sub, max_len) if fits(c["placement"], outline)]
+        except RuntimeError:   # few blocks but many variants (rule set v2: 2-3 per block, iadc_ota_v2's x2 gave
+            cands = None       # 746 496 arrangements): the annealer, as for a macro of many blocks
+    if cands is not None:
         if not cands:
             return {"cost": None, "placement": None, "method": "enumeration", "n": 0}
         best = min(range(len(cands)), key=lambda i: (cands[i]["cost"][rule], i))

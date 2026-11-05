@@ -1,0 +1,19 @@
+# Layout options for S4-S7 (plan v4 Phase 8, docs/plan_v5_ttsky25a.md; Imasha's decisions of 2026-11-04).
+# Read only by S4-S7 (the last two options by S6/S7): S0-S3 never read this file. A design without one keeps the plan v4 defaults (the 5T,
+# LOADBench).
+matching: centroid        # matched transistors only as common centroid (ABBA) or interdigitated rows; no plain AB
+dummies: true             # one dummy unit at each end of every matched row (transistors and resistors)
+pack_internal: true       # a net only one block uses gets a short track, packed in rows (left-edge)
+resistor_blocks:          # matched resistor strings, interleaved A B B A ... in one block
+  - name: res_packs
+    members: [XX2_X1_R, XX2_X2_R]   # the two res_packs of x2 (CM sense, OUTP and OUTN sides)
+    body: Vss                       # the block's tap ring and the resistor dummies' ends (ASSUMPTION)
+outline_um: [250, 200]    # the hard outline, width x height (Imasha: 250 x 200 um; orientation ASSUMPTION)
+hierarchy: upstream        # S5 places each sub-circuit of circuits/<d>/upstream/hierarchy.json as a macro, then the macros
+rc_extraction: false      # S6 does no R+C extraction, S7 takes the C-only view as post-layout (flow record
+                          # row 87: Magic's extresist ran past 2 GB on the supplies, and restricted to the signal
+                          # nets left the ports unconnected); the hand layout was also measured C-only (7.7)
+lvs_no_series: [sky130_fd_pr__res_generic_po]   # S6's flat LVS compares the res_pack resistors one by one (a flat
+                          # extraction makes their labelled nodes ports, so Netgen cannot merge them in the layout)
+ruleset: v2               # layout rule set v2 (docs/rules_v2/ruleset_v2.md, Imasha 2026-11-05); the v1 block plan,
+                          # no drawn blocks yet (a second design with a hand layout to compare)

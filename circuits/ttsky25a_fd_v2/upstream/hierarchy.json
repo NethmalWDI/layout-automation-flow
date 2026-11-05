@@ -1,0 +1,143 @@
+{
+ "design": "ttsky25a_fd",
+ "provenance": "upstream xschem hierarchy (real), read from the flat instance names",
+ "root": {
+  "level": 2,
+  "kind": "differential-input-differential-output-amplifier",
+  "subckt": "ttsky25a_fd"
+ },
+ "levels": [
+  {
+   "level": 1,
+   "top": [
+    {
+     "instance": "top",
+     "kind": "Opamp_with_bias (bias: beta multiplier, start-up, current outputs; Miller capacitors)",
+     "elements": [
+      "Rgm_ext",
+      "XC1",
+      "XC2",
+      "XM32",
+      "XM33",
+      "XM34",
+      "XM35",
+      "XM36",
+      "XM37",
+      "XM38",
+      "XM39",
+      "XM40",
+      "XM41",
+      "XM42",
+      "XM43",
+      "XM44",
+      "XM45",
+      "XM54"
+     ]
+    },
+    {
+     "instance": "x1",
+     "kind": "Diff_opamp (folded-cascode first stage + its CMFB + bias diodes)",
+     "elements": [
+      "XX1_M1",
+      "XX1_M10",
+      "XX1_M11",
+      "XX1_M12",
+      "XX1_M13",
+      "XX1_M14",
+      "XX1_M15",
+      "XX1_M16",
+      "XX1_M17",
+      "XX1_M18",
+      "XX1_M19",
+      "XX1_M2",
+      "XX1_M20",
+      "XX1_M21",
+      "XX1_M22",
+      "XX1_M23",
+      "XX1_M24",
+      "XX1_M25",
+      "XX1_M3",
+      "XX1_M4",
+      "XX1_M46",
+      "XX1_M47",
+      "XX1_M5",
+      "XX1_M6",
+      "XX1_M7",
+      "XX1_M8",
+      "XX1_M9"
+     ]
+    },
+    {
+     "instance": "x2",
+     "kind": "Common_source_stage (second stage + resistive-sense CMFB)",
+     "elements": [
+      "XX2_M1",
+      "XX2_M10",
+      "XX2_M11",
+      "XX2_M12",
+      "XX2_M2",
+      "XX2_M3",
+      "XX2_M4",
+      "XX2_M5",
+      "XX2_M6",
+      "XX2_M7",
+      "XX2_M8",
+      "XX2_M9"
+     ]
+    },
+    {
+     "instance": "x2/x1",
+     "kind": "res_pack (CM sense resistors, OUTP side)",
+     "elements": [
+      "XX2_X1_R1",
+      "XX2_X1_R10",
+      "XX2_X1_R11",
+      "XX2_X1_R12",
+      "XX2_X1_R13",
+      "XX2_X1_R14",
+      "XX2_X1_R15",
+      "XX2_X1_R16",
+      "XX2_X1_R17",
+      "XX2_X1_R18",
+      "XX2_X1_R19",
+      "XX2_X1_R2",
+      "XX2_X1_R20",
+      "XX2_X1_R3",
+      "XX2_X1_R4",
+      "XX2_X1_R5",
+      "XX2_X1_R6",
+      "XX2_X1_R7",
+      "XX2_X1_R8",
+      "XX2_X1_R9"
+     ]
+    },
+    {
+     "instance": "x2/x2",
+     "kind": "res_pack (CM sense resistors, OUTN side)",
+     "elements": [
+      "XX2_X2_R1",
+      "XX2_X2_R10",
+      "XX2_X2_R11",
+      "XX2_X2_R12",
+      "XX2_X2_R13",
+      "XX2_X2_R14",
+      "XX2_X2_R15",
+      "XX2_X2_R16",
+      "XX2_X2_R17",
+      "XX2_X2_R18",
+      "XX2_X2_R19",
+      "XX2_X2_R2",
+      "XX2_X2_R20",
+      "XX2_X2_R3",
+      "XX2_X2_R4",
+      "XX2_X2_R5",
+      "XX2_X2_R6",
+      "XX2_X2_R7",
+      "XX2_X2_R8",
+      "XX2_X2_R9"
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -284,3 +284,30 @@ After the tag, changes are allowed only as dated amendments at the end, with the
     and 50 % of the outline's width (height: the outline's); the top level enumerates the macros' distinct shapes
     with every arrangement and keeps the best that fits. Same for both costs.
   - The predictions above stand.
+
+- **2026-11-05 (10:10 CET), layout rule set v2 (`docs/rules_v2/ruleset_v2.md`, reviewed and answered by Imasha the
+  same day), written before any v2 code or run.** v2 is opt-in per design (`ruleset: v2` in `inputs/<d>/layout.yaml`);
+  every design without it runs v1 unchanged (the goldens must still match). First design: `iadc_ota_v2`, a GUI copy of
+  `iadc_ota` (and a second copy once Imasha's hand-drawn hierarchy arrives).
+  - **Spacing.** Every spacing and enclosure the generator chooses is the SKY130 Magic-deck minimum × 1.10, rounded up
+    to 0.05 µm (Imasha, Q9, reading (a)); widths stay at the minimum or the current-based width; the latch-up limits
+    keep `TAP_MARGIN` 0.5 µm. The unit cells' own geometry and S4's stub planner (already at the DRC minimum and signed
+    off by DRC) are unchanged.
+  - **Routing (R1, R2).** No wire of any net over a block's device area (metal3 and metal4), capacitors as before;
+    channels between blocks and rows are as wide as routing needs: S5 tries the narrowest gap first and widens the
+    gaps one router grid (0.8 µm) at a time until every net routes (phase 1: one width for all gaps).
+  - **Patterns (M1-M9, phase 2).** Per matched group the patterns its matching level allows (1-D ABBA/ABAB, the
+    cross-quad, 2-D common centroid with A/B swapped rows, clustered); a rough estimate (outline, internal wire length
+    against S2's budgets, crossings) keeps a Pareto set of 2-3 per group, always including the best of the strictest
+    pattern the level asks for; only those are signed off in S4; S5 chooses by its cost as before. If a survivor's
+    signed-off area differs from its estimate by more than 15 % (ASSUMPTION), a third candidate is added.
+  - **Rings (phase 3).** One ring per stack, shared edges between neighbouring stacks of one body net, one outer ring
+    round the amplifier (Imasha, Q3); normal ring widths (Q10).
+  - **Unchanged.** S0-S3, S2's budgets, every gate and negative control, S6/S7, the search settings (seed, moves,
+    schedule, lambda, mu, shapes).
+  - **Hypotheses.** H-v2a: with a hand layout to compare, the v2 layout's area is at most 1.3 × the hand layout's
+    (target 1.2 ×; Imasha, Q7) with every spec met after layout; for `iadc_ota` both the raw ratio and the ratio
+    against the hand area without its switched-capacitor CMFB (which the flow does not lay out) are reported.
+    H-v2b: no-routing-over-devices does not raise the wiring's share of the GBW loss above v1's (12.0 %, C-only).
+    Reported either way.
+

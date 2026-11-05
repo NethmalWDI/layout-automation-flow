@@ -1,0 +1,111 @@
+# Layout options for S4-S7 of iadc_ota (Imasha, 2026-11-04: lay it out to fit a Tiny Tapeout analog tile).
+# Read only by S4-S7 (the last two options by S6/S7): S0-S3 never read this file.
+# The matching and dummy choices repeat Imasha's decisions for ttsky25a_fd (2026-11-04); for this design they are an
+# ASSUMPTION until she confirms them (the netlist already holds the designer's own top-level dummies).
+matching: centroid        # matched transistors only as common centroid or interdigitated rows, chosen by the cost
+dummies: true             # one dummy unit at each end of every matched row (ASSUMPTION for this design, see above)
+pack_internal: true       # a net only one block uses gets a short track, packed in rows (left-edge)
+outline_um: [161.0, 225.77]   # the Tiny Tapeout 1x2 analog tile, width x height, as read from the taped-out tile
+                          # tt_um_diff (circuits/ttsky25a_fd/upstream_src/gds/tt_um_diff.gds: 161.0 x 225.77 um).
+                          # ASSUMPTION: the whole tile is available to the OTA; the tile's power straps (VDPWR,
+                          # VGND, left edge) and its analog pins ua[0..7] (bottom edge, metal4) are not routed
+hierarchy: upstream       # S5 places x1 (bias), x2 (core) and top (CMFB capacitors, dummies) as macros
+pin_origin: bbox          # unit pins measured from the cell's bounding-box corner, where Magic places it (flow record
+                          # row 95); iadc's single-finger W 1.2 / L 0.2 cell needs it. The finished designs keep the old
+                          # way until Imasha decides (their stubs sit up to 0.125 um off their strips' centres)
+fold_row_um: 100          # a single device's row of copies longer than this becomes a multi-row array in one ring
+                          # (Imasha, 2026-11-05; flow record row 97): XX2_M5/M6 (m = 96) would be 198 um, wider than the
+                          # tile. 100 um: two rows of 48 (ASSUMPTION: the limit; any value below the tile's width works)
+search_from_outside: true # S5's annealing may start outside the outline and walk back in (flow record row 96); x1's
+                          # start (a row per matched block) is far taller than the tile. Opt-in, like pin_origin
+rc_extraction: false      # C-only, as for ttsky25a_fd (flow record row 87) and as the hand layout was measured (7.8)
+ruleset: v2               # layout rule set v2 (docs/rules_v2/ruleset_v2.md, Imasha 2026-11-05): DRC minimum + 10 %
+                          # spacing, no routing over device areas, channels opened as routing needs; opt-in
+blocks:                   # Imasha's hand-drawn hierarchy of 2026-11-05: one coloured box = one block; the designer's
+                          # dummies join the block whose device drains onto the dummy's net (same type), at its
+                          # row ends (docs/rules_v2/ruleset_v2.md, rules P1, Y2). Matching level: centroid (the
+                          # common-centroid or interdigitated arrangements; 2-D first)
+  - name: x1_cm_iref
+    kind: current_mirror
+    drawn: "x1 purple box CM (B1)"
+    devices: [XX1_M7, XX1_M6]
+    dummies: [XX1_M10, XX1_M44, XX1_M8]
+    level: centroid
+  - name: x1_cm_bias_c
+    kind: current_mirror
+    drawn: "x1 green box CM (B36 + B39)"
+    devices: [XX1_M22, XX1_M26, XX1_M32]
+    dummies: [XX1_M57, XX1_M58, XX1_M59]
+    level: centroid
+  - name: x1_cm_bias_b
+    kind: current_mirror
+    drawn: "x1 blue box CM (B37 + B38)"
+    devices: [XX1_M21, XX1_M25, XX1_M31]
+    dummies: [XX1_M46, XX1_M47, XX1_M48, XX1_M51, XX1_M54, XX1_M60]
+    level: centroid
+  - name: x1_cc_cm
+    kind: common_centroid
+    drawn: "x1 red box CC (B14-B23): five series strings of four"
+    devices: [XX1_M33, XX1_M49, XX1_M50, XX1_M63, XX1_M64, XX1_M65, XX1_M66, XX1_M67, XX1_M68, XX1_M69, XX1_M70, XX1_M71, XX1_M72, XX1_M73, XX1_M74, XX1_M75, XX1_M76, XX1_M77, XX1_M78, XX1_M79]
+    dummies: [XX1_M37]
+    level: centroid
+  - name: x1_diode_bias_b
+    kind: single
+    drawn: "x1, not boxed (B2)"
+    devices: [XX1_M1]
+    dummies: [XX1_M27]
+    level: centroid
+  - name: x1_diode_m2d
+    kind: single
+    drawn: "x1, not boxed (B3)"
+    devices: [XX1_M2]
+    dummies: [XX1_M35]
+    level: centroid
+  - name: x1_single_m3
+    kind: single
+    drawn: "x1, not boxed (B24)"
+    devices: [XX1_M3]
+    dummies: [XX1_M34]
+    level: centroid
+  - name: x1_single_m4
+    kind: single
+    drawn: "x1, not boxed (B25)"
+    devices: [XX1_M4]
+    dummies: [XX1_M36]
+    level: centroid
+  - name: x1_single_m5
+    kind: single
+    drawn: "x1, not boxed (B26)"
+    devices: [XX1_M5]
+    dummies: [XX1_M29, XX1_M42]
+    level: centroid
+  - name: x2_cm_tail
+    kind: current_mirror
+    drawn: "x2 black box CM (B52 + B53 + B54)"
+    devices: [XX2_M6, XX2_M5, XX2_M3, XX2_M4]
+    dummies: [XX2_M28, XX2_M30, XX2_M40, XX2_M41]
+    level: centroid
+  - name: x2_diff
+    kind: diff_pair
+    drawn: "x2 green box diff (B40)"
+    devices: [XX2_M1, XX2_M2]
+    dummies: [XX2_M23, XX2_M24]
+    level: centroid
+  - name: x2_cm_casc
+    kind: current_mirror
+    drawn: "x2 red box CM (B51)"
+    devices: [XX2_M3A, XX2_M7]
+    dummies: [XX2_M38, XX2_M39, XX2_M80, XX2_M81]
+    level: centroid
+  - name: x2_cl_casc
+    kind: cascode_load
+    drawn: "x2 purple box CL (B61)"
+    devices: [XX2_M1A, XX2_M8]
+    dummies: [XX2_M56, XX2_M62]
+    level: centroid
+  - name: x2_cl_src
+    kind: current_load
+    drawn: "x2 yellow box CL (B62)"
+    devices: [XX2_M11, XX2_M12]
+    dummies: [XX2_M55, XX2_M61, XX2_M82, XX2_M83]
+    level: centroid

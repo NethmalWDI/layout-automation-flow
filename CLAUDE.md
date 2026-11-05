@@ -7,7 +7,8 @@ Two Claude agents work on this project, and neither can see the other's conversa
 
 The repo is the only memory they share. Read this file, **`docs/STATUS.md`** and **`docs/HANDOFF.md`** before doing anything, and keep STATUS.md current (see "Working together" below).
 
-- **Remaining plan-v2 runs:** `scripts/plan_v2_resume.sh` (resumable; finished steps are marked in `runs/state/plan_v2/`).
+- **Where work stands (2026-11-05, on hold):** branch `rules-v2`, layout rule set v2 phases 1–2 done; `docs/HANDOFF.md` (how to continue, also on another PC), `docs/rules_v2/phase3_plan.md` (next work); `scripts/finish_ttsky_v2.sh` finishes the `ttsky25a_fd_v2` run unattended.
+- **Remaining plan-v2 runs (old):** `scripts/plan_v2_resume.sh` (resumable; finished steps are marked in `runs/state/plan_v2/`).
 - **Stop them all cleanly:** `scripts/plan_v2_stop.sh`.
 - **claude.ai project docs:** copies are in `docs/context/project_docs/`, because Claude Code cannot open the claude.ai project.
 
@@ -61,7 +62,7 @@ These project rules follow from the rules above:
   - The container's PID 1 does not reap processes, so a killed process stays as a zombie and `kill -0` still succeeds on it. Wait on a log line or a `.exit` file, never on a PID.
   - List jobs with `pgrep -af '^python3'`. Never `pkill` with a pattern that can match your own command line.
   - To hold a running queue script after its current step, use `kill -STOP <bash pid>` (and `kill -CONT <bash pid>` to release it). Don't edit a bash script while it is running, because bash reads it as it goes.
-- **Tests:** `./flow test` (`.\flow.ps1 test` from PowerShell) runs every test in `tests/` (199 on 2026-11-05,
+- **Tests:** `./flow test` (`.\flow.ps1 test` from PowerShell) runs every test in `tests/` (209 on 2026-11-05,
   `tests/test_golden.py` among them) and then compares the committed outputs with `tests/golden/` (36 design-stage
   pairs: S0–S7 for the 5T, LOADBench, `ttsky25a_fd` and `iadc_ota`, S0–S3 for the others). One file alone: `python3 -m pytest -q tests/test_phaseA.py`.
 

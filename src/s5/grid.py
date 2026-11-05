@@ -47,18 +47,22 @@ class Grid:
         self.i0, self.i1 = math.ceil((x0 - mx) / GRID), math.floor((x1 + mx) / GRID)
         self.j0, self.j1 = math.ceil((y0 - my) / GRID), math.floor((y1 + my) / GRID)
         self.own = {}          # (layer, i, j) -> net, or '#' (nobody)
+        self.soft = set()      # rule set v2: points closed only by a device area (no metal there), see access()
 
     def inside(self, i, j):
         return self.i0 <= i <= self.i1 and self.j0 <= j <= self.j1
 
-    def block(self, layer, x0, y0, x1, y1, owner="#"):
-        """Every grid point whose wire would come within SPACE of the rectangle."""
+    def block(self, layer, x0, y0, x1, y1, owner="#", soft=False):
+        """Every grid point whose wire would come within SPACE of the rectangle. soft: the rectangle holds no metal
+        (a device area, rule set v2 R1), so a wire only has to stay off it, not SPACE away: the caller shrinks it."""
         for i in range(math.ceil((x0 - GROW) / GRID - 1e-9), math.floor((x1 + GROW) / GRID + 1e-9) + 1):
             for j in range(math.ceil((y0 - GROW) / GRID - 1e-9), math.floor((y1 + GROW) / GRID + 1e-9) + 1):
                 x, y = i * GRID, j * GRID
                 if x0 - GROW < x < x1 + GROW and y0 - GROW < y < y1 + GROW:
                     k = (layer, i, j)
                     cur = self.own.get(k)
+                    if soft and cur is None:
+                        self.soft.add(k)
                     self.own[k] = owner if cur in (None, owner) else "#"
 
     def free(self, k, net):
@@ -76,9 +80,21 @@ def access(pin, grid, net):
     j = _i(y)
     out = []
     m = 0.0 if pin["kind"] == "body" and "rx0" in pin else VIA3      # a track: a via's width in from its ends
+    if not grid.soft:                                                 # v1: exactly as before
+        for i in range(math.ceil((a + m) / GRID - 1e-9), math.floor((b - m) / GRID + 1e-9) + 1):
+            if grid.inside(i, j) and all(grid.free((4, i, jj), net) for jj in (j - 1, j, j + 1)):
+                out.append((4, i, j))
+        return out
+    # rule set v2 (flow record row 104): a track 0.55 um from its devices has the grid point beside it inside the
+    # device area. A neighbour closed only by a device area holds no metal, so it does not stop the stub; and the stub
+    # may start one grid point further out (its three points reserved around that point, which still cover the
+    # track's own row of the grid)
     for i in range(math.ceil((a + m) / GRID - 1e-9), math.floor((b - m) / GRID + 1e-9) + 1):
-        if grid.inside(i, j) and all(grid.free((4, i, jj), net) for jj in (j - 1, j, j + 1)):
-            out.append((4, i, j))
+        for jc in (j, j + 1, j - 1):
+            if grid.inside(i, jc) and grid.free((4, i, jc), net) and \
+                    all(grid.free((4, i, jj), net) or (4, i, jj) in grid.soft for jj in (jc - 1, jc + 1)):
+                out.append((4, i, jc))
+                break
     return out
 
 
@@ -136,13 +152,27 @@ def route(pl: dict, nmap: dict, ports: list, order: list, outline: list | None =
         for q in qs:
             if q["kind"] == "track":
                 grid.block(3, q["x0"], q["y"] - WIRE / 2, q["x1"], q["y"] + WIRE / 2)
+    v2 = any(k.get("kind") == "device_area" for p in pl["blocks"].values() for k in p.get("keepouts", []))
     for b, p in pl["blocks"].items():                 # capacitor plates, internal tracks
         for k in p.get("keepouts", []):
-            grid.block(3 if k["layer"] == "metal3" else 4, *k["box"])
+            if k.get("kind") != "device_area":
+                x0, y0, x1, y1 = k["box"]
+                if v2 and k["layer"] == "metal4" and min(x1 - x0, y1 - y0) > 3.005:
+                    # rule set v2 (flow record row 106): metal4 wider than 3 um wants met4.5b's spacing, not met4.2's
+                    from src.common import drc_rules as D
+                    e = D.reserve("met4.5b") - SPACE
+                    x0, y0, x1, y1 = x0 - e, y0 - e, x1 + e, y1 + e
+                grid.block(3 if k["layer"] == "metal3" else 4, x0, y0, x1, y1)
     for n, qs in every.items():                       # a band along every ring's bottom edge, kept for the stacks
         for q in qs:
             if q["kind"] == "body" and "rx0" in q:
                 grid.block(3, q["rx0"], q["y"] - STACK_M3 / 2, q["rx1"], q["y"] + STACK_M3 / 2)
+    for b, p in pl["blocks"].items():                 # rule set v2, R1: device areas last, so only points nothing
+        for k in p.get("keepouts", []):               # else closes are 'soft'; no metal there, so a wire's edge may
+            if k.get("kind") == "device_area":        # reach the area's edge (shrunk by SPACE: GROW less SPACE)
+                x0, y0, x1, y1 = k["box"]
+                grid.block(3 if k["layer"] == "metal3" else 4, x0 + SPACE, y0 + SPACE, x1 - SPACE, y1 - SPACE,
+                           soft=True)
     nets = [n for n in pins if len(pins[n]) > 1 or n in ports]
     nets.sort(key=lambda n: (order.index(n) if n in order else len(order), n))
     routes, failed = {}, []
@@ -187,7 +217,8 @@ def route(pl: dict, nmap: dict, ports: list, order: list, outline: list | None =
         stacks = []                                   # reserve the stubs' columns; a ring pin gets its contact stack
         for (layer, i, j), q in used:
             for jj in (j - 1, j, j + 1):
-                grid.own[(4, i, jj)] = net
+                if (4, i, jj) not in grid.soft:      # a device area stays closed to this net too
+                    grid.own[(4, i, jj)] = net
             tree.add((4, i, j))
             if q["kind"] == "body":
                 x, y = i * GRID, q["y"]

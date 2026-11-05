@@ -1,0 +1,187 @@
+{
+  "run_id": "2026-11-05T17:52:42-08ae35aa",
+  "design": "iadc_ota_v2",
+  "s6_run_id": "2026-11-05T17:51:13-bef0597b",
+  "eta": 0.5,
+  "TOL_USE": 0.02,
+  "post_layout_view": "pex_c",
+  "gates": {
+    "G7.1_specs_met_post_layout": {
+      "pass": false,
+      "missing_measurements": {},
+      "detail": {
+        "pm_deg": [
+          72.7202,
+          60,
+          true
+        ],
+        "gain_db": [
+          53.6021,
+          52.4704,
+          true
+        ],
+        "gbw_mhz": [
+          176.761,
+          188.8668,
+          false
+        ]
+      },
+      "failed_runs": []
+    },
+    "G7.2_loss_within_eta_margin": {
+      "pass": false,
+      "detail": {
+        "pm_deg": 0.5238,
+        "gain_db": -0.2636,
+        "gbw_mhz": 3.1537
+      }
+    },
+    "G7.3_G2.0_prediction (info)": {
+      "pass": null,
+      "detail": {
+        "pm_deg": [
+          0.2619,
+          0.1722353505614758,
+          0.5206
+        ],
+        "gain_db": [
+          -0.1318,
+          0.636258408443774,
+          -1.2071
+        ],
+        "gbw_mhz": [
+          1.57687,
+          1.3608547878069892,
+          0.1587
+        ]
+      },
+      "note": "[post-layout loss / margin, G2.0's predicted share, relative error]; PREREG: within 25 %"
+    },
+    "G7.4_pvt (info)": {
+      "pass": null,
+      "note": "PVT points are not simulated post-layout here"
+    },
+    "G7.5_mim_self_coupling_cancelled (info)": {
+      "pass": null,
+      "capacitors": {
+        "XC3": {
+          "top": "op",
+          "bottom": "cmc",
+          "plate_coupling_fF": 10.4049,
+          "bottom_to_substrate_fF": 10.9063,
+          "netlist": "outputs/S6/iadc_ota_v2/mim_self/XC3/XC3__A_pex.spice",
+          "model": "sky130_fd_pr__cap_mim_m3_1",
+          "params": {
+            "W": "4.8",
+            "L": "4.8",
+            "MF": "4",
+            "M": "4"
+          }
+        },
+        "XC4": {
+          "top": "on",
+          "bottom": "cmc",
+          "plate_coupling_fF": 10.4049,
+          "bottom_to_substrate_fF": 10.9063,
+          "netlist": "outputs/S6/iadc_ota_v2/mim_self/XC4/XC4__A_pex.spice",
+          "model": "sky130_fd_pr__cap_mim_m3_1",
+          "params": {
+            "W": "4.8",
+            "L": "4.8",
+            "MF": "4",
+            "M": "4"
+          }
+        }
+      },
+      "detail": {
+        "budget_aware": {
+          "gain_db": {
+            "value": 53.6021,
+            "lost": -0.1318,
+            "use_of_allowed": -0.2636,
+            "within_allowed": true
+          },
+          "gbw_mhz": {
+            "value": 179.465,
+            "lost": 30.387,
+            "use_of_allowed": 2.896,
+            "within_allowed": false
+          },
+          "pm_deg": {
+            "value": 72.4618,
+            "lost": 4.7718,
+            "use_of_allowed": 0.5538,
+            "within_allowed": true
+          }
+        },
+        "area_only": {
+          "gain_db": {
+            "value": 53.6021,
+            "lost": -0.1318,
+            "use_of_allowed": -0.2636,
+            "within_allowed": true
+          },
+          "gbw_mhz": {
+            "value": 178.512,
+            "lost": 31.34,
+            "use_of_allowed": 2.9869,
+            "within_allowed": false
+          },
+          "pm_deg": {
+            "value": 72.6374,
+            "lost": 4.5962,
+            "use_of_allowed": 0.5334,
+            "within_allowed": true
+          }
+        }
+      },
+      "budget_aware_within_eta": false,
+      "view": "pex_c_mim_cancelled",
+      "note": "the post-layout AC run (R+C, or C-only without R+C extraction) with each MIM capacitor's own plate-to-plate coupling cancelled (S6 G6.5: very likely counted twice by Magic's sky130 rules); G7.1 and G7.2 keep Magic's netlist"
+    },
+    "H4 (info)": {
+      "pass": null,
+      "G6.2": false,
+      "G7.1_and_G7.2": false,
+      "note": "H4 holds if G6.2 passing implies G7.1 and G7.2 passing"
+    },
+    "H5 (info)": {
+      "pass": null,
+      "use_of_allowed": {
+        "budget_aware": {
+          "pm_deg": 0.5238,
+          "gain_db": -0.2636,
+          "gbw_mhz": 3.1537
+        },
+        "area_only": {
+          "pm_deg": 0.5043,
+          "gain_db": -0.2636,
+          "gbw_mhz": 3.2389
+        }
+      }
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-11-05T16:52:42+00:00",
+    "git_commit": "d6958ca61d7c91b6c6698ea5876802067ff1e9f4",
+    "inputs": [
+      {
+        "path": "outputs/S6/iadc_ota_v2/parasitics_vs_budgets.json",
+        "sha256": "7d8aee9359b116528a3eb9bef8a1c6deb458f17dc20c665a9ed9897d1853adf0"
+      },
+      {
+        "path": "outputs/S0/iadc_ota_v2/circuit_ir.json",
+        "sha256": "a3918c7255affedabb2bc24d98a03df2d4c04089c39b149e9b47b76f90bea184"
+      },
+      {
+        "path": "outputs/S2/iadc_ota_v2/s2_report.json",
+        "sha256": "cc120c64d12c00febbfe564926949db4c6a1c4cc1a7c6fa05db93d5fa07c6c7e"
+      },
+      {
+        "path": "inputs/iadc_ota_v2/package.yaml",
+        "sha256": "dcc71eccf52c8b47251bef96d3fbcaaa9482d914f76f4bdb49e3006b780432ea"
+      }
+    ]
+  }
+}

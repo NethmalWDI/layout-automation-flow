@@ -1,0 +1,25 @@
+* NGSPICE file created from pmos_dummy_2__f3.ext - technology: sky130A
+
+.subckt sky130_fd_pr__pfet_01v8_RGDEC8 G D w_n154_n240# S
+X0 S G D w_n154_n240# sky130_fd_pr__pfet_01v8 ad=0.406 pd=3.38 as=0.406 ps=3.38 w=1.4 l=0.6
+.ends
+
+.subckt pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng B S G D
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_pc G D B S sky130_fd_pr__pfet_01v8_RGDEC8
+.ends
+
+.subckt pmos_dummy_2__f3 VDD VDD_body
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_0 VDD_body VDD VDD VDD pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_10 VDD_body VDD VDD VDD pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_1 VDD_body VDD VDD VDD pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_11 VDD_body VDD VDD VDD pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_2 VDD_body VDD VDD VDD pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_3 VDD_body VDD VDD VDD pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_4 VDD_body VDD VDD VDD pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_6 VDD_body VDD VDD VDD pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_5 VDD_body VDD VDD VDD pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_7 VDD_body VDD VDD VDD pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_8 VDD_body VDD VDD VDD pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+Xpfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_9 VDD_body VDD VDD VDD pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng
+.ends
+

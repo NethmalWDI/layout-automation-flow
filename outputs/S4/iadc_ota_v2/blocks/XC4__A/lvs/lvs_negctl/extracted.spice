@@ -1,0 +1,19 @@
+* NGSPICE file created from XC4__A.ext - technology: sky130A
+
+.subckt sky130_fd_pr__cap_mim_m3_1_MX4MQY C1_3 C1_2 C1_1 C1_0 C2_3 C2_2 C2_1 C2_0
+X0 C1_0 C2_0 sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X1 C1_2 C2_2 sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X2 C1_1 C2_1 sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+X3 C1_3 C2_3 sky130_fd_pr__cap_mim_m3_1 l=4.8 w=4.8
+.ends
+
+.subckt XC4_mim XC4_mim_pc/C2_3 XC4_mim_pc/C2_2 XC4_mim_pc/C2_0 XC4_mim_pc/C2_1 XC4_mim_pc/C1_3
++ XC4_mim_pc/C1_2 XC4_mim_pc/C1_1 XC4_mim_pc/C1_0
+XXC4_mim_pc XC4_mim_pc/C1_3 XC4_mim_pc/C1_2 XC4_mim_pc/C1_1 XC4_mim_pc/C1_0 XC4_mim_pc/C2_3
++ XC4_mim_pc/C2_2 XC4_mim_pc/C2_1 XC4_mim_pc/C2_0 sky130_fd_pr__cap_mim_m3_1_MX4MQY
+.ends
+
+.subckt XC4__A on cmc
+XXC4_mim_0 cmc cmc cmc cmc on on on on XC4_mim
+.ends
+

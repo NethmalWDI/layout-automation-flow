@@ -32,6 +32,7 @@ import reference_layout as RL  # noqa: E402
 
 RULES = ("budget_aware", "area_only")
 UNIT = {"a": 1e-3, "f": 1.0, "p": 1e3, "n": 1e6, "u": 1e9, "": 1e15}    # to fF
+KPEX_TIMEOUT = 1800   # s for the kpex cross-check (G6.3, info); a run past it is reported, not fatal (row 105)
 EXT_TOL = 0.05     # the C-only netlist's total may be this much below the .ext's (G6.4)
 
 
@@ -186,8 +187,13 @@ def kpex_cross_check(gds: Path, cell: str, ref_top: Path, design: str, out: Path
     out.mkdir(parents=True, exist_ok=True)
     ref = out / "ref_named.spice"
     ref.write_text(re.sub(rf"^(\.(?:subckt|ends))\s+{re.escape(design)}\b", rf"\1 {cell}", ref_top.read_text(), flags=re.M))
-    r = subprocess.run(["kpex", "extract", "--pdk", "sky130A", "--gds", str(gds), "--cell", cell, "--schematic", str(ref),
-                        "--2.5D", "--out_dir", str(out)], env=TOOL_ENV, capture_output=True, text=True, timeout=1800)
+    try:
+        r = subprocess.run(["kpex", "extract", "--pdk", "sky130A", "--gds", str(gds), "--cell", cell, "--schematic",
+                            str(ref), "--2.5D", "--out_dir", str(out)], env=TOOL_ENV, capture_output=True, text=True,
+                           timeout=KPEX_TIMEOUT)
+    except subprocess.TimeoutExpired:   # an info cross-check: it does not stop S6 (flow record row 105)
+        (out / "kpex_run.log").write_text(f"kpex did not finish within {KPEX_TIMEOUT} s\n")
+        return {"ran": False, "timed_out_s": KPEX_TIMEOUT, "log": rel(out / "kpex_run.log")}
     (out / "kpex_run.log").write_text(r.stdout + r.stderr)
     f = next(iter(sorted(out.rglob("*_k25d_pex_netlist.spice"))), None)
     if f is None:

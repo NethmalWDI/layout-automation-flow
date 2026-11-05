@@ -2,7 +2,7 @@
 
 Read this file first and update it when you start or stop work (see `CLAUDE.md`, "Working together"). Times are given in container time (CET).
 
-**Last updated:** 2026-11-04 22:40 CET, by Claude Code (the reviewer pack on branch `gui-tools`, below under *Recent changes*). **Now: plan v4, S4–S7 (block generation, placement,
+**Last updated:** 2026-11-05 18:45 CET, by Claude Code. **Work on hold (Imasha, token budget).** Branch `rules-v2`: layout rule set v2 phases 1–2 done (iadc_ota_v2: 35–45 % less area than v1, DRC/LVS clean); phase 3 planned in `docs/rules_v2/phase3_plan.md`; **`docs/HANDOFF.md`** says how to continue (also on another PC or with another Claude account). **Now: plan v4, S4–S7 (block generation, placement,
 routing, verification) on branch `s4-s5`**, from `main` at tag `s0s3-reviewed` (`ec359567`). The plan is
 `docs/plan_v4_S4_S7.md`; the phases are under *Plan v4 (s4-s5)* below.
 - Phases 0–4 are committed: `e6306879`, `a3e9277e`, `1e4d166f`, `f26c136a` and `3089366a`. Phase 2's commit carries an unrelated message
@@ -65,7 +65,7 @@ Claude Code stopped here at Imasha's request. She will run Cowork on this folder
 
 ## Running (container `layout-s0s3`)
 
-- Nothing running (21:25 CET 2026-11-04).
+- `ttsky25a_fd_v2` (GUI copy of ttsky25a_fd, `ruleset: v2`): S0–S3 from 18:09 CET (`runs/logs/gui_ttsky25a_fd_v2_S0S3.log`); `scripts/finish_ttsky_v2.sh` (resumable, from 18:50 CET) runs the stages still missing up to S7 (`runs/logs/gui_ttsky25a_fd_v2_finish.log`) and regenerates its report, the README pictures and the progress report; `runs/logs/finish_ttsky_v2.done` marks the end. Also running: the phase 3 packing dry run (`runs/logs/p3_dry.log`, `.exit`). **Do not edit `src/` until they end.** The PC is turned off at about 01:00 local (20:30 CET), before ttsky can finish: on the next start run `docker exec -d layout-s0s3 bash -lc "bash /foss/designs/scripts/finish_ttsky_v2.sh"` (docs/HANDOFF.md section 2).
 - Ended: iadc_ota S4–S7 with folding (row 97), 19:56–21:19 CET over four runs (`runs/logs/p9_iadc_S4S7e.log`, `p9_iadc_S5S7.log`, `p9_iadc_S5S7b.log`, `p9_iadc_S6S7.log`): S4 PASS; S5 FAIL G5.4 only (after rows 98, 99); S6 FAIL G6.2 only (after row 100); S7 G7.1 FAIL on GBW (180.3 against ≥ 188.9 MHz), G7.2 FAIL.
 
 Runs of 2026-11-04 evening (branch `gui-tools`), ended:
@@ -206,6 +206,7 @@ Earlier history of this run:
 
 | Who | Files / designs | Since |
 |---|---|---|
+| Claude Code | **released 2026-11-05 18:45 CET** (work on hold): rule set v2 on branch `rules-v2` | 2026-11-05 |
 | Claude Code | The local GUI: new `gui/`, `scripts/gui_backend.py`, `scripts/make_design_report.py`; design copies it creates (`circuits/<copy>/`, `inputs/<copy>/`, lines added to `circuits/SOURCE_SHA256.txt`) | 2026-11-04 15:15 CET |
 | Claude Code | Plan v4 Phase 8 on branch `s5-ttsky` (8.7 from 13:16: also re-runs `outputs/S4`–`S7` of `example_ota_5t` and `loadbench_miller`, and `scripts/make_s4s7_walkthrough.py`): `src/s4/`–`src/s7/`, `inputs/ttsky25a_fd/layout.yaml`, `tests/`, `outputs/S4`–`S7` (and S0–S3 re-runs) for `ttsky25a_fd`, `PREREG.md`, docs (plan v5, README, STATUS, progress log, flow record) | 2026-11-04 06:10 CET |
 | Claude Code | Plan v4 on branch `s4-s5`: `src/s3/`, new `src/s4/`–`src/s7/`, `src/flow.py`, `scripts/`, `tests/`, `outputs/S3`–`S7` for `example_ota_5t` and `loadbench_miller`, `PREREG.md`, docs (plan v4, README, STATUS, progress log, flow record). S0–S2 outputs are frozen (`tests/frozen/`), not claimed | 2026-11-03 19:10 CET |
@@ -1682,6 +1683,11 @@ Today's plan-v2 runs (CET). In S3 'before' runs, FAILs in G3.3 and G3.5 are part
 
 ## Recent changes
 
+- 2026-11-05 18:45 (Claude Code): **work put on hold for handoff** (Imasha). `docs/HANDOFF.md` rewritten (state, what is running, setting up on another PC, conventions, next steps, open questions); `docs/rules_v2/phase3_plan.md` (phase 3 plan with the dry-run status); `scripts/finish_ttsky_v2.sh` finishes ttsky25a_fd_v2 and refreshes the documents unattended; the README and the progress report pick the ttsky v2 result up when it exists.
+- 2026-11-05 evening (Claude Code, branch `rules-v2`): **README rewritten for the flow** (Imasha): what it does, the expected novelty, rule set v2, results of all four designs with pictures (iadc v1 / v2 / hand and ttsky flow / hand at one scale, `scripts/make_readme_figures.py` → `outputs/report/readme/`), the next plan, and how to run every stage. The long per-stage reference moved verbatim to `docs/flow_details.md`; ALIGN left the README (a historical note there). `ttsky25a_fd_v2` (GUI copy, `ruleset: v2`) created; its S0–S3 running.
+- 2026-11-05 evening (Claude Code, branch `rules-v2`): **first v2 result, iadc_ota_v2** (Imasha's drawn blocks): budget-aware 141.7 × 156.2 = 22,142 µm² (v1 33,889; 1.66 × the hand layout, 2.19 × without its CMFB), area-only 84.7 × 211.2 = 17,901 µm² (v1 32,698; 1.34 ×, 1.77 ×); 19 blocks instead of 67; route length −44 %; top DRC 0 and LVS match both; GBW after layout (C-only) 176.8 / 175.9 MHz (v1 180.3 / 179.6; wiring loss 13.7 % against v1's 12.0 % and the hand's 9.1 %). H-v2a (≤ 1.3 ×) and H-v2b not met yet. Simple report `docs/reports/iadc_ota_v2_report.html`. Flow record rows 103–106.
+- 2026-11-05 (Claude Code, branch `rules-v2`): **rule set v2 phases 1 and 2 coded** (opt-in `ruleset: v2`): `src/common/drc_rules.py` (deck table, checked by a test), `src/common/ruleset.py` (DRC × 1.1 spacings, device-area keep-outs, S5 channel loop), `src/s4/v2.py` (Imasha's drawn blocks with their dummies, 2-D arrangements, screening). PREREG amendment 2026-11-05. Flow record rows 101–102, section 7.26. 209 tests pass; 36 goldens match (v1 unchanged). README's PowerShell commands repaired (`.\flow.ps1` had lost its backslash to a form feed in the reviewer-pack edit).
+- 2026-11-05 (Claude Code, branch `rules-v2`): **rule set v2, draft for Imasha's review** (`docs/rules_v2/ruleset_v2.md`): DRC-minimum spacing with the deck's rule ids, a guard ring per stack, 2-D common-centroid and interdigitated variants, the designer's dummies inside their arrays, no routing over blocks except symmetric crossings; sources: the PDFs in Imasha's `layout_books` folder (ASP-DAC'22 review and its case studies, Long et al. ISCAS'05, WVU and TAMU slides, a Cadence blog; and, as the main source, Saint & Saint, IC Mask Design, with its Case Study 1). No code changed; 10 questions answered by Imasha the same day (section 7); open: the candidate screening and the 0.05 µm snap reading; waiting for her iadc hierarchy drawings.
 - 2026-11-05 (Claude Code, branch `gui-tools`): **the reviewer pack.** `docs/progress_report.html` (and `.md`),
   written by `scripts/make_progress_report.py` from the committed outputs: what each stage does and the algorithm
   it runs, what happened (timeline, 100 journey rows), the expected novelty (C1–C5, and what is not claimed), the

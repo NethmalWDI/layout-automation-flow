@@ -1,0 +1,6 @@
+.subckt x2_diff__cc1 in ip x2_foldn x2_foldp x2_tail VSS_body
+XXX2_M1 x2_foldp ip x2_tail VSS_body sky130_fd_pr__nfet_01v8_lvt L=0.2 W=1.2 nf=1 m=6
+XXX2_M2 x2_foldn in x2_tail VSS_body sky130_fd_pr__nfet_01v8_lvt L=0.2 W=1.2 nf=1 m=6
+XXX2_M23 x2_foldp x2_foldp x2_foldp VSS_body sky130_fd_pr__nfet_01v8_lvt L=0.2 W=1.2 nf=1 m=2
+XXX2_M24 x2_foldn x2_foldn x2_foldn VSS_body sky130_fd_pr__nfet_01v8_lvt L=0.2 W=1.2 nf=1 m=2
+.ends

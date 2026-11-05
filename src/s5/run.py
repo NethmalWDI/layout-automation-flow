@@ -224,13 +224,17 @@ def legal(pl: dict, blocks: dict) -> dict:
     """Separation of every pair of blocks (at least the gap in x or in y), PMOS above NMOS, symmetric blocks on x = 0."""
     bs = pl["blocks"]
     names = list(bs)
-    sep = []
+    sep, short = [], []
     for i, a in enumerate(names):
         for b in names[i + 1:]:
             A, B = bs[a]["bbox"], bs[b]["bbox"]
             gx = max(B[0] - A[2], A[0] - B[2])
             gy = max(B[1] - A[3], A[1] - B[3])
             sep.append(max(gx, gy))
+            if P.GAP_FN is not None:                # rule set v2: each pair at least its own DRC gap
+                from src.common import ruleset as RS
+                if max(gx, gy) < RS._base_gap(blocks[a], blocks[b]) - 1e-6:
+                    short.append([a, b, round(max(gx, gy), 4)])
     # with macros (plan v4 Phase 8) the rows are a macro's own: PMOS above NMOS, and the symmetric blocks on one
     # axis, inside each macro; without, across the layout and on x = 0, as before
     groups = {}
@@ -246,6 +250,9 @@ def legal(pl: dict, blocks: dict) -> dict:
         if g is None:                               # no macros: every symmetric block's axis on x = 0
             axes_ok = axes_ok and all(abs(x) <= P.AXIS_TOL for x in ax.values())
         # in a macro, pairs may share a row (the hard outline, plan v4 Phase 8): their axes are reported, not gated
+    if P.GAP_FN is not None:
+        return {"min_separation_um": round(min(sep), 4) if sep else None, "separation_ok": not short,
+                "too_close": short[:20], "pmos_above_nmos": above, "symmetric_axes": axis, "axes_ok": axes_ok}
     return {"min_separation_um": round(min(sep), 4) if sep else None,
             "separation_ok": not sep or min(sep) >= min(P.ROW_GAP, P.BLOCK_GAP) - 1e-6,
             "pmos_above_nmos": above, "symmetric_axes": axis, "axes_ok": axes_ok}
@@ -301,7 +308,46 @@ def main(argv=None) -> int:
     drow = designer_rows(ir, blocks)
     opts = layout_options(design)
     outline = opts.get("outline_um")
-    if opts.get("hierarchy") == "upstream":   # macros per sub-circuit, then the macros (plan v4 Phase 8)
+    ref_spice = (s0 / "ref" / f"{design}_layout.spice").read_text()
+    nmap = R.net_map(ir, ref_spice)
+    ports = R.ports_of(ref_spice)
+    order = [nmap.get(n, n) for n in sorted(max_len, key=lambda n: max_len[n])]   # least budget slack first,
+    # in the layout view's names, which the router uses (ibias -> IBIAS; review of plan v4 Phase 7)
+    from src.common import ruleset as RS
+    v2 = RS.apply_s5(design)                  # rule set v2 (opt-in, layout.yaml `ruleset: v2`)
+    pre, channel = {}, {}
+    if v2 and opts.get("hierarchy") != "upstream":
+        raise RuntimeError("rule set v2 (phase 1) needs the grid router: layout.yaml hierarchy: upstream")
+    if opts.get("hierarchy") == "upstream" and v2:
+        # R2: the narrowest channel first, one router grid wider at a time, until every net routes (PREREG 2026-11-05)
+        from src.s5 import grid as GR
+        from src.s5 import macro as M
+        chosen = {}
+        for r in RULES:
+            tries = []
+            for k in range(RS.CHANNEL_STEPS + 1):
+                RS.CHANNEL["um"] = round(k * GR.GRID, 4)
+                try:
+                    c = M.hierarchical(design, blocks, max_len, r, outline)
+                except RuntimeError as e:          # wider channels no longer fit the outline
+                    if "fits the outline" not in str(e):
+                        raise
+                    tries.append({"channel_um": RS.CHANNEL["um"], "error": str(e)[:300]})
+                    break
+                gr = GR.route(c["placement"], nmap, ports, order, outline)
+                tries.append({"channel_um": RS.CHANNEL["um"], "area_um2": c["placement"]["area_um2"],
+                              "failed": gr["failed"]})
+                print(f"  v2 {r}: channel {RS.CHANNEL['um']} um, area {c['placement']['area_um2']}, "
+                      f"unrouted {len(gr['failed'])}", flush=True)
+                chosen[r], pre[r] = c, gr
+                if not gr["failed"]:
+                    break
+            if r not in chosen:
+                raise RuntimeError(f"rule set v2: no placement of {design} fits the outline ({tries})")
+            placed = [t for t in tries if "error" not in t]       # the last placement made is the one kept
+            channel[r] = {"channel_um": placed[-1]["channel_um"], "routed": not placed[-1]["failed"], "tries": tries}
+        cands = []
+    elif opts.get("hierarchy") == "upstream":   # macros per sub-circuit, then the macros (plan v4 Phase 8)
         from src.s5 import macro as M
         chosen = {r: M.hierarchical(design, blocks, max_len, r, outline) for r in RULES}
         cands = []
@@ -311,11 +357,6 @@ def main(argv=None) -> int:
         chosen = {r: {**cands[best[r]], "index": best[r]} for r in RULES}
     fresh_output_dir(out)
     out.mkdir(parents=True, exist_ok=True)
-    ref_spice = (s0 / "ref" / f"{design}_layout.spice").read_text()
-    nmap = R.net_map(ir, ref_spice)
-    ports = R.ports_of(ref_spice)
-    order = [nmap.get(n, n) for n in sorted(max_len, key=lambda n: max_len[n])]   # least budget slack first,
-    # in the layout view's names, which the router uses (ibias -> IBIAS; review of plan v4 Phase 7)
     mirrored = [(*(nmap.get(t, t) for t in c["targets"]), c["class"]) for c in cons if c["id"].startswith("route.symmetric.")]
     par_limit = {frozenset(nmap.get(t, t) for t in c["targets"]): c["value"] for c in cons
                  if c["id"].startswith("route.max_parallel.") and c["id"].endswith(".metal4")}
@@ -327,10 +368,11 @@ def main(argv=None) -> int:
         pl = c["placement"]
         res[r] = {"index": c["index"], "cost": c["cost"], "placement": pl, "legal": legal(pl, blocks),
                   "assembled": assemble(f"{design}_placed_{r}", pl, blocks, out / f"placed_{r}"),
-                  **({"fallback": c["fallback"]} if c.get("fallback") else {})}   # row 99
+                  **({"fallback": c["fallback"]} if c.get("fallback") else {}),   # row 99
+                  **({"ruleset": "v2", "channel": channel[r]} if v2 else {})}
         if opts.get("hierarchy") == "upstream":     # the grid router (plan v4 Phase 8.5)
             from src.s5 import grid as GR
-            gr = GR.route(pl, nmap, ports, order, outline)
+            gr = pre[r] if r in pre else GR.route(pl, nmap, ports, order, outline)
             if gr["failed"]:
                 res[r]["routing"] = {"ok": False, "error": f"grid router: no route for {gr['failed']}"}
                 continue

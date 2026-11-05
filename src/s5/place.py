@@ -17,6 +17,7 @@ import itertools
 
 ROW_GAP = 3.0
 BLOCK_GAP = 3.0
+GAP_FN = ROWGAP_FN = None   # rule set v2 (src/common/ruleset.py): per-pair gaps; None keeps the two above (v1)
 LAMBDA, MU = 10.0, 1.0
 MAX_CANDIDATES = 50000
 AXIS_TOL = 0.005
@@ -66,7 +67,7 @@ def realise(rows: list, choice: dict, blocks: dict, shared_rows: bool = False) -
     each pair keeps only its own symmetry. Returns the placed blocks (origin, bounding box, pins) and the overall
     bounding box."""
     placed, y_top = {}, 0.0
-    for row in rows:
+    for ri, row in enumerate(rows):
         geo = {b: local(choice[b][0], choice[b][1]) for b in row}
         sym = [b for b in row if blocks[b]["symmetric"]]
         if len(sym) > 1 and not shared_rows:
@@ -76,10 +77,16 @@ def realise(rows: list, choice: dict, blocks: dict, shared_rows: bool = False) -
         h = max(g["bbox"][3] - g["bbox"][1] for g in geo.values())
         y_bot = y_top - h
         xs, x = {}, 0.0
-        for b in row:
-            xs[b] = x - geo[b]["bbox"][0]          # origin x so that the box starts at x
-            x += geo[b]["bbox"][2] - geo[b]["bbox"][0] + BLOCK_GAP
-        width = x - BLOCK_GAP
+        if GAP_FN is None:
+            for b in row:
+                xs[b] = x - geo[b]["bbox"][0]      # origin x so that the box starts at x
+                x += geo[b]["bbox"][2] - geo[b]["bbox"][0] + BLOCK_GAP
+            width = x - BLOCK_GAP
+        else:                                      # rule set v2: each pair's own gap
+            for k, b in enumerate(row):
+                xs[b] = x - geo[b]["bbox"][0]
+                x += geo[b]["bbox"][2] - geo[b]["bbox"][0] + (GAP_FN(blocks, b, row[k + 1]) if k + 1 < len(row) else 0.0)
+            width = x
         shift = -(xs[sym[0]] + geo[sym[0]]["axis"]) if sym else -width / 2
         for b in row:
             g = geo[b]
@@ -93,7 +100,8 @@ def realise(rows: list, choice: dict, blocks: dict, shared_rows: bool = False) -
                          **({"keepouts": [{**k, "box": [round(k["box"][0] + tx, 4), round(k["box"][1] + ty, 4),
                                                         round(k["box"][2] + tx, 4), round(k["box"][3] + ty, 4)]}
                                           for k in g["keepouts"]]} if g["keepouts"] else {})}
-        y_top = y_bot - ROW_GAP
+        y_top = y_bot - (ROW_GAP if ROWGAP_FN is None else
+                         (ROWGAP_FN(blocks, row, rows[ri + 1]) if ri + 1 < len(rows) else 0.0))
     bb = [min(p["bbox"][0] for p in placed.values()), min(p["bbox"][1] for p in placed.values()),
           max(p["bbox"][2] for p in placed.values()), max(p["bbox"][3] for p in placed.values())]
     return {"rows": rows, "blocks": placed, "bbox": [round(v, 4) for v in bb],

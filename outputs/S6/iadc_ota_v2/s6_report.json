@@ -1,0 +1,1190 @@
+{
+  "run_id": "2026-11-05T17:51:13-bef0597b",
+  "design": "iadc_ota_v2",
+  "s5_run_id": "2026-11-05T17:10:03-7dd3f365",
+  "ac_grounds": [
+    "VDD",
+    "VSS",
+    "cmc"
+  ],
+  "gates": {
+    "G6.1_extracted_and_LVS": {
+      "pass": true,
+      "rc_extraction": false,
+      "detail": {
+        "budget_aware": {
+          "lvs": true,
+          "caps": 230,
+          "rc_resistors": null,
+          "unassigned_caps": 0
+        },
+        "area_only": {
+          "lvs": true,
+          "caps": 270,
+          "rc_resistors": null,
+          "unassigned_caps": 0
+        }
+      }
+    },
+    "G6.2_parasitics_within_budgets": {
+      "pass": false,
+      "violations": [
+        "bias_a",
+        "bias_b",
+        "bias_c",
+        "bias_d",
+        "on",
+        "op",
+        "x1_m21d",
+        "x1_m25d",
+        "x1_m2d",
+        "x1_m31d",
+        "x1_net1",
+        "x1_net10",
+        "x1_net12",
+        "x1_net13",
+        "x1_net15",
+        "x1_net3",
+        "x1_net4",
+        "x1_net5",
+        "x1_net7",
+        "x1_net8",
+        "x1_net9",
+        "x2_foldn",
+        "x2_foldp",
+        "x2_m3d",
+        "x2_m4d",
+        "bias_a~bias_b",
+        "bias_a~bias_c",
+        "bias_a~bias_d",
+        "bias_a~cm",
+        "bias_a~on",
+        "bias_a~op",
+        "bias_a~x1_m2d",
+        "bias_a~x2_foldn",
+        "bias_a~x2_foldp",
+        "bias_a~x2_m3d",
+        "bias_a~x2_m4d",
+        "bias_a~x2_tail",
+        "bias_a~ip",
+        "bias_a~in",
+        "bias_b~bias_c",
+        "bias_b~bias_d",
+        "bias_b~x1_m21d",
+        "bias_b~x1_m25d",
+        "bias_b~x1_m2d",
+        "bias_b~x2_foldn",
+        "bias_b~x2_foldp",
+        "bias_c~bias_d",
+        "bias_c~cm",
+        "bias_c~i_bias",
+        "bias_c~on",
+        "bias_c~op",
+        "bias_c~x1_m21d",
+        "bias_c~x1_m25d",
+        "bias_c~x1_m2d",
+        "bias_c~x1_m31d",
+        "bias_c~x2_foldn",
+        "bias_c~x2_foldp",
+        "bias_d~cm",
+        "bias_d~on",
+        "bias_d~op",
+        "bias_d~x1_m2d",
+        "bias_d~x1_m5d",
+        "bias_d~x2_foldn",
+        "bias_d~x2_foldp",
+        "bias_d~x2_m3d",
+        "bias_d~x2_m4d",
+        "bias_d~x2_tail",
+        "bias_d~ip",
+        "bias_d~in",
+        "cm~x1_m21d",
+        "cm~x1_m25d",
+        "cm~x1_m2d",
+        "cm~x1_m31d",
+        "cm~x1_net10",
+        "cm~x1_net11",
+        "cm~x1_net13",
+        "cm~x1_net14",
+        "cm~x1_net2",
+        "cm~x1_net4",
+        "cm~x1_net7",
+        "cm~x1_net8",
+        "i_bias~x1_m21d",
+        "i_bias~x1_m25d",
+        "i_bias~x1_m2d",
+        "i_bias~x1_m31d",
+        "on~op",
+        "on~x2_foldn",
+        "on~x2_foldp",
+        "on~x2_m3d",
+        "on~x2_m4d",
+        "on~x2_tail",
+        "on~ip",
+        "on~in",
+        "op~x2_foldn",
+        "op~x2_foldp",
+        "op~x2_m3d",
+        "op~x2_m4d",
+        "op~x2_tail",
+        "op~ip",
+        "op~in",
+        "x1_m21d~x1_m25d",
+        "x1_m21d~x1_m2d",
+        "x1_m21d~x1_m31d",
+        "x1_m25d~x1_m2d",
+        "x1_m25d~x1_m31d",
+        "x1_m2d~x1_m31d",
+        "x1_m2d~x1_m5d",
+        "x1_m2d~x1_net1",
+        "x1_m2d~x1_net10",
+        "x1_m2d~x1_net11",
+        "x1_m2d~x1_net12",
+        "x1_m2d~x1_net13",
+        "x1_m2d~x1_net14",
+        "x1_m2d~x1_net15",
+        "x1_m2d~x1_net2",
+        "x1_m2d~x1_net3",
+        "x1_m2d~x1_net4",
+        "x1_m2d~x1_net5",
+        "x1_m2d~x1_net6",
+        "x1_m2d~x1_net7",
+        "x1_m2d~x1_net8",
+        "x1_m2d~x1_net9",
+        "x1_net1~x1_net3",
+        "x1_net10~x1_net12",
+        "x1_net13~x1_net14",
+        "x1_net13~x1_net15",
+        "x1_net14~x1_net15",
+        "x1_net15~x1_net4",
+        "x1_net2~x1_net3",
+        "x1_net4~x1_net5",
+        "x1_net5~x1_net6",
+        "x1_net6~x1_net7",
+        "x1_net7~x1_net8",
+        "x1_net7~x1_net9",
+        "x1_net8~x1_net9",
+        "x2_foldn~x2_foldp",
+        "x2_foldn~x2_tail",
+        "x2_foldn~ip",
+        "x2_foldn~in",
+        "x2_foldp~x2_tail",
+        "x2_foldp~ip",
+        "x2_foldp~in",
+        "x2_m3d~x2_m4d",
+        "x2_m3d~x2_tail",
+        "x2_m4d~x2_tail",
+        "x2_m4d~in",
+        "x2_tail~ip",
+        "x2_tail~in",
+        "XX1_M22.d",
+        "XX1_M22.g",
+        "XX1_M22.s",
+        "XX1_M26.d",
+        "XX1_M26.g",
+        "XX1_M26.s",
+        "XX1_M32.d",
+        "XX1_M32.s",
+        "XX1_M21.d",
+        "XX1_M21.s",
+        "XX1_M25.d",
+        "XX1_M25.g",
+        "XX1_M25.s",
+        "XX1_M31.d",
+        "XX1_M31.s",
+        "XX1_M1.d",
+        "XX1_M1.g",
+        "XX1_M1.s",
+        "XX1_M2.d",
+        "XX1_M2.g",
+        "XX1_M2.s",
+        "XX1_M3.d",
+        "XX1_M3.g",
+        "XX1_M3.s",
+        "XX1_M4.d",
+        "XX1_M4.g",
+        "XX1_M4.s",
+        "XX1_M5.d",
+        "XX1_M5.s",
+        "XX1_M7+XX1_M6.d",
+        "XX1_M7+XX1_M6.s",
+        "XX1_M49.g",
+        "XX1_M63.d",
+        "XX1_M63.g",
+        "XX1_M63.s",
+        "XX1_M71.d",
+        "XX1_M71.g",
+        "XX1_M71.s",
+        "XX1_M74.g",
+        "XX1_M74.s",
+        "XX1_M75.s",
+        "XX1_M77.d",
+        "XX1_M79.g",
+        "XX1_M79.s",
+        "XX1_M65.g",
+        "XX1_M67.d",
+        "XX1_M67.g",
+        "XX1_M67.s",
+        "XX2_M1+XX2_M2.d",
+        "XX2_M1+XX2_M2.g",
+        "XX2_M1+XX2_M2.s",
+        "XX2_M6.d",
+        "XX2_M6.s",
+        "XX2_M5.d",
+        "XX2_M5.g",
+        "XX2_M5.s",
+        "XX2_M11.d",
+        "XX2_M11.g",
+        "XX2_M11.s",
+        "XX2_M12.d",
+        "XX2_M12.g",
+        "XX2_M12.s",
+        "XX2_M1A.d",
+        "XX2_M1A.g",
+        "XX2_M1A.s",
+        "XX2_M8.d",
+        "XX2_M8.g",
+        "XX2_M8.s",
+        "XX2_M3A.d",
+        "XX2_M3A.g",
+        "XX2_M3A.s",
+        "XX2_M7.d",
+        "XX2_M7.g",
+        "XX2_M7.s",
+        "XX2_M3.d",
+        "XX2_M3.g",
+        "XX2_M3.s",
+        "XX2_M4.d",
+        "XX2_M4.g",
+        "XX2_M4.s"
+      ],
+      "worst": [
+        [
+          1237.7681,
+          "x2_m3d~x2_tail"
+        ],
+        [
+          940.8619,
+          "x2_m4d~x2_tail"
+        ],
+        [
+          820.0962,
+          "op~x2_m3d"
+        ],
+        [
+          810.3407,
+          "x2_m3d~x2_m4d"
+        ],
+        [
+          772.4773,
+          "x2_foldn~x2_foldp"
+        ]
+      ],
+      "area_only_violations (H5)": [
+        "bias_a",
+        "bias_b",
+        "bias_c",
+        "bias_d",
+        "on",
+        "op",
+        "x1_m21d",
+        "x1_m25d",
+        "x1_m2d",
+        "x1_m31d",
+        "x1_net1",
+        "x1_net10",
+        "x1_net12",
+        "x1_net13",
+        "x1_net15",
+        "x1_net3",
+        "x1_net4",
+        "x1_net5",
+        "x1_net7",
+        "x1_net8",
+        "x2_foldn",
+        "x2_foldp",
+        "x2_m3d",
+        "x2_m4d",
+        "bias_a~bias_b",
+        "bias_a~bias_c",
+        "bias_a~bias_d",
+        "bias_a~cm",
+        "bias_a~x1_m2d",
+        "bias_a~x1_net13",
+        "bias_a~x2_foldn",
+        "bias_a~x2_foldp",
+        "bias_a~x2_m3d",
+        "bias_a~x2_m4d",
+        "bias_a~x2_tail",
+        "bias_a~ip",
+        "bias_a~in",
+        "bias_b~bias_c",
+        "bias_b~bias_d",
+        "bias_b~x1_m21d",
+        "bias_b~x1_m25d",
+        "bias_b~x1_m2d",
+        "bias_b~x1_net11",
+        "bias_b~x1_net12",
+        "bias_b~x1_net14",
+        "bias_b~x1_net15",
+        "bias_b~x1_net5",
+        "bias_b~x1_net6",
+        "bias_b~x2_foldn",
+        "bias_b~x2_foldp",
+        "bias_c~bias_d",
+        "bias_c~cm",
+        "bias_c~i_bias",
+        "bias_c~on",
+        "bias_c~op",
+        "bias_c~x1_m21d",
+        "bias_c~x1_m25d",
+        "bias_c~x1_m2d",
+        "bias_c~x1_m31d",
+        "bias_c~x1_net10",
+        "bias_c~x1_net11",
+        "bias_c~x1_net12",
+        "bias_c~x1_net4",
+        "bias_c~x1_net6",
+        "bias_c~x1_net7",
+        "bias_c~x1_net8",
+        "bias_c~x1_net9",
+        "bias_c~x2_foldn",
+        "bias_c~x2_foldp",
+        "bias_d~cm",
+        "bias_d~i_bias",
+        "bias_d~on",
+        "bias_d~op",
+        "bias_d~x1_m2d",
+        "bias_d~x1_m5d",
+        "bias_d~x1_net1",
+        "bias_d~x2_foldn",
+        "bias_d~x2_foldp",
+        "bias_d~x2_m3d",
+        "bias_d~x2_m4d",
+        "bias_d~ip",
+        "bias_d~in",
+        "cm~i_bias",
+        "cm~x1_m21d",
+        "cm~x1_m25d",
+        "cm~x1_m2d",
+        "cm~x1_m31d",
+        "cm~x1_net10",
+        "cm~x1_net11",
+        "cm~x1_net13",
+        "cm~x1_net14",
+        "cm~x1_net2",
+        "cm~x1_net4",
+        "cm~x1_net7",
+        "cm~x1_net8",
+        "i_bias~x1_m2d",
+        "i_bias~x1_net11",
+        "i_bias~x1_net14",
+        "i_bias~x1_net2",
+        "i_bias~x1_net5",
+        "i_bias~x1_net8",
+        "on~op",
+        "on~x1_m5d",
+        "on~x2_foldn",
+        "on~x2_foldp",
+        "on~x2_m3d",
+        "on~x2_m4d",
+        "on~in",
+        "op~x1_m5d",
+        "op~x2_foldn",
+        "op~x2_foldp",
+        "op~x2_m3d",
+        "op~x2_m4d",
+        "op~in",
+        "x1_m21d~x1_m25d",
+        "x1_m21d~x1_m2d",
+        "x1_m21d~x1_m31d",
+        "x1_m25d~x1_m2d",
+        "x1_m25d~x1_m31d",
+        "x1_m2d~x1_m31d",
+        "x1_m2d~x1_m5d",
+        "x1_m5d~x2_foldp",
+        "x1_net1~x1_net3",
+        "x1_net10~x1_net12",
+        "x1_net13~x1_net14",
+        "x1_net13~x1_net15",
+        "x1_net14~x1_net15",
+        "x1_net15~x1_net4",
+        "x1_net2~x1_net3",
+        "x1_net4~x1_net5",
+        "x1_net5~x1_net6",
+        "x1_net6~x1_net7",
+        "x1_net7~x1_net8",
+        "x1_net7~x1_net9",
+        "x1_net8~x1_net9",
+        "x2_foldn~x2_foldp",
+        "x2_foldn~x2_tail",
+        "x2_foldn~ip",
+        "x2_foldn~in",
+        "x2_foldp~x2_tail",
+        "x2_foldp~ip",
+        "x2_foldp~in",
+        "x2_m3d~x2_m4d",
+        "x2_m3d~x2_tail",
+        "x2_m4d~x2_tail",
+        "x2_m4d~in",
+        "x2_tail~ip",
+        "x2_tail~in",
+        "XX1_M22.d",
+        "XX1_M22.g",
+        "XX1_M22.s",
+        "XX1_M26.d",
+        "XX1_M26.g",
+        "XX1_M26.s",
+        "XX1_M32.d",
+        "XX1_M32.s",
+        "XX1_M21.d",
+        "XX1_M21.s",
+        "XX1_M25.d",
+        "XX1_M25.g",
+        "XX1_M25.s",
+        "XX1_M31.d",
+        "XX1_M31.s",
+        "XX1_M1.d",
+        "XX1_M1.g",
+        "XX1_M1.s",
+        "XX1_M2.d",
+        "XX1_M2.g",
+        "XX1_M2.s",
+        "XX1_M3.d",
+        "XX1_M3.g",
+        "XX1_M3.s",
+        "XX1_M4.d",
+        "XX1_M4.g",
+        "XX1_M4.s",
+        "XX1_M5.d",
+        "XX1_M5.s",
+        "XX1_M7+XX1_M6.d",
+        "XX1_M7+XX1_M6.s",
+        "XX1_M49.g",
+        "XX1_M63.d",
+        "XX1_M63.g",
+        "XX1_M63.s",
+        "XX1_M71.d",
+        "XX1_M71.g",
+        "XX1_M71.s",
+        "XX1_M74.g",
+        "XX1_M74.s",
+        "XX1_M75.s",
+        "XX1_M77.d",
+        "XX1_M79.g",
+        "XX1_M79.s",
+        "XX1_M65.g",
+        "XX1_M67.d",
+        "XX1_M67.g",
+        "XX1_M67.s",
+        "XX2_M1+XX2_M2.d",
+        "XX2_M1+XX2_M2.g",
+        "XX2_M1+XX2_M2.s",
+        "XX2_M6.d",
+        "XX2_M6.s",
+        "XX2_M5.d",
+        "XX2_M5.g",
+        "XX2_M5.s",
+        "XX2_M11.d",
+        "XX2_M11.g",
+        "XX2_M11.s",
+        "XX2_M12.d",
+        "XX2_M12.g",
+        "XX2_M12.s",
+        "XX2_M1A.d",
+        "XX2_M1A.g",
+        "XX2_M1A.s",
+        "XX2_M8.d",
+        "XX2_M8.g",
+        "XX2_M8.s",
+        "XX2_M3A.d",
+        "XX2_M3A.g",
+        "XX2_M3A.s",
+        "XX2_M7.d",
+        "XX2_M7.g",
+        "XX2_M7.s",
+        "XX2_M3.d",
+        "XX2_M3.g",
+        "XX2_M3.s",
+        "XX2_M4.d",
+        "XX2_M4.g",
+        "XX2_M4.s"
+      ],
+      "note": "the budget-aware layout is gated; the area-only baseline is reported for H5"
+    },
+    "G6.4_c_only_netlist_complete (info)": {
+      "pass": null,
+      "detail": {
+        "budget_aware": {
+          "netlist_total_fF": 879.914,
+          "ext_total_fF": 1773.428,
+          "netlist_short_of_ext": 0.5038,
+          "complete": false,
+          "tolerance": 0.05,
+          "substrate_net": "VSS",
+          "ext_net_fF_approx": {
+            "x2_m3d": 63.7503,
+            "x2_m4d": 61.1935,
+            "x2_tail": 127.887,
+            "in": 2.6502,
+            "ip": 2.054,
+            "op": 38.8059,
+            "on": 42.2598,
+            "x2_foldp": 29.4761,
+            "x2_foldn": 31.6806,
+            "x1_net12": 0.5007,
+            "x1_net11": 0.4526,
+            "x1_net10": 0.2355,
+            "x1_net9": 0.4881,
+            "x1_net8": 0.4439,
+            "x1_net7": 0.2275,
+            "x1_net6": 0.4972,
+            "x1_net5": 0.4372,
+            "x1_net4": 0.2018,
+            "x1_net15": 0.3101,
+            "x1_net14": 0.2518,
+            "x1_net13": 0.1987,
+            "x1_net3": 0.31,
+            "x1_net2": 0.2582,
+            "x1_net1": 0.2079,
+            "x1_m5d": 24.3031,
+            "bias_d": 65.7265,
+            "bias_a": 166.5436,
+            "i_bias": 33.3324,
+            "cm": 23.956,
+            "x1_m2d": 31.4723,
+            "bias_c": 66.979,
+            "x1_m25d": 10.4708,
+            "x1_m21d": 11.8222,
+            "x1_m31d": 13.6231,
+            "bias_b": 90.229
+          },
+          "nets_without_ground_C_in_netlist": [],
+          "nets_short_in_netlist": {
+            "x2_tail": [
+              14.484,
+              127.887
+            ],
+            "in": [
+              0.007,
+              2.6502
+            ],
+            "ip": [
+              0.0063,
+              2.054
+            ],
+            "op": [
+              22.7143,
+              38.8059
+            ],
+            "on": [
+              22.6905,
+              42.2598
+            ],
+            "x2_foldp": [
+              25.9238,
+              29.4761
+            ],
+            "x2_foldn": [
+              27.5412,
+              31.6806
+            ],
+            "x1_m5d": [
+              0.378,
+              24.3031
+            ],
+            "bias_d": [
+              1.6815,
+              65.7265
+            ],
+            "bias_a": [
+              44.5126,
+              166.5436
+            ],
+            "i_bias": [
+              0.1574,
+              33.3324
+            ],
+            "cm": [
+              2.6169,
+              23.956
+            ],
+            "x1_m2d": [
+              4.4253,
+              31.4723
+            ],
+            "bias_c": [
+              35.0888,
+              66.979
+            ],
+            "x1_m31d": [
+              11.849,
+              13.6231
+            ],
+            "bias_b": [
+              47.5292,
+              90.229
+            ]
+          }
+        },
+        "area_only": {
+          "netlist_total_fF": 1063.061,
+          "ext_total_fF": 1852.735,
+          "netlist_short_of_ext": 0.4262,
+          "complete": false,
+          "tolerance": 0.05,
+          "substrate_net": "VSS",
+          "ext_net_fF_approx": {
+            "x2_m4d": 68.7239,
+            "x2_m3d": 69.8692,
+            "x2_tail": 138.1047,
+            "in": 3.4107,
+            "ip": 3.5834,
+            "op": 42.5339,
+            "on": 43.7712,
+            "x2_foldp": 34.3025,
+            "x2_foldn": 32.1602,
+            "x1_net12": 0.4944,
+            "x1_net11": 0.4448,
+            "x1_net10": 0.2305,
+            "x1_net9": 0.4803,
+            "x1_net8": 0.4381,
+            "x1_net7": 0.2225,
+            "x1_net6": 0.4898,
+            "x1_net5": 0.4324,
+            "x1_net4": 0.1976,
+            "x1_net15": 0.3019,
+            "x1_net14": 0.249,
+            "x1_net13": 0.1956,
+            "x1_net3": 0.309,
+            "x1_net2": 0.2558,
+            "x1_net1": 0.2035,
+            "i_bias": 32.7473,
+            "bias_d": 68.1463,
+            "bias_a": 179.2608,
+            "x1_m5d": 31.4413,
+            "x1_m31d": 14.5715,
+            "x1_m25d": 12.4847,
+            "x1_m2d": 39.5592,
+            "x1_m21d": 15.4572,
+            "cm": 24.0571,
+            "bias_b": 86.3829,
+            "bias_c": 64.1624
+          },
+          "nets_without_ground_C_in_netlist": [],
+          "nets_short_in_netlist": {
+            "x2_tail": [
+              18.4687,
+              138.1047
+            ],
+            "in": [
+              0.0485,
+              3.4107
+            ],
+            "ip": [
+              0.0051,
+              3.5834
+            ],
+            "op": [
+              22.4813,
+              42.5339
+            ],
+            "on": [
+              22.3607,
+              43.7712
+            ],
+            "x2_foldp": [
+              27.5321,
+              34.3025
+            ],
+            "x2_foldn": [
+              27.6228,
+              32.1602
+            ],
+            "i_bias": [
+              0.0015,
+              32.7473
+            ],
+            "bias_d": [
+              1.4038,
+              68.1463
+            ],
+            "bias_a": [
+              45.6808,
+              179.2608
+            ],
+            "x1_m5d": [
+              4.406,
+              31.4413
+            ],
+            "x1_m31d": [
+              12.8849,
+              14.5715
+            ],
+            "x1_m25d": [
+              11.2416,
+              12.4847
+            ],
+            "x1_m2d": [
+              4.0214,
+              39.5592
+            ],
+            "x1_m21d": [
+              13.7608,
+              15.4572
+            ],
+            "cm": [
+              4.4674,
+              24.0571
+            ],
+            "bias_b": [
+              52.8026,
+              86.3829
+            ],
+            "bias_c": [
+              36.8284,
+              64.1624
+            ]
+          }
+        }
+      },
+      "note": "Magic's C-only netlist against its own .ext (totals): ext2spice leaves out the capacitance to ground of nets that are transistor gates (flow record row 71); G6.2 reads the netlist, so a net listed under nets_without_ground_C_in_netlist reads low there. S7's R+C netlist carries it"
+    },
+    "G6.5_mim_self_coupling (info)": {
+      "pass": null,
+      "capacitors": {
+        "XC3": {
+          "top": "op",
+          "bottom": "cmc",
+          "plate_coupling_fF": 10.4049,
+          "bottom_to_substrate_fF": 10.9063,
+          "netlist": "outputs/S6/iadc_ota_v2/mim_self/XC3/XC3__A_pex.spice",
+          "model": "sky130_fd_pr__cap_mim_m3_1",
+          "params": {
+            "W": "4.8",
+            "L": "4.8",
+            "MF": "4",
+            "M": "4"
+          }
+        },
+        "XC4": {
+          "top": "on",
+          "bottom": "cmc",
+          "plate_coupling_fF": 10.4049,
+          "bottom_to_substrate_fF": 10.9063,
+          "netlist": "outputs/S6/iadc_ota_v2/mim_self/XC4/XC4__A_pex.spice",
+          "model": "sky130_fd_pr__cap_mim_m3_1",
+          "params": {
+            "W": "4.8",
+            "L": "4.8",
+            "MF": "4",
+            "M": "4"
+          }
+        }
+      },
+      "budget_aware_rows_less_it": [],
+      "note": "a MIM capacitor block extracted alone: the plate-to-plate coupling Magic adds on top of the device (metal4 over metal3 across the top plate) is very likely counted twice; S7's G7.5 simulates the layout with it cancelled. G6.2 keeps Magic's number"
+    },
+    "G6.3_kpex_cross_check (info)": {
+      "pass": null,
+      "detail": {
+        "budget_aware": {
+          "ran": true,
+          "netlist": "outputs/S6/iadc_ota_v2/budget_aware/kpex/iadc_ota_v2_routed__iadc_ota_v2_routed/iadc_ota_v2_routed_k25d_pex_netlist.spice",
+          "kpex_lvs_matched": false,
+          "unnamed_nets": [
+            "$10.x1_net1",
+            "$10.x1_net10",
+            "$10.x1_net11",
+            "$10.x1_net12",
+            "$10.x1_net13",
+            "$10.x1_net14",
+            "$10.x1_net15",
+            "$10.x1_net2",
+            "$10.x1_net3",
+            "$10.x1_net4",
+            "$10.x1_net5",
+            "$10.x1_net6",
+            "$10.x1_net7",
+            "$10.x1_net8",
+            "$10.x1_net9",
+            "$109",
+            "$121",
+            "$16",
+            "$162",
+            "$17",
+            "$177",
+            "$18",
+            "$261",
+            "$265",
+            "$266",
+            "$50",
+            "$51",
+            "$73"
+          ],
+          "net_fF": {
+            "bias_a": {
+              "magic": 44.5126,
+              "kpex": 178.9477
+            },
+            "cm": {
+              "magic": 2.6169,
+              "kpex": 25.804
+            },
+            "i_bias": {
+              "magic": 0.1574,
+              "kpex": 35.6024
+            },
+            "in": {
+              "magic": 0.007,
+              "kpex": 2.939
+            },
+            "ip": {
+              "magic": 0.0063,
+              "kpex": 2.0857
+            },
+            "on": {
+              "magic": 22.6905,
+              "kpex": 235.0774
+            },
+            "op": {
+              "magic": 22.7143,
+              "kpex": 231.9288
+            },
+            "x1_net1": {
+              "magic": 0.2079,
+              "kpex": 0.2366
+            },
+            "x1_net10": {
+              "magic": 0.2355,
+              "kpex": 0.2669
+            },
+            "x1_net11": {
+              "magic": 0.4526,
+              "kpex": 0.4861
+            },
+            "x1_net12": {
+              "magic": 0.5007,
+              "kpex": 0.5401
+            },
+            "x1_net13": {
+              "magic": 0.1987,
+              "kpex": 0.2299
+            },
+            "x1_net14": {
+              "magic": 0.2518,
+              "kpex": 0.2988
+            },
+            "x1_net15": {
+              "magic": 0.31,
+              "kpex": 0.3419
+            },
+            "x1_net2": {
+              "magic": 0.2582,
+              "kpex": 0.2999
+            },
+            "x1_net3": {
+              "magic": 0.31,
+              "kpex": 0.3409
+            },
+            "x1_net4": {
+              "magic": 0.2019,
+              "kpex": 0.2348
+            },
+            "x1_net5": {
+              "magic": 0.4372,
+              "kpex": 0.4847
+            },
+            "x1_net6": {
+              "magic": 0.4972,
+              "kpex": 0.5386
+            },
+            "x1_net7": {
+              "magic": 0.2275,
+              "kpex": 0.2632
+            },
+            "x1_net8": {
+              "magic": 11.1135,
+              "kpex": 0.4813
+            },
+            "x1_net9": {
+              "magic": 11.1576,
+              "kpex": 0.5313
+            }
+          },
+          "coupling_fF": {
+            "bias_a~cm": {
+              "magic": 1.0999,
+              "kpex": 1.1028
+            },
+            "bias_a~i_bias": {
+              "magic": 0.0047,
+              "kpex": 0.0041
+            },
+            "bias_a~in": {
+              "magic": 0.0058,
+              "kpex": 0.0052
+            },
+            "bias_a~ip": {
+              "magic": 0.0053,
+              "kpex": 0.0047
+            },
+            "bias_a~on": {
+              "magic": 0.0705,
+              "kpex": 0.068
+            },
+            "bias_a~op": {
+              "magic": 0.0626,
+              "kpex": 0.0611
+            },
+            "cm~i_bias": {
+              "magic": 0.0054,
+              "kpex": 0.0046
+            },
+            "cm~x1_net1": {
+              "magic": 0.358,
+              "kpex": 0.3786
+            },
+            "cm~x1_net10": {
+              "magic": 0.4237,
+              "kpex": 0.4429
+            },
+            "cm~x1_net11": {
+              "magic": 0.4437,
+              "kpex": 0.4653
+            },
+            "cm~x1_net12": {
+              "magic": 0.606,
+              "kpex": 0.6233
+            },
+            "cm~x1_net13": {
+              "magic": 0.3535,
+              "kpex": 0.3761
+            },
+            "cm~x1_net14": {
+              "magic": 0.2496,
+              "kpex": 0.2743
+            },
+            "cm~x1_net15": {
+              "magic": 0.2421,
+              "kpex": 0.266
+            },
+            "cm~x1_net2": {
+              "magic": 0.2511,
+              "kpex": 0.2731
+            },
+            "cm~x1_net3": {
+              "magic": 0.2424,
+              "kpex": 0.2642
+            },
+            "cm~x1_net4": {
+              "magic": 0.3534,
+              "kpex": 0.3775
+            },
+            "cm~x1_net5": {
+              "magic": 0.2443,
+              "kpex": 0.2665
+            },
+            "cm~x1_net6": {
+              "magic": 0.4028,
+              "kpex": 0.4286
+            },
+            "cm~x1_net7": {
+              "magic": 0.4227,
+              "kpex": 0.4445
+            },
+            "cm~x1_net8": {
+              "magic": 0.4414,
+              "kpex": 0.4658
+            },
+            "cm~x1_net9": {
+              "magic": 0.4063,
+              "kpex": 0.4311
+            },
+            "in~ip": {
+              "magic": 2.083,
+              "kpex": 2.1884
+            },
+            "in~on": {
+              "magic": 0.0771,
+              "kpex": 0.0784
+            },
+            "in~op": {
+              "magic": 0.0465,
+              "kpex": 0.0482
+            },
+            "ip~on": {
+              "magic": 0.0689,
+              "kpex": 0.0687
+            },
+            "ip~op": {
+              "magic": 0.0364,
+              "kpex": 0.0373
+            },
+            "on~op": {
+              "magic": 9.749,
+              "kpex": 9.8723
+            },
+            "x1_net10~x1_net11": {
+              "magic": 0.2489,
+              "kpex": 0.2495
+            },
+            "x1_net10~x1_net12": {
+              "magic": 0.1728,
+              "kpex": 0.1722
+            },
+            "x1_net10~x1_net7": {
+              "magic": 0.005,
+              "kpex": 0.005
+            },
+            "x1_net10~x1_net8": {
+              "magic": 0.0,
+              "kpex": 0.0008
+            },
+            "x1_net10~x1_net9": {
+              "magic": 0.1833,
+              "kpex": 0.1823
+            },
+            "x1_net11~x1_net12": {
+              "magic": 0.2844,
+              "kpex": 0.2852
+            },
+            "x1_net11~x1_net8": {
+              "magic": 0.005,
+              "kpex": 0.005
+            },
+            "x1_net11~x1_net9": {
+              "magic": 0.0,
+              "kpex": 0.0008
+            },
+            "x1_net12~x1_net9": {
+              "magic": 0.005,
+              "kpex": 0.005
+            },
+            "x1_net13~x1_net14": {
+              "magic": 0.12,
+              "kpex": 0.1203
+            },
+            "x1_net13~x1_net15": {
+              "magic": 0.0084,
+              "kpex": 0.0084
+            },
+            "x1_net13~x1_net3": {
+              "magic": 0.0084,
+              "kpex": 0.0084
+            },
+            "x1_net14~x1_net15": {
+              "magic": 0.12,
+              "kpex": 0.1203
+            },
+            "x1_net14~x1_net2": {
+              "magic": 0.0031,
+              "kpex": 0.0031
+            },
+            "x1_net14~x1_net5": {
+              "magic": 0.0031,
+              "kpex": 0.0031
+            },
+            "x1_net15~x1_net4": {
+              "magic": 0.0084,
+              "kpex": 0.0084
+            },
+            "x1_net1~x1_net2": {
+              "magic": 0.12,
+              "kpex": 0.1198
+            },
+            "x1_net1~x1_net3": {
+              "magic": 0.0084,
+              "kpex": 0.0084
+            },
+            "x1_net2~x1_net3": {
+              "magic": 0.12,
+              "kpex": 0.1198
+            },
+            "x1_net4~x1_net5": {
+              "magic": 0.1189,
+              "kpex": 0.1192
+            },
+            "x1_net4~x1_net6": {
+              "magic": 0.0018,
+              "kpex": 0.0019
+            },
+            "x1_net4~x1_net7": {
+              "magic": 0.0039,
+              "kpex": 0.0039
+            },
+            "x1_net5~x1_net6": {
+              "magic": 0.4525,
+              "kpex": 0.4531
+            },
+            "x1_net5~x1_net7": {
+              "magic": 0.0,
+              "kpex": 0.001
+            },
+            "x1_net5~x1_net8": {
+              "magic": 0.005,
+              "kpex": 0.005
+            },
+            "x1_net6~x1_net7": {
+              "magic": 0.1833,
+              "kpex": 0.183
+            },
+            "x1_net6~x1_net8": {
+              "magic": 0.0,
+              "kpex": 0.0008
+            },
+            "x1_net6~x1_net9": {
+              "magic": 0.005,
+              "kpex": 0.005
+            },
+            "x1_net7~x1_net8": {
+              "magic": 0.2489,
+              "kpex": 0.2499
+            },
+            "x1_net7~x1_net9": {
+              "magic": 0.1728,
+              "kpex": 0.1728
+            },
+            "x1_net8~x1_net9": {
+              "magic": 0.2844,
+              "kpex": 0.2856
+            }
+          },
+          "total_fF": {
+            "magic": 878.501,
+            "kpex": 1794.813
+          }
+        },
+        "area_only": {
+          "ran": false,
+          "timed_out_s": 1800,
+          "log": "outputs/S6/iadc_ota_v2/area_only/kpex/kpex_run.log"
+        }
+      },
+      "note": "kpex 2.5D against Magic on the nets both name; kpex leaves a net it cannot match in its own LVS unnamed"
+    }
+  },
+  "all_pass": false,
+  "provenance": {
+    "created": "2026-11-05T16:51:16+00:00",
+    "git_commit": "d6958ca61d7c91b6c6698ea5876802067ff1e9f4",
+    "inputs": [
+      {
+        "path": "outputs/S5/iadc_ota_v2/s5_report.json",
+        "sha256": "9b07951bc44014262134914fc2ee33536f4fc48ae001d1eebb07f963fcd5242b"
+      },
+      {
+        "path": "outputs/S2/iadc_ota_v2/budgets.json",
+        "sha256": "96864c608d877ab349a6207bc3df9b53e4a7a583a58ade69236b3864922f74ec"
+      },
+      {
+        "path": "outputs/S0/iadc_ota_v2/circuit_ir.json",
+        "sha256": "a3918c7255affedabb2bc24d98a03df2d4c04089c39b149e9b47b76f90bea184"
+      },
+      {
+        "path": "inputs/iadc_ota_v2/package.yaml",
+        "sha256": "dcc71eccf52c8b47251bef96d3fbcaaa9482d914f76f4bdb49e3006b780432ea"
+      }
+    ]
+  }
+}

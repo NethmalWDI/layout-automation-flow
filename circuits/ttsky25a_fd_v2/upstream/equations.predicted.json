@@ -1,0 +1,36 @@
+{
+ "design": "ttsky25a_fd",
+ "mode": "differential",
+ "provenance": "PREDICTED",
+ "assumes": "purely differential drive; CMFB loops inactive in differential mode; first-stage cascode output resistances by gm*ro*ro; folding-node and CMFB-sense poles neglected; two poles, one RHP zero",
+ "source": "textbook two-stage FD op-amp (Johns & Martin, Analog IC Design, 2nd ed., ch. 6-7); written for this flow as a stand-in for the upstream symbolic stage",
+ "naming": "level-0 symbols: C1..C5 gate-bulk, gate-source, gate-drain, drain-bulk, source-bulk; G1 gm; R1 1/gds; C_<passive>, R_<passive> the values of netlist passives",
+ "performance": {
+  "circuit": "ttsky25a_fd",
+  "input": "vd",
+  "output": "v(Vop) - v(Vom)",
+  "load": {
+   "CL": "each output to GND"
+  },
+  "terms": {
+   "gm1": "G1_XX1_M6",
+   "rdn": "G1_XX1_M8*R1_XX1_M8*R1_XX1_M9",
+   "rup": "G1_XX1_M12*R1_XX1_M12*(R1_XX1_M6*R1_XX1_M14/(R1_XX1_M6 + R1_XX1_M14))",
+   "R1o": "rdn*rup/(rdn + rup)",
+   "gm2": "G1_XX2_M9",
+   "Rpk": "R_XX2_X1_R1 + R_XX2_X1_R2 + R_XX2_X1_R3 + R_XX2_X1_R4 + R_XX2_X1_R5 + R_XX2_X1_R6 + R_XX2_X1_R7 + R_XX2_X1_R8 + R_XX2_X1_R9 + R_XX2_X1_R10 + R_XX2_X1_R11 + R_XX2_X1_R12 + R_XX2_X1_R13 + R_XX2_X1_R14 + R_XX2_X1_R15 + R_XX2_X1_R16 + R_XX2_X1_R17 + R_XX2_X1_R18 + R_XX2_X1_R19 + R_XX2_X1_R20",
+   "R2o": "1/(1/R1_XX2_M9 + 1/R1_XX2_M2 + 1/Rpk)",
+   "Cc": "C_XC2 + C3_XX2_M9",
+   "C1n": "C2_XX2_M9 + C1_XX2_M9 + C4_XX1_M12 + C4_XX1_M8 + C3_XX1_M12 + C3_XX1_M8",
+   "C2n": "CL + C4_XX2_M9 + C4_XX2_M2 + C3_XX2_M2",
+   "A0": "gm1*R1o*gm2*R2o",
+   "wgbw": "gm1/Cc",
+   "wp2": "gm2*Cc/(C1n*C2n + Cc*(C1n + C2n))",
+   "wz": "gm2/Cc",
+   "wu": "wgbw"
+  },
+  "gain_db": "20*log(Abs(A0))/log(10)",
+  "gbw_mhz": "wu/(2000000*pi)",
+  "pm_deg": "180 - 180*(atan(wu*A0*Cc/gm1) + atan(wu/wp2) + atan(wu/wz))/pi"
+ }
+}

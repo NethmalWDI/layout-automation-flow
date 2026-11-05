@@ -350,8 +350,13 @@ def symmetry(geo: dict, devices: list) -> dict:
     ca, cb = (sum(cen[d]) / len(cen[d]) for d in devices)
     mirror = all(us[k]["rec"]["cell"] == us[-1 - k]["rec"]["cell"] and us[k]["mirror"] != us[-1 - k]["mirror"]
                  and {us[k]["device"], us[-1 - k]["device"]} <= set(devices) for k in range(len(us) // 2))
-    return {"error_um": round(abs(ca + cb - 2 * xc) / 2, 4), "centroid_offset_um": round(abs(ca - cb), 4),
-            "mirror_image": mirror and len(us) % 2 == 0}
+    out = {"error_um": round(abs(ca + cb - 2 * xc) / 2, 4), "centroid_offset_um": round(abs(ca - cb), 4),
+           "mirror_image": mirror and len(us) % 2 == 0}
+    if any("y" in u for u in us):                  # an array: the centroids' offset in y as well (rule set v2)
+        cy = {d: [u.get("y", 0.0) + u["h"] / 2 for u in us if u["device"] == d] for d in devices}
+        out["centroid_offset_y_um"] = round(abs(sum(cy[devices[0]]) / len(cy[devices[0]]) -
+                                                sum(cy[devices[1]]) / len(cy[devices[1]])), 4)
+    return out
 
 
 def tap_distance(geo: dict) -> float | None:
@@ -436,7 +441,12 @@ def build_variant(blk: dict, v: dict, ir: dict, out: Path, lu: float | None = No
     bo = (opts or {}).get("pin_origin") == "bbox"   # flow record row 95 (opt-in)
     geo = B.layout(v["units"], tap_limit=None if blk["kind"] == "resistors" else lu, internal=inner, bbox_origin=bo)
     fold = (opts or {}).get("fold_row_um")           # row 97 (opt-in): a single device's row longer than this is
-    if (fold and blk["kind"] != "resistors" and len({u["device"] for u in v["units"]}) == 1   # folded into an array
+    if v.get("rows", 1) > 1:                         # rule set v2: the arrangement's own rows (src/s4/v2.py)
+        inner = set()
+        geo = B.layout_array(v["units"], v["rows"], tap_limit=lu, bbox_origin=bo)
+    elif "rows" in v:
+        pass                                         # v2, one row: as laid out above
+    elif (fold and blk["kind"] != "resistors" and len({u["device"] for u in v["units"]}) == 1   # folded into an array
             and geo["row"][2] > fold):
         inner = set()
         geo = B.layout_array(v["units"], -(-int(geo["row"][2] * 1000) // int(fold * 1000)), tap_limit=lu,
@@ -494,9 +504,14 @@ def build_variant(blk: dict, v: dict, ir: dict, out: Path, lu: float | None = No
         x1 = (geo.get("col_spans") or {}).get(t["net"], [geo["row"][2]])[0] + 0.3
         res["geometry"]["keepouts"].append({"layer": "metal3", "box": [geo["ring"][0] + 0.3, t["y"] - B.TRACK_W / 2,
                                                                        x1, t["y"] + B.TRACK_W / 2], "net": t["net"]})
+    if (opts or {}).get("ruleset") == "v2":       # rule set v2, R1: no other wire over the devices
+        from src.common import ruleset as RS
+        res["geometry"]["keepouts"] += RS.device_keepouts(geo)
     if blk["kind"] == "resistors":
         res["geometry"]["tap_distance_max_um"] = None   # poly on field oxide: no diffusion to tap
-    res["symmetry"] = symmetry(geo, blk["devices"])
+    res["symmetry"] = symmetry(geo, blk.get("matched") or blk["devices"])   # v2: the designer's dummies left out
+    if "strict" in v:
+        res["v2"] = {"rows": v["rows"], "strict": v["strict"]}
     res["png"] = pcell.png(gds, d / f"{name}.png")
     res["ok"] = bool(res["drc"]["pass"] and res["lvs"]["pass"])
     return res
@@ -522,10 +537,42 @@ def main(argv=None) -> int:
     fresh_output_dir(out)
     out.mkdir(parents=True, exist_ok=True)
     opts = layout_options(design)
+    from src.common import ruleset as RS
+    v2 = RS.apply_s4(design)                       # rule set v2 (opt-in, layout.yaml `ruleset: v2`)
     blocks = plan_blocks(ir, groups) + resistor_blocks(ir, opts)
-    jobs = [(b, v) for b in blocks for v in variants(b, ir, dd["decisions"], cells, rules, lu, opts)]
+    spares = {}
+    if v2:                                         # rule set v2, phase 2 (src/s4/v2.py)
+        from src.s4 import v2 as V2
+        if opts.get("blocks"):
+            blocks = V2.plan_blocks(ir, opts, blocks)
+
+    def vlist(b):
+        if v2 and b["kind"] not in ("mim_cap", "resistors"):
+            cands = V2.candidates(b, ir, dd["decisions"], cells, rules, opts)
+            kept, rec = V2.screen(b, cands, lu, opts.get("pin_origin") == "bbox", opts.get("outline_um"),
+                                  internal_nets(b, ir) if opts.get("pack_internal") else None)
+            b["screening"] = [r for r in rec if "id" in r]
+            spares[b["name"]] = [c for c in cands if c["id"] in rec[-1].get("spares", [])]
+            return kept
+        return variants(b, ir, dd["decisions"], cells, rules, lu, opts)
+    jobs = [(b, v) for b in blocks for v in vlist(b)]
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
         built = list(ex.map(lambda j: build_variant(j[0], j[1], ir, out, lu, opts), jobs))
+    if v2:   # a kept candidate whose signed-off area misses its estimate by more than 15 %: the next one is built too
+        more = []
+        for b in blocks:
+            est = {r["id"]: r for r in b.get("screening", [])}
+            for (bb, v), r in zip(jobs, built):
+                if bb is b and v["id"] in est and (r.get("geometry") or {}).get("area_um2"):
+                    e = est[v["id"]]["area_um2"]
+                    est[v["id"]]["signed_off_area_um2"] = r["geometry"]["area_um2"]
+                    est[v["id"]]["estimate_error"] = round(abs(r["geometry"]["area_um2"] - e) / e, 4)
+            if any(x.get("estimate_error", 0) > V2.EST_TOL for x in est.values()) and spares.get(b["name"]):
+                more.append((b, spares[b["name"]][0]))
+        if more:
+            with ThreadPoolExecutor(max_workers=a.workers) as ex:
+                built += list(ex.map(lambda j: build_variant(j[0], j[1], ir, out, lu, opts), more))
+            jobs += more
     for b in blocks:
         b["variants"] = [r for (bb, _), r in zip(jobs, built) if bb is b]
     allv = [v for b in blocks for v in b["variants"]]
@@ -533,7 +580,9 @@ def main(argv=None) -> int:
     tblocks = [b for b in blocks if b["kind"] not in ("mim_cap", "resistors")]
     bound_res = [p["name"] for p in ir.get("passives", []) if "res_" in (p.get("layout_binding") or {}).get("model", "")]
     tid_of = {d: t for t, v in O.device_types(ir).items() for d in v["devices"]}
-    matched = [b for b in tblocks if len(b["devices"]) == 2 and tid_of[b["devices"][0]] == tid_of[b["devices"][1]]]
+    def mdev(b):                                   # rule set v2: a block's matched devices (its dummies left out)
+        return b.get("matched") or b["devices"]
+    matched = [b for b in tblocks if len(mdev(b)) == 2 and tid_of[mdev(b)[0]] == tid_of[mdev(b)[1]]]
     gates = {
         "G4.1_one_type_and_body_per_block": {
             "pass": all(len({devs[x]["type"] for x in b["devices"]}) == 1 and
@@ -549,7 +598,7 @@ def main(argv=None) -> int:
             "pass": all(any(v.get("ok") and v["symmetry"].get("mirror_image") and v["symmetry"]["error_um"] <= SYM_TOL
                             for v in b["variants"]) for b in matched),
             "tolerance_um": SYM_TOL, "detail": {v["cell"]: v.get("symmetry") for v in allv if v.get("symmetry")},
-            "not_matched": [b["name"] for b in tblocks if len(b["devices"]) == 2 and b not in matched],
+            "not_matched": [b["name"] for b in tblocks if len(mdev(b)) == 2 and b not in matched],
             "note": "every two-device block of one device type (a matched pair or mirror of one size) has a signed-off "
                     "variant that is a mirror image about its centre; centroid_offset_um is 0 for a common centroid "
                     "(ABBA). Two devices of different sizes (not_matched) cannot be mirror images"},
@@ -563,7 +612,8 @@ def main(argv=None) -> int:
                     "has no diffusion (None)"},
         "G4.6_port_capacitance (info)": {"pass": None, "note": "block port C against S2's hierarchy.json: S6 extraction (plan Phase 5)"},
     }
-    ident = {"run_id": new_run_id(), "design": design, "s3_run_id": dd.get("run_id"), "layout_options": opts}
+    ident = {"run_id": new_run_id(), "design": design, "s3_run_id": dd.get("run_id"), "layout_options": opts,
+             **({"ruleset": "v2", "v2_constants": RS.block_constants()} if v2 else {})}
     write_json(out / "blocks.json", {**ident, "blocks": [{k: v for k, v in b.items()} for b in blocks]})
     prov = provenance([s0 / "circuit_ir.json", s1 / "s1_report.json", s3 / "device_decisions.json", s2 / "constraints.json",
                        REPO / a.package])

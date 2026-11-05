@@ -1,661 +1,301 @@
-# layout-automation-flow
+# Electrically informed analog layout automation on SKY130
 
-An electrically informed analog layout flow for the SkyWater SKY130 open PDK, stages S0–S7 (S8, S9 planned):
+This flow takes a sized analog circuit and draws its layout for the open SkyWater SKY130 process.
+- **What drives it:** the circuit's own electrical model. Before any layout exists, it works out which nodes matter
+  and by how much, and turns the specs into budgets: how much capacitance, coupling and resistance each net may
+  pick up.
+- **How it draws:** it lays out the devices and blocks inside those budgets, places and routes them, and then
+  extracts and simulates the layout to check the specs.
+- **What checks it:**
+  - every drawn block and layout passes Magic DRC and Netgen LVS, and each LVS has a deliberately broken copy that
+    must fail;
+  - every stage ends with automatic checks (gates);
+  - the search settings and hypotheses are fixed in advance (`PREREG.md`).
+- **What it needs:** no LLM. It runs on open tools in one pinned Docker image.
 
-- **S0 Ingest:** freeze a sized netlist, its specs and testbenches; bind every transistor to its exact SKY130 PCell (DRC/LVS-checked).
-- **S1 Intent:** operating point, exact small-signal model, sensitivity of every spec to capacitance at each net and resistance at each terminal (checked against SPICE).
-- **S2 Budgets:** joint parasitic budgets (fF, Ω) and layout rules, verified all at once in SPICE; G2.0 says before layout whether a compact layout can fit.
-- **S3 Devices:** PCell options per device, chosen against the budgets, each cell DRC/LVS-signed.
-- **S4 Blocks:** each matched group laid out as a row (common centroid or interdigitated, with dummies and guard ring), several variants per block.
-- **S5 Placement:** blocks and macros placed by simulated annealing against area and the S2 budgets; two strategies, budget-aware (BA) and area-only (AO).
-- **S6 Routing:** routed in Magic, then DRC, LVS (with negative controls) and the extracted parasitics checked against the budgets.
-- **S7 Post-layout:** the specs simulated on the extracted layouts, compared with the schematic and, where one exists, the hand-drawn layout.
+<p align="center">
+  <img src="outputs/report/readme/iadc_ota_compare.png" width="100%" alt="iadc_ota: v1 and v2 layouts against the hand layout">
+</p>
+<p align="center"><sub>The OTA of an incremental ADC in a Tiny Tapeout tile. Shown at one scale: the flow's layouts
+under the first rule set (v1), under the new rule set (v2), and the designer's hand layout.</sub></p>
 
-Designs (`./flow list`):
+## 1. What the flow does
 
-| Design | What | Source |
+| Stage | Does | Algorithm / method |
 |---|---|---|
-| `example_ota_5t` | sized 5T OTA (development) | upstream sizing team |
-| `ota5t_stress` | the same, 200 fF load, tight specs (development) | derived |
-| `loadbench_miller` | two-stage Miller op-amp, one Pareto point | LOADBench (CC BY 4.0) |
-| `ttsky25a_fd` | two-stage fully differential op-amp, taped out on TTSKY25a | NethmalWDI/Fully_differential_opamp (Apache-2.0) |
-| `iadc_ota` | fully differential folded-cascode OTA with a hand-drawn layout | r09g/iadc (MIT) |
+| **S0 Ingest** | reads and freezes the design (netlist, specs, benches); checks every node and device; binds devices to SKY130 cells | netlist validation; SHA-256 freeze; round-trip LVS; bench re-run; 45 PVT points; 200-run mismatch Monte Carlo |
+| **S1 Electrical intent** | finds which nodes matter and how much | operating point (ngspice); exact linear small-signal model; pole per node; sensitivity of every spec to capacitance on every node and node pair, checked against SPICE; matching groups |
+| **S2 Requirement compiler** | turns the specs into layout budgets before any layout exists | each spec's allowance (η × margin) shared among nets by max-min fair progressive filling; capacitance, coupling, resistance and wire-length budgets, verified in SPICE with the budgets inserted |
+| **S3 Device design** | chooses how each transistor is drawn | every PDK cell option (fingers, contacts, diffusion), built and signed off in Magic; the smallest within budget |
+| **S4 Blocks** | draws the matched blocks | common-centroid (1-D and 2-D), cross-quad, interdigitated and mirror arrangements; dummies; packed tracks; tap rings; candidates screened on paper, the best 2–3 signed off |
+| **S5 Placement and routing** | places the blocks inside an outline and wires them | enumeration or seeded simulated annealing per sub-circuit; cost = area + wire-budget use (budget-aware) or area alone (baseline); grid A* router (metal3/metal4) that never wires over devices; channels widened until every net routes |
+| **S6 Extraction** | reads the layout back with its parasitics | Magic extraction (C-only, R+C where it fits); flat LVS; every budget against what was extracted |
+| **S7 Post-layout evaluation** | simulates the layout in the original benches | ngspice on four views: schematic, drawn devices, C-only, R+C; each spec's loss against η × margin |
+| S8 Diagnosis and repair | *planned* | trace a failure to nodes with the sensitivities; fix it locally in S3–S5 |
+| S9 Selection | *planned* | the smallest layout that meets every verified spec |
 
-Inputs the upstream stages did not provide are predicted by the package scripts and labelled PREDICTED
-(`circuits/<design>/SOURCE.md`). The before/after comparison of the plan-v2 updates is in `docs/before_after.md`.
+Each layout comes in two versions: **budget-aware** (BA), which places against the budgets, and **area-only** (AO),
+the compact baseline. Comparing the two measures what the budgets buy.
 
-## For reviewers
+## 2. What is expected to be new
 
-**Read first:** `docs/progress_report.html` (open it in a browser; `.md` for the same text). In a few pages: what
-each stage does and which algorithm it runs, what happened so far, the expected novelty, the results on the four
-designs tried (layouts, schematics, hand layouts, post-layout numbers), whether the flow needs an LLM (it does not),
-the LLM integration plan with its pros and cons, and the risks. Then, as needed:
+These ideas are already published, so they are **not** claimed: per-net parasitic budgets in general, mapping specs
+to parasitics, choosing a common-centroid pattern, symmetry extraction, and LLM-generated constraints. See
+`docs/05_literature_novelty_remap.md`.
 
-| Document | What it gives |
-|---|---|
-| `docs/ttsky25a_fd_report.html` | the full report on Imasha's taped-out op-amp: schematics with every block marked, every block, the algorithms, who decides what, the comparison with the hand-drawn tile |
-| `docs/iadc_ota_report.html` | the same for `iadc_ota` in a Tiny Tapeout tile, with the tools' DRC and LVS reports of the final design as pictures |
-| `docs/reports/<design>_report.html` | a short report for every design (also for designs made with the GUI) |
-| `docs/s0_s3_walkthrough.html`, `docs/s4_s7_walkthrough.html` | every gate and number, stage by stage |
-| `docs/flow_record.md` | the journey: every problem found (100 so far), how it was found, what changed |
-| `PREREG.md` | the hypotheses, thresholds and fixed search settings, with dated amendments |
+| Contribution | In one line | Status |
+|---|---|---|
+| C1. Intent compiled from the circuit's own model | per-node sensitivities turn the specs into budgets and routing rules **before any layout**, each traceable to a node and its pole | built (S1, S2), checked against SPICE |
+| C2. Device cells chosen from the requirements | each transistor cell (fingers, contacts) chosen to keep its node within budget | built (S3) |
+| C3. Budget-aware variants and placement | signed-off variants per block, chosen and placed to minimise area **subject to the budgets** | built (S4, S5); on `ttsky25a_fd` the budget-aware layout uses 40 % less of the wire budgets than the area-only baseline |
+| C4. LLM decisions grounded in the equations, measured | an LLM proposes and explains decisions over the explicit budgets; what it adds is measured against the rule-only flow | planned (section 5) |
+| C5. Open, reproducible SKY130 flow | open tools, every block signed off, seeded searches, golden results | built |
 
-All of them are generated from the committed outputs (`python3 scripts/make_progress_report.py`,
-`make_ttsky_report.py`, `make_iadc_report.py`, `make_design_report.py <design>`, `make_s0s3_walkthrough.py`,
-`make_s4s7_walkthrough.py`, after `source scripts/env.sh` in the container).
+## 3. Layout rule set v2 (2026-11-05)
 
-**Expected result** of the committed runs (`.low.ps1 status all`). FAIL means a gate reported a finding while the
-stage finished and wrote its report; each is explained in the design's report. ERROR (a crash) does not occur.
+**Why:** the first rule set (v1) made layouts 1.1–2.5 × the hand layouts' area. Most of that came from values fixed by
+hand:
+- 3 µm between blocks and between rows;
+- 0.6 µm between units;
+- a tap ring on every block;
+- 8 µm of routing margin;
+- a separate block (with its own ring) for each of the designer's dummy transistors.
 
-| Design | S0 | S1 | S2 | S3 | S4 | S5 | S6 | S7 |
-|---|---|---|---|---|---|---|---|---|
-| `example_ota_5t` | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| `loadbench_miller` | FAIL | FAIL | PASS | FAIL | PASS | FAIL | FAIL | FAIL |
-| `ttsky25a_fd` | PASS | FAIL | PASS | FAIL | PASS | FAIL | FAIL | FAIL |
-| `iadc_ota` | FAIL | FAIL | FAIL | FAIL | PASS | FAIL | FAIL | FAIL |
+**What v2 does** (`docs/rules_v2/ruleset_v2.md`). The rules are drawn mainly from Saint & Saint, *IC Mask Design*
+(its Case Study 1 in full), from the ASP-DAC 2022 common-centroid review, and from Long et al. (ISCAS 2005) on 2-D
+common centroid. Imasha reviewed them and answered ten questions; a PREREG amendment fixed them before any v2 code.
+- **Spacing:** every spacing the generator chooses is the SKY130 DRC minimum × 1.10, rounded up to 0.05 µm. The values
+  come from the Magic rule deck with their rule ids, and a test checks them against the deck.
+- **No wire over any device.** Routing channels are made only as wide as routing needs.
+- **Blocks as the designer draws them** (`blocks:` in `layout.yaml`; one coloured box = one block). The designer's
+  dummies sit at the row ends of the block they serve.
+- **2-D arrangements:** cross-quad, 2-D common centroid with rows paired A B / B A, folded rows, and series strings one
+  per row. All candidates are estimated on paper, and only the best 2–3 per block are drawn and signed off.
 
-Every layout is DRC-clean and LVS-matched; every spec is met after layout on the first three designs; `iadc_ota`
-misses its (assumed) GBW spec. The S5–S7 FAILs are mostly S2's budgets, which the layouts exceed (section 8 of the
-progress report).
+v2 is opt-in per design (`ruleset: v2`). Every finished design still runs v1 unchanged: the tests regenerate its
+committed block plans unit for unit, and the golden comparison still passes.
 
-**Run it** (Windows PowerShell, Docker Desktop running; no LLM is needed). On this PC the container `layout-s0s3`
-already mounts the repository (`docker start layout-s0s3` if it is stopped). Without `FLOW_CONTAINER`, `flow.ps1`
-starts a throwaway container from the pinned image instead.
+## 4. Results
+
+| Design | What | Layout (budget-aware) | Hand layout | Specs after layout |
+|---|---|---|---|---|
+| `example_ota_5t` | 5T OTA | 9 × 58 µm | – | all met |
+| `loadbench_miller` | two-stage Miller op-amp (LOADBench) | 46 × 125 µm | – | all met |
+| `ttsky25a_fd` | Imasha's fully differential op-amp, taped out on TTSKY25a | 227 × 197 µm (1.31 ×); area-only 1.06 × | 34,182 µm² | all met |
+| `iadc_ota` (v1) | folded-cascode OTA of an incremental ADC, in a Tiny Tapeout tile | 159 × 213 µm (2.54 ×) | 13,355 µm² | GBW misses (assumed spec) |
+| `iadc_ota_v2` (v2) | the same with rule set v2 and Imasha's drawn blocks | 142 × 156 µm (1.66 ×); area-only 1.34 × | 13,355 µm² | GBW misses (assumed spec) |
+
+Every layout here is DRC-clean (0 errors) and LVS-matched. The gate verdicts are in section 6 and in each design's
+report. The FAILs that remain are budget gates (the layouts exceed S2's budgets) and the assumed GBW spec of iadc;
+no stage crashes.
+
+**Time taken** (minutes per stage, the committed run of each design, one Windows PC in Docker):
+
+| Design | S0 | S1 | S2 | S3 | S4 | S5 | S6 | S7 | Total |
+|---|---|---|---|---|---|---|---|---|---|
+| `example_ota_5t` | 20 | 0.3 | 8 | 21 | 0.5 | 1 | 0.4 | 2 | **53** (0.9 h) |
+| `loadbench_miller` | 11 | 0.3 | 8 | 57 | 1 | 2 | 2 | 34 | **115** (1.9 h) |
+| `ttsky25a_fd` | 23 | 4 | 77 | 53 | 4 | 6 | 4 | 1 | **172** (2.9 h) |
+| `iadc_ota` (v1) | 40 | 2 | 73 | 46 | 6 | 16 | 20 | 2 | **203** (3.4 h) |
+| `iadc_ota_v2` | 26 | 64 | 38 | 16 | 4 | 20 | 41 | 1 | **212** (3.5 h) |
+
+Most of the time goes to S0 (45 PVT points and a 200-run Monte Carlo), S2 (SPICE checks of the budgets) and S3
+(building and signing off every cell option). The layout stages, S4–S7, take minutes on the small designs and under an
+hour on the large ones. Two v2 times are inflated:
+- its S1 ran while test blocks were being built on the same PC;
+- 30 of its S6's 41 minutes were the information-only kpex cross-check reaching its time limit.
+
+### 5T OTA (`example_ota_5t`)
+
+<p align="center">
+  <img src="outputs/report/example_ota_5t/simple/schematic.png" width="45%" alt="5T OTA schematic">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="outputs/report/example_ota_5t/simple/layout_budget_aware_annot.png" width="25%" alt="5T OTA layout">
+</p>
+
+The schematic drawing is the unsized template; the flow lays out the sized netlist (pair 24/0.5, mirror 8/1, tail
+24/1 µm). After layout (R+C):
+
+| Spec | Limit | Schematic | Budget-aware | Area-only |
+|---|---|---|---|---|
+| Gain (dB) | ≥ 30 | 31.7 | 31.69 ✓ | 31.68 ✓ |
+| GBW (MHz) | ≥ 20 | 104.5 | 101.3 ✓ | 100.7 ✓ |
+| Phase margin (°) | ≥ 60 | 80.9 | 79.4 ✓ | 79.2 ✓ |
+| Power (µW) | ≤ 1000 | 152.6 | 150.5 ✓ | 150.5 ✓ |
+| Input noise (nV/√Hz) | ≤ 400 | 339.1 | 339.5 ✓ | 339.5 ✓ |
+
+### Two-stage Miller op-amp (`loadbench_miller`)
+
+<p align="center">
+  <img src="outputs/report/loadbench_miller/simple/layout_budget_aware_annot.png" width="40%" alt="LOADBench layout">
+</p>
+
+After layout (R+C):
+
+| Spec | Limit | Schematic | Budget-aware | Area-only |
+|---|---|---|---|---|
+| Gain (dB) | ≥ 57 | 58.0 | 57.98 ✓ | 57.98 ✓ |
+| GBW (MHz) | ≥ 21.05 | 23.39 | 22.12 ✓ | 22.12 ✓ |
+| Phase margin (°) | ≥ 60 | 65.3 | 65.3 ✓ | 65.3 ✓ |
+| Power (µW) | ≤ 614.2 | 558.4 | 553.3 ✓ | 553.3 ✓ |
+
+### Imasha's fully differential op-amp, taped out (`ttsky25a_fd`)
+
+<p align="center">
+  <img src="outputs/report/readme/ttsky25a_fd_compare.png" width="100%" alt="ttsky25a_fd: flow layouts and the taped-out tile">
+</p>
+
+The hand layout is of a slightly different circuit: the tile adds enable switches. So the area and the wiring's cost
+are what compare fairly. The wiring's cost is measured as one layout simulated with and without its wiring.
+
+| | Flow, budget-aware | Flow, area-only | Hand layout |
+|---|---|---|---|
+| Area | 44,652 µm² (1.31 ×) | 36,152 µm² (1.06 ×) | 34,182 µm² |
+| GBW lost to the wiring | 6.0 % | 6.1 % | 6.8 % |
+| Phase margin lost to the wiring | 4.4° | 4.8° | 3.0° |
+
+After layout (C-only):
+
+| Spec | Limit | Schematic | Budget-aware | Area-only |
+|---|---|---|---|---|
+| Gain (dB) | ≥ 97.4 | 98.4 | 98.25 ✓ | 98.25 ✓ |
+| GBW (MHz) | ≥ 1.847 | 2.052 | 1.922 ✓ | 1.918 ✓ |
+| Phase margin (°) | ≥ 60 | 78.2 | 73.7 ✓ | 73.3 ✓ |
+| Power (µW) | ≤ 497.2 | 452.0 | 456.3 ✓ | 456.3 ✓ |
+
+The full report is `docs/ttsky25a_fd_report.html`. ttsky under rule set v2 is in progress (section 5).
+
+### OTA of an incremental ADC, in a Tiny Tapeout tile (`iadc_ota`, v1 and v2)
+
+<p align="center">
+  <img src="outputs/report/readme/iadc_ota_compare.png" width="100%" alt="iadc_ota: v1, v2 and hand layouts">
+</p>
+
+| | v1, budget-aware | v2, budget-aware | v2, area-only | Hand layout |
+|---|---|---|---|---|
+| Size | 158.7 × 213.5 µm | 141.7 × 156.2 µm | 84.7 × 211.2 µm | 130.4 × 102.4 µm |
+| Area | 33,889 µm² | 22,142 µm² (−35 %) | 17,901 µm² (−45 % against v1's area-only) | 13,355 µm² (10,090 without its CMFB) |
+| Against the hand layout (whole / without its CMFB) | 2.54 × / 3.36 × | 1.66 × / 2.19 × | 1.34 × / 1.77 × | – |
+| Blocks | 67 | 19 | 19 | – |
+| Total route length | 2,830 µm | 1,597 µm | 1,986 µm | – |
+| GBW drawn → after layout (C-only) | 204.8 → 180.3 MHz | 204.8 → 176.8 MHz | 204.8 → 175.9 MHz | 171.9 → 156.2 MHz |
+| GBW lost to the wiring | 12.0 % | 13.7 % | 14.1 % | 9.1 % |
+
+Gain (53.6 dB) and phase margin (72.7–73.0°) are met in every layout. GBW misses its spec of 188.9 MHz, which is an
+ASSUMPTION waiting for confirmation, in v1 and v2 alike. The hand layout also holds the switched-capacitor CMFB, which
+the flow does not lay out (its bench keeps an ideal CMFB). Like for like, the comparison is with the hand layout
+without its CMFB.
+
+**What v2 achieved:**
+- 35–45 % less area than v1;
+- 19 blocks instead of 67;
+- a route 44 % shorter;
+- every block, and both whole layouts, DRC-clean and LVS-matched.
+
+**What it has not achieved yet** (PREREG 2026-11-05):
+- the target of 1.3 × the hand layout: the area-only layout is 1.34 × the whole hand layout and 1.77 × it without
+  its CMFB;
+- no extra wiring loss: v2 loses 13.7 % of GBW against v1's 12.0 %, although its route is shorter. The likely cause
+  is the denser blocks, but this is not yet measured net by net.
+
+**Where the rest of the area goes** (area-only layout):
+- the blocks themselves are 10,658 µm²;
+- channels and arrangement inside the three sub-circuit macros add 31 %;
+- stacking the macros in a column, with the capacitors on a row of their own, adds another 28 %.
+
+The full reports are `docs/iadc_ota_report.html` (v1, with the tools' DRC and LVS reports) and
+`docs/reports/iadc_ota_v2_report.html` (v2).
+
+## 5. Next plan
+
+Work was put on hold on 2026-11-05. **`docs/HANDOFF.md`** says how to continue, on another PC or with another
+assistant, and **`docs/rules_v2/phase3_plan.md`** is the plan for phase 3.
+
+1. **Rule set v2, phase 3** (next):
+   - pack the sub-circuit macros side by side, with the capacitors and rail dummies in the free space;
+   - make channels only in the gaps where routing needs them;
+   - give each stack one ring, with shared edges, plus the outer ring Imasha asked for.
+   - The target stays 1.3 × the hand layout with every spec met.
+2. **Wiring loss under v2:** measure, net by net, where the extra coupling comes from; widen only those spacings.
+3. **v2 on the other designs:**
+   - `ttsky25a_fd_v2` is a GUI copy with `ruleset: v2`; its S0–S3 are running, and S4–S7 follow phase 3.
+   - The 5T and LOADBench need v2's routing on their smaller layouts.
+4. **LLM integration** (Claude CLI; waiting for the supervisor's permission):
+   - the LLM proposes and explains decisions over S2's explicit budgets: block grouping, matching level, placement
+     hints, and repairs (S8);
+   - every proposal is checked by the same gates;
+   - its value is measured against the rule-only flow (same designs, with and without).
+5. **S8 (diagnosis and repair) and S9 (selection).**
+6. **Open questions for Imasha** (in `docs/STATUS.md`):
+   - iadc's GBW spec, and the other ASSUMPTIONs;
+   - R+C extraction for ttsky.
+
+## 6. How to run it
+
+You need Docker (Docker Desktop on Windows) and about 20 GB for the EDA image `hpretl/iic-osic-tools:2026.10`.
+Nothing else is installed; everything runs in that image, with this repository at `/foss/designs`.
+- **On Imasha's PC:** the container `layout-s0s3` already exists (`docker start layout-s0s3` if it is stopped).
+- **On another PC:** `docs/HANDOFF.md` section 3. Without `FLOW_CONTAINER`, `flow.ps1` starts a throwaway container
+  from the image.
 
 ```powershell
 $env:FLOW_CONTAINER="layout-s0s3"
-.low.ps1 status all                      # gate verdicts of the committed runs, per stage
-.low.ps1 run example_ota_5t              # S0 -> S7, about an hour (20 min of it S0's PVT points and Monte Carlo)
-.low.ps1 run example_ota_5t --from S4    # S4 -> S7 only, a few minutes
-.low.ps1 run example_ota_5t --stage S1   # one stage, from the earlier stages' outputs
-.low.ps1 test                            # 199 unit tests + golden comparison with the committed outputs (~20 s)
-.\gui\gui.ps1                             # the local GUI: http://localhost:8765/ (edit, run, report; no LLM)
+.\flow.ps1 list                               # the designs in inputs/
+.\flow.ps1 status all                         # gate verdicts of the committed runs, per stage
+.\flow.ps1 run example_ota_5t                 # S0 -> S7 end to end (about an hour; ttsky and iadc about 3 hours)
+.\flow.ps1 run example_ota_5t --from S4       # from one stage to the end
+.\flow.ps1 test                               # 211 unit tests + golden comparison with the committed outputs
+.\gui\gui.ps1                                 # the local GUI: http://localhost:8765/ (edit a copy, run, report; no LLM)
 ```
 
-The larger designs take longer: `ttsky25a_fd` and `iadc_ota` about 3 hours from S0 (S2 alone over an hour).
+From bash or Linux, `./flow` takes the same arguments.
 
-The same inside the container: `docker exec -e IIC_OSIC_TOOLS_QUIET=1 layout-s0s3 bash -lc "cd /foss/designs &&
-source scripts/env.sh && python3 -u -m src.flow run example_ota_5t"`. The variable stops the image's login
-profile from printing its `[INFO]` lines; `-u` makes each step's line appear as it finishes. The launchers set both.
+**Each stage alone** (`--stage S0` … `S7`) reads only the earlier stages' outputs:
 
-**Where the outputs go:**
-- each stage: `outputs/<stage>/<design>/`, with its gates in `<stage>_report.json` (e.g. `outputs/S2/loadbench_miller/s2_report.json`);
-- per-step logs: `runs/logs/flow/<design>/`;
-- the run summary: `outputs/flow/<design>/flow_summary.json`;
-- report pictures: `outputs/report/<design>/`.
-
-A run rewrites these folders. The results reproduce (seeded searches; the golden comparison checks it), but run ids
-and timestamps change. Discarding the changes in GitHub Desktop returns to the committed run.
-
-### The earlier S0–S3 review (5T and LOADBench)
-
-`docs/s0_s3_walkthrough.html` shows, for `example_ota_5t` and `loadbench_miller`, what S0–S3 did and what came out:
-every gate, the main numbers and plots, and an explanation of each failed gate.
-
-LOADBench's three FAILs are findings, not flow errors:
-- **G0.7:** the SKY130 PCell drawn at the netlist's exact size for one device (`XNormalTransistorNmos3`, one
-  484 µm finger) breaks the PDK's metal-area rule met1.6 at its gate pad. The other 8 devices pass DRC and LVS.
-  S3 draws its own cells and widens that pad, so every cell it chooses is DRC-clean (G3.1).
-- **G1.6:** 1 of 54 resistance-sensitivity checks. A resistor at P5's source shifts the bias point, which a
-  small-signal model at a fixed operating point cannot predict within the limit. The flow passes on the
-  transistor-level SPICE rate, which includes the shift.
-- **G3.5:** 3 of 6 device types have no cell within their S2 allowance (LOADBench's gain margin is 1 dB). S3
-  keeps the least-bad cell and flags the type. The circuit with every chosen cell still meets every spec in SPICE
-  (G3.3).
-
-**Further reading:** `docs/flow_record.md` (the journey: what was built, what went wrong and how it was found),
-`docs/progress_log.md`, and `PREREG.md` (hypotheses and thresholds, with dated amendments). `scripts/report_figures.py`
-draws the designers' schematics from a scratch copy (`runs/tmp/report_sch/`; the sources stay untouched) with every
-block marked, and the annotated layouts.
-
-## Quick start (anyone, any OS)
-
-You need Docker (Docker Desktop on Windows/macOS) and about 20 GB of disk for the EDA image.
-Nothing else is installed on your machine: the launchers run everything inside the pinned image
-`hpretl/iic-osic-tools:2026.10` with this repository mounted at `/foss/designs`.
-
-```bash
-git clone <this repo> && cd layout-automation-flow
-./flow list                              # designs found in inputs/        (Windows: .\flow.ps1 list)
-./flow run example_ota_5t                # S0 -> S3 for one design (about 10 min the first time)
-./flow run example_ota_5t --stage S2     # one stage; it reads only the earlier stages' outputs
-./flow status all                        # gate table per design and stage
-./flow test                              # unit tests + golden comparison of the committed outputs
-./flow test --stage S1 --rerun           # re-run S1 for the golden designs, then compare (overwrites outputs/S1/<design>/)
-./flow run loadbench_miller --variant v1 # the flow as it was before the plan-v2 updates (ablation)
-./flow run ttsky25a_fd --no-pvt          # skip the 45-point PVT sweep and Monte Carlo in S0
-```
-
-Inside the container you can also call the stages directly, e.g. `python3 -m src.s2.run inputs/<d>/package.yaml
---alloc v1|v2 --no-pvt --no-baselines --eta 0.9` or `python3 -m src.s3.run inputs/<d>/package.yaml --mode B|A-bin|A-free
---rules v1|v2`; `python3 scripts/compare_before_after.py snap <design> <tag> [<S3 folder>]` and `... report` keep and
-compare runs.
-
-Plan v3 Phase A's runs of `example_ota_5t` and `loadbench_miller` have the snapshot tag `after_v3a` (2026-11-02;
-flow record 7.13). `python3 scripts/compare_eta09_rerun.py <design> --first <tag> --rerun after_v3a --json
-outputs/phaseA/<design>/<name>.json` compares any two tags. Always give `--json`: the default path is the eta 0.9
-re-run's committed comparison.
-
-**Hand-drawn reference layouts** (plan v2, baseline 8): `python3 scripts/reference_layout.py <design> <gds> <cell>
---ports "<pin>=<bench node>,..." [--bias "<off-chip element>;..."] [--corner ff --temp 20 --mim-load 1,1,100 --tag <name>]`
-extracts a layout with Magic (LVS netlist and a capacitance-only PEX), runs LVS against the flow's layout view and
-simulates the schematic, the drawn devices and the PEX in the flow's own benches
-(`outputs/reference_layout/<design>/reference_layout[_<tag>].json`; `--rc` adds a Magic extresist R+C extraction,
-`--map-shorted` ties ports that Magic reports as electrically shorted, e.g. a sub-cell's copy of a clock pin).
-`scripts/reference_ttsky25a.sh` runs it for the taped-out TTSKY25a tile at the flow's conditions and at the
-designers' `gain_and_phase.sch` conditions; `scripts/reference_iadc.sh` for the hand-drawn iadc OTA (CMFB clocks
-held in phase 1, cmc driven by the flow's ideal CMFB law).
-
-Each stage writes to `outputs/<stage>/<design>/` and logs to `runs/logs/flow/<design>/`; the run summary is
-`outputs/flow/<design>/flow_summary.json`. A stage's status comes from the exit codes of its commands
-(`src/common/hygiene.py`):
-
-| Status | Exit code | Meaning |
+| Stage | Command | Main outputs |
 |---|---|---|
-| **PASS** | 0 | every gate passed |
-| **FAIL** | 3 | a gate failed, but the stage finished and wrote its report (e.g. S3 flags a device type that does not fit) |
-| **ERROR** | anything else, e.g. 1 from a crash; or no fresh report | the stage did not finish; it stops at that command |
+| S0 | `.\flow.ps1 run <d> --stage S0` (`--no-pvt` skips the PVT sweep and Monte Carlo) | `outputs/S0/<d>/` (circuit IR, frozen package, PVT) |
+| S1 | `.\flow.ps1 run <d> --stage S1` | `outputs/S1/<d>/s1_report.json` (model, sensitivities, matching groups) |
+| S2 | `.\flow.ps1 run <d> --stage S2` | `outputs/S2/<d>/budgets.json`, `constraints.json` |
+| S3 | `.\flow.ps1 run <d> --stage S3` | `outputs/S3/<d>/device_decisions.json`; cells in `outputs/S3/_cells/` |
+| S4 | `.\flow.ps1 run <d> --stage S4` | `outputs/S4/<d>/blocks.json`, every block's GDS, DRC and LVS |
+| S5 | `.\flow.ps1 run <d> --stage S5` | `outputs/S5/<d>/placement.json`, the routed GDS of both layouts |
+| S6 | `.\flow.ps1 run <d> --stage S6` | `outputs/S6/<d>/` (extracted netlists, budgets against extraction) |
+| S7 | `.\flow.ps1 run <d> --stage S7` | `outputs/S7/<d>/metrics.json` (every spec on every view) |
 
-The committed outputs are the reference results; `./flow test` fails if a re-run moves any of them beyond its
-tolerance (`tests/golden/`). S4–S7 have snapshots for the 5T and LOADBench (plan v4 Phase 7) and `ttsky25a_fd` (Phase 8, C-only); their R+C results keep
-0.5 % (and 0.03 of eta × margin), because Magic's extresist varies a little from run to run.
+**Status of a stage:**
+- **PASS:** every gate passed (exit code 0).
+- **FAIL:** a gate failed, but the stage finished and wrote its report (exit code 3).
+- **ERROR:** the stage did not finish (any other exit code).
 
-**Clean runs.**
-- S2 starts from an empty `outputs/S2/<design>/`. The run before moves to `outputs/S2/<design>.prev/`
-  (git-ignored), replacing an earlier `.prev`.
-- S3 does the same with its report files. It keeps `sim/`, its simulation cache, which is reused only for an
-  identical deck, and `outputs/S3/_cells/`, the cell cache.
-- Every S2 JSON carries the run's `run_id` and `eta`. The S3 files carry their own `run_id` and the `s2_run_id`
-  they were made from.
-- `compare_before_after.py snap` refuses (exit 2) when `budgets.json`, `s2_report.json` and `baselines.json`
-  disagree on `run_id` or `eta`, when `budgets.json` has no `s2_report.json`, or when any of them is older than the
-  S2 start in `flow_summary.json`.
+Logs are in `runs/logs/flow/<d>/`, and the run summary is `outputs/flow/<d>/flow_summary.json`. A run rewrites the
+design's output folders; discarding the changes in GitHub Desktop returns to the committed run.
 
-**Your own design:** copy `inputs/_template/` to `inputs/<name>/`, fill in `package.yaml` (every field is
-explained in `docs/INPUTS.md`), and run `./flow run <name>`. Missing upstream files are reported as pending,
-never invented.
+**Layout options** (`inputs/<d>/layout.yaml`, read only by S4–S7):
+- `matching`, `dummies`, `outline_um`, `hierarchy: upstream`, `fold_row_um`;
+- `ruleset: v2` with `blocks:`.
 
-**What changed in plan v2 (2026-10-26):**
+All are described in `docs/flow_details.md`. Your own design: use the GUI (a copy of a design, or a new SPICE
+netlist), or copy `inputs/_template/` (fields in `docs/INPUTS.md`).
 
-- S0 handles current sources, ideal and PDK passives (MIM, poly resistors), differential outputs, off-chip test elements and an external-reference gate (G0.8), and runs 45 PVT points plus a mismatch Monte Carlo (G0.9, G0.10).
-- S2 floors every budget at what the cheapest library cell already puts there (G2.7), no longer trims binding elements in phase 2 (finding R19), adds a constraint per spec and PVT point (G2.9), and scores four other budget rules on the same sensitivities (G2.8: per-net, equal split, a plain LP, the LP with floors), each in SPICE at its own worst PVT points, with outcomes unsafe / infeasible / ok, plus an eta sweep.
-- S3 decides in three option modes (B: nf as in the netlist; A-bin: the finger stays in the sized device's SKY130 model bin; A-free) plus a rule-of-thumb folding baseline, and a cell may always use the library's lowest access resistance (G3.7).
+**Reports**, all generated from the committed outputs (inside the container, after `source scripts/env.sh`):
+- `python3 scripts/make_design_report.py <d>`: the short report of any design;
+- `make_ttsky_report.py`, `make_iadc_report.py`: the detailed reports;
+- `make_progress_report.py`: the reviewers' summary;
+- `make_readme_figures.py`: the pictures above.
 
-**Plan v3 Phase A (from 2026-11-01; `docs/plan_v3_phaseA.md`, PREREG amendment of that date):** the package key
-`budget_corners: nominal` (set for `example_ota_5t` and `loadbench_miller`) makes S2 budget at the nominal corner
-only. S2 still computes the PVT points' constraints and reports, in G2.9, what the final budgets use at each of the
-45 points as a fraction of eta × that point's margin. That is reported, not gated. Without the key, S2 budgets at
-every PVT point, as in plan v2.
+## 7. Documents
 
-- **One tolerance** (`src/common/tolerance.py`, `TOL_USE` = 0.02 of the allowed use, eta × margin). It is used by:
-  - G2.5's gate and its closure step;
-  - `baselines.outcome()` (the "unsafe" line);
-  - S3, as `TOL_USE` × eta of the margin.
-
-  G2.5's old 10 % stays only as a reported column, `within_first_order_error_10pct`.
-- **G2.8 and the PVT points.** With `budget_corners: nominal`, G2.8 still SPICE-checks each rule's 5 most-used PVT
-  points from G2.9; they are scored, not budgeted, and G2.5 stays nominal.
-  - `outcome` covers every simulated check, as in plan v2; `outcome_nominal` gives the nominal checks alone.
-  - The PREREG note of 2026-11-02 records this, after review D.
-- **At a bound.** G2.8 counts a budget within 10⁻⁶ below its floor or need as at it, not below it
-  (`baselines.AT_BOUND_TOL`). Phase 2 leaves pinned budgets 10⁻⁹ of room.
-- **`lp_floor_k`.** G2.8 also scores `lp_floor_k`: `lp_floor` with ours' upper bound, 10 × need, so six rules are
-  compared in all. With that room the max-sum LP may starve some elements to give others more; that is a result,
-  not an error.
-- **Saturation do-no-harm.** For a device already below vdsat in the schematic, S3 allows a further drop of at
-  most `TOL_USE` × |vds − vdsat|.
-- **Mirror banks and designer groups.** S0 merges mirror blocks that share their gate and source nets into one
-  bank. It reads the designer's groups from `designer_groups:` (see `docs/INPUTS.md`).
-- **Route lengths from the representative cells.** The wiring part of each element's expected need (one stub
-  across each pin's device) uses the bounding box of the representative S3 cell of the device's type. Before, it
-  used S0's as-sized PCell. A type without a library cell, and every passive, keeps the as-sized PCell.
-  - This is the need both G2.0 and the allocation use (PREREG amendment 2026-11-01, step 8), so budgets move with
-    it.
-  - G2.0 lists `route_lengths` per device and keeps the as-sized route as a second column,
-    `fraction_of_margin_route_as_sized_pcell`.
-- **PM reference.** PM = 180 + phase at the UGB − the 1 Hz phase rounded to the nearest multiple of 180°. The S1
-  linear model and new benches (`scripts/benchlib.py`) use it. The frozen benches keep the unrounded 1 Hz phase;
-  for the 5T and LOADBench that is 0.00002° and 0.0016° away.
-- **PDK environment.** The iic-osic-tools image starts on its default PDK, IHP-SG13G2, so ngspice would read IHP's
-  init file. `scripts/env.sh` switches to sky130A with the image's own command (`sak-pdk sky130A`, sourced as
-  `sak-pdk-script.sh`), which ends up loading sky130's ngspice settings (`ngbehavior=hsa`, `enable_noisy_r`). Source
-  it before every flow command; `./flow` and `flow.ps1` already do. `TOOL_ENV` (`src/common/tools.py`) pins the
-  same variables for every tool the flow starts.
-- **Running the tests.** `./flow test`, or `.\flow.ps1 test` from PowerShell, works from any shell. The image's
-  login profile sets `USER` to "1000\ndesigner"; `scripts/env.sh` keeps the part after the newline, because a
-  newline in pytest's temp folder name made Netgen fail the S0 round-trip test.
-- **Line endings.** `.gitattributes` checks every text file out with LF, on Windows too. With Git for Windows'
-  default `core.autocrlf=true` and no attributes, a checkout wrote CRLF, and bash could not parse `scripts/env.sh`
-  (flow record row 66).
-
-**Repository rules:** third-party material and licences are listed in `THIRD_PARTY.md`; hypotheses and
-thresholds for the experiments are fixed in `PREREG.md` before baselines run.
-
-## The local GUI: edit a design, run the flow, get a report (no LLM)
-
-```powershell
-.\gui\gui.ps1          # then open http://localhost:8765/ ; Ctrl+C stops it
-```
-
-- **What it does:** lists the designs with their stage results; loads a design's schematic netlist (SPICE), hierarchy
-  (JSON), specs and conditions (YAML) and layout instructions (`layout.yaml`, optional; "Insert an example" fills in
-  the keys); saves the edits as a **new design copy**; runs the flow (S0–S7, or from a chosen stage) and then
-  `scripts/make_design_report.py`, a simple self-contained HTML report for reviewers (`docs/reports/<d>_report.html`).
-- **A brand-new design:** upload (or paste) a SKY130 SPICE netlist (flattened from a top subckt if it is
-  hierarchical) and its `config.yaml` ("Make a starting config" writes one from the netlist ports, every value
-  the design must give left null: FILL IN); optional test benches (otherwise the standard ones are generated by
-  `scripts/benchlib.py`), hierarchy, measurements, `bias_sources`, `port_roles`, layout instructions, and any
-  other files, which are only kept in `circuits/<design>/extra/`. Everything is stored in the repository.
-- **How:** `gui/gui.ps1` is Windows PowerShell (nothing to install) serving `gui/index.html` on localhost only; it runs
-  `scripts/gui_backend.py`, the flow and the report inside the container with `docker exec` (container from
-  `FLOW_CONTAINER`, default `layout-s0s3`). No LLM is called; no number in the report is typed by hand.
-- **What it never changes:** the original designs. A copy gets `circuits/<copy>/`, `inputs/<copy>/`, a `SOURCE.md`
-  saying what was edited, and its files' SHA-256 appended to `circuits/SOURCE_SHA256.txt` (S0's G0.3). The GUI runs
-  the flow **only on copies it made**, so the committed results of the other designs cannot be overwritten from it;
-  for those it makes the report only (which just reads their outputs).
-- **The report:** the design, its stages and failed checks, specs, the main nodes and budgets (S1, S2), every block,
-  the layouts (blocks numbered, sub-circuits coloured), the results after layout, the wiring's cost, and a hand-drawn
-  reference layout where one was measured. Run it alone with
-  `python3 scripts/make_design_report.py <design>` (after `source scripts/env.sh`).
-
-## Documents
-
-- **`docs/flow_record.md`**: the living record of the flow. For each stage it gives the inputs and outputs, JSON excerpts, DRC/LVS pictures and the problems met. It is updated at every stage.
-- **`docs/s0_s3_walkthrough.md`** (and `docs/s0_s3_walkthrough.html`, self-contained, images embedded): what S0–S3 did on `example_ota_5t` and `loadbench_miller` and what came out: each gate, the main numbers and plots, an explanation of every failed gate, and for each table and plot how to read it and what it shows for that design. Every number is read from `outputs/`; the "How to read it" notes are the only typed explanations besides the gate meanings and the known findings. Regenerate it after a run, inside the container: `python3 scripts/make_s0s3_walkthrough.py [design ...] [--no-html] [--out FILE.md]` (pandoc writes the HTML).
-- **`docs/plan_v4_S4_S7.md`** (branch `s4-s5`): the plan for S4 (blocks), S5 (placement and routing), S6 (sign-off and extraction) and S7 (post-layout evaluation) on the 5T and LOADBench. While it is built, the S0–S2 outputs later stages read are frozen: `python3 scripts/freeze_outputs.py --check` (and `tests/test_s4s5.py`) fails if any of them changes.
-- `docs/progress_log.md`: chronological log.
-- `docs/01_inventory.md`, `docs/02_analysis.md`, `docs/03_plan_S0-S3.md`: inventory, analysis and plan.
-- `docs/04_device_generation.md` … `docs/07_stage_guide_and_sunday_baseline.md`: device generation, literature, final plan and stage guide.
-- `docs/context/project_context_S0-S9.md`
-
-## Environment (development setup used so far)
-
-1. **Docker MCP server.** Set it up once by following `tools/mcp-docker-eda/README.md`.
-2. **Container.** `layout-s0s3`, from `hpretl/iic-osic-tools:2026.10`, with this repo mounted at `/foss/designs`.
-3. **ALIGN.** Install it into the container, as root:
-
-   ```bash
-   docker exec -u 0 layout-s0s3 bash /foss/designs/scripts/setup_align.sh
-   ```
-
-## Step 0: run ALIGN end to end
-
-Run these inside `layout-s0s3`, from `/foss/designs`:
-
-```bash
-# convert the sized netlist to ALIGN input; deviations are logged to conversion_report.json
-python3 scripts/make_align_input.py circuits/example_ota_5t/source/example_ota_5t_sized.spice runs/align/inputs/ota5t --subckt ota5t
-
-# place and route with ALIGN -> GDS
-bash scripts/run_align.sh runs/align/inputs/ota5t runs/align/A0_ota5t_baseline -n 1
-
-# render the layout to PNG
-klayout -zz -rd gds=runs/align/A0_ota5t_baseline/OTA5T_0.gds -rd png=runs/align/A0_ota5t_baseline/OTA5T_0.png -r scripts/gds_to_png.py
-
-# Magic DRC (with a negative control)
-bash scripts/magic_drc.sh runs/align/A0_ota5t_baseline/OTA5T_0.gds OTA5T_0 runs/align/A0_ota5t_baseline/drc
-
-# Magic extraction + Netgen LVS against the design reference
-bash scripts/magic_lvs.sh runs/align/A0_ota5t_baseline/OTA5T_0.gds OTA5T_0 runs/align/A0_ota5t_baseline/ref/ota5t_design_ref.spice ota5t runs/align/A0_ota5t_baseline/lvs_vs_design
-```
-
-## S0 — ingest and freeze a design package
-
-Run inside `layout-s0s3`, from `/foss/designs`:
-
-```bash
-python3 -m pytest -q tests/test_s0.py tests/test_s0_integration.py   # unit + LVS negative-control tests
-python3 -m src.s0.ingest inputs/example_ota_5t/package.yaml        # outputs/S0/example_ota_5t/
-python3 -m src.s0.ingest inputs/ota5t_stress/package.yaml          # stress variant (CL = 200 fF)
-python3 -m src.s0.pcell_binding outputs/S0/example_ota_5t          # G0.7: each device drawn by its SKY130 PCell, DRC + LVS
-python3 -m src.s0.pcell_binding outputs/S0/ota5t_stress
-```
-
-G0.7 draws every device with `magic::gencell sky130::sky130_fd_pr__{n,p}fet_01v8` at its exact W/L/nf/m. It then runs Magic DRC (0 errors required; a met1 sliver must be flagged) and Netgen LVS against the device's own netlist line (match with no property errors required; a reference with L + 0.1 µm must be rejected).
-
-**Outputs:**
-
-| File | Contents |
+| Document | What it gives |
 |---|---|
-| `circuit_ir.json` | Devices, nets, port roles, hierarchy blocks, specs, achieved values, margins, pending inputs |
-| `device_map.json` | Exact Magic PCell call per device |
-| `pdk_config.yaml` | PDK and tool configuration |
-| `ref/*_full.spice` | Simulation view |
-| `ref/*_layout.spice` | LVS reference |
-| `pcell/XM*.gds`, `pcell/XM*.png`, `pcell/drc_*`, `pcell/lvs_*` | PCell devices, renders, and DRC/LVS runs (including the negative controls) |
-| `pcell_binding.json` | G0.7 per-device verdicts |
-| `s0_report.json` | Every gate, with its evidence |
+| `docs/progress_report.html` | the reviewers' summary: stages, novelty, results, the LLM plan, risks |
+| `docs/ttsky25a_fd_report.html`, `docs/iadc_ota_report.html` | the detailed reports: schematics with every block marked, the algorithms, who decides what, comparisons with the hand layouts |
+| `docs/reports/<d>_report.html` | the short report of each design (also for GUI copies) |
+| `docs/rules_v2/ruleset_v2.md` | layout rule set v2: sources, rules, Imasha's answers |
+| `docs/flow_details.md` | every stage's options, outputs and history (moved from this README) |
+| `docs/flow_record.md` | the journey: every problem found (106 so far), how it was found, what changed |
+| `PREREG.md` | hypotheses, thresholds and fixed search settings, with dated amendments |
+| `docs/STATUS.md`, `docs/progress_log.md` | what is running, what changed, open questions |
 
-## S1 — electrical intent (operating point, exact linear model, sensitivities)
-
-Run inside `layout-s0s3`, from `/foss/designs`, after S0:
-
-```bash
-python3 -m src.s1.run inputs/example_ota_5t/package.yaml   # outputs/S1/example_ota_5t/ (about 2 min, 15 ngspice runs, sequential)
-python3 -m src.s1.run inputs/ota5t_stress/package.yaml
-python3 -m src.s1.run inputs/ota5t_stress/package.yaml --no-fd   # skip the transistor-level cross-check (seconds)
-python3 scripts/make_record_figures.py example_ota_5t ota5t_stress  # refresh the pictures in docs/flow_record/img/
-```
-
-**Gates:**
-
-| Gate | Check |
-|---|---|
-| G1.1 | Operating point: all devices saturated, supply current within 1 %, charge-matrix conservation |
-| G1.2 | Linear model vs SPICE: within 0.2 dB / 3 % / 2°. PM's reference is the 1 Hz phase rounded to a multiple of 180°; the 1 Hz phases of both are recorded (`pm_reference`) |
-| G1.3 | Linear-model sensitivities vs SPICE finite differences (5 and 20 fF): derivative within 20 %, or first-order prediction at +20 fF within 5 % of the margin |
-| G1.4 | Matching groups (diff pair, mirror) present and equal-sized |
-| G1.5 | Upstream symbolic model vs SPICE; reported, not gated |
-
-**Outputs:**
-
-| File | Contents |
-|---|---|
-| `operating_point.json` | Per-device operating-point values |
-| `linear_model.json` | Linear model vs SPICE |
-| `sensitivity.json` | Per net and pair: linear, SPICE and symbolic slopes, and the fF that would use up the margin |
-| `node_classes.json` | Dominant and non-dominant pole nodes, mirror node, tail, bias, supplies |
-| `currents.json` | Branch currents per net |
-| `intent.json` | Matching groups; nets and coupling pairs ranked by criticality |
-| `symbolic_check.json` | Upstream equations evaluated at this operating point |
-| `plots/` | Bode and sensitivity plots |
-| `s1_report.json` | All gates, with their evidence |
-
-## LOADBench subset (no full download)
-
-```bash
-/opt/venv-tools/bin/python scripts/loadbench_fetch.py index TwoStageOpAmps.zip
-/opt/venv-tools/bin/python scripts/loadbench_fetch.py fetch TwoStageOpAmps.zip SimpleTwoStageOpAmp_SimpleOpAmp1_1/
-```
-
-## S1 extension: series resistance at device terminals
-
-`python3 -m src.s1.run ...` (same command as above) also writes `sensitivity_r.json`:
-
-- per terminal group (matched pairs varied together): dSpec/dR from transistor-level SPICE (AC, NOISE, DC headroom) and from the linear model;
-- the mechanism, with gate G1.6: small-signal, or a bias shift confirmed by re-solving the linear model at the shifted operating point;
-- the systematic offset of a one-sided resistor, measured in a unity-gain follower.
-
-## S1 add-on: pole drop-out study (patched copies of the upstream equations)
-
-```bash
-python3 -m src.s1.symbolic_patch inputs/example_ota_5t/package.yaml inputs/ota5t_stress/package.yaml
-```
-
-- Writes two patched **copies** of `circuits/5t-ota/source/5t-ota_differential_equations.json` to `inputs/example_ota_5t/upstream_patched/` (the original is never modified):
-  - `P1`: the mirror pole-zero doublet, using only symbols the file already defines;
-  - `P2`: P1 plus the transcapacitance gm(s) = gm - s*Cm, Cm ~= (2/5)*Cgs.
-- Evaluates the original, P1 and P2 with the S1 evaluator against SPICE: `outputs/S1/<design>/symbolic_patch_check.json` and `plots/symbolic_patch.png`.
-- Explained in `docs/flow_record.md`, section 3.9.
-
-**Two-stage Miller (LOADBench), Plan v3 Phase A step 10:**
-
-```bash
-python3 -m src.s1.symbolic_patch_miller inputs/loadbench_miller/package.yaml
-```
-
-It also runs inside `./flow run loadbench_miller --stage S1`, through `s1_extras: [symbolic_patch_miller]`.
-
-- It writes `inputs/loadbench_miller/upstream_patched/equations.predicted.P1.json`, a patched copy of the
-  PREDICTED textbook file, which stays unchanged in `circuits/`.
-- The copy adds the NMOS-mirror pole-zero doublet: Gm(s) = gm1/2·(1 + 1/(1 + s·τm)).
-  - τm = C(FirstStageYout1) / (gm + gds of the diode device + gds of the mirror-side input device).
-  - C is the S1 linear model's capacitance at that node.
-- It is labelled **PREDICTED (patched, post hoc)**, because it was written after this circuit's PM gap was seen.
-  G1.5 still reports the unpatched file, not gated.
-- Results go to `outputs/S1/loadbench_miller/symbolic_patch_check.json` and `plots/symbolic_patch.png`.
-
-## S2: requirement compiler (budgets, rules, verification)
-
-Run inside `layout-s0s3`, from `/foss/designs`, after S1:
-
-```bash
-python3 -m src.s2.pdk_parasitics                         # once: per-um R/C of li1..met4 measured with Magic
-python3 -m src.s2.run inputs/ota5t_stress/package.yaml   # outputs/S2/ota5t_stress/  (eta 0.9 from the package)
-python3 -m src.s2.run inputs/example_ota_5t/package.yaml # eta 0.5 (default)
-python3 -m src.s2.run inputs/<design>/package.yaml --eta 0.7   # override for one run
-```
-
-**eta** (the fraction of each margin given to layout) comes from `--eta` if given, else the package key `eta`, else 0.5. `budgets.json` records the value used (`eta`) and where it came from (`eta_source`). The stress variant sets `eta: 0.9` (decision of 2026-10-25).
-
-**Gates:**
-
-| Gate | Check |
-|---|---|
-| G2.1 | Every target resolves |
-| G2.2 | Units and provenance on every rule |
-| G2.3 | Allocation: max-min plus refinement; LP cross-check; reproducible |
-| G2.4 | Linear model at the budget point (info) |
-| G2.5 | SPICE verification: per check, its harmful budgets inserted at once; use <= eta x margin (+2 %, `TOL_USE`; +10 % before Phase A); spec met |
-| G2.6 | Hierarchy shares sum to the budgets |
-| G2.10 | SPICE vs first order, per simulated check (G2.5, G2.8): checks with a sign disagreement or a difference above 0.25 of the margin (ASSUMPTION, for review); with nominal budgets, each spec's worst PVT point beside the nominal result (info) |
-
-**Outputs:**
-
-| File | Contents |
-|---|---|
-| `budgets.json` | Every budget, with its expected need, binding check and margin used |
-| `hierarchy.json` | Block-port and top-level shares of every net budget |
-| `constraints.json` | Typed rule IR |
-| `verification.json` | SPICE results of the budget verification |
-| `plots/` | Budget and verification plots |
-| `s2_report.json` | All gates, with their evidence |
-
-## S3: device design (PCell options, decisions, sign-off)
-
-Run after S2:
-
-```bash
-python3 -m src.s3.run inputs/ota5t_stress/package.yaml --workers 4   # builds/uses outputs/S3/_cells (cached)
-python3 -m src.s3.run inputs/example_ota_5t/package.yaml
-python3 -m src.s3.run inputs/ota5t_stress/package.yaml --cells-only   # only build/measure the option cells
-python3 -m src.s3.run inputs/loadbench_miller/package.yaml --relax-fallback default \
-    --out runs/tmp/s3_planv2_rule                                     # plan v2's relaxed-type rule, beside the results
-python3 -m src.s3.run inputs/example_ota_5t/package.yaml --guard 1 --out runs/tmp/s3_ringed   # the reviewed S3's ringed cells
-```
-
-**Unit cells without guard rings (plan v4, branch `s4-s5`).** By default S3's cells carry no guard ring, because S4
-puts one ring around each block.
-- Their names end in `_ng`.
-- The body pin B is a label on a small patch of the cell's well: the n-well for PMOS, pwell (the substrate) for
-  NMOS.
-- DRC defers the tap rules LU.2, LU.3 and nwell.4 to S4 (`deferred` in each cell's `drc` record).
-- `--guard 1` builds the ringed cells of the reviewed S3. S2's "cells" step and `--variant v1` always do, because
-  S2's frozen floors were read from those cells.
-
-**Relaxed types.** When no option of a device type stays within its allowance, S3 still keeps one and flags the
-type (G3.5).
-- **The rule since 2026-10-27** (PREREG amendment): S3 keeps the option whose worst check, access resistance of d, g
-  and s included, is broken least (`--relax-fallback least-bad`, the default).
-- **Plan v2's rule** (`--relax-fallback default`) kept the default PCell, i.e. the device as sized, or the option
-  with the largest slack if that cell was not built. Every plan-v2 result used it, and so do the v1 variant
-  (`--variant v1`) and plan v2's scripts.
-- `./flow run <design> --relax-fallback default` reproduces plan v2's S3.
-- `./flow test --rerun` re-runs S3 with the rule recorded in each golden snapshot; plan v2's snapshots record the
-  old rule.
-- `--out <folder>` writes S3 beside the main results.
-
-Plan v2 tested the new rule post hoc on its 'after' runs (`scripts/plan_v2_after_queue.sh`): every design whose
-'after' S3 relaxed a type, in `outputs/posthoc/least_bad/<design>/`, snapshot tag `after_posthoc_leastbad`.
-`scripts/plan_v2_eta09_rerun.sh` then runs S2 at eta 0.9 again for example_ota_5t and loadbench_miller, because
-their first runs overlapped a Windows standby. It uses snapshot tag `after_eta0.9_rerun` and keeps the S2 folder
-and a clock record in `outputs/posthoc/eta09_rerun/<design>/`. `python3 scripts/compare_eta09_rerun.py <design>...`
-compares each first run with its re-run.
-
-Each option cell is a SKY130 Magic PCell (exact W/L), plus met2 finger straps and D/G/S/B labels. Each cell gets:
-
-- DRC (with a negative control);
-- LVS against the sized netlist line, checking W, L and nf (with a negative control);
-- a Magic cell extraction;
-- access resistances.
-
-**Gates:**
-
-| Gate | Check |
-|---|---|
-| G3.1 | DRC of the chosen cells |
-| G3.2 | LVS of the chosen cells |
-| G3.3 | All chosen cells and their access R in the circuit: specs met, margin use within the allowance |
-| G3.4 | Option table complete |
-| G3.5 | No relaxation |
-| G3.6 | The model cards add no gate resistance of their own (rgatemod = 0) |
-
-**Outputs:**
-
-| File | Contents |
-|---|---|
-| `option_table.json` | Every option |
-| `device_decisions.json` | The chosen option per device type and why |
-| `plots/option_space.png` | Area against slack for every option; filled: the main mode's options, which S3 chooses from; hollow: the other modes'. `python3 scripts/replot_s3_options.py [design ...]` redraws it from a run's saved tables |
-| `s3_report.json` | All gates, with their evidence |
-
-## S4: blocks (plan v4, branch `s4-s5`)
-
-S4 groups S3's chosen ringless cells into blocks and closes each block with one guard ring
-(`docs/plan_v4_S4_S7.md`, section 2). Run after S3:
-
-```bash
-python3 -m src.s4.run inputs/example_ota_5t/package.yaml      # or: ./flow run example_ota_5t --stage S4
-```
-
-- **Blocks.** S1's matching groups come first, then S0's blocks with what is left, each split so that a block holds
-  one device type with one body net.
-- **Variants:**
-  - one device: `A`;
-  - a matched pair or mirror of one size: `AB`, the second unit flipped (a mirror image). When the cell has an even
-    finger count, also `ABBA` (common centroid) and `ABAB` (interdigitated), built from half units: S3's option
-    with half the fingers at the same finger width, built and signed off as an S3 cell;
-  - otherwise, the devices side by side (`row`).
-- **Template** (`src/s4/block.py`):
-  - units in one row;
-  - each pin on a met2 stub to one met3 track per net, above or below the row. The tracks run past the ring for S5
-    and carry the net's label;
-  - a met2 column joins a net's top and bottom tracks;
-  - one tap ring from the PDK's own `sky130::guard_ring_draw`, labelled `<body>_body` (p-tap for NMOS; n-tap in an
-    n-well over the whole PMOS block);
-  - a vertical tap strip between two units where the ring alone would leave a diffusion farther from a tap than S2's
-    `place.latchup_tap_distance` (less 0.5 µm). A unit too wide even for that is split into two half units. Only
-    LOADBench's PMOS bank needs one.
-- **Per-design options** (`inputs/<d>/layout.yaml`, read only by S4–S7; without one, the plan v4 defaults; plan v4
-  Phase 8, `docs/plan_v5_ttsky25a.md`): `matching: centroid` (matched devices only as ABBA / A B C C B A or
-  interdigitated rows, from whole copies when m ≥ 2), `dummies: true` (a dummy at each end of every matched row),
-  `pack_internal: true` (nets only one block uses get short packed tracks), `resistor_blocks` (matched resistor
-  strings interleaved A B B A in one block), `outline_um` (S5's hard outline) and `hierarchy: upstream` (S5 by
-  sub-circuits). Devices with m > 1 are always drawn as m copies. Two options for S6 and S7:
-  `rc_extraction: false` (S6 extracts C only; S7 then evaluates the C-only netlist as the post-layout view and
-  records which view it used) and `lvs_no_series: [<device>, …]` (S6's flat LVS stops Netgen merging those devices
-  in series, so they are compared one by one). Two opt-in fixes (2026-11-04, used by `iadc_ota` only until
-  Imasha decides; flow record rows 95–96): `pin_origin: bbox` measures a unit's pins from its bounding-box
-  corner, where Magic places it; `search_from_outside: true` lets S5's annealing start outside the outline (from shelf packing, row 98).
-  `fold_row_um: <um>` (Imasha, 2026-11-05; row 97): a single device's row of copies longer than this is drawn as a
-  multi-row array in one ring (iadc_ota: its m = 96 devices, two rows of 48).
-- **Capacitors.** A capacitor that S0 binds to a MIM device for the layout view (LOADBench's Capacitor2, a PREDICTED
-  binding) is a block of its own: the PDK's generator draws it, and each plate reaches a met3 track (the top plate up,
-  the bottom plate down), 1.45 µm from the top plate (capm.11). Its met3 and met4 are keep-outs for S5's router.
-- **Sign-off.** Each variant gets Magic DRC with nothing deferred (the ring meets the latch-up and well-tap rules),
-  and Netgen LVS against the IR's devices. Both have negative controls.
-
-| Output (`outputs/S4/<design>/`) | Content |
-|---|---|
-| `blocks.json` | Every block and variant: arrangement, GDS, bounding box, area, pins (tracks, ring), symmetry, DRC, LVS |
-| `blocks/<block>__<variant>/` | The block's GDS, `.mag`, picture, Magic script, DRC and LVS folders |
-| `s4_report.json` | Gates G4.1 (one type and body per block), G4.2 (DRC), G4.3 (LVS), G4.4 (a mirror-image variant per pair), G4.5 (latch-up tap distance), G4.6 (port C, info; comes with S6) |
-
-## S5: placement and routing (plan v4, branch `s4-s5`)
-
-```bash
-python3 -m src.s5.run inputs/example_ota_5t/package.yaml      # or: ./flow run example_ota_5t --stage S5
-```
-
-**Placement:**
-
-- **Rows by device type,** PMOS above NMOS. A package's designer rows, if any, order the rows.
-- **Spacing:** blocks 3 µm apart in a row, rows 3 µm apart.
-- **Symmetry:** a symmetric block (a matched pair or mirror) puts its own axis at x = 0; a row without one is
-  centred.
-- **Enumeration:** every row partition and order, every block variant and a vertical flip of every block
-  (`src/s5/place.py`).
-- **Two costs** (PREREG amendment of 2026-11-03, late evening):
-  - *budget-aware:* area + 10 × the excess over S2's wire budgets + the budget use. Each net's half-perimeter
-    estimate is measured against `route.max_length.<net>.metal3`;
-  - *area-only:* area alone, the AICL-like baseline.
-- **Checks:** each winner's blocks are assembled into one GDS and checked with DRC before routing.
-
-**Routing** (`src/s5/route.py`), applied to both winners so H5 compares them on equal terms. A spine router for row
-placements:
-- one vertical metal4 spine per net (0.4 µm on a 0.8 µm grid; metal4 may pass over blocks);
-- a via3 onto each of the net's block tracks, or a metal3 extension along the track;
-- a contact stack and a metal3 run from each ring's body pin;
-- nets in order of least budget slack; INP/INN (a hard rule) mirrored at ±x;
-- port labels with the layout view's names (e.g. `net2` → `VBIAS`);
-- one connection per pair of tracks that a block already joins (the placer's wire estimate counts them once too);
-- a spine runs beside another net's spine (within two pitches) no longer than S2's metal4 parallel-run limit;
-- a block's keep-outs (a MIM capacitor) are kept clear; where a metal3 run passes its own net's shape closer than the
-  spacing rule, a metal3 bridge merges the two.
-
-It fails loudly on a net it cannot place; the plan's general maze router remains open for layouts that need detours.
-
-**A design with its own hierarchy** (`hierarchy: upstream`; `src/s5/macro.py`): the blocks are grouped by the
-sub-circuit of their devices (`circuits/<d>/upstream/hierarchy.json`); each group (a macro) is placed by seeded
-simulated annealing (enumeration up to 6 blocks) under three width limits; every arrangement of the macros' shapes is
-enumerated; anything outside `outline_um` is rejected (G5.6). Inside a macro, matched blocks may share a row. Such a
-layout is routed by the grid router (`src/s5/grid.py`): metal3 horizontal and metal4 vertical on the 0.8 µm grid,
-via3 between them; every pin (a block's track, a ring's bottom edge with a contact stack) is reached by a short metal4
-stub and a via3 from a grid point over it; every track, keep-out and stack is an obstacle for every net; each net is
-an A* tree (length + 2 µm per via), nets in order of least budget slack, all inside the outline. Mirror-image routing
-of a symmetric pair is not attempted (G5.4 reports it).
-
-| Output (`outputs/S5/<design>/`) | Content |
-|---|---|
-| `placement.json` | The two winners with rows, variants, flips, origins, pins, wire estimates, legality, and routes (spines, vias, runs, stacks, lengths, rule checks, DRC, LVS) |
-| `candidates.json.gz` | Every candidate with its rows, choices and cost terms (gzipped: 20 736 on LOADBench) |
-| `placed_<budget_aware\|area_only>/` | The assembled, unrouted GDS, its picture and its DRC |
-| `routed_<budget_aware\|area_only>/` | The routed top cell (`<design>_routed.gds`), its picture, DRC, and LVS against the layout view with the drawn finger counts (`ref_top.spice`) |
-| `s5_report.json` | G5.1 (legal placement), G5.2 (top-level DRC), G5.3 (top-level LVS), G5.4 (S2's `route.*` rules: length, parallel runs on metal3/4, series R against what S3 left, symmetry; EM, bias-net coupling and digital crossings not evaluated, as S2 marked them), G5.5 (against area-only, info), G5.6 (inside the hard outline, with `outline_um`), G5.7 (info: each matched block's chosen variant and its devices' centroid offsets from the row centre) |
-
-## S6: extraction against the budgets, and S7: post-layout evaluation (plan v4, branch `s4-s5`)
-
-```bash
-./flow run example_ota_5t --from S6          # or: python3 -m src.s6.run / src.s7.run inputs/<d>/package.yaml
-```
-
-Both routed layouts of S5 are evaluated: the budget-aware one (gated) and the area-only baseline (reported, for H5).
-
-**S6** (`src/s6/run.py`):
-- Magic extracts the flattened top cell twice, capacitance only and R+C (extresist, tolerance 100), with the code of
-  `scripts/reference_layout.py`.
-- LVS of the flat extraction against S5's reference (G6.1). An inner block net that flattening exposes as a port is
-  accepted; nothing else is.
-- Each capacitance goes to a net (its other side an AC ground of S2) or to a coupling (two signal nets).
-- G6.2 compares every budgeted net capacitance, coupling and terminal R with its S2 budget. R is S3's access R plus
-  S5's wires and vias.
-- G6.3 (info) is a kpex 2.5D cross-check on the nets both tools name.
-- G6.4 (info) compares the C-only netlist's total capacitance with Magic's own `.ext`. ext2spice leaves out the
-  capacitance to ground of nets that are transistor gates (flow record row 75), so those nets read low in G6.2; the
-  R+C netlist, which S7 simulates, has it.
-- G6.5 (info) extracts each MIM capacitor block of S4 alone. Magic's sky130 rules charge metal4 over metal3
-  everywhere, also across the capacitor's top plate, so the coupling they report between its two plates is very
-  likely counted twice with the device model (22.5 fF on LOADBench). G6.2 keeps Magic's number.
-
-**S7** (`src/s7/run.py`):
-- The schematic and three layout views run in S0's AC, OP and NOISE benches: drawn devices only, C-only PEX, and
-  R+C PEX (the post-layout result).
-- The extracted cell's ports connect to the bench as the bench's own `XDUT` line connects the schematic (LOADBench:
-  `in1 in2 out sourceNmos sourcePmos` → `INN INP OUTP VSS VDD`). A removed internal source is put back from the IR,
-  as a voltage or a current source (the 5T's V1 on VBIAS; LOADBench's Ibias on IBIAS). Only the first port of each
-  name is a bench node.
-- A deck larger than 20 MB (LOADBench's R+C views, 315 000 resistors) runs after the others, `--big-workers` at a
-  time (default 1): four at once ran the 5 GB container out of memory (one LOADBench R+C AC run peaks at 5.3 GB).
-  An identical deck is simulated once; when S5 chose one placement for both costs (LOADBench), S6 extracts it once.
-  LOADBench's S6 takes about 2 min and its S7 about 22 min.
-- G7.1: every spec met. G7.2: each spec's loss within eta × margin (× 1.02). G7.3 (info): G2.0's prediction against
-  the loss. G7.5 (info): with a MIM capacitor, the R+C AC run once more with G6.5's plate coupling cancelled by an
-  equal negative capacitor across the device's terminals. H4 and H5 are reported.
-- Device saturation and PVT points are not evaluated here.
-
-| Output | Content |
-|---|---|
-| `outputs/S6/<design>/<rule>/` | Netlists (`*_lvs.spice`, `*_pex.spice`, `*_pexrc.spice`), flat LVS report, kpex output |
-| `outputs/S6/<design>/parasitics_vs_budgets.json` | Per layout: net and coupling capacitances, every budgeted element against its budget, kpex comparison |
-| `outputs/S7/<design>/metrics.json` | Every view's measurements, and per spec the loss, its use of eta × margin, and G2.0's prediction |
-| `outputs/S6/<design>/s6_report.json`, `outputs/S7/<design>/s7_report.json` | Gates G6.1–G6.4 and G7.1–G7.4, H4, H5 |
+Third-party material and licences are listed in `THIRD_PARTY.md`. Inputs the upstream designs did not provide are
+labelled PREDICTED, and assumptions ASSUMPTION (`circuits/<d>/SOURCE.md`).

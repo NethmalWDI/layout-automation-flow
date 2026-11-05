@@ -1313,3 +1313,140 @@ Imasha asked for a short document for the reviewers covering the whole project, 
   are kept as a subsection.
 - No flow code, input or result changed.
 
+## 2026-11-05: rule set v2 drafted for review, branch `rules-v2` (Claude Code)
+
+Imasha asked to redefine the layout rules from the analog-layout references in her `layout_books` folder: 2-D common
+centroid, DRC-minimum spacing "as the design and space allow", the case studies, and (added mid-way) avoiding metal
+over the blocks except where symmetric matching needs it. The flow stays on v1; iadc is the first design for v2,
+following Imasha's hand-drawn hierarchy (to come).
+
+- **Reading.** The PDFs were copied to `runs/tmp/books/` (git-ignored; the originals untouched) and read as text and
+  page images with the image's Ghostscript (nothing installed). Sources: Karmokar et al., ASP-DAC 2022 (CC review; its
+  case studies, the 5T OTA and the StrongARM comparator, show CC with several rows for large devices and clustered
+  layouts for small ones); Long, Hong, Dong, ISCAS 2005 (2-D CC criteria and generation); WVU and TAMU layout slides
+  (one guard ring per stack, dummies, latch-up, floorplan); a Cadence blog on multi-leg mirrors. The Lienig & Scheible
+  PDF holds only the start of chapter 1, so nothing was taken from it (asked for chapters 6 and 7).
+- **DRC values** were read from the SKY130A Magic deck with their rule ids (diff/tap.3, .8–.11, nwell.1/.2a, poly,
+  li, met1–met4, capm, LU.2/LU.3 15 µm).
+- **What v1 does that the sources argue against** (measured on the committed iadc run): 38 of iadc's 67 blocks are
+  the designer's single dummy transistors, each with its own ring and 3 µm gaps; the matched blocks are long rows (up
+  to 154 × 10.8 µm); the blocks fill 51 % of the layout; metal4 runs freely over devices.
+- **`docs/rules_v2/ruleset_v2.md`**: the rules D (DRC minimum), T (rings per stack), M (2-D CC/ID patterns), Y
+  (dummies), R (routing off the blocks), S (shared diffusion, later), each with its v1 value, v2 value and source, and
+  eight questions for Imasha. No code or result changed.
+- **Second version, the same day:** Imasha pointed to *IC Mask Design* (Saint & Saint), added to the folder. Its Case
+  Study 1 (a CMOS differential amplifier, pp. 247–326) was read in full; chapters 3–8 and Case Study 2 were extracted
+  by three helpers with page numbers. Added: the intent rules I1–I3 (matching level per group, worst-case branch
+  current, noisy and sensitive tags), the cross-quad as a pattern, placement rules P1–P4, routing rules R3–R5 (inputs
+  and outputs apart, differential pairs side by side, current paths), shared ring edges between neighbouring stacks.
+  Where the book prefers slightly-above-minimum spacing as reserve, the draft keeps Imasha's DRC minimum (bounded by
+  S2's budgets) and asks her (Q9). Ten questions in its section 6.
+- **Imasha's review (the same day):** the rules are accepted, with her answers recorded in section 7 of
+  `docs/rules_v2/ruleset_v2.md`. In short:
+  - keep the outer guard ring;
+  - shared diffusion where the specs allow;
+  - `TAP_MARGIN` kept;
+  - success means the area is within ±20–30 % of a hand layout's, with the specs still met;
+  - no crossings over blocks for now;
+  - spacing is the DRC minimum plus 10 %, snapped up to 0.05 µm;
+  - normal rings for now; her hierarchy drawings are to come.
+
+  Two points are still to agree:
+  - the pattern-candidate screening (rough estimates for 4–6 patterns, the best 2–3 signed off);
+  - which of the two readings of the 0.05 µm snap applies.
+
+## 2026-11-05 (late morning): rule set v2, phases 1 and 2, branch `rules-v2` (Claude Code)
+
+Imasha approved the screening proposal and reading (a) of the spacing rule ("Yes, both, start"), then sent her
+hand-drawn hierarchy of iadc (two annotated schematic sheets: one coloured box = one block; "dummies as in the design").
+
+- **PREREG amendment** (10:10 CET), before any v2 code: the spacing rule, R1/R2, the screening, rings (phase 3), the
+  hypotheses (area <= 1.3 x the hand layout's, target 1.2 x; wiring loss not above v1's).
+- **Phase 1:** `src/common/drc_rules.py` (the deck values with rule ids; a test reads them back from the deck),
+  `src/common/ruleset.py` (S4 generator spacings from the rule; units placed as close as their facing layers allow;
+  S5 per-pair gaps, abutting on one body; device areas as router keep-outs; channels widened one router grid at a time
+  until every net routes). Hooks in `src/s4/block.py`, `src/s5/place.py`, `src/s5/run.py`, `src/s4/run.py`; without
+  `ruleset: v2` nothing changes (the committed v1 plans regenerate unit for unit). First v2 blocks: half the v1 area,
+  Magic DRC 0, LVS match, and clean in the KLayout foundry deck (FEOL with implants, BEOL).
+- **Phase 2:** `src/s4/v2.py`: the drawn blocks (`blocks:` in `inputs/iadc_ota_v2/layout.yaml`, 14 blocks; 35 designer
+  dummies assigned by net, 3 rail dummies stay alone), 2-D arrangements (cross-quad, 2-D common centroid, folds, series
+  strings as drawn), dummies at row ends with equal rows, and the paper screening (2-3 kept per block, nothing wider
+  than the tile). Thirteen kept candidates of five blocks built in Magic: all DRC 0 and LVS match after two fixes (flow
+  record rows 101: a tap strip's contacts too close to the ring's, latent in v1; 102: the estimate ignored packed
+  internal tracks). On paper iadc's 19 blocks total about 10,100 µm² (v1: 17,135; the hand layout 13,355 in all).
+- **Run:** `iadc_ota_v2` created through the GUI backend (as the GUI's Save does); S0-S3 from 10:03 CET, S4-S7 queued
+  behind them.
+- Tests: 10 new (`tests/test_rules_v2.py`); 209 pass; 36 goldens match. README: the v2 options; its PowerShell commands
+  repaired (a form feed had replaced `\f` in `.\flow.ps1` in the reviewer-pack edit, already committed).
+
+## 2026-11-05 (afternoon and evening): the first v2 run of iadc_ota_v2 (Claude Code)
+
+- **Attempts.** S4 passed at once: 19 blocks, 51 variants, all DRC 0 and LVS match, every estimate equal to its
+  signed-off area. S5 took four rounds of fixes, each recorded:
+  - row 103: a macro with too many arrangements now goes to the annealer;
+  - row 104: device areas hid pins from the router;
+  - row 105: the ring's body-contact stacks met the tracks, and the kpex info check's timeout stopped S6;
+  - row 106: met4.5b beside the MIM plates.
+- **Result** (16:50–17:53 CET):
+
+  | | v1 iadc_ota | v2 iadc_ota_v2 | hand |
+  |---|---|---|---|
+  | budget-aware | 158.7 × 213.5 = 33,889 µm² | 141.7 × 156.2 = 22,142 µm² (channel 2.4 µm) | 130.4 × 102.4 = 13,355 µm² (10,090 without its CMFB) |
+  | area-only | 158.0 × 207.0 = 32,698 µm² | 84.7 × 211.2 = 17,901 µm² (channel 1.6 µm) | |
+  | blocks / fill | 67 / 0.51–0.52 | 19 / 0.50 (BA), 0.64 (AO) | |
+  | route length | 2,830 / 3,499 µm | 1,597 / 1,986 µm | |
+  | GBW drawn → C-only | 204.8 → 180.3 / 179.6 MHz | 204.8 → 176.8 / 175.9 MHz | 171.9 → 156.2 MHz |
+
+  Every other spec is met as before. GBW misses its (ASSUMPTION) spec of 188.9 MHz in both versions.
+- **Against PREREG:**
+  - H-v2a (≤ 1.3 × the hand layout) is **not met yet**: area-only 1.34 × the whole hand layout and 1.77 × it without its CMFB; budget-aware 1.66 × / 2.19 ×.
+  - H-v2b (wiring loss not above v1's 12.0 %) is **not met**: 13.7 % (BA), 14.1 % (AO).
+  - The route is 44 % shorter, so the extra loss probably comes from the denser blocks (tracks at 0.75 µm pitch, units 0.05 µm apart). That is not yet measured per net.
+- **Where the rest of the area is.** The blocks total 10,658 µm². In the area-only layout:
+  - the macros hold 13,947 µm²: the channels and the in-macro arrangement add 31 %;
+  - the top level adds another 28 %: the three macros stack into a tall column, and the capacitor macro takes a row of its own.
+
+  Phase 3 targets these: channels only where needed, macro packing, and rings per stack.
+
+## 2026-11-05 (evening): README for the flow, result pictures, ttsky v2 copy (Claude Code)
+
+Imasha asked for the README to focus on this flow: what it does, its expected novelty, rule set v2 and the results
+after it, clear pictures of every design's results with specs and the hand layouts, and the next plan; ALIGN and the
+long details out.
+
+- **`README.md` rewritten:**
+  1. the flow (stages and algorithms);
+  2. the expected novelty (C1–C5, and what is not claimed);
+  3. rule set v2;
+  4. the results of all four designs, with pictures and spec tables. iadc's v1, v2 and hand layouts are shown at one scale with the Tiny Tapeout tile, and ttsky's flow layouts beside the taped-out tile (its Diff_Opamp cell measured and outlined, as in the detailed report);
+  5. the next plan;
+  6. how to run the flow and each stage (Imasha's README rule);
+  7. the documents.
+- **`docs/flow_details.md`:** the earlier README's per-stage reference, moved without change; ALIGN kept there only as a note about the earlier baseline.
+- **`scripts/make_readme_figures.py`** (new) draws the comparison pictures into `outputs/report/readme/`.
+- **`ttsky25a_fd_v2`** (GUI copy with `ruleset: v2`, the v1 block plan): S0–S3 running from 18:09 CET. S4–S7 follow phase 3.
+- **Progress report updated for the reviewers** (Imasha; `scripts/make_progress_report.py`, every number read from
+  the outputs):
+  - a new section 5 on rule set v2, with the iadc v1 / v2 / hand table and picture;
+  - `iadc_ota_v2` added to the status table;
+  - a time-taken table, minutes per stage for every design (from each `flow_summary.json`), also in the README;
+  - the timeline, the density and wiring-loss risks, and the v2 fixes that stay opt-in;
+  - "where to look" now lists the v2 documents.
+
+## 2026-11-05 (18:45 CET): on hold, handoff (Claude Code)
+
+Imasha put active work on hold (token budget) and asked for the project to be ready for someone else, on another PC
+or another Claude account, with the ttsky v2 run kept going and its results included.
+
+- `scripts/finish_ttsky_v2.sh`, started detached at 18:37 CET:
+  1. waits for `ttsky25a_fd_v2`'s S0–S3;
+  2. runs S4–S7;
+  3. regenerates its report, the README pictures (`make_readme_figures.py` now adds the v2 panels when they exist)
+     and the progress report (section 5 now has a ttsky v2 table that fills in when the run has ended).
+- `docs/rules_v2/phase3_plan.md`: phase 3, step by step, with where the area goes and the packing dry run (V0
+  reproduced the committed run; the other variants were still running).
+- `docs/HANDOFF.md` rewritten for a new person. README and CLAUDE.md point to it; STATUS updated; claims released.
+- The PC is turned off at about 01:00 local (20:30 CET), before ttsky25a_fd_v2 can finish (it needs until about
+  03:00 local). `scripts/finish_ttsky_v2.sh` was made resumable (it starts at the first stage without a report and
+  waits for a run already going) and restarted at 18:50 CET; HANDOFF section 2 gives the one command to resume it.
+

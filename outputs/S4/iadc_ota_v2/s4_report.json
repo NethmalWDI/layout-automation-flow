@@ -1,0 +1,775 @@
+{
+  "run_id": "2026-11-05T14:45:21-433ca970",
+  "design": "iadc_ota_v2",
+  "s3_run_id": "2026-11-05T12:11:47-1e25bce1",
+  "layout_options": {
+    "matching": "centroid",
+    "dummies": true,
+    "pack_internal": true,
+    "outline_um": [
+      161.0,
+      225.77
+    ],
+    "hierarchy": "upstream",
+    "pin_origin": "bbox",
+    "fold_row_um": 100,
+    "search_from_outside": true,
+    "rc_extraction": false,
+    "ruleset": "v2",
+    "blocks": [
+      {
+        "name": "x1_cm_iref",
+        "kind": "current_mirror",
+        "drawn": "x1 purple box CM (B1)",
+        "devices": [
+          "XX1_M7",
+          "XX1_M6"
+        ],
+        "dummies": [
+          "XX1_M10",
+          "XX1_M44",
+          "XX1_M8"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x1_cm_bias_c",
+        "kind": "current_mirror",
+        "drawn": "x1 green box CM (B36 + B39)",
+        "devices": [
+          "XX1_M22",
+          "XX1_M26",
+          "XX1_M32"
+        ],
+        "dummies": [
+          "XX1_M57",
+          "XX1_M58",
+          "XX1_M59"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x1_cm_bias_b",
+        "kind": "current_mirror",
+        "drawn": "x1 blue box CM (B37 + B38)",
+        "devices": [
+          "XX1_M21",
+          "XX1_M25",
+          "XX1_M31"
+        ],
+        "dummies": [
+          "XX1_M46",
+          "XX1_M47",
+          "XX1_M48",
+          "XX1_M51",
+          "XX1_M54",
+          "XX1_M60"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x1_cc_cm",
+        "kind": "common_centroid",
+        "drawn": "x1 red box CC (B14-B23): five series strings of four",
+        "devices": [
+          "XX1_M33",
+          "XX1_M49",
+          "XX1_M50",
+          "XX1_M63",
+          "XX1_M64",
+          "XX1_M65",
+          "XX1_M66",
+          "XX1_M67",
+          "XX1_M68",
+          "XX1_M69",
+          "XX1_M70",
+          "XX1_M71",
+          "XX1_M72",
+          "XX1_M73",
+          "XX1_M74",
+          "XX1_M75",
+          "XX1_M76",
+          "XX1_M77",
+          "XX1_M78",
+          "XX1_M79"
+        ],
+        "dummies": [
+          "XX1_M37"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x1_diode_bias_b",
+        "kind": "single",
+        "drawn": "x1, not boxed (B2)",
+        "devices": [
+          "XX1_M1"
+        ],
+        "dummies": [
+          "XX1_M27"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x1_diode_m2d",
+        "kind": "single",
+        "drawn": "x1, not boxed (B3)",
+        "devices": [
+          "XX1_M2"
+        ],
+        "dummies": [
+          "XX1_M35"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x1_single_m3",
+        "kind": "single",
+        "drawn": "x1, not boxed (B24)",
+        "devices": [
+          "XX1_M3"
+        ],
+        "dummies": [
+          "XX1_M34"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x1_single_m4",
+        "kind": "single",
+        "drawn": "x1, not boxed (B25)",
+        "devices": [
+          "XX1_M4"
+        ],
+        "dummies": [
+          "XX1_M36"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x1_single_m5",
+        "kind": "single",
+        "drawn": "x1, not boxed (B26)",
+        "devices": [
+          "XX1_M5"
+        ],
+        "dummies": [
+          "XX1_M29",
+          "XX1_M42"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x2_cm_tail",
+        "kind": "current_mirror",
+        "drawn": "x2 black box CM (B52 + B53 + B54)",
+        "devices": [
+          "XX2_M6",
+          "XX2_M5",
+          "XX2_M3",
+          "XX2_M4"
+        ],
+        "dummies": [
+          "XX2_M28",
+          "XX2_M30",
+          "XX2_M40",
+          "XX2_M41"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x2_diff",
+        "kind": "diff_pair",
+        "drawn": "x2 green box diff (B40)",
+        "devices": [
+          "XX2_M1",
+          "XX2_M2"
+        ],
+        "dummies": [
+          "XX2_M23",
+          "XX2_M24"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x2_cm_casc",
+        "kind": "current_mirror",
+        "drawn": "x2 red box CM (B51)",
+        "devices": [
+          "XX2_M3A",
+          "XX2_M7"
+        ],
+        "dummies": [
+          "XX2_M38",
+          "XX2_M39",
+          "XX2_M80",
+          "XX2_M81"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x2_cl_casc",
+        "kind": "cascode_load",
+        "drawn": "x2 purple box CL (B61)",
+        "devices": [
+          "XX2_M1A",
+          "XX2_M8"
+        ],
+        "dummies": [
+          "XX2_M56",
+          "XX2_M62"
+        ],
+        "level": "centroid"
+      },
+      {
+        "name": "x2_cl_src",
+        "kind": "current_load",
+        "drawn": "x2 yellow box CL (B62)",
+        "devices": [
+          "XX2_M11",
+          "XX2_M12"
+        ],
+        "dummies": [
+          "XX2_M55",
+          "XX2_M61",
+          "XX2_M82",
+          "XX2_M83"
+        ],
+        "level": "centroid"
+      }
+    ]
+  },
+  "ruleset": "v2",
+  "v2_constants": {
+    "FIRST": 0.55,
+    "PITCH": 0.75,
+    "ROW_SEP": 0.75,
+    "RING_GAP": 0.4,
+    "TAP_GAP": 0.4,
+    "COL0": 0.4,
+    "COL_PITCH": 0.6,
+    "NWELL_OVER": 0.3,
+    "EXT": 0.0,
+    "CAPM_SPACE": 1.5,
+    "MET_SPACE": 0.35,
+    "STRIP_CONT_IN": 0.3,
+    "RING_GAP_BODY": 0.8
+  },
+  "gates": {
+    "G4.1_one_type_and_body_per_block": {
+      "pass": true,
+      "blocks": {
+        "x1_cm_iref": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XX1_M7",
+            "XX1_M6",
+            "XX1_M10",
+            "XX1_M44",
+            "XX1_M8"
+          ]
+        },
+        "x1_cm_bias_c": {
+          "type": "pmos",
+          "body": "VDD",
+          "devices": [
+            "XX1_M22",
+            "XX1_M26",
+            "XX1_M32",
+            "XX1_M57",
+            "XX1_M58",
+            "XX1_M59"
+          ]
+        },
+        "x1_cm_bias_b": {
+          "type": "pmos",
+          "body": "VDD",
+          "devices": [
+            "XX1_M21",
+            "XX1_M25",
+            "XX1_M31",
+            "XX1_M46",
+            "XX1_M47",
+            "XX1_M48",
+            "XX1_M51",
+            "XX1_M54",
+            "XX1_M60"
+          ]
+        },
+        "x1_cc_cm": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XX1_M33",
+            "XX1_M49",
+            "XX1_M50",
+            "XX1_M63",
+            "XX1_M64",
+            "XX1_M65",
+            "XX1_M66",
+            "XX1_M67",
+            "XX1_M68",
+            "XX1_M69",
+            "XX1_M70",
+            "XX1_M71",
+            "XX1_M72",
+            "XX1_M73",
+            "XX1_M74",
+            "XX1_M75",
+            "XX1_M76",
+            "XX1_M77",
+            "XX1_M78",
+            "XX1_M79",
+            "XX1_M37"
+          ]
+        },
+        "x1_diode_bias_b": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XX1_M1",
+            "XX1_M27"
+          ]
+        },
+        "x1_diode_m2d": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XX1_M2",
+            "XX1_M35"
+          ]
+        },
+        "x1_single_m3": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XX1_M3",
+            "XX1_M34"
+          ]
+        },
+        "x1_single_m4": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XX1_M4",
+            "XX1_M36"
+          ]
+        },
+        "x1_single_m5": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XX1_M5",
+            "XX1_M29",
+            "XX1_M42"
+          ]
+        },
+        "x2_cm_tail": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XX2_M6",
+            "XX2_M5",
+            "XX2_M3",
+            "XX2_M4",
+            "XX2_M28",
+            "XX2_M30",
+            "XX2_M40",
+            "XX2_M41"
+          ]
+        },
+        "x2_diff": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XX2_M1",
+            "XX2_M2",
+            "XX2_M23",
+            "XX2_M24"
+          ]
+        },
+        "x2_cm_casc": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XX2_M3A",
+            "XX2_M7",
+            "XX2_M38",
+            "XX2_M39",
+            "XX2_M80",
+            "XX2_M81"
+          ]
+        },
+        "x2_cl_casc": {
+          "type": "pmos",
+          "body": "VDD",
+          "devices": [
+            "XX2_M1A",
+            "XX2_M8",
+            "XX2_M56",
+            "XX2_M62"
+          ]
+        },
+        "x2_cl_src": {
+          "type": "pmos",
+          "body": "VDD",
+          "devices": [
+            "XX2_M11",
+            "XX2_M12",
+            "XX2_M55",
+            "XX2_M61",
+            "XX2_M82",
+            "XX2_M83"
+          ]
+        },
+        "pmos_dummy": {
+          "type": "pmos",
+          "body": "VDD",
+          "devices": [
+            "XM43"
+          ]
+        },
+        "pmos_dummy_2": {
+          "type": "pmos",
+          "body": "VDD",
+          "devices": [
+            "XM45"
+          ]
+        },
+        "nmos_dummy": {
+          "type": "nmos",
+          "body": "VSS",
+          "devices": [
+            "XM9"
+          ]
+        },
+        "XC3": {
+          "type": "cap",
+          "body": null,
+          "devices": [
+            "XC3"
+          ]
+        },
+        "XC4": {
+          "type": "cap",
+          "body": null,
+          "devices": [
+            "XC4"
+          ]
+        }
+      }
+    },
+    "G4.2_DRC_every_variant": {
+      "pass": true,
+      "detail": {
+        "x1_cm_iref__cc2": 0,
+        "x1_cm_iref__cc1": 0,
+        "x1_cm_iref__cc3": 0,
+        "x1_cm_bias_c__cc1": 0,
+        "x1_cm_bias_c__cc2": 0,
+        "x1_cm_bias_c__cc3": 0,
+        "x1_cm_bias_b__cc3": 0,
+        "x1_cm_bias_b__cc2": 0,
+        "x1_cm_bias_b__cc6": 0,
+        "x1_cc_cm__strings1": 0,
+        "x1_cc_cm__strings5": 0,
+        "x1_diode_bias_b__f2": 0,
+        "x1_diode_bias_b__f1": 0,
+        "x1_diode_bias_b__f4": 0,
+        "x1_diode_m2d__f1": 0,
+        "x1_diode_m2d__f5": 0,
+        "x1_diode_m2d__f2": 0,
+        "x1_single_m3__f1": 0,
+        "x1_single_m4__f1": 0,
+        "x1_single_m4__f3": 0,
+        "x1_single_m4__f2": 0,
+        "x1_single_m5__f1": 0,
+        "x1_single_m5__f3": 0,
+        "x1_single_m5__f2": 0,
+        "x2_cm_tail__id6": 0,
+        "x2_cm_tail__cc4": 0,
+        "x2_cm_tail__cc6": 0,
+        "x2_diff__cc1": 0,
+        "x2_diff__cc2": 0,
+        "x2_diff__cc3": 0,
+        "x2_cm_casc__cc4": 0,
+        "x2_cm_casc__cc3": 0,
+        "x2_cm_casc__cc6": 0,
+        "x2_cl_casc__cc1": 0,
+        "x2_cl_casc__cc2": 0,
+        "x2_cl_casc__cc4": 0,
+        "x2_cl_src__cc4": 0,
+        "x2_cl_src__id4": 0,
+        "x2_cl_src__cc3": 0,
+        "pmos_dummy__f1": 0,
+        "pmos_dummy__f2": 0,
+        "pmos_dummy__f4": 0,
+        "pmos_dummy_2__f1": 0,
+        "pmos_dummy_2__f2": 0,
+        "pmos_dummy_2__f3": 0,
+        "nmos_dummy__f1": 0,
+        "XC3__A": 0,
+        "XC4__A": 0
+      }
+    },
+    "G4.3_LVS_every_variant": {
+      "pass": true,
+      "detail": {
+        "x1_cm_iref__cc2": true,
+        "x1_cm_iref__cc1": true,
+        "x1_cm_iref__cc3": true,
+        "x1_cm_bias_c__cc1": true,
+        "x1_cm_bias_c__cc2": true,
+        "x1_cm_bias_c__cc3": true,
+        "x1_cm_bias_b__cc3": true,
+        "x1_cm_bias_b__cc2": true,
+        "x1_cm_bias_b__cc6": true,
+        "x1_cc_cm__strings1": true,
+        "x1_cc_cm__strings5": true,
+        "x1_diode_bias_b__f2": true,
+        "x1_diode_bias_b__f1": true,
+        "x1_diode_bias_b__f4": true,
+        "x1_diode_m2d__f1": true,
+        "x1_diode_m2d__f5": true,
+        "x1_diode_m2d__f2": true,
+        "x1_single_m3__f1": true,
+        "x1_single_m4__f1": true,
+        "x1_single_m4__f3": true,
+        "x1_single_m4__f2": true,
+        "x1_single_m5__f1": true,
+        "x1_single_m5__f3": true,
+        "x1_single_m5__f2": true,
+        "x2_cm_tail__id6": true,
+        "x2_cm_tail__cc4": true,
+        "x2_cm_tail__cc6": true,
+        "x2_diff__cc1": true,
+        "x2_diff__cc2": true,
+        "x2_diff__cc3": true,
+        "x2_cm_casc__cc4": true,
+        "x2_cm_casc__cc3": true,
+        "x2_cm_casc__cc6": true,
+        "x2_cl_casc__cc1": true,
+        "x2_cl_casc__cc2": true,
+        "x2_cl_casc__cc4": true,
+        "x2_cl_src__cc4": true,
+        "x2_cl_src__id4": true,
+        "x2_cl_src__cc3": true,
+        "pmos_dummy__f1": true,
+        "pmos_dummy__f2": true,
+        "pmos_dummy__f4": true,
+        "pmos_dummy_2__f1": true,
+        "pmos_dummy_2__f2": true,
+        "pmos_dummy_2__f3": true,
+        "nmos_dummy__f1": true,
+        "XC3__A": true,
+        "XC4__A": true
+      }
+    },
+    "G4.4_symmetry": {
+      "pass": true,
+      "tolerance_um": 0.005,
+      "detail": {
+        "x1_cm_iref__cc2": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true,
+          "centroid_offset_y_um": 0.0
+        },
+        "x1_cm_iref__cc1": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "x1_cm_iref__cc3": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true,
+          "centroid_offset_y_um": 0.0
+        },
+        "x2_diff__cc1": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "x2_diff__cc2": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true,
+          "centroid_offset_y_um": 0.0
+        },
+        "x2_diff__cc3": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true,
+          "centroid_offset_y_um": 0.0
+        },
+        "x2_cm_casc__cc4": {
+          "error_um": 0.375,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true,
+          "centroid_offset_y_um": 0.0
+        },
+        "x2_cm_casc__cc3": {
+          "error_um": 0.1562,
+          "centroid_offset_um": 0.0625,
+          "mirror_image": true,
+          "centroid_offset_y_um": 0.0
+        },
+        "x2_cm_casc__cc6": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true,
+          "centroid_offset_y_um": 0.0
+        },
+        "x2_cl_casc__cc1": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true
+        },
+        "x2_cl_casc__cc2": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true,
+          "centroid_offset_y_um": 0.0
+        },
+        "x2_cl_casc__cc4": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true,
+          "centroid_offset_y_um": 0.0
+        },
+        "x2_cl_src__cc4": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true,
+          "centroid_offset_y_um": 0.0
+        },
+        "x2_cl_src__id4": {
+          "error_um": 0.0,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true,
+          "centroid_offset_y_um": 0.0
+        },
+        "x2_cl_src__cc3": {
+          "error_um": 0.4,
+          "centroid_offset_um": 0.0,
+          "mirror_image": true,
+          "centroid_offset_y_um": 0.0
+        }
+      },
+      "not_matched": [],
+      "note": "every two-device block of one device type (a matched pair or mirror of one size) has a signed-off variant that is a mirror image about its centre; centroid_offset_um is 0 for a common centroid (ABBA). Two devices of different sizes (not_matched) cannot be mirror images"
+    },
+    "G4.5_latchup_tap_distance": {
+      "pass": true,
+      "limit_um": 15.0,
+      "detail": {
+        "x1_cm_iref__cc2": 5.17,
+        "x1_cm_iref__cc1": 3.366,
+        "x1_cm_iref__cc3": 9.786,
+        "x1_cm_bias_c__cc1": 4.11,
+        "x1_cm_bias_c__cc2": 8.26,
+        "x1_cm_bias_c__cc3": 8.85,
+        "x1_cm_bias_b__cc3": 9.383,
+        "x1_cm_bias_b__cc2": 6.01,
+        "x1_cm_bias_b__cc6": 5.533,
+        "x1_cc_cm__strings1": 3.27,
+        "x1_cc_cm__strings5": 5.218,
+        "x1_diode_bias_b__f2": 4.42,
+        "x1_diode_bias_b__f1": 2.616,
+        "x1_diode_bias_b__f4": 9.34,
+        "x1_diode_m2d__f1": 2.616,
+        "x1_diode_m2d__f5": 9.972,
+        "x1_diode_m2d__f2": 4.42,
+        "x1_single_m3__f1": 2.989,
+        "x1_single_m4__f1": 2.989,
+        "x1_single_m4__f3": 7.326,
+        "x1_single_m4__f2": 4.42,
+        "x1_single_m5__f1": 3.389,
+        "x1_single_m5__f3": 8.492,
+        "x1_single_m5__f2": 4.77,
+        "x2_cm_tail__id6": 14.292,
+        "x2_cm_tail__cc4": 14.292,
+        "x2_cm_tail__cc6": 14.292,
+        "x2_diff__cc1": 3.995,
+        "x2_diff__cc2": 4.97,
+        "x2_diff__cc3": 5.235,
+        "x2_cm_casc__cc4": 13.09,
+        "x2_cm_casc__cc3": 12.69,
+        "x2_cm_casc__cc6": 12.344,
+        "x2_cl_casc__cc1": 4.11,
+        "x2_cl_casc__cc2": 6.76,
+        "x2_cl_casc__cc4": 11.243,
+        "x2_cl_src__cc4": 11.77,
+        "x2_cl_src__id4": 11.77,
+        "x2_cl_src__cc3": 10.646,
+        "pmos_dummy__f1": 2.181,
+        "pmos_dummy__f2": 3.565,
+        "pmos_dummy__f4": 3.623,
+        "pmos_dummy_2__f1": 2.289,
+        "pmos_dummy_2__f2": 3.76,
+        "pmos_dummy_2__f3": 3.623,
+        "nmos_dummy__f1": 2.087,
+        "XC3__A": null,
+        "XC4__A": null
+      },
+      "tap_strips": {
+        "x2_cm_tail__id6": [
+          28.47,
+          57.34
+        ],
+        "x2_cm_tail__cc4": [
+          28.47,
+          57.34,
+          86.21
+        ],
+        "x2_cm_tail__cc6": [
+          28.47,
+          57.34
+        ],
+        "x2_cm_casc__cc4": [
+          28.47
+        ],
+        "x2_cm_casc__cc3": [
+          28.47
+        ],
+        "x2_cl_src__cc3": [
+          28.12
+        ]
+      },
+      "note": "the LU rules are also in the block's own DRC (G4.2), which defers nothing; a capacitor block has no diffusion (None)"
+    },
+    "G4.6_port_capacitance (info)": {
+      "pass": null,
+      "note": "block port C against S2's hierarchy.json: S6 extraction (plan Phase 5)"
+    }
+  },
+  "all_pass": true,
+  "provenance": {
+    "created": "2026-11-05T13:45:21+00:00",
+    "git_commit": "d6958ca61d7c91b6c6698ea5876802067ff1e9f4",
+    "inputs": [
+      {
+        "path": "outputs/S0/iadc_ota_v2/circuit_ir.json",
+        "sha256": "a3918c7255affedabb2bc24d98a03df2d4c04089c39b149e9b47b76f90bea184"
+      },
+      {
+        "path": "outputs/S1/iadc_ota_v2/s1_report.json",
+        "sha256": "35d45acd3b233577c42a6b9f0444e9344fa170424dd306f08d79c5ddd4b320ad"
+      },
+      {
+        "path": "outputs/S3/iadc_ota_v2/device_decisions.json",
+        "sha256": "5ae242274b5b939fe988c8c1b14a38e25401c6ba3d5a0974a3e97d9a105b8331"
+      },
+      {
+        "path": "outputs/S2/iadc_ota_v2/constraints.json",
+        "sha256": "88141a4b6cacf8bc20be35ec8c72121f91f1cba8aeea71da0314e5cba4227f41"
+      },
+      {
+        "path": "inputs/iadc_ota_v2/package.yaml",
+        "sha256": "dcc71eccf52c8b47251bef96d3fbcaaa9482d914f76f4bdb49e3006b780432ea"
+      }
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+
+Circuit 1 cell sky130_fd_pr__nfet_01v8 and Circuit 2 cell sky130_fd_pr__nfet_01v8 are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8 is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8 is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__nfet_01v8         |Circuit 2: sky130_fd_pr__nfet_01v8         
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__nfet_01v8 and sky130_fd_pr__nfet_01v8 are equivalent.
+Flattening unmatched subcell nfet_01v8_W1p4_L0p6_m36__nf1_gboth_sdfull_ng in circuit x2_cm_casc__cc3 (0)(72 instances)
+Flattening unmatched subcell sky130_fd_pr__nfet_01v8_KCM6UP in circuit x2_cm_casc__cc3 (0)(72 instances)
+Flattening unmatched subcell nfet_01v8_W1p4_L0p6_m2__nf1_gboth_sdfull_ng in circuit x2_cm_casc__cc3 (0)(12 instances)
+Flattening unmatched subcell sky130_fd_pr__nfet_01v8_KCM6UP in circuit x2_cm_casc__cc3 (0)(12 instances)
+
+Class x2_cm_casc__cc3 (0):  Merged 77 parallel devices.
+Class x2_cm_casc__cc3 (1):  Merged 3 parallel devices.
+Subcircuit summary:
+Circuit 1: x2_cm_casc__cc3                 |Circuit 2: x2_cm_casc__cc3                 
+-------------------------------------------|-------------------------------------------
+sky130_fd_pr__nfet_01v8 (84->7)            |sky130_fd_pr__nfet_01v8 (84->7)            
+Number of devices: 7                       |Number of devices: 7                       
+Number of nets: 7                          |Number of nets: 7                          
+---------------------------------------------------------------------------------------
+Resolving symmetries by property value.
+Netlists match uniquely with property errors.
+nfet_01v8_W1p4_L0p6_m36__nf1_gboth_sdfull_ng_66/sky130_fd_pr__nfet_01v8_KCM6UP:nfet_01v8_W1p4_L0p6_m36__nf1_gboth_sdfull_ng_pc/sky130_fd_pr__nfet_01v8:0 vs. sky130_fd_pr__nfet_01v8:XX2_M3A:
+ l circuit1: 0.6   circuit2: 0.7   (delta=15.4%, cutoff=1%)
+
+Subcircuit pins:
+Circuit 1: x2_cm_casc__cc3                 |Circuit 2: x2_cm_casc__cc3                 
+-------------------------------------------|-------------------------------------------
+op                                         |on **Mismatch**                            
+on                                         |op **Mismatch**                            
+bias_d                                     |bias_d                                     
+x2_m4d                                     |x2_m3d **Mismatch**                        
+x2_m3d                                     |x2_m4d **Mismatch**                        
+VSS_body                                   |VSS_body                                   
+VSS                                        |VSS                                        
+---------------------------------------------------------------------------------------
+Cell pin lists for x2_cm_casc__cc3 and x2_cm_casc__cc3 altered to match.
+Device classes x2_cm_casc__cc3 and x2_cm_casc__cc3 are equivalent.
+
+Final result: Top level cell failed pin matching.
+
+The following cells had property errors:
+ x2_cm_casc__cc3

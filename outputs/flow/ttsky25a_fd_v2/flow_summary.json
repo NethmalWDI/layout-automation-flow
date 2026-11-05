@@ -1,0 +1,44 @@
+{
+ "design": "ttsky25a_fd_v2",
+ "stages": {
+  "S0": {
+   "stage": "S0",
+   "steps": [
+    {
+     "step": "ingest",
+     "rc": 0,
+     "seconds": 22.1,
+     "log": "runs/logs/flow/ttsky25a_fd_v2/S0_ingest.log"
+    },
+    {
+     "step": "pcell_binding",
+     "rc": 0,
+     "seconds": 665.9,
+     "log": "runs/logs/flow/ttsky25a_fd_v2/S0_pcell_binding.log"
+    },
+    {
+     "step": "pvt",
+     "rc": 0,
+     "seconds": 905.2,
+     "log": "runs/logs/flow/ttsky25a_fd_v2/S0_pvt.log"
+    }
+   ],
+   "started": "2026-11-05T18:09:46",
+   "gates": {
+    "G0.1_inventory": true,
+    "G0.2_validation": true,
+    "G0.3_hash_freeze": true,
+    "G0.4_name_map": true,
+    "G0.5_round_trip_lvs": true,
+    "G0.6_testbench_reproduction": true,
+    "G0.8_external_reference": true,
+    "G0.7_pcell_binding_drc_lvs": true,
+    "G0.9_pvt (info)": null,
+    "G0.10_mismatch_mc (info)": null
+   },
+   "status": "PASS",
+   "failed_gates": [],
+   "seconds": 1593.2
+  }
+ }
+}

@@ -1,0 +1,63 @@
+
+Circuit 1 cell sky130_fd_pr__pfet_01v8 and Circuit 2 cell sky130_fd_pr__pfet_01v8 are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__pfet_01v8 is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__pfet_01v8 is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__pfet_01v8         |Circuit 2: sky130_fd_pr__pfet_01v8         
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__pfet_01v8 and sky130_fd_pr__pfet_01v8 are equivalent.
+Flattening unmatched subcell pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng in circuit pmos_dummy_2__f2 (0)(10 instances)
+Flattening unmatched subcell sky130_fd_pr__pfet_01v8_RGDEC8 in circuit pmos_dummy_2__f2 (0)(10 instances)
+
+Class pmos_dummy_2__f2 (0):  Merged 9 parallel devices.
+Class pmos_dummy_2__f2 (1):  Merged 4 parallel devices.
+Subcircuit summary:
+Circuit 1: pmos_dummy_2__f2                |Circuit 2: pmos_dummy_2__f2                
+-------------------------------------------|-------------------------------------------
+sky130_fd_pr__pfet_01v8 (10->1)            |sky130_fd_pr__pfet_01v8 (10->1)            
+Number of devices: 1                       |Number of devices: 1                       
+Number of nets: 2                          |Number of nets: 2                          
+---------------------------------------------------------------------------------------
+Netlists match uniquely with property errors.
+pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_0/sky130_fd_pr__pfet_01v8_RGDEC8:pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_pc/sky130_fd_pr__pfet_01v8:0 vs. sky130_fd_pr__pfet_01v8:XM45:
+ w circuit1: 14   circuit2: 5.6   (delta=85.7%, cutoff=1%)
+Circuit 1 parallel/series network does not match Circuit 2
+Circuit 1 instance /pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_0/sky130_fd_pr__pfet_01v8_RGDEC8:pfet_01v8_W1p4_L0p6_m6__nf1_gboth_sdfull_ng_pc/sky130_fd_pr__pfet_01v8:0 network:
+  l = 0.6
+  w = 14
+  ps = 3.38
+  as = 0.406
+  pd = 3.38
+  ad = 0.406
+  M = 1
+Circuit 2 instance sky130_fd_pr__pfet_01v8:XM45 network:
+  nf = 1
+  W = 5.6
+  L = 0.6
+  M = 1
+  m = 1
+  nf = 1
+  W = 8.4
+  L = 0.7
+
+Subcircuit pins:
+Circuit 1: pmos_dummy_2__f2                |Circuit 2: pmos_dummy_2__f2                
+-------------------------------------------|-------------------------------------------
+VDD                                        |VDD                                        
+VDD_body                                   |VDD_body                                   
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes pmos_dummy_2__f2 and pmos_dummy_2__f2 are equivalent.
+
+Final result: Circuits match uniquely.
+Property errors were found.
+
+The following cells had property errors:
+ pmos_dummy_2__f2

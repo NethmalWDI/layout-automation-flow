@@ -1,0 +1,48 @@
+
+Circuit 1 cell sky130_fd_pr__nfet_01v8 and Circuit 2 cell sky130_fd_pr__nfet_01v8 are black boxes.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8 is a placeholder, treated as a black box.
+Warning: Equate pins:  cell sky130_fd_pr__nfet_01v8 is a placeholder, treated as a black box.
+
+Subcircuit pins:
+Circuit 1: sky130_fd_pr__nfet_01v8         |Circuit 2: sky130_fd_pr__nfet_01v8         
+-------------------------------------------|-------------------------------------------
+1                                          |1                                          
+2                                          |2                                          
+3                                          |3                                          
+4                                          |4                                          
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sky130_fd_pr__nfet_01v8 and sky130_fd_pr__nfet_01v8 are equivalent.
+Flattening unmatched subcell nfet_01v8_W1p4_L0p6_m2__nf1_gboth_sdfull_ng in circuit x1_single_m3__f1 (0)(2 instances)
+Flattening unmatched subcell sky130_fd_pr__nfet_01v8_KCM6UP in circuit x1_single_m3__f1 (0)(2 instances)
+Flattening unmatched subcell nfet_01v8_W1p4_L0p6_m8__nf1_gtop_sdfull_ng in circuit x1_single_m3__f1 (0)(8 instances)
+Flattening unmatched subcell sky130_fd_pr__nfet_01v8_RUA5M6 in circuit x1_single_m3__f1 (0)(8 instances)
+
+Class x1_single_m3__f1 (0):  Merged 8 parallel devices.
+Subcircuit summary:
+Circuit 1: x1_single_m3__f1                |Circuit 2: x1_single_m3__f1                
+-------------------------------------------|-------------------------------------------
+sky130_fd_pr__nfet_01v8 (10->2)            |sky130_fd_pr__nfet_01v8 (10->2)            
+Number of devices: 2                       |Number of devices: 2                       
+Number of nets: 4                          |Number of nets: 4                          
+---------------------------------------------------------------------------------------
+Netlists match uniquely with property errors.
+nfet_01v8_W1p4_L0p6_m2__nf1_gboth_sdfull_ng_0/sky130_fd_pr__nfet_01v8_KCM6UP:nfet_01v8_W1p4_L0p6_m2__nf1_gboth_sdfull_ng_pc/sky130_fd_pr__nfet_01v8:0 vs. sky130_fd_pr__nfet_01v8:XX1_M3:
+ l circuit1: 0.6   circuit2: 0.7   (delta=15.4%, cutoff=1%)
+
+Subcircuit pins:
+Circuit 1: x1_single_m3__f1                |Circuit 2: x1_single_m3__f1                
+-------------------------------------------|-------------------------------------------
+bias_d                                     |bias_d                                     
+x1_m2d                                     |x1_m2d                                     
+bias_a                                     |bias_a                                     
+VSS_body                                   |VSS_body                                   
+---------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes x1_single_m3__f1 and x1_single_m3__f1 are equivalent.
+
+Final result: Circuits match uniquely.
+Property errors were found.
+
+The following cells had property errors:
+ x1_single_m3__f1

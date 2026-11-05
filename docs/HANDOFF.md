@@ -1,94 +1,133 @@
-# Handoff: Plan v3 Phase A with Claude Code (from 2026-11-01)
+# Handoff: continuing the layout flow on another PC or with another Claude account (2026-11-05)
 
-Written by Cowork on 2026-11-01. Read it together with:
-
-- `CLAUDE.md`: the rules, the environment and how the agents work together;
-- `docs/STATUS.md`: what is running and what is open;
-- **`docs/plan_v3_phaseA.md`**: the step-by-step plan Claude Code carries out.
-
-The previous handoff (plan-v2 runs, 2026-10-27) is in git history.
+Written by Claude Code on 2026-11-05, when Imasha put active work on hold. The previous handoffs (Cowork,
+2026-10-27 and 2026-11-01) are in git history. Read this file with:
+- `CLAUDE.md`: the rules (Imasha's, verbatim), the environment and how agents work here;
+- `docs/STATUS.md`: what is running, recent changes, open questions;
+- `README.md`: what the flow is, its results and how to run it.
 
 ## 1. Where things stand
 
-- **Nothing is running.**
-  - Plan v2 is finished, written up (flow record section 7) and reviewed (review C).
-  - The Plan v3 review pack is done (`docs/plan_v3_review_pack.md`, Claude Doc "Plan v3: circuit review pack and
-    implementation plan").
-  - The designers' grouping comments are recorded in that doc (2026-11-01).
-- **Imasha's decisions (2026-11-01):**
-  - Phase A fixes only, on `example_ota_5t` and `loadbench_miller`.
-  - Budgets at the nominal corner only; the PVT points are reported, not gated.
-  - Allowance = eta × nominal margin, with eta = 0.5.
-  - LOADBench's PMOS bank keeps its sizes.
-  - Section 1 of the plan has the full list.
-- **The other three designs are frozen for now:** `ota5t_stress`, `iadc_ota` and `ttsky25a_fd`.
+**The flow.** Stages S0–S7 are built and run end to end on four designs:
+- `example_ota_5t`;
+- `loadbench_miller`;
+- `ttsky25a_fd` (Imasha's taped-out op-amp);
+- `iadc_ota` (the OTA of an incremental ADC, in a Tiny Tapeout tile).
 
-## 2. One-time setup (about 5 min)
+Every layout is DRC-clean and LVS-matched. After layout, all specs are met except iadc's GBW, whose spec is an
+ASSUMPTION. S8 (diagnosis and repair) and S9 (selection) are planned, not built. A local GUI (`gui/gui.ps1`) and
+per-design reports exist. No LLM is used by the flow.
 
-Claude Code is the **Code** tab of the Claude desktop app, next to Home. Nothing has to be installed
-(https://code.claude.com/docs/en/desktop-quickstart).
+**Branches** (Imasha commits and pushes with GitHub Desktop):
+- `main`: S0–S3 as reviewed;
+- `s4-s5`, `s5-ttsky`, `gui-tools`: plan v4 and its phases. `gui-tools` was committed with the reviewer pack
+  (`d6958ca61`);
+- **`rules-v2` (current):** layout rule set v2, phases 1–2.
+  - Committed by Imasha after this handoff was written, except the `ttsky25a_fd_v2` outputs, which were still being
+    written.
+  - Check `git log -3`.
 
-1. **Before you start:**
-   - Commit the current state in GitHub Desktop.
-   - If you agree with question Q1 of the plan, tag that commit `prereg-v1` (History → right-click the commit →
-     Create Tag).
-   - Create the branch `plan-v3-phaseA` (Q2).
-2. **Start Docker.** Start Docker Desktop, then run `docker start layout-s0s3`.
-3. **Open the repo in the Code tab.** Under the prompt box:
-   - environment: **Local**;
-   - folder: **Open folder…** → `C:\Users\suind\Documents\GitHub\layout-automation-s0-s3`.
-4. **Permission mode.** Use **Manual** or **Accept edits**, and approve `docker exec` commands as they come.
-5. **Power.** Long runs (plan step 12) need the PC awake. Set Windows to never sleep while plugged in (row 39).
-6. **Paste this as your first message:**
+**Layout rule set v2** (`docs/rules_v2/ruleset_v2.md`, PREREG amendment 2026-11-05, flow record 7.26, rows 101–106):
+- opt-in per design with `ruleset: v2` in `inputs/<d>/layout.yaml`;
+- phases 1 and 2 built:
+  - DRC × 1.1 spacing;
+  - no wire over devices;
+  - channels widened until routing succeeds;
+  - Imasha's drawn blocks with the designer's dummies;
+  - 2-D common centroid and cross-quad;
+  - paper screening;
+- result on `iadc_ota_v2`: 35–45 % less area than v1, not yet the 1.3 × hand-layout target;
+- **phase 3 is on hold: `docs/rules_v2/phase3_plan.md`**.
 
-   > Read CLAUDE.md, docs/STATUS.md, docs/HANDOFF.md and docs/plan_v3_phaseA.md. Do step 0 of the plan. Check the
-   > container and git (read-only). Questions Q1–Q4 are already answered with the recommended answers (plan section
-   > 2), so check that the tag prereg-v1 and the branch plan-v3-phaseA exist, and run the baseline tests. Then
-   > work through the plan one step at a time. At the end of each step, run its tests, update
-   > docs/STATUS.md, tell me "ready to commit" with the suggested message, and wait for me. Do not run git
-   > commands that change anything; I commit with GitHub Desktop. Do not install anything. If a value is
-   > missing or a prediction in section 4 fails, stop and ask me.
+**Tests:** 211 unit tests plus 36 golden comparisons (`.\flow.ps1 test`); all pass. The goldens prove the finished
+designs (v1) unchanged.
 
-## 3. Daily routine
+## 2. What may still be running
 
-**Start of day**
+When this was written (18:50 CET 2026-11-05), the container `layout-s0s3` was running three things:
+1. **`ttsky25a_fd_v2` S0–S3** (`runs/logs/gui_ttsky25a_fd_v2_S0S3.log`). S0 passed.
+2. **`scripts/finish_ttsky_v2.sh`.** It runs the stages still missing up to S7, then regenerates three things:
+   `docs/reports/ttsky25a_fd_v2_report.html`, the README pictures, and `docs/progress_report.*`. It writes
+   `runs/logs/finish_ttsky_v2.done` at the end.
+3. **The phase 3 packing dry run** (`runs/logs/p3_dry.log`; it changes no file the flow reads).
 
-1. Start Docker Desktop, then run `docker start layout-s0s3`.
-2. Open Claude Code in the repo and ask: "Read docs/STATUS.md and docs/plan_v3_phaseA.md, and continue from the
-   next step."
+**Imasha turned the PC off at about 01:00 local time (20:30 CET), before the ttsky run could finish.** It needed
+about 4 hours more. The finish script is resumable: it starts at the first stage of `ttsky25a_fd_v2` without a
+report. So, on the next start:
 
-**While working**
+```powershell
+docker start layout-s0s3
+docker exec -d layout-s0s3 bash -lc "bash /foss/designs/scripts/finish_ttsky_v2.sh"
+```
 
-- Runs (plan step 12) are detached inside the container, so closing Claude Code does not stop them. Switching
-  the PC off or stopping Docker does.
-- Commit after each step, when Claude Code says "ready to commit".
+That is about 3.5 hours from S1, less if S1–S2 had finished. Wait for `runs/logs/finish_ttsky_v2.done`.
 
-**Before switching the PC off**
+**Then:**
+- run `.\flow.ps1 status ttsky25a_fd_v2`;
+- if S5 failed, read `runs/logs/flow/ttsky25a_fd_v2/S5_run.log`. Flow record rows 103–106 show the kinds of failure
+  v2 met on iadc and how each was found.
+- The README's ttsky text still describes v1 only. Add a sentence and a row for v2 from
+  `docs/progress_report.md` section 5, which fills itself in.
+- Commit the `ttsky25a_fd_v2` outputs.
 
-1. Ask Claude Code: "stop any running job cleanly and update STATUS.md".
-2. Commit in GitHub Desktop.
-3. Switch off.
+## 3. Setting up on another PC
 
-## 4. What Claude Code has and does not have
+1. **Docker Desktop**, about 20 GB free. Then `git clone` the repository and check out `rules-v2`.
+2. **The image:** `docker pull hpretl/iic-osic-tools:2026.10`. It holds Magic, Netgen, ngspice, xschem, KLayout,
+   kpex, SKY130 and every Python package of `requirements.txt`, so nothing else is installed.
+3. **Run without a named container** (tested): `.\flow.ps1 <command>` starts a throwaway container from the image
+   with the repository mounted at `/foss/designs`.
+   - `.\flow.ps1 test` should give 211 passed and the 36 goldens OK.
+4. **A named container** for long or detached runs, as used on Imasha's PC. **ASSUMPTION:** this exact command was
+   not run on another PC:
 
-| | Claude Code (Code tab, Local, on your PC) | Cowork (Home tab, runs in the cloud) |
-|---|---|---|
-| Repo files and container | direct: file edits, `docker exec` | through the desktop app |
-| Works while you are away | only while the PC and the app are on | yes, but it can't reach the container when the PC is off |
-| claude.ai project docs, Claude Docs, slides | no (copies in `docs/context/project_docs/`, and the review pack in `docs/plan_v3_review_pack.md`) | yes |
-| Git | only if you allow it (rule: you commit) | no |
+   ```powershell
+   docker run -d --name layout-s0s3 -v "${PWD}:/foss/designs" -w /foss/designs hpretl/iic-osic-tools:2026.10 --skip sleep infinity
+   $env:FLOW_CONTAINER="layout-s0s3"; .\flow.ps1 status all
+   ```
 
-Both read `CLAUDE.md` and `docs/STATUS.md`. If you use both on the same day:
+5. **Always `source scripts/env.sh`** inside the container before running Python. It switches the image from IHP to
+   sky130A. `flow.ps1`, `flow` and the GUI do it for you.
 
-- claim files in STATUS.md before editing them;
-- don't let both agents start runs in the container.
+## 4. Conventions that save time
 
-## 5. After Phase A
+- **Python runs in the container only**, never on the host. On Windows, `python3` on the host is a Store stub that
+  can hang a shell.
+- **From Git Bash:** `MSYS_NO_PATHCONV=1 docker exec -e IIC_OSIC_TOOLS_QUIET=1 layout-s0s3 bash -lc "cd /foss/designs && source scripts/env.sh && ..."`.
+- **Write retries.** The Windows-mounted repository sometimes refuses a write (Errno 22). Write with a retry, as
+  `src/common/tools.write_text` does.
+- **Escapes.** When writing Markdown from Python, beware `"\f"` (a form feed) in strings such as `.\flow.ps1`. It
+  broke the README once (2026-11-05).
+- **Long runs:** detach them (`docker exec -d ... ; echo $? > <log>.exit`) and wait on the `.exit` file, never on a
+  PID; the container does not reap processes.
+  - Don't edit `src/` while a flow run is going: each stage loads the code when it starts.
+- **Every meaningful step:**
+  - an entry in `docs/progress_log.md`;
+  - a row in the flow record's journey table for any bug: edit `docs/flow_record_section7_draft.md`, then
+    `python3 scripts/merge_section7.py`;
+  - STATUS kept current;
+  - README updated when running something changes.
+- **PREREG.md:** change hypotheses, thresholds or search settings only with a dated amendment written before the
+  run.
+- **Never** invent a value (mark ASSUMPTION or ask Imasha), never touch `circuits/*/source|upstream` (hash-frozen),
+  never commit (Imasha does), never connect to an outside service without the supervisor's permission.
 
-Bring the results back to Cowork when you want:
+## 5. What to do next (in order)
 
-- the write-up in the Claude Doc;
-- project doc 15;
-- the slides.
+1. Read the ttsky v2 result (section 2) and add it to the README.
+2. Phase 3 of rule set v2 (`docs/rules_v2/phase3_plan.md`):
+   - macro packing;
+   - channels only where needed;
+   - shared ring edges and the outer ring;
+   - the per-net look at wiring loss.
+3. The LLM step (planned, measured against the rule-only flow): the Claude CLI, once the supervisor agrees.
+   `docs/progress_report.md` section 8 has the plan, pros and cons.
+4. S8 and S9.
 
-Phases B–E, the other three designs and S4 come after that, and you decide the order.
+## 6. Open questions for Imasha (also in `docs/STATUS.md`)
+
+- iadc's GBW spec (188.9 MHz, an ASSUMPTION) and its other ASSUMPTIONs.
+- R+C extraction for ttsky.
+- Whether to make the opt-in fixes the default for the finished designs: `pin_origin: bbox`, the shelf start, and
+  v2's latent-v1 fixes (rows 101, 106).
+- A drawn hierarchy for ttsky under v2.

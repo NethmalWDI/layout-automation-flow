@@ -78,6 +78,9 @@ TIMELINE = [
     ("Nov 4–5", "A local web GUI (edit a design or make a new one, run the flow, get a report; no LLM); iadc through "
      "S0–S7 in a Tiny Tapeout tile, which needed multi-row arrays and a placement search for tight outlines; its "
      "detailed report."),
+    ("Nov 5", "Layout rule set v2 (section 5): drafted from layout books and papers, reviewed and answered by Imasha, "
+     "fixed in a PREREG amendment, coded (phases 1–2) and run on iadc with Imasha's hand-drawn hierarchy: 35–45 % less "
+     "area than v1, DRC-clean and LVS-matched. The README was rewritten around the flow and its results."),
 ]
 
 RISKS = [
@@ -92,14 +95,20 @@ RISKS = [
     ("One condition only after layout", "no PVT corners or mismatch Monte Carlo after layout yet."),
     ("A likely double count", "Magic counts a MIM capacitor's own plate coupling on top of its model; the flow reports "
      "both numbers (G6.5, G7.5) but the gates keep Magic's."),
-    ("Density", "a tap ring per block and 3 µm gaps make the layouts 1.1–2.5 × the hand layouts' area."),
+    ("Density", "v1's layouts are 1.06–2.54 × the hand layouts' area (a tap ring per block, 3 µm gaps, the "
+     "designer's dummies as separate blocks). Rule set v2 brings iadc to 1.34–1.66 × (1.77–2.19 × against the hand "
+     "layout without its CMFB); the target of 1.3 × is not met yet (phase 3: macro packing, channels only where needed, "
+     "rings per stack)."),
+    ("Denser layouts couple more", "under v2 iadc's route is 44 % shorter, yet the wiring takes 13.7 % of GBW against "
+     "v1's 12.0 % (the hand layout: 9.1 %); the denser blocks are the likely cause, not yet measured net by net."),
     ("Hand comparisons are not like-for-like", "both hand layouts are of slightly different circuits (enable switches, "
      "a real switched-capacitor CMFB); only the wiring's cost and the area compare fairly."),
     ("Unrouted chip-level parts", "the tile's power straps and pins are not routed; no symmetric routing of matched "
      "pairs; electromigration widths not checked (no SKY130 limits found)."),
-    ("Opt-in fixes", "two latent flaws found on iadc (stubs off-centre by up to 0.125 µm; a placement search that "
-     "dropped shapes) are fixed only where switched on, so the finished designs keep their committed results until a "
-     "decision is made."),
+    ("Opt-in fixes", "latent flaws found on iadc (stubs off-centre by up to 0.125 µm; a placement search that dropped "
+     "shapes) and under v2 (a tap strip's contacts 0.13 µm from the ring's, below 0.17; the router keeping 0.30 µm, "
+     "not 0.40, from wide metal4) are fixed only where switched on, so the finished designs keep their committed, "
+     "DRC-clean results until a decision is made."),
     ("Small sample", "four designs; every hypothesis result (H4, H5, G2.0's prediction) rests on one or two circuits."),
     ("LLM risks (planned step)", "an LLM can be confidently wrong, non-reproducible across versions, and costs tokens; "
      "the plan keeps every LLM output behind the same deterministic checks and journals each call."),
@@ -204,6 +213,128 @@ def design_section(d: str) -> list:
     return L
 
 
+def v2_section() -> list:
+    """Section 5: layout rule set v2 and its first result (iadc_ota against iadc_ota_v2 and the hand layout)."""
+    nums = j("outputs/report/iadc_ota/numbers.json") or {}
+    hand, cmfb = (nums.get("area") or {}).get("hand"), nums.get("cmfb_area")
+    cols = [("iadc_ota", "budget_aware", "v1, budget-aware"), ("iadc_ota", "area_only", "v1, area-only"),
+            ("iadc_ota_v2", "budget_aware", "v2, budget-aware"), ("iadc_ota_v2", "area_only", "v2, area-only")]
+    rows = {k: [] for k in ("size", "area", "hand", "blocks", "channel", "route", "drc", "gbw", "loss")}
+    for d, r, _ in cols:
+        c = ((j("outputs/S5", d, "placement.json") or {}).get("chosen") or {}).get(r) or {}
+        p = c.get("placement") or {}
+        bb = p.get("bbox") or [0, 0, 0, 0]
+        w, h = bb[2] - bb[0], bb[3] - bb[1]
+        rt = c.get("routing") or {}
+        m = (((j("outputs/S7", d, "metrics.json") or {}).get("metrics") or {}).get(r) or {}).get("gbw_mhz") or {}
+        rows["size"].append(f"{w:.1f} × {h:.1f} µm")
+        rows["area"].append(f"{w * h:,.0f} µm²")
+        rows["hand"].append(f"{w * h / hand:.2f} × / {w * h / (hand - cmfb):.2f} ×" if hand and cmfb else "–")
+        rows["blocks"].append(str(len(p.get("blocks") or {})))
+        rows["channel"].append(f"DRC gap + {(c.get('channel') or {}).get('channel_um')} µm channel" if c.get("channel")
+                               else "3 µm (fixed)")
+        lens = rt.get("lengths") or {}
+        rows["route"].append(f"{sum(sum(v.values()) if isinstance(v, dict) else v for v in lens.values()):,.0f} µm")
+        rows["drc"].append(f"{((rt.get('assembled') or {}).get('drc') or {}).get('errors')} / "
+                           f"{'match' if (rt.get('lvs') or {}).get('pass') else 'no match'}")
+        dr, pc = m.get("drawn"), m.get("post_layout_rc")
+        rows["gbw"].append(f"{f(dr, 4)} → {f(pc, 4)} MHz" if dr and pc else "–")
+        rows["loss"].append(f"{100 * (dr - pc) / dr:.1f} %" if dr and pc else "–")
+    wl = ((nums.get("wiring_loss") or {}).get("hand") or {}).get("gbw_pct")
+    lab = {"size": "Size", "area": "Area", "hand": "Against the hand layout (whole / without its CMFB)",
+           "blocks": "Blocks", "channel": "Gap between neighbouring blocks", "route": "Total route length",
+           "drc": "Top-level DRC errors / LVS", "gbw": "GBW drawn → after layout (C-only)", "loss": "GBW lost to the wiring"}
+    ref = j("outputs/reference_layout/iadc_ota/reference_layout.json") or {}
+    hs = (nums.get("size") or {}).get("hand")
+    hd, hp = (ref.get("drawn_devices_only") or {}).get("gbw_mhz"), (ref.get("post_layout") or {}).get("gbw_mhz")
+    hand_col = {"size": f"{hs[0]:.1f} × {hs[1]:.1f} µm" if hs else "–",
+                "area": f"{hand:,.0f} µm² ({hand - cmfb:,.0f} without its CMFB)" if hand and cmfb else "–",
+                "gbw": f"{f(hd, 4)} → {f(hp, 4)} MHz" if hd and hp else "–",
+                "loss": f"{wl:.1f} %" if wl else "–"}
+    L = ["## 5. Layout rule set v2", "",
+         "**Why.** The first rule set (v1) made layouts 1.06–2.54 × the hand layouts' area. Most of that came from values "
+         "fixed by hand in plan v4: 3 µm between blocks and rows, 0.6 µm between units, a tap ring on every block, 8 µm of "
+         "routing margin, and every designer dummy transistor as a block with its own ring.",
+         "",
+         "**How the rules were set.** The rules (`docs/rules_v2/ruleset_v2.md`) were drafted from Imasha's references:",
+         "- Saint & Saint, *IC Mask Design*, its Case Study 1 (a CMOS differential amplifier) read in full;",
+         "- the ASP-DAC 2022 common-centroid review and its case studies;",
+         "- Long et al. (ISCAS 2005) on 2-D common centroid;",
+         "- university layout lectures and a Cadence note.",
+         "",
+         "Imasha reviewed them and answered ten questions; a PREREG amendment fixed them before any v2 code.",
+         "",
+         "**The rules:**",
+         "- every spacing the generator chooses is the SKY130 DRC minimum × 1.10, rounded up to 0.05 µm (read from the "
+         "Magic deck, checked by a test);",
+         "- no wire over any device;",
+         "- routing channels only as wide as routing needs;",
+         "- blocks as the designer draws them (one coloured box = one block), with the designer's dummies at the row ends;",
+         "- 2-D arrangements: cross-quad, 2-D common centroid with paired A B / B A rows, folded rows, series strings one per row;",
+         "- every candidate estimated on paper, and only the best 2–3 per block signed off.",
+         "",
+         "v2 is opt-in per design; the finished designs run v1 unchanged.", "",
+         "**First result: iadc in its Tiny Tapeout tile**, with Imasha's drawn hierarchy:", "",
+         img("outputs/report/readme/iadc_ota_compare.png", 900, "iadc_ota: v1, v2 and hand layouts at one scale"), "",
+         "| | " + " | ".join(c[2] for c in cols) + " | Hand layout |", "|---|" + "---|" * (len(cols) + 1)]
+    for k in rows:
+        L.append(f"| {lab[k]} | " + " | ".join(rows[k]) + f" | {hand_col.get(k, '–')} |")
+    L += ["", W.how("one scale for all four pictures; the dashed box is the Tiny Tapeout tile. The hand layout also "
+                    "holds the switched-capacitor CMFB, which the flow does not lay out (its bench keeps an ideal CMFB), "
+                    "so like for like is the hand layout without its CMFB.")[1], "",
+          "- **Achieved:**",
+          "  - 35–45 % less area than v1;",
+          "  - 19 blocks instead of 67;",
+          "  - a 44 % shorter route;",
+          "  - every block and both layouts DRC-clean and LVS-matched;",
+          "  - gain and phase margin met.",
+          "- **Not yet** (PREREG 2026-11-05):",
+          "  - the target of 1.3 × the hand layout (area-only is 1.34 × the whole hand layout, 1.77 × it without its CMFB);",
+          "  - no extra wiring loss: v2 loses 13.7 % of GBW against v1's 12.0 %, so the denser blocks likely couple more.",
+          "- **Where the rest of the area goes** (area-only):",
+          "  - the blocks themselves are 10,658 µm²;",
+          "  - channels and arrangement inside the macros add 31 %;",
+          "  - stacking the three macros in a column adds 28 %.",
+          "- **Next (phase 3):**",
+          "  - pack the macros side by side;",
+          "  - put channels only where routing needs them;",
+          "  - one ring per stack, plus an outer ring.",
+          "  - ttsky under v2 (`ttsky25a_fd_v2`) is the second design to compare with a hand layout.",
+          "- **Bugs found on the way:** flow record rows 101–106.", ""]
+    return L + v2_ttsky()
+
+
+def v2_ttsky() -> list:
+    """ttsky25a_fd under v2 (the v1 block plan), against v1 and the taped-out op-amp; filled in by
+    scripts/finish_ttsky_v2.sh when the run ends."""
+    L = ["**Second design: `ttsky25a_fd` under v2** (the v1 block plan; no drawn hierarchy yet):", ""]
+    if not (REPO / "outputs/S7/ttsky25a_fd_v2/metrics.json").exists():
+        st = (j("outputs/flow/ttsky25a_fd_v2/flow_summary.json") or {}).get("stages", {})
+        done = ", ".join(f"{s} {v.get('status')}" for s, v in st.items()) or "started"
+        return L + [f"Still running when this report was made ({done}); `scripts/finish_ttsky_v2.sh` regenerates "
+                    "this report, the README pictures and `docs/reports/ttsky25a_fd_v2_report.html` when it ends.", ""]
+    nums = j("outputs/report/ttsky25a_fd/numbers.json") or {}
+    hand = (nums.get("area") or {}).get("hand")
+    L += [img("outputs/report/readme/ttsky25a_fd_compare.png", 900, "ttsky25a_fd: v1, v2 and the taped-out op-amp"), "",
+          "| | Area | Against the hand op-amp | Top-level DRC / LVS | GBW drawn → after layout (C-only) | GBW lost to the wiring |",
+          "|---|---|---|---|---|---|"]
+    for d, r, lab in (("ttsky25a_fd", "budget_aware", "v1, budget-aware"), ("ttsky25a_fd", "area_only", "v1, area-only"),
+                      ("ttsky25a_fd_v2", "budget_aware", "v2, budget-aware"), ("ttsky25a_fd_v2", "area_only", "v2, area-only")):
+        c = ((j("outputs/S5", d, "placement.json") or {}).get("chosen") or {}).get(r) or {}
+        bb = (c.get("placement") or {}).get("bbox") or [0, 0, 0, 0]
+        a = (bb[2] - bb[0]) * (bb[3] - bb[1])
+        rt = c.get("routing") or {}
+        m = (((j("outputs/S7", d, "metrics.json") or {}).get("metrics") or {}).get(r) or {}).get("gbw_mhz") or {}
+        dr, pc = m.get("drawn"), m.get("post_layout_rc")
+        L.append(f"| {lab} | {a:,.0f} µm² | {a / hand:.2f} × | "
+                 f"{((rt.get('assembled') or {}).get('drc') or {}).get('errors')} / "
+                 f"{'match' if (rt.get('lvs') or {}).get('pass') else 'no match'} | "
+                 + (f"{f(dr, 4)} → {f(pc, 4)} MHz | {100 * (dr - pc) / dr:.1f} % |" if dr and pc else "– | – |"))
+    wl = ((nums.get("wiring_loss") or {}).get("hand") or {}).get("gbw_pct")
+    L += [f"| hand-drawn op-amp | {hand:,.0f} µm² | – | – | – | {wl:.1f} % |" if hand and wl else "", ""]
+    return L
+
+
 def build(head: str) -> list:
     import re
     log = sorted((REPO / "runs" / "logs").glob("test_*.log"), key=lambda p: p.stat().st_mtime)
@@ -225,18 +356,34 @@ def build(head: str) -> list:
          "local GUI and per-design reports. S8 (diagnosis and repair) and S9 (selection) are planned.",
          f"- **Every layout produced is DRC-clean and LVS-matched.** After layout, every spec is met on three designs; "
          "on the fourth (iadc, in a Tiny Tapeout tile) GBW misses its assumed spec.",
-         "- **No LLM takes any decision in the flow.** It runs with no LLM at all (section 6). An LLM (Claude) helped "
-         "write and review the code; an LLM *taking* layout decisions is the next, measured step (section 7).",
+         "- **New rule set (v2, Nov 5):** layout rules from layout books and papers, reviewed by Imasha, cut iadc's "
+         "area by 35–45 % (19 blocks instead of 67; DRC-clean, LVS-matched); it is 1.34–1.66 × the hand layout against a "
+         "target of 1.3 ×, with phase 3 to come (section 5).",
+         "- **No LLM takes any decision in the flow.** It runs with no LLM at all (section 7). An LLM (Claude) helped "
+         "write and review the code; an LLM *taking* layout decisions is the next, measured step (section 8).",
          f"- **Quality controls:** {tests or 'the test suite'}; {goldens} golden results re-checked on every change; "
          f"{rows} problems found and fixed, each recorded with how it was found (`docs/flow_record.md`).", "",
          "| Design | S0 | S1 | S2 | S3 | S4 | S5 | S6 | S7 |", "|---|---|---|---|---|---|---|---|---|"]
-    for d in DESIGNS:
+    SS = ("S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7")
+    for d in DESIGNS + ["iadc_ota_v2"]:
         st = (j("outputs/flow", d, "flow_summary.json") or {}).get("stages", {})
-        L.append(f"| `{d}` | " + " | ".join(st.get(s, {}).get("status", "–") for s in
-                                            ("S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7")) + " |")
+        L.append(f"| `{d}` | " + " | ".join(st.get(s, {}).get("status", "–") for s in SS) + " |")
     L += W.how("PASS: every check (gate) of the stage passed; FAIL: at least one gate failed although the stage "
                "finished (each failure is explained in the design's report; most are budgets the layout exceeds, or "
-               "known properties of the circuit). No stage of the final runs crashed.")
+               "known properties of the circuit). No stage of the final runs crashed. `iadc_ota_v2` is iadc under "
+               "layout rule set v2 (section 5).")
+    L += ["", "**Time taken** (minutes per stage, the committed run of each design, on one Windows PC in Docker):", "",
+          "| Design | " + " | ".join(SS) + " | Total |", "|---|" + "---|" * (len(SS) + 1)]
+    for d in DESIGNS + ["iadc_ota_v2"]:
+        st = (j("outputs/flow", d, "flow_summary.json") or {}).get("stages", {})
+        secs = [sum(x.get("seconds") or 0 for x in st.get(s, {}).get("steps", [])) for s in SS]
+        L.append(f"| `{d}` | " + " | ".join(f"{v / 60:.0f}" if v >= 30 else f"{v / 60:.1f}" for v in secs) +
+                 f" | **{sum(secs) / 60:.0f}** ({sum(secs) / 3600:.1f} h) |")
+    L += W.how("S0's time is mostly its 45 PVT points and the 200-run Monte Carlo; S2's, the SPICE checks of the "
+               "budgets; S3's, building and signing off every cell option. S4–S7 (layout, routing, extraction, "
+               "post-layout SPICE) take minutes on the small designs and under an hour on the large ones. Two v2 times "
+               "are inflated: its S1 ran while blocks were being built for tests on the same PC, and 30 of its S6's "
+               "41 minutes were the kpex cross-check (an information-only gate) reaching its time limit.")
     L += ["", "## 2. The stages: what each does and which algorithm it runs", "",
           "| Stage | Does | Algorithm / method |", "|---|---|---|"]
     L += [f"| **{s} {n}** | {a} | {b} |" for s, n, a, b in STAGES]
@@ -260,14 +407,15 @@ def build(head: str) -> list:
           "the wire budgets and loses less GBW and phase margin than the area-only baseline (hypothesis H5); on the "
           "small designs both choose the same placement |",
           "| C4. LLM decisions grounded in the equations, measured | an LLM proposes and explains decisions over the "
-          "explicit budgets; what it adds is measured against the rule-only flow | planned (section 7) |",
-          "| C5. Open, reproducible SKY130 flow | open tools, every block signed off, seeded, golden results | built |", "",
-          "## 5. Results on the designs tried", ""]
+          "explicit budgets; what it adds is measured against the rule-only flow | planned (section 8) |",
+          "| C5. Open, reproducible SKY130 flow | open tools, every block signed off, seeded, golden results | built |", ""]
+    L += v2_section()
+    L += ["## 6. Results on the designs tried (rule set v1)", ""]
     for d in DESIGNS:
         L += design_section(d)
     L += W.how("\"use of the allowance\" is the loss from schematic to layout divided by η × margin (η = 0.5): 1.0 is "
                "all the flow lets the layout take; bold is more.")
-    L += ["", "## 6. Does it run without Claude?", "",
+    L += ["", "## 7. Does it run without Claude?", "",
           "**Yes.** The flow calls no LLM. Everything runs in the pinned open-source EDA container "
           "(`hpretl/iic-osic-tools:2026.10`: Magic, Netgen, ngspice, xschem, KLayout, SKY130) with Python from "
           "`requirements.txt`:", "",
@@ -276,7 +424,7 @@ def build(head: str) -> list:
           ".\\gui\\gui.ps1                     # local web GUI: http://localhost:8765/ (no LLM, no tokens)", "```", "",
           "Claude was used to write and review the code and the documents; no run depends on it. The GUI edits a design "
           "(or makes a new one from files), runs the flow and writes the reports, all locally.", "",
-          "## 7. The LLM integration plan", "",
+          "## 8. The LLM integration plan", "",
           "**What:** an independent LLM (the Claude CLI, once the supervisor agrees) gets only the netlist, the "
           "hierarchy, the specs and S2's budgets, and proposes the floorplan, the matching style per block and the "
           "constraint trade-offs, with reasons. The same S4–S7 build and check its proposal exactly as they check the "
@@ -294,12 +442,14 @@ def build(head: str) -> list:
           "needs a network connection and permission; the flow must keep working without it |",
           "| Literature: LLM tuning loops need few post-layout simulations (ICPI) | LLM coordinates are known to fail "
           "(ACDC): it must stay at the decision level |", "",
-          "## 8. Risks of the method", ""]
+          "## 9. Risks of the method", ""]
     L += [f"- **{a}:** {b}" for a, b in RISKS]
-    L += ["", "## 9. Where to look next", "",
+    L += ["", "## 10. Where to look next", "",
           "- `docs/ttsky25a_fd_report.html`, `docs/iadc_ota_report.html`: the two detailed reports (schematics, every "
           "block, algorithms, who decides what, comparisons with the hand layouts, DRC/LVS evidence).",
-          "- `docs/reports/<design>_report.html`: a short report for every design (also for designs made with the GUI).",
+          "- `docs/reports/<design>_report.html`: a short report for every design (also for designs made with the GUI; "
+          "`iadc_ota_v2_report.html` is iadc under rule set v2).",
+          "- `docs/rules_v2/ruleset_v2.md`: rule set v2, its sources, the rules and Imasha's answers.",
           "- `docs/s0_s3_walkthrough.html`, `docs/s4_s7_walkthrough.html`: every gate and number, stage by stage.",
           "- `docs/flow_record.md`: the journey, every problem found and how; `PREREG.md`: hypotheses and fixed settings;",
           "  `README.md`: how to run everything.", ""]

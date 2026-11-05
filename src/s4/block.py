@@ -52,6 +52,9 @@ TAP_MARGIN = 0.5     # the strips keep every diffusion this much inside S2's lat
 VIA3 = 0.4           # via3 with its met3/met4 surround, as in src/s5/route.py
 MET_SPACE = 0.3      # met3 and met4 spacing around a capacitor's keep-outs (S5's MET3_SPACE)
 CAPM_SPACE = 1.45    # from the MIM top plate (capm) to any met3 it does not own: capm.11 asks 1.34
+RING_GAP_BODY = None  # rule set v2: the ring edge that carries the body pin (its contact stack); None = RING_GAP
+STRIP_CONT_IN = 0.215  # a tap strip's contacts start this far in from the ring's centre line
+UNIT_GAP = None      # rule set v2 (src/common/ruleset.py): (left unit, right unit) -> gap; None keeps GAP (v1)
 
 
 _LL = {}
@@ -153,7 +156,8 @@ def stub_plan(pins: dict, w: float, h: float) -> dict:
     return plan
 
 
-def layout(units: list, tap_limit: float | None = None, internal: set | None = None, bbox_origin: bool = False) -> dict:
+def layout(units: list, tap_limit: float | None = None, internal: set | None = None, bbox_origin: bool = False,
+           force_strips: bool = False) -> dict:
     """units: [{'device', 'rec', 'mirror', 'nets': {'D','G','S'}}] left to right. Returns the geometry: unit origins,
     the stubs (x, pin edge, side, net), the tracks per side, the ring box, the tap strips and the block's extent.
     With tap_limit (S2's place.latchup_tap_distance), a strip goes between two units wherever the taps on either side
@@ -175,17 +179,20 @@ def layout(units: list, tap_limit: float | None = None, internal: set | None = N
     n_top, n_bot = (sum(1 for v in sides.values() if side in v) for side in ("top", "bottom"))
     hmax = max(p[2] for p in plans)
     ry1 = hmax + (FIRST + (n_top - 1) * PITCH if n_top else 0.0) + RING_GAP
-    ry0 = -(FIRST + (n_bot - 1) * PITCH if n_bot else 0.0) - RING_GAP
+    ry0 = -(FIRST + (n_bot - 1) * PITCH if n_bot else 0.0) - (RING_GAP_BODY or RING_GAP)
 
     def far_from_ring(h):
+        if force_strips:      # a middle row of a v2 array: the ring above or below is not near, x decides
+            return reach is not None
         y = min(max((ry0 + ry1) / 2, 0.0), h)
         return reach is not None and min(y - ry0, ry1 - y) > reach / 2
     x, placed, strips, last_tap = 0.0, [], [], -RING_GAP
+    gap_prev = GAP
     for i, (u, w, h, pins, sp) in enumerate(plans):
         if reach and placed and far_from_ring(h):
             nxt = x + w + (col_ext if i == len(plans) - 1 else 0.0) + RING_GAP   # the nearest tap right of the unit
             if nxt - last_tap > reach:
-                last_tap = round(x - GAP + TAP_GAP, 3)
+                last_tap = round(x - gap_prev + TAP_GAP, 3)
                 strips.append(last_tap)
                 x = last_tap + TAP_GAP
         def gx(lx): return round(x + (w - lx if u["mirror"] else lx), 3)   # noqa: E731
@@ -196,7 +203,8 @@ def layout(units: list, tap_limit: float | None = None, internal: set | None = N
                           "kind": s["kind"], "edge": y1 if s["side"] == "top" else y0, "pin_rect_y": [y0, y1],
                           **({"stagger": s["stagger"]} if s.get("stagger") else {})})
         placed.append({**u, "x": round(x, 3), "w": w, "h": h, "stubs": stubs})
-        x += w + GAP
+        gap_prev = UNIT_GAP(u, plans[i + 1][0]) if (UNIT_GAP and i + 1 < len(plans)) else GAP
+        x += w + gap_prev
     row_w, row_h = round(x - GAP, 3), max(p["h"] for p in placed)
     tracks, spans = {}, {"top": {}, "bottom": {}}   # an internal net's track span on each side it has stubs
     internal = internal or set()
@@ -227,7 +235,7 @@ def layout(units: list, tap_limit: float | None = None, internal: set | None = N
     both = [n for n in tracks["top"] if n in tracks["bottom"]]
     columns = {n: round(row_w + COL0 + k * COL_PITCH, 3) for k, n in enumerate(both)}
     top = max(tracks["top"].values(), default=row_h) + RING_GAP
-    bot = min(tracks["bottom"].values(), default=0.0) - RING_GAP
+    bot = min(tracks["bottom"].values(), default=0.0) - (RING_GAP_BODY or RING_GAP)
     right = max([row_w] + list(columns.values())) + RING_GAP
     ring = [round(-RING_GAP, 3), round(bot, 3), round(right, 3), round(top, 3)]
     for n, x in columns.items():                    # an internal net's short tracks reach its column
@@ -251,7 +259,9 @@ def layout_array(units: list, n_rows: int, tap_limit: float | None = None, bbox_
     tracks; the tap strips (identical rows) run through every row at the same x. S5 sees only the outer tracks (the
     bottom row's bottom ones and the top row's top ones); the inner tracks are listed for the router as keep-outs."""
     per = -(-len(units) // n_rows)
-    rows = [layout(units[k * per:(k + 1) * per], tap_limit, None, bbox_origin) for k in range(n_rows) if units[k * per:]]
+    force = UNIT_GAP is not None and n_rows > 2     # rule set v2 only: v1's arrays have two rows
+    rows = [layout(units[k * per:(k + 1) * per], tap_limit, None, bbox_origin, force) for k in range(n_rows)
+            if units[k * per:]]
     placed, all_tracks, offs, y = [], [], [], 0.0
     for k, g in enumerate(rows):
         lo = min(list(g["tracks"]["bottom"].values()) or [0.0])
@@ -277,7 +287,7 @@ def layout_array(units: list, n_rows: int, tap_limit: float | None = None, bbox_
     inner = [t for t in all_tracks if not ((t["row"] == 0 and t["side"] == "bottom")
                                            or (t["row"] == len(rows) - 1 and t["side"] == "top"))]
     top = max(t["y"] for t in all_tracks) + RING_GAP
-    bot = min(t["y"] for t in all_tracks) - RING_GAP
+    bot = min(t["y"] for t in all_tracks) - (RING_GAP_BODY or RING_GAP)
     right = max([row_w] + list(columns.values())) + RING_GAP
     ring = [round(-RING_GAP, 3), round(bot, 3), round(right, 3), round(top, 3)]
     strips = sorted({s for g in rows for s in g["strips"]})
@@ -354,7 +364,7 @@ def tcl(name: str, geo: dict, dtype: str, body_net: str) -> str:
     c += [_b(rx0, ry0, rx1, ry1), f"sky130::guard_ring_draw {ctype} {dtype_}"]
     for sx in geo.get("strips", []):   # one side of the ring, as sky130::guard_ring_draw paints it
         c += [_b(sx - 0.085, ry0 - 0.085, sx + 0.085, ry1 + 0.085), "paint li",
-              _b(sx - 0.085, ry0 + 0.215, sx + 0.085, ry1 - 0.215), f"paint {ctype}",
+              _b(sx - 0.085, ry0 + STRIP_CONT_IN, sx + 0.085, ry1 - STRIP_CONT_IN), f"paint {ctype}",
               _b(sx - 0.085, ry0 - 0.085, sx + 0.085, ry1 + 0.085), f"paint {dtype_}"]
     xm = (rx0 + rx1) / 2
     c += [_b(xm - 0.05, ry0 - 0.05, xm + 0.05, ry0 + 0.05), f"label {body_net}_body c locali"]
