@@ -14,7 +14,7 @@ This flow takes a sized analog circuit and draws its layout for the open SkyWate
 - **What it needs:** no LLM. It runs on open tools in one pinned Docker image.
 
 <p align="center">
-  <img src="outputs/report/readme/iadc_ota_compare.png" width="100%" alt="iadc_ota: v1 and v2 layouts against the hand layout">
+  <img src="outputs/report/readme/iadc_ota_compare_phase2.png" width="100%" alt="iadc_ota: v1 and v2 layouts against the hand layout">
 </p>
 <p align="center"><sub>The OTA of an incremental ADC in a Tiny Tapeout tile. Shown at one scale: the flow's layouts
 under the first rule set (v1), under the new rule set (v2), and the designer's hand layout.</sub></p>
@@ -168,7 +168,7 @@ The full report is `docs/ttsky25a_fd_report.html`. ttsky under rule set v2 is in
 ### OTA of an incremental ADC, in a Tiny Tapeout tile (`iadc_ota`, v1 and v2)
 
 <p align="center">
-  <img src="outputs/report/readme/iadc_ota_compare.png" width="100%" alt="iadc_ota: v1, v2 and hand layouts">
+  <img src="outputs/report/readme/iadc_ota_compare_phase2.png" width="100%" alt="iadc_ota: v1, v2 (phase 2, DRC- and LVS-clean) and hand layouts">
 </p>
 
 | | v1, budget-aware | v2, budget-aware | v2, area-only | Hand layout |
@@ -203,8 +203,27 @@ without its CMFB.
 - channels and arrangement inside the three sub-circuit macros add 31 %;
 - stacking the macros in a column, with the capacitors on a row of their own, adds another 28 %.
 
-**Phase 3, step 1: flat packing (2026-11-06; the picture above shows this run).** The 19 blocks are placed as one
-group instead of three sub-circuit macros (x1, x2 and a top-level macro).
+The picture and table above are **v2, phase 2** (2026-11-05). Both layouts are DRC-clean and LVS-matched, the
+committed result (commit `6c92fdee1`).
+
+#### v2, phase 3 step 1: flat packing (2026-11-06, not yet DRC-clean)
+
+**What changed in the approach** (one S5 option, `packing: flat` in `inputs/iadc_ota_v2/layout.yaml`; PREREG
+amendment of 2026-11-06):
+- **Phase 2** placed each sub-circuit as its own macro (x1 bias, x2 core, and a top-level macro with the capacitors
+  and rail dummies), then arranged the three macros in the tile.
+- **Phase 3, step 1** places all 19 blocks as one group, so the annealer can put any block next to any other.
+- **Nothing else changed:** the same blocks and arrangements (S0–S4 untouched), the same spacing and routing rules,
+  the same search settings.
+- **The choice came from a placement-only dry run** comparing five packings (`docs/rules_v2/phase3_plan.md`). Flat
+  was the smallest for area-only.
+- **After this run, one rule was fixed** for the next run (below).
+
+<p align="center">
+  <img src="outputs/report/readme/iadc_ota_compare_flat.png" width="100%" alt="iadc_ota: v1, v2 flat packing (phase 3 step 1) and hand layouts">
+</p>
+<p align="center"><sub>The same comparison with the phase 3 flat layouts: the v2 panels are the flat budget-aware
+layout (29,442 µm², clean) and the flat area-only layout (13,983 µm², 8 DRC errors).</sub></p>
 
 <p align="center">
   <img src="outputs/report/readme/iadc_ota_v2_flat_drc_failed.png" width="45%" alt="iadc_ota_v2 area-only, flat packing, DRC errors ringed">
